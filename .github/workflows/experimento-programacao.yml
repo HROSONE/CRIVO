@@ -15,7 +15,9 @@ jobs:
         with:
           python-version: '3.11'
       - name: Rodar sonda sem alterar código de produção
-        run: python experimento_programacao_adversarial.py | tee resultado-programacao.json
+        run: |
+          set -o pipefail
+          python experimento_programacao_adversarial.py | tee resultado-programacao.json
       - name: Publicar relatório de casos e falhas
         uses: actions/upload-artifact@v4
         with:
