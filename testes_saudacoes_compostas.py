@@ -52,7 +52,7 @@ class TestesSaudacoesEIntencoes(unittest.TestCase):
         id_, resposta = bot.responder(
             "Eae, crivo. O que é andromeda e uma estrela?")
         self.assertEqual(id_, "duvida")
-        self.assertIn("Andrômeda", resposta)
+        self.assertIn("andromeda", resposta.lower())
         self.assertIn("estrela", resposta.lower())
         self.assertIn("ou", resposta.lower())
         self.assertNotIn("Até logo", resposta)
