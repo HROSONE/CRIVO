@@ -465,35 +465,41 @@ class Crivo:
             return ident, resposta
         if len(candidatas) > 1:
             return self._pedir_esclarecimento(candidatas[:2], original)
-        # Fallback para paráfrases e avaliação com pergunta original
-        # removida. Preserva recuperações fortes apenas se houver
-        # evidência do próprio conceito na entrada. Coocorrência isolada
-        # de "árvore" num texto sobre queda das folhas não é definição.
+        # Sem pergunta definicional equivalente, uma explicação pode
+        # descrever o conceito no próprio texto. Isso preserva paráfrases
+        # sem liberar respostas que apenas mencionam a palavra incidentalmente.
         rank = self._ranking(texto)
         if rank and rank[0][0] >= LIMIAR:
             indice = rank[0][1]
             entry = self.base[indice]
             if set(alvo_tokens) <= self.termos[indice]:
                 if len(alvo_tokens) >= 2:
-                    return None  # deixa os limiares usuais decidir
+                    # Qualificadores também precisam ter presença no texto
+                    # do candidato; árvore binária ≠ árvore botânica.
+                    return None
                 termo = alvo_tokens[0]
+                id_tokens = tuple(tokens(entry["id"].replace("_", " ")))
+                if id_tokens == (termo,):
+                    return None
                 for frase in re.split(r"[.!?;]", entry["resposta"]):
-                    inicio = tokens(frase[:75])
-                    if termo in inicio:
-                        pos = inicio.index(termo)
-                        trecho = normalizar(frase[:75])
-                        # Plurais irregulares ainda podem nomear o
-                        # conceito no começo de uma definição: réptil /
-                        # répteis. Não generaliza pela mera presença da
-                        # palavra no meio de uma explicação causal.
-                        primeiras = re.findall(r"[a-z]+", trecho)
-                        primeiras = [p for p in primeiras if p not in
-                                     ("o", "a", "os", "as", "um", "uma")]
-                        cabeca = primeiras[0] if primeiras else ""
-                        if (pos == 0 or
-                                (len(termo) >= 4 and cabeca.startswith(termo[:4])) or
-                                re.search(r"\b(e|sao|tem|possui|consiste)\b", trecho)):
-                            return None
+                    palavras = re.findall(r"[a-z]+", normalizar(frase))
+                    while palavras and palavras[0] in (
+                            "o", "a", "os", "as", "um", "uma", "no", "na"):
+                        palavras.pop(0)
+                    if (palavras and len(termo) >= 4 and
+                            palavras[0].startswith(termo[:4]) and
+                            any(v in ("e", "sao", "tem", "possuem", "da",
+                                      "consiste", "protege", "significa")
+                                for v in palavras[1:6])):
+                        return None
+                # Conceito em aposto explicativo: "A Via Láctea é a
+                # nossa galáxia, um conjunto de estrelas..." define
+                # galáxia, mas "entre nuvem e solo" não define nuvem.
+                padrao = (r"\be\s+(?:(?:a|o|um|uma|nossa|nosso)\s+){0,2}" +
+                          re.escape(normalizar(alvo)) +
+                          r"\s*,\s+(?:um|uma)\s+")
+                if re.search(padrao, normalizar(entry["resposta"])):
+                    return None
         self.esclarecimento = None
         self.ultimo_assunto = None
         return ("fora",
