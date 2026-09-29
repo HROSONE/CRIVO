@@ -384,6 +384,64 @@ class Crivo:
         return [(s, i) for s, i in pontos if s > 0]
 
 
+    @staticmethod
+    def _alvo_definicao(texto):
+        """Extrai somente pedidos diretos de definição de um conceito.
+
+        Não confunde comparação, causa ou característica com definição.
+        A interpretação é deliberadamente estreita, não generativa.
+        """
+        n = normalizar(texto).strip().strip("?.,;! ")
+        expressoes = (
+            r"(?:(?:poderia|pode) me explicar |explique )?o que (?:e|eh) (.+)",
+            r"o que significa (.+)",
+            r"defina (.+)",
+            r"(?:qual e a |qual a )definicao de (.+)",
+            r"definicao de (.+)",
+        )
+        for padrao in expressoes:
+            match = re.fullmatch(padrao, n)
+            if match:
+                conceito = re.sub(r"^(?:um|uma|o|a|os|as)\s+", "", match.group(1))
+                if not conceito or re.match(r"^(?:diferenca|melhor|mais|menos)\b", conceito):
+                    return None
+                return conceito
+        return None
+
+    def _responder_definicao(self, texto, original):
+        """Só usa uma entrada cuja pergunta define o MESMO conceito.
+
+        O compartilhamento isolado de uma palavra não constitui evidência
+        de que o texto recuperado defina o termo pedido. A correção de
+        pequenos erros de grafia utiliza o vocabulário já indexado.
+        """
+        alvo = self._alvo_definicao(texto)
+        if alvo is None:
+            return None
+        alvo_tokens = tuple(self._tokens_consulta(alvo))
+        if not alvo_tokens:
+            return None
+        permitidas = set(self._indices_consulta(texto))
+        candidatas = []
+        for indice in permitidas:
+            entrada = self.base[indice]
+            if any((conceito := self._alvo_definicao(pergunta)) is not None
+                   and tuple(tokens(conceito)) == alvo_tokens
+                   for pergunta in entrada["perguntas"]):
+                candidatas.append(indice)
+        if len(candidatas) == 1:
+            indice = candidatas[0]
+            self.ultimos = [(1.0, indice)]
+            self.pos_ultimo = 0
+            return self._registrar(indice, original)
+        if len(candidatas) > 1:
+            return self._pedir_esclarecimento(candidatas[:2], original)
+        self.esclarecimento = None
+        self.ultimo_assunto = None
+        return ("fora",
+                "Ainda não tenho uma definição cadastrada para esse conceito. "
+                "Conhecer palavras parecidas não basta para responder com segurança.")
+
     def ensinar(self, identificador, topico, perguntas, resposta, salvar=True):
         """Adiciona conhecimento explicitamente validado pelo desenvolvedor."""
         if topico not in TOPICOS:
@@ -632,6 +690,9 @@ class Crivo:
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+        definicao = self._responder_definicao(n, original)
+        if definicao is not None:
+            return definicao
         # Inferência estruturada somente para relações comprováveis.
         # Os casos não reconhecidos continuam no recuperador habitual.
         if self.raciocinio is not None:
