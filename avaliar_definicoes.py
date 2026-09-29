@@ -10,7 +10,7 @@ import json
 from avaliar_recuperador import avaliar
 from avaliar_regras_mistas import CrivoComGrafo
 from coorte_geral import selecionar_coorte
-from crivo import PASTA
+from crivo import PASTA, Crivo
 
 
 def resumo(dados):
@@ -18,12 +18,23 @@ def resumo(dados):
             ("total", "acertos", "erradas", "abstencoes", "ranking_acertos")}
 
 
+class SemFiltroDefinicao(Crivo):
+    def _responder_definicao(self, texto, original):
+        return None
+
+
 def diagnosticar():
     atual = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
     historica = selecionar_coorte(atual)
     gerais = [e for e in atual if e["topico"] != "programacao"]
+    sem_filtro = avaliar(historica, SemFiltroDefinicao)
+    protegido = avaliar(historica)
+    erros_antes = {e["pergunta"] for e in sem_filtro["erros"]}
+    perdas = [e for e in protegido["erros"] if e["pergunta"] not in erros_antes]
     resultados = {
-        "coorte_historica_sem_grafo": resumo(avaliar(historica)),
+        "coorte_historica_sem_filtro": resumo(sem_filtro),
+        "perdas_introduzidas_pelo_filtro": perdas,
+        "coorte_historica_sem_grafo": resumo(protegido),
         "coorte_historica_com_grafo": resumo(avaliar(historica, CrivoComGrafo)),
         "base_atual_sem_grafo": resumo(avaliar(gerais)),
         "base_atual_com_grafo": resumo(avaliar(gerais, CrivoComGrafo)),
