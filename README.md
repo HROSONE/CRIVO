@@ -215,6 +215,56 @@ python -m unittest discover -p 'testes*.py'
 python avaliar_definicoes.py
 ```
 
+## Cumprimentos, vocativos e perguntas ambíguas (PR #23)
+
+O CRIVO separa **a saudação** do **pedido informativo** sem eliminar
+a pergunta. Reconhece formas informais como `Eae`, `E aí`, `Oi`,
+`Salve` e vocativos (`Crivo`) antes do pedido, conservando os acentos
+e a grafia do restante da mensagem. A regra vale para definições,
+composições de vários verbetes, provas relacionais e demais domínios
+que o núcleo já conhece.
+
+```text
+Bom dia
+  → Bom dia! Sou o Crivo. Sobre o que quer conversar?
+
+Eae, Crivo. O que é HTML?
+  → definição cadastrada de HTML
+
+Salve, Crivo. A Terra é orbitada pela Lua?
+  → evidência do grafo, se disponível
+```
+
+**O horário local do navegador não é conhecido pelo servidor.** Para
+cumprimentos explícitos, o CRIVO responde com a mesma saudação do
+usuário. Ele deixa de transformar `Bom dia` em `Boa noite` por depender
+do horário de execução da função na hospedagem.
+
+Quando uma frase pode pedir **duas definições** ou uma
+**classificação**, o sistema pede esclarecimento, sem pressupor
+dados ausentes:
+
+```text
+Eae, Crivo. O que é andromeda e uma estrela?
+  → Você quer saber o que são andromeda e uma estrela separadamente
+    ou quer perguntar se andromeda é uma estrela?
+```
+
+O mecanismo **não** cria informações sobre Andrômeda que ainda não
+existam na base. Comandos distintos continuam separados: `O que é
+HTML e CSS?` usa os dois verbetes conhecidos; `O que é rotação e
+translação?` preserva o conceito editorial único existente.
+
+Perguntas sobre o que o CRIVO **disse no último turno** (por exemplo
+`Você falou do Sol?`) consultam somente o texto da última resposta.
+O sistema não pode trocar essa pergunta por uma definição de Sol
+encontrada por semelhança de palavras.
+
+Os testes de desenvolvimento variam horários, formas informais,
+assuntos e um catálogo fictício, além de executar a regressão geral
+e auditar o benchmark anterior. **Não é compreensão universal
+do português** e não envolve API ou modelo de IA de terceiros.
+
 ## Interface web para testar no celular
 
 A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
