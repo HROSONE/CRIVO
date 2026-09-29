@@ -465,6 +465,26 @@ class Crivo:
             return ident, resposta
         if len(candidatas) > 1:
             return self._pedir_esclarecimento(candidatas[:2], original)
+        # Fallback para paráfrases e avaliação com pergunta original
+        # removida. Preserva recuperações fortes apenas se houver
+        # evidência do próprio conceito na entrada. Coocorrência isolada
+        # de "árvore" num texto sobre queda das folhas não é definição.
+        rank = self._ranking(texto)
+        if rank and rank[0][0] >= LIMIAR:
+            indice = rank[0][1]
+            entry = self.base[indice]
+            if set(alvo_tokens) <= self.termos[indice]:
+                if len(alvo_tokens) >= 2:
+                    return None  # deixa os limiares usuais decidir
+                termo = alvo_tokens[0]
+                for frase in re.split(r"[.!?;]", entry["resposta"]):
+                    inicio = tokens(frase[:75])
+                    if termo in inicio:
+                        pos = inicio.index(termo)
+                        trecho = normalizar(frase[:75])
+                        if (pos == 0 or
+                                re.search(r"\b(e|sao|tem|possui|consiste)\b", trecho)):
+                            return None
         self.esclarecimento = None
         self.ultimo_assunto = None
         return ("fora",
