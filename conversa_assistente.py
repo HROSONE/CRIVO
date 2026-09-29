@@ -35,6 +35,8 @@ _CRITICA = (
 
 def identificar_contato(texto):
     n = normalizar(texto)
+    if re.fullmatch(r"(?:meu deus|nossa(?: senhora)?|caramba|eita|poxa|vixe|aff+)", n):
+        return "reacao"
     if re.fullmatch("(?:" + _SAUDACAO + r"(?: " + _VOCATIVO + r")? )?(?:" +
                     _VOCATIVO + r" )?" + _CONTATO + _FINAL_CONTATO, n):
         return "contato"
@@ -93,6 +95,10 @@ def responder_contato(texto, anterior=None):
         return "social:acolhimento", "Certo! Sobre o que você quer conversar?"
     if tipo == "contato":
         return "social:tudobem", "Oi! Estou por aqui, pronto para conversar. E você, como está?"
+    if tipo == "reacao":
+        if anterior and anterior["id"] in ("fora", "duvida", "social:nao_entendido"):
+            return "social:reacao", "Minha última resposta não resolveu seu pedido. O que você queria saber?"
+        return "social:reacao", "O que chamou sua atenção? Quer perguntar ou comentar alguma coisa?"
     if tipo == "critica":
         if re.fullmatch(r"(?:voce |crivo )?nao sabe (?:de )?(?:nada|coisa nenhuma)(?: tambem| mesmo)?", n):
             texto = ("Meu conhecimento vem dos fatos cadastrados, e há muita coisa "

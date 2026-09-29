@@ -182,6 +182,9 @@ class Crivo:
         from composicao_textual import CompositorTextual
         self.compositor = CompositorTextual(
             self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+        from interpretacao_pedidos import InterpretadorPedidos
+        self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
+        self._pedido_turno = None
         self.contexto_textual = None
         self._contexto_textual_anterior = None
         self.ultimo_ato_social = None
@@ -639,6 +642,8 @@ class Crivo:
         from composicao_textual import CompositorTextual
         self.compositor = CompositorTextual(
             self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+        from interpretacao_pedidos import InterpretadorPedidos
+        self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         self.contexto_textual = None
         self.ultimo_ato_social = None
         self.ultimo_turno = None
@@ -845,10 +850,17 @@ class Crivo:
         self.contexto_textual = None
         self.ultima_resposta_mostrada = None
         self._referencia_turno_anterior = anterior
+        self._pedido_turno = None
         try:
             resultado = self._responder_impl(texto)
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
+            if self._pedido_turno is not None:
+                if not self.historico or self.historico[-1].get("pergunta") != texto:
+                    self.historico.append({"pergunta": texto, "id": identificador,
+                                           "mecanismo": "interpretacao_pedido"})
+                    self.historico = self.historico[-20:]
+                self.historico[-1]["pedido"] = self._pedido_turno._asdict()
             if identificador in ("social:assuntos", "social:pensamento"):
                 self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
@@ -870,6 +882,7 @@ class Crivo:
             self._contexto_textual_anterior = None
             self._ato_social_anterior = None
             self._turno_anterior = None
+            self._pedido_turno = None
 
     def _responder_impl(self, texto):
         """Motor de diálogo; o wrapper expira o contexto com segurança."""
@@ -916,6 +929,62 @@ class Crivo:
         esclarecida = self._resolver_esclarecimento(n, original)
         if esclarecida:
             return esclarecida
+
+        # Uma interpretação comum vem ANTES dos motores de assunto.
+        # 'Você conhece' é um operador do pedido, não uma propriedade
+        # que o motor de relações deve tentar atribuir às galáxias/aves/etc.
+        pedido = self.interpretador_pedidos.analisar(texto)
+        if pedido is not None:
+            self._pedido_turno = pedido
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.ultimos = []
+            self.pos_ultimo = 0
+            consulta_pedido = self.interpretador_pedidos.responder(pedido)
+            if consulta_pedido is not None:
+                ident, resposta, self.contexto_consulta = consulta_pedido
+                self.esclarecimento = None
+                self.ultimo_assunto = None
+                self.ultimos = []
+                self.pos_ultimo = 0
+                self.historico.append({"pergunta": original, "id": ident,
+                                       "mecanismo": "consulta_relacional" if ident.startswith("logica:")
+                                       else "interpretacao_pedido"})
+                self.historico = self.historico[-20:]
+                return ident, resposta
+            if pedido.intencao == "listar":
+                # Não confundir ausência de uma classe no grafo com
+                # ausência em outro catálogo ativo. O provedor curado
+                # interpreta o pedido original usando seu próprio esquema.
+                outro_catalogo = (self.frutas.responder(original, contexto_frutas_anterior)
+                                  if self.frutas is not None else None)
+                if outro_catalogo is not None:
+                    ident, resposta, intencao, entidade = outro_catalogo
+                    self.contexto_frutas = (intencao, entidade) if entidade is not None else None
+                    self.esclarecimento = None
+                    self.ultimo_assunto = None
+                    self.historico.append({"pergunta": original, "id": ident,
+                                           "mecanismo": "conhecimento_frutas"})
+                    self.historico = self.historico[-20:]
+                    return ident, resposta
+                return "fora", "Não reconheci a categoria completa “" + pedido.alvo + "” nos catálogos desta instalação."
+            if pedido.intencao == "retomar_item":
+                alvo = self.interpretador_pedidos.retomar(pedido, contexto_consulta_anterior)
+                if alvo is None:
+                    return "duvida", "Preciso de uma lista no turno anterior com esse item. Qual assunto você quer?"
+            else:
+                alvo = pedido.alvo
+            if self.compositor.resolver(alvo) is None:
+                fatos = self.interpretador_pedidos.informacoes(alvo)
+                if fatos is not None:
+                    self.esclarecimento = None
+                    self.ultimo_assunto = None
+                    self.historico.append({"pergunta": original, "id": fatos[0],
+                                           "mecanismo": "consulta_relacional"})
+                    self.historico = self.historico[-20:]
+                    return fatos[:2]
+            texto = "o que é " + alvo
+            n = normalizar(texto).strip().strip("?.,;! ")
 
         auto = conversa_assistente.responder(
             n, self, TOPICOS, self._ato_social_anterior)
@@ -1198,9 +1267,8 @@ class Crivo:
             return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             return self._pedir_esclarecimento([rank[0][1]], original)
-        lista = conversa_assistente.assuntos(self, TOPICOS)
-        return "fora", (f"Ainda não sei responder isso. Assuntos da base ativa: {lista}. "
-                        "Tente reformular ou escolha um desses assuntos.")
+        return "fora", ("Ainda não consegui entender esse pedido. Pode indicar o assunto "
+                        "e o que quer saber? Digite 'ajuda' para ver minhas capacidades.")
 
 
 # ------------------------------------------------------------- testes ------

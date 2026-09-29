@@ -47,6 +47,7 @@ def responder_web(payload):
     if identificador.startswith("logica:") and mecanismo == "recuperador":
         mecanismo = "raciocinio_relacional"
     provas_efetivas = {
+        "logica:fatos",
         "logica:tipo_de", "logica:parte_de", "logica:orbita",
         "logica:tem_caracteristica", "logica:negacao_comprovada",
         "logica:hipotese", "logica:comum", "logica:ligacao",
