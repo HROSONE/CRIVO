@@ -177,6 +177,49 @@ class TestesQuadrosSemanticos(unittest.TestCase):
         self.assertEqual(ident, "logica:desconhecido")
         self.assertIn("não significa", resposta)
 
+    def test_todas_as_arestas_do_grafo_reusam_a_mesma_gramatica(self):
+        """Matriz gerada dos FATOS, não uma lista escolhida de perguntas.
+
+        Para cada aresta existente verifica duas estruturas frasais
+        diferentes, sem acrescentar nomes ao código do analisador.
+        """
+        grafo = self.bot.raciocinio
+        total = 0
+        modelos = {
+            "tipo_de": (
+                ("{s} pode ser considerado como {o}?", "tipo_de"),
+                ("{s} se enquadra como {o}?", "tipo_de"),
+            ),
+            "parte_de": (
+                ("{o} contém {s}?", "parte_de"),
+                ("{o} inclui {s}?", "parte_de"),
+            ),
+            "orbita": (
+                ("{o} é orbitado por {s}?", "orbita"),
+                ("{s} dá voltas ao redor de {o}?", "orbita"),
+            ),
+            "tem_caracteristica": (
+                ("{s} apresenta {o}?", "tem_caracteristica"),
+                ("{s} possui {o}?", "tem_caracteristica"),
+            ),
+        }
+        for relacao, regras in modelos.items():
+            for a, objetos in grafo.arestas[relacao].items():
+                for b in objetos:
+                    for modelo, esperado in regras:
+                        pergunta = modelo.format(s=grafo.nomes[a],
+                                                 o=grafo.nomes[b])
+                        with self.subTest(pergunta=pergunta):
+                            quadro = self.analisador.analisar(pergunta)
+                            self.assertIsNotNone(quadro)
+                            self.assertEqual(quadro.sujeito, a)
+                            self.assertEqual(quadro.objeto, b)
+                            self.assertEqual(quadro.predicado, esperado)
+                            resposta = self.analisador.responder(quadro)
+                            self.assertEqual(resposta[0], "logica:" + esperado)
+                        total += 1
+        self.assertGreaterEqual(total, 90)
+
     def test_parser_generaliza_em_grafo_sintetico(self):
         g = GrafoRaciocinio({
             "versao": 1,
