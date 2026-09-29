@@ -126,6 +126,45 @@ python -m unittest testes_relacoes_frutas -v
 python -m unittest discover -p 'testes*.py'
 ```
 
+## Síntese comparativa curta (PR #18)
+
+Em perguntas de comparação sobre frutas, o CRIVO agora **seleciona**
+informações do cadastro, em vez de colar duas descrições inteiras
+com cada grupo e as sementes. O algoritmo produz:
+
+- A **semelhança verificável**, sem supor que as partes comestíveis
+  sejam sempre o fruto completo.
+- A **classificação de cada fruto**, sem repetir a definição longa
+  de cada grupo botânico.
+- Quando há diferença ou comparação aberta, **até um detalhe específico
+  de cada item**, escolhido entre os fatos curados.
+- Quando a comparação é sobre pertencer ao mesmo tipo, diz explicitamente
+  se a premissa procede ou não; não afirma que dois itens têm as
+  mesmas sementes, nutrientes ou propriedades medicinais.
+
+Exemplo resumido de como apresentar a diferença entre banana e coco:
+
+```text
+Banana e coco são frutos botânicos. Suas classificações são diferentes:
+banana é baga; coco é drupa. A banana tem polpa carnosa e suas variedades
+cultivadas geralmente não desenvolvem sementes. O coco tem camada
+fibrosa, parte interna endurecida e uma semente grande.
+```
+
+O campo **opcional** `destaque_comparativo` de `frutas.json` identifica um
+detalhe factual curto, que o sistema não cria sozinho. Há destaques
+curados para 18 itens, incluindo banana, coco, feijão, amendoim e caju.
+Para os demais, o código utiliza **somente a primeira frase existente**
+da descrição; assim, qualquer uma das 63 espécies pode participar de
+uma comparação, sem escrever uma resposta para cada par.
+
+Os testes incluem o relato real do usuário, integridade de assuntos
+alheios, limites das conclusões e **todos os 1.953 pares** possíveis
+do catálogo atual. Esse ganho é de **seleção e apresentação dos dados
+cadastrados**, não geração livre de texto por rede neural.
+A sintaxe reconhecida continua sendo restrita e todos os testes são
+de desenvolvimento.
+
 ## Interface web para testar no celular
 
 A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
