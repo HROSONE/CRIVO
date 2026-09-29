@@ -75,6 +75,36 @@ def extrair_definicoes_coordenadas(texto):
     return limpos
 
 
+def esclarecer_coordenacao_ou_classificacao(texto):
+    """Detecta ambiguidade sintática 'o que é X e um(a) Y?'.
+
+    Em português informal, um 'e' sem acento pode indicar tanto
+    enumeração de dois conceitos quanto uma tentativa de perguntar
+    se X É um Y. Sem pontuação ou intenção inequívoca, solicita
+    esclarecimento em vez de inventar a classificação de X.
+    Não há nomes específicos de entidades nesta regra.
+    """
+    n = " ".join(texto.strip().strip("?!.; ").split())
+    m = re.fullmatch(
+        r"o que (?:é|e|eh) (.+?) e (um|uma) (.+)",
+        n, flags=re.IGNORECASE)
+    if m is None:
+        return None
+    entidade, artigo, classe = (parte.strip() for parte in m.groups())
+    if (not entidade or not classe or len(entidade) > 80 or
+            len(classe) > 80 or len(entidade.split()) > 5 or
+            len(classe.split()) > 5 or
+            re.search(r"\b(?:porque|por que|como|quando|quem|onde|qual)\b",
+                      entidade + " " + classe, flags=re.IGNORECASE)):
+        return None
+    return (
+        "Você quer saber o que são " + entidade + " e " + artigo +
+        " " + classe + " separadamente, ou quer perguntar se " +
+        entidade + " é " + artigo + " " + classe +
+        "? Preciso distinguir essas intenções antes de responder."
+    )
+
+
 class InterpretadorGeral:
     """Relações estruturadas independentes de assunto e sem resposta pré-pronta."""
 
