@@ -1,0 +1,69 @@
+"""Servidor de testes do CRIVO com frontend + a mesma API usada na Vercel.
+
+Uso no próprio computador: python web_local.py
+Para acessar pelo celular na mesma rede: python web_local.py --host 0.0.0.0
+NÃO encaminhe a porta para a internet sem autenticação/rate limiting.
+"""
+import argparse
+from http.server import ThreadingHTTPServer
+from pathlib import Path
+from urllib.parse import urlsplit
+
+from api.chat import handler as CrivoAPI
+
+PUBLIC = Path(__file__).resolve().parent / "public"
+ARQUIVOS = {
+    "/": ("index.html", "text/html; charset=utf-8"),
+    "/index.html": ("index.html", "text/html; charset=utf-8"),
+    "/styles.css": ("styles.css", "text/css; charset=utf-8"),
+    "/app.js": ("app.js", "application/javascript; charset=utf-8"),
+    "/favicon.svg": ("favicon.svg", "image/svg+xml"),
+}
+
+
+class LocalHandler(CrivoAPI):
+    def do_GET(self):
+        caminho = urlsplit(self.path).path
+        if caminho == "/api/chat":
+            return super().do_GET()
+        entrada = ARQUIVOS.get(caminho)
+        if entrada is None:
+            return self._json(404, {"error": "Rota não encontrada."})
+        arquivo, tipo = entrada
+        conteudo = (PUBLIC / arquivo).read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", tipo)
+        self.send_header("Content-Length", str(len(conteudo)))
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Security-Policy",
+                         "default-src 'self'; script-src 'self'; style-src 'self'; "
+                         "img-src 'self' data:; connect-src 'self'; object-src 'none'; "
+                         "base-uri 'none'; frame-ancestors 'none'")
+        self.end_headers()
+        self.wfile.write(conteudo)
+
+
+def criar_servidor(host="127.0.0.1", port=8765):
+    return ThreadingHTTPServer((host, port), LocalHandler)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Interface de chat do CRIVO")
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="Use 0.0.0.0 somente em rede local confiável.")
+    parser.add_argument("--port", type=int, default=8765)
+    args = parser.parse_args()
+    server = criar_servidor(args.host, args.port)
+    print("CRIVO web: http://%s:%s" % (args.host, server.server_address[1]))
+    print("O endpoint não possui login; evite expor a porta na internet.")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nEncerrando.")
+    finally:
+        server.server_close()
+
+
+if __name__ == "__main__":
+    main()
