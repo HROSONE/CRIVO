@@ -49,7 +49,10 @@ class ConhecimentoFrutas:
                     any(not isinstance(e[k], str) or not e[k].strip()
                         for k in ("id", "nome", "tipo", "descricao", "sementes")) or
                     not isinstance(e["aliases"], list) or
-                    not all(isinstance(a, str) for a in e["aliases"])):
+                    not all(isinstance(a, str) for a in e["aliases"]) or
+                    (e.get("estrutura_consumida") is not None and
+                     (not isinstance(e["estrutura_consumida"], str) or
+                      not e["estrutura_consumida"].strip()))):
                 raise ValueError("Fruto com dados incompletos")
             self.itens[e["id"]] = e
             nomes = [e["nome"]] + e["aliases"]
@@ -185,11 +188,17 @@ class ConhecimentoFrutas:
         iguais = a["tipo"] == b["tipo"]
         # A parte carnosa do caju não é o verdadeiro fruto botânico:
         # não generalizar "ambos são frutos botânicos" nesse caso.
-        pseudofruto = "pseudofruto" in (a["tipo"], b["tipo"])
-        if pseudofruto:
-            comum = ("Os dois fazem parte do catálogo de frutos e estruturas "
-                     "vegetais comestíveis. Atenção: a parte carnosa do caju "
-                     "é um pseudofruto, e a castanha é o fruto verdadeiro. ")
+        excecoes = [e["nome"] + ": " + e["estrutura_consumida"]
+                    for e in (a, b) if e.get("estrutura_consumida")]
+        if excecoes:
+            comum = ("Ambos constam do catálogo de frutos e estruturas "
+                     "vegetais relacionadas, mas a parte consumida nem "
+                     "sempre é o próprio fruto botânico. " +
+                     "; ".join(excecoes) + ". ")
+        elif "pseudofruto" in (a["tipo"], b["tipo"]):
+            comum = ("Os dois constam do catálogo de frutos e estruturas "
+                     "vegetais relacionadas; nem toda parte consumida é "
+                     "o próprio fruto botânico. ")
         else:
             comum = ("Ambos são frutos botânicos, embora isso não signifique "
                      "que tenham o mesmo uso culinário. ")
@@ -210,15 +219,21 @@ class ConhecimentoFrutas:
                          if iguais else "Sim, são de tipos diferentes. ")
             resposta = afirmacao + classes
         elif modo == "hortalicas":
-            if not a["culinaria"] and not b["culinaria"]:
+            # O campo "culinaria" registra apenas se é chamado fruta;
+            # não confundir "não-fruta de sobremesa" com "hortaliça".
+            descricoes = (normalizar_fruta(a["descricao"]),
+                          normalizar_fruta(b["descricao"]))
+            eh_hortalica = all(
+                "hortalica" in descricao or
+                "legume no uso culinario" in descricao
+                for descricao in descricoes)
+            if eh_hortalica:
                 resposta = (comum + classes + "Na culinária, os dois são "
-                            "frequentemente utilizados como hortaliças, "
-                            "grãos ou outros alimentos não classificados "
-                            "como frutas de sobremesa. ")
+                            "frequentemente utilizados como hortaliças. ")
             else:
                 resposta = (comum + classes +
-                            "A afirmação sobre o uso culinário não vale "
-                            "igualmente para os dois itens. ")
+                            "Não há descrição cadastrada suficiente para "
+                            "confirmar que ambos são usados como hortaliças. ")
         elif modo == "frutos":
             resposta = comum + classes
         elif modo == "semelhanca":
