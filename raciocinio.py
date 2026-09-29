@@ -100,9 +100,9 @@ class GrafoRaciocinio:
     def _proposicao_hipotetica(texto):
         """Lê somente `X é Y` (sem negação), não extrai fatos de texto livre."""
         n = limpar(texto)
-        n = re.sub(r"^(?:todo|toda|todos|todas)\\s+", "", n)
+        n = re.sub(r"^(?:todo|toda|todos|todas)\s+", "", n)
         n = limpar(n)
-        m = re.fullmatch(r"(.+?)\\s+(?:e|eh)\\s+(?:(?:um|uma|tipo de)\\s+)?(.+)", n)
+        m = re.fullmatch(r"(.+?)\s+(?:e|eh)\s+(?:(?:um|uma|tipo de)\s+)?(.+)", n)
         if not m:
             return None
         x, y = limpar(m.group(1)), limpar(m.group(2))
@@ -119,13 +119,13 @@ class GrafoRaciocinio:
         n = unicodedata.normalize("NFD", pergunta.lower())
         n = "".join(c for c in n if unicodedata.category(c) != "Mn")
         n = " ".join(n.strip().rstrip("?!.").split())
-        if not n.startswith("se ") or re.search(r"\\b(nao|nunca|jamais)\\b", n):
+        if not n.startswith("se ") or re.search(r"\b(nao|nunca|jamais)\b", n):
             return None
-        partes = re.split(r"\\s*[,;]\\s*", n)
+        partes = re.split(r"\s*[,;]\s*", n)
         if len(partes) != 3:
             return None
         partes[0] = partes[0][3:]
-        partes[2] = re.sub(r"^entao\\s+", "", partes[2])
+        partes[2] = re.sub(r"^entao\s+", "", partes[2])
         proposicoes = [self._proposicao_hipotetica(p) for p in partes]
         if any(p is None for p in proposicoes):
             return None
