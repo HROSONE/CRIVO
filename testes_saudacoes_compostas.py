@@ -79,10 +79,29 @@ class TestesSaudacoesEIntencoes(unittest.TestCase):
             ("O que é HTML e Rust?", "fora"),
             ("O que é Sol e planeta quântico?", "fora"),
             ("Quais são as estações do ano?", "quais_estacoes"),
-            ("Você falou da Lua?", "fora"),
+            ("Você falou da Lua?", "contexto:sem_referencia"),
         ):
             with self.subTest(pergunta=pergunta):
                 self.assertEqual(Crivo().responder(pergunta)[0], esperado)
+
+    def test_mencoes_sobre_turno_anterior_sem_inventar(self):
+        bot = Crivo()
+        self.assertEqual(bot.responder("Você falou do Sol?")[0],
+                         "contexto:sem_referencia")
+        bot = Crivo()
+        bot.responder("O que é a Via Láctea?")
+        ident, resposta = bot.responder("Você falou do Sol?")
+        self.assertEqual(ident, "contexto:mencao")
+        self.assertIn("última resposta", resposta)
+        bot = Crivo()
+        bot.responder("O que é HTML?")
+        ident, resposta = bot.responder("Você mencionou a Lua?")
+        self.assertEqual(ident, "contexto:nao_mencionado")
+        bot = Crivo()
+        bot.responder("O que é HTML?")
+        bot.responder("Obrigado!")
+        self.assertEqual(bot.responder("Você falou de HTML?")[0],
+                         "contexto:sem_referencia")
 
     def test_api_e_base_personalizada(self):
         dados = responder_web({"message": "Bom dia"})
