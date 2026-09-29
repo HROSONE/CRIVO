@@ -16,13 +16,23 @@ def caracteristicas(texto, dimensao=256, modo="caracteres"):
                 if unicodedata.category(c) != "Mn")
     s = " ".join(re.findall(r"[a-z0-9]+", s))
     vetor = [0.0] * dimensao
-    if modo not in ("caracteres", "palavras", "misto"):
+    if modo not in ("caracteres", "palavras", "misto", "portugues", "portugues_sem_filtro"):
         raise ValueError("Modo de caracteristicas invalido")
-    for palavra in s.split():
+    palavras = s.split()
+    if modo in ("portugues", "portugues_sem_filtro"):
+        # Reutiliza apenas regras de portugues escritas para o proprio Crivo:
+        # nao consulta respostas, rotulos de treinamento ou modelos externos.
+        from crivo import SINONIMOS, radical
+        ligacoes = {"a", "o", "as", "os", "um", "uma", "uns", "umas",
+                    "de", "do", "da", "dos", "das", "em", "no", "na",
+                    "nos", "nas", "ao", "aos", "e"}
+        palavras = [SINONIMOS.get(radical(p), radical(p)) for p in palavras
+                    if modo == "portugues_sem_filtro" or p not in ligacoes]
+    for palavra in palavras:
         unidades = []
-        if modo in ("palavras", "misto"):
+        if modo in ("palavras", "misto", "portugues", "portugues_sem_filtro"):
             unidades.append("w:" + palavra)
-        if modo in ("caracteres", "misto"):
+        if modo in ("caracteres", "misto", "portugues", "portugues_sem_filtro"):
             marcada = "^" + palavra + "$"
             for n in (2, 3, 4):
                 unidades.extend(marcada[i:i+n] for i in range(len(marcada) - n + 1))
