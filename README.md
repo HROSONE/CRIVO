@@ -3,6 +3,46 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Conversa informal e feedback
+
+O CRIVO distingue atos sociais completos de consultas de conhecimento.
+`Eae, beleza?`, `Oi, tudo bem?` e `Como cê tá?` iniciam contato;
+`tô bem` ou `sim` respondem ao contato imediatamente anterior. Um `sim`
+em uma escolha de esclarecimento continua sendo tratado pelo motor de opções.
+
+Críticas dirigidas ao assistente e avaliações como `essa resposta está errada`,
+`não foi isso que eu pedi` e `isso não faz sentido` recebem uma resposta de
+feedback. O motor consulta o pedido do turno imediatamente anterior para
+pedir o trecho a conferir. Não muda um fato para concordar com uma reclamação.
+Falhas e críticas sucessivas recebem tratamentos diferentes; uma saudação
+ou outro pedido substitui o contexto anterior. A API reconstrói esse estado
+pelo histórico de perguntas, sem compartilhar contexto entre usuários.
+
+Saudações, feedback e pedidos também podem aparecer juntos:
+
+```text
+Eae, beleza?
+Tô bem, e você?
+Oi, tudo bem? O que é DNA?
+Essa resposta está errada
+Não foi isso que eu pedi. Você pode explicar o que é RNA?
+Não, quero saber o que é Andrômeda
+```
+
+As regras reconhecem combinações de sujeito, predicado, intensificador,
+vocativo e abertura. `Um burro é um mamífero?` e comandos que mencionem
+`tudo bem` seguem para os motores factuais/de programação. Negação do pedido,
+código e qualificadores são conservados ao separar uma abertura social.
+
+O avanço é de interpretação de intenções e continuidade curta, com gramática
+limitada. Não é um novo treino neural nem compreensão irrestrita de texto.
+Os testes incluem a captura, variantes, falas compostas, proteção de consultas,
+esclarecimento, feedback e isolamento da API:
+
+```bash
+python -m unittest testes_conversa_informal -v
+```
+
 ## Conversa sobre o próprio CRIVO e capacidades da instalação
 
 Perguntas como `Você pensa?`, `Você sente?` e `Você é consciente?` usam

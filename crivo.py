@@ -186,6 +186,8 @@ class Crivo:
         self._contexto_textual_anterior = None
         self.ultimo_ato_social = None
         self._ato_social_anterior = None
+        self.ultimo_turno = None
+        self._turno_anterior = None
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
         self.historico = []
@@ -639,6 +641,7 @@ class Crivo:
             self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao)
         self.contexto_textual = None
         self.ultimo_ato_social = None
+        self.ultimo_turno = None
         self.rede = None
         self.esclarecimento = None
         self.contexto_consulta = None
@@ -795,13 +798,13 @@ class Crivo:
             return "social:oi", ("Oi! Sou o Crivo. Assuntos da base ativa: " +
                                  conversa_assistente.assuntos(self, TOPICOS) +
                                  ". Digite 'ajuda' para ver as capacidades desta instalação.")
-        if re.search(r"\b(obrigad[oa]|valeu|brigado|thanks)\b", n):
+        if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
         # contém o verbo "falou", mas não é uma despedida.
         if re.fullmatch(r"(?:tchau|ate logo|ate mais|falou|adeus)[!. ]*", n):
             return "social:tchau", "Até logo!"
-        if re.search(r"\b(tudo bem|como vai|como voce esta|como vc esta)\b", n):
+        if re.fullmatch(r"(?:tudo bem|como vai|como voce esta|como vc esta)(?: com voce)?", n):
             return "social:tudobem", "Tudo bem por aqui! E com você? Sobre o que vamos conversar?"
         # Pedir que um programa solicite o nome de alguém NÃO é perguntar
         # pelo nome do próprio assistente. Intenção social deve ser a frase
@@ -836,13 +839,16 @@ class Crivo:
         anterior = self.ultima_resposta_mostrada
         self._contexto_textual_anterior = self.contexto_textual
         self._ato_social_anterior = self.ultimo_ato_social
+        self._turno_anterior = self.ultimo_turno
         self.ultimo_ato_social = None
+        self.ultimo_turno = None
         self.contexto_textual = None
         self.ultima_resposta_mostrada = None
         self._referencia_turno_anterior = anterior
         try:
             resultado = self._responder_impl(texto)
             identificador = resultado[0]
+            self.ultimo_turno = {"pergunta": texto, "id": identificador}
             if identificador in ("social:assuntos", "social:pensamento"):
                 self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
@@ -863,6 +869,7 @@ class Crivo:
             self._referencia_turno_anterior = None
             self._contexto_textual_anterior = None
             self._ato_social_anterior = None
+            self._turno_anterior = None
 
     def _responder_impl(self, texto):
         """Motor de diálogo; o wrapper expira o contexto com segurança."""
@@ -876,6 +883,11 @@ class Crivo:
         n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         contexto_consulta_anterior = self.contexto_consulta
         self.contexto_consulta = None
+        # Antes de retirar saudações ou interpretar negações factuais,
+        # reconhecer o ato social COMPLETO ('eae beleza', críticas, etc.).
+        contato = conversa_assistente.responder_contato(original, self._turno_anterior)
+        if contato is not None:
+            return self._registrar_social(contato, original)
         # Identificar atos de fala INTRODUTÓRIOS e retirar apenas eles.
         # Preservar o resto da consulta com acentos/maiúsculas, necessário
         # para os definidores compostos ("HTML e CSS") e para auditoria.
@@ -895,6 +907,7 @@ class Crivo:
         if resto:
             texto = resto
             n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
+        texto = conversa_assistente.preparar_conversa(texto)
         texto = conversa_assistente.preparar_pedido(texto)
         n = normalizar(texto).strip().strip("?.,;! ")
         if not n:

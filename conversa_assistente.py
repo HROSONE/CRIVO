@@ -10,10 +10,129 @@ def normalizar(texto):
     return re.sub(r"\b(?:vc|tu)\b", "voce", n)
 
 
+# Gramática de atos completos. Palavras como 'burro', 'beleza' e 'errado'
+# dentro de uma pergunta factual não bastam para classificar a mensagem.
+_SAUDACAO = r"(?:oi+|ola|opa|salve|hey|hello|e ?ai|e ?ae|bom dia|boa tarde|boa noite)"
+_VOCATIVO = r"(?:crivo|mano|cara|amigo|amiga|meu amigo)"
+_CONTATO = (
+    r"(?:(?:tudo|td) (?:bem|bom|certo|beleza)|beleza|blz|tranquilo|de boa|"
+    r"como (?:(?:voce|ce) )?(?:esta|ta|vai)|como (?:estao|vao) as coisas)"
+)
+_FINAL_CONTATO = r"(?: (?:ai|por ai|com voce|" + _VOCATIVO + r"))?"
+_INTENSIDADE = r"(?:(?:muito|bem|tao|um|uma|completamente|totalmente|bastante) )*"
+_CRITICA = (
+    r"(?:(?:voce|crivo) (?:e|eh|esta|ta|foi|ficou) " + _INTENSIDADE +
+    r"(?:burro|burra|idiota|ruim|confuso|confusa|limitado|limitada)|"
+    r"(?:voce |crivo )?nao (?:sabe|entende|compreende) (?:de )?(?:nada|coisa nenhuma|nem o basico)|"
+    r"(?:isso|essa resposta|sua resposta|a resposta) (?:e|eh|esta|ta|ficou) " + _INTENSIDADE +
+    r"(?:errado|errada|ruim|confuso|confusa|sem sentido)|"
+    r"(?:nao foi|nao e|nao era) (?:isso|o que) (?:que )?eu (?:perguntei|pedi|quis dizer)|"
+    r"(?:voce )?nao (?:me )?entendeu(?: (?:minha pergunta|meu pedido|o que eu (?:pedi|perguntei)))?|"
+    r"(?:isso|essa resposta|sua resposta) nao faz sentido|"
+    r"nao gostei (?:disso|da resposta)|que resposta (?:ruim|confusa|errada))"
+)
+
+
+def identificar_contato(texto):
+    n = normalizar(texto)
+    if re.fullmatch("(?:" + _SAUDACAO + r"(?: " + _VOCATIVO + r")? )?(?:" +
+                    _VOCATIVO + r" )?" + _CONTATO + _FINAL_CONTATO, n):
+        return "contato"
+    if re.fullmatch(_SAUDACAO + r"(?: crivo)?", n):
+        return "saudacao"
+    if re.fullmatch(_CRITICA + r"(?: (?:tambem|mesmo|demais|hein))?", n):
+        return "critica"
+    if re.fullmatch(
+        r"(?:mandou bem|boa resposta|gostei(?: da resposta)?|muito bom|perfeito|"
+        r"(?:voce|crivo) (?:e|eh) (?:muito )?(?:inteligente|legal|bom|boa))", n,
+    ):
+        return "elogio"
+    if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
+        return "agradecimento"
+    if re.fullmatch(
+        r"(?:vamos|bora|quero|podemos) (?:conversar|bater um papo)(?: com voce)?", n,
+    ):
+        return "conversar"
+    return None
+
+
+def preparar_conversa(texto):
+    """Retira atos completos antes de um pedido, conservando seu conteúdo.
+
+    Usa os índices da frase original, sem normalizar nomes, código ou a
+    negação do pedido. Uma crítica só é separada com pontuação explícita.
+    """
+    if identificar_contato(texto) is not None:
+        return texto
+    for _ in range(4):
+        partes = re.match(r"^([^.!?;:,\n]+)[.!?;:,\n]+\s*(.+)$", texto, re.S)
+        if partes and identificar_contato(partes.group(1)) is not None:
+            texto = partes.group(2).strip()
+            if identificar_contato(partes.group(1)) == "critica":
+                texto = re.sub(r"^mas\s+", "", texto, count=1, flags=re.I)
+            continue
+        # 'beleza o que é DNA?' não exige vírgula para uma abertura social.
+        abertura = re.match(
+            r"^(?:beleza|blz|tudo (?:bem|bom|certo)|de boa)\s+"
+            r"(?=(?:o que|como|qual|quais|escreva|explique|voce|voc[eê])\b)",
+            texto, re.I,
+        )
+        if abertura:
+            texto = texto[abertura.end():]
+            continue
+        break
+    return texto
+
+
+def responder_contato(texto, anterior=None):
+    tipo = identificar_contato(texto)
+    n = normalizar(texto)
+    if (anterior and anterior["id"] == "social:tudobem" and re.fullmatch(
+            r"(?:sim|(?:estou|to|tou) (?:bem|de boa|tranquilo|tranquila)(?: tambem)?|"
+            r"tudo (?:bem|certo)|de boa)(?: e voce)?", n)):
+        return "social:acolhimento", "Certo! Sobre o que você quer conversar?"
+    if tipo == "contato":
+        return "social:tudobem", "Oi! Estou por aqui, pronto para conversar. E você, como está?"
+    if tipo == "critica":
+        if re.fullmatch(r"(?:voce |crivo )?nao sabe (?:de )?(?:nada|coisa nenhuma)(?: tambem| mesmo)?", n):
+            texto = ("Meu conhecimento vem dos fatos cadastrados, e há muita coisa "
+                     "que ainda não sei responder. Me faça uma pergunta concreta "
+                     "para conferir o que consigo explicar.")
+        elif anterior and anterior["id"] == "social:critica":
+            texto = ("Vamos ao ponto: mande a pergunta que ficou sem resposta "
+                     "ou o trecho que você quer corrigir.")
+        elif anterior and (not anterior["id"].startswith("social:") or
+                           anterior["id"] == "social:nao_entendido"):
+            pedido = anterior["pergunta"][:160]
+            if anterior["id"] in ("fora", "duvida", "vazio", "social:nao_entendido"):
+                texto = ("Não consegui resolver seu pedido anterior: “" + pedido +
+                         "”. Pode dizer de outra forma o que você queria saber?")
+            else:
+                texto = ("Você está questionando minha resposta a “" + pedido +
+                         "”. Qual trecho está errado ou não atende ao pedido? "
+                         "Preciso conferir isso antes de mudar a resposta.")
+        else:
+            texto = ("Você está insatisfeito com a conversa. Ainda tenho limitações "
+                     "para entender mensagens livres e posso responder mal. "
+                     "Qual pergunta você queria que eu respondesse?")
+        return "social:critica", texto
+    if tipo == "elogio":
+        return "social:elogio", "Obrigado pelo retorno! Quer continuar nesse assunto ou mudar de tema?"
+    if tipo == "conversar":
+        return "social:conversar", "Vamos conversar. O que você quer perguntar ou comentar?"
+    return None
+
+
 def preparar_pedido(texto):
     # Retira somente um ato introdutório de pedido ou opinião. O conteúdo
     # completo continua no motor factual; não se apagam qualificadores.
     sujeito = r"(?:voc[eê]|vc|tu)"
+    # Reformulação explícita, sem apagar 'não quero' ou 'não sei se'.
+    texto = re.sub(
+        r"^(?:n[aã]o,\s*)?(?:(?:quero (?:saber|entender)|quis dizer)\s+"
+        r"(?=(?:o que|como|por que|qual|quais|onde|quando|quanto)\b)|"
+        r"(?:a )?minha pergunta [eé]\s*:?\s+)", "", texto, count=1, flags=re.I,
+    )
     pergunta = r"(?=(?:o que|como|por que|qual|quais|onde|quando|quanto|se)\b)"
     padroes = (
         sujeito + r" (?:pode|poderia|consegue|sabe) (?:me )?(?:dizer|explicar|contar|mostrar) " + pergunta,
