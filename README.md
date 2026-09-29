@@ -404,15 +404,33 @@ login nem API externa de inteligência artificial.
 No computador que tem o repositório:
 
 ```bash
-python web_local.py
+python3 web_local.py
 ```
+
+No Windows, use `py -3 web_local.py` ou `python web_local.py`.
+O servidor requer Python 3.8 ou superior e usa somente a biblioteca padrão;
+não precisa instalar pacotes Python.
+
+Se preferir iniciar pelo NPM, na raiz do repositório execute:
+
+```bash
+npm run dev
+```
+
+`npm start` também funciona. Esses comandos localizam o Python instalado
+e iniciam o mesmo servidor, sem dependências NPM e sem etapa de compilação.
+Não é necessário executar `npm install`. Atualize a cópia do repositório
+com `git pull` caso apareça `ENOENT ... package.json`.
+Para escolher outra porta: `npm run dev -- --port 3000`.
 
 Abra `http://127.0.0.1:8765` no **próprio computador**. Para usar no
 **celular**, execute no computador:
 
 ```bash
-python web_local.py --host 0.0.0.0
+python3 web_local.py --host 0.0.0.0
 ```
+
+Pelo NPM: `npm run dev -- --host 0.0.0.0`.
 
 Depois, conecte o celular à **mesma rede local** e abra
 `http://IP_DO_COMPUTADOR:8765` (exemplo:
@@ -429,7 +447,8 @@ a URL pública:
 1. Entre em [Vercel → New Project](https://vercel.com/new).
 2. Importe o repositório público `HROSONE/CRIVO` do GitHub.
 3. Escolha **Other** como Framework Preset e a **raiz do repositório**
-   como Root Directory. Não precisa de Build Command ou pacote NPM.
+   como Root Directory. Não precisa de Build Command. O `package.json`
+   fornece apenas atalhos para o servidor local; não adiciona dependências.
 4. Confirme o deploy. Abra a URL criada pela Vercel no celular.
 5. Para verificar o backend, a URL `/api/chat` deve apresentar JSON
    com `"status": "ok"` e `"external_ai": false`.
