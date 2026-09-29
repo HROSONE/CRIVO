@@ -42,9 +42,26 @@ CASOS = [
     ("Como funciona o sistema solar?", "duvida", "controle_aberto"),
 ]
 
-def executar():
+# Segunda sonda escrita depois das correções: serve como diagnóstico extra,
+# não como validação estatística independente nem conjunto de treino.
+CONTROLES_POS_AJUSTE = [
+    ("Como faço para receber caracteres digitados no terminal com Python?", "py_input", "entrada"),
+    ("Como obter informações de quem usa o programa Python?", "py_input", "entrada"),
+    ("Como usar JavaScript para alterar o texto de uma tag HTML?", "js_dom", "dom"),
+    ("Qual é a diferença entre JavaScript e CSS?", "js_intro", "linguagens"),
+    ("Como comparar dois arquivos modificados no Git?", "git_diff", "git"),
+    ("No Git, como revisar alterações do arquivo?", "git_diff", "git"),
+    ("Qual a diferença entre um commit e um push no Git?", "git_commit", "git"),
+    ("Como registrar as mudanças em um commit Git?", "git_commit", "git"),
+    ("Qual planeta não tem anéis?", "duvida", "negacao"),
+    ("Em Ruby, como declarar variáveis?", "fora", "fora"),
+    ("Em Python, como tratar um KeyError?", "py_keyerror", "erro"),
+    ("Como evitar SQL injection?", "sql_parametros", "sql"),
+]
+
+def executar(casos=CASOS):
     resultados = []
-    for pergunta, esperado, grupo in CASOS:
+    for pergunta, esperado, grupo in casos:
         bot = Crivo()
         obtido, resposta = bot.responder(pergunta)
         rank = bot._ranking(pergunta)
@@ -65,6 +82,7 @@ def executar():
 
 if __name__ == "__main__":
     relatorio = executar()
+    relatorio["controles_pos_ajuste"] = executar(CONTROLES_POS_AJUSTE)
     base = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
     antigos = [e for e in base if e["topico"] != "programacao"]
     # Mede novamente o recuperador nos 278 exemplos gerais, retirando a
