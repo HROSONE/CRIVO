@@ -73,6 +73,37 @@ class TestesRaciocinioRelacional(unittest.TestCase):
         self.assertEqual(grafo.interpretar("Elo 0 é um elo 14?")[0],
                          "logica:tipo_de")
 
+    def test_silogismo_com_classes_nunca_cadastradas(self):
+        # Premissas presentes na pergunta, não no arquivo de fatos.
+        pergunta = ("Se todo flumbo é blim, todo blim é taro, "
+                    "então flumbo é taro?")
+        ident, resposta = Crivo().responder(pergunta)
+        self.assertEqual(ident, "logica:hipotese")
+        self.assertIn("flumbo → blim → taro", resposta)
+        self.assertIn("não comprova", resposta)
+        self.assertNotIn("flumbo", self.bot.raciocinio.aliases)
+
+    def test_silogismo_nao_afirma_conclusao_invertida(self):
+        pergunta = ("Se alfa é beta, beta é gama, "
+                    "então gama é alfa?")
+        ident, resposta = Crivo().responder(pergunta)
+        self.assertEqual(ident, "logica:hipotese_indeterminada")
+        self.assertIn("não comprova", resposta)
+
+    def test_hipotese_nao_vira_fato_do_conhecimento(self):
+        hipotese = ("Se um grifo é um mamífero, um mamífero é um animal, "
+                    "então um grifo é um animal?")
+        bot = Crivo()
+        self.assertEqual(bot.responder(hipotese)[0], "logica:hipotese")
+        self.assertIsNone(bot.raciocinio.interpretar(
+            "Um grifo é um animal?"))
+        self.assertEqual(bot.responder("Um grifo é um animal?")[0] !=
+                         "logica:tipo_de", True)
+
+    def test_premissa_hipotetica_negada_nao_eh_tratada_como_fato(self):
+        self.assertIsNone(self.bot.raciocinio.interpretar(
+            "Se alfa não é beta, beta é gama, então alfa é gama?"))
+
     def test_grafo_rejeita_alias_colidente(self):
         with self.assertRaisesRegex(ValueError, "ambíguo"):
             GrafoRaciocinio({
