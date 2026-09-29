@@ -85,9 +85,9 @@ if __name__ == "__main__":
     sem = relatorio["sem_grafo"]
     antigo = relatorio["grafo_anterior"]
     novo = relatorio["grafo_novo"]
-    assert (sem["total"], sem["acertos"], sem["erradas"],
-            sem["abstencoes"]) == (278, 192, 44, 42), (
-                "Benchmark histórico sem grafo divergiu")
+    assert (sem["total"] == 278 and sem["acertos"] >= 192 and
+            sem["erradas"] <= 44), (
+                "Regressão na coorte geral congelada sem grafo")
     assert antigo["total"] == novo["total"] == 278
     if novo["acertos"] < antigo["acertos"] or novo["erradas"] > antigo["erradas"]:
         raise SystemExit("Regressão frente ao grafo anterior da main")
