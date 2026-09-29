@@ -8,6 +8,12 @@ class TesteRedeNeural(unittest.TestCase):
     def test_normalizacao(self):
         self.assertEqual(caracteristicas("AÇÃO"), caracteristicas("acao"))
 
+    def test_representacoes_e_compatibilidade(self):
+        self.assertEqual(caracteristicas("casa"), caracteristicas("casa", modo="caracteres"))
+        self.assertNotEqual(caracteristicas("casa", modo="palavras"), caracteristicas("casa", modo="misto"))
+        with self.assertRaises(ValueError):
+            caracteristicas("casa", modo="invalido")
+
     def test_aprendizado_real(self):
         exemplos = [
             ("regar a planta", "plantas"),
@@ -34,6 +40,7 @@ class TesteRedeNeural(unittest.TestCase):
             rede.salvar(caminho)
             carregada = RedeCrivo.carregar(caminho)
             self.assertEqual(rede.prever("sim"), carregada.prever("sim"))
+            self.assertEqual(carregada.modo, "caracteres")
 
 
 if __name__ == "__main__":
