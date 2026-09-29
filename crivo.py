@@ -22,7 +22,7 @@ import unicodedata
 from collections import Counter
 from pathlib import Path
 
-VERSAO = "0.1"
+VERSAO = "0.2"
 PASTA = Path(__file__).resolve().parent
 
 TOPICOS = {
@@ -174,11 +174,12 @@ class Crivo:
             raise ValueError("Perguntas invalidas")
         if not isinstance(resposta, str) or not resposta.strip():
             raise ValueError("Resposta invalida")
-        self.base.append({"id": identificador, "topico": topico, "perguntas": perguntas, "resposta": resposta})
+        nova_base = self.base + [{"id": identificador, "topico": topico, "perguntas": perguntas, "resposta": resposta}]
         if salvar:
             temp = self.caminho_base.with_suffix(".tmp")
-            temp.write_text(json.dumps(self.base, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            temp.write_text(json.dumps(nova_base, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             temp.replace(self.caminho_base)
+        self.base = nova_base
         self._indexar()
 
     # ----------------------------------------------------- relógio -------
@@ -267,6 +268,8 @@ class Crivo:
             return s
 
         original = texto
+        if re.search(r"\b(nao|nunca|jamais|sem)\b", n) and re.search(r"\b(pode|posso|devo|precisa|seguro|mistur|comer)\b", n):
+            return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         rank = self._ranking(texto)
