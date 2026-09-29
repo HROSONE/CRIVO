@@ -108,6 +108,56 @@ class TestesConhecimentoFrutas(unittest.TestCase):
             with self.subTest(pergunta=pergunta):
                 self.assertEqual(Crivo().responder(pergunta)[0], esperado)
 
+    def test_mesma_regra_funciona_para_todo_o_catalogo(self):
+        from frutas import ConhecimentoFrutas
+        banco = ConhecimentoFrutas.carregar(Path(__file__).with_name("frutas.json"))
+        bot = Crivo()
+        for item in banco.itens.values():
+            nome = item["nome"]
+            with self.subTest(nome=nome, prova="definicao"):
+                ident, resposta = bot.responder("O que é uma " + nome + "?")
+                self.assertEqual(ident, "frutas:" + item["id"])
+                self.assertIn(item["descricao"][:24], resposta)
+            with self.subTest(nome=nome, prova="sementes"):
+                ident, resposta = bot.responder(nome + " tem sementes?")
+                self.assertEqual(ident, "frutas:" + item["id"])
+                self.assertIn(item["sementes"], resposta)
+            with self.subTest(nome=nome, prova="grupo"):
+                ident, resposta = bot.responder(
+                    "Qual é o tipo botânico de " + nome + "?")
+                self.assertEqual(ident, "frutas:" + item["id"])
+                self.assertIn(banco.grupos[item["tipo"]], resposta)
+
+    def test_lista_eh_amostra_e_nao_afirma_cobertura_universal(self):
+        bot = Crivo()
+        for pergunta in ("Liste 8 frutas", "Liste frutas cítricas",
+                         "Me dê exemplos de frutas de caroço"):
+            with self.subTest(pergunta=pergunta):
+                ident, resposta = bot.responder(pergunta)
+                self.assertTrue(ident.startswith("frutas:grupo:"))
+                self.assertIn("cadastrad", resposta)
+
+    def test_base_customizada_nao_recebe_dados_por_acidente(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as pasta:
+            arquivo = Path(pasta) / "conhecimento.json"
+            arquivo.write_text(json.dumps([{
+                "id": "teste", "topico": "plantas",
+                "perguntas": ["diga oi", "cumprimente"],
+                "resposta": "Oi."}], ensure_ascii=False),
+                encoding="utf-8")
+            bot = Crivo(arquivo)
+            self.assertIsNone(bot.frutas)
+            self.assertNotEqual(bot.responder("O que é uma banana?")[0],
+                                "frutas:banana")
+
+    def test_deploy_servidor_inclui_o_catalogo_e_motor(self):
+        config = json.loads((Path(__file__).resolve().parent /
+                             "vercel.json").read_text(encoding="utf-8"))
+        files = config["functions"]["api/chat.py"]["includeFiles"]
+        self.assertIn("frutas.py", files)
+        self.assertIn("frutas.json", files)
+
     def test_web_real_sem_outro_modelo_ou_endpoint_especial(self):
         result = responder_web({"message": "O que é uma maçã?",
                                 "history": ["O que são frutos?"]})
