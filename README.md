@@ -3,6 +3,46 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Conversa sobre o próprio CRIVO e capacidades da instalação
+
+Perguntas como `Você pensa?`, `Você sente?` e `Você é consciente?` usam
+uma intenção de autoconversa, sem procurar um assunto por semelhança
+lexical. Antes dessa correção, `pensa` podia recuperar a resposta sobre
+lâmpadas e `sente` a resposta sobre meses. Agora o CRIVO descreve seu
+processamento e seus limites; ele não declara consciência ou emoções.
+A rede classificadora só é mencionada quando realmente está carregada.
+
+`O que você sabe fazer?`, `ajuda` e `assuntos` listam as funções e o
+conhecimento disponíveis **na instalação ativa**. O catálogo usa os
+verbetes carregados, as áreas declaradas no currículo ampliado e os módulos
+presentes; bases personalizadas não anunciam o conhecimento da base padrão.
+`Só isso?` ou `Como assim?` podem detalhar a autoconversa anterior. Essa
+continuidade expira após outro assunto ou saudação, e a API a reconstrói
+pelo histórico de perguntas.
+
+```text
+O que você sabe fazer?
+Só isso?
+Você pensa?
+Como assim?
+Você pode explicar o que é DNA?
+Você acha que a Terra é um planeta?
+```
+
+Pedidos completos mantêm o conteúdo factual: `Você pensa que o Sol é uma
+estrela?` consulta o motor existente. Qualificadores desconhecidos e
+condicionais não são apagados para fabricar uma certeza. Perguntas pessoais
+não reconhecidas, como `Você dorme?`, pedem reformulação antes do ranking;
+perguntas factuais reais sobre lâmpadas continuam funcionando.
+
+Este é um discriminador de intenções com gramática limitada, não compreensão
+universal de conversa. Os testes reproduzem as capturas, variam formas
+informais, conferem bases fictícias, expiração, pedidos informativos e API.
+
+```bash
+python -m unittest testes_autoconversa -v
+```
+
 ## Conhecimento com fontes, composição e conversa
 
 O currículo `conhecimento_expandido.json` acrescenta **25 conceitos e 97

@@ -22,6 +22,7 @@ import sys
 import unicodedata
 from collections import Counter
 from pathlib import Path
+import conversa_assistente
 
 VERSAO = "0.4"
 PASTA = Path(__file__).resolve().parent
@@ -183,6 +184,8 @@ class Crivo:
             self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao)
         self.contexto_textual = None
         self._contexto_textual_anterior = None
+        self.ultimo_ato_social = None
+        self._ato_social_anterior = None
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
         self.historico = []
@@ -635,6 +638,7 @@ class Crivo:
         self.compositor = CompositorTextual(
             self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao)
         self.contexto_textual = None
+        self.ultimo_ato_social = None
         self.rede = None
         self.esclarecimento = None
         self.contexto_consulta = None
@@ -788,7 +792,9 @@ class Crivo:
         if re.fullmatch(
                 r"(?:oi+|ola|e ai|eai|eae|opa|salve|hey|hello)"
                 r"(?:[, ]+crivo)?", n):
-            return "social:oi", "Oi! Sou o Crivo. Pergunte sobre " + ", ".join(TOPICOS.values()) + "."
+            return "social:oi", ("Oi! Sou o Crivo. Assuntos da base ativa: " +
+                                 conversa_assistente.assuntos(self, TOPICOS) +
+                                 ". Digite 'ajuda' para ver as capacidades desta instalação.")
         if re.search(r"\b(obrigad[oa]|valeu|brigado|thanks)\b", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
@@ -803,11 +809,8 @@ class Crivo:
         if re.fullmatch(r"(?:quem e voce|quem te criou|o que voce e|"
                         r"(?:(?:qual (?:e )?(?:o )?)|(?:me (?:diga|fale) (?:o )?))?seu nome)", n):
             return "social:quem", (f"Sou o Crivo, versão {VERSAO}: um assistente de conversa em português, "
-                                   "ainda em fase de teste. Por enquanto só falo sobre alguns assuntos "
-                                   "(digite 'assuntos' para ver).")
-        if re.search(r"\b(assuntos?|topicos?|o que voce sabe|o que voce faz|sobre o que)\b|^(ajuda|help)$", n):
-            lista = ", ".join(TOPICOS.values())
-            return "social:assuntos", f"Por enquanto eu converso sobre: {lista}. Pode perguntar à vontade!"
+                                   "ainda em fase de teste. Digite 'ajuda' para ver "
+                                   "as capacidades e o conhecimento desta instalação.")
         if re.fullmatch(r"(exemplos?|me de exemplos|sugestoes?)", n.strip()):
             ex = []
             for t in TOPICOS:
@@ -817,17 +820,31 @@ class Crivo:
             return "social:exemplos", "Experimente perguntar, por exemplo:\n- " + "\n- ".join(ex)
         return None
 
+    def _registrar_social(self, resultado, original):
+        self.esclarecimento = None
+        self.ultimo_assunto = None
+        self.ultimos = []
+        self.pos_ultimo = 0
+        self.historico.append({"pergunta": original, "id": resultado[0],
+                               "mecanismo": "conversa_assistente"})
+        self.historico = self.historico[-20:]
+        return resultado
+
     # ---------------------------------------------------- resposta -------
     def responder(self, texto):
         """Preserva uma única resposta de contexto a cada turno."""
         anterior = self.ultima_resposta_mostrada
         self._contexto_textual_anterior = self.contexto_textual
+        self._ato_social_anterior = self.ultimo_ato_social
+        self.ultimo_ato_social = None
         self.contexto_textual = None
         self.ultima_resposta_mostrada = None
         self._referencia_turno_anterior = anterior
         try:
             resultado = self._responder_impl(texto)
             identificador = resultado[0]
+            if identificador in ("social:assuntos", "social:pensamento"):
+                self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
                 self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
             # Nenhuma pergunta seguinte herda saudações, recusas,
@@ -845,6 +862,7 @@ class Crivo:
         finally:
             self._referencia_turno_anterior = None
             self._contexto_textual_anterior = None
+            self._ato_social_anterior = None
 
     def _responder_impl(self, texto):
         """Motor de diálogo; o wrapper expira o contexto com segurança."""
@@ -877,12 +895,19 @@ class Crivo:
         if resto:
             texto = resto
             n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
+        texto = conversa_assistente.preparar_pedido(texto)
+        n = normalizar(texto).strip().strip("?.,;! ")
         if not n:
             return "vazio", "Pode falar, estou ouvindo."
 
         esclarecida = self._resolver_esclarecimento(n, original)
         if esclarecida:
             return esclarecida
+
+        auto = conversa_assistente.responder(
+            n, self, TOPICOS, self._ato_social_anterior)
+        if auto is not None:
+            return self._registrar_social(auto, original)
 
         # Instruções de edição/contexto vêm antes dos atos sociais e do
         # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
@@ -926,7 +951,7 @@ class Crivo:
             return d
         s = self._social(n)
         if s:
-            return s
+            return self._registrar_social(s, original)
 
         # A pergunta 'você falou de X?' pergunta sobre a CONVERSA,
         # não pela definição de X. Verificar apenas o último turno.
@@ -1117,6 +1142,14 @@ class Crivo:
             self.ultimo_assunto = None
             return referencia
 
+        if conversa_assistente.pergunta_pessoal(texto):
+            return self._registrar_social((
+                "social:nao_entendido",
+                "Não reconheci essa pergunta sobre mim. Posso explicar como "
+                "processo respostas ou mostrar minhas capacidades; se você "
+                "quer informação sobre outro assunto, diga qual é o pedido.",
+            ), original)
+
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
@@ -1152,8 +1185,8 @@ class Crivo:
             return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             return self._pedir_esclarecimento([rank[0][1]], original)
-        lista = ", ".join(TOPICOS.values())
-        return "fora", (f"Ainda não sei responder isso. Por enquanto converso sobre: {lista}. "
+        lista = conversa_assistente.assuntos(self, TOPICOS)
+        return "fora", (f"Ainda não sei responder isso. Assuntos da base ativa: {lista}. "
                         "Tente reformular ou escolha um desses assuntos.")
 
 
