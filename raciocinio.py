@@ -115,7 +115,10 @@ class GrafoRaciocinio:
                         if pai not in classes:
                             classes.add(pai)
                             fila.append(pai)
-                if any((a, b) in self.disjuntos for a in classes for b in classes):
+                # Use vizinhança explícita, sem produto cartesiano dos
+                # ancestrais (evita explosão quadrática em grafos grandes).
+                if any(outro in classes for classe in classes
+                       for outro in self.arestas["disjunto_de"].get(classe, ())):
                     raise ValueError("Uma entidade pertence a classes disjuntas")
 
     @classmethod
