@@ -2,12 +2,33 @@
 
 Aprende a classificar intenções a partir de exemplos rotulados; não gera texto.
 """
+import hashlib
+import inspect
 import json
 import math
 import random
 import re
 import unicodedata
 from pathlib import Path
+
+
+def assinatura_base(base):
+    """Identifica as perguntas/rotulos exatos que produziram os pesos."""
+    entradas = [(e["id"], e["perguntas"]) for e in base]
+    payload = json.dumps(entradas, sort_keys=True, ensure_ascii=False,
+                         separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def assinatura_regras(modo):
+    """Detecta mudancas na normalizacao portuguesa que invalidam os pesos."""
+    if modo not in ("portugues", "portugues_sem_filtro"):
+        return None
+    from crivo import SINONIMOS, radical
+    payload = json.dumps(SINONIMOS, sort_keys=True,
+                         ensure_ascii=False).encode("utf-8")
+    payload += inspect.getsource(radical).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def caracteristicas(texto, dimensao=256, modo="caracteres"):
@@ -55,6 +76,8 @@ class RedeCrivo:
         self.dimensao = dimensao
         self.ocultos = ocultos
         self.modo = modo
+        self.assinatura_base = None
+        self.assinatura_regras = None
         rng = random.Random(semente)
         self.w1 = [[rng.uniform(-0.08, 0.08) for _ in range(dimensao)]
                    for _ in range(ocultos)]
@@ -110,6 +133,10 @@ class RedeCrivo:
         conteudo = dict(rotulos=self.rotulos, dimensao=self.dimensao,
                         ocultos=self.ocultos, modo=self.modo, w1=self.w1, b1=self.b1,
                         w2=self.w2, b2=self.b2)
+        if self.assinatura_base is not None:
+            conteudo["assinatura_base"] = self.assinatura_base
+        if self.assinatura_regras is not None:
+            conteudo["assinatura_regras"] = self.assinatura_regras
         Path(caminho).write_text(json.dumps(conteudo), encoding="utf-8")
 
     @classmethod
@@ -119,14 +146,28 @@ class RedeCrivo:
                    modo=dados.get("modo", "caracteres"))
         for nome in ("w1", "b1", "w2", "b2"):
             setattr(rede, nome, dados[nome])
+        rede.assinatura_base = dados.get("assinatura_base")
+        rede.assinatura_regras = dados.get("assinatura_regras")
         return rede
 
 
-def treinar_base(caminho="conhecimento.json", destino="rede_crivo.json", epocas=100):
+def treinar_base(caminho="conhecimento.json", destino="rede_crivo.json",
+                epocas=100, ocultos=24, dimensao=256, modo="caracteres",
+                taxa=0.15, semente=42):
+    """Treina todos os exemplos da base e salva um modelo pronto para carregar.
+
+    Os benchmarks deixam perguntas fora do treino; este metodo de PRODUCAO
+    usa todas as perguntas, apos a configuracao ser escolhida no benchmark.
+    """
+    if epocas < 1 or ocultos < 1 or dimensao < 1 or not 0 < taxa <= 1:
+        raise ValueError("Hiperparametros de treinamento invalidos")
     base = json.loads(Path(caminho).read_text(encoding="utf-8"))
-    rede = RedeCrivo([item["id"] for item in base])
+    rede = RedeCrivo([item["id"] for item in base], dimensao=dimensao,
+                     ocultos=ocultos, modo=modo, semente=semente)
     rede.treinar([(q, item["id"]) for item in base for q in item["perguntas"]],
-                 epocas=epocas)
+                 epocas=epocas, taxa=taxa, semente=semente)
+    rede.assinatura_base = assinatura_base(base)
+    rede.assinatura_regras = assinatura_regras(modo)
     rede.salvar(destino)
     return rede
 
@@ -137,6 +178,15 @@ if __name__ == "__main__":
     parser.add_argument("--base", default=str(Path(__file__).with_name("conhecimento.json")))
     parser.add_argument("--saida", default="rede_crivo.json")
     parser.add_argument("--epocas", type=int, default=100)
+    parser.add_argument("--ocultos", type=int, default=24)
+    parser.add_argument("--dimensao", type=int, default=256)
+    parser.add_argument("--modo", choices=("caracteres", "palavras", "misto",
+                        "portugues", "portugues_sem_filtro"), default="caracteres")
+    parser.add_argument("--taxa", type=float, default=0.15)
+    parser.add_argument("--semente", type=int, default=42)
     args = parser.parse_args()
-    treinar_base(args.base, args.saida, args.epocas)
-    print("Rede treinada e salva em", args.saida)
+    rede = treinar_base(args.base, args.saida, args.epocas, args.ocultos,
+                        args.dimensao, args.modo, args.taxa, args.semente)
+    print("Rede original treinada e salva em", args.saida,
+          "| intenções:", len(rede.rotulos), "| modo:", rede.modo,
+          "| dimensões:", rede.dimensao, "| neurônios ocultos:", rede.ocultos)
