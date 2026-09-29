@@ -33,7 +33,8 @@ class TestesRegrasMistas(unittest.TestCase):
                 self.assertEqual(obtido, "logica:tem_caracteristica")
                 for nome in nomes:
                     self.assertIn(nome, resposta)
-                self.assertIn("tipo_de", resposta if len(nomes) > 2 else "tipo_de")
+                if len(nomes) > 2:
+                    self.assertIn("tipo_de", resposta)
                 self.assertIn("tem_caracteristica", resposta)
 
     def test_orbitas_sao_relacao_direta(self):
