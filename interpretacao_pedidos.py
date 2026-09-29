@@ -17,6 +17,7 @@ class Pedido(NamedTuple):
     alvo: str
     condicoes: str = ""
     modo: str = "exemplos"
+    explicito: bool = True
 
 
 class InterpretadorPedidos:
@@ -49,7 +50,7 @@ class InterpretadorPedidos:
                     r"(?:(?:alguns|algumas) )?(?:nomes|exemplos|tipos) (?:de|do|da|dos|das) (.+)", n)
                 if m:
                     modo = "tipos" if re.search(r"\btipos\b", n) else "exemplos"
-                    return Pedido("listar", m.group(1), modo=modo)
+                    return Pedido("listar", m.group(1), modo=modo, explicito=False)
                 alvo = None
         if alvo is not None:
             tipos = re.fullmatch(r"(?:tipos|classes|categorias) de (.+)", alvo)
@@ -94,6 +95,11 @@ class InterpretadorPedidos:
             if len(condicoes) > MAX_CONDICOES:
                 raise ConsultaInvalida("Condições demais")
         except ConsultaInvalida:
+            # Um pedido editorial como 'nomes ... em ordem' pode estar
+            # resolvido em outro provedor. Ele conserva a frase inteira;
+            # não se traduz uma ordenação desconhecida em filtro factual.
+            if not pedido.explicito:
+                return None
             return ("duvida", "Entendi que você quer uma lista, mas não reconheci a condição completa “" +
                     restricao + "”. Pode esclarecer esse critério?", None)
         from consultas_relacionais import PlanoConsulta

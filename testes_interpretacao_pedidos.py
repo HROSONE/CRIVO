@@ -156,6 +156,13 @@ class TestesInterpretacaoPedidos(unittest.TestCase):
         self.assertEqual(r[0], "logica:desconhecido")
         self.assertIn("não prova que não existam", r[1])
 
+    def test_listas_editoriais_sem_esquema_nao_sao_bloqueadas(self):
+        for q, esperado in (("tipos de clima brasileiro", "climas_brasil"),
+                            ("nomes das estações", "quais_estacoes"),
+                            ("nomes dos planetas em ordem", "planetas")):
+            with self.subTest(q=q):
+                self.assertEqual(Crivo().responder(q)[0], esperado)
+
     def test_limite_e_contexto_nao_recuperam_itens_ocultos(self):
         from testes_consultas_relacionais import grafo_sintetico
         from consultas_relacionais import ConsultasRelacionais, MAX_EXIBIDOS

@@ -967,24 +967,29 @@ class Crivo:
                                            "mecanismo": "conhecimento_frutas"})
                     self.historico = self.historico[-20:]
                     return ident, resposta
-                return "fora", "Não reconheci a categoria completa “" + pedido.alvo + "” nos catálogos desta instalação."
-            if pedido.intencao == "retomar_item":
-                alvo = self.interpretador_pedidos.retomar(pedido, contexto_consulta_anterior)
-                if alvo is None:
-                    return "duvida", "Preciso de uma lista no turno anterior com esse item. Qual assunto você quer?"
+                if pedido.explicito:
+                    return "fora", "Não reconheci a categoria completa “" + pedido.alvo + "” nos catálogos desta instalação."
+                # Lista editorial sem classe/critério no esquema do grafo:
+                # mantém o pedido INTEIRO no motor existente, inclusive a
+                # ordenação ou o qualificador. Não fabrica uma definição.
             else:
-                alvo = pedido.alvo
-            if self.compositor.resolver(alvo) is None:
-                fatos = self.interpretador_pedidos.informacoes(alvo)
-                if fatos is not None:
-                    self.esclarecimento = None
-                    self.ultimo_assunto = None
-                    self.historico.append({"pergunta": original, "id": fatos[0],
-                                           "mecanismo": "consulta_relacional"})
-                    self.historico = self.historico[-20:]
-                    return fatos[:2]
-            texto = "o que é " + alvo
-            n = normalizar(texto).strip().strip("?.,;! ")
+                if pedido.intencao == "retomar_item":
+                    alvo = self.interpretador_pedidos.retomar(pedido, contexto_consulta_anterior)
+                    if alvo is None:
+                        return "duvida", "Preciso de uma lista no turno anterior com esse item. Qual assunto você quer?"
+                else:
+                    alvo = pedido.alvo
+                if self.compositor.resolver(alvo) is None:
+                    fatos = self.interpretador_pedidos.informacoes(alvo)
+                    if fatos is not None:
+                        self.esclarecimento = None
+                        self.ultimo_assunto = None
+                        self.historico.append({"pergunta": original, "id": fatos[0],
+                                               "mecanismo": "consulta_relacional"})
+                        self.historico = self.historico[-20:]
+                        return fatos[:2]
+                texto = "o que é " + alvo
+                n = normalizar(texto).strip().strip("?.,;! ")
 
         auto = conversa_assistente.responder(
             n, self, TOPICOS, self._ato_social_anterior)
