@@ -73,3 +73,37 @@ def interpretar_referencia(pergunta, resposta_anterior):
             "Reconheci o assunto, mas não tenho informação cadastrada "
             "suficiente para responder a esse detalhe com segurança. "
             "Não vou inventar um nome ou outra característica.")
+
+
+def conferir_mencao_anterior(pergunta, resposta_anterior):
+    """Confere se o assistente mencionou um termo no turno anterior.
+
+    Diferencia perguntas sobre a conversa de perguntas factuais: não
+    usar TF-IDF para dar a definição da Lua ao ouvir 'você falou da Lua?'.
+    A presença é lexical, não prova conhecimento sobre o objeto.
+    """
+    termos = normalizar_termos(pergunta)
+    if not termos or len(termos) > 85:
+        return None
+    n = " ".join(termos)
+    m = re.fullmatch(
+        r"(?:voce|vc) (?:falou|mencionou|citou) "
+        r"(?:de|do|da|dos|das|sobre) ([a-z0-9 ]+)", n)
+    if not m:
+        return None
+    tema = m.group(1).strip()
+    if not tema or len(tema) > 80 or len(tema.split()) > 7:
+        return None
+    if not resposta_anterior:
+        return ("contexto:sem_referencia",
+                "Ainda não tenho uma resposta anterior disponível "
+                "nesta conversa para conferir essa menção.")
+    texto = " ".join(normalizar_termos(resposta_anterior))
+    citado = (" " + tema + " ") in (" " + texto + " ")
+    if citado:
+        return ("contexto:mencao",
+                "Sim, mencionei esse termo na minha última resposta. "
+                "Isso não significa que eu tenha mais detalhes cadastrados.")
+    return ("contexto:nao_mencionado",
+            "Não encontrei esse termo na minha última resposta. "
+            "Posso verificar apenas o texto que acabei de apresentar.")
