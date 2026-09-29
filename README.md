@@ -242,6 +242,81 @@ de chat**. A conexão com uma hospedagem é etapa distinta.
   testes_web -v`; suíte geral: `python -m unittest discover
   -p 'testes*.py'`.
 
+## Interpretação transversal (PR #19)
+
+O módulo `interpretacao_geral.py` interpreta **formatos de pergunta
+reutilizáveis entre assuntos**, sem inserir um novo conjunto de frases
+de animais, astronomia ou programação no cadastro.
+
+### Perguntas de relação e semelhança
+
+Com o **mesmo grafo** `relacoes.json` usado para inferência, é possível
+consultar duas entidades conhecidas e ver os caminhos que as conectam:
+
+```text
+O que pinguim e tucano têm em comum?
+  → ave; provas: pinguim → ave; tucano → ave.
+
+O que a Terra e Marte têm em comum?
+  → planeta; provas: Terra → planeta; Marte → planeta.
+
+Qual é a relação entre a Terra e a Via Láctea?
+  → Terra → Sistema Solar → Via Láctea.
+
+Como o Sol se relaciona com o Universo?
+  → Sol → Sistema Solar → Via Láctea → Universo.
+```
+
+O mecanismo busca a categoria ancestral comum de **menor distância**
+e procura caminhos existentes para `tipo_de`, `parte_de`,
+`orbita` (direta) e `tem_caracteristica` (herança validada).
+Não faz analogias livres nem inventa arestas; quando conhece as duas
+entidades, mas não encontra ligação, responde explicitamente que
+**ausência de prova não significa inexistência da relação**. Nomes
+desconhecidos não ganham entidades por similaridade lexical.
+
+### Continuação definicional segura
+
+Quando o CRIVO **acabou de responder uma definição editorial**, a
+pergunta curta `E a Lua?` pode reutilizar a **intenção** da pergunta
+anterior `O que é o Sol?`, mas deve buscar a nova definição na base:
+
+```text
+O que é HTML?
+E CSS?
+  → definição cadastrada de CSS, não repetição do texto de HTML.
+
+O que é o Sol?
+E a Lua?
+  → definição cadastrada da Lua.
+
+O que é o Sol?
+E uma árvore binária?
+  → "Não tenho uma definição cadastrada desse conceito."
+```
+
+O contexto só dura **um turno**, não persiste após uma saudação,
+pergunta sem relação ou tema fora da base; a mesma lógica funciona no
+chat web porque `web_core.py` reconstrói o histórico enviado.
+Não inclui reconhecimento de pronomes arbitrários, tradução de
+frases livres nem resolução de contradições sem fonte.
+
+### Regressões
+
+```bash
+python -m unittest testes_interpretacao_geral -v
+python -m unittest discover -p 'testes*.py'
+python crivo.py --teste
+python avaliar_definicoes.py
+```
+
+Os testes incluem grafos **sintéticos com nomes que não estão no
+catálogo**, uso da API web e exemplos em quatro tópicos, além do
+conjunto histórico de recuperação. É uma capacidade de **composição
+simbólica rastreável**, não geração de linguagem por LLM nem treino
+automático da rede própria. Todos os testes orientaram o
+desenvolvimento; não equivalem a uma avaliação cega.
+
 ## Como usar
 
     python crivo.py                  # conversa no terminal
