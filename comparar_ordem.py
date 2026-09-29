@@ -11,7 +11,7 @@ import rede_neural
 from experimento_ordem import caracteristicas_com_ordem
 
 
-def comparar(base, epocas=30, ocultos=24, dimensao=512, semente=42):
+def comparar(base, epocas=30, ocultos=24, dimensao=512, semente=42, peso_ordem=0.15):
     rotulos = [e["id"] for e in base]
     n_dobras = max(len(e["perguntas"]) for e in base)
     original = rede_neural.caracteristicas
@@ -31,7 +31,7 @@ def comparar(base, epocas=30, ocultos=24, dimensao=512, semente=42):
             for nome in ("portugues_sem_filtro", "portugues_ordem"):
                 if nome == "portugues_ordem":
                     def com_ordem(texto, dimensao=256, modo="caracteres"):
-                        return caracteristicas_com_ordem(texto, dimensao)
+                        return caracteristicas_com_ordem(texto, dimensao, peso_ordem)
                     rede_neural.caracteristicas = com_ordem
                     modo = "portugues_sem_filtro"
                 else:
@@ -49,6 +49,7 @@ def comparar(base, epocas=30, ocultos=24, dimensao=512, semente=42):
     total = sum(r["total"] for r in resultados)
     return {
         "epocas": epocas, "ocultos": ocultos, "dimensao": dimensao,
+        "peso_ordem": peso_ordem,
         "total": total,
         "acertos_sem_filtro": sum(r["portugues_sem_filtro"] for r in resultados),
         "acertos_com_ordem": sum(r["portugues_ordem"] for r in resultados),
@@ -63,7 +64,8 @@ if __name__ == "__main__":
     p.add_argument("--epocas", type=int, default=30)
     p.add_argument("--ocultos", type=int, default=24)
     p.add_argument("--dimensao", type=int, default=512)
+    p.add_argument("--peso-ordem", type=float, default=0.15)
     a = p.parse_args()
     dados = json.loads(Path(a.base).read_text(encoding="utf-8"))
-    print(json.dumps(comparar(dados, a.epocas, a.ocultos, a.dimensao),
+    print(json.dumps(comparar(dados, a.epocas, a.ocultos, a.dimensao, peso_ordem=a.peso_ordem),
                      ensure_ascii=False, indent=2))
