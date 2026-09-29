@@ -1,5 +1,8 @@
 """Autoconversa, catálogo ativo e separação entre pedidos e perguntas pessoais."""
 import json
+import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -9,6 +12,32 @@ from web_core import responder_web
 
 
 class TestesAutoconversa(unittest.TestCase):
+    def test_pacote_vercel_com_configuracao_compacta(self):
+        raiz = Path(__file__).resolve().parent
+        config = json.loads((raiz / "vercel.json").read_text())
+        padrao = config["functions"]["api/chat.py"]["includeFiles"]
+        self.assertLessEqual(len(padrao), 256)
+        # Simula os arquivos do pacote sem usar os módulos instalados na
+        # pasta original. Importar a API e responder prova a cobertura real.
+        padroes = padrao[1:-1].split(",") if padrao.startswith("{") else [padrao]
+        arquivos = {p for exp in padroes for p in raiz.glob(exp) if p.is_file()}
+        with tempfile.TemporaryDirectory() as pasta:
+            destino = Path(pasta)
+            for p in arquivos:
+                shutil.copyfile(p, destino / p.name)
+            (destino / "api").mkdir()
+            shutil.copyfile(raiz / "api" / "chat.py", destino / "api" / "chat.py")
+            script = (
+                "import sys,json;sys.path.insert(0,sys.argv[1]);"
+                "from api.chat import handler;from web_core import responder_web;"
+                "qs=['Você pensa?','O que é Andrômeda?','A Lua orbita a Terra?'];"
+                "print(json.dumps([responder_web({'message':q})['id'] for q in qs]))"
+            )
+            r = subprocess.run([sys.executable, "-I", "-c", script, pasta],
+                               cwd=pasta, capture_output=True, text=True, timeout=10)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertEqual(json.loads(r.stdout), ["social:pensamento", "conhecimento:andromeda", "logica:orbita"])
+
     def test_sequencia_das_capturas(self):
         bot = Crivo()
         for q, ident in (
