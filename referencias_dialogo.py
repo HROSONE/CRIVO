@@ -87,8 +87,10 @@ def conferir_mencao_anterior(pergunta, resposta_anterior):
         return None
     n = " ".join(termos)
     m = re.fullmatch(
-        r"(?:voce|vc) (?:falou|mencionou|citou) "
-        r"(?:de|do|da|dos|das|sobre) ([a-z0-9 ]+)", n)
+        r"(?:voce|vc) (?:(?:falou|mencionou|citou) "
+        r"(?:de|do|da|dos|das|sobre) |"
+        r"(?:mencionou|citou) (?:o |a |os |as )?)"
+        r"([a-z0-9 ]+)", n)
     if not m:
         return None
     tema = m.group(1).strip()
