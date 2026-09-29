@@ -47,7 +47,11 @@ class InterpretadorGeral:
     @staticmethod
     def _alvos(texto):
         n = limpar(texto)
-        if NEGACOES.search(n) or n.startswith(("se ", "suponha ", "imagine ")):
+        # "sem" pode fazer parte do NOME de uma entidade explicitamente
+        # cadastrada (ex.: "objeto sem ligação"); as expressões completas
+        # devem ser validadas como aliases após a análise.
+        if re.search(r"\b(nao|nunca|jamais)\b", n) or n.startswith(
+                ("se ", "suponha ", "imagine ")):
             return None
         padroes = (
             ("comum", r"(?:o )?que (.+?) e (.+?) (?:tem|possuem) em comum"),
