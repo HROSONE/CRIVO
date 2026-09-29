@@ -51,6 +51,8 @@ def responder_web(payload):
         "logica:tem_caracteristica", "logica:negacao_comprovada",
         "logica:hipotese", "logica:comum", "logica:ligacao",
         "logica:caracteristicas",
+        "logica:consulta", "logica:conjuncao", "logica:conjuncao_falsa",
+        "logica:consulta_impossivel",
     }
     return {
         "id": identificador,
