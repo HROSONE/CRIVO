@@ -564,6 +564,13 @@ class Crivo:
             partes.append(alvo + ": " + resumo)
             fontes.append(entrada["id"])
 
+        if faltantes and not partes and not ambiguos:
+            # Uma pergunta editorial sobre um CONCEITO COMPOSTO
+            # (ex.: rotação e translação) pode ter resposta própria,
+            # mesmo sem duas definições separadas. Nesse caso, usar
+            # os mecanismos já existentes; não causar regressão
+            # impondo falsamente um desmembramento em partes.
+            return None
         if faltantes or ambiguos:
             self.esclarecimento = None
             self.ultimo_assunto = None
