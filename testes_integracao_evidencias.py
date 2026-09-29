@@ -16,8 +16,8 @@ from raciocinio import GrafoRaciocinio
 class TestesIntegracaoEvidencias(unittest.TestCase):
     def test_negação_explicita_consulta_texto_verificado(self):
         for pergunta, expected, evidencias in (
-            ("aranha é inseto?", "insetos", ("não são insetos", "aracnídeo")),
-            ("sapo é réptil?", "reptil_anfibio", ("anfíbios", "réptil")),
+            ("Por que a aranha é um inseto?", "insetos", ("não são insetos", "aracnídeo")),
+            ("Por que o sapo é um réptil?", "reptil_anfibio", ("anfíbios", "réptil")),
         ):
             with self.subTest(pergunta=pergunta):
                 bot = Crivo()
@@ -30,10 +30,21 @@ class TestesIntegracaoEvidencias(unittest.TestCase):
 
     def test_afirmacao_com_fonte_editorial_usada_sem_perder_prova(self):
         bot = Crivo()
-        ident, resposta = bot.responder("o sol é uma estrela?")
+        ident, resposta = bot.responder("Como sabemos que o Sol é uma estrela?")
         self.assertEqual(ident, "sol")
         self.assertIn("O Sol é uma estrela", resposta)
         self.assertIn("Sol → estrela", resposta)
+
+    def test_perguntas_exatas_continuam_recuperando_texto_original(self):
+        for pergunta, id_esperado in (
+            ("aranha é inseto?", "insetos"),
+            ("sapo é réptil?", "reptil_anfibio"),
+            ("o sol é uma estrela?", "sol"),
+        ):
+            with self.subTest(pergunta=pergunta):
+                ident, resposta = Crivo().responder(pergunta)
+                self.assertEqual(ident, id_esperado)
+                self.assertNotIn("Relações verificadas", resposta)
 
     def test_conclusao_positiva_nova_continua_multissalto(self):
         bot = Crivo()
