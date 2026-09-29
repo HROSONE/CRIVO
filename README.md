@@ -88,10 +88,70 @@ de chat**. A conexão com uma hospedagem é etapa distinta.
 
 Só precisa de Python 3.8+, sem instalar nada.
 
+## Definições com intenção explícita (PR #14)
+
+Uma pergunta **“O que é uma árvore?”** exigia uma definição, mas a
+v0.4 originalmente selecionava a resposta de `folhas_outono` — que
+explica por que certas árvores perdem folhas. A versão corrigida
+introduz a entrada **`arvore`**, com uma definição botânica escrita
+na base de conhecimento, e um caminho restrito para pedidos como
+`o que é X`, `defina X` e `o que significa X`.
+
+A intenção de definição é comparada primeiro com **conceitos
+efetivamente cadastrados**, em vez de supor que toda menção a
+`árvore` responde qualquer pergunta sobre árvores. A entrada
+`plantas_toxicas` utiliza os campos opcionais `definicoes`
+(conceitos curados) e `resposta_definicao` (texto específico),
+separados das perguntas sobre animais domésticos, para não
+distorcer a recuperação de cuidados veterinários.
+
+Para uma paráfrase sem correspondência definicional exata, o
+recuperador só considera a resposta anterior se houver evidência
+específica do conceito: nome exato do assunto, enunciado que descreve
+o conceito ou qualificador documentado. Assim, perguntas por
+`árvore binária`, `árvore genealógica`, `nuvem` e `folha`
+**não devem disparar respostas sobre árvores botânicas, raios ou
+folhas amarelas** se não há uma definição correspondente.
+
+Exemplos esperados:
+
+```text
+você > O que é uma árvore?
+Crivo > Uma árvore é uma planta geralmente de porte alto, com caule
+        lenhoso (tronco) que sustenta ramos e folhas. (...)
+
+você > O que é uma árvore binária?
+Crivo > Ainda não tenho uma definição cadastrada para esse conceito. (...)
+
+você > Por que as árvores perdem as folhas?
+Crivo > Com dias mais curtos e frios, as árvores caducifólias (...)
+
+você > O que é uma planta tóxica?
+Crivo > Uma planta tóxica contém substâncias que podem causar
+        intoxicação. (...)
+```
+
+**Avaliações (desenvolvimento, não testes cegos):** o arquivo
+`coorte_geral_v04.json` congela os IDs e 278 perguntas gerais
+anteriores à mudança. Com a nova intenção e com o grafo carregado,
+a coorte mantém **192/278 acertos**, enquanto os erros passaram
+de **44 para 42** e as abstenções de **42 para 44**. Na base geral
+ampliada (282 perguntas), o resultado do benchmark de rotação é
+**196 acertos, 43 erros e 43 abstenções**. Os novos conjuntos não
+são comparáveis numericamente como se fossem a mesma população:
+a base cresceu. Execute `python avaliar_definicoes.py` e
+`python -m unittest testes_intencao_definicao -v`.
+
+Este mecanismo **não é um gerador de definições nem entende qualquer
+conceito**. Ele escolhe explicações revisadas e prefere se abster
+quando não há evidência suficiente. A base de perguntas foi alterada,
+então pesos neurais anteriores são incompatíveis e um novo
+treinamento precisa gerar um checkpoint correspondente.
+
 ## Como funciona (honestamente)
 
 A resposta padrao do Crivo v0.4 utiliza um mecanismo de recuperacao, nao uma rede geradora de texto:
-1. `conhecimento.json` guarda 122 assuntos escritos à mão, com 459 formas de perguntar; 45 assuntos novos são de programação.
+1. `conhecimento.json` guarda 123 assuntos escritos à mão, com 463 formas de perguntar; 45 assuntos novos são de programação.
 2. Ao iniciar, ele indexa tudo com TF-IDF (o "treino" é esse índice).
 3. A pergunta é normalizada (sem acento, plural, diminutivo, sinônimos) e comparada com a base.
 4. Se a confiança é baixa, ele diz que não sabe em vez de inventar.
