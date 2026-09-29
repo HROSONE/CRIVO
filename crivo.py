@@ -765,11 +765,16 @@ class Crivo:
 
     # ------------------------------------------------- conversa fiada ----
     def _social(self, n):
-        h = self.agora().hour
-        if re.search(r"\b(bom dia|boa tarde|boa noite)\b", n):
-            saud = "Bom dia" if h < 12 else "Boa tarde" if h < 18 else "Boa noite"
+        # Não inferir o horário LOCAL do usuário pelo relógio do servidor:
+        # uma saudação explícita pode ser simplesmente correspondida.
+        periodo = re.fullmatch(
+            r"(bom dia|boa tarde|boa noite)(?:[, ]+crivo)?", n)
+        if periodo:
+            saud = periodo.group(1).capitalize()
             return "social:oi", f"{saud}! Sou o Crivo. Sobre o que quer conversar?"
-        if re.match(r"^(oi+|ola|e ai|opa|eai|salve|hey|hello)\b", n):
+        if re.fullmatch(
+                r"(?:oi+|ola|e ai|eai|eae|opa|salve|hey|hello)"
+                r"(?:[, ]+crivo)?", n):
             return "social:oi", "Oi! Sou o Crivo. Pergunte sobre " + ", ".join(TOPICOS.values()) + "."
         if re.search(r"\b(obrigad[oa]|valeu|brigado|thanks)\b", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
@@ -831,16 +836,25 @@ class Crivo:
         contexto_geral_anterior = self.contexto_geral
         self.contexto_geral = None
         n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
-        # Cumprimentos não devem engolir a pergunta que vem junto.
-        prefixo = r"^(?:(?:oi+|ola|bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;-]*|por (?:favor|gentileza)[,: ]*)"
-        resto = re.sub(prefixo, "", n).strip()
-        if resto and resto != n:
-            n = resto
-            texto = resto
-        resto = re.sub(r"[,; ]+(?:por favor|obrigad[oa])$", "", n).strip()
+        # Identificar atos de fala INTRODUTÓRIOS e retirar apenas eles.
+        # Preservar o resto da consulta com acentos/maiúsculas, necessário
+        # para os definidores compostos ("HTML e CSS") e para auditoria.
+        prefixo = (
+            r"^\s*(?:(?:oi+|ol[aá]|e\s+a[ií]|eai|eae|opa|salve|"
+            r"bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;\-]*"
+            r"(?:crivo\b[!,. :;\-]*)?|por (?:favor|gentileza)[,: ]*)"
+        )
+        introducao = re.match(prefixo, texto, flags=re.IGNORECASE)
+        if introducao is not None:
+            resto = texto[introducao.end():].strip(" \t\r\n,;:.!?-")
+            if resto:
+                texto = resto
+                n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
+        resto = re.sub(r"[,; ]+(?:por favor|obrigad[oa])$", "",
+                       texto, flags=re.IGNORECASE).strip()
         if resto:
-            n = resto
             texto = resto
+            n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         if not n:
             return "vazio", "Pode falar, estou ouvindo."
 
@@ -901,11 +915,21 @@ class Crivo:
         # Recupera a intenção do turno anterior sem carregar uma resposta
         # antiga como se fosse conhecimento do novo conceito. O novo alvo
         # precisa ser encontrado explicitamente na mesma base ativa.
-        from interpretacao_geral import preparar_elipse_definicional
-        definicoes_compostas = self._responder_definicoes_coordenadas(original)
+        from interpretacao_geral import (
+            preparar_elipse_definicional, esclarecer_coordenacao_ou_classificacao)
+        # Perguntas com "X e um(a) Y" podem ser duas definições
+        # ou uma classificação: não presumir semântica da conjunção.
+        esclarecimento_forma = esclarecer_coordenacao_ou_classificacao(texto)
+        if esclarecimento_forma is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            return ("duvida", esclarecimento_forma)
+        definicoes_compostas = self._responder_definicoes_coordenadas(texto)
         if definicoes_compostas is not None:
+            if self.historico and self.historico[-1]["pergunta"] == texto:
+                self.historico[-1]["pergunta"] = original
             return definicoes_compostas
-        reescrita = preparar_elipse_definicional(original, contexto_geral_anterior)
+        reescrita = preparar_elipse_definicional(texto, contexto_geral_anterior)
         if reescrita is not None:
             definicao_eliptica = self._responder_definicao(reescrita, original)
             ids_validos = {e["id"] for e in self.base}
@@ -920,7 +944,7 @@ class Crivo:
                     "mas não tenho uma definição cadastrada desse conceito. "
                     "Não vou substituir por um assunto semelhante.")
 
-        geral = self.interpretador_geral.interpretar(original)
+        geral = self.interpretador_geral.interpretar(texto)
         if geral is not None:
             self.esclarecimento = None
             self.ultimo_assunto = None
@@ -935,12 +959,12 @@ class Crivo:
         # Inferência estruturada somente para relações comprováveis.
         # Os casos não reconhecidos continuam no recuperador habitual.
         if self.raciocinio is not None:
-            inferencia = self.raciocinio.interpretar(original)
+            inferencia = self.raciocinio.interpretar(texto)
             if inferencia is not None:
                 # Fonte editorial explícita e existente pode explicar uma
                 # prova comprovada, sem converter um ranking aproximado em
                 # negação ou atribuir certeza a uma base desconhecida.
-                fonte_id = self.raciocinio.fonte_para(original, inferencia[0])
+                fonte_id = self.raciocinio.fonte_para(texto, inferencia[0])
                 if fonte_id is not None:
                     indice_fonte = next((i for i, item in enumerate(self.base)
                                          if item["id"] == fonte_id), None)
@@ -961,7 +985,7 @@ class Crivo:
         # após perguntas exatas, definições, raciocinador e conhecimento
         # curado. Desse modo, ampliação da gramática não desestabiliza as
         # intenções existentes nem altera respostas do currículo original.
-        quadro = self.analisador_portugues.analisar(original)
+        quadro = self.analisador_portugues.analisar(texto)
         if quadro is not None:
             if quadro.intencao == "definir":
                 definicao_nova = self._responder_definicao(
@@ -995,7 +1019,7 @@ class Crivo:
         # para o detalhe, admitir limite em vez de retornar outro tema.
         from referencias_dialogo import interpretar_referencia
         referencia = interpretar_referencia(
-            original, self._referencia_turno_anterior)
+            texto, self._referencia_turno_anterior)
         if referencia is not None:
             self.esclarecimento = None
             self.ultimo_assunto = None
