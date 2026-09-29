@@ -14,7 +14,7 @@
     info: document.getElementById("info-button"),
     dialog: document.getElementById("about-dialog")
   };
-  const state = { history: [], busy: false, controller: null };
+  const state = { history: [], busy: false, controller: null, generation: 0 };
   const API = "/api/chat";
   const MAX_HISTORY = 10;
 
@@ -179,16 +179,16 @@
     const question = String(override === undefined ? ui.question.value : override).trim();
     if (!question || question.length > 1200) return;
     state.busy = true;
-    state.controller = new AbortController();
+    const generation = state.generation;
+    const controller = new AbortController();
+    state.controller = controller;
     ui.question.value = "";
     ui.question.disabled = true;
     updateComposer();
     createMessage("user", question);
     const pending = createPending();
 
-    const timeout = setTimeout(function () {
-      if (state.controller) state.controller.abort();
-    }, 40000);
+    const timeout = setTimeout(function () { controller.abort(); }, 40000);
     try {
       const res = await fetch(API, {
         method: "POST",
@@ -199,7 +199,7 @@
           message: question,
           history: state.history.slice(-MAX_HISTORY)
         }),
-        signal: state.controller.signal
+        signal: controller.signal
       });
       const data = await res.json();
       if (!res.ok) {
@@ -209,14 +209,16 @@
       if (!data || typeof data.response !== "string" || typeof data.id !== "string") {
         throw new Error("O servidor devolveu uma resposta inválida.");
       }
+      if (generation !== state.generation) return;
       pending.remove();
       createMessage("assistant", data.response, data);
       state.history.push(question);
       state.history = state.history.slice(-MAX_HISTORY);
       setStatus("online", "CRIVO conectado");
     } catch (error) {
+      if (generation !== state.generation) return;
       pending.remove();
-      if (state.controller && state.controller.signal.aborted) {
+      if (controller.signal.aborted) {
         createMessage("assistant", "A solicitação demorou demais ou foi interrompida. Tente novamente.");
       } else {
         createMessage("assistant", "Não consegui responder agora. " +
@@ -228,6 +230,7 @@
       // Falhas não são reenviadas como perguntas respondidas no próximo turno.
     } finally {
       clearTimeout(timeout);
+      if (generation !== state.generation) return;
       state.controller = null;
       state.busy = false;
       ui.question.disabled = false;
@@ -253,6 +256,7 @@
     });
   });
   ui.clear.addEventListener("click", function () {
+    state.generation += 1;
     if (state.controller) state.controller.abort();
     state.history = [];
     state.busy = false;
