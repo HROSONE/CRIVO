@@ -3,6 +3,49 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Interpretar o pedido antes de consultar o conhecimento
+
+`interpretacao_pedidos.py` separa **intenção, alvo, condições e modo de
+apresentação**. O quadro é interpretado antes dos motores de assunto.
+Em `quais galáxias você conhece?`, `você conhece` expressa um pedido de
+informação sobre a base, não uma propriedade que as galáxias precisam ter.
+A categoria é resolvida no grafo ativo; o parser não contém nomes de
+galáxias, planetas, aves ou objetos dos testes.
+
+A mesma operação atende `quais aves você conhece?`, `quais planetas existem?`,
+`me dê exemplos de ...` e categorias de um grafo personalizado. Todos os
+qualificadores e filtros precisam ser interpretados; não se elimina um
+critério desconhecido para listar só a parte reconhecida. A lista mostra
+os exemplos disponíveis na instalação, sem afirmar que cobre o mundo.
+
+Pedidos de **exemplos** excluem classes intermediárias da taxonomia
+(destinos de `tipo_de`). Pedidos de **tipos** mostram essas classes.
+`Galáxia espiral` é uma classe; Andrômeda e Via Láctea são exemplos.
+O retorno preserva as provas e os IDs exibidos para filtros com `desses`.
+`Fale sobre a primeira` usa somente a lista do turno anterior; não resolve
+por uma lista antiga nem por itens ocultos pela paginação.
+
+`O que você sabe sobre DNA?` e `você conhece Andrômeda?` usam o alvo inteiro
+nos motores de informação. Um objeto conhecido apenas pelo grafo pode ser
+explicado por suas relações diretas, sem inventar um verbete ou inverter
+órbitas/composição. A ausência de uma categoria no grafo também não apaga
+uma resposta já disponível em outro catálogo ativo. O histórico interno
+registra o quadro em `pedido` para auditar a interpretação.
+
+Interjeições completas como `meu Deus`, `nossa` e `eita` são reações sociais;
+não abrem uma busca factual. Uma reação seguida de pergunta mantém o pedido.
+Mensagens não interpretadas pedem assunto/intenção, sem despejar o catálogo.
+
+O avanço é uma camada semântica limitada e reutilizável; não envolve treino
+nas perguntas da captura ou treinamento de um novo modelo neural. Os testes
+geram entidades e hierarquias fora do currículo, com pertencimentos/filtros
+calculados pelo gerador como oráculo independente. Também verificam casos
+negativos, API, escopo da base, classes/exemplos e contexto limitado.
+
+```bash
+python -m unittest testes_interpretacao_pedidos -v
+```
+
 ## Conversa informal e feedback
 
 O CRIVO distingue atos sociais completos de consultas de conhecimento.
