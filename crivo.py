@@ -168,6 +168,10 @@ class Crivo:
         # identifica entidades nem persiste além da pergunta seguinte.
         from interpretacao_geral import InterpretadorGeral
         self.interpretador_geral = InterpretadorGeral(self.raciocinio)
+        # Os mesmos quadros sujeito/ação/objeto valem para todas as
+        # entidades de qualquer grafo; não adiciona respostas isoladas.
+        from analisador_portugues import AnalisadorPortugues
+        self.analisador_portugues = AnalisadorPortugues(self.raciocinio)
         self.contexto_geral = None
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
@@ -926,6 +930,39 @@ class Crivo:
                                        "mecanismo": "raciocinio_relacional"})
                 self.historico = self.historico[-20:]
                 return inferencia
+        # Camada NOVA de interpretação superficial do português: somente
+        # após perguntas exatas, definições, raciocinador e conhecimento
+        # curado. Desse modo, ampliação da gramática não desestabiliza as
+        # intenções existentes nem altera respostas do currículo original.
+        quadro = self.analisador_portugues.analisar(original)
+        if quadro is not None:
+            if quadro.intencao == "definir":
+                definicao_nova = self._responder_definicao(
+                    "o que e " + quadro.sujeito, original)
+                if definicao_nova is not None:
+                    if definicao_nova[0] in {e["id"] for e in self.base}:
+                        self.contexto_geral = "definicao"
+                        if self.historico and self.historico[-1]["pergunta"] == original:
+                            self.historico[-1]["mecanismo"] = "analise_portugues"
+                    return definicao_nova
+            else:
+                resultado_estruturado = self.analisador_portugues.responder(quadro)
+                if resultado_estruturado is not None:
+                    self.esclarecimento = None
+                    self.ultimo_assunto = None
+                    self.historico.append({
+                        "pergunta": original,
+                        "id": resultado_estruturado[0],
+                        "mecanismo": "analise_portugues",
+                        "quadro": {
+                            "intencao": quadro.intencao,
+                            "sujeito": quadro.sujeito,
+                            "predicado": quadro.predicado,
+                            "objeto": quadro.objeto,
+                        },
+                    })
+                    self.historico = self.historico[-20:]
+                    return resultado_estruturado
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
