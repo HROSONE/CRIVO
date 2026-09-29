@@ -239,6 +239,11 @@ class Crivo:
         tecnico = bool(re.search(
             r"\b(python|javascript|js|git|sql)\b", normalizar(texto)))
         for t in tokens(texto):
+            # "Como funciona X?" usa "funciona" como verbo de pergunta;
+            # sozinho ele não identifica um tópico. Retirá-lo apenas da
+            # consulta não modifica o conhecimento indexado.
+            if t == "funciona":
+                continue
             if tecnico:
                 t = SINONIMOS_CONSULTA_TECNICA.get(t, t)
             if t not in vocabulario and len(t) >= 5:
@@ -272,6 +277,16 @@ class Crivo:
                               r"excecao|keyerror|nameerror|typeerror|"
                               r"print|saida)\b", n)):
             for pista in ("input", "teclado", "usuario"):
+                if pista in vocabulario and pista not in resultado:
+                    resultado.append(pista)
+        # Uma operação de JavaScript sobre elemento/campo HTML pertence
+        # ao DOM; HTML é o alvo, não uma segunda linguagem exigida.
+        if (re.search(r"\b(javascript|js)\b", n) and
+                re.search(r"\b(html|pagina|dom)\b", n) and
+                re.search(r"\b(campo|elemento|tag|no)\b", n) and
+                re.search(r"\b(ler|valor|selecionar|alterar|texto|pegar|obter)\b", n) and
+                not re.search(r"\b(sql|css|java|python|api)\b", n)):
+            for pista in ("dom", "elemento"):
                 if pista in vocabulario and pista not in resultado:
                     resultado.append(pista)
         return resultado
@@ -535,7 +550,7 @@ class Crivo:
         # pelo nome do próprio assistente. Intenção social deve ser a frase
         # inteira, não uma substring de outra tarefa.
         if re.fullmatch(r"(?:quem e voce|quem te criou|o que voce e|"
-                        r"(?:qual (?:e )?o )?seu nome)", n):
+                        r"(?:(?:qual (?:e )?(?:o )?)|(?:me (?:diga|fale) (?:o )?))?seu nome)", n):
             return "social:quem", (f"Sou o Crivo, versão {VERSAO}: um assistente de conversa em português, "
                                    "ainda em fase de teste. Por enquanto só falo sobre alguns assuntos "
                                    "(digite 'assuntos' para ver).")
