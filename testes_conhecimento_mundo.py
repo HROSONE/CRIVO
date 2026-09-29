@@ -1,5 +1,6 @@
 """Currículo, proveniência, relações completas e integração com a rede original."""
 import copy
+import fnmatch
 import json
 import tempfile
 import unittest
@@ -133,6 +134,16 @@ class TestesConhecimentoMundo(unittest.TestCase):
         self.assertEqual(base, bot.base)
         self.assertEqual({e['id'] for e in base if e.get('origem_curriculo') == 'mundo'},
                          bot.compositor.mundo_ids)
+
+    def test_api_inclui_curriculo_modulos_e_checkpoint_no_pacote(self):
+        config = json.loads((PASTA / 'vercel.json').read_text(encoding='utf-8'))
+        padrao = config['functions']['api/chat.py']['includeFiles']
+        padroes = padrao.strip('{}').split(',')
+        for nome in ('conhecimento_mundo.json', 'curriculo_mundo.py',
+                     'composicao_textual.py', 'rede_neural.py', 'rede_crivo.json'):
+            with self.subTest(arquivo=nome):
+                self.assertTrue((PASTA / nome).is_file())
+                self.assertTrue(any(fnmatch.fnmatchcase(nome, p) for p in padroes))
 
     def test_curriculo_malformado_e_rejeitado(self):
         mutacoes = [

@@ -239,6 +239,7 @@ O checkpoint `rede_crivo.json` foi treinado com 60 épocas, 512 dimensões,
 48 neurônios ocultos, modo `portugues` e semente 42. Ele carrega automaticamente
 quando rótulos e assinaturas são compatíveis. O fluxo `treinar-rede.yml` também
 treina novamente quando o currículo ou seu carregador mudam.
+`vercel.json` inclui o currículo, seus módulos e o checkpoint no pacote da API.
 
 **Limites medidos:** a sonda do chatbot híbrido passou **51/51 consultas**
 de definição, função, relação, comparação, composição, fontes e recusa.
