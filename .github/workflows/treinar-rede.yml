@@ -1,0 +1,55 @@
+name: Treinar cerebro original do Crivo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'rede_neural.py'
+      - 'conhecimento.json'
+      - 'crivo.py'
+      - '.github/workflows/treinar-rede.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  treinar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validar codigo e regressao
+        run: |
+          python -m compileall -q .
+          python crivo.py --teste
+          python -m unittest discover -p 'testes*.py' -q
+      - name: Treinar rede neural original com todos os exemplos
+        run: |
+          python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 60 --ocultos 48 --dimensao 512 --modo portugues --semente 42
+      - name: Verificar checkpoint carregado no Crivo
+        run: |
+          python - <<'PY'
+          from crivo import Crivo
+          from rede_neural import RedeCrivo
+          rede = RedeCrivo.carregar("rede_crivo.json")
+          bot = Crivo()
+          assert len(rede.rotulos) == len(bot.base) == 77
+          assert bot.rede is not None, bot.erro_rede
+          assert bot.erro_rede is None
+          assert rede.modo == "portugues"
+          assert rede.dimensao == 512 and rede.ocultos == 48
+          assert bot.previsao_neural("como regar uma planta") is not None
+          print("Checkpoint validado: 77 intencoes, pesos de 512x48, modo portugues.")
+          print("Aviso: carregar pesos nao garante melhor acuracia no chatbot hibrido.")
+          PY
+      - name: Publicar pesos para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: crivo-rede-512d-48n-${{ github.run_number }}
+          path: rede_crivo.json
+          if-no-files-found: error
+          retention-days: 14
