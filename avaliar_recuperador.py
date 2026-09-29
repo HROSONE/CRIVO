@@ -26,6 +26,7 @@ def avaliar(base, classe=Crivo):
                 bot.ultimo_assunto = None
                 bot.ultimos = []
                 bot.historico = []
+                bot.esclarecimento = None
                 rank = bot._ranking(pergunta)
                 obtido = bot.responder(pergunta)[0]
                 total += 1

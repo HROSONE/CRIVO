@@ -128,6 +128,7 @@ class Crivo:
         self.pos_ultimo = 0
         self.historico = []
         self.ultimo_assunto = None
+        self.esclarecimento = None
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -258,13 +259,100 @@ class Crivo:
         self.base = nova_base
         self._indexar()
         self.rede = None
+        self.esclarecimento = None
+        self.ultimos = []
+        self.pos_ultimo = 0
 
     def _registrar(self, indice, pergunta):
         e = self.base[indice]
+        self.esclarecimento = None
         self.ultimo_assunto = e["perguntas"][0]
         self.historico.append({"pergunta": pergunta, "id": e["id"]})
         self.historico = self.historico[-20:]
         return e["id"], e["resposta"]
+
+    # --------------------------------------------- esclarecimento --------
+    @staticmethod
+    def _escolha_ordinal(n):
+        escolha = re.fullmatch(
+            r"(?:[ao] )?(?:(?:opcao|alternativa|resposta) )?"
+            r"(\d+[ªº]?|primeir[ao]|segund[ao]|terceir[ao]|quart[ao])"
+            r"(?: (?:opcao|alternativa|resposta))?", n)
+        if not escolha:
+            return None
+        valor = escolha.group(1).rstrip("ªº")
+        ordinais = {"primeira": 0, "primeiro": 0, "segunda": 1, "segundo": 1,
+                    "terceira": 2, "terceiro": 2, "quarta": 3, "quarto": 3}
+        if valor in ordinais:
+            return ordinais[valor]
+        # Números longos também são opções inválidas, sem converter inteiros enormes.
+        return int(valor) - 1 if len(valor) <= 2 else -1
+
+    def _texto_esclarecimento(self):
+        indices = self.esclarecimento["indices"]
+        perguntas = [self.base[i]["perguntas"][0] for i in indices]
+        if len(perguntas) == 1:
+            return (f'Não tenho certeza se entendi. Você quis perguntar algo como '
+                    f'"{perguntas[0]}"? Responda sim, não ou faça outra pergunta.')
+        opcoes = "\n".join(f"{i + 1}. {p}" for i, p in enumerate(perguntas))
+        return ("Encontrei duas possibilidades próximas. Qual delas você quer?\n" +
+                opcoes + "\nResponda com o número, o nome da opção ou 'nenhuma'.")
+
+    def _pedir_esclarecimento(self, indices, pergunta):
+        self.esclarecimento = {"indices": list(indices), "pergunta": pergunta}
+        self.ultimo_assunto = None
+        return "duvida", self._texto_esclarecimento()
+
+    def _resolver_esclarecimento(self, n, original):
+        """Resolve somente as opções oferecidas no turno pendente desta sessão."""
+        posicao = self._escolha_ordinal(n)
+        if self.esclarecimento is None:
+            if posicao is not None:
+                return "duvida", "Não há uma escolha pendente. Qual é a sua pergunta?"
+            return None
+
+        indices = self.esclarecimento["indices"]
+        afirmacao = n in ("sim", "isso", "isso mesmo", "exatamente", "certo", "correto")
+        if re.fullmatch(r"nao|nenhum[ao](?: del[ae]s| das (?:duas|opcoes)| dos dois)?|"
+                        r"outra coisa|cancelar?|deixa pra la", n):
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.ultimos = []
+            return "duvida", "Certo. Diga com outras palavras o que você quer saber."
+
+        if afirmacao and len(indices) == 1:
+            posicao = 0
+        if posicao is not None:
+            if not 0 <= posicao < len(indices):
+                return "duvida", "Essa opção não está na lista. " + self._texto_esclarecimento()
+        elif afirmacao or n in ("mais", "continue", "continua"):
+            return "duvida", "Preciso que você escolha uma opção. " + self._texto_esclarecimento()
+        else:
+            # Um nome curto pode escolher a opção. Perguntas novas e negações
+            # passam pelo caminho normal, sem herdar uma intenção pendente.
+            termos = set(self._tokens_consulta(n))
+            nomes = [set(t for p in self.base[i]["perguntas"] for t in tokens(p))
+                     for i in indices]
+            candidatos = [k for k, nome in enumerate(nomes) if termos and termos <= nome]
+            pergunta_nova = re.search(
+                r"\b(por que|porque|como|quando|quanto\w*|onde|quem|qual|quais|"
+                r"nao|nunca|jamais|sem)\b", n)
+            if candidatos and not pergunta_nova:
+                if len(candidatos) != 1:
+                    return "duvida", self._texto_esclarecimento()
+                posicao = candidatos[0]
+            else:
+                self.esclarecimento = None
+                self.ultimo_assunto = None
+                return None
+
+        pergunta_contexto = self.esclarecimento["pergunta"]
+        indice = indices[posicao]
+        self.ultimos = [(1.0, indice)]
+        self.pos_ultimo = 0
+        resposta = self._registrar(indice, original)
+        self.historico[-1]["pergunta_contexto"] = pergunta_contexto
+        return resposta
 
     # ----------------------------------------------------- relógio -------
     def agora(self):
@@ -349,11 +437,15 @@ class Crivo:
         if not n:
             return "vazio", "Pode falar, estou ouvindo."
 
+        esclarecida = self._resolver_esclarecimento(n, original)
+        if esclarecida:
+            return esclarecida
+
         if re.fullmatch(r"(mais|outra|outra resposta|e mais|continue|continua)", n):
             if self.ultimos and self.pos_ultimo + 1 < len(self.ultimos):
                 self.pos_ultimo += 1
                 s, i = self.ultimos[self.pos_ultimo]
-                return self.base[i]["id"], self.base[i]["resposta"]
+                return self._registrar(i, original)
             return "mais:fim", "Não tenho mais nada sobre esse assunto. Quer perguntar outra coisa?"
 
         self.ultimos = []
@@ -395,9 +487,7 @@ class Crivo:
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []
         if len(rank) > 1 and rank[0][0] >= LIMIAR_DUVIDA and rank[0][0] - rank[1][0] < 0.06:
-            candidatos = [self.base[i]["perguntas"][0] for _, i in rank[:2]]
-            return "duvida", ('Encontrei duas possibilidades próximas. Você quer saber "' +
-                              candidatos[0] + '" ou "' + candidatos[1] + '"?')
+            return self._pedir_esclarecimento([i for _, i in rank[:2]], original)
         # Rede e recuperador precisam concordar; sem acordo, mantém-se
         # o comportamento original. O limiar não é garantia de calibração.
         neural = self.previsao_neural(original)
@@ -412,9 +502,7 @@ class Crivo:
             self.pos_ultimo = 0
             return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
-            e = self.base[rank[0][1]]
-            return "duvida", (f"Não tenho certeza se entendi. Você quis perguntar algo como "
-                              f"\"{e['perguntas'][0]}\"?")
+            return self._pedir_esclarecimento([rank[0][1]], original)
         lista = ", ".join(TOPICOS.values())
         return "fora", (f"Ainda não sei responder isso. Por enquanto converso sobre: {lista}. "
                         "Tente reformular ou escolha um desses assuntos.")
@@ -468,4 +556,3 @@ if __name__ == "__main__":
         print(Crivo().responder(" ".join(args))[1])
     else:
         conversar()
-

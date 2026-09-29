@@ -67,6 +67,34 @@ Os 65 testes originais continuam passando. Os 19 casos novos de conversa são re
 
 **Protocolo e limite:** a avaliação retira cada pergunta do índice na sua rodada, mas mantém as respostas e outras perguntas da mesma intenção. Foi usada durante o desenvolvimento e não é um teste cego. Seus números não são diretamente comparáveis aos da rede neural treinada apenas com perguntas. A pontuação de similaridade não é probabilidade de verdade. A melhora é no mecanismo de escolha de respostas, não uma alegação de inteligência geral.
 
+## Diálogo com esclarecimento
+
+O Crivo agora guarda as opções que acabou de oferecer e entende a sua escolha:
+
+```text
+você > planta
+Crivo > Encontrei duas possibilidades próximas. Qual delas você quer?
+1. o que é fotossíntese
+2. quantas vezes devo regar as plantas
+você > a segunda
+Crivo > [resposta cadastrada sobre regar]
+```
+
+- Aceita `1`, `2`, `a primeira`, `a segunda`, `opção 2` e nomes que identifiquem uma única opção, como `a de regar`.
+- `Sim` confirma quando há apenas uma sugestão. Com duas opções, pede uma escolha explícita.
+- `Não` ou `nenhuma das duas` cancela a escolha; uma pergunta nova descarta a pendência anterior.
+- Registra no histórico a escolha e a pergunta que gerou as opções. `Mais` também atualiza o assunto para a resposta que foi efetivamente mostrada.
+- A pendência pertence à instância de `Crivo`, não é salva no conhecimento e é descartada quando `ensinar()` muda a base.
+
+Em 24 sequências de desenvolvimento fixadas antes da implementação, o resultado passou de **3/24 para 24/24**. A avaliação de perguntas isoladas permaneceu idêntica: **192 acertos, 44 erros e 42 abstenções em 278 perguntas**; os 65 testes originais continuam passando. O ganho medido é na continuidade da conversa. Não mede generalização para qualquer diálogo, aumento de conhecimento ou melhora da rede neural.
+
+Os casos e o avaliador estão em `testes_dialogo.py`; o comparativo está em `avaliacao_dialogo.json`. Para verificar:
+
+```bash
+python -m unittest testes_dialogo -v
+python avaliar_recuperador.py
+```
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.
