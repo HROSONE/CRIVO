@@ -132,16 +132,16 @@ class AnalisadorPortugues:
                 # A definição de uma frase coordenada cabe ao módulo
                 # existente de duas ou três definições.
                 if (not alvo or len(alvo) > 85 or len(alvo.split()) > 8 or
-                        re.search(r"\b(?:e|ou|porque|como|qual|quem|onde)\b", alvo)):
+                        re.search(r"\b(?:e|ou|porque|como|qual|quem|onde|que)\b", alvo)):
                     return None
                 return QuadroSemantico("definir", alvo, "definicao", None)
 
         # 2. Classes de propriedades, verificadas individualmente no grafo.
         for padrao in (
                 r"(?:qual|que) (?:e )?(?:a )?(?:caracteristica|propriedade)"
-                r" (.+?) (?:tem|possui|apresenta)",
+                r" (.+?) (?:tem|possuem|possui|apresentam|apresenta)",
                 r"(?:quais|que) (?:caracteristicas|propriedades)"
-                r" (.+?) (?:tem|possui|apresenta)"):
+                r" (.+?) (?:tem|possuem|possui|apresentam|apresenta)"):
             m = re.fullmatch(padrao, n)
             if m:
                 s = self._entidade(m.group(1))
@@ -173,7 +173,7 @@ class AnalisadorPortugues:
         predicados = (
             ("tipo_de", False,
              r"(.+?) (?:pertence|pertencem) (?:ao|a|aos|as) "
-             r"(?:grupo|categoria|classe) (?:de|do|da|dos|das)?\s*(.+)"),
+             r"(?:grupo|categoria|classe) (?:das|dos|da|do|de)?\s*(.+)"),
             ("tipo_de", False,
              r"(.+?) (?:se encaixa|se enquadra) (?:como |na categoria de |"
              r"no grupo de )?(.+)"),
@@ -236,10 +236,10 @@ class AnalisadorPortugues:
             for atributo in atributos:
                 caminho = g.provar_caracteristica(s, atributo)
                 if caminho:
-                    p = g.nomes[caminho[0]]
-                    for i, id_ in enumerate(caminho[1:], 1):
-                        passo = "tem_caracteristica" if i == len(caminho)-1 else "tipo_de"
-                        p += " --" + passo + "--> " + g.nomes[id_]
+                    # Setas simples são só os passos taxonômicos;
+                    # a última aresta é explicitamente uma propriedade.
+                    p = " → ".join(g.nomes[id_] for id_ in caminho[:-1])
+                    p += " --tem_caracteristica--> " + g.nomes[caminho[-1]]
                     provas.append(p)
             if not provas:
                 return ("logica:desconhecido",
