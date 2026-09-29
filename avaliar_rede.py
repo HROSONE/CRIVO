@@ -19,7 +19,15 @@ def avaliar(base, epocas=80):
     rede = RedeCrivo(rotulos)
     rede.treinar(treino, epocas=epocas)
     acertos = sum(rede.prever(p)[0] == esperado for p, esperado in teste)
+    from rede_neural import caracteristicas
+    vetores = [(caracteristicas(p), rotulo) for p, rotulo in treino]
+    def baseline(pergunta):
+        v = caracteristicas(pergunta)
+        return max(vetores, key=lambda item: sum(a*b for a, b in zip(v, item[0])))[1]
+    acertos_baseline = sum(baseline(p) == esperado for p, esperado in teste)
     return {"acertos": acertos, "total": len(teste),
+            "baseline_acertos": acertos_baseline,
+            "baseline_precisao": round(acertos_baseline / len(teste), 4),
             "precisao": round(acertos / len(teste), 4),
             "metodo": "ultima pergunta de cada entrada reservada para teste",
             "aviso": "Exemplos da mesma intencao podem compartilhar palavras; nao mede compreensao geral."}
