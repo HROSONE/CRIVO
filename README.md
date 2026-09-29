@@ -242,6 +242,80 @@ de chat**. A conexão com uma hospedagem é etapa distinta.
   testes_web -v`; suíte geral: `python -m unittest discover
   -p 'testes*.py'`.
 
+## Análise estruturada de português: intenção, sujeito e objeto (PR #21)
+
+O módulo `analisador_portugues.py` acrescenta uma **gramática superficial
+de português** ao núcleo do CRIVO. Em vez de encontrar uma resposta
+porque sua pergunta compartilha palavras com um parágrafo, ele pode
+montar um quadro como este:
+
+```text
+Pergunta: "O Sistema Solar contém a Terra?"
+Intenção: verificar
+Sujeito lógico: Terra
+Predicado: parte_de
+Objeto lógico: Sistema Solar
+Evidência: Terra → Sistema Solar (fato cadastrado)
+```
+
+**A posição dos elementos na frase não determina sozinha a direção
+do fato.** Em `A Terra é orbitada pela Lua?`, o sujeito da frase é
+Terra, mas o sujeito do predicado lógico `orbita` é Lua. As
+construções passivas e verbos de inclusão são interpretadas com
+essa diferença preservada.
+
+O analisador usa o **catálogo ativo de entidades e apelidos do
+grafo**, com nomes completos e validação exata — os nomes Sol, Lua,
+pinguim etc. não estão codificados na gramática. Reconhece formatos
+variados de classificação, composição, órbita, propriedades, comparação
+e pedidos de definição. Para cada quadro reconhecido, consulta
+**exclusivamente o provador já existente** ou o verbete editorial
+autorizado da base. Não grava relações nem deduz fatos por analogia.
+
+Exemplos para o chat:
+
+```text
+Quero saber se o pinguim pertence ao grupo das aves
+O Sistema Solar contém a Terra?
+A Terra é orbitada pela Lua?
+Qual característica o pinguim apresenta?
+Existe alguma ligação entre Terra e Via Láctea?
+Você poderia me explicar o que é HTML?
+E o CSS?
+```
+
+Frases com negação ou hipóteses são protegidas: `O pinguim não é
+uma ave?` e `Se a Lua fosse um planeta...` não viram afirmações
+positivas por eliminação de palavras. Quando o grafo não permite
+uma prova, o CRIVO afirma que **não possui evidência**, sem concluir
+que a proposição é falsa.
+
+### Avaliação e limite deste avanço
+
+`testes_analisador_portugues.py` pré-registrou casos de astronomia,
+animais, programação, contextos customizados e grafos de entidades
+sintéticas. Há ainda uma matriz que produz **duas formulações
+por aresta para todas as relações afirmativas cadastradas**,
+de modo que não seja necessário criar um teste manual por nome.
+A suíte geral e o benchmark anterior devem continuar aprovados.
+
+Isso é **análise simbólica superficial**, não um parser linguístico
+irrestrito nem uma rede neural treinada em todo o português. A lista
+de verbos e construções reconhecidas ainda é limitada. Pronomes
+complexos, metáforas, ambiguidades e conceitos fora do grafo ainda
+podem exigir esclarecimento ou ficar sem resposta; a camada
+conservadora foi inserida **depois** das rotas já existentes,
+para não desestabilizar a recuperação anterior. Nenhum modelo
+pretreinado ou API de IA participa.
+
+Para testar:
+
+```bash
+python -m unittest testes_analisador_portugues -v
+python -m unittest discover -p 'testes*.py'
+python avaliar_definicoes.py
+```
+
 ## Perguntas com vários conceitos e relações sem superclasse (PR #20)
 
 O CRIVO agora reconhece uma **lista explícita de duas ou três definições**
