@@ -58,4 +58,7 @@ jobs:
 
       - name: Comparar ordem de palavras (mesmas dobras e semente)
         if: matrix.python-version == '3.11' && github.event_name == 'pull_request'
-        run: python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512
+        run: |
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.05
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.15
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.35
