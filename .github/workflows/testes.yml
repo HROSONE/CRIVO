@@ -41,3 +41,8 @@ jobs:
           python avaliar_rede.py --cruzada --epocas 30 --modo palavras
           python avaliar_rede.py --cruzada --epocas 30 --modo misto
           python avaliar_rede.py --cruzada --epocas 30 --modo misto --dimensao 512
+      - name: Comparar treinamento e largura da rede mista de 512 dimensoes
+        if: matrix.python-version == '3.11'
+        run: |
+          python avaliar_rede.py --cruzada --epocas 60 --modo misto --dimensao 512
+          python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
