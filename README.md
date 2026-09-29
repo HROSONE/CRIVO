@@ -36,7 +36,7 @@ backend para reconstruir esse estado, sem gravar conversas no servidor.
 
 **Controles de integridade:** uma banana não recebe automaticamente as
 propriedades de uma maçã por pertencer à mesma categoria. A estrutura
-`tem_sementes` pode variar entre espécies e cultivares; a resposta
+`sementes` pode variar entre espécies e cultivares; a resposta
 explica essas diferenças registradas. As classes botânicas são diferentes
 de categorias culinárias; tomate é um fruto botânico, mas é usado
 como hortaliça. Maçã/pera são pomos, banana é baga, morango é
