@@ -10,20 +10,27 @@ import unicodedata
 from pathlib import Path
 
 
-def caracteristicas(texto, dimensao=256):
+def caracteristicas(texto, dimensao=256, modo="caracteres"):
     """N-gramas de caracteres com hash determinístico (FNV-1a)."""
     s = "".join(c for c in unicodedata.normalize("NFD", texto.lower())
                 if unicodedata.category(c) != "Mn")
     s = " ".join(re.findall(r"[a-z0-9]+", s))
     vetor = [0.0] * dimensao
+    if modo not in ("caracteres", "palavras", "misto"):
+        raise ValueError("Modo de caracteristicas invalido")
     for palavra in s.split():
-        palavra = "^" + palavra + "$"
-        for n in (2, 3, 4):
-            for i in range(len(palavra) - n + 1):
-                h = 2166136261
-                for c in palavra[i:i+n]:
-                    h = ((h ^ ord(c)) * 16777619) & 0xffffffff
-                vetor[h % dimensao] += 1.0
+        unidades = []
+        if modo in ("palavras", "misto"):
+            unidades.append("w:" + palavra)
+        if modo in ("caracteres", "misto"):
+            marcada = "^" + palavra + "$"
+            for n in (2, 3, 4):
+                unidades.extend("c:" + marcada[i:i+n] for i in range(len(marcada) - n + 1))
+        for unidade in unidades:
+            h = 2166136261
+            for c in unidade:
+                h = ((h ^ ord(c)) * 16777619) & 0xffffffff
+            vetor[h % dimensao] += 1.0
     norma = math.sqrt(sum(v*v for v in vetor)) or 1.0
     return [v / norma for v in vetor]
 
@@ -31,12 +38,13 @@ def caracteristicas(texto, dimensao=256):
 class RedeCrivo:
     """Rede com camada oculta tanh e saída softmax, treinada por backpropagation."""
 
-    def __init__(self, rotulos, dimensao=256, ocultos=24, semente=42):
+    def __init__(self, rotulos, dimensao=256, ocultos=24, semente=42, modo="caracteres"):
         if not rotulos or len(set(rotulos)) != len(rotulos):
             raise ValueError("Rotulos devem ser unicos e nao vazios")
         self.rotulos = list(rotulos)
         self.dimensao = dimensao
         self.ocultos = ocultos
+        self.modo = modo
         rng = random.Random(semente)
         self.w1 = [[rng.uniform(-0.08, 0.08) for _ in range(dimensao)]
                    for _ in range(ocultos)]
@@ -57,7 +65,7 @@ class RedeCrivo:
 
     def treinar(self, exemplos, epocas=100, taxa=0.15, semente=42):
         """Exemplos: pares (pergunta, id). Atualiza pesos por gradiente."""
-        dados = [(caracteristicas(pergunta, self.dimensao),
+        dados = [(caracteristicas(pergunta, self.dimensao, self.modo),
                   self.rotulos.index(rotulo)) for pergunta, rotulo in exemplos]
         if not dados:
             raise ValueError("Sem exemplos de treinamento")
@@ -83,20 +91,21 @@ class RedeCrivo:
                     self.b1[j] -= taxa * delta
 
     def prever(self, texto):
-        _, probabilidades = self._forward(caracteristicas(texto, self.dimensao))
+        _, probabilidades = self._forward(caracteristicas(texto, self.dimensao, self.modo))
         indice = max(range(len(probabilidades)), key=probabilidades.__getitem__)
         return self.rotulos[indice], probabilidades[indice]
 
     def salvar(self, caminho):
         conteudo = dict(rotulos=self.rotulos, dimensao=self.dimensao,
-                        ocultos=self.ocultos, w1=self.w1, b1=self.b1,
+                        ocultos=self.ocultos, modo=self.modo, w1=self.w1, b1=self.b1,
                         w2=self.w2, b2=self.b2)
         Path(caminho).write_text(json.dumps(conteudo), encoding="utf-8")
 
     @classmethod
     def carregar(cls, caminho):
         dados = json.loads(Path(caminho).read_text(encoding="utf-8"))
-        rede = cls(dados["rotulos"], dados["dimensao"], dados["ocultos"])
+        rede = cls(dados["rotulos"], dados["dimensao"], dados["ocultos"],
+                   modo=dados.get("modo", "caracteres"))
         for nome in ("w1", "b1", "w2", "b2"):
             setattr(rede, nome, dados[nome])
         return rede
