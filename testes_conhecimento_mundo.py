@@ -27,51 +27,51 @@ class TestesConhecimentoMundo(unittest.TestCase):
                     for q in e['perguntas']}
         self.assertFalse(exemplos & {c[1].lower().strip(' .?!') for c in CASOS})
 
-    def test_todo_conceito_tem_definicao_e_artigo_do_indice(self):
+    def test_todo_conceito_tem_definicao_e_fontes_cientificas(self):
         for item in self.curriculo['itens']:
             with self.subTest(conceito=item['nome']):
                 self.assertEqual(item['fatos'][0]['papel'], 'definicao')
-                self.assertTrue(any(self.curriculo['fontes'][f['fonte']]['tipo'] == 'artigo_indicado'
-                                    for f in item['fatos']))
                 for fato in item['fatos']:
-                    self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao', 'religioso'))
+                    self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao'))
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
+                        metadata = self.curriculo['fontes'][fonte]
+                        self.assertIn(metadata['tipo'], ('institucional_cientifica', 'artigo_cientifico'))
+                        self.assertTrue(metadata['credito'])
+                        self.assertTrue(metadata['direitos_url'].startswith('https://'))
+                        self.assertIn(metadata['reutilizacao'],
+                                      ('dominio_publico', 'CC-BY-4.0', 'permissao_institucional'))
 
     def test_fontes_correspondem_ao_fato_da_relacao(self):
         b = Crivo()
         b.responder('Como o sono contribui para a memória?')
         _, texto = b.responder('Fontes')
-        self.assertIn('/102003201', texto)
         self.assertIn('/why-sleep-important', texto)
-        self.assertNotIn('/101999321', texto)
+        self.assertNotIn('/stages-of-sleep', texto)
         self.assertNotIn('nimh.nih.gov', texto)
 
-    def test_ciencia_e_interpretacao_religiosa_sao_atribuidas(self):
+    def test_apenas_ciencia_com_credito_e_sem_causalidade_inventada(self):
         b = Crivo()
         _, ciencia = b.responder('O que é biomimética?')
         self.assertNotIn('Criador', ciencia)
-        _, interpretacao = b.responder('Continue')
-        self.assertIn('Segundo a interpretação religiosa da publicação,', interpretacao)
-        self.assertIn('Criador', interpretacao)
         _, fonte = b.responder('Fontes')
-        self.assertIn('/102006322', fonte)
-        b.responder('O que é o ciclo da água?')
-        _, texto = b.responder('Qual é a interpretação religiosa sobre o ciclo hidrológico?')
-        self.assertIn('interpretação religiosa', texto)
+        self.assertIn('nist.gov', fonte)
+        b.responder('Como a procrastinação se associa ao estresse?')
+        _, fonte = b.responder('Fontes')
+        self.assertIn('Beutel ME', fonte)
+        self.assertIn('10.1371/journal.pone.0148054', fonte)
+        self.assertEqual(b.responder('Por que a procrastinação pode aumentar o estresse?')[0], 'fora')
 
-    def test_classificacao_atual_do_sono_e_referencia_historica(self):
+    def test_classificacao_atual_do_sono_com_fonte_cientifica(self):
         b = Crivo()
         _, atual = b.responder('Como funciona o sono NREM?')
         self.assertIn('três estágios', atual)
         self.assertNotIn('quatro', atual)
         _, fontes = b.responder('Fontes')
         self.assertIn('nhlbi.nih.gov', fontes)
-        b.responder('O que é sono NREM?')
-        _, nota = b.responder('Continue')
-        self.assertIn('2003', nota)
-        self.assertIn('quatro', nota)
-        self.assertIn('atual de três', nota)
+        _, explicacao = b.responder('O que é sono NREM?')
+        self.assertIn('três', explicacao)
+        self.assertNotIn('quatro', explicacao)
 
     def test_relacoes_nao_descartam_negacao_qualificadores_ou_direcao(self):
         for q in ['O sono não ajuda a memória?', 'O sono ajuda a memória de extraterrestres?',
@@ -99,7 +99,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
         r = responder_web({'message': 'Qual é a fonte?',
                            'history': ['Como funciona a adesão da lagartixa?']})
         self.assertEqual(r['id'], 'escrita:fontes')
-        self.assertIn('/102008129', r['response'])
+        self.assertIn('nist.gov/news-events/news/2022/07/', r['response'])
         self.assertEqual(r['mechanism'], 'composicao_factual')
         self.assertFalse(r['has_proof'])
 
@@ -153,8 +153,13 @@ class TestesConhecimentoMundo(unittest.TestCase):
             lambda d: d['itens'][0]['fatos'][0].update(natureza='cientifico_sem_fonte'),
             lambda d: d['itens'][0]['fatos'][0].update(fontes=['ausente']),
             lambda d: d['itens'].append(copy.deepcopy(d['itens'][0])),
-            lambda d: d['fontes']['wol_cerebro'].update(indice_url='https://example.org'),
-            lambda d: d['fontes']['wol_cerebro'].update(url='http://wol.jw.org'),
+            lambda d: d['fontes']['nci_cerebro'].update(tipo='fonte_nao_cientifica'),
+            lambda d: d['fontes']['nci_cerebro'].update(url='http://example.org'),
+            lambda d: d['fontes']['nci_cerebro'].update(reutilizacao='desconhecida'),
+            lambda d: d['fontes']['nci_cerebro'].update(reutilizacao=[]),
+            lambda d: d['fontes']['nci_cerebro'].update(direitos_url=''),
+            lambda d: d['fontes']['nci_cerebro'].update(credito=''),
+            lambda d: d['itens'][0]['fatos'][0].update(natureza='religioso'),
             lambda d: d['ligacoes'][0].update(destino='mundo_ausente'),
             lambda d: d['ligacoes'][0].update(origem=[]),
             lambda d: d['ligacoes'][0].update(indice_fato=999),
@@ -179,7 +184,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
 
     def test_mesmo_motor_para_conceitos_ineditos_e_rede_offline(self):
         # Nomes e relação artificiais: não existe regra para estes temas no código.
-        dados = dict(versao=1, fontes={'teste': self.curriculo['fontes']['wol_cerebro']},
+        dados = dict(versao=1, fontes={'teste': self.curriculo['fontes']['nci_cerebro']},
             itens=[dict(id='mundo_zunto', nome='zunto', area='ficcao', aliases=['zuntos'],
                 fatos=[dict(texto='Zunto é um objeto fictício.', papel='definicao', natureza='cientifico', fonte='teste'),
                        dict(texto='Zunto aciona torva no exemplo fictício.', papel='detalhe', natureza='cientifico', fonte='teste', aspecto='funcao')]),

@@ -184,15 +184,13 @@ da composição. Conhecimento novo entra pelo currículo revisado no código.
 de 0/32 para 32/32. Há testes de combinações de conceitos, bases fictícias,
 referências, fontes, limites de frases, recusas e API.
 
-## Ciência e psicologia pelo índice 1991–2026
+## Conhecimento científico e psicológico
 
-`conhecimento_mundo.json` acrescenta um primeiro currículo de **44 conceitos,
-119 fatos, 10 relações direcionais e 6 comparações**. Os temas foram escolhidos
-no [Índice das Publicações 1991–2026](https://wol.jw.org/pt/wol/library/r5/lp-t/todas-as-publica%C3%A7%C3%B5es/%C3%ADndice/%C3%ADndice-de-publica%C3%A7%C3%B5es/%C3%ADndice-1991-2026).
-Há referências a **22 artigos** e **11 fontes primárias complementares**
-(NIMH, NHLBI, NASA e Convenção sobre Diversidade Biológica). São resumos próprios
-de conteúdos selecionados, revisados em **29/09/2026**. O índice inteiro ainda
-não foi incorporado.
+`conhecimento_mundo.json` acrescenta um currículo de **44 conceitos,
+116 fatos, 10 relações direcionais e 6 comparações**, conferido em
+**35 fontes científicas independentes** em **29/09/2026**. As referências
+incluem NIH (NCI, NIDA, NIA, NIMH, NHLBI e NHGRI), NASA, USGS, NIST,
+National Park Service e artigos científicos da PLOS ONE.
 
 O currículo inclui cérebro, neurônios, sinapses, memória, neuroplasticidade,
 sono, ansiedade, estresse, depressão, apoio emocional, luto, procrastinação,
@@ -201,13 +199,28 @@ biomimética, ecolocalização, constelações, universo e energia solar.
 Cada conceito tem nomes alternativos e unidades de definição, funcionamento,
 função, exemplo ou limite quando há evidência cadastrada.
 
-Cada fato declara fonte e natureza: `cientifico`, `psicologico`, `orientacao`
-ou `religioso`. Interpretações religiosas aparecem atribuídas à publicação,
-com a expressão **“Segundo a interpretação religiosa da publicação”**.
-Informações científicas antigas são conferidas quando necessário: o currículo
-usa os três estágios não REM da classificação atual, e registra que o artigo
-de 2003 empregava uma classificação de quatro. Fontes sem ano de publicação
-confirmado exibem **“consulta 2026”**, sem inventar uma data de publicação.
+**Política para próximas ampliações:** incorporar somente conhecimento
+científico e psicológico com fonte verificável e condições de reutilização
+conferidas. Acesso público a uma página não equivale a permissão de uso.
+Cada referência registra autoria ou instituição, URL, ano, crédito,
+`reutilizacao`, `direitos_url`, `escopo_uso` e `verificado_em`. Foram usadas
+sínteses próprias dos textos institucionais com reutilização permitida e
+artigos sob CC BY 4.0, com crédito aos autores. Nenhuma imagem, logotipo ou
+artigo completo integra o currículo; a referência não indica endosso ao CRIVO.
+As políticas consultadas ficam registradas junto de cada fonte.
+
+O carregador exige os tipos `institucional_cientifica` ou `artigo_cientifico`
+e os metadados de reutilização. Cada fato declara fonte e natureza:
+`cientifico`, `psicologico` ou `orientacao`; interpretações religiosas não
+fazem parte deste currículo. A validação estrutural não substitui a revisão
+humana do conteúdo e das condições específicas de cada fonte.
+
+A classificação do sono não REM usa os **três estágios** descritos pelo NHLBI.
+A relação entre procrastinação e estresse registra **associação**, sem atribuir
+causalidade a um estudo transversal (Beutel e colaboradores, PLOS ONE, 2016).
+Fontes sem data de publicação confirmada exibem **“consulta 2026”**.
+Ao pedir fontes, o chatbot mostra apenas as referências dos fatos usados,
+incluindo crédito à instituição ou aos autores.
 
 ```text
 O que é um neurônio?
@@ -217,7 +230,7 @@ Por que o sono ajuda a memória?
 Qual a diferença entre estresse e ansiedade?
 Escreva um texto sobre memória e biodiversidade
 Qual é a fonte?
-Qual é a interpretação religiosa sobre biomimética?
+Dê um exemplo de biomimética.
 ```
 
 Funções, causas e comparações usam fatos explícitos. Uma relação não autoriza
@@ -246,7 +259,7 @@ de definição, função, relação, comparação, composição, fontes e recusa
 Na verificação adicional `Defina <nome>` dos 44 conceitos, o classificador
 isolado acertou o ID exato em **32/44**; ainda há confusões, inclusive com IDs
 editoriais de conceitos sobrepostos. Esses números são verificações de
-desenvolvimento, sem avaliação cega. A rede classifica assuntos; os 119 fatos
+desenvolvimento, sem avaliação cega. A rede classifica assuntos; os 116 fatos
 ficam no currículo e são selecionados pelo compositor. Esse treino não
 transforma o modelo em uma LLM nem garante compreensão de qualquer pergunta.
 

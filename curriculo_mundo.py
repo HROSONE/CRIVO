@@ -1,7 +1,7 @@
 """Currículo factual curado: dados locais, fontes e exemplos de conceitos.
 
-O índice escolhe assuntos; não é evidência para uma afirmação científica.
-Só resumos revisados de artigos entram no currículo. Nenhum texto remoto,
+Só sínteses próprias, conferidas em fontes científicas com condições de
+reutilização registradas, entram no currículo. Nenhum texto remoto,
 modelo pronto, chave ou download é necessário durante a conversa/treino.
 """
 import json
@@ -10,12 +10,11 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao", "religioso"))
+NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao"))
+REUTILIZACOES = frozenset(("dominio_publico", "CC-BY-4.0", "permissao_institucional"))
 
 
 def texto_fato(fato):
-    if fato.get("natureza") == "religioso":
-        return "Segundo a interpretação religiosa da publicação, " + fato["texto"]
     return fato["texto"]
 
 
@@ -36,16 +35,21 @@ def ler_curriculo(caminho):
                 not isinstance(fonte.get("url"), str) or
                 urlparse(fonte["url"]).scheme != "https" or
                 not urlparse(fonte["url"]).netloc or
-                fonte.get("tipo") not in ("artigo_indicado", "verificacao_primaria") or
+                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico") or
                 type(fonte.get("ano")) is not int or
-                not 1900 <= fonte["ano"] <= 2100):
+                not 1900 <= fonte["ano"] <= 2100 or
+                fonte.get("ano_tipo") not in ("publicacao", "consulta")):
             raise ValueError("Fonte do mundo sem título, URL, tipo ou ano")
-        if fonte["tipo"] == "artigo_indicado":
-            indice = fonte.get("indice_url", "")
-            if (urlparse(fonte["url"]).hostname not in ("wol.jw.org", "www.jw.org") or
-                    not isinstance(indice, str) or
-                    not re.fullmatch(r"https://wol\.jw\.org/pt/wol/d/r5/lp-t/\d+", indice)):
-                raise ValueError("Artigo sem vínculo com o índice WOL")
+        if (not isinstance(fonte.get("reutilizacao"), str) or
+                fonte["reutilizacao"] not in REUTILIZACOES or
+                not isinstance(fonte.get("direitos_url"), str) or
+                urlparse(fonte["direitos_url"]).scheme != "https" or
+                not urlparse(fonte["direitos_url"]).netloc or
+                not isinstance(fonte.get("credito"), str) or not fonte["credito"].strip() or
+                not isinstance(fonte.get("escopo_uso"), str) or not fonte["escopo_uso"].strip() or
+                not isinstance(fonte.get("verificado_em"), str) or
+                not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fonte["verificado_em"])):
+            raise ValueError("Fonte científica sem condições de reutilização ou crédito")
     ids = set()
     for item in dados["itens"]:
         if (not isinstance(item, dict) or
@@ -65,13 +69,12 @@ def ler_curriculo(caminho):
                     fato["fonte"] not in fontes or
                     not isinstance(fato.get("texto"), str) or
                     not 1 <= len(fato["texto"].strip()) <= 1000 or
-                    fato.get("natureza") not in NATUREZAS or
+                    not isinstance(fato.get("natureza"), str) or
+                    fato["natureza"] not in NATUREZAS or
                     fato.get("papel") not in ("definicao", "detalhe", "causa", "exemplo", "limite") or
                     not isinstance(fato.get("fontes", []), list) or
                     not all(isinstance(f, str) and f in fontes for f in fato.get("fontes", []))):
                 raise ValueError("Fato do mundo sem evidência ou natureza válida")
-        if not any(fontes[f["fonte"]]["tipo"] == "artigo_indicado" for f in item["fatos"]):
-            raise ValueError("Conceito sem artigo do índice")
     # Relações são direcionais e explícitas: o predicado e os argumentos
     # inteiros precisam corresponder. Sem inferência de causalidade transitiva.
     itens = {i["id"]: i for i in dados["itens"]}

@@ -270,7 +270,8 @@ class CompositorTextual:
             texto = "O texto veio da base editorial do CRIVO. Essa entrada não tem uma fonte externa cadastrada."
         else:
             texto = "Fontes dos fatos usados:\n" + "\n".join(
-                "- " + self.fontes[f]["titulo"] +
+                "- " + (self.fontes[f]["credito"] + ": " if self.fontes[f].get("credito") else "") +
+                self.fontes[f]["titulo"] +
                 (" (" + ("consulta " if self.fontes[f].get("ano_tipo") == "consulta" else "") +
                  str(self.fontes[f]["ano"]) + ")" if "ano" in self.fontes[f] else "") +
                 ": " + self.fontes[f]["url"] for f in fontes)
@@ -301,17 +302,6 @@ class CompositorTextual:
             ident = self.resolver(fontes.group(1))
             if ident in self.mundo_ids:
                 return self._fontes(self._conceito(ident)[2])
-        natureza = re.fullmatch(
-            r"qual (?:e )?a interpretacao religiosa (?:de|do|da|sobre) (.+)", n)
-        if natureza:
-            ident = self.resolver(natureza.group(1))
-            if ident in self.mundo_ids:
-                pares = tuple((ident, i) for i, fato in enumerate(self.itens[ident]["fatos"])
-                              if fato.get("natureza") == "religioso")
-                if pares:
-                    return self.compor((ident,), "interpretacao", selecionados=pares,
-                                       origem="conhecimento")
-                return falta
         comparacao = re.fullmatch(
             r"(?:qual (?:e )?a diferenca entre|diferenca entre|compare) (.+?) (?:e|com) (.+)", n)
         if comparacao is None:
