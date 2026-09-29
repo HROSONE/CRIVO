@@ -102,11 +102,14 @@ def tokens(texto):
 class Crivo:
     def __init__(self, caminho_base=None, agora=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
+        self.caminho_base = caminho
         self.base = json.loads(caminho.read_text(encoding="utf-8"))
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
+        self.historico = []
+        self.ultimo_assunto = None
 
     # "treino": monta o índice TF-IDF da base
     def _indexar(self):
@@ -157,6 +160,26 @@ class Crivo:
             pontos.append((s, i))
         pontos.sort(reverse=True)
         return [(s, i) for s, i in pontos if s > 0]
+
+
+    def ensinar(self, identificador, topico, perguntas, resposta, salvar=True):
+        """Adiciona conhecimento explicitamente validado pelo desenvolvedor."""
+        if topico not in TOPICOS:
+            raise ValueError("Topico invalido")
+        if not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", identificador):
+            raise ValueError("ID invalido")
+        if any(e["id"] == identificador for e in self.base):
+            raise ValueError("ID duplicado")
+        if not isinstance(perguntas, list) or not perguntas or not all(isinstance(p, str) and p.strip() for p in perguntas):
+            raise ValueError("Perguntas invalidas")
+        if not isinstance(resposta, str) or not resposta.strip():
+            raise ValueError("Resposta invalida")
+        self.base.append({"id": identificador, "topico": topico, "perguntas": perguntas, "resposta": resposta})
+        if salvar:
+            temp = self.caminho_base.with_suffix(".tmp")
+            temp.write_text(json.dumps(self.base, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+            temp.replace(self.caminho_base)
+        self._indexar()
 
     # ----------------------------------------------------- relógio -------
     def agora(self):
@@ -243,6 +266,9 @@ class Crivo:
         if s:
             return s
 
+        original = texto
+        if self.ultimo_assunto and re.search(r"\\b(isso|disso|dele|dela)\\b", n) and len(tokens(texto)) <= 3:
+            texto = texto + " " + self.ultimo_assunto
         rank = self._ranking(texto)
         toks = tokens(texto)
         desconhecidas = [t for t in toks if t not in self.idf]
@@ -253,6 +279,9 @@ class Crivo:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
             self.pos_ultimo = 0
             e = self.base[rank[0][1]]
+            self.ultimo_assunto = e["perguntas"][0]
+            self.historico.append({"pergunta": original, "id": e["id"]})
+            self.historico = self.historico[-20:]
             return e["id"], e["resposta"]
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             e = self.base[rank[0][1]]
