@@ -165,6 +165,56 @@ cadastrados**, não geração livre de texto por rede neural.
 A sintaxe reconhecida continua sendo restrita e todos os testes são
 de desenvolvimento.
 
+## Referências ao turno anterior e falsas despedidas (PR #22)
+
+Se a resposta do CRIVO menciona um objeto, a pergunta seguinte
+pode fazer referência ao mesmo objeto com palavras como `esse`,
+`desse`, `essa` ou `daquele`. O sistema confere o **texto da última
+resposta realmente mostrada**, aceita singular/plural simples e
+reconhece o referente com a mesma lógica para assuntos diferentes.
+
+Exemplo de teste real:
+
+```text
+Você: O que é Via Láctea?
+CRIVO: ... o Sistema Solar fica num dos braços em espiral.
+Você: Qual o nome desse braço que você falou?
+CRIVO: Você está se referindo ao braço mencionado na minha resposta anterior.
+       Reconheci o assunto, mas não tenho informação cadastrada
+       suficiente para responder a esse detalhe com segurança.
+```
+
+Isso não insere uma resposta inventada: o nome do braço não consta na
+descrição editorial inicial, portanto o CRIVO **não pode adivinhar**.
+Da mesma forma, **Andrômeda ainda não tem definição cadastrada**:
+uma regra de linguagem não substitui a necessidade de fatos.
+
+A implementação é reutilizável e também foi testada com respostas
+sobre gás e estrelas e com uma base fictícia sobre um anel, sem regras
+específicas para esses objetos. Referências não identificadas pedem
+esclarecimento. O contexto **expira em um turno**, inclusive após
+saudações ou declarações de desconhecimento, e a API web o reconstrói
+reproduzindo somente as perguntas recentes do navegador.
+
+A origem de `Até logo!` na pergunta do usuário era concreta: o
+detector de despedida procurava `falou` como substring dentro de
+qualquer frase. Agora exige uma despedida **completa**: `falou`
+sozinho continua funcionando, mas `qual ... que você falou?` não é
+uma despedida.
+
+Este módulo **não aprende fatos novos**, não resolve qualquer pronome,
+não acessa internet nem transforma relações sem evidência em certeza.
+Seu papel é **localizar um referente reconhecível e admitir quando
+não conhece o detalhe pedido**.
+
+Testes de desenvolvimento:
+
+```bash
+python -m unittest testes_referencias_dialogo -v
+python -m unittest discover -p 'testes*.py'
+python avaliar_definicoes.py
+```
+
 ## Interface web para testar no celular
 
 A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
