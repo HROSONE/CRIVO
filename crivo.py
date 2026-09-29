@@ -418,6 +418,10 @@ class Crivo:
         alvo = self._alvo_definicao(texto)
         if alvo is None:
             return None
+        # "o fenômeno El Niño" é o conceito El Niño, não um fenômeno
+        # arbitrário. Não remove qualificadores que mudam o significado
+        # ("árvore binária", "árvore genealógica" etc.).
+        alvo = re.sub(r"^(?:fenomeno|conceito|termo)\s+", "", alvo)
         alvo_tokens = tuple(self._tokens_consulta(alvo))
         if not alvo_tokens:
             return None
@@ -425,15 +429,34 @@ class Crivo:
         candidatas = []
         for indice in permitidas:
             entrada = self.base[indice]
-            if any((conceito := self._alvo_definicao(pergunta)) is not None
-                   and tuple(tokens(conceito)) == alvo_tokens
-                   for pergunta in entrada["perguntas"]):
-                candidatas.append(indice)
+            conceitos = [
+                conceito for pergunta in entrada["perguntas"]
+                for conceito in [self._alvo_definicao(pergunta)]
+                if conceito is not None
+            ] + entrada.get("definicoes", [])
+            for conceito in conceitos:
+                definidos = tuple(self._tokens_consulta(conceito))
+                if definidos == alvo_tokens:
+                    candidatas.append(indice)
+                    break
+                # Modificador único que conste na própria explicação:
+                # "solstício de verão" tem evidência para verão; "árvore
+                # de decisão" NÃO pode herdar definição de árvore.
+                extras = alvo_tokens[len(definidos):]
+                if (definidos and len(extras) == 1 and
+                        alvo_tokens[:len(definidos)] == definidos and
+                        extras[0] in tokens(entrada["resposta"])):
+                    candidatas.append(indice)
+                    break
         if len(candidatas) == 1:
             indice = candidatas[0]
             self.ultimos = [(1.0, indice)]
             self.pos_ultimo = 0
-            return self._registrar(indice, original)
+            ident, resposta = self._registrar(indice, original)
+            definicao_editorial = self.base[indice].get("resposta_definicao")
+            if definicao_editorial:
+                resposta = definicao_editorial + "\n\n" + resposta
+            return ident, resposta
         if len(candidatas) > 1:
             return self._pedir_esclarecimento(candidatas[:2], original)
         self.esclarecimento = None
