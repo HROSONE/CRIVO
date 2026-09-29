@@ -54,7 +54,8 @@ class RedeCrivo:
         self.b2 = [0.0] * len(rotulos)
 
     def _forward(self, x):
-        h = [math.tanh(sum(w*v for w, v in zip(linha, x)) + b)
+        ativos = [(i, v) for i, v in enumerate(x) if v]
+        h = [math.tanh(sum(linha[i]*v for i, v in ativos) + b)
              for linha, b in zip(self.w1, self.b1)]
         logits = [sum(w*v for w, v in zip(linha, h)) + b
                   for linha, b in zip(self.w2, self.b2)]
@@ -84,10 +85,10 @@ class RedeCrivo:
                     for j in range(self.ocultos):
                         self.w2[k][j] -= taxa * delta * h[j]
                     self.b2[k] -= taxa * delta
+                ativos = [(i, v) for i, v in enumerate(x) if v]
                 for j, delta in enumerate(delta1):
-                    for i, v in enumerate(x):
-                        if v:
-                            self.w1[j][i] -= taxa * delta * v
+                    for i, v in ativos:
+                        self.w1[j][i] -= taxa * delta * v
                     self.b1[j] -= taxa * delta
 
     def prever(self, texto):
