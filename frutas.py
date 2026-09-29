@@ -52,7 +52,10 @@ class ConhecimentoFrutas:
                     not all(isinstance(a, str) for a in e["aliases"]) or
                     (e.get("estrutura_consumida") is not None and
                      (not isinstance(e["estrutura_consumida"], str) or
-                      not e["estrutura_consumida"].strip()))):
+                      not e["estrutura_consumida"].strip())) or
+                    (e.get("destaque_comparativo") is not None and
+                     (not isinstance(e["destaque_comparativo"], str) or
+                      not e["destaque_comparativo"].strip()))):
                 raise ValueError("Fruto com dados incompletos")
             self.itens[e["id"]] = e
             nomes = [e["nome"]] + e["aliases"]
@@ -176,51 +179,62 @@ class ConhecimentoFrutas:
                     "grupo", None)
         return None
 
-    def _comparar(self, a, b, modo):
-        """Compara dois registros quaisquer sem adicionar fatos não curados.
+    @staticmethod
+    def _frase_curta(item):
+        """Seleciona um fato pequeno da curadoria; não gera novos fatos.
 
-        Os dados de cada fruta fornecem a classificação e seu sentido
-        culinário; a regra lógica é comum a todos os pares. A comparação
-        não deduz teor de nutrientes, igualdade de sementes ou segurança.
+        Quando falta um destaque específico, seleciona apenas a PRIMEIRA
+        frase da descrição conhecida, em vez de despejar o registro todo.
+        """
+        texto = item.get("destaque_comparativo") or item["descricao"]
+        frase = re.split(r"(?<=[.!?])\s+", texto.strip(), maxsplit=1)[0]
+        return frase if frase.endswith((".", "!", "?")) else frase + "."
+
+    def _comparar(self, a, b, modo):
+        """Explica semelhanças e diferenças relevantes de dois registros.
+
+        Usa classificação, exceções botânicas e até um destaque por espécie.
+        Não copia os textos integrais, não inventa propriedades ou relações
+        ausentes, não pede inferência a nenhum modelo externo.
         """
         nome_a, nome_b = a["nome"], b["nome"]
-        tipo_a, tipo_b = self.grupos[a["tipo"]], self.grupos[b["tipo"]]
+        classe_a = self.grupos[a["tipo"]].split(":", 1)[0].strip()
+        classe_b = self.grupos[b["tipo"]].split(":", 1)[0].strip()
         iguais = a["tipo"] == b["tipo"]
-        # A parte carnosa do caju não é o verdadeiro fruto botânico:
-        # não generalizar "ambos são frutos botânicos" nesse caso.
-        excecoes = [e["nome"] + ": " + e["estrutura_consumida"]
+
+        # Nem toda parte consumida é o próprio fruto. Com exceções
+        # estruturadas, evita "ambos são frutos botânicos" irrestrito.
+        excecoes = [e["nome"] + ": " + e["estrutura_consumida"].rstrip(".")
                     for e in (a, b) if e.get("estrutura_consumida")]
         if excecoes:
-            comum = ("Ambos constam do catálogo de frutos e estruturas "
-                     "vegetais relacionadas, mas a parte consumida nem "
-                     "sempre é o próprio fruto botânico. " +
-                     "; ".join(excecoes) + ". ")
+            comum = (nome_a + " e " + nome_b +
+                     " constam do catálogo de frutos e estruturas vegetais "
+                     "relacionadas, mas é preciso distinguir a parte consumida "
+                     "do fruto: " + "; ".join(excecoes) + ".")
         elif "pseudofruto" in (a["tipo"], b["tipo"]):
-            comum = ("Os dois constam do catálogo de frutos e estruturas "
-                     "vegetais relacionadas; nem toda parte consumida é "
-                     "o próprio fruto botânico. ")
+            comum = (nome_a + " e " + nome_b +
+                     " constam do catálogo botânico, mas nem toda parte "
+                     "consumida é o próprio fruto.")
         else:
-            comum = ("Ambos são frutos botânicos, embora isso não signifique "
-                     "que tenham o mesmo uso culinário. ")
+            comum = (nome_a + " e " + nome_b + " são frutos botânicos.")
+
         if iguais:
-            classes = ("A classificação botânica registrada é a mesma: "
-                       + nome_a + " e " + nome_b + " pertencem ao grupo " +
-                       tipo_a + ". ")
+            classes = ("Na classificação cadastrada, " + nome_a +
+                       " e " + nome_b + " pertencem ao mesmo grupo: " +
+                       classe_a + ".")
         else:
-            classes = ("As classificações botânicas cadastradas são diferentes: "
-                       + nome_a + " é " + tipo_a + "; " +
-                       nome_b + " é " + tipo_b + ". ")
+            classes = ("Suas classificações são diferentes: " +
+                       nome_a + " é " + classe_a + "; " +
+                       nome_b + " é " + classe_b + ".")
 
         if modo == "mesmo_tipo":
-            afirmacao = ("Sim. " if iguais else "Não. ")
-            resposta = afirmacao + classes
+            resposta = ("Sim. " if iguais else "Não. ") + classes
         elif modo == "tipos_diferentes":
-            afirmacao = ("Não: eles não são de tipos diferentes. "
-                         if iguais else "Sim, são de tipos diferentes. ")
-            resposta = afirmacao + classes
+            resposta = ("Não: eles não são de tipos diferentes. " if iguais
+                        else "Sim, são de tipos diferentes. ") + classes
         elif modo == "hortalicas":
-            # O campo "culinaria" registra apenas se é chamado fruta;
-            # não confundir "não-fruta de sobremesa" com "hortaliça".
+            # O campo culinaria indica ser chamada fruta, mas não prova
+            # que a alternativa seria especificamente uma hortaliça.
             descricoes = (normalizar_fruta(a["descricao"]),
                           normalizar_fruta(b["descricao"]))
             eh_hortalica = all(
@@ -228,25 +242,33 @@ class ConhecimentoFrutas:
                 "legume no uso culinario" in descricao
                 for descricao in descricoes)
             if eh_hortalica:
-                resposta = (comum + classes + "Na culinária, os dois são "
-                            "frequentemente utilizados como hortaliças. ")
+                resposta = (comum + " " + classes +
+                            " Na culinária, ambos são frequentemente usados "
+                            "como hortaliças.")
             else:
-                resposta = (comum + classes +
-                            "Não há descrição cadastrada suficiente para "
-                            "confirmar que ambos são usados como hortaliças. ")
-        elif modo == "frutos":
-            resposta = comum + classes
-        elif modo == "semelhanca":
-            resposta = comum + classes
-            if a["culinaria"] and b["culinaria"]:
-                resposta += ("No uso culinário, ambos costumam ser "
-                             "chamados de frutas. ")
-        else:
-            # Não inventa diferenças específicas quando o tipo é igual:
-            # descreve diferenças de registros e o que permanece igual.
-            resposta = (comum + classes +
-                        "Descrição de " + nome_a + ": " + a["descricao"] +
-                        " Descrição de " + nome_b + ": " + b["descricao"] + " ")
+                resposta = (comum + " " + classes +
+                            " Não há descrição cadastrada suficiente para "
+                            "confirmar que ambos são usados como hortaliças.")
+        elif modo in ("frutos", "semelhanca"):
+            resposta = comum + " " + classes
+            if (modo == "semelhanca" and
+                    a["culinaria"] and b["culinaria"]):
+                resposta += (" No uso culinário, ambos também costumam "
+                             "ser chamados de frutas.")
+        else:  # modo == comparar
+            resposta = comum + " " + classes
+            # Uma observação individual útil de cada registro, nunca
+            # o bloco completo de descrição/grupo/sementes de ambos.
+            if excecoes:
+                # O fato sobre parte consumida já foi exibido; evite
+                # repeti-lo em uma longa descrição.
+                destaque = [e for e in (a, b)
+                            if not e.get("estrutura_consumida")]
+            else:
+                destaque = (a, b)
+            if destaque:
+                resposta += " " + " ".join(
+                    self._frase_curta(item) for item in destaque)
 
         return ("frutas:comparar" if modo == "comparar" else "frutas:relacao",
                 resposta.strip(), modo, None)
