@@ -96,14 +96,19 @@ class AnalisadorPortugues:
         n = self._preparar(texto)
         if not n or len(n) > 450:
             return None
-        if CONDICIONAL.search(n) or NEGACAO.search(n):
+        if NEGACAO.search(n):
             return None
 
-        # Cortesia 'quero saber SE ...' não é premissa hipotética.
-        n = re.sub(r"^se\s+", "", n) if n.startswith("se ") and (
-            simplificar(texto).startswith(("quero saber se ", "queria saber se ",
-                "gostaria de saber se ", "voce pode dizer se ",
-                "voce poderia dizer se "))) else n
+        # "Quero saber se X ..." é uma pergunta interrogativa indireta;
+        # "Se X fosse Y ..." é hipótese: não autoriza prova factual.
+        origem = simplificar(texto)
+        if n.startswith("se ") and origem.startswith((
+                "quero saber se ", "queria saber se ",
+                "gostaria de saber se ", "eu queria saber se ",
+                "eu gostaria de saber se ", "voce pode dizer se ",
+                "voce poderia dizer se ", "pode me dizer se ",
+                "poderia me dizer se ")):
+            n = n[3:]
         if CONDICIONAL.search(n):
             return None
 
@@ -115,6 +120,7 @@ class AnalisadorPortugues:
             r"(?:qual (?:e )?o )?significado (?:de|da|do) (.+)",
             r"defina (.+)",
             r"definir (.+)",
+            r"(?:pode|poderia) definir (.+)",
             r"como se define (.+)",
             r"explique o que (?:e|eh|sao) (.+)",
             r"explica o que (?:e|eh|sao) (.+)",
