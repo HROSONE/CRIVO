@@ -1,0 +1,23 @@
+name: Testes Crivo
+on:
+  push:
+    branches: [main, melhorias-crivo-v02]
+  pull_request:
+    branches: [main]
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compilar
+        run: python -m compileall -q .
+      - name: Testes originais
+        run: python crivo.py --teste
+      - name: Testes novos
+        run: python -m unittest discover -p 'testes*.py' -v
