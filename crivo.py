@@ -275,7 +275,9 @@ class Crivo:
                 not re.search(r"\b(arquivo|json|api|http|sql|dicionario|"
                               r"variavel|telefone|gps|whatsapp|mensagem|"
                               r"excecao|keyerror|nameerror|typeerror|"
-                              r"print|saida)\b", n)):
+                              r"print|saida|formulario|web|site|navegador|"
+                              r"camera|imagem|video|microfone|audio|"
+                              r"socket|endpoint)\b", n)):
             for pista in ("input", "teclado", "usuario"):
                 if pista in vocabulario and pista not in resultado:
                     resultado.append(pista)
