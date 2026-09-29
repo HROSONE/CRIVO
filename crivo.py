@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Crivo v0.1 - assistente de conversa em português.
+Crivo v0.3 - assistente de conversa em português.
 
 Assuntos do primeiro teste: plantas, animais, clima, tempo, estações do ano,
 sistema solar e coisas de casa.
@@ -13,6 +13,7 @@ Uso:
 Sem dependências externas: só a biblioteca padrão do Python 3.8+.
 """
 import datetime
+import difflib
 import json
 import math
 import random
@@ -22,7 +23,7 @@ import unicodedata
 from collections import Counter
 from pathlib import Path
 
-VERSAO = "0.2"
+VERSAO = "0.3"
 PASTA = Path(__file__).resolve().parent
 
 TOPICOS = {
@@ -77,6 +78,19 @@ SINONIMOS = {
     "existirem": "existir", "existem": "existir",
     "bicho": "animal", "passaro": "ave",
     "estragou": "velho", "estragado": "velho",
+    "adubar": "adubo", "fertilizante": "adubo",
+    "alimentar": "comida", "alimenta": "comida", "alimentam": "comida",
+    "amarelada": "amarelo", "amareladas": "amarelo", "amarela": "amarelo",
+    "amarelando": "amarelo", "amarelas": "amarelo",
+    "cuidados": "cuidar", "cuidado": "cuidar",
+    "servem": "serve", "funcao": "serve",
+    "veloz": "rapido", "velozes": "rapido",
+    "brasileiro": "brasil", "brasileiros": "brasil",
+    "poupar": "economizar", "remover": "tirar",
+    "toxico": "toxico", "toxica": "toxico", "toxicas": "toxico",
+    "respira": "respirar", "respiram": "respirar",
+    "migra": "migrar", "migram": "migrar", "migracao": "migrar",
+    "regue": "regar", "regam": "regar",
 }
 
 
@@ -97,7 +111,8 @@ def radical(p):
 
 def tokens(texto):
     ps = re.findall(r"[a-z0-9]+", normalizar(texto))
-    rs = [SINONIMOS.get(r, r) for r in (radical(p) for p in ps if p not in STOP and len(p) > 1)]
+    rs = [SINONIMOS.get(r, r) for r in (radical(SINONIMOS.get(p, p))
+          for p in ps if p not in STOP and len(p) > 1)]
     return rs
 
 
@@ -140,7 +155,7 @@ class Crivo:
         docs = []
         for e in self.base:
             c = Counter()
-            for q in e["perguntas"]:
+            for q in dict.fromkeys(e["perguntas"]):
                 for t in tokens(q):
                     c[t] += 3
             for t in tokens(e["resposta"]):
@@ -154,15 +169,28 @@ class Crivo:
         for c in docs:
             df.update(c.keys())
         self.idf = {t: math.log((n + 1) / (d + 1)) + 1 for t, d in df.items()}
-        self.idf_raro = max(self.idf.values())
+        self.idf_raro = max(self.idf.values(), default=1.0)
+        self.exemplos = [[set(tokens(p)) for p in dict.fromkeys(e["perguntas"])]
+                         for e in self.base]
         self.vetores = []
         for c in docs:
             v = {t: (1 + math.log(f)) * self.idf[t] for t, f in c.items()}
             norma = math.sqrt(sum(x * x for x in v.values())) or 1.0
             self.vetores.append({t: x / norma for t, x in v.items()})
 
+    def _tokens_consulta(self, texto):
+        resultado = []
+        for t in tokens(texto):
+            if t not in self.idf and len(t) >= 5:
+                # Só corrigir grafias muito próximas e com candidato único.
+                proximos = difflib.get_close_matches(t, self.idf, n=2, cutoff=0.88)
+                if len(proximos) == 1:
+                    t = proximos[0]
+            resultado.append(t)
+        return resultado
+
     def _ranking(self, texto):
-        c = Counter(tokens(texto))
+        c = Counter(self._tokens_consulta(texto))
         if not c:
             return []
         q = {t: (1 + math.log(f)) * self.idf.get(t, 0.0) for t, f in c.items()}
@@ -175,19 +203,24 @@ class Crivo:
             # cobertura: quanto do peso da pergunta esta entrada explica
             cob = sum(self.idf[t] for t in c if t in self.termos[i]) / total
             s += 0.4 * cob
-            # bônus se as palavras da pergunta batem com alguma pergunta-exemplo
+            # Um exemplo forte vale mais que repetir exemplos parecidos.
+            # O peso IDF preserva os termos que distinguem duas intenções.
             tq = set(q)
-            for pergunta in self.base[i]["perguntas"]:
-                tp = set(tokens(pergunta))
-                if tp and tq:
-                    s += 0.35 * len(tq & tp) / len(tq | tp)
+            similares = []
+            for tp in self.exemplos[i]:
+                uniao = tq | tp
+                if uniao:
+                    inter = sum(self.idf.get(t, self.idf_raro) for t in tq & tp)
+                    peso = sum(self.idf.get(t, self.idf_raro) for t in uniao)
+                    similares.append(inter / peso)
+            s += 0.35 * max(similares, default=0.0) + 1.05 * sum(similares) / max(1, len(similares))
             pontos.append((s, i))
         nq = normalizar(texto)
         if re.search(r"\b(por que|porque|o que faz|o que causa)\b", nq):
             for k, (score, idx) in enumerate(pontos):
                 exemplos = " ".join(normalizar(p) for p in self.base[idx]["perguntas"])
-                if re.search(r"\b(por que|porque|o que causa|o que faz)\b", exemplos):
-                    pontos[k] = (score + 0.16, idx)
+                if score > 0 and re.search(r"\b(por que|porque|o que causa|o que faz)\b", exemplos):
+                    pontos[k] = (score + 0.30, idx)
         pontos.sort(reverse=True)
         return [(s, i) for s, i in pontos if s > 0]
 
@@ -213,6 +246,13 @@ class Crivo:
         self._indexar()
         self.rede = None
 
+    def _registrar(self, indice, pergunta):
+        e = self.base[indice]
+        self.ultimo_assunto = e["perguntas"][0]
+        self.historico.append({"pergunta": pergunta, "id": e["id"]})
+        self.historico = self.historico[-20:]
+        return e["id"], e["resposta"]
+
     # ----------------------------------------------------- relógio -------
     def agora(self):
         return self._agora or datetime.datetime.now()
@@ -231,15 +271,16 @@ class Crivo:
     def _dinamico(self, n):
         """Perguntas que dependem do relógio do computador."""
         d = self.agora()
-        if re.search(r"\bque horas\b|\bhoras sao\b|\bhora atual\b|\bque hora e\b|\bhora certa\b", n):
+        # Só perguntas sobre o relógio local; datas históricas e outros
+        # lugares precisam passar pela base, nunca receber a hora daqui.
+        if re.fullmatch(r"(que horas( sao)?|horas sao|qual (e )?a hora( atual| certa)?|hora atual|hora certa|que hora e)( agora| aqui)?", n):
             return "dyn:hora", f"Agora são {d:%H:%M}."
-        if re.search(r"\bque dia (e )?hoje\b|\bdata de hoje\b|\bqual (e )?a data\b|"
-                     r"\bhoje e que dia\b|\bdia da semana\b|\bque dia e hoje\b", n):
+        if re.fullmatch(r"(que dia (e )?hoje|data de hoje|qual (e )?a data( de hoje)?|hoje e que dia|dia da semana|que dia da semana e hoje)", n):
             return "dyn:data", (f"Hoje é {DIAS[d.weekday()]}, {d.day} de "
                                 f"{MESES[d.month - 1]} de {d.year}.")
-        if re.search(r"\bque mes\b|\bem que mes\b", n):
+        if re.fullmatch(r"(em )?que mes( (e|estamos|a gente esta))?( agora| hoje)?", n):
             return "dyn:mes", f"Estamos em {MESES[d.month - 1]} de {d.year}."
-        if re.search(r"\bque ano\b|\bem que ano\b", n):
+        if re.fullmatch(r"(em )?que ano( (e|estamos|a gente esta))?( agora| hoje)?", n):
             return "dyn:ano", f"Estamos em {d.year}."
         if "estacao" in n and re.search(r"estamos|atual|agora|hoje|neste momento", n):
             est = self.estacao_de(d)
@@ -280,7 +321,18 @@ class Crivo:
     # ---------------------------------------------------- resposta -------
     def responder(self, texto):
         """Devolve (id, resposta)."""
-        n = normalizar(texto).strip()
+        original = texto
+        n = normalizar(texto).strip().strip("!?.,; ")
+        # Cumprimentos não devem engolir a pergunta que vem junto.
+        prefixo = r"^(?:(?:oi+|ola|bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;-]*|por (?:favor|gentileza)[,: ]*)"
+        resto = re.sub(prefixo, "", n).strip()
+        if resto and resto != n:
+            n = resto
+            texto = resto
+        resto = re.sub(r"[,; ]+(?:por favor|obrigad[oa])$", "", n).strip()
+        if resto:
+            n = resto
+            texto = resto
         if not n:
             return "vazio", "Pode falar, estou ouvindo."
 
@@ -291,6 +343,8 @@ class Crivo:
                 return self.base[i]["id"], self.base[i]["resposta"]
             return "mais:fim", "Não tenho mais nada sobre esse assunto. Quer perguntar outra coisa?"
 
+        self.ultimos = []
+        self.pos_ultimo = 0
         d = self._dinamico(n)
         if d:
             return d
@@ -298,23 +352,39 @@ class Crivo:
         if s:
             return s
 
-        original = texto
-        if re.search(r"\b(nao|nunca|jamais|sem)\b", n) and re.search(r"\b(pode|posso|devo|precisa|seguro|mistur|comer)\b", n):
+        prevencao = re.sub(r"^(?:o que fazer (?:pra|para)|como fazer para|como) nao (?:ter|pegar)\b", "como evitar", n)
+        if prevencao != n:
+            texto = n = prevencao
+        exatas = [i for i, e in enumerate(self.base) if any(
+            re.sub(r"[^a-z0-9 ]", "", normalizar(p)).strip() ==
+            re.sub(r"[^a-z0-9 ]", "", n).strip() for p in e["perguntas"])]
+        if len(exatas) == 1:
+            i = exatas[0]
+            self.ultimos = [(1.0, i)]
+            return self._registrar(i, original)
+        if len(exatas) > 1:
+            return "duvida", "Há mais de uma resposta cadastrada para essa pergunta. Pode detalhar?"
+        if re.search(r"\b(nao|nunca|jamais)\b", n) or (
+                re.search(r"\bsem\b", n) and
+                re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
-        if "abelha" in n and re.search(r"\b(ajudam|ajuda|natureza|importantes)\b", n):
-            e = next(e for e in self.base if e["id"] == "abelhas")
-            return e["id"], e["resposta"]
-        if "estacoes" in n and re.search(r"\b(existirem|existem|causa|por que)\b", n):
-            e = next(e for e in self.base if e["id"] == "causa_estacoes")
-            return e["id"], e["resposta"]
+        if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
+            indice = next((i for i, e in enumerate(self.base) if e["id"] == "causa_estacoes"), None)
+            if indice is not None:
+                self.ultimos = [(1.0, indice)]
+                return self._registrar(indice, original)
         rank = self._ranking(texto)
-        toks = tokens(texto)
+        toks = self._tokens_consulta(texto)
         desconhecidas = [t for t in toks if t not in self.idf]
         # se metade ou mais das palavras é desconhecida, o Crivo prefere admitir que não sabe
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []
+        if len(rank) > 1 and rank[0][0] >= LIMIAR_DUVIDA and rank[0][0] - rank[1][0] < 0.06:
+            candidatos = [self.base[i]["perguntas"][0] for _, i in rank[:2]]
+            return "duvida", ('Encontrei duas possibilidades próximas. Você quer saber "' +
+                              candidatos[0] + '" ou "' + candidatos[1] + '"?')
         # Rede e recuperador precisam concordar; sem acordo, mantém-se
         # o comportamento original. O limiar não é garantia de calibração.
         neural = self.previsao_neural(original)
@@ -322,19 +392,12 @@ class Crivo:
                 and self.base[rank[0][1]]["id"] == neural[0]
                 and rank[0][0] >= LIMIAR_DUVIDA
                 and len(desconhecidas) < max(1, len(toks) / 2)):
-            e = self.base[rank[0][1]]
-            self.ultimo_assunto = e["perguntas"][0]
-            self.historico.append({"pergunta": original, "id": e["id"]})
-            self.historico = self.historico[-20:]
-            return e["id"], e["resposta"]
+            self.ultimos = [rank[0]]
+            return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
             self.pos_ultimo = 0
-            e = self.base[rank[0][1]]
-            self.ultimo_assunto = e["perguntas"][0]
-            self.historico.append({"pergunta": original, "id": e["id"]})
-            self.historico = self.historico[-20:]
-            return e["id"], e["resposta"]
+            return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             e = self.base[rank[0][1]]
             return "duvida", (f"Não tenho certeza se entendi. Você quis perguntar algo como "
@@ -392,3 +455,4 @@ if __name__ == "__main__":
         print(Crivo().responder(" ".join(args))[1])
     else:
         conversar()
+
