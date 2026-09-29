@@ -72,6 +72,9 @@ SINONIMOS = {
     "viver": "vida", "vive": "vida", "vivem": "vida",
     "veneno": "toxico", "venenoso": "toxico", "venenosa": "toxico",
     "envenenar": "toxico",
+    "molho": "regar", "vasinho": "vaso", "ajudam": "ajuda",
+    "paises": "pais", "diferente": "diferenca",
+    "existirem": "existir", "existem": "existir",
     "bicho": "animal", "passaro": "ave",
     "estragou": "velho", "estragado": "velho",
 }
@@ -158,6 +161,12 @@ class Crivo:
                 if tp and tq:
                     s += 0.35 * len(tq & tp) / len(tq | tp)
             pontos.append((s, i))
+        nq = normalizar(texto)
+        if re.search(r"\b(por que|porque|o que faz|o que causa)\b", nq):
+            for k, (score, idx) in enumerate(pontos):
+                exemplos = " ".join(normalizar(p) for p in self.base[idx]["perguntas"])
+                if re.search(r"\b(por que|porque|o que causa|o que faz)\b", exemplos):
+                    pontos[k] = (score + 0.16, idx)
         pontos.sort(reverse=True)
         return [(s, i) for s, i in pontos if s > 0]
 
