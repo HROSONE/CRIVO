@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080a16">
+  <meta name="description" content="Converse com o CRIVO original, experimente relações lógicas e examine suas respostas. Sem provedores externos de IA.">
+  <title>CRIVO · Laboratório</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Informações do CRIVO">
+      <div class="sidebar-top">
+        <a class="brand" href="/" aria-label="CRIVO - início">
+          <span class="brand-symbol" aria-hidden="true">
+            <span class="brand-core"></span>
+          </span>
+          <span class="brand-name">CRIVO<span class="brand-dot">.</span></span>
+        </a>
+        <span class="side-edition">LABORATÓRIO V1.0</span>
+      </div>
+
+      <div class="sidebar-body">
+        <div class="sidebar-overline">EXPERIMENTE O CÉREBRO</div>
+        <h1 class="sidebar-title">Ideias. Relações.<br><em>Descobertas.</em></h1>
+        <p class="sidebar-text">Um assistente construído do zero, com conhecimento próprio e raciocínio simbólico. Teste o que ele sabe — e onde ainda precisa evoluir.</p>
+
+        <div class="sidebar-divider"></div>
+        <div class="nav-caption">ÁREAS DE CONHECIMENTO</div>
+        <div class="topic-chip"><span class="topic-icon blue">✳</span> Natureza e animais</div>
+        <div class="topic-chip"><span class="topic-icon violet">◇</span> Sistema solar</div>
+        <div class="topic-chip"><span class="topic-icon coral">⌘</span> Programação</div>
+        <div class="topic-chip"><span class="topic-icon green">⇄</span> Relações e lógica</div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="engine-pill"><span class="engine-light"></span> MOTOR ORIGINAL · PYTHON</div>
+        <p>Sem Gemini, Qwen ou APIs de modelos externos.</p>
+        <a class="github-link" href="https://github.com/HROSONE/CRIVO" target="_blank" rel="noopener noreferrer">
+          Código no GitHub <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-ident">
+          <span class="mobile-icon" aria-hidden="true"><span></span></span>
+          <div>
+            <div class="topbar-title">Converse com o CRIVO</div>
+            <div class="topbar-sub">Ambiente de testes · sem respostas pré-fabricadas no navegador</div>
+          </div>
+        </div>
+        <div class="top-actions">
+          <span class="status status-waiting" id="status" role="status" aria-live="polite">
+            <span class="status-pip"></span><span id="status-text">Verificando...</span>
+          </span>
+          <button id="info-button" class="icon-button" type="button" aria-label="Sobre o CRIVO" title="Sobre o CRIVO">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 10.5v5.5M12 7v.5" stroke-linecap="round"/></svg>
+          </button>
+          <button id="clear-button" class="icon-button" type="button" aria-label="Limpar conversa" title="Nova conversa">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3.5 7.5h17M9 7.5V5h6v2.5M7 7.5l.8 11a2 2 0 0 0 2 1.8h4.4a2 2 0 0 0 2-1.8l.8-11M10 11.5v5M14 11.5v5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="conversation" id="conversation" aria-label="Conversa com o CRIVO" role="log" aria-live="polite" aria-relevant="additions">
+        <div class="welcome" id="welcome">
+          <div class="orb-outer" aria-hidden="true">
+            <div class="orb-halo"></div>
+            <div class="orb-ring"></div>
+            <div class="orb-body">
+              <div class="orb-sheen"></div>
+              <svg class="orb-network" viewBox="0 0 180 180" fill="none" aria-hidden="true">
+                <g stroke="#c3bcff" stroke-opacity=".42" stroke-width=".8">
+                  <path d="M43 70 71 39 102 52 137 75 121 116 86 141 52 112 43 70Z"/>
+                  <path d="m71 39 15 53 16-40 19 64-35 25-34-29 50-60-59 18 78 46-35 25V92L52 112m19-73 66 36-51 17m35 24-78-46"/>
+                </g>
+                <g fill="#cbd5ff">
+                  <circle cx="43" cy="70" r="3"/><circle cx="71" cy="39" r="2.5"/><circle cx="102" cy="52" r="3"/>
+                  <circle cx="137" cy="75" r="3"/><circle cx="121" cy="116" r="3"/><circle cx="86" cy="141" r="2.7"/>
+                  <circle cx="52" cy="112" r="3"/><circle cx="86" cy="92" r="5" fill="#fff"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="welcome-eyebrow"><span class="eyebrow-line"></span> UM NOVO TIPO DE EXPERIMENTO <span class="eyebrow-line"></span></div>
+          <h2>Olá, eu sou o <span>CRIVO.</span></h2>
+          <p>Tenho um cérebro em construção. Consigo recuperar conhecimentos, relacionar conceitos e explicar algumas deduções. Me faça uma pergunta para começar.</p>
+          <div class="suggestions-label">EXPERIMENTE UMA PERGUNTA</div>
+          <div class="suggestions" id="suggestions">
+            <button class="suggestion" type="button" data-prompt="Por que um pinguim é um ser vivo?"><span class="suggestion-emoji">🐧</span><span>Por que um pinguim é um ser vivo?</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion" type="button" data-prompt="Se todo flumbo é blim, todo blim é taro, então flumbo é taro?"><span class="suggestion-emoji">🧠</span><span>Teste uma dedução inédita</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion" type="button" data-prompt="Por que a aranha é um inseto?"><span class="suggestion-emoji">🕸️</span><span>Aranha é inseto?</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion" type="button" data-prompt="Como usar input em Python?"><span class="suggestion-emoji">⌘</span><span>Como usar input em Python?</span><span class="suggestion-arrow">↗</span></button>
+          </div>
+        </div>
+        <div class="messages" id="messages"></div>
+      </section>
+
+      <div class="composer-area">
+        <form id="composer" class="composer" autocomplete="off">
+          <label class="sr-only" for="question">Sua pergunta para o CRIVO</label>
+          <textarea id="question" name="question" placeholder="Pergunte qualquer coisa ao CRIVO..." rows="1" maxlength="1200" enterkeyhint="send" required></textarea>
+          <button type="submit" id="send-button" class="send-button" aria-label="Enviar mensagem" title="Enviar" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 14-7-4.2 14-3.1-6-6.7-1Z" stroke-linejoin="round"/><path d="m11.7 13 7.3-8" stroke-linecap="round"/></svg>
+          </button>
+        </form>
+        <p class="composer-note">O CRIVO é experimental e pode errar. Sem IA externa · Histórico somente nesta aba.</p>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-heading">
+    <div class="about-header"><span class="about-kicker">SOBRE O PROJETO</span><button type="button" class="icon-button" id="about-close" aria-label="Fechar">✕</button></div>
+    <h2 id="about-heading">Um cérebro próprio, <br>em construção.</h2>
+    <p>O CRIVO é um experimento em Python. Ele combina recuperação de textos escritos previamente com relações lógicas verificáveis. Uma rede neural classificadora própria é opcional quando os pesos compatíveis estão instalados.</p>
+    <div class="about-stat"><span>Conhecimento</span><strong>Base local cadastrada</strong></div>
+    <div class="about-stat"><span>Raciocínio</span><strong>Grafo simbólico próprio</strong></div>
+    <div class="about-stat"><span>Privacidade</span><strong>Sem armazenamento de conversas no servidor</strong></div>
+    <div class="about-stat"><span>Limite</span><strong>Não é um LLM nem inteligência geral</strong></div>
+    <p class="about-foot">Nesta interface o histórico curto é reenviado a cada pergunta para preservar o contexto entre requisições; não há login nem armazenamento permanente.</p>
+    <button type="button" id="about-ok" class="about-ok">Entendido</button>
+  </dialog>
+</body>
+</html>
