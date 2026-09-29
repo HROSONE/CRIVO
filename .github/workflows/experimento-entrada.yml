@@ -1,0 +1,23 @@
+name: Diagnostico entrada do usuario
+on:
+  pull_request:
+    paths:
+      - 'experimento_entrada_usuario.py'
+      - 'crivo.py'
+      - '.github/workflows/experimento-entrada.yml'
+  workflow_dispatch:
+jobs:
+  avaliar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Executar cenarios e protecao do benchmark historico
+        run: python experimento_entrada_usuario.py > relatorio-entrada.json
+      - name: Publicar diagnostico completo
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-entrada-usuario
+          path: relatorio-entrada.json
