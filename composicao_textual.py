@@ -31,13 +31,18 @@ class ContextoTexto(NamedTuple):
 
 
 class CompositorTextual:
-    def __init__(self, base, caminho, extrair_definicao):
+    def __init__(self, base, caminho, extrair_definicao, curriculo_mundo=None):
         self.itens = {}
         self.aliases = {}
         self.fontes = {}
         self.expandidos = set()
         self.referencias = []
+        self.mundo_ids = set()
+        self.ligacoes_mundo = []
+        self.comparacoes_mundo = []
         for e in base:
+            if e.get("origem_curriculo") == "mundo":
+                continue
             aliases = [a for p in e["perguntas"]
                        for a in [extrair_definicao(p)] if a]
             aliases += e.get("definicoes", [])
@@ -67,6 +72,11 @@ class CompositorTextual:
         if Path(caminho).is_file():
             self._carregar(json.loads(Path(caminho).read_text(encoding="utf-8")),
                            {e["id"] for e in base})
+        if curriculo_mundo is not None:
+            self._carregar(curriculo_mundo, {e["id"] for e in base})
+            self.mundo_ids = {i["id"] for i in curriculo_mundo["itens"]}
+            self.ligacoes_mundo = curriculo_mundo.get("ligacoes", [])
+            self.comparacoes_mundo = curriculo_mundo.get("comparacoes", [])
 
     def _adicionar(self, item):
         self.itens[item["id"]] = item
@@ -210,7 +220,8 @@ class CompositorTextual:
         escolhidos = selecionados if selecionados is not None else self._selecionar(ids, limite)
         if not escolhidos:
             return "escrita:fim", "Já apresentei os fatos disponíveis sobre esse assunto. Não tenho outro detalhe cadastrado para acrescentar.", None
-        frases = [self.itens[e]["fatos"][i]["texto"] for e, i in escolhidos]
+        from curriculo_mundo import texto_fato
+        frases = [texto_fato(self.itens[e]["fatos"][i]) for e, i in escolhidos]
         if formato == "topicos":
             texto = "\n".join("- " + f for f in frases)
         elif formato == "roteiro":
@@ -225,7 +236,7 @@ class CompositorTextual:
         else:
             paragrafos = []
             for ident in ids:
-                grupo = [self.itens[e]["fatos"][i]["texto"] for e, i in escolhidos if e == ident]
+                grupo = [texto_fato(self.itens[e]["fatos"][i]) for e, i in escolhidos if e == ident]
                 if grupo:
                     paragrafos.append(self._ligar(grupo))
             texto = "\n\n".join(paragrafos)
@@ -242,7 +253,10 @@ class CompositorTextual:
         _, texto, ctx = self.compor((ident,), selecionados=escolhidos, origem="conhecimento")
         # A definição ampliada pode preservar o ID público de uma
         # intenção editorial anterior, sem perder sua origem factual.
-        return self.itens[ident].get("id_resposta", "conhecimento:" + ident), texto, ctx
+        publico = self.itens[ident].get("id_resposta")
+        if publico and ident in self.mundo_ids:
+            ctx = ctx._replace(origem="base")
+        return publico or "conhecimento:" + ident, texto, ctx
 
     def _fontes(self, contexto):
         fontes = set()
@@ -256,9 +270,103 @@ class CompositorTextual:
             texto = "O texto veio da base editorial do CRIVO. Essa entrada não tem uma fonte externa cadastrada."
         else:
             texto = "Fontes dos fatos usados:\n" + "\n".join(
-                "- " + self.fontes[f]["titulo"] + ": " + self.fontes[f]["url"] for f in fontes)
+                "- " + self.fontes[f]["titulo"] +
+                (" (" + ("consulta " if self.fontes[f].get("ano_tipo") == "consulta" else "") +
+                 str(self.fontes[f]["ano"]) + ")" if "ano" in self.fontes[f] else "") +
+                ": " + self.fontes[f]["url"] for f in fontes)
         # Perguntar pelas fontes não autoriza usar a lista de URLs como fatos.
         return "escrita:fontes", texto, contexto
+
+    def _menciona_mundo(self, texto):
+        return any(ids & self.mundo_ids and re.search(
+            r"(?<!\w)" + re.escape(alias) + r"(?!\w)", texto)
+            for alias, ids in self.aliases.items())
+
+    def _consulta_mundo(self, n, contexto):
+        """Seleciona evidências de funções, diferenças e relações completas.
+
+        Não apaga modificadores, negações nem inverte argumentos. Os mesmos
+        moldes gramaticais servem para qualquer conceito de um currículo.
+        """
+        if not self.mundo_ids:
+            return None
+        falta = ("fora", "Reconheci o assunto, mas não tenho evidência cadastrada "
+                 "para essa pergunta completa.", None)
+        if self._menciona_mundo(n) and re.search(
+                r"\b(diagnostico|diagnostique|dose|remedio|medicamento)\b", n):
+            return ("fora", "Posso explicar os conceitos cadastrados, mas não "
+                    "determinar diagnóstico, medicamento ou dose para uma pessoa.", None)
+        fontes = re.fullmatch(r"(?:qual (?:e )?a fonte|quais (?:sao )?as fontes) (?:de|do|da|sobre) (.+)", n)
+        if fontes:
+            ident = self.resolver(fontes.group(1))
+            if ident in self.mundo_ids:
+                return self._fontes(self._conceito(ident)[2])
+        natureza = re.fullmatch(
+            r"qual (?:e )?a interpretacao religiosa (?:de|do|da|sobre) (.+)", n)
+        if natureza:
+            ident = self.resolver(natureza.group(1))
+            if ident in self.mundo_ids:
+                pares = tuple((ident, i) for i, fato in enumerate(self.itens[ident]["fatos"])
+                              if fato.get("natureza") == "religioso")
+                if pares:
+                    return self.compor((ident,), "interpretacao", selecionados=pares,
+                                       origem="conhecimento")
+                return falta
+        comparacao = re.fullmatch(
+            r"(?:qual (?:e )?a diferenca entre|diferenca entre|compare) (.+?) (?:e|com) (.+)", n)
+        if comparacao is None:
+            comparacao = re.fullmatch(r"o que diferencia (.+?) (?:de|do|da) (.+)", n)
+        if comparacao:
+            a, b = (self.resolver(x) for x in comparacao.groups())
+            if a in self.mundo_ids or b in self.mundo_ids or self._menciona_mundo(n):
+                for ref in self.comparacoes_mundo:
+                    if {a, b} == {ref["origem"], ref["destino"]}:
+                        return self.compor((ref["origem"],), "comparacao", selecionados=(
+                            (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
+                return falta
+        padroes = (
+            (r"como (?:funciona|funcionam|age|agem) (.+)", "funcionamento"),
+            (r"para que (?:serve|servem) (.+)", "funcao"),
+            (r"qual (?:e )?(?:a|o) (?:funcao|papel) (?:de|do|da|dos|das) (.+)", "funcao"),
+            (r"(?:me )?de (?:um )?exemplo (?:de|do|da) (.+)", "exemplo"),
+        )
+        for padrao, aspecto in padroes:
+            m = re.fullmatch(padrao, n)
+            if m is None:
+                continue
+            alvo = m.group(1)
+            if alvo in ("ele", "ela", "isso", "dele", "dela", "disso"):
+                ident = contexto.temas[0] if contexto and len(contexto.temas) == 1 else None
+            else:
+                ident = self.resolver(alvo)
+            if ident in self.mundo_ids:
+                fatos = self.itens[ident]["fatos"]
+                escolhidos = tuple((ident, i) for i, f in enumerate(fatos)
+                                   if f.get("aspecto") == aspecto or
+                                   aspecto == "exemplo" and f.get("papel") == "exemplo")
+                if escolhidos:
+                    resultado = self.compor((ident,), "explicacao", selecionados=escolhidos[:3],
+                                            origem="conhecimento")
+                    publico = self.itens[ident].get("id_resposta")
+                    if publico:
+                        return publico, resultado[1], resultado[2]._replace(origem="base")
+                    return resultado
+                return falta
+            if self._menciona_mundo(n):
+                return falta
+        # Verbos cadastrados não são regras causais: cada ligação aponta
+        # diretamente para um fato editorial e sua fonte verificável.
+        corpo = re.sub(r"^(?:por que|porque|como) ", "", n)
+        for ref in self.ligacoes_mundo:
+            for verbo in sorted(ref["verbos"], key=len, reverse=True):
+                m = re.fullmatch(r"(.+?) " + re.escape(verbo) + r" (.+)", corpo)
+                if m and (self.resolver(m.group(1)), self.resolver(m.group(2))) == (
+                        ref["origem"], ref["destino"]):
+                    return self.compor((ref["origem"],), "relacao", selecionados=(
+                        (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
+        if re.match(r"(?:por que|porque|como) ", n) and self._menciona_mundo(n):
+            return falta
+        return None
 
     def _referencia(self, n, contexto):
         m = re.fullmatch(
@@ -317,6 +425,9 @@ class CompositorTextual:
             if causas:
                 return self.compor(contexto.temas, "explicacao", anterior=contexto, selecionados=causas)
             return "fora", "Não tenho uma explicação causal cadastrada para essa resposta. Pode especificar o que quer explicar?", None
+        consulta_mundo = self._consulta_mundo(n, contexto)
+        if consulta_mundo is not None:
+            return consulta_mundo
         referencia = self._referencia(n, contexto)
         if referencia:
             return referencia
@@ -353,7 +464,9 @@ class CompositorTextual:
                 return self._conceito(ident)
             from interpretacao_geral import esclarecer_coordenacao_ou_classificacao
             ids, faltam = self._temas(m.group(1))
-            if (len(ids) > 1 and not faltam and any(e in self.expandidos for e in ids)
+            if (len(ids) > 1 and not faltam and any(
+                    e in self.expandidos and not (e in self.mundo_ids and
+                        self.itens[e].get("id_resposta")) for e in ids)
                     and esclarecer_coordenacao_ou_classificacao(texto) is None):
                 return self.compor(ids, "explicacao", limite=len(ids))
             return None
@@ -393,4 +506,7 @@ class CompositorTextual:
         ident = self.resolver(n)
         if ident in self.expandidos:
             return self._conceito(ident)
+        if self._menciona_mundo(n):
+            return ("fora", "Reconheci o assunto, mas não tenho evidência cadastrada "
+                    "para essa pergunta completa.", None)
         return None

@@ -161,7 +161,8 @@ def treinar_base(caminho="conhecimento.json", destino="rede_crivo.json",
     """
     if epocas < 1 or ocultos < 1 or dimensao < 1 or not 0 < taxa <= 1:
         raise ValueError("Hiperparametros de treinamento invalidos")
-    base = json.loads(Path(caminho).read_text(encoding="utf-8"))
+    from curriculo_mundo import carregar_base
+    base = carregar_base(caminho)
     rede = RedeCrivo([item["id"] for item in base], dimensao=dimensao,
                      ocultos=ocultos, modo=modo, semente=semente)
     rede.treinar([(q, item["id"]) for item in base for q in item["perguntas"]],

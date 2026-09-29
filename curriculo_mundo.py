@@ -1,0 +1,131 @@
+"""Currículo factual curado: dados locais, fontes e exemplos de conceitos.
+
+O índice escolhe assuntos; não é evidência para uma afirmação científica.
+Só resumos revisados de artigos entram no currículo. Nenhum texto remoto,
+modelo pronto, chave ou download é necessário durante a conversa/treino.
+"""
+import json
+import re
+from pathlib import Path
+from urllib.parse import urlparse
+
+
+NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao", "religioso"))
+
+
+def texto_fato(fato):
+    if fato.get("natureza") == "religioso":
+        return "Segundo a interpretação religiosa da publicação, " + fato["texto"]
+    return fato["texto"]
+
+
+def ler_curriculo(caminho):
+    caminho = Path(caminho)
+    if not caminho.is_file():
+        return None
+    dados = json.loads(caminho.read_text(encoding="utf-8"))
+    if (not isinstance(dados, dict) or dados.get("versao") != 1 or
+            not isinstance(dados.get("fontes"), dict) or
+            not isinstance(dados.get("itens"), list) or
+            not 1 <= len(dados["itens"]) <= 1000):
+        raise ValueError("Currículo do mundo inválido")
+    fontes = dados["fontes"]
+    for fonte in fontes.values():
+        if (not isinstance(fonte, dict) or
+                not isinstance(fonte.get("titulo"), str) or
+                not isinstance(fonte.get("url"), str) or
+                urlparse(fonte["url"]).scheme != "https" or
+                not urlparse(fonte["url"]).netloc or
+                fonte.get("tipo") not in ("artigo_indicado", "verificacao_primaria") or
+                type(fonte.get("ano")) is not int or
+                not 1900 <= fonte["ano"] <= 2100):
+            raise ValueError("Fonte do mundo sem título, URL, tipo ou ano")
+        if fonte["tipo"] == "artigo_indicado":
+            indice = fonte.get("indice_url", "")
+            if (urlparse(fonte["url"]).hostname not in ("wol.jw.org", "www.jw.org") or
+                    not isinstance(indice, str) or
+                    not re.fullmatch(r"https://wol\.jw\.org/pt/wol/d/r5/lp-t/\d+", indice)):
+                raise ValueError("Artigo sem vínculo com o índice WOL")
+    ids = set()
+    for item in dados["itens"]:
+        if (not isinstance(item, dict) or
+                not isinstance(item.get("id"), str) or
+                not re.fullmatch(r"mundo_[a-z0-9_]{1,56}", item["id"]) or
+                item["id"] in ids or not isinstance(item.get("nome"), str) or
+                not item["nome"].strip() or not isinstance(item.get("area"), str) or
+                not isinstance(item.get("aliases", []), list) or
+                not all(isinstance(a, str) and a.strip() for a in item.get("aliases", [])) or
+                not isinstance(item.get("fatos"), list) or not 1 <= len(item["fatos"]) <= 12):
+            raise ValueError("Conceito do mundo inválido ou duplicado")
+        ids.add(item["id"])
+        if not isinstance(item["fatos"][0], dict) or item["fatos"][0].get("papel") != "definicao":
+            raise ValueError("Conceito do mundo deve começar por definição")
+        for fato in item["fatos"]:
+            if (not isinstance(fato, dict) or not isinstance(fato.get("fonte"), str) or
+                    fato["fonte"] not in fontes or
+                    not isinstance(fato.get("texto"), str) or
+                    not 1 <= len(fato["texto"].strip()) <= 1000 or
+                    fato.get("natureza") not in NATUREZAS or
+                    fato.get("papel") not in ("definicao", "detalhe", "causa", "exemplo", "limite") or
+                    not isinstance(fato.get("fontes", []), list) or
+                    not all(isinstance(f, str) and f in fontes for f in fato.get("fontes", []))):
+                raise ValueError("Fato do mundo sem evidência ou natureza válida")
+        if not any(fontes[f["fonte"]]["tipo"] == "artigo_indicado" for f in item["fatos"]):
+            raise ValueError("Conceito sem artigo do índice")
+    # Relações são direcionais e explícitas: o predicado e os argumentos
+    # inteiros precisam corresponder. Sem inferência de causalidade transitiva.
+    itens = {i["id"]: i for i in dados["itens"]}
+    for chave in ("ligacoes", "comparacoes"):
+        registros = dados.get(chave, [])
+        if not isinstance(registros, list):
+            raise ValueError("Relações do mundo inválidas")
+        vistos = set()
+        for ref in registros:
+            if (not isinstance(ref, dict) or not isinstance(ref.get("origem"), str) or
+                    not isinstance(ref.get("destino"), str) or ref["origem"] not in ids or
+                    ref["destino"] not in ids or ref["origem"] == ref["destino"] or
+                    type(ref.get("indice_fato")) is not int or
+                    not 0 <= ref["indice_fato"] < len(itens[ref["origem"]]["fatos"])):
+                raise ValueError("Relação sem conceitos ou fato de origem")
+            par = (ref["origem"], ref["destino"])
+            if chave == "ligacoes":
+                verbos = ref.get("verbos")
+                if (not isinstance(verbos, list) or not verbos or
+                        not all(isinstance(v, str) and re.fullmatch(r"[a-z ]+", v) for v in verbos)):
+                    raise ValueError("Relação sem predicado explícito")
+                par += (tuple(verbos),)
+            if par in vistos:
+                raise ValueError("Relação duplicada")
+            vistos.add(par)
+    return dados
+
+
+def entradas_mundo(curriculo):
+    """Exemplos genéricos de conceitos; avaliações não entram no treino."""
+    if curriculo is None:
+        return []
+    entradas = []
+    for item in curriculo["itens"]:
+        nomes = list(dict.fromkeys([item["nome"]] + item.get("aliases", [])))
+        perguntas = [modelo.format(nome=nome) for nome in nomes for modelo in
+                     ("fale sobre {nome}", "quero conversar sobre {nome}", "assunto {nome}")]
+        fontes = sorted({f["fonte"] for f in item["fatos"]})
+        entradas.append({
+            "id": item["id"], "topico": "mundo", "origem_curriculo": "mundo",
+            "perguntas": perguntas,
+            "resposta": " ".join(texto_fato(f) for f in item["fatos"][:2]),
+            "fontes": [curriculo["fontes"][f]["url"] for f in fontes],
+        })
+    return entradas
+
+
+def carregar_base(caminho, curriculo=None):
+    """Mesma população para o chatbot e para a rede supervisionada."""
+    caminho = Path(caminho)
+    base = json.loads(caminho.read_text(encoding="utf-8"))
+    if curriculo is None:
+        curriculo = ler_curriculo(caminho.with_name("conhecimento_mundo.json"))
+    novas = entradas_mundo(curriculo)
+    if {e["id"] for e in base} & {e["id"] for e in novas}:
+        raise ValueError("Currículo do mundo duplicado na base editorial")
+    return base + novas

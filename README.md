@@ -177,12 +177,84 @@ editoriais já cadastradas. Entradas sem referência informam essa ausência.
 
 **Limite:** isto é composição factual controlada, com gramática limitada,
 sem geração irrestrita de histórias, opiniões, instruções arbitrárias ou
-novos fatos. Não usa modelos externos e não amplia os pesos da rede neural.
-Conhecimento novo entra pelo currículo revisado no código.
+novos fatos. Não usa modelos externos; o treinamento da rede é separado
+da composição. Conhecimento novo entra pelo currículo revisado no código.
 
-**Validação de desenvolvimento:** a sonda fixada antes da implementação
-passou de 0/32 para 32/32. Há testes dos 300 pares dos novos conceitos,
-bases fictícias, referências, fontes, limites de frases, recusas e API.
+**Validação de desenvolvimento:** a sonda do currículo ampliado passou
+de 0/32 para 32/32. Há testes de combinações de conceitos, bases fictícias,
+referências, fontes, limites de frases, recusas e API.
+
+## Ciência e psicologia pelo índice 1991–2026
+
+`conhecimento_mundo.json` acrescenta um primeiro currículo de **44 conceitos,
+119 fatos, 10 relações direcionais e 6 comparações**. Os temas foram escolhidos
+no [Índice das Publicações 1991–2026](https://wol.jw.org/pt/wol/library/r5/lp-t/todas-as-publica%C3%A7%C3%B5es/%C3%ADndice/%C3%ADndice-de-publica%C3%A7%C3%B5es/%C3%ADndice-1991-2026).
+Há referências a **22 artigos** e **11 fontes primárias complementares**
+(NIMH, NHLBI, NASA e Convenção sobre Diversidade Biológica). São resumos próprios
+de conteúdos selecionados, revisados em **29/09/2026**. O índice inteiro ainda
+não foi incorporado.
+
+O currículo inclui cérebro, neurônios, sinapses, memória, neuroplasticidade,
+sono, ansiedade, estresse, depressão, apoio emocional, luto, procrastinação,
+células, proteínas, fotossíntese, ciclo da água, efeito estufa, biodiversidade,
+biomimética, ecolocalização, constelações, universo e energia solar.
+Cada conceito tem nomes alternativos e unidades de definição, funcionamento,
+função, exemplo ou limite quando há evidência cadastrada.
+
+Cada fato declara fonte e natureza: `cientifico`, `psicologico`, `orientacao`
+ou `religioso`. Interpretações religiosas aparecem atribuídas à publicação,
+com a expressão **“Segundo a interpretação religiosa da publicação”**.
+Informações científicas antigas são conferidas quando necessário: o currículo
+usa os três estágios não REM da classificação atual, e registra que o artigo
+de 2003 empregava uma classificação de quatro. Fontes sem ano de publicação
+confirmado exibem **“consulta 2026”**, sem inventar uma data de publicação.
+
+```text
+O que é um neurônio?
+Como funciona a ecolocalização?
+Qual é a função da membrana celular?
+Por que o sono ajuda a memória?
+Qual a diferença entre estresse e ansiedade?
+Escreva um texto sobre memória e biodiversidade
+Qual é a fonte?
+Qual é a interpretação religiosa sobre biomimética?
+```
+
+Funções, causas e comparações usam fatos explícitos. Uma relação não autoriza
+sua inversa, a retirada de uma negação ou a inclusão de um qualificador novo.
+O currículo não fornece diagnósticos individuais, escolha de medicamentos
+ou doses. Fatos do grafo anterior continuam válidos: adicionar o conceito
+de universo não impede provar relações entre Sol, Via Láctea e Universo.
+Os IDs públicos anteriores de fotossíntese e efeito estufa são preservados.
+
+`curriculo_mundo.py` valida os dados e gera **297 exemplos genéricos de
+conceitos**, a partir dos nomes e aliases. `Crivo`, `treinar_base` e o avaliador
+da rede carregam a mesma população: **168 intenções e 764 exemplos** no total.
+As consultas de `avaliar_mundo.py` ficam fora desses exemplos. O aprendizado
+continua em Python padrão, offline, com a rede original do projeto.
+`ensinar` mantém a base editorial separada dos exemplos derivados, evitando
+duplicação ao salvar e recarregar.
+
+O checkpoint `rede_crivo.json` foi treinado com 60 épocas, 512 dimensões,
+48 neurônios ocultos, modo `portugues` e semente 42. Ele carrega automaticamente
+quando rótulos e assinaturas são compatíveis. O fluxo `treinar-rede.yml` também
+treina novamente quando o currículo ou seu carregador mudam.
+
+**Limites medidos:** a sonda do chatbot híbrido passou **51/51 consultas**
+de definição, função, relação, comparação, composição, fontes e recusa.
+Na verificação adicional `Defina <nome>` dos 44 conceitos, o classificador
+isolado acertou o ID exato em **32/44**; ainda há confusões, inclusive com IDs
+editoriais de conceitos sobrepostos. Esses números são verificações de
+desenvolvimento, sem avaliação cega. A rede classifica assuntos; os 119 fatos
+ficam no currículo e são selecionados pelo compositor. Esse treino não
+transforma o modelo em uma LLM nem garante compreensão de qualquer pergunta.
+
+```bash
+python avaliar_mundo.py
+python -m unittest testes_conhecimento_mundo -v
+python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 60 --ocultos 48 --dimensao 512 --modo portugues --semente 42
+```
+
 A sonda foi usada no desenvolvimento; **não é teste cego nem uma medida
 universal de inteligência**. O comparativo está em `avaliacao_escrita.json`.
 As auditorias históricas preservam seus critérios e avaliam a população
