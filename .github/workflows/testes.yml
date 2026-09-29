@@ -28,3 +28,6 @@ jobs:
           python avaliar_rede.py --epocas 30
           python avaliar_rede.py --epocas 60
           python avaliar_rede.py --epocas 60 --ocultos 48
+      - name: Validacao cruzada de todas as perguntas
+        if: matrix.python-version == '3.11'
+        run: python avaliar_rede.py --cruzada --epocas 8
