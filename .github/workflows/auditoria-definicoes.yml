@@ -1,0 +1,32 @@
+name: Auditoria de definicoes
+on:
+  pull_request:
+    paths:
+      - 'crivo.py'
+      - 'conhecimento.json'
+      - 'avaliar_definicoes.py'
+      - 'coorte_geral.py'
+      - 'coorte_geral_v04.json'
+      - 'testes_intencao_definicao.py'
+      - '.github/workflows/auditoria-definicoes.yml'
+  workflow_dispatch:
+jobs:
+  recuperar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Conferir perguntas definicionais e negativas
+        run: python -m unittest testes_intencao_definicao -v
+      - name: Comparar coorte historica e curriculo ampliado com e sem grafo
+        run: |
+          set -o pipefail
+          python avaliar_definicoes.py | tee relatorio-definicoes.json
+      - name: Publicar relatorio mesmo em caso de regressao
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-definicoes
+          path: relatorio-definicoes.json

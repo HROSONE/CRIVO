@@ -10,6 +10,7 @@ import shutil
 from pathlib import Path
 
 from avaliar_recuperador import avaliar
+from coorte_geral import selecionar_coorte
 from crivo import Crivo, PASTA
 
 
@@ -64,7 +65,7 @@ def diferencas(antes, depois):
 
 def diagnosticar():
     base = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
-    geral = [e for e in base if e["topico"] != "programacao"]
+    geral = selecionar_coorte(base)
     sem = avaliar(geral)
     antigo = avaliar(geral, CrivoComGrafoAnterior)
     novo = avaliar(geral, CrivoComGrafo)
@@ -84,9 +85,9 @@ if __name__ == "__main__":
     sem = relatorio["sem_grafo"]
     antigo = relatorio["grafo_anterior"]
     novo = relatorio["grafo_novo"]
-    assert (sem["total"], sem["acertos"], sem["erradas"],
-            sem["abstencoes"]) == (278, 192, 44, 42), (
-                "Benchmark histórico sem grafo divergiu")
+    assert (sem["total"] == 278 and sem["acertos"] >= 192 and
+            sem["erradas"] <= 44), (
+                "Regressão na coorte geral congelada sem grafo")
     assert antigo["total"] == novo["total"] == 278
     if novo["acertos"] < antigo["acertos"] or novo["erradas"] > antigo["erradas"]:
         raise SystemExit("Regressão frente ao grafo anterior da main")

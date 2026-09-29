@@ -384,6 +384,128 @@ class Crivo:
         return [(s, i) for s, i in pontos if s > 0]
 
 
+    @staticmethod
+    def _alvo_definicao(texto):
+        """Extrai somente pedidos diretos de definição de um conceito.
+
+        Não confunde comparação, causa ou característica com definição.
+        A interpretação é deliberadamente estreita, não generativa.
+        """
+        n = normalizar(texto).strip().strip("?.,;! ")
+        expressoes = (
+            r"(?:(?:poderia|pode) me explicar |explique )?o que (?:e|eh) (.+)",
+            r"o que significa (.+)",
+            r"defina (.+)",
+            r"(?:qual e a |qual a )definicao de (.+)",
+            r"definicao de (.+)",
+        )
+        for padrao in expressoes:
+            match = re.fullmatch(padrao, n)
+            if match:
+                conceito = re.sub(r"^(?:um|uma|o|a|os|as)\s+", "", match.group(1))
+                # "variável num programa" e "variável em programação"
+                # referem-se ao mesmo conceito geral. Não apaga contexto
+                # de linguagem específica, como "em Python".
+                conceito = re.sub(
+                    r"\s+(?:(?:num|em um|no) programa|(?:em|na) programacao)$",
+                    "", conceito)
+                if not conceito or re.match(r"^(?:diferenca|melhor|mais|menos)\b", conceito):
+                    return None
+                return conceito
+        return None
+
+    def _responder_definicao(self, texto, original):
+        """Só usa uma entrada cuja pergunta define o MESMO conceito.
+
+        O compartilhamento isolado de uma palavra não constitui evidência
+        de que o texto recuperado defina o termo pedido. A correção de
+        pequenos erros de grafia utiliza o vocabulário já indexado.
+        """
+        alvo = self._alvo_definicao(texto)
+        if alvo is None:
+            return None
+        # "o fenômeno El Niño" é o conceito El Niño, não um fenômeno
+        # arbitrário. Não remove qualificadores que mudam o significado
+        # ("árvore binária", "árvore genealógica" etc.).
+        alvo = re.sub(r"^(?:fenomeno|conceito|termo)\s+", "", alvo)
+        alvo_tokens = tuple(self._tokens_consulta(alvo))
+        if not alvo_tokens:
+            return None
+        permitidas = set(self._indices_consulta(texto))
+        candidatas = []
+        for indice in permitidas:
+            entrada = self.base[indice]
+            conceitos = [
+                conceito for pergunta in entrada["perguntas"]
+                for conceito in [self._alvo_definicao(pergunta)]
+                if conceito is not None
+            ] + entrada.get("definicoes", [])
+            for conceito in conceitos:
+                definidos = tuple(self._tokens_consulta(conceito))
+                if definidos == alvo_tokens:
+                    candidatas.append(indice)
+                    break
+                # Modificador único que conste na própria explicação:
+                # "solstício de verão" tem evidência para verão; "árvore
+                # de decisão" NÃO pode herdar definição de árvore.
+                extras = alvo_tokens[len(definidos):]
+                if (definidos and len(extras) == 1 and
+                        alvo_tokens[:len(definidos)] == definidos and
+                        extras[0] in tokens(entrada["resposta"])):
+                    candidatas.append(indice)
+                    break
+        if len(candidatas) == 1:
+            indice = candidatas[0]
+            self.ultimos = [(1.0, indice)]
+            self.pos_ultimo = 0
+            ident, resposta = self._registrar(indice, original)
+            definicao_editorial = self.base[indice].get("resposta_definicao")
+            if definicao_editorial:
+                resposta = definicao_editorial + "\n\n" + resposta
+            return ident, resposta
+        if len(candidatas) > 1:
+            return self._pedir_esclarecimento(candidatas[:2], original)
+        # Sem pergunta definicional equivalente, uma explicação pode
+        # descrever o conceito no próprio texto. Isso preserva paráfrases
+        # sem liberar respostas que apenas mencionam a palavra incidentalmente.
+        rank = self._ranking(texto)
+        if rank and rank[0][0] >= LIMIAR:
+            indice = rank[0][1]
+            entry = self.base[indice]
+            if set(alvo_tokens) <= self.termos[indice]:
+                if len(alvo_tokens) >= 2:
+                    # Qualificadores também precisam ter presença no texto
+                    # do candidato; árvore binária ≠ árvore botânica.
+                    return None
+                termo = alvo_tokens[0]
+                id_tokens = tuple(tokens(entry["id"].replace("_", " ")))
+                if id_tokens == (termo,):
+                    return None
+                for frase in re.split(r"[.!?;]", entry["resposta"]):
+                    palavras = re.findall(r"[a-z]+", normalizar(frase))
+                    while palavras and palavras[0] in (
+                            "o", "a", "os", "as", "um", "uma", "no", "na", "la", "el"):
+                        palavras.pop(0)
+                    if (palavras and len(termo) >= 4 and
+                            palavras[0].startswith(termo[:4]) and
+                            any(v in ("e", "sao", "tem", "possuem", "da",
+                                      "consiste", "protege", "significa")
+                                for v in palavras[1:6])):
+                        return None
+                # Conceito em aposto explicativo: "A Via Láctea é a
+                # nossa galáxia, um conjunto de estrelas..." define
+                # galáxia, mas "entre nuvem e solo" não define nuvem.
+                padrao = (r"\be\s+(?:(?:a|o|um|uma|nossa|nosso)\s+){0,2}" +
+                          re.escape(normalizar(alvo)) +
+                          r"\s*,\s+(?:um|uma)\s+")
+                if re.search(padrao, normalizar(entry["resposta"])):
+                    return None
+        self.esclarecimento = None
+        self.ultimo_assunto = None
+        return ("fora",
+                "Ainda não tenho uma definição cadastrada para esse conceito. "
+                "Conhecer palavras parecidas não basta para responder com segurança.")
+
     def ensinar(self, identificador, topico, perguntas, resposta, salvar=True):
         """Adiciona conhecimento explicitamente validado pelo desenvolvedor."""
         if topico not in TOPICOS:
@@ -632,6 +754,9 @@ class Crivo:
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+        definicao = self._responder_definicao(n, original)
+        if definicao is not None:
+            return definicao
         # Inferência estruturada somente para relações comprováveis.
         # Os casos não reconhecidos continuam no recuperador habitual.
         if self.raciocinio is not None:

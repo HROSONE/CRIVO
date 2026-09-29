@@ -8,6 +8,7 @@ import json
 from collections import defaultdict
 from crivo import Crivo
 from avaliar_recuperador import avaliar
+from coorte_geral import selecionar_coorte
 from pathlib import Path
 
 CASOS = [
@@ -94,9 +95,12 @@ if __name__ == "__main__":
     dados = diagnosticar()
     dados['controles_pos_ajuste'] = diagnosticar(CONTROLES_POS_AJUSTE)
     base = json.loads(Path("conhecimento.json").read_text(encoding="utf-8"))
-    antigos = [e for e in base if e["topico"] != "programacao"]
+    antigos = selecionar_coorte(base)
     geral = avaliar(antigos)
     dados["benchmark_geral"] = {k: geral[k] for k in
             ("total", "acertos", "erradas", "abstencoes")}
     print(json.dumps(dados, ensure_ascii=False, indent=2))
-    assert (geral["total"], geral["acertos"], geral["erradas"], geral["abstencoes"]) == (278, 192, 44, 42)
+    # Abster-se em lugar de errar é aceitável: preservar acertos,
+    # não exigir a mesma quantidade histórica de erros/abstenções.
+    assert (geral["total"] == 278 and geral["acertos"] >= 192 and
+            geral["erradas"] <= 44), "Regressão na coorte geral congelada"
