@@ -1,7 +1,7 @@
-# Crivo v0.3 (em desenvolvimento)
+# Crivo v0.4 (em desenvolvimento)
 
 Assistente de conversa em português, primeiro teste.
-Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar e coisas de casa.
+Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
 ## Como usar
 
@@ -13,12 +13,13 @@ Só precisa de Python 3.8+, sem instalar nada.
 
 ## Como funciona (honestamente)
 
-A resposta padrao do Crivo v0.3 utiliza um mecanismo de recuperacao, nao uma rede geradora de texto:
-1. `conhecimento.json` guarda 77 respostas escritas à mão, com várias formas de perguntar cada uma.
+A resposta padrao do Crivo v0.4 utiliza um mecanismo de recuperacao, nao uma rede geradora de texto:
+1. `conhecimento.json` guarda 122 assuntos escritos à mão, com 459 formas de perguntar; 45 assuntos novos são de programação.
 2. Ao iniciar, ele indexa tudo com TF-IDF (o "treino" é esse índice).
 3. A pergunta é normalizada (sem acento, plural, diminutivo, sinônimos) e comparada com a base.
 4. Se a confiança é baixa, ele diz que não sabe em vez de inventar.
 5. Hora, data, mês, ano e estação atual vêm do relógio do computador.
+6. Programação usa um índice por domínio e respeita a linguagem pedida. Exemplos cadastrados são exibidos junto das explicações, sem executar código do usuário.
 
 Comandos na conversa: `assuntos`, `exemplos`, `mais` (próxima resposta parecida), `sair`.
 
@@ -26,6 +27,44 @@ Comandos na conversa: `assuntos`, `exemplos`, `mais` (próxima resposta parecida
 
 - Ampliar `conhecimento.json` (cada pergunta nova que falhar vira uma entrada).
 - Ampliar e avaliar a rede própria, inicializada do zero; sem modelos pré-treinados.
+
+## Programação ensinada no código
+
+O currículo contém **45 assuntos, 181 perguntas de treino e 31 exemplos** adicionados diretamente a `conhecimento.json`:
+
+| Área | Conteúdo |
+|---|---|
+| Fundamentos | Programação, algoritmos, variáveis, tipos e investigação de bugs |
+| Python | Entrada/saída, condições, laços, funções, listas, dicionários, comparação, exceções, arquivos, JSON, classes, módulos, ambiente virtual e testes |
+| Web | HTML, CSS, API e HTTP |
+| JavaScript | Variáveis, funções, arrays, DOM, promessas e async/await |
+| SQL | Tabelas, SELECT/WHERE, JOIN e parâmetros com sqlite3 |
+| Git | Controle de versão, commit, branch e revisão de diferenças |
+
+Experimente:
+
+```bash
+python crivo.py "Definir uma função que soma em Python"
+python crivo.py "Faça um exemplo de função de soma em JavaScript"
+python crivo.py "Como resolver ValueError no Python?"
+python crivo.py "Me mostra uma página básica em HTML"
+```
+
+O campo `resposta` guarda a explicação; `exemplo` guarda linguagem e código fixo. `area`/`linguagens` orientam a seleção, `identificadores` reconhece nomes de erro e `fontes` registra documentação consultada. O programa funciona offline: esses links não são consultados durante a conversa. Exemplos e explicações são autorais, conferidos nas documentações de [Python](https://docs.python.org/3/), [MDN](https://developer.mozilla.org/en-US/docs/Web/), [PostgreSQL](https://www.postgresql.org/docs/current/tutorial-sql.html) e [Git](https://git-scm.com/docs).
+
+O índice calcula relevância separadamente para assuntos gerais e programação. A correspondência exata preserva operadores como `=`, `==` e `!=`, além de nomes como `C++` e `C#`; preservar nomes não significa ter conteúdo sobre essas linguagens. O classificador neural continua usando sua representação experimental anterior.
+
+**Validação de desenvolvimento:** 45 perguntas novas de programação e um controle sobre plantas passaram; as frases não são cópias literais do treino, mas foram usadas durante o ajuste, portanto não são teste cego. As 181 perguntas cadastradas retornam os assuntos esperados. Exemplos Python são executados em pastas temporárias; exemplos JavaScript têm a sintaxe verificada e, quando independentes do navegador, a saída testada; SQL usa um banco SQLite em memória. HTML/CSS e comandos de Git/venv são exemplos didáticos, sem teste de navegador ou execução de comandos Git nesses testes.
+
+Na avaliação que retira a pergunta de sua rodada de busca: **119/181 acertos em programação**, com 26 respostas erradas e 36 abstenções. Os **278 casos antigos mantiveram exatamente 192 acertos, 44 erros e 42 abstenções**, incluindo os mesmos erros. Os 65 testes originais e os 24 diálogos anteriores continuam passando. Resultados completos e limites estão em `avaliacao_programacao.json`.
+
+**Limite:** isto ensina conceitos e exemplos recuperáveis. O Crivo não gera programas arbitrários, não executa trechos recebidos nem corrige automaticamente projetos. Treinar a rede com todos os assuntos amplia seus rótulos; não demonstra que ela aprendeu a escrever código livremente.
+
+```bash
+python -m unittest testes_programacao -v
+```
+
+O Crivo requer apenas Python; verificar os exemplos JavaScript também requer Node.js. O CI instala Node.js e testa Python 3.8, 3.11 e 3.13. As regressões executam em cada PR/push. Comparações neurais extensas ficam em **Actions → Testes Crivo → Run workflow → benchmark** (`portugues` ou `historico`), para não repetir toda a pesquisa a cada alteração. O treino dos pesos continua automático quando a base muda na `main`.
 
 ## Evolução experimental (PR #1)
 

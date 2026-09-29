@@ -1,0 +1,1852 @@
+{
+  "data": "2026-09-29",
+  "commit_base": "83f86a62192ef59357bde5c68993c428c339ccb8",
+  "base_sha256": "73a265c5d3549fa6a2dfca64458bc9f3de179317e9bb8c22df5f32169cb1fccc",
+  "conteudo": {
+    "assuntos": 122,
+    "perguntas": 459,
+    "novos_assuntos": 45,
+    "novas_perguntas": 181,
+    "exemplos": 31
+  },
+  "protocolo": "46 perguntas de desenvolvimento fixadas antes da implementacao (45 de programacao e 1 controle); nao copiadas literalmente para o treino, mas usadas no ajuste. Uma pergunta adicional de treino sobre iniciantes foi acrescentada apos a primeira medicao.",
+  "limites": "Nao e teste cego. Acertos de consulta nao provam que a rede gera codigo. A avaliacao cruzada mantem respostas e outras perguntas da mesma intencao no indice. Retreinamento integral mede carregamento, nao generalizacao neural.",
+  "regressoes": {
+    "total": 46,
+    "antes": 1,
+    "depois": 46,
+    "com_rede": 46,
+    "dialogos_com_rede": 24
+  },
+  "casos": [
+    {
+      "pergunta": "Explique programação para um iniciante",
+      "esperado": "prog_programar",
+      "antes": "fora",
+      "depois": "prog_programar"
+    },
+    {
+      "pergunta": "Qual é a ideia de um algoritmo?",
+      "esperado": "prog_algoritmo",
+      "antes": "fora",
+      "depois": "prog_algoritmo"
+    },
+    {
+      "pergunta": "O que significa variável num programa?",
+      "esperado": "prog_variavel",
+      "antes": "fora",
+      "depois": "prog_variavel"
+    },
+    {
+      "pergunta": "Por que existem tipos de dados?",
+      "esperado": "prog_tipos",
+      "antes": "climas_brasil",
+      "depois": "prog_tipos"
+    },
+    {
+      "pergunta": "Como exibir uma mensagem usando Python?",
+      "esperado": "py_print",
+      "antes": "fora",
+      "depois": "py_print"
+    },
+    {
+      "pergunta": "Python: ler uma resposta pelo teclado",
+      "esperado": "py_input",
+      "antes": "fora",
+      "depois": "py_input"
+    },
+    {
+      "pergunta": "Me ensine uma condição if no Python",
+      "esperado": "py_if",
+      "antes": "fora",
+      "depois": "py_if"
+    },
+    {
+      "pergunta": "Python: repetir uma tarefa com for",
+      "esperado": "py_for",
+      "antes": "fora",
+      "depois": "py_for"
+    },
+    {
+      "pergunta": "Preciso entender o while do Python",
+      "esperado": "py_while",
+      "antes": "fora",
+      "depois": "py_while"
+    },
+    {
+      "pergunta": "Definir uma função que soma em Python",
+      "esperado": "py_funcao",
+      "antes": "fora",
+      "depois": "py_funcao"
+    },
+    {
+      "pergunta": "Quero acrescentar um item numa lista Python",
+      "esperado": "py_lista",
+      "antes": "fora",
+      "depois": "py_lista"
+    },
+    {
+      "pergunta": "Como guardar chaves e valores no Python?",
+      "esperado": "py_dicionario",
+      "antes": "fora",
+      "depois": "py_dicionario"
+    },
+    {
+      "pergunta": "No Python, qual a diferença entre = e ==?",
+      "esperado": "py_comparacao",
+      "antes": "clima_tempo_dif",
+      "depois": "py_comparacao"
+    },
+    {
+      "pergunta": "Como capturar uma exceção em Python?",
+      "esperado": "py_excecao",
+      "antes": "fora",
+      "depois": "py_excecao"
+    },
+    {
+      "pergunta": "Python apresentou SyntaxError",
+      "esperado": "py_syntaxerror",
+      "antes": "fora",
+      "depois": "py_syntaxerror"
+    },
+    {
+      "pergunta": "Meu Python mostrou IndentationError",
+      "esperado": "py_indentacao",
+      "antes": "fora",
+      "depois": "py_indentacao"
+    },
+    {
+      "pergunta": "Recebi NameError usando Python",
+      "esperado": "py_nameerror",
+      "antes": "fora",
+      "depois": "py_nameerror"
+    },
+    {
+      "pergunta": "Apareceu TypeError no meu script Python",
+      "esperado": "py_typeerror",
+      "antes": "fora",
+      "depois": "py_typeerror"
+    },
+    {
+      "pergunta": "Como resolver ValueError no Python?",
+      "esperado": "py_valueerror",
+      "antes": "fora",
+      "depois": "py_valueerror"
+    },
+    {
+      "pergunta": "Minha lista deu IndexError no Python",
+      "esperado": "py_indexerror",
+      "antes": "fora",
+      "depois": "py_indexerror"
+    },
+    {
+      "pergunta": "Meu dicionário Python deu KeyError",
+      "esperado": "py_keyerror",
+      "antes": "fora",
+      "depois": "py_keyerror"
+    },
+    {
+      "pergunta": "Como abrir um arquivo de texto usando Python?",
+      "esperado": "py_arquivo",
+      "antes": "fora",
+      "depois": "py_arquivo"
+    },
+    {
+      "pergunta": "Transformar texto JSON num objeto Python",
+      "esperado": "py_json",
+      "antes": "fora",
+      "depois": "py_json"
+    },
+    {
+      "pergunta": "Mostre uma classe simples no Python",
+      "esperado": "py_classe",
+      "antes": "fora",
+      "depois": "py_classe"
+    },
+    {
+      "pergunta": "Como importar um módulo Python?",
+      "esperado": "py_import",
+      "antes": "fora",
+      "depois": "py_import"
+    },
+    {
+      "pergunta": "Python: para que criar um ambiente virtual?",
+      "esperado": "py_venv",
+      "antes": "fora",
+      "depois": "py_venv"
+    },
+    {
+      "pergunta": "Como escrever um teste automatizado Python?",
+      "esperado": "py_teste",
+      "antes": "fora",
+      "depois": "py_teste"
+    },
+    {
+      "pergunta": "Me mostra uma página básica em HTML",
+      "esperado": "web_html",
+      "antes": "fora",
+      "depois": "web_html"
+    },
+    {
+      "pergunta": "Quero mudar a cor do texto com CSS",
+      "esperado": "web_css",
+      "antes": "fora",
+      "depois": "web_css"
+    },
+    {
+      "pergunta": "Para que eu usaria JavaScript numa página?",
+      "esperado": "js_intro",
+      "antes": "fora",
+      "depois": "js_intro"
+    },
+    {
+      "pergunta": "Qual diferença existe entre let e const?",
+      "esperado": "js_variavel",
+      "antes": "fora",
+      "depois": "js_variavel"
+    },
+    {
+      "pergunta": "Faça um exemplo de função de soma em JavaScript",
+      "esperado": "js_funcao",
+      "antes": "fora",
+      "depois": "js_funcao"
+    },
+    {
+      "pergunta": "JavaScript: percorrer os itens de um array",
+      "esperado": "js_for",
+      "antes": "fora",
+      "depois": "js_for"
+    },
+    {
+      "pergunta": "Como selecionar um elemento com querySelector?",
+      "esperado": "js_dom",
+      "antes": "fora",
+      "depois": "js_dom"
+    },
+    {
+      "pergunta": "Explique async await no JavaScript",
+      "esperado": "js_async",
+      "antes": "fora",
+      "depois": "js_async"
+    },
+    {
+      "pergunta": "Para que serve a linguagem SQL?",
+      "esperado": "sql_intro",
+      "antes": "fora",
+      "depois": "sql_intro"
+    },
+    {
+      "pergunta": "Como filtrar uma consulta com WHERE no SQL?",
+      "esperado": "sql_select",
+      "antes": "fora",
+      "depois": "sql_select"
+    },
+    {
+      "pergunta": "Como unir duas tabelas com JOIN?",
+      "esperado": "sql_join",
+      "antes": "fora",
+      "depois": "sql_join"
+    },
+    {
+      "pergunta": "Como evitar SQL injection usando parâmetros?",
+      "esperado": "sql_parametros",
+      "antes": "fora",
+      "depois": "sql_parametros"
+    },
+    {
+      "pergunta": "Pra que serve controle de versão Git?",
+      "esperado": "git_intro",
+      "antes": "fora",
+      "depois": "git_intro"
+    },
+    {
+      "pergunta": "Como salvar alterações num commit Git?",
+      "esperado": "git_commit",
+      "antes": "fora",
+      "depois": "git_commit"
+    },
+    {
+      "pergunta": "Como criar outra branch no Git?",
+      "esperado": "git_branch",
+      "antes": "fora",
+      "depois": "git_branch"
+    },
+    {
+      "pergunta": "Quero comparar alterações usando git diff",
+      "esperado": "git_diff",
+      "antes": "fora",
+      "depois": "git_diff"
+    },
+    {
+      "pergunta": "O que é uma API HTTP?",
+      "esperado": "prog_http",
+      "antes": "fora",
+      "depois": "prog_http"
+    },
+    {
+      "pergunta": "Como depurar um programa com bug?",
+      "esperado": "prog_debug",
+      "antes": "fora",
+      "depois": "prog_debug"
+    },
+    {
+      "pergunta": "O que faz a raiz de uma planta?",
+      "esperado": "partes_planta",
+      "antes": "partes_planta",
+      "depois": "partes_planta"
+    }
+  ],
+  "fora_do_escopo": [
+    {
+      "pergunta": "Crie um compilador Rust completo",
+      "obtido": "fora"
+    },
+    {
+      "pergunta": "Quero uma função Java para ordenar objetos",
+      "obtido": "fora"
+    },
+    {
+      "pergunta": "Faça um driver em C++",
+      "obtido": "fora"
+    },
+    {
+      "pergunta": "Me dê um sistema bancário completo em Python",
+      "obtido": "fora"
+    }
+  ],
+  "cruzada": {
+    "total": 459,
+    "acertos": 311,
+    "ranking_acertos": 344,
+    "respondidas": 381,
+    "erradas": 70,
+    "abstencoes": 78,
+    "acuracia": 0.6776,
+    "precisao_respondidas": 0.8163,
+    "metodo": "Rotacao por indice, pergunta avaliada removida do indice; respostas mantidas.",
+    "limite": "Avaliacao de desenvolvimento, nao teste cego nem comparavel diretamente a rede treinada so com perguntas.",
+    "erros": [
+      {
+        "pergunta": "o que é fotossíntese",
+        "esperado": "fotossintese",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "por que as folhas ficam amarelas",
+        "esperado": "folha_amarela",
+        "obtido": "folhas_outono"
+      },
+      {
+        "pergunta": "como plantar semente",
+        "esperado": "germinar",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "que plantas ter em apartamento",
+        "esperado": "plantas_apartamento",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que é cadeia alimentar",
+        "esperado": "cadeia_alimentar",
+        "obtido": "fotossintese"
+      },
+      {
+        "pergunta": "como evitar a dengue",
+        "esperado": "dengue",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como se forma a chuva",
+        "esperado": "chuva",
+        "obtido": "vento"
+      },
+      {
+        "pergunta": "por que o natal é no verão no brasil",
+        "esperado": "natal_verao",
+        "obtido": "horario_verao"
+      },
+      {
+        "pergunta": "o brasil tem quatro estações",
+        "esperado": "estacoes_brasil",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "quantos planetas tem o sistema solar",
+        "esperado": "planetas",
+        "obtido": "maior_planeta"
+      },
+      {
+        "pergunta": "o que é o sol",
+        "esperado": "sol",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "qual o maior planeta",
+        "esperado": "maior_planeta",
+        "obtido": "planetas"
+      },
+      {
+        "pergunta": "qual o planeta mais quente",
+        "esperado": "mais_quente",
+        "obtido": "planetas"
+      },
+      {
+        "pergunta": "qual planeta tem anéis",
+        "esperado": "aneis",
+        "obtido": "planetas"
+      },
+      {
+        "pergunta": "como economizar energia",
+        "esperado": "energia",
+        "obtido": "folhas_outono"
+      },
+      {
+        "pergunta": "como economizar água",
+        "esperado": "agua",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como acabar com formigas",
+        "esperado": "pragas",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "quais as cores da reciclagem",
+        "esperado": "reciclagem",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que são tipos de dados",
+        "esperado": "prog_tipos",
+        "obtido": "py_typeerror"
+      },
+      {
+        "pergunta": "como criar uma função em python",
+        "esperado": "py_funcao",
+        "obtido": "py_classe"
+      },
+      {
+        "pergunta": "como usar dicionário em python",
+        "esperado": "py_dicionario",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como usar import em python",
+        "esperado": "py_import",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como criar venv python",
+        "esperado": "py_venv",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como criar função em JavaScript",
+        "esperado": "js_funcao",
+        "obtido": "js_intro"
+      },
+      {
+        "pergunta": "como usar querySelector",
+        "esperado": "js_dom",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como prevenir injeção SQL",
+        "esperado": "sql_parametros",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como depurar código",
+        "esperado": "prog_debug",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "qual planta vive na sombra",
+        "esperado": "sol_sombra",
+        "obtido": "vida_pets"
+      },
+      {
+        "pergunta": "quais são as partes da planta",
+        "esperado": "partes_planta",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "plantas fáceis de cuidar",
+        "esperado": "plantas_apartamento",
+        "obtido": "suculenta"
+      },
+      {
+        "pergunta": "como as flores viram frutos",
+        "esperado": "polinizacao",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "animal que corre mais",
+        "esperado": "mais_rapido",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que gato não pode comer",
+        "esperado": "cuidar_gato",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "por que chove",
+        "esperado": "chuva",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "por que venta",
+        "esperado": "vento",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "vai chover hoje",
+        "esperado": "previsao_hoje",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "quantos dias tem um ano",
+        "esperado": "bissexto",
+        "obtido": "solsticio_equinocio"
+      },
+      {
+        "pergunta": "por que a hora muda de país",
+        "esperado": "fuso",
+        "obtido": "causa_estacoes"
+      },
+      {
+        "pergunta": "quantos dias tem fevereiro",
+        "esperado": "meses_semana",
+        "obtido": "bissexto"
+      },
+      {
+        "pergunta": "por que é inverno lá e verão aqui",
+        "esperado": "natal_verao",
+        "obtido": "causa_estacoes"
+      },
+      {
+        "pergunta": "existe inverno no norte do brasil",
+        "esperado": "estacoes_brasil",
+        "obtido": "natal_verao"
+      },
+      {
+        "pergunta": "por que as árvores perdem as folhas",
+        "esperado": "folhas_outono",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "planeta mais gigante do sistema solar",
+        "esperado": "maior_planeta",
+        "obtido": "planetas"
+      },
+      {
+        "pergunta": "fale sobre mercúrio",
+        "esperado": "mercurio",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "conta de luz muito alta",
+        "esperado": "energia",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "conta de água alta",
+        "esperado": "agua",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "para que serve bicarbonato de sódio",
+        "esperado": "vinagre_bicarbonato",
+        "obtido": "partes_planta"
+      },
+      {
+        "pergunta": "como separar o lixo",
+        "esperado": "reciclagem",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como começar a programar",
+        "esperado": "prog_programar",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "diferença entre inteiro texto e booleano",
+        "esperado": "prog_tipos",
+        "obtido": "py_comparacao"
+      },
+      {
+        "pergunta": "como mostrar texto na tela em python",
+        "esperado": "py_print",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como receber dados do teclado em python",
+        "esperado": "py_input",
+        "obtido": "py_dicionario"
+      },
+      {
+        "pergunta": "condicional em python",
+        "esperado": "py_if",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "função de somar dois números em python",
+        "esperado": "py_funcao",
+        "obtido": "py_typeerror"
+      },
+      {
+        "pergunta": "adicionar elemento com append python",
+        "esperado": "py_lista",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "erro de indentação em python",
+        "esperado": "py_indentacao",
+        "obtido": "py_excecao"
+      },
+      {
+        "pergunta": "nome não definido python",
+        "esperado": "py_nameerror",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "tipos incompatíveis python",
+        "esperado": "py_typeerror",
+        "obtido": "prog_tipos"
+      },
+      {
+        "pergunta": "chave ausente no dicionário python",
+        "esperado": "py_keyerror",
+        "obtido": "py_dicionario"
+      },
+      {
+        "pergunta": "converter JSON com json loads",
+        "esperado": "py_json",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como criar objeto em python",
+        "esperado": "py_classe",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "para que serve JavaScript",
+        "esperado": "js_intro",
+        "obtido": "js_funcao"
+      },
+      {
+        "pergunta": "como declarar variável em JavaScript",
+        "esperado": "js_variavel",
+        "obtido": "prog_variavel"
+      },
+      {
+        "pergunta": "alterar texto no DOM com JavaScript",
+        "esperado": "js_dom",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "o que é Promise em JavaScript",
+        "esperado": "js_async",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "consultar dados com SQL",
+        "esperado": "sql_select",
+        "obtido": "sql_intro"
+      },
+      {
+        "pergunta": "ver diferenças antes do commit",
+        "esperado": "git_diff",
+        "obtido": "git_commit"
+      },
+      {
+        "pergunta": "como funciona HTTP",
+        "esperado": "prog_http",
+        "obtido": "prog_variavel"
+      },
+      {
+        "pergunta": "o que é debug",
+        "esperado": "prog_debug",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "planta que aguenta pouca luz",
+        "esperado": "sol_sombra",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "quanto regar suculentas",
+        "esperado": "suculenta",
+        "obtido": "regar"
+      },
+      {
+        "pergunta": "planta para quem esquece de regar",
+        "esperado": "plantas_apartamento",
+        "obtido": "regar"
+      },
+      {
+        "pergunta": "para que serve o pólen",
+        "esperado": "polinizacao",
+        "obtido": "partes_planta"
+      },
+      {
+        "pergunta": "planta que faz mal para pet",
+        "esperado": "plantas_toxicas",
+        "obtido": "umidade"
+      },
+      {
+        "pergunta": "qual é o animal mais pesado",
+        "esperado": "maior_animal",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que cachorro não pode comer",
+        "esperado": "cuidar_cachorro",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "para que servem as brânquias",
+        "esperado": "peixes",
+        "obtido": "partes_planta"
+      },
+      {
+        "pergunta": "o que é clima",
+        "esperado": "clima_tempo_dif",
+        "obtido": "climas_brasil"
+      },
+      {
+        "pergunta": "por que a terra está esquentando",
+        "esperado": "aquecimento_global",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "por que existe 29 de fevereiro",
+        "esperado": "bissexto",
+        "obtido": "meses_semana"
+      },
+      {
+        "pergunta": "quanto dura um dia",
+        "esperado": "dia_noite",
+        "obtido": "geladeira"
+      },
+      {
+        "pergunta": "por que faz frio no inverno",
+        "esperado": "causa_estacoes",
+        "obtido": "natal_verao"
+      },
+      {
+        "pergunta": "dia mais longo do ano",
+        "esperado": "solsticio_equinocio",
+        "obtido": "bissexto"
+      },
+      {
+        "pergunta": "estações opostas nos hemisférios",
+        "esperado": "natal_verao",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como são as estações no nordeste",
+        "esperado": "estacoes_brasil",
+        "obtido": "quais_estacoes"
+      },
+      {
+        "pergunta": "por que as folhas ficam vermelhas",
+        "esperado": "folhas_outono",
+        "obtido": "folha_amarela"
+      },
+      {
+        "pergunta": "por que a lua muda de forma",
+        "esperado": "lua",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "fale sobre júpiter",
+        "esperado": "maior_planeta",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "qual o menor planeta",
+        "esperado": "mercurio",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "quanto tempo a terra leva para girar",
+        "esperado": "rotacao_translacao",
+        "obtido": "luz_sol"
+      },
+      {
+        "pergunta": "onde fica o sistema solar",
+        "esperado": "via_lactea",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como gastar menos luz",
+        "esperado": "energia",
+        "obtido": "agua"
+      },
+      {
+        "pergunta": "limpeza caseira",
+        "esperado": "vinagre_bicarbonato",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como afastar insetos da cozinha",
+        "esperado": "pragas",
+        "obtido": "insetos"
+      },
+      {
+        "pergunta": "por que o disjuntor cai toda hora",
+        "esperado": "disjuntor",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "lixeira azul vermelha verde amarela",
+        "esperado": "reciclagem",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "tipos int float str bool",
+        "esperado": "prog_tipos",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "ler um número com input python",
+        "esperado": "py_input",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "repetir enquanto uma condição em python",
+        "esperado": "py_while",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "criar um dicionário python",
+        "esperado": "py_dicionario",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "como indentar código python",
+        "esperado": "py_indentacao",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "variável não definida NameError",
+        "esperado": "py_nameerror",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "list index out of range",
+        "esperado": "py_indexerror",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "serializar dados com json dumps",
+        "esperado": "py_json",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "isolar dependências com venv",
+        "esperado": "py_venv",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "testar função automaticamente python",
+        "esperado": "py_teste",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "exemplo de function e return js",
+        "esperado": "js_funcao",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "laço de repetição javascript",
+        "esperado": "js_for",
+        "obtido": "js_intro"
+      },
+      {
+        "pergunta": "selecionar elemento HTML com JavaScript",
+        "esperado": "js_dom",
+        "obtido": "js_intro"
+      },
+      {
+        "pergunta": "o que é banco de dados relacional",
+        "esperado": "sql_intro",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "relacionar tabelas SQL",
+        "esperado": "sql_join",
+        "obtido": "sql_intro"
+      },
+      {
+        "pergunta": "diferença entre commit e push",
+        "esperado": "git_commit",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "trabalhar em ramo separado no Git",
+        "esperado": "git_branch",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como investigar um bug",
+        "esperado": "prog_debug",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "quanto tempo a semente demora para nascer",
+        "esperado": "germinar",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o urso dorme o inverno inteiro",
+        "esperado": "hibernacao",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que é um predador",
+        "esperado": "cadeia_alimentar",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que é tempo meteorológico",
+        "esperado": "clima_tempo_dif",
+        "obtido": "previsao_hoje"
+      },
+      {
+        "pergunta": "de onde vem a chuva",
+        "esperado": "chuva",
+        "obtido": "arco_iris"
+      },
+      {
+        "pergunta": "clima do nordeste",
+        "esperado": "climas_brasil",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "mudanças climáticas",
+        "esperado": "aquecimento_global",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "vai fazer frio amanhã",
+        "esperado": "previsao_hoje",
+        "obtido": "causa_estacoes"
+      },
+      {
+        "pergunta": "que horas são em portugal",
+        "esperado": "fuso",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "o que muda no verão",
+        "esperado": "causa_estacoes",
+        "obtido": "horario_verao"
+      },
+      {
+        "pergunta": "dia mais curto do ano",
+        "esperado": "solsticio_equinocio",
+        "obtido": "bissexto"
+      },
+      {
+        "pergunta": "de que o sol é feito",
+        "esperado": "sol",
+        "obtido": "aneis"
+      },
+      {
+        "pergunta": "quanto tempo dura um ciclo lunar",
+        "esperado": "lua",
+        "obtido": "geladeira"
+      },
+      {
+        "pergunta": "o que gasta mais energia em casa",
+        "esperado": "energia",
+        "obtido": "lampada"
+      },
+      {
+        "pergunta": "como gastar menos água",
+        "esperado": "agua",
+        "obtido": "energia"
+      },
+      {
+        "pergunta": "como espantar barata",
+        "esperado": "pragas",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "como lavar roupa manchada",
+        "esperado": "manchas",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "a luz da casa caiu",
+        "esperado": "disjuntor",
+        "obtido": "energia"
+      },
+      {
+        "pergunta": "primeiros passos em programação",
+        "esperado": "prog_programar",
+        "obtido": "prog_algoritmo"
+      },
+      {
+        "pergunta": "entrada do usuário em python",
+        "esperado": "py_input",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "testar uma condição em python",
+        "esperado": "py_if",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "percorrer uma sequência em python",
+        "esperado": "py_for",
+        "obtido": "py_lista"
+      },
+      {
+        "pergunta": "acessar posição inexistente na lista python",
+        "esperado": "py_indexerror",
+        "obtido": "py_lista"
+      },
+      {
+        "pergunta": "dicionário sem a chave pedida python",
+        "esperado": "py_keyerror",
+        "obtido": "py_dicionario"
+      },
+      {
+        "pergunta": "para que serve self em python",
+        "esperado": "py_classe",
+        "obtido": "py_funcao"
+      },
+      {
+        "pergunta": "função assíncrona em JavaScript",
+        "esperado": "js_async",
+        "obtido": "js_intro"
+      },
+      {
+        "pergunta": "tabelas linhas e colunas no SQL",
+        "esperado": "sql_intro",
+        "obtido": "sql_join"
+      },
+      {
+        "pergunta": "diferença entre Git e GitHub",
+        "esperado": "git_intro",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "registrar alteração no Git",
+        "esperado": "git_commit",
+        "obtido": "git_intro"
+      },
+      {
+        "pergunta": "comparar arquivos alterados no Git",
+        "esperado": "git_diff",
+        "obtido": "git_intro"
+      },
+      {
+        "pergunta": "meu programa deu erro como investigar",
+        "esperado": "prog_debug",
+        "obtido": "fora"
+      },
+      {
+        "pergunta": "está calor lá fora",
+        "esperado": "previsao_hoje",
+        "obtido": "duvida"
+      },
+      {
+        "pergunta": "datas das estações do ano",
+        "esperado": "datas_estacoes",
+        "obtido": "quais_estacoes"
+      },
+      {
+        "pergunta": "programação para iniciantes",
+        "esperado": "prog_programar",
+        "obtido": "fora"
+      }
+    ]
+  },
+  "cruzada_por_dominio": {
+    "geral": {
+      "total": 278,
+      "acertos": 192,
+      "erradas": 44,
+      "abstencoes": 42,
+      "erros": [
+        {
+          "pergunta": "o que é fotossíntese",
+          "esperado": "fotossintese",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "por que as folhas ficam amarelas",
+          "esperado": "folha_amarela",
+          "obtido": "folhas_outono"
+        },
+        {
+          "pergunta": "como plantar semente",
+          "esperado": "germinar",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "que plantas ter em apartamento",
+          "esperado": "plantas_apartamento",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que é cadeia alimentar",
+          "esperado": "cadeia_alimentar",
+          "obtido": "fotossintese"
+        },
+        {
+          "pergunta": "como evitar a dengue",
+          "esperado": "dengue",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como se forma a chuva",
+          "esperado": "chuva",
+          "obtido": "vento"
+        },
+        {
+          "pergunta": "por que o natal é no verão no brasil",
+          "esperado": "natal_verao",
+          "obtido": "horario_verao"
+        },
+        {
+          "pergunta": "o brasil tem quatro estações",
+          "esperado": "estacoes_brasil",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "quantos planetas tem o sistema solar",
+          "esperado": "planetas",
+          "obtido": "maior_planeta"
+        },
+        {
+          "pergunta": "o que é o sol",
+          "esperado": "sol",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "qual o maior planeta",
+          "esperado": "maior_planeta",
+          "obtido": "planetas"
+        },
+        {
+          "pergunta": "qual o planeta mais quente",
+          "esperado": "mais_quente",
+          "obtido": "planetas"
+        },
+        {
+          "pergunta": "qual planeta tem anéis",
+          "esperado": "aneis",
+          "obtido": "planetas"
+        },
+        {
+          "pergunta": "como economizar energia",
+          "esperado": "energia",
+          "obtido": "folhas_outono"
+        },
+        {
+          "pergunta": "como economizar água",
+          "esperado": "agua",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como acabar com formigas",
+          "esperado": "pragas",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "quais as cores da reciclagem",
+          "esperado": "reciclagem",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "qual planta vive na sombra",
+          "esperado": "sol_sombra",
+          "obtido": "vida_pets"
+        },
+        {
+          "pergunta": "quais são as partes da planta",
+          "esperado": "partes_planta",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "plantas fáceis de cuidar",
+          "esperado": "plantas_apartamento",
+          "obtido": "suculenta"
+        },
+        {
+          "pergunta": "como as flores viram frutos",
+          "esperado": "polinizacao",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "animal que corre mais",
+          "esperado": "mais_rapido",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que gato não pode comer",
+          "esperado": "cuidar_gato",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "por que chove",
+          "esperado": "chuva",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "por que venta",
+          "esperado": "vento",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "vai chover hoje",
+          "esperado": "previsao_hoje",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "quantos dias tem um ano",
+          "esperado": "bissexto",
+          "obtido": "solsticio_equinocio"
+        },
+        {
+          "pergunta": "por que a hora muda de país",
+          "esperado": "fuso",
+          "obtido": "causa_estacoes"
+        },
+        {
+          "pergunta": "quantos dias tem fevereiro",
+          "esperado": "meses_semana",
+          "obtido": "bissexto"
+        },
+        {
+          "pergunta": "por que é inverno lá e verão aqui",
+          "esperado": "natal_verao",
+          "obtido": "causa_estacoes"
+        },
+        {
+          "pergunta": "existe inverno no norte do brasil",
+          "esperado": "estacoes_brasil",
+          "obtido": "natal_verao"
+        },
+        {
+          "pergunta": "por que as árvores perdem as folhas",
+          "esperado": "folhas_outono",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "planeta mais gigante do sistema solar",
+          "esperado": "maior_planeta",
+          "obtido": "planetas"
+        },
+        {
+          "pergunta": "fale sobre mercúrio",
+          "esperado": "mercurio",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "conta de luz muito alta",
+          "esperado": "energia",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "conta de água alta",
+          "esperado": "agua",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "para que serve bicarbonato de sódio",
+          "esperado": "vinagre_bicarbonato",
+          "obtido": "partes_planta"
+        },
+        {
+          "pergunta": "como separar o lixo",
+          "esperado": "reciclagem",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "planta que aguenta pouca luz",
+          "esperado": "sol_sombra",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "quanto regar suculentas",
+          "esperado": "suculenta",
+          "obtido": "regar"
+        },
+        {
+          "pergunta": "planta para quem esquece de regar",
+          "esperado": "plantas_apartamento",
+          "obtido": "regar"
+        },
+        {
+          "pergunta": "para que serve o pólen",
+          "esperado": "polinizacao",
+          "obtido": "partes_planta"
+        },
+        {
+          "pergunta": "planta que faz mal para pet",
+          "esperado": "plantas_toxicas",
+          "obtido": "umidade"
+        },
+        {
+          "pergunta": "qual é o animal mais pesado",
+          "esperado": "maior_animal",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que cachorro não pode comer",
+          "esperado": "cuidar_cachorro",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "para que servem as brânquias",
+          "esperado": "peixes",
+          "obtido": "partes_planta"
+        },
+        {
+          "pergunta": "o que é clima",
+          "esperado": "clima_tempo_dif",
+          "obtido": "climas_brasil"
+        },
+        {
+          "pergunta": "por que a terra está esquentando",
+          "esperado": "aquecimento_global",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "por que existe 29 de fevereiro",
+          "esperado": "bissexto",
+          "obtido": "meses_semana"
+        },
+        {
+          "pergunta": "quanto dura um dia",
+          "esperado": "dia_noite",
+          "obtido": "geladeira"
+        },
+        {
+          "pergunta": "por que faz frio no inverno",
+          "esperado": "causa_estacoes",
+          "obtido": "natal_verao"
+        },
+        {
+          "pergunta": "dia mais longo do ano",
+          "esperado": "solsticio_equinocio",
+          "obtido": "bissexto"
+        },
+        {
+          "pergunta": "estações opostas nos hemisférios",
+          "esperado": "natal_verao",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como são as estações no nordeste",
+          "esperado": "estacoes_brasil",
+          "obtido": "quais_estacoes"
+        },
+        {
+          "pergunta": "por que as folhas ficam vermelhas",
+          "esperado": "folhas_outono",
+          "obtido": "folha_amarela"
+        },
+        {
+          "pergunta": "por que a lua muda de forma",
+          "esperado": "lua",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "fale sobre júpiter",
+          "esperado": "maior_planeta",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "qual o menor planeta",
+          "esperado": "mercurio",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "quanto tempo a terra leva para girar",
+          "esperado": "rotacao_translacao",
+          "obtido": "luz_sol"
+        },
+        {
+          "pergunta": "onde fica o sistema solar",
+          "esperado": "via_lactea",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como gastar menos luz",
+          "esperado": "energia",
+          "obtido": "agua"
+        },
+        {
+          "pergunta": "limpeza caseira",
+          "esperado": "vinagre_bicarbonato",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como afastar insetos da cozinha",
+          "esperado": "pragas",
+          "obtido": "insetos"
+        },
+        {
+          "pergunta": "por que o disjuntor cai toda hora",
+          "esperado": "disjuntor",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "lixeira azul vermelha verde amarela",
+          "esperado": "reciclagem",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "quanto tempo a semente demora para nascer",
+          "esperado": "germinar",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o urso dorme o inverno inteiro",
+          "esperado": "hibernacao",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que é um predador",
+          "esperado": "cadeia_alimentar",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que é tempo meteorológico",
+          "esperado": "clima_tempo_dif",
+          "obtido": "previsao_hoje"
+        },
+        {
+          "pergunta": "de onde vem a chuva",
+          "esperado": "chuva",
+          "obtido": "arco_iris"
+        },
+        {
+          "pergunta": "clima do nordeste",
+          "esperado": "climas_brasil",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "mudanças climáticas",
+          "esperado": "aquecimento_global",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "vai fazer frio amanhã",
+          "esperado": "previsao_hoje",
+          "obtido": "causa_estacoes"
+        },
+        {
+          "pergunta": "que horas são em portugal",
+          "esperado": "fuso",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "o que muda no verão",
+          "esperado": "causa_estacoes",
+          "obtido": "horario_verao"
+        },
+        {
+          "pergunta": "dia mais curto do ano",
+          "esperado": "solsticio_equinocio",
+          "obtido": "bissexto"
+        },
+        {
+          "pergunta": "de que o sol é feito",
+          "esperado": "sol",
+          "obtido": "aneis"
+        },
+        {
+          "pergunta": "quanto tempo dura um ciclo lunar",
+          "esperado": "lua",
+          "obtido": "geladeira"
+        },
+        {
+          "pergunta": "o que gasta mais energia em casa",
+          "esperado": "energia",
+          "obtido": "lampada"
+        },
+        {
+          "pergunta": "como gastar menos água",
+          "esperado": "agua",
+          "obtido": "energia"
+        },
+        {
+          "pergunta": "como espantar barata",
+          "esperado": "pragas",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como lavar roupa manchada",
+          "esperado": "manchas",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "a luz da casa caiu",
+          "esperado": "disjuntor",
+          "obtido": "energia"
+        },
+        {
+          "pergunta": "está calor lá fora",
+          "esperado": "previsao_hoje",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "datas das estações do ano",
+          "esperado": "datas_estacoes",
+          "obtido": "quais_estacoes"
+        }
+      ]
+    },
+    "programacao": {
+      "total": 181,
+      "acertos": 119,
+      "erradas": 26,
+      "abstencoes": 36,
+      "erros": [
+        {
+          "pergunta": "o que são tipos de dados",
+          "esperado": "prog_tipos",
+          "obtido": "py_typeerror"
+        },
+        {
+          "pergunta": "como criar uma função em python",
+          "esperado": "py_funcao",
+          "obtido": "py_classe"
+        },
+        {
+          "pergunta": "como usar dicionário em python",
+          "esperado": "py_dicionario",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como usar import em python",
+          "esperado": "py_import",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como criar venv python",
+          "esperado": "py_venv",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como criar função em JavaScript",
+          "esperado": "js_funcao",
+          "obtido": "js_intro"
+        },
+        {
+          "pergunta": "como usar querySelector",
+          "esperado": "js_dom",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como prevenir injeção SQL",
+          "esperado": "sql_parametros",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como depurar código",
+          "esperado": "prog_debug",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como começar a programar",
+          "esperado": "prog_programar",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "diferença entre inteiro texto e booleano",
+          "esperado": "prog_tipos",
+          "obtido": "py_comparacao"
+        },
+        {
+          "pergunta": "como mostrar texto na tela em python",
+          "esperado": "py_print",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como receber dados do teclado em python",
+          "esperado": "py_input",
+          "obtido": "py_dicionario"
+        },
+        {
+          "pergunta": "condicional em python",
+          "esperado": "py_if",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "função de somar dois números em python",
+          "esperado": "py_funcao",
+          "obtido": "py_typeerror"
+        },
+        {
+          "pergunta": "adicionar elemento com append python",
+          "esperado": "py_lista",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "erro de indentação em python",
+          "esperado": "py_indentacao",
+          "obtido": "py_excecao"
+        },
+        {
+          "pergunta": "nome não definido python",
+          "esperado": "py_nameerror",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "tipos incompatíveis python",
+          "esperado": "py_typeerror",
+          "obtido": "prog_tipos"
+        },
+        {
+          "pergunta": "chave ausente no dicionário python",
+          "esperado": "py_keyerror",
+          "obtido": "py_dicionario"
+        },
+        {
+          "pergunta": "converter JSON com json loads",
+          "esperado": "py_json",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como criar objeto em python",
+          "esperado": "py_classe",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "para que serve JavaScript",
+          "esperado": "js_intro",
+          "obtido": "js_funcao"
+        },
+        {
+          "pergunta": "como declarar variável em JavaScript",
+          "esperado": "js_variavel",
+          "obtido": "prog_variavel"
+        },
+        {
+          "pergunta": "alterar texto no DOM com JavaScript",
+          "esperado": "js_dom",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "o que é Promise em JavaScript",
+          "esperado": "js_async",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "consultar dados com SQL",
+          "esperado": "sql_select",
+          "obtido": "sql_intro"
+        },
+        {
+          "pergunta": "ver diferenças antes do commit",
+          "esperado": "git_diff",
+          "obtido": "git_commit"
+        },
+        {
+          "pergunta": "como funciona HTTP",
+          "esperado": "prog_http",
+          "obtido": "prog_variavel"
+        },
+        {
+          "pergunta": "o que é debug",
+          "esperado": "prog_debug",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "tipos int float str bool",
+          "esperado": "prog_tipos",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "ler um número com input python",
+          "esperado": "py_input",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "repetir enquanto uma condição em python",
+          "esperado": "py_while",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "criar um dicionário python",
+          "esperado": "py_dicionario",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "como indentar código python",
+          "esperado": "py_indentacao",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "variável não definida NameError",
+          "esperado": "py_nameerror",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "list index out of range",
+          "esperado": "py_indexerror",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "serializar dados com json dumps",
+          "esperado": "py_json",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "isolar dependências com venv",
+          "esperado": "py_venv",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "testar função automaticamente python",
+          "esperado": "py_teste",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "exemplo de function e return js",
+          "esperado": "js_funcao",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "laço de repetição javascript",
+          "esperado": "js_for",
+          "obtido": "js_intro"
+        },
+        {
+          "pergunta": "selecionar elemento HTML com JavaScript",
+          "esperado": "js_dom",
+          "obtido": "js_intro"
+        },
+        {
+          "pergunta": "o que é banco de dados relacional",
+          "esperado": "sql_intro",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "relacionar tabelas SQL",
+          "esperado": "sql_join",
+          "obtido": "sql_intro"
+        },
+        {
+          "pergunta": "diferença entre commit e push",
+          "esperado": "git_commit",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "trabalhar em ramo separado no Git",
+          "esperado": "git_branch",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "como investigar um bug",
+          "esperado": "prog_debug",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "primeiros passos em programação",
+          "esperado": "prog_programar",
+          "obtido": "prog_algoritmo"
+        },
+        {
+          "pergunta": "entrada do usuário em python",
+          "esperado": "py_input",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "testar uma condição em python",
+          "esperado": "py_if",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "percorrer uma sequência em python",
+          "esperado": "py_for",
+          "obtido": "py_lista"
+        },
+        {
+          "pergunta": "acessar posição inexistente na lista python",
+          "esperado": "py_indexerror",
+          "obtido": "py_lista"
+        },
+        {
+          "pergunta": "dicionário sem a chave pedida python",
+          "esperado": "py_keyerror",
+          "obtido": "py_dicionario"
+        },
+        {
+          "pergunta": "para que serve self em python",
+          "esperado": "py_classe",
+          "obtido": "py_funcao"
+        },
+        {
+          "pergunta": "função assíncrona em JavaScript",
+          "esperado": "js_async",
+          "obtido": "js_intro"
+        },
+        {
+          "pergunta": "tabelas linhas e colunas no SQL",
+          "esperado": "sql_intro",
+          "obtido": "sql_join"
+        },
+        {
+          "pergunta": "diferença entre Git e GitHub",
+          "esperado": "git_intro",
+          "obtido": "duvida"
+        },
+        {
+          "pergunta": "registrar alteração no Git",
+          "esperado": "git_commit",
+          "obtido": "git_intro"
+        },
+        {
+          "pergunta": "comparar arquivos alterados no Git",
+          "esperado": "git_diff",
+          "obtido": "git_intro"
+        },
+        {
+          "pergunta": "meu programa deu erro como investigar",
+          "esperado": "prog_debug",
+          "obtido": "fora"
+        },
+        {
+          "pergunta": "programação para iniciantes",
+          "esperado": "prog_programar",
+          "obtido": "fora"
+        }
+      ]
+    }
+  },
+  "validacao_exemplos": {
+    "python_executados": 17,
+    "javascript_sintaxe": 6,
+    "javascript_executados": 5,
+    "sql_executados": 2,
+    "html_css": "revisao do conteudo; sem teste de navegador",
+    "shell": "exemplos nao executados"
+  },
+  "treino_integral": {
+    "epocas": 60,
+    "ocultos": 48,
+    "dimensao": 512,
+    "modo": "portugues",
+    "semente": 42,
+    "rotulos": 122,
+    "checksum_pesos": "01ce284148e22b01b152e258772e197e1a94e07f6271093ec5605835c9bc852b"
+  },
+  "verificacao": {
+    "unittest_metodos": 47,
+    "testes_originais": 65,
+    "com_checkpoint_carregado": true,
+    "nota": "Inclui regressao em que confirmacao neural removia as alternativas de mais; corrigida."
+  }
+}

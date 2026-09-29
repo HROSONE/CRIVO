@@ -22,6 +22,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Validar codigo e regressao
         run: |
           python -m compileall -q .
@@ -37,15 +40,18 @@ jobs:
           from rede_neural import RedeCrivo
           rede = RedeCrivo.carregar("rede_crivo.json")
           bot = Crivo()
-          assert len(rede.rotulos) == len(bot.base) == 77
+          assert set(rede.rotulos) == {e['id'] for e in bot.base}
+          assert len(rede.rotulos) == len(bot.base)
           assert bot.rede is not None, bot.erro_rede
           assert bot.erro_rede is None
           assert rede.modo == "portugues"
           assert rede.dimensao == 512 and rede.ocultos == 48
           assert bot.previsao_neural("como regar uma planta") is not None
-          print("Checkpoint validado: 77 intencoes, pesos de 512x48, modo portugues.")
+          print(f"Checkpoint validado: {len(rede.rotulos)} intencoes, pesos de 512x48, modo portugues.")
           print("Aviso: carregar pesos nao garante melhor acuracia no chatbot hibrido.")
           PY
+      - name: Verificar conversas com os pesos novos carregados
+        run: python -m unittest testes_programacao testes_dialogo -q
       - name: Publicar pesos para download
         uses: actions/upload-artifact@v4
         with:
