@@ -43,6 +43,9 @@ class TestesIntencaoDefinicao(unittest.TestCase):
             "O que é uma árvore genealógica?",
             "O que é uma árvore de Natal?",
             "O que é uma nuvem de pontos?",
+            "O que é uma nuvem?",
+            "O que é uma folha?",
+            "O que é uma semente?",
             "Defina árvore quântica.",
         ):
             with self.subTest(pergunta=pergunta):
