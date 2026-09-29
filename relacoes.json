@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "descricao": "Grafo de relações transitivas tipo_de/parte_de, características herdáveis via tipo_de e orbita direta. Inferência explicável sobre fatos estruturados curados, não gerados por LLM.",
+  "descricao": "Grafo com provas positivas e negativas explicitamente cadastradas, sem deduzir falso por ausência; fonte_id vincula certos fatos a explicações da base.",
   "entidades": {
     "ser_vivo": {
       "nome": "ser vivo",
@@ -438,7 +438,8 @@
       "sujeito": "sol",
       "relacao": "tipo_de",
       "objeto": "estrela",
-      "fonte": "curadoria inicial"
+      "fonte": "curadoria inicial",
+      "fonte_id": "sol"
     },
     {
       "sujeito": "terra",
@@ -625,6 +626,20 @@
       "relacao": "orbita",
       "objeto": "sol",
       "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "aracnideo",
+      "relacao": "disjunto_de",
+      "objeto": "inseto",
+      "fonte": "curadoria inicial: distinção taxonômica",
+      "fonte_id": "insetos"
+    },
+    {
+      "sujeito": "anfibio",
+      "relacao": "disjunto_de",
+      "objeto": "reptil",
+      "fonte": "curadoria inicial: distinção taxonômica",
+      "fonte_id": "reptil_anfibio"
     }
   ]
 }
