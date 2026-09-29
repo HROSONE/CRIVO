@@ -90,6 +90,8 @@ class CompositorTextual:
                     or item["id"] in self.itens or item["id"] in self.expandidos
                     or not isinstance(item.get("nome"), str) or not tema(item["nome"])
                     or ("id_resposta" in item and item["id_resposta"] not in ids_base)
+                    or ("area" in item and (not isinstance(item["area"], str)
+                                           or not item["area"].strip()))
                     or not isinstance(item.get("aliases", []), list)
                     or not all(isinstance(a, str) and tema(a) for a in item.get("aliases", []))
                     or not isinstance(item.get("fatos"), list) or not 1 <= len(item["fatos"]) <= 12):
