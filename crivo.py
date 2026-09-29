@@ -113,6 +113,24 @@ class Crivo:
         self.pos_ultimo = 0
         self.historico = []
         self.ultimo_assunto = None
+        self.rede = None
+        self.limiar_rede = 0.80
+
+    def carregar_rede(self, caminho, limiar=0.80):
+        from rede_neural import RedeCrivo
+        rede = RedeCrivo.carregar(caminho)
+        if set(rede.rotulos) != {e["id"] for e in self.base}:
+            raise ValueError("Rede incompatível com a base; treine novamente")
+        if not 0 < limiar <= 1:
+            raise ValueError("Limiar inválido")
+        self.rede = rede
+        self.limiar_rede = limiar
+
+    def previsao_neural(self, pergunta):
+        """Retorna (id, probabilidade) sem alterar a resposta do recuperador."""
+        if self.rede is None:
+            return None
+        return self.rede.prever(pergunta)
 
     # "treino": monta o índice TF-IDF da base
     def _indexar(self):
@@ -293,6 +311,18 @@ class Crivo:
         # se metade ou mais das palavras é desconhecida, o Crivo prefere admitir que não sabe
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []
+        # Rede e recuperador precisam concordar; sem acordo, mantém-se
+        # o comportamento original. O limiar não é garantia de calibração.
+        neural = self.previsao_neural(original)
+        if (neural and neural[1] >= self.limiar_rede and rank
+                and self.base[rank[0][1]]["id"] == neural[0]
+                and rank[0][0] >= LIMIAR_DUVIDA
+                and len(desconhecidas) < max(1, len(toks) / 2)):
+            e = self.base[rank[0][1]]
+            self.ultimo_assunto = e["perguntas"][0]
+            self.historico.append({"pergunta": original, "id": e["id"]})
+            self.historico = self.historico[-20:]
+            return e["id"], e["resposta"]
         if rank and rank[0][0] >= LIMIAR:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
             self.pos_ultimo = 0
