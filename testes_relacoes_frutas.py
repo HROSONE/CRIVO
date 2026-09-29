@@ -103,6 +103,23 @@ class TestesComparacaoFrutas(unittest.TestCase):
         self.assertIn("pseudofruto", texto.lower())
         self.assertNotIn("ambos são frutos botânicos", texto.lower())
 
+    def test_parte_consumida_nao_se_confunde_com_fruto(self):
+        for pergunta, esperado in (
+            ("O que feijão e arroz têm em comum?", "sementes"),
+            ("O que amendoim e milho têm em comum?", "semente"),
+            ("O que caju e manga têm em comum?", "pseudofruto"),
+        ):
+            with self.subTest(pergunta=pergunta):
+                identificador, resposta = Crivo().responder(pergunta)
+                self.assertEqual(identificador, "frutas:relacao")
+                self.assertIn(esperado, resposta.lower())
+                self.assertNotIn("Ambos são frutos botânicos", resposta)
+        bot = Crivo()
+        identificador, resposta = bot.responder(
+            "Por que milho e arroz são frutos, mas usados como hortaliças?")
+        self.assertEqual(identificador, "frutas:relacao")
+        self.assertIn("não há descrição cadastrada suficiente", resposta.lower())
+
     def test_comparacoes_de_todos_pares_nao_dependem_de_lista_fixa(self):
         # 63*62/2 = 1953 pares: o motor deve responder via mesmo código.
         vals = list(self.base.itens.values())
