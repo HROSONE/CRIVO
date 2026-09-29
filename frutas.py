@@ -219,8 +219,9 @@ class ConhecimentoFrutas:
             comum = (nome_a + " e " + nome_b + " são frutos botânicos.")
 
         if iguais:
-            classes = ("Na classificação cadastrada, ambos pertencem "
-                       "ao mesmo grupo: " + classe_a + ".")
+            classes = ("Na classificação cadastrada, " + nome_a +
+                       " e " + nome_b + " pertencem ao mesmo grupo: " +
+                       classe_a + ".")
         else:
             classes = ("Suas classificações são diferentes: " +
                        nome_a + " é " + classe_a + "; " +
