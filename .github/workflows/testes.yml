@@ -55,3 +55,7 @@ jobs:
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo portugues_sem_filtro --dimensao 512
           python avaliar_rede.py --cruzada --epocas 30 --modo misto --dimensao 512
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
+
+      - name: Comparar ordem de palavras (mesmas dobras e semente)
+        if: matrix.python-version == '3.11' && github.event_name == 'pull_request'
+        run: python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512
