@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Crivo v0.3 - assistente de conversa em português.
+Crivo v0.4 - assistente de conversa em português.
 
 Assuntos do primeiro teste: plantas, animais, clima, tempo, estações do ano,
-sistema solar e coisas de casa.
+sistema solar, coisas de casa e fundamentos de programação.
 
 Uso:
     python crivo.py                 conversa no terminal
@@ -23,7 +23,7 @@ import unicodedata
 from collections import Counter
 from pathlib import Path
 
-VERSAO = "0.3"
+VERSAO = "0.4"
 PASTA = Path(__file__).resolve().parent
 
 TOPICOS = {
@@ -34,6 +34,7 @@ TOPICOS = {
     "estacoes": "estações do ano",
     "sistema_solar": "sistema solar",
     "casa": "coisas de casa",
+    "programacao": "programação (fundamentos, Python, HTML, CSS, JavaScript, SQL e Git)",
 }
 
 LIMIAR = 0.46        # abaixo disso o Crivo não responde direto
@@ -53,6 +54,13 @@ def sem_acento(s):
 
 def normalizar(s):
     return sem_acento(s.lower())
+
+
+def chave_pergunta(texto):
+    """Ignora pontuação de frase sem apagar operadores ou nomes como C++ e C#."""
+    return " ".join(re.findall(
+        r"[a-z0-9_]+(?:\+\+|#)?|===|!==|==|!=|<=|>=|=>|\*\*|[=<>+*/%]",
+        normalizar(texto)))
 
 
 _STOP = """a o as os um uma uns umas de do da dos das em no na nos nas por para
@@ -91,6 +99,15 @@ SINONIMOS = {
     "respira": "respirar", "respiram": "respirar",
     "migra": "migrar", "migram": "migrar", "migracao": "migrar",
     "regue": "regar", "regam": "regar",
+}
+
+# Termos técnicos explícitos. Palavras comuns como "nome", "tipo" ou "ler"
+# não indicam programação: também aparecem nos assuntos gerais.
+TERMOS_PROGRAMACAO = {
+    "unittest", "dict", "dicionario", "try", "except", "return", "def",
+    "while", "const", "let", "array", "queryselector", "dom", "promise",
+    "await", "async", "select", "where", "join", "commit", "branch",
+    "repositorio", "loop", "laco", "indentacao", "input", "print",
 }
 
 
@@ -186,36 +203,93 @@ class Crivo:
         self.idf_raro = max(self.idf.values(), default=1.0)
         self.exemplos = [[set(tokens(p)) for p in dict.fromkeys(e["perguntas"])]
                          for e in self.base]
+        # Um currículo novo não deve alterar o peso das palavras de outro domínio.
+        self.grupos = ["programacao" if e["topico"] == "programacao" else "geral"
+                       for e in self.base]
+        self.idf_grupos = {}
+        for grupo in set(self.grupos):
+            indices = [i for i, g in enumerate(self.grupos) if g == grupo]
+            frequencias = Counter(t for i in indices for t in docs[i])
+            self.idf_grupos[grupo] = {
+                t: math.log((len(indices) + 1) / (d + 1)) + 1
+                for t, d in frequencias.items()}
         self.vetores = []
-        for c in docs:
-            v = {t: (1 + math.log(f)) * self.idf[t] for t, f in c.items()}
+        for i, c in enumerate(docs):
+            idf = self.idf_grupos[self.grupos[i]]
+            v = {t: (1 + math.log(f)) * idf[t] for t, f in c.items()}
             norma = math.sqrt(sum(x * x for x in v.values())) or 1.0
             self.vetores.append({t: x / norma for t, x in v.items()})
 
-    def _tokens_consulta(self, texto):
+    def _tokens_consulta(self, texto, vocabulario=None):
+        vocabulario = self.idf if vocabulario is None else vocabulario
         resultado = []
         for t in tokens(texto):
-            if t not in self.idf and len(t) >= 5:
+            if t not in vocabulario and len(t) >= 5:
                 # Só corrigir grafias muito próximas e com candidato único.
-                proximos = difflib.get_close_matches(t, self.idf, n=2, cutoff=0.88)
+                proximos = difflib.get_close_matches(t, vocabulario, n=2, cutoff=0.88)
                 if len(proximos) == 1:
                     t = proximos[0]
             resultado.append(t)
         return resultado
 
+    def _indices_consulta(self, texto):
+        """Respeita a linguagem pedida e os identificadores ensinados na base."""
+        n = normalizar(texto)
+        aliases = {
+            "python": r"\b(python|py|pip|venv)\b",
+            "javascript": r"\b(javascript|js|nodejs|node\.js)\b",
+            "html": r"\bhtml\b", "css": r"\bcss\b",
+            "sql": r"\b(sql|sqlite3?)\b", "git": r"\bgit\b",
+        }
+        linguagens = {nome for nome, padrao in aliases.items() if re.search(padrao, n)}
+        sem_conteudo = re.search(
+            r"\b(java|rust|kotlin|swift|ruby|php|typescript)\b|"
+            r"(?<!\w)c(?:\+\+|#)(?!\w)", n)
+        if sem_conteudo:
+            return []
+        identificadas = {i for i, e in enumerate(self.base) if any(
+            re.search(r"\b" + re.escape(normalizar(t)) + r"\b", n)
+            for t in e.get("identificadores", []))}
+        programacao = bool(linguagens or identificadas or
+            set(tokens(texto)) & TERMOS_PROGRAMACAO or re.search(r"\btipos? de dados\b", n) or re.search(
+            r"\b(programacao|programar|codigo|algoritmo|variavel|variaveis|"
+            r"booleano|debug|depurar|bug|api|http|software|script|compilador)\b", n))
+        if not programacao:
+            return [i for i, g in enumerate(self.grupos) if g == "geral"]
+        indices = []
+        for i, e in enumerate(self.base):
+            if e["topico"] != "programacao":
+                continue
+            cobertas = set(e.get("linguagens", [e.get("area")]))
+            if linguagens and not linguagens <= cobertas:
+                if not (len(linguagens) == 1 and e.get("area") in (None, "fundamentos")):
+                    continue
+            if identificadas and i not in identificadas:
+                continue
+            indices.append(i)
+        return indices
+
+    def _contexto_consulta(self, texto):
+        indices = self._indices_consulta(texto)
+        idf = self.idf_grupos[self.grupos[indices[0]]] if indices else {}
+        return indices, idf
+
     def _ranking(self, texto):
-        c = Counter(self._tokens_consulta(texto))
+        indices, idf = self._contexto_consulta(texto)
+        idf_raro = max(idf.values(), default=1.0)
+        c = Counter(self._tokens_consulta(texto, idf))
         if not c:
             return []
-        q = {t: (1 + math.log(f)) * self.idf.get(t, 0.0) for t, f in c.items()}
+        q = {t: (1 + math.log(f)) * idf.get(t, 0.0) for t, f in c.items()}
         norma = math.sqrt(sum(x * x for x in q.values())) or 1.0
         q = {t: x / norma for t, x in q.items()}
         pontos = []
-        total = sum(self.idf.get(t, self.idf_raro) for t in c) or 1.0
-        for i, v in enumerate(self.vetores):
+        total = sum(idf.get(t, idf_raro) for t in c) or 1.0
+        for i in indices:
+            v = self.vetores[i]
             s = sum(x * v.get(t, 0.0) for t, x in q.items())
             # cobertura: quanto do peso da pergunta esta entrada explica
-            cob = sum(self.idf[t] for t in c if t in self.termos[i]) / total
+            cob = sum(idf[t] for t in c if t in self.termos[i]) / total
             s += 0.4 * cob
             # Um exemplo forte vale mais que repetir exemplos parecidos.
             # O peso IDF preserva os termos que distinguem duas intenções.
@@ -224,8 +298,8 @@ class Crivo:
             for tp in self.exemplos[i]:
                 uniao = tq | tp
                 if uniao:
-                    inter = sum(self.idf.get(t, self.idf_raro) for t in tq & tp)
-                    peso = sum(self.idf.get(t, self.idf_raro) for t in uniao)
+                    inter = sum(idf.get(t, idf_raro) for t in tq & tp)
+                    peso = sum(idf.get(t, idf_raro) for t in uniao)
                     similares.append(inter / peso)
             s += 0.35 * max(similares, default=0.0) + 1.05 * sum(similares) / max(1, len(similares))
             pontos.append((s, i))
@@ -269,7 +343,12 @@ class Crivo:
         self.ultimo_assunto = e["perguntas"][0]
         self.historico.append({"pergunta": pergunta, "id": e["id"]})
         self.historico = self.historico[-20:]
-        return e["id"], e["resposta"]
+        resposta = e["resposta"]
+        exemplo = e.get("exemplo")
+        if exemplo:
+            resposta += ("\n\nExemplo:\n```" + exemplo["linguagem"] + "\n" +
+                         exemplo["codigo"] + "\n```")
+        return e["id"], resposta
 
     # --------------------------------------------- esclarecimento --------
     @staticmethod
@@ -397,7 +476,7 @@ class Crivo:
             saud = "Bom dia" if h < 12 else "Boa tarde" if h < 18 else "Boa noite"
             return "social:oi", f"{saud}! Sou o Crivo. Sobre o que quer conversar?"
         if re.match(r"^(oi+|ola|e ai|opa|eai|salve|hey|hello)\b", n):
-            return "social:oi", "Oi! Sou o Crivo. Pergunte sobre plantas, animais, clima, estações, sistema solar ou coisas de casa."
+            return "social:oi", "Oi! Sou o Crivo. Pergunte sobre " + ", ".join(TOPICOS.values()) + "."
         if re.search(r"\b(obrigad[oa]|valeu|brigado|thanks)\b", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         if re.search(r"\b(tchau|ate logo|ate mais|falou|adeus)\b", n):
@@ -415,7 +494,8 @@ class Crivo:
             ex = []
             for t in TOPICOS:
                 qs = [q for e in self.base if e["topico"] == t for q in e["perguntas"][:1]]
-                ex.append(random.choice(qs))
+                if qs:
+                    ex.append(random.choice(qs))
             return "social:exemplos", "Experimente perguntar, por exemplo:\n- " + "\n- ".join(ex)
         return None
 
@@ -423,7 +503,7 @@ class Crivo:
     def responder(self, texto):
         """Devolve (id, resposta)."""
         original = texto
-        n = normalizar(texto).strip().strip("!?.,; ")
+        n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         # Cumprimentos não devem engolir a pergunta que vem junto.
         prefixo = r"^(?:(?:oi+|ola|bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;-]*|por (?:favor|gentileza)[,: ]*)"
         resto = re.sub(prefixo, "", n).strip()
@@ -461,8 +541,7 @@ class Crivo:
         if prevencao != n:
             texto = n = prevencao
         exatas = [i for i, e in enumerate(self.base) if any(
-            re.sub(r"[^a-z0-9 ]", "", normalizar(p)).strip() ==
-            re.sub(r"[^a-z0-9 ]", "", n).strip() for p in e["perguntas"])]
+            chave_pergunta(p) == chave_pergunta(n) for p in e["perguntas"])]
         if len(exatas) == 1:
             i = exatas[0]
             self.ultimos = [(1.0, i)]
@@ -481,8 +560,9 @@ class Crivo:
                 self.ultimos = [(1.0, indice)]
                 return self._registrar(indice, original)
         rank = self._ranking(texto)
-        toks = self._tokens_consulta(texto)
-        desconhecidas = [t for t in toks if t not in self.idf]
+        _, vocabulario = self._contexto_consulta(texto)
+        toks = self._tokens_consulta(texto, vocabulario)
+        desconhecidas = [t for t in toks if t not in vocabulario]
         # se metade ou mais das palavras é desconhecida, o Crivo prefere admitir que não sabe
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []
@@ -495,7 +575,11 @@ class Crivo:
                 and self.base[rank[0][1]]["id"] == neural[0]
                 and rank[0][0] >= LIMIAR_DUVIDA
                 and len(desconhecidas) < max(1, len(toks) / 2)):
-            self.ultimos = [rank[0]]
+            # A confirmação neural não deve retirar as alternativas que o
+            # recuperador já ofereceria para o comando "mais".
+            self.ultimos = ([(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
+                            if rank[0][0] >= LIMIAR else [rank[0]])
+            self.pos_ultimo = 0
             return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]

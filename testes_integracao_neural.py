@@ -8,6 +8,16 @@ from rede_neural import RedeCrivo
 
 
 class TesteIntegracaoNeural(unittest.TestCase):
+    def test_confirmacao_neural_preserva_alternativas_de_mais(self):
+        sem_rede, com_rede = Crivo(), Crivo()
+        sem_rede.rede = None
+        com_rede.previsao_neural = lambda p: (
+            com_rede.base[com_rede._ranking(p)[0][1]]["id"], 1.0)
+        self.assertEqual(sem_rede.responder("cachorro"), com_rede.responder("cachorro"))
+        esperado = sem_rede.responder("mais")
+        self.assertNotEqual(esperado[0], "mais:fim")
+        self.assertEqual(com_rede.responder("mais"), esperado)
+
     def test_integracao_e_compatibilidade(self):
         with tempfile.TemporaryDirectory() as pasta:
             base = Path(pasta) / "base.json"
