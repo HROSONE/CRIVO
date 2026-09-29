@@ -96,8 +96,68 @@ class GrafoRaciocinio:
                     fila.append((seguinte, caminho + [seguinte]))
         return None
 
+    @staticmethod
+    def _proposicao_hipotetica(texto):
+        """Lê somente `X é Y` (sem negação), não extrai fatos de texto livre."""
+        n = limpar(texto)
+        n = re.sub(r"^(?:todo|toda|todos|todas)\\s+", "", n)
+        n = limpar(n)
+        m = re.fullmatch(r"(.+?)\\s+(?:e|eh)\\s+(?:(?:um|uma|tipo de)\\s+)?(.+)", n)
+        if not m:
+            return None
+        x, y = limpar(m.group(1)), limpar(m.group(2))
+        if not x or not y or len(x) > 80 or len(y) > 80:
+            return None
+        return x, y
+
+    def interpretar_hipotese(self, pergunta):
+        """Dedução nova a partir de duas premissas informadas no mesmo turno.
+
+        Formato deliberadamente limitado: 'Se A é B, B é C, então A é C?'.
+        Não grava as premissas no conhecimento nem as trata como verdades.
+        """
+        n = unicodedata.normalize("NFD", pergunta.lower())
+        n = "".join(c for c in n if unicodedata.category(c) != "Mn")
+        n = " ".join(n.strip().rstrip("?!.").split())
+        if not n.startswith("se ") or re.search(r"\\b(nao|nunca|jamais)\\b", n):
+            return None
+        partes = re.split(r"\\s*[,;]\\s*", n)
+        if len(partes) != 3:
+            return None
+        partes[0] = partes[0][3:]
+        partes[2] = re.sub(r"^entao\\s+", "", partes[2])
+        proposicoes = [self._proposicao_hipotetica(p) for p in partes]
+        if any(p is None for p in proposicoes):
+            return None
+        p1, p2, pergunta_final = proposicoes
+        termos = sorted(set(p1 + p2 + pergunta_final))
+        entidades = {"hip_%d" % i: {"nome": palavra}
+                    for i, palavra in enumerate(termos)}
+        ids = {palavra: "hip_%d" % i for i, palavra in enumerate(termos)}
+        fatos = [{"sujeito": ids[x], "relacao": "tipo_de", "objeto": ids[y]}
+                 for x, y in (p1, p2)]
+        try:
+            assumido = GrafoRaciocinio({"versao": 1, "entidades": entidades,
+                                        "fatos": fatos})
+        except ValueError:
+            return ("logica:hipotese_indeterminada",
+                    "Não consigo aplicar essas premissas como uma cadeia válida.")
+        caminho = assumido.provar(ids[pergunta_final[0]],
+                                  ids[pergunta_final[1]], "tipo_de")
+        if caminho:
+            passos = " → ".join(assumido.nomes[etapa] for etapa in caminho)
+            return ("logica:hipotese",
+                    "Sim, somente se assumirmos as premissas informadas: " +
+                    passos + ". Isso não comprova que as premissas sejam reais.")
+        return ("logica:hipotese_indeterminada",
+                "Essa conclusão não decorre das duas premissas informadas. "
+                "Isso não comprova que ela seja falsa.")
+
     def interpretar(self, pergunta):
-        """Responde somente a perguntas binárias de relações conhecidas."""
+        """Responde a relações conhecidas e hipóteses estruturadas."""
+        hipotese = self.interpretar_hipotese(pergunta)
+        if hipotese is not None:
+            return hipotese
         n = limpar(pergunta)
         if re.search(r"\b(nao|nunca|jamais|sem)\b", n):
             return None
