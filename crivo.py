@@ -403,6 +403,12 @@ class Crivo:
             match = re.fullmatch(padrao, n)
             if match:
                 conceito = re.sub(r"^(?:um|uma|o|a|os|as)\s+", "", match.group(1))
+                # "variável num programa" e "variável em programação"
+                # referem-se ao mesmo conceito geral. Não apaga contexto
+                # de linguagem específica, como "em Python".
+                conceito = re.sub(
+                    r"\s+(?:(?:num|em um|no) programa|(?:em|na) programacao)$",
+                    "", conceito)
                 if not conceito or re.match(r"^(?:diferenca|melhor|mais|menos)\b", conceito):
                     return None
                 return conceito
