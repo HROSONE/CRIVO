@@ -42,9 +42,38 @@ CASOS = [
  ("O que é um eclipse lunar?", "eclipse", "controle_geral"),
 ]
 
-def diagnosticar():
+# Controles adicionais formulados DEPOIS da primeira alteração.
+# Não são teste cego; destacam extrapolações para meios de entrada
+# que a base não ensina (web, câmera, rede).
+CONTROLES_POS_AJUSTE = [
+ ("Como solicitar o nome de alguém no Python?", "py_input", "entrada"),
+ ("Quero obter resposta digitada pelo usuário em Python", "py_input", "entrada"),
+ ("Como pegar o que foi digitado no terminal Python?", "py_input", "entrada"),
+ ("Como perguntar um número para uma pessoa em Python?", "py_input", "entrada"),
+ ("Quero usar input no código Python", "py_input", "entrada"),
+ ("Qual é seu nome?", "social:quem", "social"),
+ ("Qual é o seu nome?", "social:quem", "social"),
+ ("Me diga seu nome", "social:quem", "social"),
+ ("Em Python, como solicitar que uma pessoa informe seu nome?", "py_input", "social"),
+ ("Como solicitar documento de usuário por formulário web em Python?", "fora|duvida", "limite"),
+ ("Como capturar dados de pessoa pela câmera usando Python?", "fora|duvida", "limite"),
+ ("Como solicitar dados de uma pessoa pelo WhatsApp usando Python?", "fora|duvida", "limite"),
+ ("Como obter um endereço IP pelo Python?", "fora|duvida", "limite"),
+ ("Como consultar uma API de cadastro por Python?", "fora|duvida", "limite"),
+ ("Como não salvar os dados de entrada em Python?", "duvida", "negacao"),
+ ("Posso não regar minha planta?", "duvida", "negacao"),
+ ("Qual planeta não tem anéis?", "duvida", "negacao"),
+ ("Como alterar o texto de um elemento HTML com JavaScript?", "js_dom", "dom"),
+ ("Como selecionar uma tag HTML usando JavaScript?", "js_dom", "dom"),
+ ("Como funciona a Lua?", "lua", "generico"),
+ ("Como funciona uma usina nuclear?", "fora|duvida", "generico"),
+ ("Como comparar arquivos alterados no Git?", "git_diff", "git"),
+ ("Qual a diferença entre commit e push no Git?", "git_commit", "git"),
+]
+
+def diagnosticar(casos=CASOS):
     rows = []
-    for pergunta, esperado, grupo in CASOS:
+    for pergunta, esperado, grupo in casos:
         bot = Crivo()
         got, reply = bot.responder(pergunta)
         ranking = [{"id": bot.base[i]["id"], "score": round(score, 4)}
@@ -63,6 +92,7 @@ def diagnosticar():
 
 if __name__ == "__main__":
     dados = diagnosticar()
+    dados['controles_pos_ajuste'] = diagnosticar(CONTROLES_POS_AJUSTE)
     base = json.loads(Path("conhecimento.json").read_text(encoding="utf-8"))
     antigos = [e for e in base if e["topico"] != "programacao"]
     geral = avaliar(antigos)
