@@ -1,0 +1,2 @@
+# CRIVO
+Inteligência artificial geral.
