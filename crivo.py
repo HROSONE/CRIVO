@@ -482,7 +482,16 @@ class Crivo:
                     if termo in inicio:
                         pos = inicio.index(termo)
                         trecho = normalizar(frase[:75])
+                        # Plurais irregulares ainda podem nomear o
+                        # conceito no começo de uma definição: réptil /
+                        # répteis. Não generaliza pela mera presença da
+                        # palavra no meio de uma explicação causal.
+                        primeiras = re.findall(r"[a-z]+", trecho)
+                        primeiras = [p for p in primeiras if p not in
+                                     ("o", "a", "os", "as", "um", "uma")]
+                        cabeca = primeiras[0] if primeiras else ""
                         if (pos == 0 or
+                                (len(termo) >= 4 and cabeca.startswith(termo[:4])) or
                                 re.search(r"\b(e|sao|tem|possui|consiste)\b", trecho)):
                             return None
         self.esclarecimento = None
