@@ -150,6 +150,12 @@ class Crivo:
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.caminho_base = caminho
         self.base = json.loads(caminho.read_text(encoding="utf-8"))
+        # Grafo explicável opcional, vinculado à pasta da base escolhida.
+        # Bases temporárias personalizadas não recebem fatos da base padrão.
+        from raciocinio import GrafoRaciocinio
+        caminho_relacoes = caminho.with_name("relacoes.json")
+        self.raciocinio = (GrafoRaciocinio.carregar(caminho_relacoes)
+                          if caminho_relacoes.is_file() else None)
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
         self.ultimos = []     # ranking da última pergunta, para "mais"
@@ -626,6 +632,17 @@ class Crivo:
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+        # Inferência estruturada somente para relações comprováveis.
+        # Os casos não reconhecidos continuam no recuperador habitual.
+        if self.raciocinio is not None:
+            inferencia = self.raciocinio.interpretar(original)
+            if inferencia is not None:
+                self.esclarecimento = None
+                self.ultimo_assunto = None
+                self.historico.append({"pergunta": original, "id": inferencia[0],
+                                       "mecanismo": "raciocinio_relacional"})
+                self.historico = self.historico[-20:]
+                return inferencia
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
