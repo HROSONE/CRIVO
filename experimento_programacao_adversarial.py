@@ -6,6 +6,7 @@ que seus resultados forem usados para modificar o sistema. Não entram no treino
 import json
 from pathlib import Path
 from avaliar_recuperador import avaliar
+from coorte_geral import selecionar_coorte
 from crivo import Crivo, PASTA
 
 # Linguagem explícita, paráfrases, troca de domínio, operadores e pedidos fora
@@ -84,7 +85,7 @@ if __name__ == "__main__":
     relatorio = executar()
     relatorio["controles_pos_ajuste"] = executar(CONTROLES_POS_AJUSTE)
     base = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
-    antigos = [e for e in base if e["topico"] != "programacao"]
+    antigos = selecionar_coorte(base)
     # Mede novamente o recuperador nos 278 exemplos gerais, retirando a
     # pergunta avaliada do indice (nao compara so o corpus completo).
     comparacao = avaliar(antigos)
