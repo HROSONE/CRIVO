@@ -4,6 +4,7 @@ on:
     branches: [main, melhorias-crivo-v02]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 jobs:
   testes:
     runs-on: ubuntu-latest
@@ -46,8 +47,8 @@ jobs:
         run: |
           python avaliar_rede.py --cruzada --epocas 60 --modo misto --dimensao 512
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
-      - name: Comparar normalizacao linguistica sem contaminar testes
-        if: matrix.python-version == '3.11' && github.event_name == 'pull_request'
+      - name: Comparar normalizacao linguistica sob demanda
+        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch'
         run: |
           python avaliar_rede.py --cruzada --epocas 30 --modo portugues --dimensao 512
           python avaliar_rede.py --cruzada --epocas 30 --modo portugues_sem_filtro --dimensao 512
