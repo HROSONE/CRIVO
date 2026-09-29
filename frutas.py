@@ -83,7 +83,7 @@ class ConhecimentoFrutas:
             if item["tipo"] == "pseudofruto":
                 return (item["descricao"] + " Na linguagem culinária é chamada fruta, "
                         "mas sua parte suculenta não é o fruto botânico.")
-            resposta = "Sim, " + nome + " é fruto no sentido botânico. "
+            resposta = "Na botânica, sim: " + nome + " é fruto. "
             resposta += "É também chamada fruta no uso culinário. " if item["culinaria"] else (
                 "Na culinária, costuma ser usada como hortaliça, grão ou outro alimento, "
                 "e não como fruta de sobremesa. ")
@@ -104,7 +104,7 @@ class ConhecimentoFrutas:
     def _conceito_geral(self, n):
         if re.fullmatch(
                 r"(?:e\s+)?(?:qual (?:e )?a diferenca entre|diferenca entre)\s+fruto\s+e\s+fruta",
-                n) or n in ("o que e fruta", "o que sao frutas", "defina fruta", "o que e uma fruta"):
+                n):
             return ("frutas:conceito",
                     "Na botânica, fruto é a estrutura que em geral se forma a partir do "
                     "ovário da flor e ajuda a proteger ou dispersar sementes. "
@@ -210,8 +210,10 @@ class ConhecimentoFrutas:
         match = re.fullmatch(r"e (?:o|a|os|as|um|uma) (.+)", n)
         if match:
             item = self._item(match.group(1))
-            if item and contexto and contexto[0] in ("definicao", "sementes", "tipo", "culinaria"):
-                return self._resultado(item, contexto[0])
+            if item:
+                if contexto and contexto[0] in ("definicao", "sementes", "tipo", "culinaria"):
+                    return self._resultado(item, contexto[0])
+                return ("frutas:desconhecido", "Você quer a definição, as sementes ou a classificação botânica de " + item["nome"] + "?", "desconhecido", None)
 
         # Primeiramente sementes, tipo e uso culinário. Depois definições.
         especiais = [
