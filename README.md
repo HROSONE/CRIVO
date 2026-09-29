@@ -3,6 +3,71 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Categoria botânica de frutas: dados combináveis
+
+O arquivo `frutas.json` tem **63 entradas curadas**, com nome, apelidos,
+classificação botânica, descrição, informações sobre sementes e diferença
+entre fruto botânico e fruta na culinária. O motor `frutas.py` usa **um
+único algoritmo para todas as entradas**: não são 63 respostas ligadas
+somente a 63 perguntas exatas. O programa identifica o nome da fruta,
+a intenção do usuário e combina as propriedades cadastradas.
+
+Exemplos para experimentar no chat (também funcionam pela API):
+
+```text
+O que é uma maçã?
+O que são bananas?
+Banana tem sementes?
+O morango tem sementes do lado de fora?
+Tomate é fruta ou legume?
+Qual é o tipo botânico da maçã?
+Qual é o tipo botânico do abacaxi?
+Qual a diferença entre maçã e pera?
+Me dê exemplos de frutas de caroço
+Liste frutas cítricas
+Qual a diferença entre fruto e fruta?
+Como se formam os frutos?
+```
+
+A conversa curta permite `Qual o tipo botânico da maçã?` seguido de
+`E a banana?`, com a intenção anterior mantida **apenas no próximo
+turno**. No navegador, as mensagens anteriores são reenviadas ao
+backend para reconstruir esse estado, sem gravar conversas no servidor.
+
+**Controles de integridade:** uma banana não recebe automaticamente as
+propriedades de uma maçã por pertencer à mesma categoria. A estrutura
+`tem_sementes` pode variar entre espécies e cultivares; a resposta
+explica essas diferenças registradas. As classes botânicas são diferentes
+de categorias culinárias; tomate é um fruto botânico, mas é usado
+como hortaliça. Maçã/pera são pomos, banana é baga, morango é
+agregado/acessório e abacaxi é múltiplo. A distinção está descrita em:
+
+- https://open.lib.umn.edu/horticulture/chapter/8-1-fruit-morphology/
+- https://pressbooks.lib.vt.edu/emgtraining/chapter/1/
+- https://content.ces.ncsu.edu/extension-gardener-handbook/3-botany
+
+Essa curadoria **não é um treino neuronal** e não implica compreensão
+livre de qualquer frase. O programa sabe combinar somente campos e
+relações que foram programados. Preços de mercado, sazonalidade local,
+uso medicinal, alergias, toxicidade e dados inexistentes não podem ser
+inferidos de fatos gerais da fruta; o motor prefere admitir que faltam
+evidências. Ainda existem milhares de espécies não cadastradas; a
+palavra "fruta" também tem usos regionais diferentes.
+
+Para ampliar a categoria, adicione entradas válidas à matriz `itens`
+de `frutas.json`, **sem modificar o parser**. A suíte `testes_frutas.py`
+reexecuta consultas de definição, tipo botânico e sementes de **todas**
+as entradas cadastradas, além de contrastes e negativas. Para reproduzir:
+
+```bash
+python -m unittest testes_frutas -v
+python -m unittest discover -p 'testes*.py'
+python avaliar_definicoes.py
+```
+
+Os testes e o benchmark continuam sendo **desenvolvimento**, não
+validação independente de acerto em perguntas reais inéditas.
+
 ## Interface web para testar no celular
 
 A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
