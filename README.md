@@ -271,6 +271,54 @@ compreensão livre de linguagem, descoberta factual, raciocínio geral ou
 capacidade de escrever programas completos**. A rede neural de classificação
 não recebe essas relações automaticamente como treino.
 
+## Inferência mista de fatos (PR #11)
+
+O grafo experimental passou a ter **49 entidades e 59 fatos**, com
+quatro tipos de relação e condições explícitas para combiná-los:
+
+- `tipo_de` e `parte_de` são transitivas **somente dentro do mesmo tipo**.
+- `tem_caracteristica` não é transitiva. O sistema pode herdar uma
+  propriedade de uma classe por **zero ou mais** etapas `tipo_de` seguidas
+  de **exatamente uma** etapa `tem_caracteristica`. Exemplo:
+  `pinguim --tipo_de--> ave --tem_caracteristica--> penas`.
+- `orbita` comprova apenas uma aresta **diretamente cadastrada**:
+  `Lua --orbita--> Terra`. Não mistura `orbita` com `parte_de`,
+  nem infere uma órbita direta a partir de várias órbitas sucessivas.
+- Uma prova ausente resulta em **desconhecido**, nunca em "não é verdade".
+  O sistema não deduz automaticamente a relação inversa.
+  Um nó do tipo `caracteristica` só pode ser destino de
+  `tem_caracteristica` e não pode ser uma classe, componente ou órbita.
+
+As respostas exibem o caminho de relações que sustenta a conclusão.
+O CRIVO não aprende regras ou fatos automaticamente lendo texto:
+as arestas continuam cadastradas explicitamente e precisam de revisão
+humana. Consultas fora dos padrões reconhecidos continuam no recuperador.
+
+**Teste:** os casos de `testes_regras_mistas.py` foram registrados antes
+de alterar o motor. Incluem demonstrações sintéticas com nomes que não
+existem nos fatos cadastrados, contraexemplos e limites de inferência.
+A suíte principal roda em Python 3.8, 3.11 e 3.13.
+
+`python avaliar_regras_mistas.py` faz uma avaliação pareada de 278
+perguntas gerais, removendo cada pergunta testada do índice. O
+recuperador **sem grafo** apresenta **192 acertos**, enquanto
+tanto o **grafo anterior** do PR #10 como **o grafo novo** apresentam
+**189 acertos**. O novo motor não trouxe regressão adicional. As três
+diferenças frente ao recuperador não assistido já existiam com o
+PR #10 e envolvem perguntas sobre aranhas, sapos e o Sol.
+Uma mudança no identificador da resposta lógica não é necessariamente
+erro factual, mas requer uma comparação semântica separada.
+
+```bash
+python -m unittest testes_raciocinio testes_regras_mistas -v
+python avaliar_regras_mistas.py
+```
+
+**Limite:** encadear relações explicitamente curadas não demonstra
+compreensão livre de português, raciocínio causal, capacidade geral
+de programação ou aprendizado autônomo. A rede neural classificadora
+não passa automaticamente a utilizar os novos fatos como treino.
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.

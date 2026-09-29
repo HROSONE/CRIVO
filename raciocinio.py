@@ -1,6 +1,6 @@
 """Raciocínio relacional determinístico: deduz cadeias, sem LLM ou API.
 
-Dois tipos de relação podem ser transitivos quando cadastrados:
+Apenas dois tipos de relação são transitivos quando cadastrados:
 * tipo_de: pinguim -> ave -> vertebrado -> animal
 * parte_de: Terra -> Sistema Solar -> Via Láctea
 
@@ -14,7 +14,11 @@ from collections import deque
 from pathlib import Path
 
 
-RELACOES = {"tipo_de": "é um tipo de", "parte_de": "faz parte de"}
+RELACOES = {
+    "tipo_de": "é um tipo de", "parte_de": "faz parte de",
+    "tem_caracteristica": "tem como característica", "orbita": "orbita",
+}
+TRANSITIVAS = frozenset(("tipo_de", "parte_de"))
 ARTIGO = re.compile(r"^(?:o|a|os|as|um|uma|uns|umas)\s+")
 
 
@@ -68,7 +72,15 @@ class GrafoRaciocinio:
             s, r, o = fato["sujeito"], fato["relacao"], fato["objeto"]
             if s == o or (s, r, o) in vistos:
                 raise ValueError("Relação redundante ou reflexiva")
-            if self.provar(o, s, r):
+            # Propriedades não são superclasses nem objetos orbitados.
+            propriedade_s = entidades[s].get("tipo") == "caracteristica"
+            propriedade_o = entidades[o].get("tipo") == "caracteristica"
+            if (r == "tem_caracteristica" and (propriedade_s or not propriedade_o)):
+                raise ValueError("Destino de tem_caracteristica deve ser caracteristica")
+            if r != "tem_caracteristica" and (propriedade_s or propriedade_o):
+                raise ValueError("caracteristica nao pode ser tipo_de, parte_de ou orbita")
+            # Somente relações transitivas requerem teste de ciclo.
+            if r in TRANSITIVAS and self.provar(o, s, r):
                 raise ValueError("Ciclo detectado na relação " + r)
             vistos.add((s, r, o))
             self.arestas[r].setdefault(s, []).append(o)
@@ -79,11 +91,18 @@ class GrafoRaciocinio:
             return cls(json.load(arquivo))
 
     def provar(self, origem, destino, relacao):
-        """Menor cadeia entre entidades. Sem caminho => desconhecido, não falso."""
+        """Prova estruturada ou None. Ausência de prova não significa falsidade."""
         if relacao not in RELACOES:
             raise ValueError("Tipo de relação desconhecido")
         if origem not in self.nomes or destino not in self.nomes:
             return None
+        if relacao == "tem_caracteristica":
+            return self.provar_caracteristica(origem, destino)
+        if relacao not in TRANSITIVAS:
+            # Orbitar não é transitivo: Lua->Terra e Terra->Sol não
+            # autorizam inferir uma aresta Lua->Sol neste tipo de dado.
+            return ([origem, destino] if destino in self.arestas[relacao].get(
+                origem, ()) else None)
         fila = deque([(origem, [origem])])
         vistos = {origem}
         while fila:
@@ -94,6 +113,27 @@ class GrafoRaciocinio:
                 if seguinte not in vistos:
                     vistos.add(seguinte)
                     fila.append((seguinte, caminho + [seguinte]))
+        return None
+
+    def provar_caracteristica(self, origem, propriedade):
+        """Herda somente propriedades afirmadas para a própria classe.
+
+        Derivação autorizada: X tipo_de* Classe; Classe
+        tem_caracteristica Propriedade. Não faz composição arbitrária
+        de propriedades, relações orbitais ou parte_de.
+        """
+        if origem not in self.nomes or propriedade not in self.nomes:
+            return None
+        fila = deque([(origem, [origem])])
+        vistos = {origem}
+        while fila:
+            classe, caminho = fila.popleft()
+            if propriedade in self.arestas["tem_caracteristica"].get(classe, ()):
+                return caminho + [propriedade]
+            for superior in self.arestas["tipo_de"].get(classe, ()):
+                if superior not in vistos:
+                    vistos.add(superior)
+                    fila.append((superior, caminho + [superior]))
         return None
 
     @staticmethod
@@ -163,13 +203,24 @@ class GrafoRaciocinio:
             return None
         n = re.sub(r"^(?:por que|como sabemos que)\s+", "", n)
         relacao = None
-        m = re.fullmatch(r"(.+?)\s+(?:faz parte|e parte)\s+(?:de|da|do|dos|das)\s+(.+)", n)
+        m = re.fullmatch(r"(.+?)\s+(?:tem|possui|apresenta)\s+(?:(?:um|uma|o|a|os|as)\s+)?(.+)", n)
         if m:
-            relacao = "parte_de"
+            relacao = "tem_caracteristica"
         else:
-            m = re.fullmatch(r"(.+?)\s+(?:e|eh)\s+(?:um|uma|tipo de|uma especie de)?\s*(.+)", n)
+            m = re.fullmatch(
+                r"(.+?)\s+(?:orbita|gira em torno (?:de|da|do|dos|das))\s+(.+)", n)
             if m:
-                relacao = "tipo_de"
+                relacao = "orbita"
+            else:
+                m = re.fullmatch(
+                    r"(.+?)\s+(?:faz parte|e parte)\s+(?:de|da|do|dos|das)\s+(.+)", n)
+                if m:
+                    relacao = "parte_de"
+                else:
+                    m = re.fullmatch(
+                        r"(.+?)\s+(?:e|eh)\s+(?:um|uma|tipo de|uma especie de)?\s*(.+)", n)
+                    if m:
+                        relacao = "tipo_de"
         if not m:
             return None
         sujeito = self.aliases.get(limpar(m.group(1)))
@@ -180,7 +231,16 @@ class GrafoRaciocinio:
             return None
         cadeia = self.provar(sujeito, objeto, relacao)
         if cadeia:
-            passos = " → ".join(self.nomes[e] for e in cadeia)
+            if relacao == "tem_caracteristica":
+                passos = self.nomes[cadeia[0]]
+                for posicao, identificador in enumerate(cadeia[1:], 1):
+                    aresta = ("tem_caracteristica" if posicao == len(cadeia)-1
+                              else "tipo_de")
+                    passos += " --" + aresta + "--> " + self.nomes[identificador]
+            elif relacao == "orbita":
+                passos = self.nomes[cadeia[0]] + " --orbita--> " + self.nomes[cadeia[1]]
+            else:
+                passos = " → ".join(self.nomes[e] for e in cadeia)
             return ("logica:" + relacao,
                     "Sim. Consigo concluir isso pelas relações cadastradas: " +
                     passos + ".")

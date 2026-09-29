@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "descricao": "Grafo pequeno de exemplos científicos revisáveis; relações tipo_de e parte_de. Não é conhecimento gerado pela rede neural.",
+  "descricao": "Grafo de relações transitivas tipo_de/parte_de, características herdáveis via tipo_de e orbita direta. Inferência explicável sobre fatos estruturados curados, não gerados por LLM.",
   "entidades": {
     "ser_vivo": {
       "nome": "ser vivo",
@@ -241,6 +241,34 @@
       "aliases": [
         "caules"
       ]
+    },
+    "penas": {
+      "nome": "penas",
+      "tipo": "caracteristica"
+    },
+    "respiracao_aerea": {
+      "nome": "respiração aérea",
+      "tipo": "caracteristica"
+    },
+    "coluna_vertebral": {
+      "nome": "coluna vertebral",
+      "tipo": "caracteristica"
+    },
+    "celulas": {
+      "nome": "células",
+      "tipo": "caracteristica"
+    },
+    "seis_patas": {
+      "nome": "seis patas",
+      "tipo": "caracteristica"
+    },
+    "oito_patas": {
+      "nome": "oito patas",
+      "tipo": "caracteristica"
+    },
+    "luz_propria": {
+      "nome": "luz própria",
+      "tipo": "caracteristica"
     }
   },
   "fatos": [
@@ -518,6 +546,84 @@
       "sujeito": "caule",
       "relacao": "parte_de",
       "objeto": "planta",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "ave",
+      "relacao": "tem_caracteristica",
+      "objeto": "penas",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "mamifero",
+      "relacao": "tem_caracteristica",
+      "objeto": "respiracao_aerea",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "vertebrado",
+      "relacao": "tem_caracteristica",
+      "objeto": "coluna_vertebral",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "ser_vivo",
+      "relacao": "tem_caracteristica",
+      "objeto": "celulas",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "inseto",
+      "relacao": "tem_caracteristica",
+      "objeto": "seis_patas",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "aracnideo",
+      "relacao": "tem_caracteristica",
+      "objeto": "oito_patas",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "estrela",
+      "relacao": "tem_caracteristica",
+      "objeto": "luz_propria",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "lua",
+      "relacao": "orbita",
+      "objeto": "terra",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "terra",
+      "relacao": "orbita",
+      "objeto": "sol",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "marte",
+      "relacao": "orbita",
+      "objeto": "sol",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "venus",
+      "relacao": "orbita",
+      "objeto": "sol",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "jupiter",
+      "relacao": "orbita",
+      "objeto": "sol",
+      "fonte": "curadoria inicial"
+    },
+    {
+      "sujeito": "saturno",
+      "relacao": "orbita",
+      "objeto": "sol",
       "fonte": "curadoria inicial"
     }
   ]
