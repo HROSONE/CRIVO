@@ -247,6 +247,17 @@ class Crivo:
                 if len(proximos) == 1:
                     t = proximos[0]
             resultado.append(t)
+        # Em Git, revisar diferenças de arquivos/alterações é a operação
+        # "diff". Não usar essa pista quando a consulta menciona outros
+        # comandos explicitamente: "diferença entre commit e push" não
+        # pede executar nem explicar git diff.
+        n = normalizar(texto)
+        if (re.search(r"\bgit\b", n) and
+                re.search(r"\b(diferencas?|comparar|inspecionar|revisar)\b", n) and
+                re.search(r"\b(arquivos?|alteracoes?|mudancas?)\b", n) and
+                not re.search(r"\b(commit|push|branch)\b", n) and
+                "diff" in vocabulario and "diff" not in resultado):
+            resultado.append("diff")
         return resultado
 
     def _indices_consulta(self, texto):
