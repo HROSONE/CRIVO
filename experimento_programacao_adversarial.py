@@ -46,10 +46,14 @@ def executar():
     for pergunta, esperado, grupo in CASOS:
         bot = Crivo()
         obtido, resposta = bot.responder(pergunta)
+        rank = bot._ranking(pergunta)
+        candidatos = [{"id": bot.base[i]["id"], "score": round(score, 4)}
+                      for score, i in rank[:3]]
         # 'duvida' e 'fora' sao abstencoes, nao acertos de intencao.
         passou = (obtido == esperado) if esperado != "fora" else obtido in ("fora", "duvida")
         resultados.append(dict(pergunta=pergunta, esperado=esperado, obtido=obtido,
-                               grupo=grupo, passou=passou, resposta=resposta[:180]))
+                               grupo=grupo, passou=passou, candidatos=candidatos,
+                               resposta=resposta[:180]))
     grupos = {}
     for grupo in sorted(set(c["grupo"] for c in resultados)):
         itens = [c for c in resultados if c["grupo"] == grupo]
