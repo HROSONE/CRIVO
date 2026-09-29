@@ -45,10 +45,11 @@ def validacao_cruzada(base, epocas=12, ocultos=24, dimensao=256, semente=42):
             perguntas = e["perguntas"]
             if len(perguntas) < 2:
                 continue
-            indice = dobra % len(perguntas)
+            indice = dobra if dobra < len(perguntas) else None
             treino.extend((p, e["id"]) for i, p in enumerate(perguntas)
                           if i != indice)
-            teste.append((perguntas[indice], e["id"]))
+            if indice is not None:
+                teste.append((perguntas[indice], e["id"]))
         rede = RedeCrivo(rotulos, dimensao=dimensao, ocultos=ocultos, semente=semente)
         rede.treinar(treino, epocas=epocas, semente=semente)
         acertos = sum(rede.prever(p)[0] == esperado for p, esperado in teste)
