@@ -3,6 +3,83 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Interface web para testar no celular
+
+A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
+clicáveis, uma esfera neural, histórico temporário, botão para limpar a
+conversa, renderização **segura** de código e indicação de provas lógicas.
+O endpoint `api/chat.py` executa **o `Crivo` original em Python**,
+sem consultar outra IA, com até dez perguntas anteriores reenviadas pelo
+navegador para reconstruir o contexto curto. Não há banco de conversas,
+login nem API externa de inteligência artificial.
+
+### Testar no computador ou no celular pela mesma rede Wi-Fi
+
+No computador que tem o repositório:
+
+```bash
+python web_local.py
+```
+
+Abra `http://127.0.0.1:8765` no **próprio computador**. Para usar no
+**celular**, execute no computador:
+
+```bash
+python web_local.py --host 0.0.0.0
+```
+
+Depois, conecte o celular à **mesma rede local** e abra
+`http://IP_DO_COMPUTADOR:8765` (exemplo:
+`http://192.168.1.10:8765`; substitua pelo IP real). Libere a porta
+8765 **apenas na rede local** se o firewall bloquear. Não encaminhe
+essa porta para a internet: o servidor de testes não tem autenticação.
+
+### Abrir pela internet com Vercel
+
+O repositório contém `vercel.json` e a função Python `api/chat.py`
+para uma hospedagem Vercel sem dependências extras. Para disponibilizar
+a URL pública:
+
+1. Entre em [Vercel → New Project](https://vercel.com/new).
+2. Importe o repositório público `HROSONE/CRIVO` do GitHub.
+3. Escolha **Other** como Framework Preset e a **raiz do repositório**
+   como Root Directory. Não precisa de Build Command ou pacote NPM.
+4. Confirme o deploy. Abra a URL criada pela Vercel no celular.
+5. Para verificar o backend, a URL `/api/chat` deve apresentar JSON
+   com `"status": "ok"` e `"external_ai": false`.
+
+A página estática é servida de `public/`; o chat faz POST JSON para
+a mesma origem em `/api/chat`. O arquivo `vercel.json` inclui os
+arquivos de Python e `conhecimento.json`/`relacoes.json` no pacote
+da função. Para usar a **rede neural classificadora opcional** também
+no servidor, inclua o checkpoint compatível `rede_crivo.json` na
+implantação; sem ele, o recuperador e o grafo simbólico funcionam,
+mas `neural_active` será `false`. A interface indica
+o mecanismo da resposta, sem inventar uma classificação de confiança.
+
+Se a conta Vercel ainda não estiver conectada ou o projeto não tiver
+sido implantado, **o código no GitHub por si só não é uma URL pública
+de chat**. A conexão com uma hospedagem é etapa distinta.
+
+### Segurança e limites da interface
+
+* Exige POST com `Content-Type: application/json` e tamanho de corpo
+  limitado a 16 KiB; cada pergunta tem no máximo 1200 caracteres.
+* O contexto de até dez perguntas fica na memória da aba e não é
+  gravado pelo aplicativo em armazenamento permanente. Uma nova
+  conversa apaga o contexto local. A infraestrutura de hospedagem
+  pode ter logs operacionais próprios.
+* Respostas e blocos de código são renderizados por `textContent`,
+  não como HTML fornecido pelo usuário. O servidor não executa
+  código enviado nas perguntas.
+* Por padrão, `web_local.py` escuta somente `127.0.0.1`.
+  Hospedagem pública sem login pode consumir recursos; proteja o
+  projeto na Vercel se desejar acesso privado.
+* Não é PWA offline: o navegador precisa alcançar o backend Python.
+* Testes de API, histórico e servidor: `python -m unittest
+  testes_web -v`; suíte geral: `python -m unittest discover
+  -p 'testes*.py'`.
+
 ## Como usar
 
     python crivo.py                  # conversa no terminal
