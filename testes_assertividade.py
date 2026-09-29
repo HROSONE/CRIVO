@@ -26,7 +26,7 @@ CASOS = [
     ("qual bicho é mais veloz?", "mais_rapido"),
     ("o que é uma planta tóxica?", "plantas_toxicas"),
     ("planta", "duvida"),
-    ("o que é buraco negro?", "fora"),
+    ("o que é buraco negro?", "conhecimento:buraco_negro"),
     ("sol blockchain", "fora"),
     ("qual planta tem bluetooth?", "fora"),
 ]

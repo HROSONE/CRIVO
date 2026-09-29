@@ -178,6 +178,11 @@ class Crivo:
         self.contexto_geral = None
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
+        from composicao_textual import CompositorTextual
+        self.compositor = CompositorTextual(
+            self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+        self.contexto_textual = None
+        self._contexto_textual_anterior = None
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
         self.historico = []
@@ -626,6 +631,10 @@ class Crivo:
             temp.replace(self.caminho_base)
         self.base = nova_base
         self._indexar()
+        from composicao_textual import CompositorTextual
+        self.compositor = CompositorTextual(
+            self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+        self.contexto_textual = None
         self.rede = None
         self.esclarecimento = None
         self.contexto_consulta = None
@@ -812,11 +821,15 @@ class Crivo:
     def responder(self, texto):
         """Preserva uma única resposta de contexto a cada turno."""
         anterior = self.ultima_resposta_mostrada
+        self._contexto_textual_anterior = self.contexto_textual
+        self.contexto_textual = None
         self.ultima_resposta_mostrada = None
         self._referencia_turno_anterior = anterior
         try:
             resultado = self._responder_impl(texto)
             identificador = resultado[0]
+            if self.contexto_textual is None:
+                self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
             # Nenhuma pergunta seguinte herda saudações, recusas,
             # dúvidas ou solicitações de esclarecimento.
             if (identificador in {e["id"] for e in self.base} or
@@ -824,11 +837,14 @@ class Crivo:
                     identificador not in ("logica:sem_ligacao",
                                          "logica:desconhecido",
                                          "frutas:desconhecido") or
-                    identificador == "composto:definicao"):
+                    identificador == "composto:definicao" or
+                    identificador.startswith("conhecimento:") or
+                    identificador.startswith("escrita:") and identificador != "escrita:fim"):
                 self.ultima_resposta_mostrada = resultado[1]
             return resultado
         finally:
             self._referencia_turno_anterior = None
+            self._contexto_textual_anterior = None
 
     def _responder_impl(self, texto):
         """Motor de diálogo; o wrapper expira o contexto com segurança."""
@@ -867,6 +883,34 @@ class Crivo:
         esclarecida = self._resolver_esclarecimento(n, original)
         if esclarecida:
             return esclarecida
+
+        # Instruções de edição/contexto vêm antes dos atos sociais e do
+        # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
+        # de formato, e continuar um texto não consulta outro assunto.
+        composicao = self.compositor.responder(texto, self._contexto_textual_anterior)
+        if composicao is not None:
+            ident, resposta, self.contexto_textual = composicao
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": ident,
+                                   "mecanismo": "composicao_factual"})
+            self.historico = self.historico[-20:]
+            return ident, resposta
+
+        pronome = re.fullmatch(r"(?:ele|ela|isso) (.+)", n)
+        if pronome:
+            contexto = self._contexto_textual_anterior
+            if contexto is None or len(contexto.temas) != 1:
+                return "duvida", "De qual assunto você está falando? Preciso de uma referência única na resposta anterior."
+            nome = self.compositor.itens[contexto.temas[0]]["nome"]
+            proposta = nome + " " + pronome.group(1)
+            if (self.raciocinio is not None and
+                    (self.raciocinio.identificar_relacao(proposta) is not None or
+                     self.analisador_portugues.analisar(proposta) is not None)):
+                texto = proposta
+                n = normalizar(proposta).strip().strip("?.,;! ")
+            else:
+                return "fora", "Reconheci a referência a " + nome + ", mas não tenho uma relação interpretável para essa pergunta."
 
         if re.fullmatch(r"(mais|outra|outra resposta|e mais|continue|continua)", n):
             if self.ultimos and self.pos_ultimo + 1 < len(self.ultimos):
