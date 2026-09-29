@@ -79,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("--ocultos", type=int, default=24)
     parser.add_argument("--cruzada", action="store_true")
     parser.add_argument("--dimensao", type=int, default=256)
-    parser.add_argument("--modo", choices=("caracteres", "palavras", "misto"), default="caracteres")
+    parser.add_argument("--modo", choices=("caracteres", "palavras", "misto", "portugues", "portugues_sem_filtro"), default="caracteres")
     args = parser.parse_args()
     dados = json.loads(Path(args.base).read_text(encoding="utf-8"))
     resultado = (validacao_cruzada(dados, args.epocas, args.ocultos, args.dimensao, modo=args.modo)
