@@ -239,6 +239,11 @@ class Crivo:
         tecnico = bool(re.search(
             r"\b(python|javascript|js|git|sql)\b", normalizar(texto)))
         for t in tokens(texto):
+            # "Como funciona X?" usa "funciona" como verbo de pergunta;
+            # sozinho ele não identifica um tópico. Retirá-lo apenas da
+            # consulta não modifica o conhecimento indexado.
+            if t == "funciona":
+                continue
             if tecnico:
                 t = SINONIMOS_CONSULTA_TECNICA.get(t, t)
             if t not in vocabulario and len(t) >= 5:
@@ -258,6 +263,34 @@ class Crivo:
                 not re.search(r"\b(commit|push|branch)\b", n) and
                 "diff" in vocabulario and "diff" not in resultado):
             resultado.append("diff")
+        # Pistas de interação humano-programa: perguntar ou coletar um dado
+        # da pessoa que digita não é o mesmo que ler arquivo, consultar API
+        # ou declarar variável. Usa termos JÁ presentes no índice, sem
+        # inventar uma intenção nem ampliar o currículo.
+        if (re.search(r"\bpython\b", n) and
+                re.search(r"\b(obter|pegar|pedir|perguntar|solicitar|informe|informar|"
+                          r"recolher|capturar|receber|coletar|aguardar)\b", n) and
+                re.search(r"\b(usuario|pessoa|alguem|quem usa|"
+                          r"teclado|console|terminal|digitacao|digitad[oa]s?)\b", n) and
+                not re.search(r"\b(arquivo|json|api|http|sql|dicionario|"
+                              r"variavel|telefone|gps|whatsapp|mensagem|"
+                              r"excecao|keyerror|nameerror|typeerror|"
+                              r"print|saida|formulario|web|site|navegador|"
+                              r"camera|imagem|video|microfone|audio|"
+                              r"socket|endpoint)\b", n)):
+            for pista in ("input", "teclado", "usuario"):
+                if pista in vocabulario and pista not in resultado:
+                    resultado.append(pista)
+        # Uma operação de JavaScript sobre elemento/campo HTML pertence
+        # ao DOM; HTML é o alvo, não uma segunda linguagem exigida.
+        if (re.search(r"\b(javascript|js)\b", n) and
+                re.search(r"\b(html|pagina|dom)\b", n) and
+                re.search(r"\b(campo|elemento|tag|no)\b", n) and
+                re.search(r"\b(ler|valor|selecionar|alterar|texto|pegar|obter)\b", n) and
+                not re.search(r"\b(sql|css|java|python|api)\b", n)):
+            for pista in ("dom", "elemento"):
+                if pista in vocabulario and pista not in resultado:
+                    resultado.append(pista)
         return resultado
 
     def _indices_consulta(self, texto):
@@ -515,7 +548,11 @@ class Crivo:
             return "social:tchau", "Até logo!"
         if re.search(r"\b(tudo bem|como vai|como voce esta|como vc esta)\b", n):
             return "social:tudobem", "Tudo bem por aqui! E com você? Sobre o que vamos conversar?"
-        if re.search(r"\b(quem e voce|seu nome|quem te criou|o que voce e)\b", n):
+        # Pedir que um programa solicite o nome de alguém NÃO é perguntar
+        # pelo nome do próprio assistente. Intenção social deve ser a frase
+        # inteira, não uma substring de outra tarefa.
+        if re.fullmatch(r"(?:quem e voce|quem te criou|o que voce e|"
+                        r"(?:(?:qual (?:e )?(?:o )?)|(?:me (?:diga|fale) (?:o )?))?seu nome)", n):
             return "social:quem", (f"Sou o Crivo, versão {VERSAO}: um assistente de conversa em português, "
                                    "ainda em fase de teste. Por enquanto só falo sobre alguns assuntos "
                                    "(digite 'assuntos' para ver).")
