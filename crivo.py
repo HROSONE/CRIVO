@@ -178,6 +178,10 @@ class Crivo:
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
         self.historico = []
+        # Última resposta efetivamente proferida; o servidor HTTP
+        # reconstrói esse estado pelo replay seguro do histórico.
+        self.ultima_resposta_mostrada = None
+        self._referencia_turno_anterior = None
         self.ultimo_assunto = None
         self.esclarecimento = None
         self.rede = None
@@ -769,7 +773,9 @@ class Crivo:
             return "social:oi", "Oi! Sou o Crivo. Pergunte sobre " + ", ".join(TOPICOS.values()) + "."
         if re.search(r"\b(obrigad[oa]|valeu|brigado|thanks)\b", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
-        if re.search(r"\b(tchau|ate logo|ate mais|falou|adeus)\b", n):
+        # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
+        # contém o verbo "falou", mas não é uma despedida.
+        if re.fullmatch(r"(?:tchau|ate logo|ate mais|falou|adeus)[!. ]*", n):
             return "social:tchau", "Até logo!"
         if re.search(r"\b(tudo bem|como vai|como voce esta|como vc esta)\b", n):
             return "social:tudobem", "Tudo bem por aqui! E com você? Sobre o que vamos conversar?"
@@ -795,7 +801,28 @@ class Crivo:
 
     # ---------------------------------------------------- resposta -------
     def responder(self, texto):
-        """Devolve (id, resposta)."""
+        """Preserva uma única resposta de contexto a cada turno."""
+        anterior = self.ultima_resposta_mostrada
+        self.ultima_resposta_mostrada = None
+        self._referencia_turno_anterior = anterior
+        try:
+            resultado = self._responder_impl(texto)
+            identificador = resultado[0]
+            # Nenhuma pergunta seguinte herda saudações, recusas,
+            # dúvidas ou solicitações de esclarecimento.
+            if (identificador in {e["id"] for e in self.base} or
+                    identificador.startswith(("logica:", "frutas:")) and
+                    identificador not in ("logica:sem_ligacao",
+                                         "logica:desconhecido",
+                                         "frutas:desconhecido") or
+                    identificador == "composto:definicao"):
+                self.ultima_resposta_mostrada = resultado[1]
+            return resultado
+        finally:
+            self._referencia_turno_anterior = None
+
+    def _responder_impl(self, texto):
+        """Motor de diálogo; o wrapper expira o contexto com segurança."""
         original = texto
         # Um fragmento como "E a banana?" utiliza somente o assunto do
         # turno IMEDIATAMENTE anterior, não um fruto citado muito antes.
@@ -963,6 +990,17 @@ class Crivo:
                     })
                     self.historico = self.historico[-20:]
                     return resultado_estruturado
+        # Antes do ranking lexical, detectar uma pergunta que aponta para
+        # um detalhe da RESPOSTA imediatamente anterior. Sem evidência
+        # para o detalhe, admitir limite em vez de retornar outro tema.
+        from referencias_dialogo import interpretar_referencia
+        referencia = interpretar_referencia(
+            original, self._referencia_turno_anterior)
+        if referencia is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            return referencia
+
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
