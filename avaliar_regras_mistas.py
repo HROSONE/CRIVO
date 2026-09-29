@@ -10,6 +10,7 @@ import shutil
 from pathlib import Path
 
 from avaliar_recuperador import avaliar
+from coorte_geral import selecionar_coorte
 from crivo import Crivo, PASTA
 
 
@@ -64,7 +65,7 @@ def diferencas(antes, depois):
 
 def diagnosticar():
     base = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
-    geral = [e for e in base if e["topico"] != "programacao"]
+    geral = selecionar_coorte(base)
     sem = avaliar(geral)
     antigo = avaliar(geral, CrivoComGrafoAnterior)
     novo = avaliar(geral, CrivoComGrafo)
