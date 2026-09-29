@@ -17,6 +17,7 @@ from pathlib import Path
 RELACOES = {
     "tipo_de": "é um tipo de", "parte_de": "faz parte de",
     "tem_caracteristica": "tem como característica", "orbita": "orbita",
+    "disjunto_de": "é explicitamente incompatível com",
 }
 TRANSITIVAS = frozenset(("tipo_de", "parte_de"))
 ARTIGO = re.compile(r"^(?:o|a|os|as|um|uma|uns|umas)\s+")
@@ -45,6 +46,8 @@ class GrafoRaciocinio:
         self.nomes = {}
         self.aliases = {}
         self.arestas = {r: {} for r in RELACOES}
+        self.fontes = {}  # referencias editoriais so de fatos explicitamente cadastrados
+        self.disjuntos = {}  # pares simetricos de categorias incompatíveis
         for ident, entidade in entidades.items():
             if (not isinstance(ident, str) or
                     not re.fullmatch(r"[a-z][a-z0-9_]{0,63}", ident) or
@@ -70,7 +73,13 @@ class GrafoRaciocinio:
                     fato.get("objeto") not in entidades):
                 raise ValueError("Relação malformada ou entidade desconhecida")
             s, r, o = fato["sujeito"], fato["relacao"], fato["objeto"]
-            if s == o or (s, r, o) in vistos:
+            fonte = fato.get("fonte_id")
+            if fonte is not None and (not isinstance(fonte, str) or
+                                     not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", fonte) or
+                                     r not in ("tipo_de", "disjunto_de")):
+                raise ValueError("Referência editorial inválida")
+            if (s == o or (s, r, o) in vistos or
+                    (r == "disjunto_de" and (o, r, s) in vistos)):
                 raise ValueError("Relação redundante ou reflexiva")
             # Propriedades não são superclasses nem objetos orbitados.
             propriedade_s = entidades[s].get("tipo") == "caracteristica"
@@ -84,6 +93,33 @@ class GrafoRaciocinio:
                 raise ValueError("Ciclo detectado na relação " + r)
             vistos.add((s, r, o))
             self.arestas[r].setdefault(s, []).append(o)
+            if fonte is not None:
+                self.fontes[(s, r, o)] = fonte
+            if r == "disjunto_de":
+                self.arestas[r].setdefault(o, []).append(s)
+                self.disjuntos[(s, o)] = fonte
+                self.disjuntos[(o, s)] = fonte
+        # Verifica contradições independentemente da ordem de cadastro.
+        for a, b in self.disjuntos:
+            if self.provar(a, b, "tipo_de") or self.provar(b, a, "tipo_de"):
+                raise ValueError("Categorias disjuntas contradizem a taxonomia")
+        # Uma entidade não pode herdar simultaneamente classes declaradas
+        # disjuntas; isso poderia produzir negativas incompatíveis com positivos.
+        if self.disjuntos:
+            for entidade in self.nomes:
+                classes = {entidade}
+                fila = deque([entidade])
+                while fila:
+                    atual = fila.popleft()
+                    for pai in self.arestas["tipo_de"].get(atual, ()):
+                        if pai not in classes:
+                            classes.add(pai)
+                            fila.append(pai)
+                # Use vizinhança explícita, sem produto cartesiano dos
+                # ancestrais (evita explosão quadrática em grafos grandes).
+                if any(outro in classes for classe in classes
+                       for outro in self.arestas["disjunto_de"].get(classe, ())):
+                    raise ValueError("Uma entidade pertence a classes disjuntas")
 
     @classmethod
     def carregar(cls, caminho):
@@ -134,6 +170,57 @@ class GrafoRaciocinio:
                 if superior not in vistos:
                     vistos.add(superior)
                     fila.append((superior, caminho + [superior]))
+        return None
+
+    def _ancestrais_com_caminho(self, origem):
+        """Inclui a própria entidade; percorre apenas arestas tipo_de."""
+        if origem not in self.nomes:
+            return []
+        encontrados = [(origem, [origem])]
+        fila = deque(encontrados)
+        vistos = {origem}
+        while fila:
+            atual, caminho = fila.popleft()
+            for pai in self.arestas["tipo_de"].get(atual, ()):
+                if pai not in vistos:
+                    vistos.add(pai)
+                    seguinte = (pai, caminho + [pai])
+                    encontrados.append(seguinte)
+                    fila.append(seguinte)
+        return encontrados
+
+    def provar_incompatibilidade(self, origem, destino):
+        """Retorna (cadeia_origem, cadeia_destino, fonte_id) só se há
+        incompatibilidade explícita entre classes ancestrais.
+        Não permite ausência de caminho nem outra relação como negação.
+        """
+        melhores = None
+        for classe_a, caminho_a in self._ancestrais_com_caminho(origem):
+            for classe_b, caminho_b in self._ancestrais_com_caminho(destino):
+                if (classe_a, classe_b) in self.disjuntos:
+                    candidato = (caminho_a, caminho_b,
+                                 self.disjuntos[(classe_a, classe_b)])
+                    if melhores is None or (
+                        len(caminho_a) + len(caminho_b) <
+                        len(melhores[0]) + len(melhores[1])
+                    ):
+                        melhores = candidato
+        return melhores
+
+    def fonte_para(self, pergunta, resultado_id):
+        """Identificador editorial de evidência, quando diretamente ligado
+        à prova. O consumidor precisa conferir existência na própria base.
+        """
+        relacao = self.identificar_relacao(pergunta)
+        if relacao is None:
+            return None
+        s, o, tipo = relacao
+        if resultado_id == "logica:negacao_comprovada" and tipo == "tipo_de":
+            prova = self.provar_incompatibilidade(s, o)
+            return prova[2] if prova else None
+        if (resultado_id == "logica:tipo_de" and tipo == "tipo_de"
+                and o in self.arestas["tipo_de"].get(s, ())):
+            return self.fontes.get((s, "tipo_de", o))
         return None
 
     @staticmethod
@@ -193,58 +280,74 @@ class GrafoRaciocinio:
                 "Essa conclusão não decorre das duas premissas informadas. "
                 "Isso não comprova que ela seja falsa.")
 
-    def interpretar(self, pergunta):
-        """Responde a relações conhecidas e hipóteses estruturadas."""
-        hipotese = self.interpretar_hipotese(pergunta)
-        if hipotese is not None:
-            return hipotese
+    def identificar_relacao(self, pergunta):
+        """Interpretação estreita de perguntas binárias reconhecidas."""
         n = limpar(pergunta)
         if re.search(r"\b(nao|nunca|jamais|sem)\b", n):
             return None
         n = re.sub(r"^(?:por que|como sabemos que)\s+", "", n)
-        relacao = None
-        m = re.fullmatch(r"(.+?)\s+(?:tem|possui|apresenta)\s+(?:(?:um|uma|o|a|os|as)\s+)?(.+)", n)
+        m = re.fullmatch(
+            r"(.+?)\s+(?:tem|possui|apresenta)\s+"
+            r"(?:(?:um|uma|o|a|os|as)\s+)?(.+)", n)
         if m:
-            relacao = "tem_caracteristica"
+            tipo = "tem_caracteristica"
         else:
             m = re.fullmatch(
                 r"(.+?)\s+(?:orbita|gira em torno (?:de|da|do|dos|das))\s+(.+)", n)
             if m:
-                relacao = "orbita"
+                tipo = "orbita"
             else:
                 m = re.fullmatch(
                     r"(.+?)\s+(?:faz parte|e parte)\s+(?:de|da|do|dos|das)\s+(.+)", n)
                 if m:
-                    relacao = "parte_de"
+                    tipo = "parte_de"
                 else:
                     m = re.fullmatch(
                         r"(.+?)\s+(?:e|eh)\s+(?:um|uma|tipo de|uma especie de)?\s*(.+)", n)
                     if m:
-                        relacao = "tipo_de"
+                        tipo = "tipo_de"
         if not m:
             return None
         sujeito = self.aliases.get(limpar(m.group(1)))
         objeto = self.aliases.get(limpar(m.group(2)))
-        # Não captura toda pergunta geral parecida com "é": exige dois
-        # nomes identificados no grafo para evitar distorcer o recuperador.
         if not sujeito or not objeto:
             return None
-        cadeia = self.provar(sujeito, objeto, relacao)
+        return sujeito, objeto, tipo
+
+    def interpretar(self, pergunta):
+        """Prova, prova negativa explícita ou abstenção; sem mundo fechado."""
+        hipotese = self.interpretar_hipotese(pergunta)
+        if hipotese is not None:
+            return hipotese
+        relacao = self.identificar_relacao(pergunta)
+        if relacao is None:
+            return None
+        sujeito, objeto, tipo = relacao
+        cadeia = self.provar(sujeito, objeto, tipo)
         if cadeia:
-            if relacao == "tem_caracteristica":
+            if tipo == "tem_caracteristica":
                 passos = self.nomes[cadeia[0]]
                 for posicao, identificador in enumerate(cadeia[1:], 1):
                     aresta = ("tem_caracteristica" if posicao == len(cadeia)-1
                               else "tipo_de")
                     passos += " --" + aresta + "--> " + self.nomes[identificador]
-            elif relacao == "orbita":
+            elif tipo == "orbita":
                 passos = self.nomes[cadeia[0]] + " --orbita--> " + self.nomes[cadeia[1]]
             else:
                 passos = " → ".join(self.nomes[e] for e in cadeia)
-            return ("logica:" + relacao,
+            return ("logica:" + tipo,
                     "Sim. Consigo concluir isso pelas relações cadastradas: " +
                     passos + ".")
+        if tipo == "tipo_de":
+            negativa = self.provar_incompatibilidade(sujeito, objeto)
+            if negativa is not None:
+                origem, destino, _ = negativa
+                origem_nomes = " → ".join(self.nomes[e] for e in origem)
+                destino_nomes = " → ".join(self.nomes[e] for e in destino)
+                return ("logica:negacao_comprovada",
+                        "Não. A incompatibilidade foi cadastrada explicitamente: " +
+                        origem_nomes + " é disjunto de " + destino_nomes +
+                        ". A conclusão usa somente relações tipo_de e disjunto_de.")
         return ("logica:desconhecido",
                 "Não tenho uma relação afirmativa cadastrada que permita "
                 "concluir isso. Isso não significa que a afirmação seja falsa.")
-

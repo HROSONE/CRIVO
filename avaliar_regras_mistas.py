@@ -34,7 +34,10 @@ class CrivoComGrafoAnterior(Crivo):
                 k: v for k, v in dados["entidades"].items()
                 if v.get("tipo") != "caracteristica"
             }
-            dados["fatos"] = [f for f in dados["fatos"]
+            # Reconstruir o comportamento editorial do grafo da main
+            # anterior, que ainda não continha ponteiros fonte_id.
+            dados["fatos"] = [{k: v for k, v in f.items() if k != "fonte_id"}
+                             for f in dados["fatos"]
                              if f["relacao"] in ("tipo_de", "parte_de")]
             destino.write_text(json.dumps(dados, ensure_ascii=False), encoding="utf-8")
         super().__init__(caminho_base=caminho_base, agora=agora)

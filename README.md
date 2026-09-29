@@ -319,6 +319,70 @@ compreensão livre de português, raciocínio causal, capacidade geral
 de programação ou aprendizado autônomo. A rede neural classificadora
 não passa automaticamente a utilizar os novos fatos como treino.
 
+## Provas negativas e referências editoriais (PR #12)
+
+O motor relacional agora distingue **três situações** para perguntas binárias
+sobre `tipo_de`:
+
+- **Prova positiva:** existe uma cadeia de categorias que demonstra a relação.
+- **Prova negativa explícita:** foi cadastrada uma incompatibilidade
+  `disjunto_de` entre duas classes (ou seus ancestrais via `tipo_de`).
+  O CRIVO mostra qual caminho leva à incompatibilidade.
+- **Sem prova:** ele informa que **não sabe concluir**, sem transformar
+  a ausência de evidências numa resposta negativa.
+
+As incompatibilidades iniciais são `aracnideo ↔ inseto` e
+`anfibio ↔ reptil`; são relações cadastradas manualmente,
+**não descobertas pela rede neural**. A incompatibilidade é simétrica,
+mas somente `tipo_de` pode levar a uma classe incompatível. Não se
+misturam `parte_de`, `orbita` ou `tem_caracteristica` nesse cálculo.
+Um cadastro que coloque uma entidade em duas classes explicitamente
+incompatíveis é rejeitado.
+
+Alguns fatos trazem o campo opcional `fonte_id`, apontando para o
+identificador de uma **explicação editorial já cadastrada** em
+`conhecimento.json`. Quando o fato é comprovado e o identificador
+existe na base ativa, o CRIVO apresenta a explicação **junto com a
+prova**, preservando histórico e o comando `mais`. Exemplos:
+
+```text
+você > Por que a aranha é um inseto?
+Crivo > [Explicação cadastrada de insetos]
+        Relações verificadas: Não. aranha → aracnídeo;
+        aracnídeo é disjunto de inseto.
+
+você > Como sabemos que o Sol é uma estrela?
+Crivo > [Explicação cadastrada do Sol]
+        Relações verificadas: Sim. Sol → estrela.
+
+você > O gato é um peixe?
+Crivo > Não tenho uma relação afirmativa cadastrada que permita
+        concluir isso. Isso não significa que a afirmação seja falsa.
+```
+
+Perguntas **exatas já cadastradas** continuam usando a explicação
+original antes do raciocinador. O sistema só usa a referência quando
+a prova aplicável tem um `fonte_id` existente; referência inexistente
+não se converte em evidência e não causa falha. A veracidade e
+a pertinência semântica desses ponteiros precisam de **curadoria
+humana**: existir um ID não significa que a fonte confirme qualquer
+afirmação feita sobre ele.
+
+**Comparação de desenvolvimento:** em 278 perguntas gerais com a
+pergunta-alvo retirada do índice, o antigo grafo produziu
+**189 identificadores corretos, 47 erros e 42 abstenções**; a nova
+integração produziu **192 corretos, 44 erros e 42 abstenções**,
+preservando o resultado do recuperador sem grafo. Três casos voltaram
+a usar as explicações anteriores: aranha/inseto, sapo/réptil e
+Sol/estrela. **Isso mede a escolha de IDs e não constitui medição
+cega de raciocínio geral ou prova de aprendizagem espontânea.**
+
+Para reproduzir: `python avaliar_regras_mistas.py` e
+`python -m unittest testes_integracao_evidencias -v`. Os
+testes incluem grafos sintéticos com nomes inéditos, referências
+inexistentes, contradições, consultas de outras relações e preservação
+das hipóteses temporárias.
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.

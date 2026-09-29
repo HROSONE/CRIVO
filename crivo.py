@@ -637,6 +637,20 @@ class Crivo:
         if self.raciocinio is not None:
             inferencia = self.raciocinio.interpretar(original)
             if inferencia is not None:
+                # Fonte editorial explícita e existente pode explicar uma
+                # prova comprovada, sem converter um ranking aproximado em
+                # negação ou atribuir certeza a uma base desconhecida.
+                fonte_id = self.raciocinio.fonte_para(original, inferencia[0])
+                if fonte_id is not None:
+                    indice_fonte = next((i for i, item in enumerate(self.base)
+                                         if item["id"] == fonte_id), None)
+                    if indice_fonte is not None:
+                        self.ultimos = [(1.0, indice_fonte)]
+                        identificador, explicacao = self._registrar(
+                            indice_fonte, original)
+                        self.historico[-1]["mecanismo"] = "raciocinio_e_base"
+                        return (identificador, explicacao +
+                                "\n\nRelações verificadas:\n" + inferencia[1])
                 self.esclarecimento = None
                 self.ultimo_assunto = None
                 self.historico.append({"pergunta": original, "id": inferencia[0],
