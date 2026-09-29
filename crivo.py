@@ -172,6 +172,9 @@ class Crivo:
         # entidades de qualquer grafo; não adiciona respostas isoladas.
         from analisador_portugues import AnalisadorPortugues
         self.analisador_portugues = AnalisadorPortugues(self.raciocinio)
+        from consultas_relacionais import ConsultasRelacionais
+        self.consultas_relacionais = ConsultasRelacionais(self.raciocinio)
+        self.contexto_consulta = None
         self.contexto_geral = None
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
@@ -625,6 +628,7 @@ class Crivo:
         self._indexar()
         self.rede = None
         self.esclarecimento = None
+        self.contexto_consulta = None
         self.ultimos = []
         self.pos_ultimo = 0
 
@@ -836,6 +840,8 @@ class Crivo:
         contexto_geral_anterior = self.contexto_geral
         self.contexto_geral = None
         n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
+        contexto_consulta_anterior = self.contexto_consulta
+        self.contexto_consulta = None
         # Identificar atos de fala INTRODUTÓRIOS e retirar apenas eles.
         # Preservar o resto da consulta com acentos/maiúsculas, necessário
         # para os definidores compostos ("HTML e CSS") e para auditoria.
@@ -899,6 +905,17 @@ class Crivo:
             return self._registrar(i, original)
         if len(exatas) > 1:
             return "duvida", "Há mais de uma resposta cadastrada para essa pergunta. Pode detalhar?"
+        # Consultas com variável, múltiplas condições e refinamento da
+        # lista anterior. A negação só é aceita com prova de disjunção.
+        consulta = self.consultas_relacionais.responder(texto, contexto_consulta_anterior)
+        if consulta is not None:
+            ident, resposta, self.contexto_consulta = consulta
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": ident,
+                                   "mecanismo": "consulta_relacional"})
+            self.historico = self.historico[-20:]
+            return ident, resposta
         # "não muda" descreve imutabilidade em JS, não uma proibição.
         # Não libera outras negações, sobretudo consultas de segurança.
         negacao_const = (bool(re.search(r"\b(javascript|js)\b", n)) and

@@ -3,6 +3,61 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Consultar relações e combinar condições
+
+O módulo `consultas_relacionais.py` monta um plano de consulta sobre o
+grafo ativo. Ele procura os itens que satisfazem **todas** as condições,
+preserva a direção das relações e mostra a prova de cada resultado.
+Os nomes vêm dos dados; não há uma resposta programada para cada pergunta.
+
+```text
+Quais animais têm penas?
+Quais astros orbitam o Sol e fazem parte da Via Láctea?
+Quais planetas a Lua orbita?
+De que a Terra faz parte?
+A Terra é um planeta e faz parte da Via Láctea?
+```
+
+Após uma lista, `Desses, quais...` ou `E quais...` filtra somente os itens
+exibidos no turno anterior. A API reconstrói esse contexto a partir do
+histórico; uma saudação, outro assunto, dúvida ou resposta vazia o expira.
+A saída é limitada a 20 itens, com aviso quando há outros resultados.
+
+As respostas distinguem comprovação, contraprova e desconhecimento.
+`Quais animais não são insetos?` exige uma incompatibilidade explícita:
+ausência de classificação não basta. Já `Quais animais são aves e não
+são aves?` identifica condições impossíveis. Negação de propriedades,
+alternativas com `ou`, ações desconhecidas e modificadores não reconhecidos
+pedem esclarecimento, sem descartar parte da pergunta.
+
+**Validação:** a sonda de 36 casos foi executada antes da implementação
+(2/36) e depois (36/36). Inclui perguntas, conversas e recusas esperadas;
+foi usada no desenvolvimento e **não é teste cego**. Os testes adicionais
+usam grafos fictícios com nomes novos, condições em ordens diferentes,
+órbitas não transitivas, isolamento de bases e integração da API.
+O comparativo reproduzível está em `avaliacao_consultas.json`.
+
+Na avaliação histórica de 278 perguntas, retiradas do índice na rodada,
+duas respostas passam a usar IDs de listas comprovadas em vez dos IDs
+editoriais esperados (planetas e mamíferos). Assim, a coincidência literal
+de IDs do caminho com grafo passa de 192 para 190; isso **não demonstra
+melhora na precisão geral**. As listas explicitam que o grafo é parcial
+e podem conter menos exemplos que o texto editorial. No uso normal, as
+perguntas exatas cadastradas mantêm prioridade, inclusive a lista completa
+dos oito planetas. Nenhum fato novo ou modelo externo foi acrescentado.
+
+```bash
+python -m unittest testes_consultas_relacionais -v
+python avaliar_consultas.py
+python -m unittest discover -p 'testes*.py'
+python crivo.py --teste
+python avaliar_regras_mistas.py
+```
+
+O ganho é **consultar e combinar melhor os fatos existentes**. O motor
+continua com uma gramática limitada, sem compreensão livre, geração
+aberta, aprendizagem espontânea ou conhecimento de assuntos ausentes.
+
 ## Categoria botânica de frutas: dados combináveis
 
 O arquivo `frutas.json` tem **63 entradas curadas**, com nome, apelidos,
