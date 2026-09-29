@@ -8,6 +8,7 @@ import json
 from collections import defaultdict
 from crivo import Crivo
 from avaliar_recuperador import avaliar
+from coorte_geral import selecionar_coorte
 from pathlib import Path
 
 CASOS = [
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     dados = diagnosticar()
     dados['controles_pos_ajuste'] = diagnosticar(CONTROLES_POS_AJUSTE)
     base = json.loads(Path("conhecimento.json").read_text(encoding="utf-8"))
-    antigos = [e for e in base if e["topico"] != "programacao"]
+    antigos = selecionar_coorte(base)
     geral = avaliar(antigos)
     dados["benchmark_geral"] = {k: geral[k] for k in
             ("total", "acertos", "erradas", "abstencoes")}
