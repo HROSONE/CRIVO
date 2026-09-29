@@ -1,0 +1,519 @@
+{
+  "versao": 1,
+  "data": "2026-09-29",
+  "baseline_commit_local": "b6a09c94bfb50f48d3ad0ceaf4a30b0a9efb293a",
+  "baseline_equivalente_main": "44d556fe8031edf4b53ba3aad24db373e716860e",
+  "antes": {
+    "total": 32,
+    "acertos": 0
+  },
+  "depois": {
+    "total": 32,
+    "acertos": 32
+  },
+  "curriculo": {
+    "conceitos": 25,
+    "unidades_factuais": 97,
+    "fontes": 25
+  },
+  "grafo": {
+    "entidades_adicionadas": 8,
+    "fatos_adicionados": 18
+  },
+  "verificacoes": {
+    "unitarios": 223,
+    "cenarios_originais": 65,
+    "pares_conceitos": 300,
+    "consultas": {
+      "total": 36,
+      "acertos": 36
+    },
+    "auditoria_definicoes": {
+      "coorte_historica_sem_filtro": {
+        "total": 278,
+        "acertos": 192,
+        "erradas": 44,
+        "abstencoes": 42,
+        "ranking_acertos": 210
+      },
+      "perdas_introduzidas_pelo_filtro": [],
+      "coorte_historica_sem_grafo": {
+        "total": 278,
+        "acertos": 192,
+        "erradas": 42,
+        "abstencoes": 44,
+        "ranking_acertos": 210
+      },
+      "coorte_historica_com_grafo": {
+        "total": 278,
+        "acertos": 192,
+        "erradas": 42,
+        "abstencoes": 44,
+        "ranking_acertos": 210
+      },
+      "base_atual_sem_grafo": {
+        "total": 286,
+        "acertos": 200,
+        "erradas": 46,
+        "abstencoes": 40,
+        "ranking_acertos": 216
+      },
+      "base_atual_com_grafo": {
+        "total": 286,
+        "acertos": 200,
+        "erradas": 46,
+        "abstencoes": 40,
+        "ranking_acertos": 216
+      },
+      "limite": "Avaliações de desenvolvimento: as perguntas são retiradas do índice em cada dobra, mas as respostas e outras paráfrases da intenção continuam disponíveis. Mudanças no corpus alteram a população atual."
+    }
+  },
+  "ajuste_expectativas_anteriores": "Somente pressupostos de ausência de conhecimento de buraco negro, Andrômeda e Braço de Órion foram atualizados por inclusão explícita de dados. Recusas, expiração de contexto e bases personalizadas sem metadados continuam verificadas. Os limites das auditorias históricas não foram alterados.",
+  "metodo": "32 casos fixados antes da implementação, executados no caminho público Crivo.responder; 300 pares e base sintética exercitam composição sem resposta pronta para cada combinação.",
+  "limites": [
+    "Sonda usada durante o desenvolvimento: não é teste cego nem medida geral de inteligência.",
+    "Composição factual controlada, sem escrita irrestrita, treinamento neural novo ou modelos externos.",
+    "Auditorias históricas exercitam bases editoriais temporárias sem o currículo adicional; testes de integração novos exercitam o currículo ativo."
+  ],
+  "casos": [
+    {
+      "pergunta": "O que é Andrômeda?",
+      "historico": [],
+      "esperado": "conhecimento:andromeda",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:andromeda",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é DNA?",
+      "historico": [],
+      "esperado": "conhecimento:dna",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:dna",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é RNA?",
+      "historico": [],
+      "esperado": "conhecimento:rna",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:rna",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é um gene?",
+      "historico": [],
+      "esperado": "conhecimento:gene",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:gene",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é um vírus?",
+      "historico": [],
+      "esperado": "conhecimento:virus",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:virus",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é aprendizado de máquina?",
+      "historico": [],
+      "esperado": "conhecimento:aprendizado_maquina",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:aprendizado_maquina",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é rede neural?",
+      "historico": [],
+      "esperado": "conhecimento:rede_neural",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:rede_neural",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é uma nebulosa?",
+      "historico": [],
+      "esperado": "conhecimento:nebulosa",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:nebulosa",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é ano-luz?",
+      "historico": [],
+      "esperado": "conhecimento:ano_luz",
+      "antes": {
+        "obtido": "duvida",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:ano_luz",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "O que é um exoplaneta?",
+      "historico": [],
+      "esperado": "conhecimento:exoplaneta",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:exoplaneta",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Fale sobre buracos negros",
+      "historico": [],
+      "esperado": "escrita:explicacao",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:explicacao",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Qual é a distância de Andrômeda?",
+      "historico": [],
+      "esperado": "conhecimento:andromeda",
+      "antes": {
+        "obtido": "luz_sol",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:andromeda",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre o Sol e a Lua",
+      "historico": [],
+      "esperado": "escrita:texto",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:texto",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Crie um resumo sobre DNA e RNA",
+      "historico": [],
+      "esperado": "escrita:resumo",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:resumo",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Faça um roteiro curto sobre fotossíntese",
+      "historico": [],
+      "esperado": "escrita:roteiro",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:roteiro",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre HTML, CSS e JavaScript",
+      "historico": [],
+      "esperado": "escrita:texto",
+      "antes": {
+        "obtido": "js_intro",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:texto",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre Andrômeda em duas frases",
+      "historico": [],
+      "esperado": "escrita:texto",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:texto",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Mais curto",
+      "historico": [
+        "O que é Andrômeda?"
+      ],
+      "esperado": "escrita:resumo",
+      "antes": {
+        "obtido": "solsticio_equinocio",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:resumo",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Em tópicos",
+      "historico": [
+        "O que é o Sol?"
+      ],
+      "esperado": "escrita:topicos",
+      "antes": {
+        "obtido": "social:assuntos",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:topicos",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Explique melhor",
+      "historico": [
+        "O que é DNA?"
+      ],
+      "esperado": "escrita:explicacao",
+      "antes": {
+        "obtido": "duvida",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:explicacao",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Não entendi",
+      "historico": [
+        "O que é DNA?"
+      ],
+      "esperado": "escrita:simples",
+      "antes": {
+        "obtido": "duvida",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:simples",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Continue",
+      "historico": [
+        "O que é Andrômeda?"
+      ],
+      "esperado": "escrita:continuacao",
+      "antes": {
+        "obtido": "mais:fim",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:continuacao",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Qual é a fonte?",
+      "historico": [
+        "O que é Andrômeda?"
+      ],
+      "esperado": "escrita:fontes",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "escrita:fontes",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Qual a distância dela?",
+      "historico": [
+        "O que é Andrômeda?"
+      ],
+      "esperado": "conhecimento:andromeda",
+      "antes": {
+        "obtido": "luz_sol",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:andromeda",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Qual é o nome desse braço que você falou?",
+      "historico": [
+        "O que é Via Láctea?"
+      ],
+      "esperado": "conhecimento:braco_orion",
+      "antes": {
+        "obtido": "contexto:detalhe_ausente",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:braco_orion",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Onde fica esse braço?",
+      "historico": [
+        "O que é Via Láctea?"
+      ],
+      "esperado": "conhecimento:braco_orion",
+      "antes": {
+        "obtido": "contexto:detalhe_ausente",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "conhecimento:braco_orion",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Mais curto",
+      "historico": [
+        "O que é DNA?",
+        "Oi!"
+      ],
+      "esperado": "duvida",
+      "antes": {
+        "obtido": "solsticio_equinocio",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "duvida",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Mais curto",
+      "historico": [],
+      "esperado": "duvida",
+      "antes": {
+        "obtido": "solsticio_equinocio",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "duvida",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre HTML e cristal quântico inventado",
+      "historico": [],
+      "esperado": "fora",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "fora",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre uma árvore binária",
+      "historico": [],
+      "esperado": "fora",
+      "antes": {
+        "obtido": "arvore",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "fora",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Escreva um texto sobre gravidade com cinco citações inventadas",
+      "historico": [],
+      "esperado": "fora",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "fora",
+        "passou": true
+      }
+    },
+    {
+      "pergunta": "Por quê?",
+      "historico": [
+        "O que é o Sol?"
+      ],
+      "esperado": "fora",
+      "antes": {
+        "obtido": "fora",
+        "passou": false
+      },
+      "depois": {
+        "obtido": "fora",
+        "passou": true
+      }
+    }
+  ]
+}

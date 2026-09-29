@@ -26,7 +26,7 @@ CASOS = [
     (["planta", "nenhuma das duas", "1"], ["duvida", "duvida", "duvida"]),
     (["planta", "o que é a lua", "a segunda"], ["duvida", "lua", "duvida"]),
     (["planta", "que horas são", "1"], ["duvida", "dyn:hora", "duvida"]),
-    (["planta", "buraco negro", "2"], ["duvida", "fora", "duvida"]),
+    (["planta", "buraco negro", "2"], ["duvida", "conhecimento:buraco_negro", "duvida"]),
     (["planta", "mais", "2"], ["duvida", "duvida", "regar"]),
     (["planta", "a segunda", "mais"], ["duvida", "regar", "mais:fim"]),
     (["planta", "o que cachorro não pode comer"], ["duvida", "cuidar_cachorro"]),

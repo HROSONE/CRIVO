@@ -3,6 +3,76 @@
 Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
 
+## Conhecimento com fontes, composição e conversa
+
+O currículo `conhecimento_expandido.json` acrescenta **25 conceitos e 97
+unidades factuais**, com referências de NASA, NHGRI, MDN, Google e IBM.
+Inclui Andrômeda, galáxias, buracos negros, DNA, RNA, genes, internet,
+APIs, aprendizado de máquina e redes neurais. As definições e os detalhes
+são dados revisados; a conversa não modifica esses arquivos.
+
+O módulo `composicao_textual.py` planeja textos sobre até três conceitos,
+seleciona fatos e os organiza em parágrafos, resumos, tópicos ou roteiros
+curtos. Funciona também com verbetes editoriais e bases fictícias: não
+existe uma resposta pronta para cada combinação. Cada sentença factual
+mantém o vínculo com sua unidade de origem. Termos desconhecidos ou
+modificadores não atendidos não são descartados para simular uma resposta.
+
+```text
+O que é Andrômeda?
+Qual a distância dela?
+Escreva um texto sobre DNA e RNA
+Mais curto
+Em tópicos
+Continue
+Qual é a fonte?
+Faça um roteiro curto sobre fotossíntese
+Escreva um texto sobre HTML, CSS e JavaScript
+```
+
+`Mais curto` e `Em tópicos` usam somente o conteúdo apresentado;
+`Continue` e `Explique melhor` acrescentam fatos ainda não usados e avisam
+quando eles acabam. `Não entendi` reduz a quantidade de informação.
+`E o RNA?` troca o assunto mantendo o formato de composição.
+Pronomes como `ela` exigem um único assunto no turno anterior; perguntas
+relacionais passam pelo mecanismo de prova existente. Saudações, dúvidas
+e assuntos desconhecidos expiram o contexto. A API reconstrói esse estado
+pelo histórico de perguntas, sem compartilhar conversas entre instâncias.
+
+A referência ao braço citado na resposta sobre Via Láctea agora tem um
+vínculo editorial explícito com o **Braço de Órion**, incluindo localização.
+O grafo recebeu **8 entidades e 18 fatos**, incluindo os três planetas
+que faltavam nas consultas por órbita. Todos os oito planetas do Sistema
+Solar podem aparecer nessas consultas.
+
+A preferência de `galáxia` pelo conceito geral, e de `API` pela definição
+ampliada, é declarada em `aliases_preferidos`, sem desempate por ordem.
+A API preserva o identificador público anterior `prog_http` mediante
+`id_resposta`. Outros apelidos ambíguos continuam sem escolha automática.
+As fontes são exibidas apenas para os fatos usados, inclusive referências
+editoriais já cadastradas. Entradas sem referência informam essa ausência.
+
+**Limite:** isto é composição factual controlada, com gramática limitada,
+sem geração irrestrita de histórias, opiniões, instruções arbitrárias ou
+novos fatos. Não usa modelos externos e não amplia os pesos da rede neural.
+Conhecimento novo entra pelo currículo revisado no código.
+
+**Validação de desenvolvimento:** a sonda fixada antes da implementação
+passou de 0/32 para 32/32. Há testes dos 300 pares dos novos conceitos,
+bases fictícias, referências, fontes, limites de frases, recusas e API.
+A sonda foi usada no desenvolvimento; **não é teste cego nem uma medida
+universal de inteligência**. O comparativo está em `avaliacao_escrita.json`.
+As auditorias históricas preservam seus critérios e avaliam a população
+editorial anterior em bases temporárias, sem o currículo adicional;
+os testes novos exercitam o currículo ativo junto com os demais módulos.
+
+```bash
+python -m unittest testes_composicao_textual -v
+python avaliar_escrita.py
+python -m unittest discover -p 'testes*.py'
+python avaliar_definicoes.py
+```
+
 ## Consultar relações e combinar condições
 
 O módulo `consultas_relacionais.py` monta um plano de consulta sobre o
@@ -227,7 +297,7 @@ pode fazer referência ao mesmo objeto com palavras como `esse`,
 resposta realmente mostrada**, aceita singular/plural simples e
 reconhece o referente com a mesma lógica para assuntos diferentes.
 
-Exemplo de teste real:
+Exemplo de teste real na versão do PR #22:
 
 ```text
 Você: O que é Via Láctea?
@@ -238,10 +308,10 @@ CRIVO: Você está se referindo ao braço mencionado na minha resposta anterior.
        suficiente para responder a esse detalhe com segurança.
 ```
 
-Isso não insere uma resposta inventada: o nome do braço não consta na
-descrição editorial inicial, portanto o CRIVO **não pode adivinhar**.
-Da mesma forma, **Andrômeda ainda não tem definição cadastrada**:
-uma regra de linguagem não substitui a necessidade de fatos.
+Na versão do PR #22, o nome do braço e a definição de Andrômeda não
+estavam cadastrados. A atualização de conhecimento descrita acima
+acrescentou esses dados com fontes e vínculo editorial explícito.
+Uma regra de linguagem, sozinha, continua sem autorizar a criação de fatos.
 
 A implementação é reutilizável e também foi testada com respostas
 sobre gás e estrelas e com uma base fictícia sobre um anel, sem regras
@@ -304,8 +374,8 @@ Eae, Crivo. O que é andromeda e uma estrela?
     ou quer perguntar se andromeda é uma estrela?
 ```
 
-O mecanismo **não** cria informações sobre Andrômeda que ainda não
-existam na base. Comandos distintos continuam separados: `O que é
+O mecanismo usa somente informações sobre Andrômeda que existam na
+base ativa; o currículo novo já inclui sua definição. Comandos distintos continuam separados: `O que é
 HTML e CSS?` usa os dois verbetes conhecidos; `O que é rotação e
 translação?` preserva o conceito editorial único existente.
 

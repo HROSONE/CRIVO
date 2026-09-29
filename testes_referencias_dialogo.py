@@ -16,41 +16,41 @@ class TestesReferenciasConversacionais(unittest.TestCase):
     def test_reproduz_print_sem_confundir_falou_com_despedida(self):
         bot = Crivo()
         ident, resposta = bot.responder("O que é Andrômeda?")
-        self.assertIn(ident, ("fora", "duvida"))
+        self.assertEqual(ident, "conhecimento:andromeda")
+        self.assertIn("galáxia", resposta)
         ident, resposta = bot.responder("O que é Via Láctea?")
         self.assertEqual(ident, "via_lactea")
         ident, resposta = bot.responder(
             "Qual é o nome desse braço que você falou?")
-        self.assertEqual(ident, "contexto:detalhe_ausente")
+        self.assertEqual(ident, "conhecimento:braco_orion")
         self.assertIn("braço", resposta.lower())
-        self.assertIn("não tenho", resposta.lower())
         self.assertNotIn("Até logo!", resposta)
-        self.assertNotIn("Órion", resposta)  # a base NÃO fornece esse nome
+        self.assertIn("Órion", resposta)  # agora há um vínculo editorial com fonte
 
     def test_reproduz_endpoint_serverless_com_historico_de_perguntas(self):
         dados = responder_web({
             "message": "Qual é o nome desse braço que você falou?",
             "history": ["O que é Andrômeda?", "O que é Via Láctea?"],
         })
-        self.assertEqual(dados["id"], "contexto:detalhe_ausente")
+        self.assertEqual(dados["id"], "conhecimento:braco_orion")
         self.assertFalse(dados["has_proof"])
         self.assertIn("braço", dados["response"].lower())
 
     def test_outras_referencias_sobre_outros_conceitos(self):
         casos = (
             ("O que é o Sol?",
-             "Que temperatura tem esse gás que você mencionou?", "gás"),
+             "Que temperatura tem esse gás que você mencionou?", "gás", "contexto:detalhe_ausente"),
             ("O que é a Via Láctea?",
-             "Como se chama esse braço que você citou?", "braço"),
+             "Como se chama esse braço que você citou?", "braço", "conhecimento:braco_orion"),
             ("O que é a Via Láctea?",
-             "Onde fica esse braço de que você falou?", "braço"),
+             "Onde fica esse braço de que você falou?", "braço", "conhecimento:braco_orion"),
         )
-        for primeira, segunda, termo in casos:
+        for primeira, segunda, termo, esperado in casos:
             with self.subTest(pergunta=segunda):
                 bot = Crivo()
                 bot.responder(primeira)
                 ident, resposta = bot.responder(segunda)
-                self.assertEqual(ident, "contexto:detalhe_ausente")
+                self.assertEqual(ident, esperado)
                 self.assertIn(termo, resposta.lower())
                 self.assertNotIn("Até logo!", resposta)
 
