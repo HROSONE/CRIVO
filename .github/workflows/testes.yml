@@ -21,3 +21,6 @@ jobs:
         run: python crivo.py --teste
       - name: Testes novos
         run: python -m unittest discover -p 'testes*.py' -v
+      - name: Medir generalizacao (amostra de 8 epocas)
+        if: matrix.python-version == '3.11'
+        run: python avaliar_rede.py --epocas 8
