@@ -4,8 +4,9 @@ Perguntas escritas após a v0.4: NÃO são teste cego de generalização depois
 que seus resultados forem usados para modificar o sistema. Não entram no treino.
 """
 import json
-from collections import Counter
-from crivo import Crivo
+from pathlib import Path
+from avaliar_recuperador import avaliar
+from crivo import Crivo, PASTA
 
 # Linguagem explícita, paráfrases, troca de domínio, operadores e pedidos fora
 # do currículo. A intenção esperada é uma hipótese para auditoria manual.
@@ -63,4 +64,15 @@ def executar():
             "limite": "Sonda de desenvolvimento posterior a v0.4, nao teste cego; respostas revisadas manualmente."}
 
 if __name__ == "__main__":
-    print(json.dumps(executar(), ensure_ascii=False, indent=2))
+    relatorio = executar()
+    base = json.loads((PASTA / "conhecimento.json").read_text(encoding="utf-8"))
+    antigos = [e for e in base if e["topico"] != "programacao"]
+    # Mede novamente o recuperador nos 278 exemplos gerais, retirando a
+    # pergunta avaliada do indice (nao compara so o corpus completo).
+    comparacao = avaliar(antigos)
+    relatorio["benchmark_geral"] = {chave: comparacao[chave] for chave in
+        ("total", "acertos", "erradas", "abstencoes", "ranking_acertos")}
+    print(json.dumps(relatorio, ensure_ascii=False, indent=2))
+    if (comparacao["total"] != 278 or comparacao["acertos"] < 192 or
+            comparacao["erradas"] > 44):
+        raise SystemExit("Regressão no benchmark anterior de assuntos gerais")
