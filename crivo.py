@@ -519,6 +519,76 @@ class Crivo:
                 "Ainda não tenho uma definição cadastrada para esse conceito. "
                 "Conhecer palavras parecidas não basta para responder com segurança.")
 
+    def _responder_definicoes_coordenadas(self, texto):
+        """Compor definições de 2-3 conceitos sem seleção por ranking.
+
+        Cada item tem de possuir uma definição EDITORIAL explicitamente
+        associada ao conceito por pergunta ou alias. Um desconhecido
+        invalida a composição inteira. Só apresenta a primeira frase
+        factual, sem copiar exemplos de código sem solicitação.
+        """
+        from interpretacao_geral import extrair_definicoes_coordenadas
+        alvos = extrair_definicoes_coordenadas(texto)
+        if alvos is None:
+            return None
+
+        partes, faltantes, ambiguos, fontes = [], [], [], []
+        for alvo in alvos:
+            # Restrição de domínio e de linguagem é a mesma das perguntas
+            # simples; não herda a definição de HTML de JavaScript.
+            consulta = "o que e " + alvo
+            indices = self._indices_consulta(consulta)
+            conceito = self._alvo_definicao(consulta)
+            chave = chave_pergunta(conceito) if conceito else ""
+            encontrados = []
+            for idx in indices:
+                entrada = self.base[idx]
+                declaracoes = [
+                    definido for pergunta in entrada["perguntas"]
+                    for definido in [self._alvo_definicao(pergunta)]
+                    if definido is not None
+                ] + entrada.get("definicoes", [])
+                if any(chave_pergunta(definido) == chave for definido
+                       in declaracoes):
+                    encontrados.append(idx)
+
+            if len(encontrados) == 0:
+                faltantes.append(alvo)
+                continue
+            if len(encontrados) > 1:
+                ambiguos.append(alvo)
+                continue
+            entrada = self.base[encontrados[0]]
+            fonte = entrada.get("resposta_definicao") or entrada["resposta"]
+            resumo = re.split(r"(?<=[.!?])\s+", fonte.strip(), maxsplit=1)[0]
+            partes.append(alvo + ": " + resumo)
+            fontes.append(entrada["id"])
+
+        if faltantes or ambiguos:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.contexto_geral = None
+            itens = faltantes + ambiguos
+            return ("fora",
+                    "Ainda não tenho uma definição específica e inequívoca "
+                    "para " + ", ".join(itens) +
+                    ". Não vou preencher essa lacuna com um assunto "
+                    "apenas parecido.")
+        if len(set(fontes)) != len(fontes):
+            return ("duvida",
+                    "Os nomes mencionados apontam para a mesma definição "
+                    "cadastrada. Pode especificar a distinção desejada?")
+
+        resposta = "\n\n".join(partes)
+        self.esclarecimento = None
+        self.ultimo_assunto = None
+        self.contexto_geral = "definicao"
+        self.historico.append({"pergunta": texto, "id": "composto:definicao",
+                               "mecanismo": "composicao_definicional",
+                               "fontes_ids": fontes})
+        self.historico = self.historico[-20:]
+        return ("composto:definicao", resposta)
+
     def ensinar(self, identificador, topico, perguntas, resposta, salvar=True):
         """Adiciona conhecimento explicitamente validado pelo desenvolvedor."""
         if topico not in TOPICOS:
@@ -794,6 +864,9 @@ class Crivo:
         # antiga como se fosse conhecimento do novo conceito. O novo alvo
         # precisa ser encontrado explicitamente na mesma base ativa.
         from interpretacao_geral import preparar_elipse_definicional
+        definicoes_compostas = self._responder_definicoes_coordenadas(original)
+        if definicoes_compostas is not None:
+            return definicoes_compostas
         reescrita = preparar_elipse_definicional(original, contexto_geral_anterior)
         if reescrita is not None:
             definicao_eliptica = self._responder_definicao(reescrita, original)
