@@ -850,7 +850,7 @@ class Crivo:
             if resto:
                 texto = resto
                 n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
-        resto = re.sub(r"[,; ]+(?:por favor|obrigad[oa])$", "",
+        resto = re.sub(r"[,; ]+(?:por favor|obrigad[oa])[!. ]*$", "",
                        texto, flags=re.IGNORECASE).strip()
         if resto:
             texto = resto
@@ -877,6 +877,16 @@ class Crivo:
         s = self._social(n)
         if s:
             return s
+
+        # A pergunta 'você falou de X?' pergunta sobre a CONVERSA,
+        # não pela definição de X. Verificar apenas o último turno.
+        from referencias_dialogo import conferir_mencao_anterior
+        mencao = conferir_mencao_anterior(
+            texto, self._referencia_turno_anterior)
+        if mencao is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            return mencao
 
         prevencao = re.sub(r"^(?:o que fazer (?:pra|para)|como fazer para|como) nao (?:ter|pegar)\b", "como evitar", n)
         if prevencao != n:
