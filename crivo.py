@@ -164,6 +164,11 @@ class Crivo:
         self.frutas = (ConhecimentoFrutas.carregar(caminho_frutas)
                        if caminho_frutas.is_file() else None)
         self.contexto_frutas = None
+        # Intenção abstrata para continuação do próximo turno, não
+        # identifica entidades nem persiste além da pergunta seguinte.
+        from interpretacao_geral import InterpretadorGeral
+        self.interpretador_geral = InterpretadorGeral(self.raciocinio)
+        self.contexto_geral = None
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
         self.ultimos = []     # ranking da última pergunta, para "mais"
@@ -544,6 +549,9 @@ class Crivo:
         self.ultimo_assunto = e["perguntas"][0]
         self.historico.append({"pergunta": pergunta, "id": e["id"]})
         self.historico = self.historico[-20:]
+        self.contexto_geral = ("definicao"
+                              if self._alvo_definicao(pergunta) is not None
+                              else None)
         resposta = e["resposta"]
         exemplo = e.get("exemplo")
         if exemplo:
@@ -712,6 +720,8 @@ class Crivo:
         # turno IMEDIATAMENTE anterior, não um fruto citado muito antes.
         contexto_frutas_anterior = self.contexto_frutas
         self.contexto_frutas = None
+        contexto_geral_anterior = self.contexto_geral
+        self.contexto_geral = None
         n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         # Cumprimentos não devem engolir a pergunta que vem junto.
         prefixo = r"^(?:(?:oi+|ola|bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;-]*|por (?:favor|gentileza)[,: ]*)"
@@ -780,6 +790,34 @@ class Crivo:
                                        "mecanismo": "conhecimento_frutas"})
                 self.historico = self.historico[-20:]
                 return identificador, resposta
+        # Recupera a intenção do turno anterior sem carregar uma resposta
+        # antiga como se fosse conhecimento do novo conceito. O novo alvo
+        # precisa ser encontrado explicitamente na mesma base ativa.
+        from interpretacao_geral import preparar_elipse_definicional
+        reescrita = preparar_elipse_definicional(original, contexto_geral_anterior)
+        if reescrita is not None:
+            definicao_eliptica = self._responder_definicao(reescrita, original)
+            ids_validos = {e["id"] for e in self.base}
+            if (definicao_eliptica is not None and
+                    definicao_eliptica[0] in ids_validos):
+                self.contexto_geral = "definicao"
+                return definicao_eliptica
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            return ("fora",
+                    "Entendi que você continua pedindo uma definição, "
+                    "mas não tenho uma definição cadastrada desse conceito. "
+                    "Não vou substituir por um assunto semelhante.")
+
+        geral = self.interpretador_geral.interpretar(original)
+        if geral is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": geral[0],
+                                   "mecanismo": "interpretacao_geral"})
+            self.historico = self.historico[-20:]
+            return geral
+
         definicao = self._responder_definicao(n, original)
         if definicao is not None:
             return definicao
