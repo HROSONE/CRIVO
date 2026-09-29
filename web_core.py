@@ -50,6 +50,7 @@ def responder_web(payload):
         "logica:tipo_de", "logica:parte_de", "logica:orbita",
         "logica:tem_caracteristica", "logica:negacao_comprovada",
         "logica:hipotese", "logica:comum", "logica:ligacao",
+        "logica:caracteristicas",
     }
     return {
         "id": identificador,
