@@ -484,7 +484,7 @@ class Crivo:
                 for frase in re.split(r"[.!?;]", entry["resposta"]):
                     palavras = re.findall(r"[a-z]+", normalizar(frase))
                     while palavras and palavras[0] in (
-                            "o", "a", "os", "as", "um", "uma", "no", "na"):
+                            "o", "a", "os", "as", "um", "uma", "no", "na", "la", "el"):
                         palavras.pop(0)
                     if (palavras and len(termo) >= 4 and
                             palavras[0].startswith(termo[:4]) and
