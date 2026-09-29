@@ -35,6 +35,12 @@ class handler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path.split("?", 1)[0] != "/api/chat":
             return self._json(404, {"error": "Rota não encontrada."})
+        # Confirma que a função recebeu os arquivos de conhecimento.
+        # Sem isso o frontend poderia exibir "online" mas todo POST falharia.
+        if not (RAIZ / "conhecimento.json").is_file() or not (
+                RAIZ / "relacoes.json").is_file():
+            return self._json(503, {"status": "unavailable",
+                                    "error": "Arquivos de conhecimento ausentes."})
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "engine": "python-local", "external_ai": False})
 
