@@ -115,6 +115,9 @@ class Crivo:
         self.ultimo_assunto = None
         self.rede = None
         self.limiar_rede = 0.80
+        pesos = caminho.with_name('rede_crivo.json')
+        if pesos.is_file():
+            self.carregar_rede(pesos)
 
     def carregar_rede(self, caminho, limiar=0.80):
         from rede_neural import RedeCrivo
@@ -208,6 +211,7 @@ class Crivo:
             temp.replace(self.caminho_base)
         self.base = nova_base
         self._indexar()
+        self.rede = None
 
     # ----------------------------------------------------- relógio -------
     def agora(self):
