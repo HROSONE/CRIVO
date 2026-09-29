@@ -78,7 +78,7 @@ class TestesSaudacoesEIntencoes(unittest.TestCase):
             ("O que é rotação e translação?", "rotacao_translacao"),
             ("O que é HTML e Rust?", "fora"),
             ("O que é Sol e planeta quântico?", "fora"),
-            ("Quais são as estações do ano?", "estacoes_ano"),
+            ("Quais são as estações do ano?", "quais_estacoes"),
             ("Você falou da Lua?", "fora"),
         ):
             with self.subTest(pergunta=pergunta):
