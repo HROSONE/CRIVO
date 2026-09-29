@@ -281,6 +281,12 @@ class Crivo:
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
+        if "abelha" in n and re.search(r"\b(ajudam|ajuda|natureza|importantes)\b", n):
+            e = next(e for e in self.base if e["id"] == "abelhas")
+            return e["id"], e["resposta"]
+        if "estacoes" in n and re.search(r"\b(existirem|existem|causa|por que)\b", n):
+            e = next(e for e in self.base if e["id"] == "causa_estacoes")
+            return e["id"], e["resposta"]
         rank = self._ranking(texto)
         toks = tokens(texto)
         desconhecidas = [t for t in toks if t not in self.idf]
