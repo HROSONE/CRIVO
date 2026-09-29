@@ -242,6 +242,56 @@ de chat**. A conexão com uma hospedagem é etapa distinta.
   testes_web -v`; suíte geral: `python -m unittest discover
   -p 'testes*.py'`.
 
+## Perguntas com vários conceitos e relações sem superclasse (PR #20)
+
+O CRIVO agora reconhece uma **lista explícita de duas ou três definições**
+na mesma pergunta, respeitando a base de conhecimento do ambiente:
+
+```text
+O que é HTML e CSS?
+  → HTML: estrutura e semântica do conteúdo.
+  → CSS: regras de apresentação e estilo.
+
+O que é Git e SQL?
+  → Define Git e SQL separadamente, com os verbetes cadastrados.
+
+O que é HTML e Rust?
+  → Não tenho uma definição cadastrada para Rust.
+```
+
+O mecanismo **não usa a resposta do assunto mais parecido** quando
+identifica que um dos termos não tem definição editorial. Só apresenta
+a **primeira frase curada** de cada verbete, evitando código e exemplos
+irrelevantes; nunca usa a rede neural como fonte factual. Se nenhum
+dos termos possui definição individual registrada, a consulta retorna
+ao interpretador anterior para preservar temas estabelecidos como
+`rotação e translação`, que podem constituir **um único conceito
+composto**. Isso não permite deduzir qualquer definição a partir de
+palavras compartilhadas.
+
+Perguntas sobre **semelhança** primeiro verificam se os dois objetos
+compartilham uma classe por `tipo_de`. Se não houver classe comum,
+o interpretador procura ainda uma prova de composição por `parte_de`.
+Por exemplo, a Terra não precisa ser do mesmo tipo que a Via Láctea
+para que exista uma relação factual entre as duas:
+
+```text
+Terra → Sistema Solar → Via Láctea
+```
+
+O CRIVO explica que isso é uma relação de **parte e todo**, não
+igualdade de categorias. Se não houver relação provada, **não declara
+que a ligação é impossível**. O selo da interface `Prova lógica`
+passa a ser mostrado apenas para resultados com um caminho de
+prova ou dedução explícita, não para mensagens de abstenção.
+
+Essa é uma composição **determinística, segura e restrita a formatos
+de perguntas reconhecidos**, e não compreensão irrestrita do português.
+A avaliação inclui perguntas dos prints do usuário, variações por
+domínio, fatos totalmente sintéticos e os benchmarks históricos.
+Todos os testes usados durante o ajuste são testes de
+**desenvolvimento**, não avaliação cega.
+
 ## Interpretação transversal (PR #19)
 
 O módulo `interpretacao_geral.py` interpreta **formatos de pergunta
