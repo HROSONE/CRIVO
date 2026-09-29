@@ -548,7 +548,12 @@ class Crivo:
             return self._registrar(i, original)
         if len(exatas) > 1:
             return "duvida", "Há mais de uma resposta cadastrada para essa pergunta. Pode detalhar?"
-        if re.search(r"\b(nao|nunca|jamais)\b", n) or (
+        # "não muda" descreve imutabilidade em JS, não uma proibição.
+        # Não libera outras negações, sobretudo consultas de segurança.
+        negacao_const = (bool(re.search(r"\b(javascript|js)\b", n)) and
+                         bool(re.search(r"\b(variavel|const)\b", n)) and
+                         bool(re.search(r"\bnao (?:muda|mudar|altera|alterar)\b", n)))
+        if (not negacao_const and re.search(r"\b(nao|nunca|jamais)\b", n)) or (
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
