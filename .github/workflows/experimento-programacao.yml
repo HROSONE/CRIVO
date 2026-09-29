@@ -1,0 +1,23 @@
+name: Experimento adversarial de programação
+on:
+  pull_request:
+    paths:
+      - 'experimento_programacao_adversarial.py'
+      - 'crivo.py'
+      - '.github/workflows/experimento-programacao.yml'
+  workflow_dispatch:
+jobs:
+  diagnostico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Rodar sonda sem alterar código de produção
+        run: python experimento_programacao_adversarial.py | tee resultado-programacao.json
+      - name: Publicar relatório de casos e falhas
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-programacao-adversarial
+          path: resultado-programacao.json

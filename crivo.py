@@ -133,6 +133,17 @@ def tokens(texto):
     return rs
 
 
+# Ponte lexical restrita às consultas técnicas. Não muda os documentos
+# cadastrados, nem cria respostas: associa formas descritivas a termos já
+# ensinados no currículo. Uma pergunta fora dele continua sem resposta.
+SINONIMOS_CONSULTA_TECNICA = {
+    "coletar": "receber",
+    "informacao": "dados",
+    "digitado": "teclado",
+    "digitada": "teclado",
+    "inspecionar": "comparar",
+}
+
 # ------------------------------------------------------------- modelo ------
 class Crivo:
     def __init__(self, caminho_base=None, agora=None):
@@ -223,13 +234,30 @@ class Crivo:
     def _tokens_consulta(self, texto, vocabulario=None):
         vocabulario = self.idf if vocabulario is None else vocabulario
         resultado = []
+        # Só aplica equivalências técnicas quando a linguagem/ambiente
+        # está explícito; consultas gerais preservam sua tokenização.
+        tecnico = bool(re.search(
+            r"\b(python|javascript|js|git|sql)\b", normalizar(texto)))
         for t in tokens(texto):
+            if tecnico:
+                t = SINONIMOS_CONSULTA_TECNICA.get(t, t)
             if t not in vocabulario and len(t) >= 5:
                 # Só corrigir grafias muito próximas e com candidato único.
                 proximos = difflib.get_close_matches(t, vocabulario, n=2, cutoff=0.88)
                 if len(proximos) == 1:
                     t = proximos[0]
             resultado.append(t)
+        # Em Git, revisar diferenças de arquivos/alterações é a operação
+        # "diff". Não usar essa pista quando a consulta menciona outros
+        # comandos explicitamente: "diferença entre commit e push" não
+        # pede executar nem explicar git diff.
+        n = normalizar(texto)
+        if (re.search(r"\bgit\b", n) and
+                re.search(r"\b(diferencas?|comparar|inspecionar|revisar)\b", n) and
+                re.search(r"\b(arquivos?|alteracoes?|mudancas?)\b", n) and
+                not re.search(r"\b(commit|push|branch)\b", n) and
+                "diff" in vocabulario and "diff" not in resultado):
+            resultado.append("diff")
         return resultado
 
     def _indices_consulta(self, texto):
@@ -242,6 +270,10 @@ class Crivo:
             "sql": r"\b(sql|sqlite3?)\b", "git": r"\bgit\b",
         }
         linguagens = {nome for nome, padrao in aliases.items() if re.search(padrao, n)}
+        # HTML e CSS podem ser o objeto manipulado por JavaScript, não
+        # linguagens adicionais exigidas do mesmo exemplo. Python + JS,
+        # por outro lado, continua sendo uma consulta multi-linguagem.
+        exigidas = linguagens - {"html", "css"} if "javascript" in linguagens else linguagens
         sem_conteudo = re.search(
             r"\b(java|rust|kotlin|swift|ruby|php|typescript)\b|"
             r"(?<!\w)c(?:\+\+|#)(?!\w)", n)
@@ -261,8 +293,8 @@ class Crivo:
             if e["topico"] != "programacao":
                 continue
             cobertas = set(e.get("linguagens", [e.get("area")]))
-            if linguagens and not linguagens <= cobertas:
-                if not (len(linguagens) == 1 and e.get("area") in (None, "fundamentos")):
+            if exigidas and not exigidas <= cobertas:
+                if not (len(exigidas) == 1 and e.get("area") in (None, "fundamentos")):
                     continue
             if identificadas and i not in identificadas:
                 continue
@@ -548,7 +580,12 @@ class Crivo:
             return self._registrar(i, original)
         if len(exatas) > 1:
             return "duvida", "Há mais de uma resposta cadastrada para essa pergunta. Pode detalhar?"
-        if re.search(r"\b(nao|nunca|jamais)\b", n) or (
+        # "não muda" descreve imutabilidade em JS, não uma proibição.
+        # Não libera outras negações, sobretudo consultas de segurança.
+        negacao_const = (bool(re.search(r"\b(javascript|js)\b", n)) and
+                         bool(re.search(r"\b(variavel|const)\b", n)) and
+                         bool(re.search(r"\bnao (?:muda|mudar|altera|alterar)\b", n)))
+        if (not negacao_const and re.search(r"\b(nao|nunca|jamais)\b", n)) or (
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."

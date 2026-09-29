@@ -134,6 +134,46 @@ python -m unittest testes_dialogo -v
 python avaliar_recuperador.py
 ```
 
+## Experimentos de recuperação de programação (PR #8)
+
+A sonda `experimento_programacao_adversarial.py` mede o **recuperador de
+respostas fixas**, não geração de código nem inteligência geral. Identificou
+quatro limitações reais da v0.4: negação descritiva em `const`, paráfrases
+para entrada de dados em Python, JavaScript atuando sobre HTML e distinção de
+`git diff` versus `git commit`. A quinta falha original era um erro
+no próprio teste: `sistema_solar` é uma categoria, não um ID de resposta;
+o esclarecimento foi aceito como resultado correto para a pergunta ampla.
+
+As alterações do experimento são pontuais:
+- Algumas equivalências de consulta são usadas **somente em contexto
+  técnico explícito**, sem alterar a base de exemplos.
+- HTML/CSS podem ser contexto de uma consulta JavaScript, sem exigir que
+  cada entrada tenha todas essas linguagens como áreas próprias.
+- Em uma consulta Git que pede comparar alterações de arquivos, `diff`
+  entra como pista adicional; pedidos explícitos sobre `commit` e `push`
+  não recebem essa pista.
+- A negação descritiva sobre uma variável JavaScript que "não muda" é
+  diferenciada de negações gerais que continuam pedindo esclarecimento.
+
+**Medições reproduzíveis, sem rede neural:**
+- Na sonda de desenvolvimento de 27 casos, o resultado final é **27/27**.
+  Essa sonda orientou os ajustes; **não é teste cego** e inclui a correção
+  de um resultado esperado inválido.
+- Em 12 controles adicionais escritos depois dos ajustes, **11/12**. A
+  pergunta "Como obter informações de quem usa o programa Python?"
+  ainda foi associada a `prog_variavel` em vez de `py_input`. O
+  recuperador continua limitado diante de algumas paráfrases.
+- Nos 278 casos gerais anteriores, sem programação, o resultado permanece
+  **192 acertos, 44 erros e 42 abstenções**; o experimento encerra com erro
+  se os acertos gerais caírem abaixo de 192 ou as respostas erradas subirem
+  acima de 44.
+
+Rode `python experimento_programacao_adversarial.py` para gerar o relatório
+JSON completo; `python -m unittest discover -p 'testes*.py'` inclui os
+testes de regressão semântica. **Os resultados não atestam que o CRIVO
+escreva programas sob demanda**: ele continua recuperando explicações e
+exemplos previamente cadastrados, sem modelos externos.
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.
