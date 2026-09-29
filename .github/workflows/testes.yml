@@ -22,27 +22,32 @@ jobs:
       - name: Testes novos
         run: python -m unittest discover -p 'testes*.py' -v
       - name: Medir generalizacao (amostra de 8 epocas)
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && github.event_name == 'push'
         run: |
           python avaliar_rede.py --epocas 8
           python avaliar_rede.py --epocas 30
           python avaliar_rede.py --epocas 60
           python avaliar_rede.py --epocas 60 --ocultos 48
       - name: Validacao cruzada de todas as perguntas
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && github.event_name == 'push'
         run: |
           python avaliar_rede.py --cruzada --epocas 8
           python avaliar_rede.py --cruzada --epocas 30
           python avaliar_rede.py --cruzada --epocas 60
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48
       - name: Comparar representacoes de portugues
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && github.event_name == 'push'
         run: |
           python avaliar_rede.py --cruzada --epocas 30 --modo palavras
           python avaliar_rede.py --cruzada --epocas 30 --modo misto
           python avaliar_rede.py --cruzada --epocas 30 --modo misto --dimensao 512
       - name: Comparar treinamento e largura da rede mista de 512 dimensoes
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && github.event_name == 'push'
         run: |
           python avaliar_rede.py --cruzada --epocas 60 --modo misto --dimensao 512
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
+      - name: Comparar normalizacao linguistica sem contaminar testes
+        if: matrix.python-version == '3.11' && github.event_name == 'pull_request'
+        run: |
+          python avaliar_rede.py --cruzada --epocas 30 --modo portugues --dimensao 512
+          python avaliar_rede.py --cruzada --epocas 30 --modo portugues_sem_filtro --dimensao 512
