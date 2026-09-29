@@ -25,6 +25,19 @@ class OrdemTestes(unittest.TestCase):
             self.assertNotEqual(x, y)
             self.assertLess(similaridade(x, y), 1.0)
 
+    def test_peso_zero_eh_baseline_bit_a_bit(self):
+        for a, b in PARES:
+            for frase in (a, b):
+                self.assertEqual(
+                    caracteristicas_com_ordem(frase, peso_ordem=0),
+                    caracteristicas(frase, 512, "portugues_sem_filtro"))
+
+    def test_pesos_fracos_preservam_sinal_lexical(self):
+        frase = "o cachorro perseguiu o gato"
+        base = caracteristicas(frase, 512, "portugues_sem_filtro")
+        ordem = caracteristicas_com_ordem(frase, peso_ordem=0.10)
+        self.assertGreater(similaridade(base, ordem), 0.95)
+
     def test_determinismo_e_norma(self):
         x = caracteristicas_com_ordem(PARES[0][0])
         self.assertEqual(x, caracteristicas_com_ordem(PARES[0][0]))
