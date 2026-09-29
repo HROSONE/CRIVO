@@ -68,6 +68,64 @@ python avaliar_definicoes.py
 Os testes e o benchmark continuam sendo **desenvolvimento**, não
 validação independente de acerto em perguntas reais inéditas.
 
+## Comparar conhecimentos: relações entre frutos (PR #17)
+
+A partir dos **mesmos 63 registros** do catálogo botânico, o CRIVO
+agora interpreta questões sobre duas espécies e **compõe uma resposta
+com as características previamente curadas**, em vez de exigir que
+cada par de frutas tenha uma resposta cadastrada manualmente.
+
+Perguntas de demonstração:
+
+```text
+O que banana e uva têm em comum?
+Qual a diferença entre milho e uva?
+Maçã e pera são do mesmo tipo botânico?
+Por que banana e uva são de tipos diferentes?
+Por que tomate e pepino são frutos, mas usados como hortaliças?
+O que feijão e arroz têm em comum?
+Qual a diferença entre manga e mangaba?
+```
+
+Os passos de comparação são explícitos. O motor verifica o **tipo
+botânico** de cada item, detecta igualdade/diferença de grupo,
+apresenta os dois registros e contesta perguntas com uma premissa
+incorreta (por exemplo, banana e uva *não* são de classes botânicas
+diferentes segundo o catálogo; ambas são bagas). Comparar dois itens
+não implica que compartilhem teor nutricional, reações alérgicas,
+segurança alimentar, preço ou sementes idênticas. Solicitações sobre
+propriedades não cadastradas continuam fora do escopo.
+
+A curadoria distingue os produtos vegetais **que comemos** dos frutos
+botânicos: os grãos comestíveis de feijão e amendoim são sementes
+(provenientes de vagens); a parte suculenta do caju é um pedúnculo
+floral, e seu fruto verdadeiro é a castanha. O comparador não afirma
+que todas essas partes consumidas sejam frutos completos. Tampouco
+conclui que todo alimento que não é considerado fruta de sobremesa
+seja uma hortaliça.
+
+**Correção científica:** a cariopse *não contém um grão separado*:
+o **próprio grão de milho** é um fruto seco do tipo cariopse, em que
+o pericarpo (parede do fruto) adere à semente. O registro de
+`cariopse` e a descrição de `milho` foram corrigidos conforme:
+- https://open.lib.umn.edu/horticulture/chapter/8-1-fruit-morphology/
+- https://lod.nal.usda.gov/nalt/en/page/186294
+
+**Reprodutibilidade:** `testes_relacoes_frutas.py` foi registrado
+antes de implementar o mecanismo e inclui testes por pares, premissas
+falsas, perguntas que exigem abstenção, preservação de perguntas
+de programação e a API do chat. O teste combinatório enumera os
+**1.953 pares** distintos de 63 registros
+(`63 × 62 ÷ 2`), sem regras específicas para nomes como "uva"
+ou "milho". Isso demonstra **reutilização da lógica formal**, não
+compreensão universal da língua. Todos os resultados são testes
+de desenvolvimento; não constituem um benchmark cego de inteligência.
+
+```bash
+python -m unittest testes_relacoes_frutas -v
+python -m unittest discover -p 'testes*.py'
+```
+
 ## Interface web para testar no celular
 
 A pasta `public/` contém o chat responsivo do CRIVO, com exemplos
