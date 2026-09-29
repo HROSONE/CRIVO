@@ -174,6 +174,42 @@ testes de regressão semântica. **Os resultados não atestam que o CRIVO
 escreva programas sob demanda**: ele continua recuperando explicações e
 exemplos previamente cadastrados, sem modelos externos.
 
+## Interpretação de entrada do usuário (PR #9)
+
+O recuperador usa um conjunto **restrito de pistas linguísticas** para reconhecer
+quando uma consulta Python descreve pedir/receber informação da pessoa que
+digita no terminal, ainda que não mencione literalmente `input`. Termos
+como "pessoa", "usuário", "digitação" e verbos de solicitação precisam
+formar uma combinação reconhecível. Isso não treina uma nova rede, nem
+gera funções inéditas: o Crivo continua selecionando o exemplo `py_input`
+previamente escrito.
+
+A regra não é aplicada a pedidos sobre formulários web, câmera, APIs,
+WhatsApp e outras interfaces não ensinadas; nesses casos deve admitir que
+não sabe, em vez de exibir o exemplo de entrada pelo terminal. Outra
+correção impede que "informe seu nome" dentro de uma pergunta de
+programação acione a apresentação social do assistente. Perguntas que
+descrevem interações JavaScript com campos HTML recebem pistas de DOM.
+"Funciona" foi tratado como verbo genérico apenas na consulta,
+evitando bloquear um assunto claramente reconhecido por uma palavra
+não cadastrada.
+
+**Métricas de desenvolvimento, não teste cego:**
+- Bateria pré-registrada de 29 perguntas: **19/29 antes**, **29/29 após**.
+- Controles adicionais elaborados depois das primeiras alterações:
+  **23/23** após o ajuste. Esses controles detectaram inicialmente dois
+  falsos positivos (`input` para câmera e formulário web), posteriormente
+  corrigidos.
+- Benchmark histórico de perguntas gerais com pergunta removida do índice:
+  **192/278 corretas, 44 erradas, 42 abstenções**, sem alteração.
+- O relatório detalhado e os testes estão em
+  `experimento_entrada_usuario.py` e `testes_entrada_usuario.py`.
+
+Os resultados foram utilizados para guiar o desenvolvimento e **não
+significam compreensão geral, precisão de 100% fora dessas baterias nem
+capacidade de programar arbitrariamente**. Melhorias posteriores exigem
+casos novos e aferição independente.
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.
