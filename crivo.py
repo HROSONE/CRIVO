@@ -156,6 +156,14 @@ class Crivo:
         caminho_relacoes = caminho.with_name("relacoes.json")
         self.raciocinio = (GrafoRaciocinio.carregar(caminho_relacoes)
                           if caminho_relacoes.is_file() else None)
+        # Conhecimento estruturado e independente da rede neural: o mesmo
+        # arquivo precisa estar junto da base ativa. Bancos temporários sem
+        # o arquivo não herdam nenhuma fruta da instalação padrão.
+        from frutas import ConhecimentoFrutas
+        caminho_frutas = caminho.with_name("frutas.json")
+        self.frutas = (ConhecimentoFrutas.carregar(caminho_frutas)
+                       if caminho_frutas.is_file() else None)
+        self.contexto_frutas = None
         self._agora = agora  # permite fixar a data em testes
         self._indexar()
         self.ultimos = []     # ranking da última pergunta, para "mais"
@@ -700,6 +708,10 @@ class Crivo:
     def responder(self, texto):
         """Devolve (id, resposta)."""
         original = texto
+        # Um fragmento como "E a banana?" utiliza somente o assunto do
+        # turno IMEDIATAMENTE anterior, não um fruto citado muito antes.
+        contexto_frutas_anterior = self.contexto_frutas
+        self.contexto_frutas = None
         n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         # Cumprimentos não devem engolir a pergunta que vem junto.
         prefixo = r"^(?:(?:oi+|ola|bom dia|boa tarde|boa noite|obrigad[oa])\b[!,. :;-]*|por (?:favor|gentileza)[,: ]*)"
@@ -754,6 +766,20 @@ class Crivo:
                 re.search(r"\bsem\b", n) and
                 re.search(r"\b(pode|posso|devo|precisa|seguro|misturar|comer)\b", n)):
             return "duvida", "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+        # O módulo curado responde por propriedades e categorias; não
+        # tenta completar perguntas fora de suas relações cadastradas.
+        if self.frutas is not None:
+            resultado_fruta = self.frutas.responder(original, contexto_frutas_anterior)
+            if resultado_fruta is not None:
+                identificador, resposta, intencao, entidade = resultado_fruta
+                self.esclarecimento = None
+                self.ultimo_assunto = None
+                self.contexto_frutas = ((intencao, entidade)
+                                       if entidade is not None else None)
+                self.historico.append({"pergunta": original, "id": identificador,
+                                       "mecanismo": "conhecimento_frutas"})
+                self.historico = self.historico[-20:]
+                return identificador, resposta
         definicao = self._responder_definicao(n, original)
         if definicao is not None:
             return definicao
