@@ -25,7 +25,7 @@ def caracteristicas(texto, dimensao=256, modo="caracteres"):
         if modo in ("caracteres", "misto"):
             marcada = "^" + palavra + "$"
             for n in (2, 3, 4):
-                unidades.extend("c:" + marcada[i:i+n] for i in range(len(marcada) - n + 1))
+                unidades.extend(marcada[i:i+n] for i in range(len(marcada) - n + 1))
         for unidade in unidades:
             h = 2166136261
             for c in unidade:
