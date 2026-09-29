@@ -32,7 +32,10 @@ def interpretar_referencia(pergunta, resposta_anterior):
     último turno, pede esclarecimento.
     """
     toks = normalizar_termos(pergunta)
-    if not toks or len(toks) > 85:
+    # A normalização é usada somente para correspondência. Na mensagem
+    # exibida preserve o termo original com os acentos do português.
+    superficie = re.findall(r"[a-zA-ZÀ-ÿ0-9]+", pergunta.lower())
+    if not toks or len(toks) > 85 or len(superficie) != len(toks):
         return None
     primeiro = toks[0]
     if primeiro not in ("qual", "quais", "como", "onde", "quando",
@@ -47,11 +50,12 @@ def interpretar_referencia(pergunta, resposta_anterior):
     }
     ignorar = {"que", "qual", "quais", "nome", "tipo", "outra", "outro",
                "mesmo", "mesma", "coisa", "algo", "assunto", "isso", "isto"}
-    alvos = [toks[i + 1] for i, palavra in enumerate(toks[:-1])
+    alvos = [(toks[i + 1], superficie[i + 1])
+             for i, palavra in enumerate(toks[:-1])
              if palavra in demonstrativos and toks[i + 1] not in ignorar]
     if len(alvos) != 1:
         return None
-    alvo = alvos[0]
+    alvo, alvo_exibicao = alvos[0]
     if len(alvo) < 3:
         return None
 
@@ -59,12 +63,12 @@ def interpretar_referencia(pergunta, resposta_anterior):
              normalizar_termos(resposta_anterior or "")}
     if radical_simples(alvo) not in fonte:
         return ("contexto:sem_referencia",
-                "Qual " + alvo + " você quer dizer? Não consegui "
+                "Qual " + alvo_exibicao + " você quer dizer? Não consegui "
                 "identificar esse referente na minha resposta anterior. "
                 "Pode especificar o objeto ou o assunto?")
 
     return ("contexto:detalhe_ausente",
-            "Você está se referindo ao " + alvo +
+            "Você está se referindo ao " + alvo_exibicao +
             " mencionado na minha resposta anterior. "
             "Reconheci o assunto, mas não tenho informação cadastrada "
             "suficiente para responder a esse detalhe com segurança. "
