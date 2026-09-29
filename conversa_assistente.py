@@ -99,10 +99,12 @@ def responder(n, bot, rotulos, anterior=None):
     ):
         return "social:assuntos", capacidades(bot, rotulos)
     if re.fullmatch(
-        r"voce (?:(?:(?:realmente|mesmo) )?(?:pensa|raciocina|sente)|"
+        r"(?:(?:como |o que )?voce (?:(?:realmente|mesmo) )?(?:pensa|raciocina|sente)|"
+        r"como voce (?:funciona|responde|processa respostas)|"
+        r"voce (?:"
         r"(?:consegue|pode|sabe) (?:pensar|raciocinar|sentir)|"
         r"(?:tem|possui) (?:uma )?(?:consciencia|emocoes|sentimentos)|"
-        r"(?:e|eh) (?:uma? )?(?:pessoa|humano|humana|ser humano|consciente|vivo|viva))", n,
+        r"(?:e|eh) (?:uma? )?(?:pessoa|humano|humana|ser humano|consciente|vivo|viva)))", n,
     ):
         return "social:pensamento", processamento(bot)
     curtos = {"so isso", "e so isso", "apenas isso", "e o que mais", "o que mais", "como assim"}
@@ -120,6 +122,6 @@ def pergunta_pessoal(texto):
     """Protege a passagem ao ranking; pedidos factuais foram tratados antes."""
     n = normalizar(texto)
     return bool(re.match(
-        r"^(?:(?:como|por que|quando|onde) )?voce\b|"
+        r"^(?:(?:o que|como|por que|quando|onde) )?voce\b|"
         r"^(?:qual|quais) (?:e |sao )?(?:o |a |os |as )?(?:seu|sua|seus|suas)\b", n,
     ))

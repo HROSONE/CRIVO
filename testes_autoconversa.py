@@ -27,6 +27,8 @@ class TestesAutoconversa(unittest.TestCase):
         self.assertIn("consciência", texto)
 
     def test_variacoes_sobre_processamento_e_experiencia(self):
+        for q in ("O que você sente?", "Como você pensa?", "Como você funciona?"):
+            self.assertEqual(Crivo().responder(q)[0], "social:pensamento")
         for sujeito in ("Você", "vc", "tu"):
             for predicado in ("pensa", "raciocina", "sente", "tem emoções",
                               "tem consciência", "é uma pessoa", "é consciente",
@@ -77,7 +79,8 @@ class TestesAutoconversa(unittest.TestCase):
 
     def test_perguntas_pessoais_desconhecidas_nao_recebem_fatos(self):
         for q in ("Você dorme?", "Vc sonha?", "Tu viaja?", "Você gosta de lâmpadas?",
-                  "Você pensa nas estrelas?", "Como você dorme?"):
+                  "Você pensa nas estrelas?", "Como você dorme?",
+                  "O que você pensa sobre lâmpadas?"):
             with self.subTest(q=q):
                 self.assertEqual(Crivo().responder(q)[0], "social:nao_entendido")
 
