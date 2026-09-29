@@ -133,6 +133,17 @@ def tokens(texto):
     return rs
 
 
+# Ponte lexical restrita às consultas técnicas. Não muda os documentos
+# cadastrados, nem cria respostas: associa formas descritivas a termos já
+# ensinados no currículo. Uma pergunta fora dele continua sem resposta.
+SINONIMOS_CONSULTA_TECNICA = {
+    "coletar": "receber",
+    "informacao": "dados",
+    "digitado": "teclado",
+    "digitada": "teclado",
+    "inspecionar": "comparar",
+}
+
 # ------------------------------------------------------------- modelo ------
 class Crivo:
     def __init__(self, caminho_base=None, agora=None):
@@ -223,7 +234,13 @@ class Crivo:
     def _tokens_consulta(self, texto, vocabulario=None):
         vocabulario = self.idf if vocabulario is None else vocabulario
         resultado = []
+        # Só aplica equivalências técnicas quando a linguagem/ambiente
+        # está explícito; consultas gerais preservam sua tokenização.
+        tecnico = bool(re.search(
+            r"\b(python|javascript|js|git|sql)\b", normalizar(texto)))
         for t in tokens(texto):
+            if tecnico:
+                t = SINONIMOS_CONSULTA_TECNICA.get(t, t)
             if t not in vocabulario and len(t) >= 5:
                 # Só corrigir grafias muito próximas e com candidato único.
                 proximos = difflib.get_close_matches(t, vocabulario, n=2, cutoff=0.88)
@@ -242,6 +259,10 @@ class Crivo:
             "sql": r"\b(sql|sqlite3?)\b", "git": r"\bgit\b",
         }
         linguagens = {nome for nome, padrao in aliases.items() if re.search(padrao, n)}
+        # HTML e CSS podem ser o objeto manipulado por JavaScript, não
+        # linguagens adicionais exigidas do mesmo exemplo. Python + JS,
+        # por outro lado, continua sendo uma consulta multi-linguagem.
+        exigidas = linguagens - {"html", "css"} if "javascript" in linguagens else linguagens
         sem_conteudo = re.search(
             r"\b(java|rust|kotlin|swift|ruby|php|typescript)\b|"
             r"(?<!\w)c(?:\+\+|#)(?!\w)", n)
@@ -261,8 +282,8 @@ class Crivo:
             if e["topico"] != "programacao":
                 continue
             cobertas = set(e.get("linguagens", [e.get("area")]))
-            if linguagens and not linguagens <= cobertas:
-                if not (len(linguagens) == 1 and e.get("area") in (None, "fundamentos")):
+            if exigidas and not exigidas <= cobertas:
+                if not (len(exigidas) == 1 and e.get("area") in (None, "fundamentos")):
                     continue
             if identificadas and i not in identificadas:
                 continue
