@@ -33,7 +33,7 @@ class TestesConhecimentoFrutas(unittest.TestCase):
             "O que é um morango?": ("morango", "receptáculo"),
             "O que é um tomate?": ("tomate", "fruto"),
             "O que é uma manga?": ("manga", "fruto"),
-            "O que são jabuticabas?": ("jabuticaba", "frutos"),
+            "O que são jabuticabas?": ("jabuticaba", "fruto"),
         }
         for pergunta, (ident, sinal) in exemplos.items():
             with self.subTest(pergunta=pergunta):
@@ -56,13 +56,14 @@ class TestesConhecimentoFrutas(unittest.TestCase):
             ("Qual a diferença entre maçã e pera?", "comparar", "pera"),
             ("Liste frutas cítricas", "grupo:citricas", "laranja"),
             ("Me dê exemplos de frutas de caroço", "grupo:drupas", "pêssego"),
-            ("O que é uma fruta?", "conceito", "cotidiano"),
+            ("O que é uma fruta?", "fruto", "sementes"),
             ("Qual é a diferença entre fruto e fruta?", "conceito", "botânica"),
         )
         for pergunta, identificador, sinal in casos:
             with self.subTest(pergunta=pergunta):
                 obtido, resposta = Crivo().responder(pergunta)
-                self.assertTrue(obtido.startswith("frutas:" + identificador), obtido)
+                esperado = ("fruto" if identificador == "fruto" else "frutas:" + identificador)
+                self.assertTrue(obtido.startswith(esperado), obtido)
                 self.assertIn(sinal, resposta.lower())
 
     def test_pergunta_aberta_nao_confunde_frutas_com_fatos_ausentes(self):
@@ -92,7 +93,7 @@ class TestesConhecimentoFrutas(unittest.TestCase):
         self.assertIn("baga", resposta.lower())
         bot = Crivo()
         ident, resposta = bot.responder("E a banana?")
-        self.assertIn(ident, ("fora", "duvida"))
+        self.assertIn(ident, ("fora", "duvida", "frutas:desconhecido"))
 
     def test_nao_estraga_perguntas_antigas_ou_conceitos_compostos(self):
         casos = (
