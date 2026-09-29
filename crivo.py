@@ -130,18 +130,31 @@ class Crivo:
         self.ultimo_assunto = None
         self.rede = None
         self.limiar_rede = 0.80
+        self.erro_rede = None
         pesos = caminho.with_name('rede_crivo.json')
         if pesos.is_file():
-            self.carregar_rede(pesos)
+            try:
+                self.carregar_rede(pesos)
+            except (ValueError, OSError, KeyError, TypeError) as exc:
+                # Pesos antigos ou corrompidos nao devem impedir o chatbot
+                # de funcionar via recuperador de conhecimento.
+                self.erro_rede = str(exc)
 
     def carregar_rede(self, caminho, limiar=0.80):
-        from rede_neural import RedeCrivo
+        from rede_neural import RedeCrivo, assinatura_base, assinatura_regras
         rede = RedeCrivo.carregar(caminho)
         if set(rede.rotulos) != {e["id"] for e in self.base}:
             raise ValueError("Rede incompatível com a base; treine novamente")
+        if (rede.assinatura_base is not None and
+                rede.assinatura_base != assinatura_base(self.base)):
+            raise ValueError("Perguntas da base mudaram; treine a rede novamente")
+        if (rede.assinatura_regras is not None and
+                rede.assinatura_regras != assinatura_regras(rede.modo)):
+            raise ValueError("Regras linguisticas mudaram; treine a rede novamente")
         if not 0 < limiar <= 1:
             raise ValueError("Limiar inválido")
         self.rede = rede
+        self.erro_rede = None
         self.limiar_rede = limiar
 
     def previsao_neural(self, pergunta):
