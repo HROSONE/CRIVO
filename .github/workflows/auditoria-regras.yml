@@ -19,8 +19,11 @@ jobs:
       - name: Testar regras e limites do grafo
         run: python -m unittest testes_raciocinio testes_regras_mistas -v
       - name: Comparar avaliacao geral com grafo realmente carregado
-        run: python avaliar_regras_mistas.py | tee benchmark-regras-mistas.json
-      - name: Publicar relatorio
+        run: |
+          set -o pipefail
+          python avaliar_regras_mistas.py | tee benchmark-regras-mistas.json
+      - name: Publicar relatorio (inclusive ao encontrar regressoes)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: auditoria-regras-mistas
