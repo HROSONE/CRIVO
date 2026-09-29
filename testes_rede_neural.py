@@ -14,6 +14,34 @@ class TesteRedeNeural(unittest.TestCase):
         with self.assertRaises(ValueError):
             caracteristicas("casa", modo="invalido")
 
+    def test_morfologia_portuguesa(self):
+        # Equivalencia por flexao e sinonimo codificados explicitamente.
+        self.assertEqual(
+            caracteristicas("molhar as plantas", modo="portugues"),
+            caracteristicas("regar a planta", modo="portugues"))
+        # Negacoes e interrogativos nao podem desaparecer como palavras vazias.
+        self.assertNotEqual(
+            caracteristicas("regar planta", modo="portugues"),
+            caracteristicas("nao regar planta", modo="portugues"))
+        self.assertNotEqual(
+            caracteristicas("como regar planta", modo="portugues"),
+            caracteristicas("quando regar planta", modo="portugues"))
+        # As duas variantes permitem isolar o efeito de remover ligacoes.
+        self.assertNotEqual(
+            caracteristicas("regar a planta", modo="portugues"),
+            caracteristicas("regar a planta", modo="portugues_sem_filtro"))
+
+    def test_persistencia_modo_portugues(self):
+        rede = RedeCrivo(["plantas", "clima"], dimensao=32, ocultos=4,
+                          modo="portugues")
+        with tempfile.TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "pesos.json"
+            rede.salvar(caminho)
+            restaurada = RedeCrivo.carregar(caminho)
+            self.assertEqual(restaurada.modo, "portugues")
+            self.assertEqual(rede.prever("molhar planta"),
+                             restaurada.prever("molhar planta"))
+
     def test_aprendizado_real(self):
         exemplos = [
             ("regar a planta", "plantas"),
