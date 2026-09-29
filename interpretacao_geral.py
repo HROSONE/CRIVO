@@ -50,7 +50,7 @@ class InterpretadorGeral:
         if NEGACOES.search(n) or n.startswith(("se ", "suponha ", "imagine ")):
             return None
         padroes = (
-            ("comum", r"o que (.+?) e (.+?) (?:tem|possuem) em comum"),
+            ("comum", r"(?:o )?que (.+?) e (.+?) (?:tem|possuem) em comum"),
             ("comum", r"(?:qual (?:e )?a |que )?semelhanca entre (.+?) e (.+)"),
             ("ligacao", r"qual (?:e )?a relacao entre (.+?) e (.+)"),
             ("ligacao", r"como (.+?) se relaciona com (.+)"),
