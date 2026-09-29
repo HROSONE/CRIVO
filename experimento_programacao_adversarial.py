@@ -9,6 +9,8 @@ from crivo import Crivo
 
 # Linguagem explícita, paráfrases, troca de domínio, operadores e pedidos fora
 # do currículo. A intenção esperada é uma hipótese para auditoria manual.
+# A pergunta ampla sobre sistema solar não corresponde a um ID na base;
+# o comportamento seguro é oferecer esclarecimento entre assuntos cadastrados.
 CASOS = [
     ("Como faço para mostrar olá na tela com Python?", "py_print", "parafrase"),
     ("Preciso coletar uma informação digitada em Python", "py_input", "parafrase"),
@@ -36,7 +38,7 @@ CASOS = [
     ("Escreva um driver de placa de vídeo em C++", "fora", "fora_curriculo"),
     ("Implemente uma linguagem de programação completa", "fora", "fora_curriculo"),
     ("Qual é a função da raiz de uma planta?", "partes_planta", "controle"),
-    ("Como funciona o sistema solar?", "sistema_solar", "controle_aberto"),
+    ("Como funciona o sistema solar?", "duvida", "controle_aberto"),
 ]
 
 def executar():
