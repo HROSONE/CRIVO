@@ -210,6 +210,67 @@ significam compreensão geral, precisão de 100% fora dessas baterias nem
 capacidade de programar arbitrariamente**. Melhorias posteriores exigem
 casos novos e aferição independente.
 
+## Raciocínio relacional multissalto (PR #10, experimental)
+
+O CRIVO ganhou um segundo caminho de resposta, separado do recuperador e
+da rede neural: `raciocinio.py` lê os **fatos explícitos** do arquivo
+`relacoes.json` e busca cadeias transitivas em um grafo. O arquivo inicial
+traz **42 entidades e 46 relações revisáveis**, nos tipos `tipo_de`
+(classificação) e `parte_de` (composição). O motor verifica relações por
+busca em largura e devolve a cadeia de evidências mais curta disponível.
+
+Exemplos que **não precisam ser perguntas cadastradas**:
+
+```text
+você > Por que um pinguim é um ser vivo?
+Crivo > Sim. Consigo concluir isso pelas relações cadastradas:
+        pinguim → ave → vertebrado → animal → ser vivo.
+
+você > A Terra faz parte da Via Láctea?
+Crivo > Sim. Consigo concluir isso pelas relações cadastradas:
+        Terra → Sistema Solar → Via Láctea.
+
+você > Um gato é um peixe?
+Crivo > Não tenho uma relação afirmativa cadastrada que permita
+        concluir isso. Isso não significa que a afirmação seja falsa.
+```
+
+**Também aceita um silogismo com premissas hipotéticas no mesmo turno**.
+Use duas afirmações e uma pergunta, separadas por vírgulas ou ponto e
+vírgula. Os termos podem ser completamente inéditos:
+
+```text
+você > Se todo flumbo é blim, todo blim é taro, então flumbo é taro?
+Crivo > Sim, somente se assumirmos as premissas informadas:
+        flumbo → blim → taro. Isso não comprova que as premissas sejam reais.
+```
+
+A hipótese **não altera a base de conhecimento**: vale apenas para aquela
+dedução. Conclusões invertidas não são assumidas. O CRIVO não mistura
+automaticamente `tipo_de` com `parte_de`, não deduz falsidade a partir
+da falta de um caminho, não processa negações hipotéticas e não recebe
+qualquer frase arbitrária como fato. As relações são **curadoria manual**,
+não verdades verificadas automaticamente; erros no cadastro podem produzir
+conclusões erradas. Grafos com ciclos ou apelidos ambíguos são recusados.
+Perguntas fora dos padrões reconhecidos continuam no recuperador anterior.
+
+Para ampliar, acrescente entidades e fatos em `relacoes.json`. O
+motor só utiliza o arquivo na **mesma pasta da base selecionada**:
+bases personalizadas sem esse arquivo não herdam fatos. Testes executam
+cadeias sintéticas inéditas, recusas, isolamento e regressões:
+
+```bash
+python -m unittest testes_raciocinio -v
+python -m unittest discover -p 'testes*.py'
+python crivo.py --teste
+```
+
+**Limite fundamental:** inferir relações declaradas, inclusive entre
+premissas novas, é um avanço de composição simbólica; **não comprova
+compreensão livre de linguagem, descoberta factual, raciocínio geral ou
+capacidade de escrever programas completos**. A rede neural de classificação
+não recebe essas relações automaticamente como treino.
+
 ## Treinamento da rede neural propria (experimental)
 
 A rede `RedeCrivo` e uma MLP original em Python puro, inicializada sem pesos pre-treinados. **Classifica intenções, não gera respostas abertas.** O recuperador do chatbot continua responsavel pelas respostas. O classificador neural, mesmo carregado, so e usado quando concorda com o recuperador e supera os limiares atuais; portanto, um benchmark neural melhor **nao garante** melhora no chatbot final.
