@@ -1,0 +1,27 @@
+name: Auditoria de regras mistas
+on:
+  pull_request:
+    paths:
+      - 'raciocinio.py'
+      - 'relacoes.json'
+      - 'testes_regras_mistas.py'
+      - 'avaliar_regras_mistas.py'
+      - '.github/workflows/auditoria-regras.yml'
+  workflow_dispatch:
+jobs:
+  auditoria:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Testar regras e limites do grafo
+        run: python -m unittest testes_raciocinio testes_regras_mistas -v
+      - name: Comparar avaliacao geral com grafo realmente carregado
+        run: python avaliar_regras_mistas.py | tee benchmark-regras-mistas.json
+      - name: Publicar relatorio
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-regras-mistas
+          path: benchmark-regras-mistas.json
