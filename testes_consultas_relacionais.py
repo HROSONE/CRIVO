@@ -229,6 +229,14 @@ class TestesConsultasRelacionais(unittest.TestCase):
         self.assertEqual(r[0], "planetas")
         self.assertIn("Netuno", r[1])
 
+    def test_lista_editorial_exige_cobertura_exata(self):
+        for q, esperado in (("Liste os planetas", "planetas"),
+                            ("Mostre animais que são mamíferos", "mamifero")):
+            self.assertEqual(Crivo().responder(q)[0], esperado)
+        # As explicações gerais não cobrem as condições adicionais.
+        self.assertEqual(Crivo().responder("Quais planetas a Lua orbita?")[0], "logica:consulta")
+        self.assertEqual(Crivo().responder("Quais mamíferos orbitam o Sol?")[0], "logica:desconhecido")
+
 
 if __name__ == "__main__":
     unittest.main()

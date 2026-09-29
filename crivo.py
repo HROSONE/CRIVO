@@ -910,6 +910,27 @@ class Crivo:
         consulta = self.consultas_relacionais.responder(texto, contexto_consulta_anterior)
         if consulta is not None:
             ident, resposta, self.contexto_consulta = consulta
+            # Uma lista editorial pode cobrir EXATAMENTE um conjunto de
+            # classes e ser mais completa que o grafo parcial. A cobertura
+            # é declarada nos dados; não se decide por similaridade lexical.
+            if ident == "logica:consulta":
+                plano = self.consultas_relacionais.analisar(texto, contexto_consulta_anterior)
+                if (plano.sujeito is None and plano.candidatos is None and
+                        all(c.relacao == "tipo_de" and not c.inversa and
+                            not c.negativa for c in plano.condicoes)):
+                    classes = {c.alvo for c in plano.condicoes}
+                    fontes = [i for i, e in enumerate(self.base)
+                              if any(set(cobertura) == classes for cobertura
+                                     in e.get("listas_relacionais", []))]
+                    if len(fontes) == 1:
+                        self.contexto_consulta = None
+                        self.ultimos = [(1.0, fontes[0])]
+                        resultado = self._registrar(fontes[0], original)
+                        self.historico[-1]["mecanismo"] = "lista_editorial"
+                        return resultado
+                    if len(fontes) > 1:
+                        self.contexto_consulta = None
+                        return "duvida", "Há listas editoriais conflitantes para essa consulta. Pode especificar?"
             self.esclarecimento = None
             self.ultimo_assunto = None
             self.historico.append({"pergunta": original, "id": ident,

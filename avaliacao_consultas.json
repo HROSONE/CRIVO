@@ -21,12 +21,12 @@
     },
     "depois": {
       "total": 278,
-      "acertos": 190,
-      "erradas": 44,
+      "acertos": 192,
+      "erradas": 42,
       "abstencoes": 44,
       "ranking_acertos": 210
     },
-    "interpretacao": "Mede coincidência de IDs, não verdade factual. Duas perguntas com resposta editorial removida passam a listas parciais com prova (planetas e mamíferos). Não é alegação de ganho na precisão geral."
+    "interpretacao": "Preservadas 192 coincidências de IDs na coorte de 278 perguntas. Listas editoriais cobrem classes explicitamente declaradas nos dados; condições adicionais continuam exigindo provas do grafo. Avaliação de desenvolvimento, não teste cego."
   },
   "casos": [
     {
@@ -328,5 +328,6 @@
       "passou_antes": false,
       "passou_depois": true
     }
-  ]
+  ],
+  "correcao_ci": "A primeira versão perdeu duas coincidências de IDs ao preferir listas parciais. A cobertura editorial explícita preserva os textos completos e passa a auditoria de definições sem afrouxar seus limites."
 }

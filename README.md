@@ -37,14 +37,13 @@ usam grafos fictícios com nomes novos, condições em ordens diferentes,
 órbitas não transitivas, isolamento de bases e integração da API.
 O comparativo reproduzível está em `avaliacao_consultas.json`.
 
-Na avaliação histórica de 278 perguntas, retiradas do índice na rodada,
-duas respostas passam a usar IDs de listas comprovadas em vez dos IDs
-editoriais esperados (planetas e mamíferos). Assim, a coincidência literal
-de IDs do caminho com grafo passa de 192 para 190; isso **não demonstra
-melhora na precisão geral**. As listas explicitam que o grafo é parcial
-e podem conter menos exemplos que o texto editorial. No uso normal, as
-perguntas exatas cadastradas mantêm prioridade, inclusive a lista completa
-dos oito planetas. Nenhum fato novo ou modelo externo foi acrescentado.
+Listas editoriais podem declarar, em `listas_relacionais`, exatamente
+quais classes cobrem. Quando a consulta pede só essas classes, o CRIVO
+preserva o texto editorial mais completo (como os oito planetas). Uma
+condição extra exige a consulta estruturada; semelhança lexical não
+substitui essa verificação. A correção mantém as 192 coincidências de IDs
+na coorte histórica de 278 perguntas. Não é alegação de precisão geral
+maior. Nenhum fato novo ou modelo externo foi acrescentado nesta etapa.
 
 ```bash
 python -m unittest testes_consultas_relacionais -v
