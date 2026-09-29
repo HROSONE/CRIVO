@@ -46,11 +46,17 @@ def responder_web(payload):
         mecanismo = bot.historico[-1].get("mecanismo", "recuperador")
     if identificador.startswith("logica:") and mecanismo == "recuperador":
         mecanismo = "raciocinio_relacional"
+    provas_efetivas = {
+        "logica:tipo_de", "logica:parte_de", "logica:orbita",
+        "logica:tem_caracteristica", "logica:negacao_comprovada",
+        "logica:hipotese", "logica:comum", "logica:ligacao",
+    }
     return {
         "id": identificador,
         "response": resposta,
         "mechanism": mecanismo,
         "neural_active": bot.rede is not None,
-        "has_proof": identificador.startswith("logica:") or
-                     "Relações verificadas:" in resposta,
+        # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
+        "has_proof": (identificador in provas_efetivas or
+                      "Relações verificadas:" in resposta),
     }
