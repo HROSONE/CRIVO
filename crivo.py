@@ -393,7 +393,7 @@ class Crivo:
         """
         n = normalizar(texto).strip().strip("?.,;! ")
         expressoes = (
-            r"(?:(?:poderia|pode) me explicar |explique )?o que (?:e|eh) (.+)",
+            r"(?:e\s+)?(?:(?:poderia|pode) me explicar |explique )?o que (?:e|eh|sao) (.+)",
             r"o que significa (.+)",
             r"defina (.+)",
             r"(?:qual e a |qual a )definicao de (.+)",
