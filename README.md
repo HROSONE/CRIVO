@@ -4,6 +4,69 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Evolução integrada: pedidos, evidências e continuidade
+
+`planejamento_conversa.py` divide um pedido em até seis etapas e executa
+suas dependências na ordem pedida. Uma etapa pode explicar, buscar um detalhe,
+mostrar funcionamento/função/exemplo, comparar, aprofundar, reformular,
+simplificar, resumir, organizar em tópicos ou citar fontes. Os nomes e fatos
+vêm da base ativa; os operadores não contêm entidades dos testes.
+
+```text
+Explique DNA e RNA; compare os dois; depois resuma tudo isso
+O que é sinapse? E como funciona? Mostre as fontes
+Como usar input em Python? Depois reformule
+Sobre sinapse, explique neurotransmissores; depois resuma
+```
+
+A busca de detalhes usa um índice de unidades factuais com saturação de
+frequência e normalização de comprimento (BM25). Primeiro se resolve o
+**nome inteiro do assunto**; depois todos os termos de conteúdo do detalhe
+precisam ter correspondência na mesma evidência. A busca não resolve nomes
+por aproximação, não atravessa bases e não transforma similaridade em causa
+ou prova. Ela usa apenas fatos já cadastrados. O recuperador global anterior
+permanece ativo; experiências que aumentavam respostas erradas não o substituem.
+Referência do algoritmo: [Robertson e Zaragoza, BM25 and Beyond](https://doi.org/10.1561/1500000019).
+
+Uma resposta parcialmente atendida explicita a etapa sem evidência. Exemplos
+ausentes não são inventados. Comparações usam os contrastes curados quando
+existem; nos demais pares, apresentam as definições disponíveis. Resumos
+conservam números, condições, negações e avisos das unidades apresentadas.
+Código e provas mantêm seu conteúdo. O formato `em uma frase` combina as
+unidades preservadas com ponto e vírgula, sem cortar um aviso para caber.
+
+`o primeiro`, `o segundo`, `o último` e correções como `Não, quis dizer RNA`
+usam os assuntos em foco. Referências singulares ambíguas oferecem uma escolha;
+`sim` não escolhe por conta própria. Saudações, cancelamento, ensino de conteúdo
+e recusas sem contexto encerram esse foco. Um relato seguido de pergunta
+continua sendo uma consulta, e perguntas editoriais exatas preservam sua resposta.
+
+As etapas reutilizam os motores em cópias isoladas do estado e atualizam a
+conversa uma vez. A API mantém o replay de até dez perguntas, sem memória
+compartilhada entre usuários. O campo de saída `plan` identifica as etapas
+atendidas, lacunas e unidades de origem com suas fontes. Não é aceito como entrada.
+
+`avaliar_evolucao_integrada.py` define **152 contratos** antes de consultar
+as respostas, com oito nomes fictícios, pedidos compostos, detalhes, limites,
+referências, correções, esclarecimento e controles negativos. A referência
+`ba4e803` acerta **57/152**, e a evolução **152/152**. Os nomes e formatos se
+repetem: são contratos de desenvolvimento, não 152 observações independentes
+de linguagem geral nem avaliação externa cega. A rede não carrega essa sonda.
+As regressões também percorrem os 44 conceitos científicos, preservação de
+fontes, provas e código, reprodução HTTP e reindexação após ensino.
+
+O comparativo e as verificações estão em `avaliacao_evolucao_integrada.json`.
+O CI reprova qualquer falha nessa sonda, além dos contratos anteriores.
+
+```bash
+python avaliar_evolucao_integrada.py
+python -m unittest testes_evolucao_integrada -v
+```
+
+Continua sendo um assistente com redes autorais e realização controlada,
+sem modelo pronto de terceiros ou geração irrestrita. Esta entrega amplia
+o fluxo inteiro da conversa; conhecimento ausente continua ausente.
+
 ## Generalização: partições e referência auditáveis
 
 `benchmark_generalizacao.json` contém 300 perguntas em 30 famílias de
@@ -43,12 +106,15 @@ operadores técnicos fora dos intervalos e sufixos não interpretados bloqueiam
 o fallback. Uma restrição gramatical distingue o predicado negativo do pedido
 de qualificadores do nome, como `rede não circular`.
 
-`curriculo_linguagem_neural.json` foi ampliado de 1.789 para 2.415 exemplos de treino para 12 atos
+`curriculo_linguagem_neural.json` contém 4.029 exemplos de treino para 12 atos
 e 77 exemplos de validação, com famílias e alvos disjuntos. A comparação
 controlada usa as mesmas épocas, arquitetura, semente e rótulos com/sem
-atributos de ordem. Na mesma validação do modelo, continuam 75/77 atos e os
-quadros completos passam de 59/77 para 75/77; a representação sem ordem
-retreinada acerta 66/77 atos. Isso mede esta
+atributos de ordem. Na mesma validação do modelo, os atos passam de 75/77 para
+77/77 e os quadros completos de 75/77 para 77/77; a representação sem ordem
+retreinada acerta 68/77 atos. O currículo anterior tinha 2.415 exemplos.
+Os novos exemplos cruzam referentes de edição, sujeitos e formas de retorno;
+as 77 frases de validação foram preservadas e não entram no gradiente.
+Isso mede esta
 validação autoral, não entendimento universal.
 
 A integração é complementar aos motores sociais, relatos, correções e
@@ -85,7 +151,8 @@ Referência: `b7f43f072636846a23066f41696f774e905cab18`. A validação de 77
 casos foi preservada, sem copiar suas frases para o treino. Nesta validação,
 os oito quadros de retomada passam de **0/8 para 8/8** e as definições de
 **16/24 para 24/24**, preservando **8/8 comparações e 8/8 pedidos negados**.
-Os dois erros de ato restantes são resumo e tópicos; este ajuste não os resolve.
+Os dois erros de ato desta referência eram resumo e tópicos; a evolução
+integrada acima os resolve na mesma validação.
 
 `avaliar_retomada.py` confere quatro formas de pedido, nomes fora do treino,
 troca de tema, saudações, qualificadores, cancelamento, isolamento e fontes no

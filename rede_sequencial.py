@@ -43,6 +43,8 @@ FLEXOES = {
     "pedir": "pedido", "pedi": "pedido", "solicitei": "pedido", "solicitar": "pedido",
     "queria": "quero", "gostaria": "quero", "quer": "quero", "desejo": "quero",
     "este": "esse", "esta": "essa", "dessa": "essa", "desse": "esse",
+    "organizada": "organizado", "organizadas": "organizado", "organizados": "organizado",
+    "numa": "em", "num": "em", "anteriores": "anterior",
 }
 
 

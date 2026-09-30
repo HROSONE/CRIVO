@@ -61,7 +61,11 @@ def treinar(caminho, destino, epocas=70, semente=42, acelerar=False):
     sem_ordem.treinar([(atributos_frase(c["texto"], ordem=False, estruturais=estruturais), c["ato"]) for c in treino],
                      epocas=epocas, semente=semente, acelerar=acelerar)
     tags = RedeSequencial(["O", "B1", "I1", "B2", "I2"], semente=semente)
-    tags.treinar([e for c in treino for e in exemplos_tags(c, tags.dimensao, estruturais)],
+    # As retomadas são poucas em relação a definições/edições. Repetir os
+    # exemplos de treino desta operação sustenta os limites do argumento;
+    # não muda limiares nem usa casos de validação no gradiente.
+    tags.treinar([e for c in treino for _ in range(2 if c["ato"] == "retomar" else 1)
+                  for e in exemplos_tags(c, tags.dimensao, estruturais)],
                  epocas=max(25, epocas//2), semente=semente, acelerar=acelerar)
     checkpoint = dict(versao=1, atributos=VERSAO_ATRIBUTOS, assinatura_atributos=assinatura_atributos(),
                       atos=ordem.dados(), tags=tags.dados(),
@@ -70,6 +74,7 @@ def treinar(caminho, destino, epocas=70, semente=42, acelerar=False):
                       treino=dict(semente=semente, epocas=epocas, exemplos=len(treino),
                                   familias=len({c["familia"] for c in treino}),
                                   acelerador="numpy" if acelerar else "python"))
+    checkpoint["treino"]["balanceamento_slots"] = "retomar:2; demais:1"
     rede = LinguagemNeural(checkpoint)
     relatorio = dict(semente=semente, epocas=epocas, assinatura_treino=assinatura(treino),
                      treino=avaliar_quadros(rede, treino), validacao=avaliar_quadros(rede, validacao),

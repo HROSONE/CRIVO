@@ -85,6 +85,35 @@ VALIDACAO = {
     "outro": ["Se {alvo} existisse em outra dimensão, qual seria sua massa?"],
 }
 
+# Construções de edição com referentes variáveis. Não copiam frases de
+# validação e não pressupõem que a resposta anterior contenha algum assunto.
+# Reduzem a desproporção entre centenas de definições e poucos pedidos de edição.
+REFERENTES_EDICAO = ("o texto", "essa resposta", "esse conteúdo", "a mensagem", "o parágrafo", "esse trecho", "o comentário", "essa ideia",
+                    "a explicação", "o texto anterior", "a mensagem anterior", "o conteúdo de antes")
+EDICOES = {
+    "resumir": ("Encurte {referente}.", "Faça {referente} ficar mais breve.", "Sintetize {referente}.",
+                "Reduza {referente} ao essencial.", "Quero um resumo de {referente}.", "Dê uma versão compacta de {referente}."),
+    "topicos": ("Organize {referente} em uma lista.", "Separe {referente} em itens.", "Quero {referente} organizado em tópicos.",
+                "Faça uma lista com {referente}.", "Mostre {referente} dividido em pontos.", "Liste as ideias de {referente}.",
+                "Gostaria de ver {referente} em itens.", "Deixe {referente} numa lista de pontos.", "Apresente {referente} organizado em uma lista."),
+    "reformular": ("Reescreva {referente} de outro modo.", "Mude as palavras de {referente}.", "Reformule {referente} mantendo o sentido.",
+                   "Quero outra redação para {referente}.", "Diga {referente} com palavras diferentes.", "Apresente outra maneira de dizer {referente}."),
+    "simplificar": ("Simplifique {referente}.", "Quero {referente} mais fácil de entender.", "Deixe {referente} em linguagem simples.",
+                    "Explique {referente} sem jargão.", "Torne {referente} mais acessível.", "Escreva {referente} de um jeito simples."),
+    "fontes": ("Cite as referências de {referente}.", "Qual é a origem de {referente}?", "Mostre as fontes de {referente}.",
+               "De onde você tirou {referente}?", "Quero saber de onde veio {referente}.", "Indique a referência de {referente}."),
+}
+for ato, moldes in EDICOES.items():
+    TREINO[ato].extend(molde.format(referente=referente) for molde in moldes for referente in REFERENTES_EDICAO)
+
+# Os limites do nome precisam resistir a posições e sujeitos diferentes.
+# Combinações estruturais com nomes variáveis, sem frases da sonda de retomada.
+SUJEITOS_RETORNO = ("A gente pode ", "A gente gostaria de ", "Agora vamos ", "Será que dá para ",
+                    "Antes de continuar vamos ", "Eu desejo ", "Você conseguiria ")
+FORMAS_RETORNO = ("retomar a conversa sobre {alvo}.", "voltar a falar de {alvo}.", "retomar {alvo}.",
+                  "voltar ao tema {alvo}.", "voltar à discussão de {alvo}.", "retomar o tema de {alvo}.")
+TREINO["retomar"].extend(sujeito+forma for sujeito in SUJEITOS_RETORNO for forma in FORMAS_RETORNO)
+
 NOMES_TREINO = ["neurônio", "sinapse", "memória", "hipocampo", "DNA", "RNA", "Andrômeda",
     "gravidade", "internet", "neuroplasticidade", "API", "Xenofluxo", "campo de luminância",
     "rede de sinais", "módulo de QZX", "grande esfera opaca", "energia hipotética rara",
