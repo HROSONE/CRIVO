@@ -34,16 +34,21 @@ auditável, não consulta saídas do bot nem é chamado durante o treinamento.
 
 `rede_sequencial.py` implementa uma MLP autoral com palavras, fragmentos,
 bigramas/trigramas ordenados e posição. `rede_linguagem.json` contém dois
-conjuntos de pesos treinados do zero: operação e confiança dos spans.
+conjuntos de pesos treinados do zero: operação e marcação dos spans.
 O léxico funcional normaliza flexões; nomes variáveis são abstraídos para
-reduzir a memorização de assuntos. O decoder aplica continuidade, direção
-dos argumentos e conservação de todo o conteúdo, com posições no original.
+reduzir a memorização de assuntos. O decoder usa os pesos B/I/O para escolher
+intervalos contínuos, preservando a direção dos argumentos e as posições no
+original. Termos desconhecidos precisam ficar dentro dos argumentos;
+operadores técnicos fora dos intervalos e sufixos não interpretados bloqueiam
+o fallback. Uma restrição gramatical distingue o predicado negativo do pedido
+de qualificadores do nome, como `rede não circular`.
 
-`curriculo_linguagem_neural.json` tem 1.789 exemplos de treino para 12 atos
+`curriculo_linguagem_neural.json` foi ampliado de 1.789 para 2.415 exemplos de treino para 12 atos
 e 77 exemplos de validação, com famílias e alvos disjuntos. A comparação
 controlada usa as mesmas épocas, arquitetura, semente e rótulos com/sem
-atributos de ordem. Na validação do modelo, são 75/77 atos e 59/77 quadros
-completos; a representação sem ordem acerta 69/77 atos. Isso mede esta
+atributos de ordem. Na mesma validação do modelo, continuam 75/77 atos e os
+quadros completos passam de 59/77 para 75/77; a representação sem ordem
+retreinada acerta 66/77 atos. Isso mede esta
 validação autoral, não entendimento universal.
 
 A integração é complementar aos motores sociais, relatos, correções e
@@ -52,6 +57,12 @@ conteúdo não é aplicada. Condições não atendidas pedem esclarecimento;
 negação do pedido é distinguida de “não sei”. O histórico registra a
 mensagem original e `quadro_neural`. É possível comparar com o comportamento
 anterior usando `Crivo(usar_linguagem_neural=False)`.
+
+Retomadas explícitas conservadas recebem prioridade quando o nome inteiro
+corresponde a um registro na memória recente. Assim, uma resposta recuperada
+sobre o mesmo tema não substitui a operação pedida, inclusive em bases
+personalizadas. Pedidos negados, citações e blocos de código não reabrem
+um assunto por esse caminho. A validade e o isolamento da memória são mantidos.
 
 Na validação do assistente, o ganho é **20/60 → 60/60 perguntas** e
 **10/20 → 20/20 diálogos**, sobre o mesmo oráculo revisado de gravidade.
@@ -67,6 +78,30 @@ NumPy é opcional para acelerar o treino; inferência e testes funcionam com
 Python padrão 3.8+. Nenhum modelo pronto é usado. A MLP original de assuntos
 e seu checkpoint permanecem intactos. Assinaturas dos exemplos e dos
 atributos bloqueiam pesos incompatíveis após uma mudança de representação.
+
+### Extração e retomadas: comparação reproduzível
+
+Referência: `b7f43f072636846a23066f41696f774e905cab18`. A validação de 77
+casos foi preservada, sem copiar suas frases para o treino. Nesta validação,
+os oito quadros de retomada passam de **0/8 para 8/8** e as definições de
+**16/24 para 24/24**, preservando **8/8 comparações e 8/8 pedidos negados**.
+Os dois erros de ato restantes são resumo e tópicos; este ajuste não os resolve.
+
+`avaliar_retomada.py` confere quatro formas de pedido, nomes fora do treino,
+troca de tema, saudações, qualificadores, cancelamento, isolamento e fontes no
+replay HTTP. A mesma sonda antes/depois apresenta **6/12 → 12/12 quadros**,
+**4/12 → 12/12 diálogos** e **6/7 → 7/7 controles**. São verificações de
+desenvolvimento, não uma avaliação cega ou evidência de conversa universal.
+As perguntas e diálogos de validação do assistente continuam em 60/60 e 20/20.
+O teste final não foi executado neste ajuste.
+
+O comparativo está em `avaliacao_retomada_neural.json`. O CI executa os
+contratos de regressão e reprova qualquer falha na sonda de retomadas.
+
+```bash
+python avaliar_retomada.py
+python -m unittest testes_retomada_neural -v
+```
 
 ## Conversação flexível, reformulação e memória recente
 
