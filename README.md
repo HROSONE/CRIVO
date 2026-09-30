@@ -30,6 +30,44 @@ python -m unittest testes_generalizacao -v
 O gerador em `scripts/gerar_benchmark_generalizacao.py` é uma especificação
 auditável, não consulta saídas do bot nem é chamado durante o treinamento.
 
+## Rede própria para operações de linguagem
+
+`rede_sequencial.py` implementa uma MLP autoral com palavras, fragmentos,
+bigramas/trigramas ordenados e posição. `rede_linguagem.json` contém dois
+conjuntos de pesos treinados do zero: operação e confiança dos spans.
+O léxico funcional normaliza flexões; nomes variáveis são abstraídos para
+reduzir a memorização de assuntos. O decoder aplica continuidade, direção
+dos argumentos e conservação de todo o conteúdo, com posições no original.
+
+`curriculo_linguagem_neural.json` tem 1.789 exemplos de treino para 12 atos
+e 77 exemplos de validação, com famílias e alvos disjuntos. A comparação
+controlada usa as mesmas épocas, arquitetura, semente e rótulos com/sem
+atributos de ordem. Na validação do modelo, são 75/77 atos e 59/77 quadros
+completos; a representação sem ordem acerta 69/77 atos. Isso mede esta
+validação autoral, não entendimento universal.
+
+A integração é complementar aos motores sociais, relatos, correções e
+quadros já reconhecidos. Uma interpretação incerta ou que descarte algum
+conteúdo não é aplicada. Condições não atendidas pedem esclarecimento;
+negação do pedido é distinguida de “não sei”. O histórico registra a
+mensagem original e `quadro_neural`. É possível comparar com o comportamento
+anterior usando `Crivo(usar_linguagem_neural=False)`.
+
+Na validação do assistente, o ganho é **20/60 → 60/60 perguntas** e
+**10/20 → 20/20 diálogos**, sobre o mesmo oráculo revisado de gravidade.
+O teste final permanece reservado. `avaliacao_linguagem_neural.json` e
+`avaliacao_generalizacao_linguagem.json` registram as métricas e limites.
+
+```bash
+python treinar_linguagem.py --numpy
+python -m unittest testes_linguagem_neural -v
+```
+
+NumPy é opcional para acelerar o treino; inferência e testes funcionam com
+Python padrão 3.8+. Nenhum modelo pronto é usado. A MLP original de assuntos
+e seu checkpoint permanecem intactos. Assinaturas dos exemplos e dos
+atributos bloqueiam pesos incompatíveis após uma mudança de representação.
+
 ## Conversação flexível, reformulação e memória recente
 
 `linguagem_conversa.py` interpreta operações de linguagem antes de consultar

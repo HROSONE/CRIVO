@@ -144,7 +144,7 @@ class Conversacao:
     MAX_LEMBRANCAS = 8
     MAX_INTERVALO = 10
 
-    def __init__(self, caminho=None):
+    def __init__(self, caminho=None, usar_neural=True):
         caminho = caminho or Path(__file__).with_name("conhecimento_linguagem.json")
         self.regras = carregar_gramatica(str(Path(caminho).resolve()))
         self.lembrancas = deque(maxlen=self.MAX_LEMBRANCAS)
@@ -152,8 +152,56 @@ class Conversacao:
         self.situacoes = deque(maxlen=self.MAX_LEMBRANCAS)
         self.turno = self.variante = self.etapa = 0
         self.pendente = self.assunto = self.objetivo = None
+        self.usar_neural = usar_neural
+        self.ultimo_quadro_neural = None
+        self.erro_neural = None
 
-    def analisar(self, texto):
+    def _analisar_neural(self, texto):
+        if not self.usar_neural:
+            return None
+        caminho = Path(__file__).with_name("rede_linguagem.json")
+        if not caminho.is_file():
+            return None
+        try:
+            from linguagem_neural import carregar
+            rede = carregar(str(caminho.resolve()), caminho.stat().st_mtime_ns)
+            q = rede.analisar(texto)
+        except (ValueError, KeyError, TypeError, OSError) as exc:
+            self.erro_neural = str(exc)
+            return None
+        if (q is None or q.ato == "outro" or q.confianca < rede.limiar or
+                q.margem < .15 or not q.conservado or q.confianca_spans < .15):
+            return None
+        from rede_sequencial import palavras, token_estrutura
+        operadores = {token_estrutura(t, rede.estruturais) for t, _, _ in palavras(texto)}
+        evidencias = {"definir": {"definicao", "significado", "entender", "explicar", "que", "termo", "nome"},
+                     "funcionamento": {"funciona"}, "funcao": {"funcao", "serve"},
+                     "comparar": {"diferenca", "comparacao", "igual"},
+                     "negado": {"definicao", "explicar", "fale", "pedido"}}
+        if q.ato in evidencias and not operadores & evidencias[q.ato]:
+            return None
+        self.ultimo_quadro_neural = q._asdict()
+        if q.negacao_pedido:
+            return Ato("negado_neural", "consulta", q.alvo, texto)
+        if q.condicao:
+            return Ato("condicional_neural", "consulta", q.alvo, texto)
+        formatos = {"reformular": "reformulacao", "simplificar": "simples",
+                    "resumir": "resumo", "topicos": "topicos", "fontes": "fontes"}
+        if q.ato in formatos:
+            if q.alvo or q.outro:
+                return None
+            return Ato(q.ato, "transformar", formato=formatos[q.ato])
+        if q.ato == "retomar" and q.alvo:
+            return Ato("retomar", "retomar", q.alvo)
+        canonicos = {"definir": "o que é ", "funcionamento": "como funciona ",
+                     "funcao": "qual é a função de "}
+        if q.ato in canonicos and q.alvo and not q.outro:
+            return Ato(q.ato, "consulta", q.alvo, canonicos[q.ato] + q.alvo)
+        if q.ato == "comparar" and q.alvo and q.outro:
+            return Ato(q.ato, "consulta", q.alvo, "qual é a diferença entre " + q.alvo + " e " + q.outro)
+        return None
+
+    def analisar(self, texto, usar_neural=True):
         # Nomes técnicos e operadores são preservados pela normalização do
         # compositor. Código e citações seguem para seus motores originais.
         if not isinstance(texto, str) or len(texto) > 1200 or any(c in texto for c in ('`', '"', '“', '”')):
@@ -196,7 +244,7 @@ class Conversacao:
                                canonico.format(**campos), estilo or formato)
         if estilo:
             return Ato("estilo", "consulta", consulta=n, formato=estilo)
-        return None
+        return self._analisar_neural(texto) if usar_neural else None
 
     def _atual(self, bot):
         ctx = bot.contexto_textual
@@ -253,6 +301,7 @@ class Conversacao:
 
     def preparar(self, texto, bot):
         self.turno += 1
+        self.ultimo_quadro_neural = None
         self.lembrancas = deque((l for l in self.lembrancas
                                 if self.turno - l.turno <= self.MAX_INTERVALO), maxlen=self.MAX_LEMBRANCAS)
         self.situacoes = deque((s for s in self.situacoes if self.turno - s[4] <= self.MAX_INTERVALO),
@@ -260,10 +309,22 @@ class Conversacao:
         escolha = self._escolher(texto, bot)
         if escolha is not None:
             return escolha
-        ato = self.analisar(texto)
+        ato = self.analisar(texto, usar_neural=False)
         if ato is None:
             relato = self._relato(texto)
-            return Preparacao(Ato("relato", "dialogar"), relato) if relato else None
+            if relato:
+                return Preparacao(Ato("relato", "dialogar"), relato)
+            return None
+        return self.preparar_ato(ato, bot)
+
+    def preparar_ato(self, ato, bot):
+        """Executa um quadro já selecionado, sem avançar o turno novamente."""
+        if ato.nome == "negado_neural":
+            return Preparacao(ato, ("linguagem:negado",
+                "Entendi que você não pediu essa explicação. Qual é o pedido que quer fazer?", None, ""))
+        if ato.nome == "condicional_neural":
+            return Preparacao(ato, ("duvida", "Esse pedido inclui uma condição que preciso esclarecer. "
+                "Pode explicar a condição: “" + self.ultimo_quadro_neural["condicao"] + "”?", None, ""))
         atual = self._atual(bot)
         if ato.operacao == "consulta":
             if ato.nome in ("funcionamento", "funcao") and normalizar(ato.alvo) in ("", "isso", "ele", "ela", "essa coisa"):
