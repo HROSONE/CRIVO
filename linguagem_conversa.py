@@ -14,7 +14,7 @@ from string import Formatter
 from typing import NamedTuple
 
 from composicao_textual import ContextoTexto, normalizar
-from conversa_assistente import preparar_conversa, identificar_contato
+from conversa_assistente import preparar_conversa, identificar_contato, responder_contato
 
 
 class Ato(NamedTuple):
@@ -155,6 +155,10 @@ class Conversacao:
         self.usar_neural = usar_neural
         self.ultimo_quadro_neural = None
         self.erro_neural = None
+        from dialogo_aberto import DialogoAberto
+        self.dialogo = DialogoAberto(usar_neural=usar_neural)
+        from raciocinio_dialogo import RaciocinioDialogo
+        self.raciocinio_dialogo = RaciocinioDialogo()
 
     def _analisar_neural(self, texto):
         if (not self.usar_neural or not isinstance(texto, str) or len(texto) > 1200 or
@@ -311,7 +315,10 @@ class Conversacao:
             self.pendente = None
             if ato.operacao == "consulta":
                 nome = bot.compositor.itens[ident]["nome"]
-                consulta = ("como funciona " if ato.nome == "funcionamento" else "qual é a função de ") + nome
+                if ato.nome == "comparacao_eliptica":
+                    consulta = "qual é a diferença entre " + nome + " e " + ato.alvo
+                else:
+                    consulta = ("como funciona " if ato.nome == "funcionamento" else "qual é a função de ") + nome
                 return Preparacao(ato._replace(alvo=nome, consulta=consulta))
             pares = tuple(p for p in ctx.exibidos if p[0] == ident)
             sub = ctx._replace(temas=(ident,), exibidos=pares)
@@ -324,6 +331,7 @@ class Conversacao:
     def preparar(self, texto, bot):
         self.turno += 1
         self.ultimo_quadro_neural = None
+        self.dialogo.ultimo_quadro = None
         self.lembrancas = deque((l for l in self.lembrancas
                                 if self.turno - l.turno <= self.MAX_INTERVALO), maxlen=self.MAX_LEMBRANCAS)
         self.situacoes = deque((s for s in self.situacoes if self.turno - s[4] <= self.MAX_INTERVALO),
@@ -334,6 +342,21 @@ class Conversacao:
         planejada = bot.planejador.preparar(texto, bot)
         if planejada is not None:
             return planejada
+        raciocinio = self.raciocinio_dialogo.preparar(texto, self.turno)
+        if raciocinio is not None:
+            return Preparacao(Ato("premissas_dialogo", "dialogar"), raciocinio)
+        atual = self._atual(bot)
+        n = normalizar(preparar_conversa(texto))
+        mesma = re.fullmatch(r"e (?:(?:o|a) )?(.+?),? (?:faz a mesma coisa|"
+                             r"serve para a mesma coisa|tem a mesma funcao)", n)
+        if mesma:
+            ato = Ato("comparacao_eliptica", "consulta", trecho_original(texto, mesma.group(1)))
+            if atual is None or atual.contexto is None:
+                return Preparacao(ato, ("duvida", "Você quer comparar com qual assunto? Preciso dos dois nomes.", None, ""))
+            if len(atual.contexto.temas) != 1:
+                return Preparacao(ato, self._esclarecer(ato, atual.contexto, bot))
+            anterior = bot.compositor.itens[atual.contexto.temas[0]]["nome"]
+            return Preparacao(ato._replace(consulta="qual é a diferença entre " + anterior + " e " + ato.alvo))
         ato = self.analisar(texto, usar_neural=False)
         if ato is None:
             # Uma resposta recuperada sobre o tema não cumpre o pedido de
@@ -345,6 +368,22 @@ class Conversacao:
                     self.tem_retomada(neural.alvo, bot)):
                 return self.preparar_ato(neural, bot)
             self.ultimo_quadro_neural = None
+            if responder_contato(texto, bot.ultimo_turno) is not None:
+                return None
+            # Um pedido informativo conservado, inclusive negado ou
+            # expresso como desconhecimento, passa pelos motores factuais.
+            # Não vira relato só por começar com 'eu'. A execução normal
+            # ainda decide se o pedido tem informação ou exige abstenção.
+            if re.search(r"\b(?:(?:o|do|ao) que (?:e|eh|sao|significa)|"
+                         r"expli[qc]\w*|defin\w*|signific\w*|funciona|serve|"
+                         r"compar\w*|diferenc\w*)\b", normalizar(texto)):
+                informativo = self._analisar_neural(texto)
+                self.ultimo_quadro_neural = None
+                if informativo is not None and informativo.operacao == "consulta":
+                    return None
+            dialogo = self.dialogo.preparar(texto, bot, self)
+            if dialogo is not None:
+                return dialogo
             relato = self._relato(texto)
             if relato:
                 return Preparacao(Ato("relato", "dialogar"), relato)
@@ -372,6 +411,8 @@ class Conversacao:
             self.assunto = self.objetivo = None
             return Preparacao(ato)
         if ato.operacao == "cancelar":
+            self.dialogo.limpar()
+            self.raciocinio_dialogo.limpar()
             self.lembrancas.clear()
             self.relatos.clear()
             self.situacoes.clear()
@@ -411,6 +452,7 @@ class Conversacao:
         if ato.operacao == "recapitular":
             return Preparacao(ato, self._recapitular(bot))
         if ato.operacao == "dialogar":
+            self.dialogo.iniciar_assunto()
             self.assunto, self.objetivo, self.etapa = ato.alvo or None, None, 0
             self.relatos.clear()
             ids, faltam = bot.compositor._temas(ato.alvo) if ato.alvo else ((), [])

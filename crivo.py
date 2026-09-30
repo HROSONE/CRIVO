@@ -818,9 +818,9 @@ class Crivo:
         if re.fullmatch(
                 r"(?:oi+|ola|e ai|eai|eae|opa|salve|hey|hello)"
                 r"(?:[, ]+crivo)?", n):
-            return "social:oi", ("Oi! Sou o Crivo. Assuntos da base ativa: " +
-                                 conversa_assistente.assuntos(self, TOPICOS) +
-                                 ". Digite 'ajuda' para ver as capacidades desta instalação.")
+            return "social:oi", ("Oi! Sou o Crivo. Como você está? "
+                                 "Pode me contar uma ideia, uma situação ou fazer uma pergunta. "
+                                 "Digite 'ajuda' para conhecer as possibilidades de conversa, escrita e programação.")
         if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
@@ -955,6 +955,9 @@ class Crivo:
             if self.contexto_textual is None:
                 self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
             self.conversacao.registrar(identificador, resultado[1], self.contexto_textual)
+            self.conversacao.dialogo.registrar(identificador, resultado[1], self.conversacao)
+            if self.conversacao.dialogo.ultimo_quadro is not None and self.historico:
+                self.historico[-1]["quadro_dialogo"] = self.conversacao.dialogo.ultimo_quadro
             self.planejador.registrar(identificador, self.contexto_textual)
             if self.planejador.ultimo is not None and self.historico:
                 self.historico[-1]["plano"] = self.planejador.ultimo

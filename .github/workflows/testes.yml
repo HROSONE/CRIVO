@@ -35,6 +35,7 @@ jobs:
         run: |
           python avaliar_conversacao.py
           python avaliar_mundo.py
+          python avaliar_bate_papo.py --saida /tmp/bate-papo.json
       - name: Avaliar familias de validacao reservadas
         if: matrix.python-version == '3.11'
         run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
@@ -52,6 +53,7 @@ jobs:
           path: |
             /tmp/generalizacao.json
             /tmp/retomada.json
+            /tmp/bate-papo.json
             /tmp/evolucao-integrada.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'

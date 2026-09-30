@@ -4,6 +4,80 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Bate-papo com contexto e atos aprendidos
+
+O Crivo agora distingue relatos e objetivos de pedidos factuais, conversa
+sobre situações que o usuário traz mesmo fora dos assuntos cadastrados,
+lembra nome e preferências na sessão, compara opções e propõe passos que
+respeitam o tempo informado. Respostas curtas podem completar uma pergunta
+pendente. Reparos como “não entendi direito” conservam o assunto; “por quê?”
+pede a justificativa da sugestão ou a causa factual disponível. Uma causa
+ausente não é substituída por uma resposta de outro tema.
+
+Exemplo de sequência: “Estou pensando em aprender Python”, “Só tenho 20
+minutos por dia”, “Como posso organizar isso?”, “Por quê?”. O plano usa o
+objetivo e os 20 minutos, e a justificativa explica essa escolha. “Meu nome
+é Rafael” e “Como eu me chamo?” também funcionam pelo replay da API.
+
+`rede_dialogo.json` é uma MLP autoral treinada do zero em **3.543 pares de
+fala/estado**, com **969 falas distintas, 274 famílias e 15 atos**. Ela
+recebe palavras, fragmentos, ordem local e o estado anterior da conversa;
+seleciona uma operação, não gera texto livre. O gerenciador em
+`dialogo_aberto.py` extrai argumentos conservados e organiza as respostas.
+Quadros incertos não autorizam inventar informações. Regras explícitas
+também resolvem slots de tema e objetivos completos; os motores factuais,
+as retomadas e os pedidos de código mantêm prioridade.
+
+O currículo tem **301 pares de validação (82 falas distintas)** em famílias
+e assuntos diferentes. A classificação acerta **234/301**; **201/301** são
+corretos acima do limiar de aceitação individual. Os limites por ato estão
+em `avaliacao_dialogo_neural.json`. A integração pode aceitar a soma dos
+atos pessoais quando a dúvida é apenas entre relato, preferência e resposta
+curta: todos conservam a fala, sem criar uma afirmação factual. Essa
+validação é autoral e não demonstra compreensão universal.
+
+`avaliar_bate_papo.py` executa 15 conversas com 58 mensagens sobre cotidiano,
+projetos, preferências, decisões, perguntas informais e reparos. Sobre a
+mesma sonda, a referência `ba4e803` atende aos critérios em **9/58 mensagens
+e 0/15 diálogos completos**; esta versão atende a **58/58 e 15/15**.
+`avaliacao_bate_papo.json` conserva todas as respostas, a assinatura dos
+casos e os comandos de reprodução. São verificações de desenvolvimento,
+não uma avaliação externa cega; uma recusa causal pertinente avalia a
+compreensão do pedido, sem contar como conhecimento da causa.
+
+As quatro auditorias existentes de definições, regras, entrada do usuário e
+programação também verificam a coorte histórica de 278 perguntas, retirando
+a pergunta consultada do índice. Os **192 acertos da referência de integração**
+foram mantidos. Consultas sem interrogação continuam sendo consultas durante
+um relato; perguntas com “isso” dependem do contexto declarado.
+
+`raciocinio_dialogo.py` encadeia premissas explícitas como “suponha que todo
+Kavor é Névia” e “todo Névia é verde”. A conclusão fica restrita à hipótese,
+não inverte implicações nem usa ausência de relação como prova. Também
+calcula o total de compras com quantidade e preço por unidade explicitados,
+preservando decimais. Não executa código nem altera o grafo factual.
+
+```bash
+python scripts/gerar_curriculo_dialogo.py
+python treinar_dialogo.py --numpy
+python avaliar_bate_papo.py --saida resultado-bate-papo.json
+python -m unittest testes_bate_papo -v
+```
+
+NumPy acelera somente o treinamento; os checkpoints incluídos funcionam
+com Python padrão 3.8+. Não há serviço externo de IA nem chave necessária.
+Nome, preferências e relatos pertencem à instância da conversa; “esqueça
+essa conversa” limpa essa memória. Trocar um tema explícito limpa objetivos
+e restrições desse tema; uma retomada recupera o relato anterior. A API
+reconstrói a sessão a partir de até dez mensagens anteriores e não persiste
+informações pessoais na base. `vercel.json` inclui o novo checkpoint.
+
+Esta mudança melhora a continuidade e o raciocínio limitado sobre o que é
+informado. O Crivo ainda não é um modelo generativo de conversa irrestrita,
+não possui consciência ou pensamentos pessoais e continua dependendo de
+evidências cadastradas para afirmações sobre o mundo. A base de assuntos,
+os checkpoints anteriores e o teste final de generalização foram preservados.
+
 ## Evolução integrada: pedidos, evidências e continuidade
 
 `planejamento_conversa.py` divide um pedido em até seis etapas e executa
