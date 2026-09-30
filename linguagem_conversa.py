@@ -157,7 +157,8 @@ class Conversacao:
         self.erro_neural = None
 
     def _analisar_neural(self, texto):
-        if not self.usar_neural:
+        if (not self.usar_neural or not isinstance(texto, str) or len(texto) > 1200 or
+                any(c in texto for c in ('`', '"', '“', '”'))):
             return None
         caminho = Path(__file__).with_name("rede_linguagem.json")
         if not caminho.is_file():
@@ -173,11 +174,17 @@ class Conversacao:
                 q.margem < .15 or not q.conservado or q.confianca_spans < .15):
             return None
         from rede_sequencial import palavras, token_estrutura
+        # Uma negação fora do nome não autoriza executar a retomada.
+        # Negações dentro de nomes como 'rede não circular' são conservadas.
+        if q.ato == "retomar" and any(t == "nao" and not any(inicio <= a and b <= fim
+                for _, inicio, fim in q.spans) for t, a, b in palavras(texto)):
+            return None
         operadores = {token_estrutura(t, rede.estruturais) for t, _, _ in palavras(texto)}
         evidencias = {"definir": {"definicao", "significado", "entender", "explicar", "que", "termo", "nome"},
                      "funcionamento": {"funciona"}, "funcao": {"funcao", "serve"},
                      "comparar": {"diferenca", "comparacao", "igual"},
-                     "negado": {"definicao", "explicar", "fale", "pedido"}}
+                     "negado": {"definicao", "explicar", "fale", "pedido"},
+                     "retomar": {"retomar"}}
         if q.ato in evidencias and not operadores & evidencias[q.ato]:
             return None
         self.ultimo_quadro_neural = q._asdict()
@@ -200,6 +207,16 @@ class Conversacao:
         if q.ato == "comparar" and q.alvo and q.outro:
             return Ato(q.ato, "consulta", q.alvo, "qual é a diferença entre " + q.alvo + " e " + q.outro)
         return None
+
+    def tem_retomada(self, alvo, bot):
+        """Uma retomada neural só prevalece sobre uma recusa se há memória.
+
+        Resolve o nome inteiro, sem ranking aproximado ou remoção de
+        qualificadores. A poda por turno já foi feita em preparar().
+        """
+        ident = bot.compositor.resolver(alvo)
+        return (ident is not None and any(ident in l.contexto.temas for l in self.lembrancas)
+                or any(normalizar(s[0]) == normalizar(alvo) for s in self.situacoes))
 
     def analisar(self, texto, usar_neural=True):
         # Nomes técnicos e operadores são preservados pela normalização do
@@ -311,6 +328,15 @@ class Conversacao:
             return escolha
         ato = self.analisar(texto, usar_neural=False)
         if ato is None:
+            # Uma resposta recuperada sobre o tema não cumpre o pedido de
+            # retomar a conversa. Prioriza apenas a operação explícita,
+            # conservada e com nome inteiro encontrado na memória recente.
+            neural = (self._analisar_neural(texto)
+                      if re.search(r"\b(?:retom|volt)\w*\b", normalizar(texto)) else None)
+            if (neural is not None and neural.operacao == "retomar" and
+                    self.tem_retomada(neural.alvo, bot)):
+                return self.preparar_ato(neural, bot)
+            self.ultimo_quadro_neural = None
             relato = self._relato(texto)
             if relato:
                 return Preparacao(Ato("relato", "dialogar"), relato)

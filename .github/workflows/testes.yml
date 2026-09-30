@@ -38,12 +38,17 @@ jobs:
       - name: Avaliar familias de validacao reservadas
         if: matrix.python-version == '3.11'
         run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
+      - name: Avaliar extracao e retomadas (desenvolvimento)
+        if: matrix.python-version == '3.11'
+        run: python avaliar_retomada.py --saida /tmp/retomada.json
       - name: Publicar resultado de validacao
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
         with:
           name: generalizacao-validacao
-          path: /tmp/generalizacao.json
+          path: |
+            /tmp/generalizacao.json
+            /tmp/retomada.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
