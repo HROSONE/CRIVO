@@ -12,6 +12,16 @@ from composicao_textual import normalizar
 from conversa_assistente import identificar_contato
 
 
+def disponibilidade_negada(texto):
+    """Ausência direta de tempo, sem confundir crença com disponibilidade."""
+    n=normalizar(texto)
+    if any(c in texto for c in ('?','`','"','“','”')) or re.search(r"\b(?:se|caso|quando|desde que)\b",n):
+        return False
+    return bool(re.match(r"(?:eu )?nao (?:(?:tenho|disponho de) |(?:posso|consigo) "
+            r"(?:(?:dedicar|reservar|separar|arrumar|encontrar|gastar|ter) )?)"
+            r"(?:(?:mais|nenhum|nem|sequer|tanto|o|esse) )?(?:\d{1,4} )?"
+            r"(?:tempo|minutos?|horas?)\b",n))
+
 class DialogoAberto:
     def __init__(self, usar_neural=True):
         self.usar_neural = usar_neural
@@ -183,8 +193,13 @@ class DialogoAberto:
             self._guardar("objetivo", objetivo.group(1))
         if re.match(r"(?:eu )?nao (?:quero|pretendo|vou)\b", normalizar(original)):
             self.dados.pop("objetivo", None)
-        tempo = re.search(r"\b(?:tenho|disponho de|sobraram)\s+(\d{1,4})\s+minutos?\b", original, re.I)
-        if tempo and 1 <= int(tempo.group(1)) <= 1440:
+        tempo = re.match(r"(?:(?:so|apenas|mas|hoje|agora) )?(?:eu )?(?:so |apenas )?"
+                         r"(?:tenho|disponho de|sobraram) (\d{1,4}) minutos?\b",normalizar(original))
+        condicional=bool(re.search(r"\b(?:se|caso|quando|desde que)\b",normalizar(original)))
+        tempo_negado=disponibilidade_negada(original)
+        if tempo_negado and not condicional:
+            self.dados.pop("minutos",None)
+        elif tempo and not condicional and 1 <= int(tempo.group(1)) <= 1440:
             self._guardar("minutos", tempo.group(1))
         opcoes = re.fullmatch(r"(?:tenho (?:duas|2) op[cç][oõ]es\s*:\s*|estou entre\s+|"
                               r"n[aã]o sei se\s+)(.+?)\s+(?:ou|e)\s+(.+)", original, re.I)
@@ -364,6 +379,37 @@ class DialogoAberto:
         self.motivo = "As sugestões partem de “" + referencia + "”. São maneiras de variar e testar uma ideia sem inventar requisitos que você não contou."
         return "conversa:ideias", resposta, None, ""
 
+    def preparar_restricao(self, texto, bot, conversa):
+        """Retração declarada passa antes de operadores de negação factual."""
+        if re.search(r"\b(?:o que [eé]|como funciona|defina|explique|liste|mostre|"
+                     r"c[oó]digo|script|python|javascript|html|css|sql|git|http)\b",texto,re.I):
+            return None
+        if re.search(r"\b(?:se|caso|quando|desde que)\b",normalizar(texto)):
+            return None
+        if self.ativo and disponibilidade_negada(texto):
+            from linguagem_conversa import Ato,Preparacao
+            resultado=self._relatar(texto,"relato",conversa)
+            self.ultima_resposta=resultado[1]
+            return Preparacao(Ato("restricao_negada","dialogar"),resultado)
+        return None
+
+    def preparar_objetivo_pessoal(self, texto, conversa):
+        """Uma ação sobre algo próprio declara objetivo, não retoma um fato."""
+        n=normalizar(texto)
+        if any(c in texto for c in ('?','`','"','“','”')):
+            return None
+        if not re.fullmatch(r"(?:eu )?(?:quero|pretendo|queria|gostaria de|estou pensando em) "
+                r"(?:retomar|continuar|terminar|melhorar|cuidar de|ampliar|reorganizar|"
+                r"criar|revisar|organizar|praticar|estudar|aprender) .+",n):
+            return None
+        if not re.search(r"\b(?:meu|minha|meus|minhas)\b",n) or re.search(
+                r"\b(?:o que e|como funciona|defina|explique|liste|mostre)\b",n):
+            return None
+        from linguagem_conversa import Ato,Preparacao
+        resultado=self._relatar(texto,"objetivo",conversa)
+        self.ultima_resposta=resultado[1]
+        return Preparacao(Ato("objetivo_pessoal_explicito","dialogar"),resultado)
+
     def preparar(self, texto, bot, conversa):
         from linguagem_conversa import Ato, Preparacao
         import conversa_assistente
@@ -379,6 +425,15 @@ class DialogoAberto:
             if re.fullmatch(r"(?:eu\s+)?(?:quero|pretendo|estou pensando em)\s+(?:aprender|estudar|praticar|treinar|montar|poupar|organizar)\s+[^?`\"“”]+", texto.strip().strip(". "), re.I):
                 self._extrair(texto)
             return None
+        retratada=self.preparar_restricao(texto,bot,conversa)
+        if retratada is not None: return retratada
+        if (self.ativo and "?" not in texto and not any(c in texto for c in ('`','"','“','”')) and
+                re.match(r"(?:eu\s+)?(?:fiquei|senti|esqueci|preparei|tentei|percebi|aconteceu|"
+                         r"consegui|decidi|estava|terminei)\s+",texto.strip(),re.I) and
+                not re.search(r"\b(?:o que [eé]|como funciona|defina|explique|c[oó]digo|script)\b",texto,re.I)):
+            resultado=self._relatar(texto,"relato",conversa)
+            self.ultima_resposta=resultado[1]
+            return Preparacao(Ato("relato_explicito","dialogar"),resultado)
         # Depois de perguntar o tema, 'sobre X' preenche esse slot. Não
         # exige adivinhar X na rede nem tratá-lo como uma consulta factual.
         if self.ativo and self.espera in ("tema", "interesse"):

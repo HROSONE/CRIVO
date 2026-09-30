@@ -9,7 +9,7 @@ import argparse
 import json
 from pathlib import Path
 
-from linguagem_gerativa import ACOES, ESTILOS, SLOTS, ESPECIAIS, atributos, tokenizar
+from linguagem_gerativa import ACOES, ESTILOS, SLOTS, ESPECIAIS, VARIANTES, atributos, tokenizar, slots_requeridos
 
 
 def validar_exemplo(c):
@@ -30,23 +30,22 @@ def validar_exemplo(c):
     hs=ctx.get("historico",[])
     if not isinstance(hs,list) or len(hs)>3 or any(not isinstance(x,str) or len(x)>1200 for x in hs):
         raise ValueError("Histórico inválido")
+    anterior=ctx.get("resposta_anterior","")
+    if not isinstance(anterior,str) or len(anterior)>2400:
+        raise ValueError("Resposta anterior inválida")
     slots=ctx.get("slots",{})
     if not isinstance(slots,dict) or any(k not in SLOTS or not isinstance(v,str) or not 1<=len(v)<=1200 for k,v in slots.items()):
         raise ValueError("Slots inválidos")
     variante=ctx.get("variante",0)
-    if isinstance(variante,bool) or not isinstance(variante,int) or not 0<=variante<4:
-        raise ValueError("Variante deve estar entre 0 e 3")
+    if isinstance(variante,bool) or not isinstance(variante,int) or not 0<=variante<VARIANTES:
+        raise ValueError("Variante fora dos limites suportados")
     if not isinstance(c.get("resposta"),str): raise ValueError("Resposta inválida")
     ts=tokenizar(c["resposta"])
-    if not 6<=len(ts)<96 or ts[-1] not in (".","?","!") or any(t in ESPECIAIS for t in ts):
-        raise ValueError("Resposta deve ser completa, com 6 a 95 tokens")
+    if not 6<=len(ts)<128 or ts[-1] not in (".","?","!") or any(t in c["resposta"] for t in ESPECIAIS):
+        raise ValueError("Resposta deve ser completa, com 6 a 127 tokens")
     if any(t.startswith("@") and (t[1:] not in slots or t[1:] not in SLOTS) for t in ts):
         raise ValueError("Marcador sem slot declarado")
-    if ctx["acao"] in ("historia","poema","final","ideia"):
-        requeridos={"tema1"} | ({"tema2"} if slots.get("tema2") else set())
-    elif ctx["acao"]=="alternativa":
-        requeridos={"objetivo" if slots.get("objetivo") else "relato"} | ({"restricao"} if slots.get("restricao") else set())
-    else: requeridos={"relato"}
+    requeridos=slots_requeridos(ctx["acao"],slots)
     if any(s not in slots or "@"+s not in ts for s in requeridos):
         raise ValueError("A resposta precisa conservar os argumentos requeridos")
     atributos(ctx)

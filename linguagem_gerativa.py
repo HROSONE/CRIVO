@@ -14,11 +14,14 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-VERSAO = "gru-contextual-v1"
-DIMENSAO = 128
-ACOES = ("historia", "poema", "final", "escuta", "alternativa", "ajuste", "apoio", "ideia")
-ESTILOS = ("neutro", "leve", "aventura", "simples")
-SLOTS = ("tema1", "tema2", "relato", "objetivo", "restricao")
+VERSAO = "gru-contextual-v3"
+DIMENSAO = 192
+VARIANTES = 8
+ACOES = ("historia", "poema", "final", "escuta", "alternativa", "ajuste", "apoio", "ideia",
+         "mensagem", "dialogo", "continuacao", "resumo", "reformulacao", "exploracao", "plano", "reflexao")
+ESTILOS = ("neutro", "leve", "aventura", "simples", "carinhoso", "formal", "divertido", "misterioso")
+SLOTS = ("tema1", "tema2", "relato", "objetivo", "restricao",
+         "destinatario", "premissa", "conclusao", "detalhe", "sentimento")
 ESPECIAIS = ("<pad>", "<inicio>", "<fim>", "<desconhecido>")
 
 
@@ -33,35 +36,73 @@ def detokenizar(tokens):
     return re.sub(r" *⏎ *", "\n", texto).strip()
 
 
+def slots_requeridos(acao, slots):
+    """Argumentos que uma resposta contextual deve conservar literalmente."""
+    if acao not in ACOES:
+        raise ValueError("Ação desconhecida")
+    if acao in ("historia", "poema", "final", "ideia", "dialogo", "continuacao"):
+        requeridos = {"tema1"} | ({"tema2"} if slots.get("tema2") else set())
+        if acao == "continuacao" and slots.get("detalhe"):
+            requeridos.add("detalhe")
+    elif acao == "alternativa":
+        requeridos = {"objetivo" if slots.get("objetivo") else "relato"}
+        if slots.get("restricao"):
+            requeridos.add("restricao")
+    elif acao == "plano":
+        requeridos = {"objetivo"} | ({"restricao"} if slots.get("restricao") else set())
+    elif acao == "reflexao":
+        requeridos = {"premissa", "conclusao"}
+    elif acao == "mensagem":
+        requeridos = {"relato"} | ({"destinatario"} if slots.get("destinatario") else set())
+    else:
+        requeridos = {"relato"}
+        if acao in ("resumo", "reformulacao", "exploracao") and slots.get("detalhe"):
+            requeridos.add("detalhe")
+        if acao == "exploracao" and slots.get("sentimento"):
+            requeridos.add("sentimento")
+    return requeridos
+
+
 def atributos(contexto):
-    """Estado anterior e pedido; textos dos slots não viram fatos do modelo."""
+    """Pedido/estado e resposta anterior ocupam áreas separadas do vetor."""
     acao, estilo = contexto["acao"], contexto.get("estilo", "neutro")
     if acao not in ACOES or estilo not in ESTILOS:
         raise ValueError("Ação ou estilo de geração desconhecido")
+    slots = contexto.get("slots", {})
+    if not isinstance(slots, dict) or any(nome not in SLOTS or not isinstance(valor, str)
+                                         for nome, valor in slots.items()):
+        raise ValueError("Slot de geração inválido")
+    hs = contexto.get("historico", [])
+    mensagem = contexto.get("mensagem", "")
+    anterior = contexto.get("resposta_anterior", "")
+    if (not isinstance(hs, list) or any(not isinstance(x, str) for x in hs) or
+            not isinstance(mensagem, str) or not isinstance(anterior, str) or len(anterior)>2400):
+        raise ValueError("Texto de contexto inválido")
     v = [0.0] * DIMENSAO
     v[ACOES.index(acao)] = 1.0
     v[16 + ESTILOS.index(estilo)] = .8
-    v[24 + int(contexto.get("variante", 0)) % 4] = .6
-    slots = contexto.get("slots", {})
+    v[24 + int(contexto.get("variante", 0)) % VARIANTES] = .6
     for i, nome in enumerate(SLOTS):
         if slots.get(nome):
             v[32 + i] = .5
-    texto = " ".join(list(contexto.get("historico", []))[-3:] + [contexto.get("mensagem", "")])
-    for nome, valor in sorted(slots.items(), key=lambda p: -len(p[1])):
-        if nome not in SLOTS or not isinstance(valor, str):
-            raise ValueError("Slot de geração inválido")
-        texto = texto.replace(valor, "@" + nome)
-    ts = tokenizar(texto.casefold())[-100:]
-    for t in ts:
-        h = int.from_bytes(hashlib.sha256(t.encode("utf-8")).digest()[:4], "big")
-        v[64 + h % 64] += .04
-    norma = math.sqrt(sum(x*x for x in v[64:])) or 1.0
-    v[64:] = [x / max(1.0, norma) for x in v[64:]]
+    partes = [" ".join(hs[-3:] + [mensagem]), anterior]
+    for parte, texto in enumerate(partes):
+        for nome, valor in sorted(slots.items(), key=lambda p: -len(p[1])):
+            if valor:
+                texto = texto.replace(valor, "@" + nome)
+        for t in tokenizar(texto.casefold())[-140:]:
+            h = int.from_bytes(hashlib.sha256(t.encode("utf-8")).digest()[:4], "big")
+            v[64 + parte*64 + h % 64] += .035
+        inicio = 64 + parte*64
+        norma = math.sqrt(sum(x*x for x in v[inicio:inicio+64])) or 1.0
+        # O estado estruturado decide a ação. Texto é uma influência residual
+        # limitada, para não substituir slots/tom por padrões do histórico.
+        v[inicio:inicio+64] = [x * min(1.0, .15 / norma) for x in v[inicio:inicio+64]]
     return v
 
 
 def assinatura_atributos():
-    texto = VERSAO + repr((DIMENSAO, ACOES, ESTILOS, SLOTS, ESPECIAIS))
+    texto = VERSAO + repr((DIMENSAO, VARIANTES, ACOES, ESTILOS, SLOTS, ESPECIAIS))
     texto += inspect.getsource(atributos) + inspect.getsource(tokenizar)
     return hashlib.sha256(texto.encode("utf-8")).hexdigest()
 
@@ -191,7 +232,7 @@ def renderizar(geracao, slots):
     # Primeiro compõe a linguagem, depois copia dados literalmente; eles
     # não são tokenizados novamente nem usados como código/formatação.
     texto = detokenizar(tokens)
-    return re.sub(r"@(tema1|tema2|relato|objetivo|restricao)\b",lambda m:slots[m.group(1)],texto)
+    return re.sub(r"@(" + "|".join(SLOTS) + r")\b",lambda m:slots[m.group(1)],texto)
 
 
 @lru_cache(maxsize=2)

@@ -23,7 +23,7 @@ jobs:
         env:
           OPENBLAS_NUM_THREADS: '1'
           OMP_NUM_THREADS: '1'
-        run: python -m unittest testes_geracao -v
+        run: python -m unittest testes_geracao testes_intencao_gerativa -v
   testes:
     runs-on: ubuntu-latest
     strategy:
@@ -50,6 +50,7 @@ jobs:
           python avaliar_mundo.py
           python avaliar_bate_papo.py --saida /tmp/bate-papo.json
           python avaliar_geracao.py --saida /tmp/geracao.json
+          python avaliar_ampliacao.py --saida /tmp/ampliacao.json
       - name: Avaliar familias de validacao reservadas
         if: matrix.python-version == '3.11'
         run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
@@ -69,6 +70,7 @@ jobs:
             /tmp/retomada.json
             /tmp/bate-papo.json
             /tmp/geracao.json
+            /tmp/ampliacao.json
             /tmp/evolucao-integrada.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'

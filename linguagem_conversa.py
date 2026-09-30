@@ -342,6 +342,12 @@ class Conversacao:
         escolha = self._escolher(texto, bot)
         if escolha is not None:
             return escolha
+        retratada = self.dialogo.preparar_restricao(texto, bot, self)
+        if retratada is not None:
+            return retratada
+        objetivo = self.dialogo.preparar_objetivo_pessoal(texto, self)
+        if objetivo is not None:
+            return objetivo
         gerada = self.geracao.preparar(texto, bot, self)
         if gerada is not None:
             return gerada
@@ -476,6 +482,9 @@ class Conversacao:
         if not self.assunto:
             return None
         n = normalizar(texto)
+        if ("?" in texto or re.search(r"\b(?:o que e|como funciona|defina|explique|"
+                r"liste|mostre|codigo|script)\b",n)):
+            return None
         if n in ("o que voce acha", "e agora", "o que eu faco", "como posso decidir") and self.relatos:
             referencia = self.objetivo or self.relatos[-1]
             resposta = ("Vamos partir do que você trouxe: “" + referencia + "”. "
