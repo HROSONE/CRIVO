@@ -178,6 +178,9 @@ def assuntos(bot, rotulos, completo=False):
 
 def capacidades(bot, rotulos, completo=False):
     funcoes = ["explicar conceitos presentes na base"]
+    if getattr(bot, "conversacao", None) is not None:
+        funcoes.append("entender variações de pedidos, reformular explicações e retomar assuntos recentes")
+        funcoes.append("explorar situações que você contar com perguntas de continuidade")
     if bot.compositor.itens:
         funcoes.append("compor textos, resumos, tópicos e roteiros curtos com fatos cadastrados")
     if bot.raciocinio is not None:
@@ -190,8 +193,9 @@ def capacidades(bot, rotulos, completo=False):
     texto += "Assuntos desta instalação: " + assuntos(bot, rotulos, completo) + "."
     if completo:
         texto += ("\n\nExperimente pedir um texto sobre um conceito conhecido e depois "
-                  "'mais curto', 'em tópicos' ou 'continue'. Mantenho o contexto curto "
-                  "da conversa. Minha escrita é limitada aos fatos disponíveis; "
+                  "'fale com outras palavras', 'em tópicos' ou 'continue'. "
+                  "Você também pode pedir 'retome' seguido do assunto para voltar à memória recente. "
+                  "Minha escrita factual é limitada aos fatos disponíveis; "
                   "não controlo aplicativos nem pesquiso a internet durante a conversa.")
     else:
         texto += "\n\nDiga 'só isso?' para ver mais detalhes, ou escolha um assunto."

@@ -1,0 +1,170 @@
+{
+  "versao": 1,
+  "descricao": "Currículo autoral de atos de fala: operadores independentes dos assuntos. Não é um conjunto de pesos neurais.",
+  "atos": [
+    {
+      "id": "definir",
+      "operacao": "consulta",
+      "padroes": [
+        "(?:(?:me )?(?:explica|explique|explicar|diga|dizer|conte|contar)) (?:(?:direitinho|melhor|um pouco melhor) )?(?:o que (?:e|eh|seria|significa)) (?P<alvo>.+)",
+        "(?:eu )?(?:quero|queria|gostaria de) (?:entender|compreender|saber) (?:(?:um pouco |bem )?melhor )?(?:sobre )?(?P<alvo>.+)",
+        "(?P<alvo>.+) (?:e|eh|seria) o que",
+        "(?:o que (?:seria|quer dizer)|qual (?:e )?o significado (?:de|do|da)) (?P<alvo>.+)",
+        "(?:me )?(?:explica|explique|explicar|me conta|me conte) (?:(?:direitinho|melhor) )?(?:sobre )?(?P<alvo>.+)",
+        "(?:me )?(?:fala|fale|falar|conta|conte|contar) (?:mais |um pouco )?(?:sobre|a respeito de) (?P<alvo>.+)"
+      ],
+      "canonico": "o que é {alvo}",
+      "formato": ""
+    },
+    {
+      "id": "funcionamento",
+      "operacao": "consulta",
+      "padroes": [
+        "(?:me )?(?:conta|conte|contar|explica|explique|explicar) como (?:funciona|funcionam|age|agem) (?:(?:essa historia|esse negocio|essa coisa) (?:de|do|da) )?(?P<alvo>.+)",
+        "(?:como (?:funciona|funcionam)|qual (?:e )?o funcionamento (?:de|do|da)) (?P<alvo>.+)",
+        "(?:e )?como (?:funciona|funcionam)(?: (?P<alvo>isso|ele|ela|essa coisa))?"
+      ],
+      "canonico": "como funciona {alvo}",
+      "formato": ""
+    },
+    {
+      "id": "funcao",
+      "operacao": "consulta",
+      "padroes": [
+        "(?:me )?(?:diz|diga|dizer|explica|explique|explicar) (?:para que|pra que) (?:serve|servem) (?P<alvo>.+)",
+        "(?:pra que (?:serve|servem)|qual (?:e )?a utilidade (?:de|do|da)) (?P<alvo>.+)",
+        "(?P<alvo>.+) (?:serve|servem) (?:para que|pra que)"
+      ],
+      "canonico": "qual é a função de {alvo}",
+      "formato": ""
+    },
+    {
+      "id": "comparar",
+      "operacao": "consulta",
+      "padroes": [
+        "(?:me )?(?:explica|explique|explicar|mostre|mostrar|diga|dizer) (?:(?:qual (?:e )?)?a )?diferenca entre (?P<alvo>.+?) e (?P<outro>.+)",
+        "(?:o que muda|qual (?:e )?a diferenca) (?:de|do|da) (?P<alvo>.+?) (?:para|pra) (?P<outro>.+)",
+        "(?P<alvo>.+?) e (?P<outro>.+?) (?:sao|e) a mesma coisa"
+      ],
+      "canonico": "qual é a diferença entre {alvo} e {outro}",
+      "formato": ""
+    },
+    {
+      "id": "reformular",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:me )?(?:fala|fale|falar|diga|dizer|explique|explicar|repita|repetir) (?:a mesma coisa|isso|essa ideia|essa explicacao|essa resposta) (?:em|com) outras palavras",
+        "(?:me )?(?:explica|explique|explicar|diga|dizer|fale|falar) (?:de outro jeito|de outra forma|com outras palavras)",
+        "(?:reformule|reformular|reescreva|reescrever|parafraseie|parafrasear)(?: (?:isso|essa resposta|essa explicacao|a resposta))?",
+        "(?:em|com) outras palavras"
+      ],
+      "canonico": "",
+      "formato": "reformulacao"
+    },
+    {
+      "id": "simplificar",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:me )?(?:explica|explique|explicar|fale|falar) (?:mais simples|de um jeito simples|de uma forma simples|sem complicar|sem palavras dificeis)",
+        "(?:simplifique|simplificar)(?: (?:isso|essa explicacao|essa resposta))?",
+        "(?:explique|explicar|fale|falar) como se eu (?:fosse iniciante|nunca tivesse ouvido falar disso)"
+      ],
+      "canonico": "",
+      "formato": "simples"
+    },
+    {
+      "id": "resumir",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:me )?(?:da|de|dar|faca|fazer) (?:um )?resumo(?: (?:disso|dessa explicacao|dessa resposta))?",
+        "(?:diga|dizer|fale|falar) (?:so o essencial|a ideia principal|em poucas palavras)",
+        "(?:resumir|resuma) (?:essa explicacao|essa resposta|o que voce disse)"
+      ],
+      "canonico": "",
+      "formato": "resumo"
+    },
+    {
+      "id": "organizar",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:organize|organizar|mostre|mostrar|coloque|colocar) (?:isso|essa resposta|essa explicacao|o que voce disse) em (?:topicos|uma lista)",
+        "(?:separe|separar) (?:isso|essa explicacao) (?:por|em) pontos"
+      ],
+      "canonico": "",
+      "formato": "topicos"
+    },
+    {
+      "id": "aprofundar",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:me )?(?:desenvolva|desenvolver|aprofunde|aprofundar) (?:isso|essa ideia|essa explicacao|esse assunto)",
+        "(?:quero|queria) (?:ir|entender) (?:mais a fundo|mais fundo)",
+        "(?:me )?(?:conte|contar|fale|falar) mais (?:disso|sobre isso|sobre esse assunto)"
+      ],
+      "canonico": "",
+      "formato": "exploracao"
+    },
+    {
+      "id": "exemplificar",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:me )?(?:da|de|dar|mostre|mostrar) (?:um )?exemplo(?: (?:disso|na pratica|dessa ideia))?",
+        "(?:como (?:seria|fica) isso|e um exemplo) na pratica",
+        "(?:exemplifique|exemplificar)(?: isso)?"
+      ],
+      "canonico": "",
+      "formato": "exemplo"
+    },
+    {
+      "id": "fontes",
+      "operacao": "transformar",
+      "padroes": [
+        "(?:de onde (?:vem|veio) (?:isso|essa informacao)|onde voce (?:viu|encontrou) (?:isso|essa informacao))"
+      ],
+      "canonico": "",
+      "formato": "fontes"
+    },
+    {
+      "id": "retomar",
+      "operacao": "retomar",
+      "padroes": [
+        "(?:vamos |quero )?(?:voltar ao assunto anterior|retomar o assunto anterior|voltar ao que estavamos falando)",
+        "(?:vamos |quero |queria )?(?:retomar|voltar|volte|retome) (?:ao assunto (?:de|do|da)|a falar (?:de|do|da)|a|ao|aos|as|sobre) (?P<alvo>.+)",
+        "(?:voltando|de volta) (?:a|ao|sobre) (?P<alvo>.+)",
+        "(?:retome|retomar) (?P<alvo>.+)"
+      ],
+      "canonico": "",
+      "formato": ""
+    },
+    {
+      "id": "recapitular",
+      "operacao": "recapitular",
+      "padroes": [
+        "(?:recapitule|recapitular|resuma|resumir) (?:nossa conversa|a conversa|o que conversamos)",
+        "(?:o que|quais assuntos) (?:ja )?(?:conversamos|falamos)(?: ate agora)?"
+      ],
+      "canonico": "",
+      "formato": ""
+    },
+    {
+      "id": "dialogar",
+      "operacao": "dialogar",
+      "padroes": [
+        "(?:vamos|bora|quero|queria|podemos|gostaria de) (?:conversar|bater um papo|trocar uma ideia|falar) (?:sobre|a respeito de) (?P<alvo>.+)",
+        "(?:vamos|bora|quero|podemos) (?:conversar|bater um papo|trocar uma ideia)"
+      ],
+      "canonico": "",
+      "formato": ""
+    },
+    {
+      "id": "cancelar",
+      "operacao": "cancelar",
+      "padroes": [
+        "(?:vamos |quero )?(?:comecar outra conversa|comecar de novo|mudar de assunto|reiniciar a conversa)",
+        "(?:esqueca|esquecer) (?:essa conversa|o que conversamos)"
+      ],
+      "canonico": "",
+      "formato": ""
+    }
+  ]
+}

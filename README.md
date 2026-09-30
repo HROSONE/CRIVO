@@ -1,7 +1,100 @@
 # Crivo v0.4 (em desenvolvimento)
 
 Assistente de conversa em português, primeiro teste.
-Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
+Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
+coisas de casa, programação, ciência e psicologia.
+
+## Conversação flexível, reformulação e memória recente
+
+`linguagem_conversa.py` interpreta operações de linguagem antes de consultar
+os motores de conhecimento. O currículo autoral `conhecimento_linguagem.json`
+descreve **15 atos de fala e 44 padrões estruturais**. Os alvos são variáveis:
+as regras não contêm nomes de neurônios, planetas ou objetos dos testes.
+Pedidos indiretos conservam a pergunta completa, incluindo negação,
+condições e qualificadores. A mensagem original fica no histórico; o quadro
+`ato` registra a interpretação e a consulta interna para auditoria.
+
+```text
+Me explica direitinho o que seria uma sinapse
+Queria entender um pouco melhor a memória
+Cérebro é o quê?
+Me conta como funciona essa história de sono REM
+Me diga a diferença entre ansiedade e estresse
+```
+
+**Reformular muda a redação**, com novas formas de apresentar definições e
+equivalências locais, mantendo as unidades factuais e suas fontes. Também
+é possível simplificar a linguagem, resumir, organizar em tópicos, pedir um
+exemplo cadastrado ou aprofundar com fatos ainda não apresentados. Números,
+negações, condições e avisos de incerteza são conservados. Exemplos de código
+e caminhos de provas lógicas permanecem íntegros; a API preserva a indicação
+de prova após a reformulação usando somente proveniência criada pelo motor.
+
+```text
+O que é neurônio?
+Fala a mesma coisa com outras palavras
+Pode explicar sem palavras difíceis?
+Pode desenvolver essa ideia?
+De onde veio essa informação?
+```
+
+**Retomar é explícito.** Depois de mudar de tema ou cumprimentar, peça
+`retome memória` ou `vamos voltar à sinapse`. A memória guarda até oito
+registros factuais e oito situações pessoais, com validade de dez turnos
+desde sua última atualização. `Voltar ao assunto anterior` recupera o
+assunto factual anterior; `recapitule nossa conversa` reúne os fatos recentes
+e identifica separadamente o que o usuário contou. Quando há dois alvos
+possíveis, o CRIVO apresenta opções e espera a escolha do nome ou número;
+um `sim` não escolhe um alvo sozinho.
+
+Perguntas elípticas como `e como funciona?` usam um referente inequívoco.
+As referências implícitas antigas continuam exigindo o turno imediatamente
+anterior. Uma saudação encerra esse contexto implícito, mas permite uma
+retomada explícita. `Mudar de assunto` ou `esqueça essa conversa` reinicia a
+memória. Ensinar conhecimento pelo código também invalida essa memória.
+A API reconstrói tudo pelo histórico de até dez perguntas da aba: não há
+persistência no servidor nem memória compartilhada entre usuários.
+
+**Conversa aberta acompanha o relato.** `Quero conversar sobre trabalho`
+abre uma exploração mesmo quando não existe um verbete desse assunto.
+O CRIVO pergunta se o usuário quer explorar uma ideia, situação ou decisão;
+acompanha o objetivo declarado, pergunta pelas dificuldades, tentativas e
+próximo passo, e pode retomar uma situação recente. As respostas citam o
+relato como relato, sem transformá-lo em conhecimento científico.
+
+```text
+Quero conversar sobre trabalho
+Eu quero mudar de trabalho
+Eu não consigo decidir
+Já tentei conversar com meu chefe
+O que você acha?
+O que é DNA?
+Vamos voltar ao trabalho
+```
+
+**Limites:** é uma gramática composicional com memória e realização textual
+controlada, sem compreensão universal de português nem geração irrestrita.
+A conversa pode explorar um tema a partir do que o usuário contar; respostas
+factuais dependem do conhecimento cadastrado. A reformulação usa operações
+conservadoras e não garante uma paráfrase diferente para toda sentença.
+Preserva a MLP original offline e seu checkpoint; esta camada de diálogo
+não é um novo treino dos pesos nem usa modelos de terceiros. Ampliações do
+conhecimento científico continuam exigindo fontes e reutilização verificadas.
+
+**Verificação de desenvolvimento:** a sonda pública passou de **5/40 para
+40/40** sobre a referência `83c9272`, conforme `avaliacao_conversacao.json`.
+São 40 cenários de
+pedidos variados, escrita, esclarecimento, retomada, relatos e recusas.
+As regressões também combinam dois operadores com os 44 conceitos do
+currículo e uma base fictícia, além de conferir provas, código, fontes,
+isolamento e replay da API. Esses casos foram usados no desenvolvimento;
+não representam uma avaliação cega.
+
+```bash
+python avaliar_conversacao.py
+python avaliar_conversacao.py --json
+python -m unittest testes_linguagem_conversa -v
+```
 
 ## Interpretar o pedido antes de consultar o conhecimento
 
@@ -159,7 +252,8 @@ quando eles acabam. `Não entendi` reduz a quantidade de informação.
 `E o RNA?` troca o assunto mantendo o formato de composição.
 Pronomes como `ela` exigem um único assunto no turno anterior; perguntas
 relacionais passam pelo mecanismo de prova existente. Saudações, dúvidas
-e assuntos desconhecidos expiram o contexto. A API reconstrói esse estado
+e assuntos desconhecidos expiram o contexto implícito. A retomada explícita
+usa a memória recente descrita acima. A API reconstrói esse estado
 pelo histórico de perguntas, sem compartilhar conversas entre instâncias.
 
 A referência ao braço citado na resposta sobre Via Láctea agora tem um
@@ -177,12 +271,98 @@ editoriais já cadastradas. Entradas sem referência informam essa ausência.
 
 **Limite:** isto é composição factual controlada, com gramática limitada,
 sem geração irrestrita de histórias, opiniões, instruções arbitrárias ou
-novos fatos. Não usa modelos externos e não amplia os pesos da rede neural.
-Conhecimento novo entra pelo currículo revisado no código.
+novos fatos. Não usa modelos externos; o treinamento da rede é separado
+da composição. Conhecimento novo entra pelo currículo revisado no código.
 
-**Validação de desenvolvimento:** a sonda fixada antes da implementação
-passou de 0/32 para 32/32. Há testes dos 300 pares dos novos conceitos,
-bases fictícias, referências, fontes, limites de frases, recusas e API.
+**Validação de desenvolvimento:** a sonda do currículo ampliado passou
+de 0/32 para 32/32. Há testes de combinações de conceitos, bases fictícias,
+referências, fontes, limites de frases, recusas e API.
+
+## Conhecimento científico e psicológico
+
+`conhecimento_mundo.json` acrescenta um currículo de **44 conceitos,
+116 fatos, 10 relações direcionais e 6 comparações**, conferido em
+**35 fontes científicas independentes** em **29/09/2026**. As referências
+incluem NIH (NCI, NIDA, NIA, NIMH, NHLBI e NHGRI), NASA, USGS, NIST,
+National Park Service e artigos científicos da PLOS ONE.
+
+O currículo inclui cérebro, neurônios, sinapses, memória, neuroplasticidade,
+sono, ansiedade, estresse, depressão, apoio emocional, luto, procrastinação,
+células, proteínas, fotossíntese, ciclo da água, efeito estufa, biodiversidade,
+biomimética, ecolocalização, constelações, universo e energia solar.
+Cada conceito tem nomes alternativos e unidades de definição, funcionamento,
+função, exemplo ou limite quando há evidência cadastrada.
+
+**Política para próximas ampliações:** incorporar somente conhecimento
+científico e psicológico com fonte verificável e condições de reutilização
+conferidas. Acesso público a uma página não equivale a permissão de uso.
+Cada referência registra autoria ou instituição, URL, ano, crédito,
+`reutilizacao`, `direitos_url`, `escopo_uso` e `verificado_em`. Foram usadas
+sínteses próprias dos textos institucionais com reutilização permitida e
+artigos sob CC BY 4.0, com crédito aos autores. Nenhuma imagem, logotipo ou
+artigo completo integra o currículo; a referência não indica endosso ao CRIVO.
+As políticas consultadas ficam registradas junto de cada fonte.
+
+O carregador exige os tipos `institucional_cientifica` ou `artigo_cientifico`
+e os metadados de reutilização. Cada fato declara fonte e natureza:
+`cientifico`, `psicologico` ou `orientacao`; interpretações religiosas não
+fazem parte deste currículo. A validação estrutural não substitui a revisão
+humana do conteúdo e das condições específicas de cada fonte.
+
+A classificação do sono não REM usa os **três estágios** descritos pelo NHLBI.
+A relação entre procrastinação e estresse registra **associação**, sem atribuir
+causalidade a um estudo transversal (Beutel e colaboradores, PLOS ONE, 2016).
+Fontes sem data de publicação confirmada exibem **“consulta 2026”**.
+Ao pedir fontes, o chatbot mostra apenas as referências dos fatos usados,
+incluindo crédito à instituição ou aos autores.
+
+```text
+O que é um neurônio?
+Como funciona a ecolocalização?
+Qual é a função da membrana celular?
+Por que o sono ajuda a memória?
+Qual a diferença entre estresse e ansiedade?
+Escreva um texto sobre memória e biodiversidade
+Qual é a fonte?
+Dê um exemplo de biomimética.
+```
+
+Funções, causas e comparações usam fatos explícitos. Uma relação não autoriza
+sua inversa, a retirada de uma negação ou a inclusão de um qualificador novo.
+O currículo não fornece diagnósticos individuais, escolha de medicamentos
+ou doses. Fatos do grafo anterior continuam válidos: adicionar o conceito
+de universo não impede provar relações entre Sol, Via Láctea e Universo.
+Os IDs públicos anteriores de fotossíntese e efeito estufa são preservados.
+
+`curriculo_mundo.py` valida os dados e gera **297 exemplos genéricos de
+conceitos**, a partir dos nomes e aliases. `Crivo`, `treinar_base` e o avaliador
+da rede carregam a mesma população: **168 intenções e 764 exemplos** no total.
+As consultas de `avaliar_mundo.py` ficam fora desses exemplos. O aprendizado
+continua em Python padrão, offline, com a rede original do projeto.
+`ensinar` mantém a base editorial separada dos exemplos derivados, evitando
+duplicação ao salvar e recarregar.
+
+O checkpoint `rede_crivo.json` foi treinado com 60 épocas, 512 dimensões,
+48 neurônios ocultos, modo `portugues` e semente 42. Ele carrega automaticamente
+quando rótulos e assinaturas são compatíveis. O fluxo `treinar-rede.yml` também
+treina novamente quando o currículo ou seu carregador mudam.
+`vercel.json` inclui o currículo, seus módulos e o checkpoint no pacote da API.
+
+**Limites medidos:** a sonda do chatbot híbrido passou **51/51 consultas**
+de definição, função, relação, comparação, composição, fontes e recusa.
+Na verificação adicional `Defina <nome>` dos 44 conceitos, o classificador
+isolado acertou o ID exato em **32/44**; ainda há confusões, inclusive com IDs
+editoriais de conceitos sobrepostos. Esses números são verificações de
+desenvolvimento, sem avaliação cega. A rede classifica assuntos; os 116 fatos
+ficam no currículo e são selecionados pelo compositor. Esse treino não
+transforma o modelo em uma LLM nem garante compreensão de qualquer pergunta.
+
+```bash
+python avaliar_mundo.py
+python -m unittest testes_conhecimento_mundo -v
+python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 60 --ocultos 48 --dimensao 512 --modo portugues --semente 42
+```
+
 A sonda foi usada no desenvolvimento; **não é teste cego nem uma medida
 universal de inteligência**. O comparativo está em `avaliacao_escrita.json`.
 As auditorias históricas preservam seus critérios e avaliam a população
@@ -785,9 +965,10 @@ E uma árvore binária?
   → "Não tenho uma definição cadastrada desse conceito."
 ```
 
-O contexto só dura **um turno**, não persiste após uma saudação,
+O contexto **implícito** só dura **um turno**, não persiste após uma saudação,
 pergunta sem relação ou tema fora da base; a mesma lógica funciona no
 chat web porque `web_core.py` reconstrói o histórico enviado.
+A memória recente de conversa permite uma retomada explícita por assunto.
 Não inclui reconhecimento de pronomes arbitrários, tradução de
 frases livres nem resolução de contradições sem fonte.
 

@@ -7,6 +7,10 @@ on:
     paths:
       - 'rede_neural.py'
       - 'conhecimento.json'
+      - 'conhecimento_mundo.json'
+      - 'curriculo_mundo.py'
+      - 'conhecimento_linguagem.json'
+      - 'linguagem_conversa.py'
       - 'crivo.py'
       - '.github/workflows/treinar-rede.yml'
 
@@ -30,6 +34,8 @@ jobs:
           python -m compileall -q .
           python crivo.py --teste
           python -m unittest discover -p 'testes*.py' -q
+          python avaliar_mundo.py
+          python avaliar_conversacao.py
       - name: Treinar rede neural original com todos os exemplos
         run: |
           python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 60 --ocultos 48 --dimensao 512 --modo portugues --semente 42
@@ -51,7 +57,10 @@ jobs:
           print("Aviso: carregar pesos nao garante melhor acuracia no chatbot hibrido.")
           PY
       - name: Verificar conversas com os pesos novos carregados
-        run: python -m unittest testes_programacao testes_dialogo -q
+        run: |
+          python -m unittest testes_programacao testes_dialogo testes_conhecimento_mundo testes_linguagem_conversa -q
+          python avaliar_mundo.py
+          python avaliar_conversacao.py
       - name: Publicar pesos para download
         uses: actions/upload-artifact@v4
         with:

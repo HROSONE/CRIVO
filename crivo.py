@@ -36,6 +36,7 @@ TOPICOS = {
     "sistema_solar": "sistema solar",
     "casa": "coisas de casa",
     "programacao": "programação (fundamentos, Python, HTML, CSS, JavaScript, SQL e Git)",
+    "mundo": "ciência e psicologia (cérebro, memória, sono, emoções, biologia e ambiente)",
 }
 
 LIMIAR = 0.46        # abaixo disso o Crivo não responde direto
@@ -150,7 +151,9 @@ class Crivo:
     def __init__(self, caminho_base=None, agora=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.caminho_base = caminho
-        self.base = json.loads(caminho.read_text(encoding="utf-8"))
+        from curriculo_mundo import carregar_base, ler_curriculo
+        self.curriculo_mundo = ler_curriculo(caminho.with_name("conhecimento_mundo.json"))
+        self.base = carregar_base(caminho, self.curriculo_mundo)
         # Grafo explicável opcional, vinculado à pasta da base escolhida.
         # Bases temporárias personalizadas não recebem fatos da base padrão.
         from raciocinio import GrafoRaciocinio
@@ -181,9 +184,12 @@ class Crivo:
         self._indexar()
         from composicao_textual import CompositorTextual
         self.compositor = CompositorTextual(
-            self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+            self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao,
+            self.curriculo_mundo)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
+        from linguagem_conversa import Conversacao
+        self.conversacao = Conversacao()
         self._pedido_turno = None
         self.contexto_textual = None
         self._contexto_textual_anterior = None
@@ -258,7 +264,8 @@ class Crivo:
         self.exemplos = [[set(tokens(p)) for p in dict.fromkeys(e["perguntas"])]
                          for e in self.base]
         # Um currículo novo não deve alterar o peso das palavras de outro domínio.
-        self.grupos = ["programacao" if e["topico"] == "programacao" else "geral"
+        self.grupos = ["mundo" if e.get("origem_curriculo") == "mundo" else
+                       "programacao" if e["topico"] == "programacao" else "geral"
                        for e in self.base]
         self.idf_grupos = {}
         for grupo in set(self.grupos):
@@ -635,15 +642,19 @@ class Crivo:
         nova_base = self.base + [{"id": identificador, "topico": topico, "perguntas": perguntas, "resposta": resposta}]
         if salvar:
             temp = self.caminho_base.with_suffix(".tmp")
-            temp.write_text(json.dumps(nova_base, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            editorial = [e for e in nova_base if e.get("origem_curriculo") != "mundo"]
+            temp.write_text(json.dumps(editorial, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             temp.replace(self.caminho_base)
         self.base = nova_base
         self._indexar()
         from composicao_textual import CompositorTextual
         self.compositor = CompositorTextual(
-            self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao)
+            self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao,
+            self.curriculo_mundo)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
+        from linguagem_conversa import Conversacao
+        self.conversacao = Conversacao()
         self.contexto_textual = None
         self.ultimo_ato_social = None
         self.ultimo_turno = None
@@ -840,7 +851,9 @@ class Crivo:
 
     # ---------------------------------------------------- resposta -------
     def responder(self, texto):
-        """Preserva uma única resposta de contexto a cada turno."""
+        """Contexto implícito de um turno e retomada explícita da conversa."""
+        preparacao = self.conversacao.preparar(texto, self)
+        registro_anterior = self.historico[-1] if self.historico else None
         anterior = self.ultima_resposta_mostrada
         self._contexto_textual_anterior = self.contexto_textual
         self._ato_social_anterior = self.ultimo_ato_social
@@ -852,9 +865,43 @@ class Crivo:
         self._referencia_turno_anterior = anterior
         self._pedido_turno = None
         try:
-            resultado = self._responder_impl(texto)
+            origem = ""
+            if preparacao is not None and preparacao.resultado is not None:
+                ident, resposta, self.contexto_textual, origem = preparacao.resultado
+                resultado = ident, resposta
+                self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+                self.esclarecimento = self.ultimo_assunto = None
+                self.ultimos, self.pos_ultimo = [], 0
+                self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "linguagem_conversa",
+                                       "ato": preparacao.ato._asdict()})
+                self.historico = self.historico[-20:]
+            else:
+                consulta = preparacao.ato.consulta if preparacao is not None else texto
+                resultado = self._responder_impl(consulta)
+                # A consulta interna é auditável, mas o histórico e o replay
+                # continuam usando exatamente a mensagem escrita pelo usuário.
+                if preparacao is not None:
+                    if self.historico and self.historico[-1] is not registro_anterior:
+                        self.historico[-1]["pergunta"] = texto
+                    else:
+                        self.historico.append({"pergunta": texto, "id": resultado[0]})
+                        self.historico = self.historico[-20:]
+                    self.historico[-1]["ato"] = preparacao.ato._asdict()
+                    if preparacao.ato.formato:
+                        if self.contexto_textual is None:
+                            self.contexto_textual = self.compositor.contexto_editorial(*resultado)
+                        if self.contexto_textual is not None:
+                            from linguagem_conversa import Lembranca
+                            snap = Lembranca(resultado[0], resultado[1], self.contexto_textual, self.conversacao.turno)
+                            ident, resposta, self.contexto_textual, origem = self.conversacao.transformar(
+                                preparacao.ato.formato, snap, self)
+                            resultado = ident, resposta
+                            self.historico[-1]["id"] = ident
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
+            if origem:
+                self.ultimo_turno["prova_origem"] = origem
+                self.historico[-1]["prova_origem"] = origem
             if self._pedido_turno is not None:
                 if not self.historico or self.historico[-1].get("pergunta") != texto:
                     self.historico.append({"pergunta": texto, "id": identificador,
@@ -865,6 +912,10 @@ class Crivo:
                 self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
                 self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
+            self.conversacao.registrar(identificador, resultado[1], self.contexto_textual)
+            if (preparacao is None and self.contexto_textual is not None or
+                    identificador.startswith("social:")):
+                self.conversacao.assunto = self.conversacao.objetivo = None
             # Nenhuma pergunta seguinte herda saudações, recusas,
             # dúvidas ou solicitações de esclarecimento.
             if (identificador in {e["id"] for e in self.base} or
@@ -1000,10 +1051,32 @@ class Crivo:
         # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
         # de formato, e continuar um texto não consulta outro assunto.
         composicao = self.compositor.responder(texto, self._contexto_textual_anterior)
+        if (composicao is not None and composicao[0] == "fora" and
+                self.compositor._menciona_mundo(n)):
+            # O currículo novo não invalida uma prova já cadastrada em
+            # outro provedor. Só ceder quando o pedido INTEIRO tem prova,
+            # nunca por ranking, palavra comum ou diagnóstico presumido.
+            alternativas = [self.interpretador_geral.interpretar(texto)]
+            if self.raciocinio is not None:
+                alternativas.append(self.raciocinio.interpretar(texto))
+            quadro_mundo = self.analisador_portugues.analisar(texto)
+            if quadro_mundo is not None:
+                if quadro_mundo.intencao == "definir":
+                    alvo = self.compositor.resolver(quadro_mundo.sujeito)
+                    if alvo in self.compositor.mundo_ids:
+                        composicao = self.compositor._conceito(alvo)
+                else:
+                    alternativas.append(self.analisador_portugues.responder(quadro_mundo))
+            if any(r is not None and r[0].startswith("logica:") and r[0] not in
+                   ("logica:desconhecido", "logica:sem_ligacao") for r in alternativas):
+                composicao = None
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
             self.esclarecimento = None
             self.ultimo_assunto = None
+            if (self.contexto_textual is not None and
+                    self.contexto_textual.origem == "base"):
+                self.contexto_geral = "definicao"
             self.historico.append({"pergunta": original, "id": ident,
                                    "mecanismo": "composicao_factual"})
             self.historico = self.historico[-20:]

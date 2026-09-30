@@ -81,7 +81,8 @@ if __name__ == "__main__":
     parser.add_argument("--dimensao", type=int, default=256)
     parser.add_argument("--modo", choices=("caracteres", "palavras", "misto", "portugues", "portugues_sem_filtro"), default="caracteres")
     args = parser.parse_args()
-    dados = json.loads(Path(args.base).read_text(encoding="utf-8"))
+    from curriculo_mundo import carregar_base
+    dados = carregar_base(args.base)
     resultado = (validacao_cruzada(dados, args.epocas, args.ocultos, args.dimensao, modo=args.modo)
                  if args.cruzada else avaliar(dados, args.epocas, args.ocultos))
     print(json.dumps(resultado, ensure_ascii=False, indent=2))
