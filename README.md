@@ -4,6 +4,94 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Primeira camada de geração e ciclo de aprendizagem
+
+O Crivo agora tem uma **GRU condicional autoregressiva autoral**, treinada
+do zero: `linguagem_gerativa.py` prevê a próxima palavra a partir do pedido,
+do estado e das palavras já produzidas. O checkpoint `rede_geracao.json`
+contém **77.289 parâmetros**, embeddings de 32 dimensões e estado de 64
+dimensões. Não contém respostas prontas nem usa modelos de terceiros ou API.
+
+`geracao_conversa.py` resolve oito operações explícitas: história, poema,
+outro final, escuta de relato, alternativa, reparo, apoio após uma tentativa
+e combinação de elementos. Temas e nomes inéditos são copiados literalmente
+de argumentos do pedido; esse mecanismo de cópia não significa que o modelo
+aprendeu os conceitos. A rede compõe a linguagem ao redor deles. O suporte
+a pedidos depende das construções implementadas no resolvedor, não de uma
+compreensão aberta de qualquer frase.
+
+```text
+Invente uma história curta sobre um farol e um robô
+Agora dê outro final
+Deixe a história mais leve
+Troque um robô por uma baleia
+Escreva um poema curto sobre chuva e esperança
+Pode fazer outra versão?
+```
+
+A criação aparece como **Ficção** ou **Poema**, sem prova factual. Pedidos
+informativos, código, fontes e inferências continuam usando seus motores.
+Saídas incompletas, com argumentos ausentes ou repetição de quatro tokens
+são recusadas; o gerador tenta outra variante e pede esclarecimento se não
+consegue concluir. Essa verificação estrutural não garante qualidade ou
+coerência semântica. A memória da criação expira após dez turnos, é limpa
+ao mudar de tema, consultar um fato ou cancelar, e funciona por replay HTTP.
+Os relatos permanecem na sessão, sem treinar o modelo durante uma conversa.
+
+O currículo autoral tem **1.872 exemplos de treino**, em **1.008 contextos
+de diálogo**, e **416 exemplos de validação**, em **224 contextos**. São
+exemplos sintéticos de ensino com 568 respostas deslexicalizadas distintas
+no treino, não milhares de conversas humanas independentes. Famílias de
+pedidos, grupos de contexto e temas de validação ficam separados. O
+vocabulário é construído apenas com respostas de treino; os padrões de
+escrita continuam próximos entre as partições. A validação acerta
+**12.270/12.632 próximos tokens** com a palavra anterior correta fornecida,
+tem perplexidade **1,10** e termina **416/416** decodificações. Isso não
+mede conversa irrestrita ou capacidade de raciocínio geral.
+
+`avaliar_geracao.py` compara 28 mensagens em nove sequências, com critérios
+publicados de criação, continuidade, argumentos, reparo e limites. A versão
+de referência `baa3963` atende **8/28** mensagens e **0/9** sequências;
+esta versão atende **28/28** e **9/9**. Os textos completos estão em
+`avaliacao_geracao.json` para revisão. É uma sonda de desenvolvimento,
+independente do currículo de treino, sem avaliação externa cega de
+originalidade ou qualidade literária. Os testes também verificam o
+gradiente por diferenças finitas e a paridade NumPy/Python.
+
+Para ampliar a capacidade, acrescente exemplos **revisados** num JSONL.
+Cada linha declara a conversa de origem, a família, a partição, o contexto
+e a resposta com marcadores dos argumentos:
+
+```json
+{"revisado":true,"id_dialogo":"autoral-001","familia":"narrativa-nova","split":"treino","contexto":{"acao":"historia","slots":{"tema1":"uma ilha"},"mensagem":"Invente uma história sobre uma ilha","historico":[],"variante":0},"resposta":"@tema1 guardou uma pequena surpresa. No fim, outra pergunta abriu um caminho."}
+```
+
+```bash
+python preparar_dialogos_geracao.py --dialogos exemplos-revisados.jsonl --saida curriculo-candidato.json
+python treinar_geracao.py --dados curriculo-candidato.json --saida rede-candidata.json --relatorio treino-candidato.json
+```
+
+O importador rejeita exemplos sem revisão declarada, marcadores ausentes e
+conversas/famílias presentes nas duas partições. Revisar inclui avaliar a
+qualidade do texto; `revisado:true` apenas registra a declaração do autor.
+O treino recomeça do zero usando o currículo ampliado, com NumPy. A inferência
+incluída funciona com Python padrão 3.8+. É possível reconstruir o currículo
+inicial com `python scripts/gerar_curriculo_geracao.py`.
+
+O workflow manual **Treinar e avaliar gerador candidato** acrescenta o JSONL
+informado, treina, testa o candidato e publica pesos/currículo/relatórios
+como artefato. Ele executa os contratos de conversa, generalização e as
+quatro auditorias existentes. O artefato só deve virar o checkpoint ativo
+depois de revisar os relatórios e as respostas completas; publicar o
+artefato não altera o repositório ou o serviço. Para avaliação local de um
+currículo ampliado, use uma cópia isolada do projeto e coloque o currículo
+e os pesos candidatos nos nomes padrão antes de executar os testes.
+
+Esta é uma primeira capacidade generativa limitada. As respostas ainda
+têm padrões simples e pouco repertório. Evoluir exige ampliar exemplos,
+operações compreendidas e avaliações; o código fornece esse ciclo, sem
+prometer aprendizagem autônoma em segundo plano ou inteligência geral.
+
 ## Bate-papo com contexto e atos aprendidos
 
 O Crivo agora distingue relatos e objetivos de pedidos factuais, conversa

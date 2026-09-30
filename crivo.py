@@ -958,6 +958,10 @@ class Crivo:
             self.conversacao.dialogo.registrar(identificador, resultado[1], self.conversacao)
             if self.conversacao.dialogo.ultimo_quadro is not None and self.historico:
                 self.historico[-1]["quadro_dialogo"] = self.conversacao.dialogo.ultimo_quadro
+            if self.conversacao.geracao.ultimo_quadro is not None and self.historico:
+                self.historico[-1]["quadro_geracao"] = self.conversacao.geracao.ultimo_quadro
+                self.historico[-1]["mecanismo"] = "geracao_neural"
+            self.conversacao.geracao.registrar(identificador)
             self.planejador.registrar(identificador, self.contexto_textual)
             if self.planejador.ultimo is not None and self.historico:
                 self.historico[-1]["plano"] = self.planejador.ultimo

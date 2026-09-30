@@ -159,6 +159,8 @@ class Conversacao:
         self.dialogo = DialogoAberto(usar_neural=usar_neural)
         from raciocinio_dialogo import RaciocinioDialogo
         self.raciocinio_dialogo = RaciocinioDialogo()
+        from geracao_conversa import GeracaoConversa
+        self.geracao = GeracaoConversa(usar_neural=usar_neural)
 
     def _analisar_neural(self, texto):
         if (not self.usar_neural or not isinstance(texto, str) or len(texto) > 1200 or
@@ -332,6 +334,7 @@ class Conversacao:
         self.turno += 1
         self.ultimo_quadro_neural = None
         self.dialogo.ultimo_quadro = None
+        self.geracao.ultimo_quadro = None
         self.lembrancas = deque((l for l in self.lembrancas
                                 if self.turno - l.turno <= self.MAX_INTERVALO), maxlen=self.MAX_LEMBRANCAS)
         self.situacoes = deque((s for s in self.situacoes if self.turno - s[4] <= self.MAX_INTERVALO),
@@ -339,6 +342,9 @@ class Conversacao:
         escolha = self._escolher(texto, bot)
         if escolha is not None:
             return escolha
+        gerada = self.geracao.preparar(texto, bot, self)
+        if gerada is not None:
+            return gerada
         planejada = bot.planejador.preparar(texto, bot)
         if planejada is not None:
             return planejada
@@ -413,6 +419,7 @@ class Conversacao:
         if ato.operacao == "cancelar":
             self.dialogo.limpar()
             self.raciocinio_dialogo.limpar()
+            self.geracao.limpar()
             self.lembrancas.clear()
             self.relatos.clear()
             self.situacoes.clear()
