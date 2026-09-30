@@ -10,7 +10,7 @@ on:
       epocas:
         description: 'Épocas de treino'
         type: number
-        default: 60
+        default: 40
 permissions:
   contents: read
 jobs:
@@ -36,11 +36,14 @@ jobs:
           fi
       - name: Treinar candidato do zero com partições conservadas
         run: python treinar_geracao.py --epocas "$EPOCAS_GERACAO" --saida rede_geracao.json --relatorio /tmp/avaliacao-treino.json
+      - name: Treinar interpretação dos mesmos pedidos sem usar as respostas
+        run: python treinar_intencao_gerativa.py --numpy --saida rede_intencao_gerativa.json --relatorio /tmp/avaliacao-intencao.json
       - name: Verificar matemática, replay e regressões
         run: |
           python -m unittest discover -p 'testes*.py'
           python crivo.py --teste
           python avaliar_geracao.py --saida /tmp/geracao.json
+          python avaliar_ampliacao.py --saida /tmp/ampliacao.json
           python avaliar_bate_papo.py --saida /tmp/bate-papo.json
           python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
           python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
@@ -57,9 +60,12 @@ jobs:
           name: gerador-candidato
           path: |
             rede_geracao.json
+            rede_intencao_gerativa.json
             curriculo_geracao.json
             /tmp/avaliacao-treino.json
+            /tmp/avaliacao-intencao.json
             /tmp/geracao.json
+            /tmp/ampliacao.json
             /tmp/bate-papo.json
             /tmp/generalizacao.json
             /tmp/evolucao-integrada.json

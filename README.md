@@ -4,15 +4,106 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
-## Primeira camada de geração e ciclo de aprendizagem
+## Ampliação da conversa e da escrita
 
-O Crivo agora tem uma **GRU condicional autoregressiva autoral**, treinada
+A GRU autoral agora atende **16 operações**, com **oito estilos** e oito
+variantes por operação. Além das capacidades anteriores, escreve rascunhos
+de mensagens e diálogos fictícios, continua a última cena, reúne relatos,
+reformula sua apresentação, faz perguntas de exploração, organiza objetivos
+e compara uma observação com uma conclusão proposta pelo usuário.
+Nomes, destinatários, relatos e restrições são conservados literalmente.
+Esse mecanismo permite trabalhar com argumentos inéditos, mas não ensina
+ao modelo os conceitos ou fatos contidos neles.
+
+```text
+Me ajuda a escrever uma mensagem para Lia dizendo que vou chegar mais tarde?
+Pode deixar mais carinhosa?
+Faça uma versão mais curta
+Escreva um diálogo entre uma bússola e um viajante
+Continue de onde parou
+Resuma o que eu te contei
+Me faça outra pergunta sobre isso
+Me ajude a organizar minhas ideias
+Meu colega demorou a responder; posso concluir que ele está bravo comigo?
+```
+
+`pedidos_gerativos.py` interpreta construções explícitas sem catálogo de
+nomes. `intencao_gerativa.py` acrescenta uma MLP treinada do zero em pedidos
+e estados da sessão. Embora classifique as 16 operações, o fallback neural
+só pode executar sete ações pessoais, depois das guardas de consulta,
+negação, contexto e argumentos. Gêneros de escrita continuam dependendo
+dos operadores explícitos.
+
+O roteador tem **56.896 parâmetros**: acerta **408/408** pares únicos de
+treino e **80/108** de validação interna, com **49/53** previsões aceitas
+corretas. Entre as sete ações habilitadas no fallback, são **18/39** e
+**10/13** aceitas corretas. A média geral inclui gêneros que o runtime
+resolve pela gramática; ela não demonstra compreensão ampla de português.
+Os diagnósticos e as limitações ficam em `avaliacao_intencao_gerativa.json`.
+
+O gerador tem **153.704 parâmetros**, estado de 80 dimensões, embeddings
+de 40 dimensões e vocabulário de 744 tokens de treino. O currículo vigente
+contém **11.088 exemplos de treino** e **1.896 de validação**, com **2.292
+respostas deslexicalizadas distintas no treino**. São exemplos sintéticos
+autorais; famílias, contextos e temas são separados entre as partições,
+mas há estruturas de resposta compartilhadas. A validação detalhada está
+em `avaliacao_geracao_neural.json` e não equivale a avaliação externa cega.
+Com o prefixo correto fornecido, são **61.217/62.370 próximos tokens**
+certos e perplexidade **1,046**. As **1.896/1.896** gerações encerram e
+conservam os argumentos; **1.867/1.896** passam a guarda estrutural. As
+29 restantes são poemas/reflexões recusados pelo filtro, sem afrouxá-lo.
+As partições compartilham 666 respostas deslexicalizadas autorais distintas.
+
+A resposta anterior real e as três perguntas recentes participam do
+condicionamento. A última escrita também guarda sua cena e seus argumentos
+para revisões e continuações. A influência dos hashes de texto é limitada;
+o treino usa dropout e mistura de históricos para que um contexto novo
+não substitua a ação, o estilo ou os argumentos declarados. O modelo é
+treinado do zero por 40 épocas com semente fixa, sem aprender da sessão.
+
+Relatos recentes, objetivo declarado e escrita expiram; uma retomada
+recupera as fontes do assunto escolhido. Uma hipótese de tempo não altera
+a disponibilidade real. Consultas factuais suspendem o diálogo pessoal,
+retratações removem a disponibilidade anterior e cancelamentos encerram
+pedidos incompletos. Uma consulta desconhecida não preenche um tema pendente.
+O replay HTTP reconstrói a conversa sem compartilhar memória entre usuários.
+
+Rascunhos e ficção aparecem identificados. Exploração precisa conter uma
+pergunta; pedidos de encurtamento precisam produzir um texto menor. EOS,
+argumentos, probabilidade e repetição de quatro tokens continuam sendo
+verificados antes da resposta. Essas guardas não garantem gramática,
+utilidade ou coerência semântica. O repertório ainda é limitado: ele não
+tem consciência, compreensão universal nem evolução automática dos pesos.
+
+`avaliar_ampliacao.py` fixa 41 mensagens em 11 conversas antes de observar
+as respostas e mantém esses pedidos fora do treino. A comparação com o
+`main` anterior e os textos completos ficam em `avaliacao_ampliacao.json`.
+A referência atende **14/41** mensagens e **1/11** conversas completas;
+a ampliação atende **41/41** e **11/11**, com os mesmos critérios.
+A sonda verifica operações, argumentos e limites; a revisão humana também
+procura frases quebradas que essa contagem não detecta.
+
+```bash
+python scripts/gerar_curriculo_geracao.py
+python treinar_geracao.py
+python treinar_intencao_gerativa.py --numpy
+python avaliar_ampliacao.py --saida resultado-ampliacao.json
+python -m unittest discover -p 'testes*.py'
+```
+
+O importador de diálogos revisados e o workflow manual de candidatos abaixo
+também atendem o currículo ampliado. O workflow treina os dois modelos e
+publica relatórios e pesos para revisão, sem promover o candidato ao serviço.
+
+## Primeira geração: referência anterior
+
+A primeira geração acrescentou uma **GRU condicional autoregressiva autoral**, treinada
 do zero: `linguagem_gerativa.py` prevê a próxima palavra a partir do pedido,
-do estado e das palavras já produzidas. O checkpoint `rede_geracao.json`
+do estado e das palavras já produzidas. O checkpoint anterior
 contém **77.289 parâmetros**, embeddings de 32 dimensões e estado de 64
 dimensões. Não contém respostas prontas nem usa modelos de terceiros ou API.
 
-`geracao_conversa.py` resolve oito operações explícitas: história, poema,
+Essa versão resolvia oito operações explícitas: história, poema,
 outro final, escuta de relato, alternativa, reparo, apoio após uma tentativa
 e combinação de elementos. Temas e nomes inéditos são copiados literalmente
 de argumentos do pedido; esse mecanismo de cópia não significa que o modelo
@@ -38,7 +129,7 @@ coerência semântica. A memória da criação expira após dez turnos, é limpa
 ao mudar de tema, consultar um fato ou cancelar, e funciona por replay HTTP.
 Os relatos permanecem na sessão, sem treinar o modelo durante uma conversa.
 
-O currículo autoral tem **1.872 exemplos de treino**, em **1.008 contextos
+O currículo anterior tinha **1.872 exemplos de treino**, em **1.008 contextos
 de diálogo**, e **416 exemplos de validação**, em **224 contextos**. São
 exemplos sintéticos de ensino com 568 respostas deslexicalizadas distintas
 no treino, não milhares de conversas humanas independentes. Famílias de
@@ -76,7 +167,7 @@ conversas/famílias presentes nas duas partições. Revisar inclui avaliar a
 qualidade do texto; `revisado:true` apenas registra a declaração do autor.
 O treino recomeça do zero usando o currículo ampliado, com NumPy. A inferência
 incluída funciona com Python padrão 3.8+. É possível reconstruir o currículo
-inicial com `python scripts/gerar_curriculo_geracao.py`.
+vigente com `python scripts/gerar_curriculo_geracao.py`.
 
 O workflow manual **Treinar e avaliar gerador candidato** acrescenta o JSONL
 informado, treina, testa o candidato e publica pesos/currículo/relatórios
