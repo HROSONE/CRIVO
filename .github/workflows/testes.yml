@@ -3,7 +3,6 @@ on:
   push:
     branches: [main, melhorias-crivo-v02]
   pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
       benchmark:
@@ -36,6 +35,15 @@ jobs:
         run: |
           python avaliar_conversacao.py
           python avaliar_mundo.py
+      - name: Avaliar familias de validacao reservadas
+        if: matrix.python-version == '3.11'
+        run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
+      - name: Publicar resultado de validacao
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: generalizacao-validacao
+          path: /tmp/generalizacao.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
