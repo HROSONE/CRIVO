@@ -55,12 +55,16 @@ def responder_web(payload):
         "logica:consulta", "logica:conjuncao", "logica:conjuncao_falsa",
         "logica:consulta_impossivel",
     }
+    # Proveniência criada pelo motor durante o replay, jamais pelo cliente.
+    origem = (bot.ultimo_turno or {}).get("prova_origem", "")
+    ids_editoriais = {e["id"] for e in bot.base}
+    prova_editorial = (identificador in ids_editoriais or origem in ids_editoriais)
     return {
         "id": identificador,
         "response": resposta,
         "mechanism": mecanismo,
         "neural_active": bot.rede is not None,
         # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
-        "has_proof": (identificador in provas_efetivas or
-                      "Relações verificadas:" in resposta),
+        "has_proof": (identificador in provas_efetivas or origem in provas_efetivas or
+                      prova_editorial and "Relações verificadas:" in resposta),
     }

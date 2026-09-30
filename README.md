@@ -1,7 +1,100 @@
 # Crivo v0.4 (em desenvolvimento)
 
 Assistente de conversa em português, primeiro teste.
-Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar, coisas de casa e programação.
+Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
+coisas de casa, programação, ciência e psicologia.
+
+## Conversação flexível, reformulação e memória recente
+
+`linguagem_conversa.py` interpreta operações de linguagem antes de consultar
+os motores de conhecimento. O currículo autoral `conhecimento_linguagem.json`
+descreve **15 atos de fala e 44 padrões estruturais**. Os alvos são variáveis:
+as regras não contêm nomes de neurônios, planetas ou objetos dos testes.
+Pedidos indiretos conservam a pergunta completa, incluindo negação,
+condições e qualificadores. A mensagem original fica no histórico; o quadro
+`ato` registra a interpretação e a consulta interna para auditoria.
+
+```text
+Me explica direitinho o que seria uma sinapse
+Queria entender um pouco melhor a memória
+Cérebro é o quê?
+Me conta como funciona essa história de sono REM
+Me diga a diferença entre ansiedade e estresse
+```
+
+**Reformular muda a redação**, com novas formas de apresentar definições e
+equivalências locais, mantendo as unidades factuais e suas fontes. Também
+é possível simplificar a linguagem, resumir, organizar em tópicos, pedir um
+exemplo cadastrado ou aprofundar com fatos ainda não apresentados. Números,
+negações, condições e avisos de incerteza são conservados. Exemplos de código
+e caminhos de provas lógicas permanecem íntegros; a API preserva a indicação
+de prova após a reformulação usando somente proveniência criada pelo motor.
+
+```text
+O que é neurônio?
+Fala a mesma coisa com outras palavras
+Pode explicar sem palavras difíceis?
+Pode desenvolver essa ideia?
+De onde veio essa informação?
+```
+
+**Retomar é explícito.** Depois de mudar de tema ou cumprimentar, peça
+`retome memória` ou `vamos voltar à sinapse`. A memória guarda até oito
+registros factuais e oito situações pessoais, com validade de dez turnos
+desde sua última atualização. `Voltar ao assunto anterior` recupera o
+assunto factual anterior; `recapitule nossa conversa` reúne os fatos recentes
+e identifica separadamente o que o usuário contou. Quando há dois alvos
+possíveis, o CRIVO apresenta opções e espera a escolha do nome ou número;
+um `sim` não escolhe um alvo sozinho.
+
+Perguntas elípticas como `e como funciona?` usam um referente inequívoco.
+As referências implícitas antigas continuam exigindo o turno imediatamente
+anterior. Uma saudação encerra esse contexto implícito, mas permite uma
+retomada explícita. `Mudar de assunto` ou `esqueça essa conversa` reinicia a
+memória. Ensinar conhecimento pelo código também invalida essa memória.
+A API reconstrói tudo pelo histórico de até dez perguntas da aba: não há
+persistência no servidor nem memória compartilhada entre usuários.
+
+**Conversa aberta acompanha o relato.** `Quero conversar sobre trabalho`
+abre uma exploração mesmo quando não existe um verbete desse assunto.
+O CRIVO pergunta se o usuário quer explorar uma ideia, situação ou decisão;
+acompanha o objetivo declarado, pergunta pelas dificuldades, tentativas e
+próximo passo, e pode retomar uma situação recente. As respostas citam o
+relato como relato, sem transformá-lo em conhecimento científico.
+
+```text
+Quero conversar sobre trabalho
+Eu quero mudar de trabalho
+Eu não consigo decidir
+Já tentei conversar com meu chefe
+O que você acha?
+O que é DNA?
+Vamos voltar ao trabalho
+```
+
+**Limites:** é uma gramática composicional com memória e realização textual
+controlada, sem compreensão universal de português nem geração irrestrita.
+A conversa pode explorar um tema a partir do que o usuário contar; respostas
+factuais dependem do conhecimento cadastrado. A reformulação usa operações
+conservadoras e não garante uma paráfrase diferente para toda sentença.
+Preserva a MLP original offline e seu checkpoint; esta camada de diálogo
+não é um novo treino dos pesos nem usa modelos de terceiros. Ampliações do
+conhecimento científico continuam exigindo fontes e reutilização verificadas.
+
+**Verificação de desenvolvimento:** a sonda pública passou de **5/40 para
+40/40** sobre a referência `83c9272`, conforme `avaliacao_conversacao.json`.
+São 40 cenários de
+pedidos variados, escrita, esclarecimento, retomada, relatos e recusas.
+As regressões também combinam dois operadores com os 44 conceitos do
+currículo e uma base fictícia, além de conferir provas, código, fontes,
+isolamento e replay da API. Esses casos foram usados no desenvolvimento;
+não representam uma avaliação cega.
+
+```bash
+python avaliar_conversacao.py
+python avaliar_conversacao.py --json
+python -m unittest testes_linguagem_conversa -v
+```
 
 ## Interpretar o pedido antes de consultar o conhecimento
 
@@ -159,7 +252,8 @@ quando eles acabam. `Não entendi` reduz a quantidade de informação.
 `E o RNA?` troca o assunto mantendo o formato de composição.
 Pronomes como `ela` exigem um único assunto no turno anterior; perguntas
 relacionais passam pelo mecanismo de prova existente. Saudações, dúvidas
-e assuntos desconhecidos expiram o contexto. A API reconstrói esse estado
+e assuntos desconhecidos expiram o contexto implícito. A retomada explícita
+usa a memória recente descrita acima. A API reconstrói esse estado
 pelo histórico de perguntas, sem compartilhar conversas entre instâncias.
 
 A referência ao braço citado na resposta sobre Via Láctea agora tem um
@@ -871,9 +965,10 @@ E uma árvore binária?
   → "Não tenho uma definição cadastrada desse conceito."
 ```
 
-O contexto só dura **um turno**, não persiste após uma saudação,
+O contexto **implícito** só dura **um turno**, não persiste após uma saudação,
 pergunta sem relação ou tema fora da base; a mesma lógica funciona no
 chat web porque `web_core.py` reconstrói o histórico enviado.
+A memória recente de conversa permite uma retomada explícita por assunto.
 Não inclui reconhecimento de pronomes arbitrários, tradução de
 frases livres nem resolução de contradições sem fonte.
 

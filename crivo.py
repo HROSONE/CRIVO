@@ -188,6 +188,8 @@ class Crivo:
             self.curriculo_mundo)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
+        from linguagem_conversa import Conversacao
+        self.conversacao = Conversacao()
         self._pedido_turno = None
         self.contexto_textual = None
         self._contexto_textual_anterior = None
@@ -651,6 +653,8 @@ class Crivo:
             self.curriculo_mundo)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
+        from linguagem_conversa import Conversacao
+        self.conversacao = Conversacao()
         self.contexto_textual = None
         self.ultimo_ato_social = None
         self.ultimo_turno = None
@@ -847,7 +851,9 @@ class Crivo:
 
     # ---------------------------------------------------- resposta -------
     def responder(self, texto):
-        """Preserva uma única resposta de contexto a cada turno."""
+        """Contexto implícito de um turno e retomada explícita da conversa."""
+        preparacao = self.conversacao.preparar(texto, self)
+        registro_anterior = self.historico[-1] if self.historico else None
         anterior = self.ultima_resposta_mostrada
         self._contexto_textual_anterior = self.contexto_textual
         self._ato_social_anterior = self.ultimo_ato_social
@@ -859,9 +865,43 @@ class Crivo:
         self._referencia_turno_anterior = anterior
         self._pedido_turno = None
         try:
-            resultado = self._responder_impl(texto)
+            origem = ""
+            if preparacao is not None and preparacao.resultado is not None:
+                ident, resposta, self.contexto_textual, origem = preparacao.resultado
+                resultado = ident, resposta
+                self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+                self.esclarecimento = self.ultimo_assunto = None
+                self.ultimos, self.pos_ultimo = [], 0
+                self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "linguagem_conversa",
+                                       "ato": preparacao.ato._asdict()})
+                self.historico = self.historico[-20:]
+            else:
+                consulta = preparacao.ato.consulta if preparacao is not None else texto
+                resultado = self._responder_impl(consulta)
+                # A consulta interna é auditável, mas o histórico e o replay
+                # continuam usando exatamente a mensagem escrita pelo usuário.
+                if preparacao is not None:
+                    if self.historico and self.historico[-1] is not registro_anterior:
+                        self.historico[-1]["pergunta"] = texto
+                    else:
+                        self.historico.append({"pergunta": texto, "id": resultado[0]})
+                        self.historico = self.historico[-20:]
+                    self.historico[-1]["ato"] = preparacao.ato._asdict()
+                    if preparacao.ato.formato:
+                        if self.contexto_textual is None:
+                            self.contexto_textual = self.compositor.contexto_editorial(*resultado)
+                        if self.contexto_textual is not None:
+                            from linguagem_conversa import Lembranca
+                            snap = Lembranca(resultado[0], resultado[1], self.contexto_textual, self.conversacao.turno)
+                            ident, resposta, self.contexto_textual, origem = self.conversacao.transformar(
+                                preparacao.ato.formato, snap, self)
+                            resultado = ident, resposta
+                            self.historico[-1]["id"] = ident
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
+            if origem:
+                self.ultimo_turno["prova_origem"] = origem
+                self.historico[-1]["prova_origem"] = origem
             if self._pedido_turno is not None:
                 if not self.historico or self.historico[-1].get("pergunta") != texto:
                     self.historico.append({"pergunta": texto, "id": identificador,
@@ -872,6 +912,10 @@ class Crivo:
                 self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
                 self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
+            self.conversacao.registrar(identificador, resultado[1], self.contexto_textual)
+            if (preparacao is None and self.contexto_textual is not None or
+                    identificador.startswith("social:")):
+                self.conversacao.assunto = self.conversacao.objetivo = None
             # Nenhuma pergunta seguinte herda saudações, recusas,
             # dúvidas ou solicitações de esclarecimento.
             if (identificador in {e["id"] for e in self.base} or

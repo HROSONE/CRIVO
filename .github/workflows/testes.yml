@@ -31,6 +31,11 @@ jobs:
         run: python crivo.py --teste
       - name: Testes novos
         run: python -m unittest discover -p 'testes*.py' -v
+      - name: Sondas de conversacao e conhecimento cientifico
+        if: matrix.python-version == '3.11'
+        run: |
+          python avaliar_conversacao.py
+          python avaliar_mundo.py
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
