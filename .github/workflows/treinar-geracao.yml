@@ -1,0 +1,70 @@
+name: Treinar e avaliar gerador candidato
+on:
+  workflow_dispatch:
+    inputs:
+      dialogos:
+        description: 'JSONL revisado no repositório (vazio usa o currículo autoral incluído)'
+        required: false
+        default: ''
+        type: string
+      epocas:
+        description: 'Épocas de treino'
+        type: number
+        default: 60
+permissions:
+  contents: read
+jobs:
+  candidato:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      DIALOGOS_PATH: ${{ inputs.dialogos }}
+      EPOCAS_GERACAO: ${{ inputs.epocas }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Acrescentar exemplos revisados quando informados
+        run: |
+          if [ -n "$DIALOGOS_PATH" ]; then
+            python preparar_dialogos_geracao.py --dialogos "$DIALOGOS_PATH" --saida /tmp/curriculo-candidato.json
+            cp /tmp/curriculo-candidato.json curriculo_geracao.json
+          fi
+      - name: Treinar candidato do zero com partições conservadas
+        run: python treinar_geracao.py --epocas "$EPOCAS_GERACAO" --saida rede_geracao.json --relatorio /tmp/avaliacao-treino.json
+      - name: Verificar matemática, replay e regressões
+        run: |
+          python -m unittest discover -p 'testes*.py'
+          python crivo.py --teste
+          python avaliar_geracao.py --saida /tmp/geracao.json
+          python avaliar_bate_papo.py --saida /tmp/bate-papo.json
+          python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
+          python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
+      - name: Verificar auditorias de recuperação e código
+        run: |
+          python avaliar_definicoes.py > /tmp/definicoes.json
+          python avaliar_regras_mistas.py > /tmp/regras.json
+          python experimento_entrada_usuario.py > /tmp/entrada.json
+          python experimento_programacao_adversarial.py > /tmp/programacao.json
+      - name: Publicar candidato e relatórios para revisão
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gerador-candidato
+          path: |
+            rede_geracao.json
+            curriculo_geracao.json
+            /tmp/avaliacao-treino.json
+            /tmp/geracao.json
+            /tmp/bate-papo.json
+            /tmp/generalizacao.json
+            /tmp/evolucao-integrada.json
+            /tmp/definicoes.json
+            /tmp/regras.json
+            /tmp/entrada.json
+            /tmp/programacao.json
+          retention-days: 14

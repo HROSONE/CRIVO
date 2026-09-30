@@ -11,6 +11,19 @@ on:
         options: [nenhum, portugues, historico]
         default: nenhum
 jobs:
+  matematica-geracao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Conferir BPTT, aprendizado e paridade de inferência
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+        run: python -m unittest testes_geracao -v
   testes:
     runs-on: ubuntu-latest
     strategy:
@@ -36,6 +49,7 @@ jobs:
           python avaliar_conversacao.py
           python avaliar_mundo.py
           python avaliar_bate_papo.py --saida /tmp/bate-papo.json
+          python avaliar_geracao.py --saida /tmp/geracao.json
       - name: Avaliar familias de validacao reservadas
         if: matrix.python-version == '3.11'
         run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
@@ -54,6 +68,7 @@ jobs:
             /tmp/generalizacao.json
             /tmp/retomada.json
             /tmp/bate-papo.json
+            /tmp/geracao.json
             /tmp/evolucao-integrada.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'

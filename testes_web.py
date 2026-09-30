@@ -116,6 +116,20 @@ class TestesWebHTTP(unittest.TestCase):
         self.assertEqual(dado["id"], "logica:tem_caracteristica")
         self.assertTrue(dado["has_proof"])
 
+    def test_http_gerador_reconstroi_poema_e_personagens(self):
+        status, headers, body = self.fazer_requisicao("/api/chat", {
+            "history": ["Escreva um poema sobre Névia e Lúna", "Pode fazer outra versão?"],
+            "message": "Troque Névia por Maíra",
+        }, "POST")
+        self.assertEqual(status, 200)
+        self.assertEqual(headers.get("Cache-Control"), "no-store")
+        dado = json.loads(body.decode("utf-8"))
+        self.assertEqual(dado["id"], "conversa:gerada_poema")
+        self.assertEqual(dado["mechanism"], "geracao_neural")
+        self.assertIn("Maíra", dado["response"])
+        self.assertNotIn("Névia", dado["response"])
+        self.assertFalse(dado["has_proof"])
+
     def test_rejeita_content_type_e_json_ruins(self):
         status, _, _ = self.fazer_requisicao(
             "/api/chat", {"message": "oi"}, "POST", "text/plain"
