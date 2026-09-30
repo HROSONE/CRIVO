@@ -4,6 +4,32 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Generalização: partições e referência auditáveis
+
+`benchmark_generalizacao.json` contém 300 perguntas em 30 famílias de
+construção e 60 diálogos em seis famílias. As perguntas são divididas em
+180 de treino, 60 de validação e 60 de teste final, com famílias disjuntas.
+Os diálogos têm 30/20/10 casos nessas partições. O oráculo confere o ID
+esperado e trechos factuais do currículo; recusas são avaliadas separadamente.
+Inclui negação de pedidos, desconhecimento expresso com “não”, erros de
+digitação, modificadores desconhecidos, condições e retomadas de assuntos.
+
+O arquivo é autoral e público. A separação de famílias evita repetir no
+treino a mesma construção avaliada, mas não configura uma avaliação externa
+cega. Os dez assuntos dentro de cada família também não são independentes.
+O treino não carrega o teste final, e o CI mede apenas a validação. A
+assinatura SHA-256 identifica a versão exata de todos os casos. A referência
+em `avaliacao_generalizacao_referencia.json` usa a versão `30a8a74`.
+
+```bash
+python avaliar_generalizacao.py --split validacao
+python avaliar_generalizacao.py --split teste --saida resultado-final.json
+python -m unittest testes_generalizacao -v
+```
+
+O gerador em `scripts/gerar_benchmark_generalizacao.py` é uma especificação
+auditável, não consulta saídas do bot nem é chamado durante o treinamento.
+
 ## Conversação flexível, reformulação e memória recente
 
 `linguagem_conversa.py` interpreta operações de linguagem antes de consultar
