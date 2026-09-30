@@ -3,6 +3,7 @@ import hashlib
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -112,6 +113,23 @@ class TestesBatePapo(unittest.TestCase):
         ident, texto = bot.responder("1")
         self.assertNotEqual(ident, "conversa:relato")
         self.assertEqual(bot.historico[-1]["ato"]["consulta"], "qual é a diferença entre DNA e memória")
+
+    def test_consultas_sem_interrogacao_e_sem_entrada_exata_durante_relato(self):
+        perguntas = {"planta precisa de sol": "sol_sombra", "como organizar a geladeira": "geladeira",
+                     "por que as aves voam": "aves", "horta em vaso": "horta"}
+        base = json.loads((RAIZ / "conhecimento.json").read_text(encoding="utf-8"))
+        for entrada in base:
+            entrada["perguntas"] = [p for p in entrada["perguntas"] if p not in perguntas]
+        with tempfile.TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / "base.json"
+            caminho.write_text(json.dumps(base, ensure_ascii=False), encoding="utf-8")
+            for pergunta, esperado in perguntas.items():
+                with self.subTest(pergunta=pergunta):
+                    bot = Crivo(caminho)
+                    bot.responder("Quero conversar sobre meus planos")
+                    bot.responder("Meu nome é Joana")
+                    self.assertEqual(bot.responder(pergunta)[0], esperado)
+                    self.assertIn("Joana", bot.responder("Qual é meu nome?")[1])
 
     def test_memoria_e_historico_sao_limitados(self):
         bot = Crivo()

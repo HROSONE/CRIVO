@@ -43,7 +43,7 @@ class DialogoAberto:
 
     def _pedido_prioritario(self, texto, bot, conversa):
         """Consulta apenas reconhecedores puros; não executa uma resposta."""
-        from crivo import chave_pergunta, normalizar as normalizar_crivo
+        from crivo import LIMIAR, chave_pergunta, normalizar as normalizar_crivo
         n = normalizar_crivo(texto).strip().strip("?.,;! ")
         if re.fullmatch(r"por que(?: (?:isso|isto) acontece| voce (?:acha|diz|sugeriu) isso)?|porque|"
                         r"qual (?:e )?meu nome|como eu me chamo|voce lembra meu nome", n):
@@ -69,16 +69,33 @@ class DialogoAberto:
         aprender = re.fullmatch(r"(?:eu )?(?:quero|pretendo|estou pensando em) (?:aprender|estudar|praticar|treinar) .+", n)
         if not aprender and re.search(r"\b(?:python|javascript|html|css|sql|git|programacao|codigo|script|programa|http)\b", n):
             return True
-        if not (self.ativo or conversa.assunto):
-            # Cobertura completa de uma intenção editorial protege também
-            # relatos que pedem orientação já cadastrada. Uma palavra
-            # comum isolada ('nome') não basta para autorizar prioridade.
-            rank = bot._ranking(texto)
-            ts = set(bot._tokens_consulta(texto))
-            if rank and ts and rank[0][0] >= .90:
-                if len(ts & bot.termos[rank[0][1]]) / len(ts) >= .60:
+        rank = bot._ranking(texto)
+        ts = set(bot._tokens_consulta(texto))
+        if rank and ts:
+            score, indice = rank[0]
+            cobertura = len(ts & bot.termos[indice]) / len(ts)
+            pessoal = re.match(r"(?:(?:so|mas|hoje|agora|amanha) )?"
+                               r"(?:eu|meu|minha|meus|minhas|me|estou|to|tenho|quero|pretendo|"
+                               r"gostaria|gosto|curto|prefiro|adoro|acho|penso|sinto|fiquei|acabei|"
+                               r"foi|aconteceu|ja tentei|tentei|nao consigo|nao quero|na verdade)\b", n)
+            referencia = re.search(r"\b(?:isso|isto|disso|disto|aquilo|esse|essa|desse|dessa|"
+                                  r"nesse|nessa|comigo|voce|meu|minha|meus|minhas)\b", n)
+            interrogativo = re.match(r"(?:o que|como|por que|qual|quais|quanto|quantos|quantas|"
+                                     r"quem|onde|quando|existe)\b", n)
+            conteudo = ts - {"vale", "pena", "organizar", "comecar", "decidir", "avaliar", "melhor",
+                            "primeiro", "passo", "ideia", "ideias", "criterio", "criterios", "mais",
+                            "ajuda", "ajudar", "posso"}
+            # Consultas editoriais continuam válidas dentro de uma conversa
+            # pessoal e sem '?'. Já 'como organizar isso' precisa do relato,
+            # mesmo que 'organizar' tenha alta similaridade com 'geladeira'.
+            if conteudo and not pessoal and not referencia and (
+                    score >= LIMIAR and cobertura >= .60 or
+                    interrogativo and score >= .90 and cobertura >= .50):
+                return True
+            if not (self.ativo or conversa.assunto) and not referencia and score >= .90:
+                if cobertura >= .60:
                     return True
-                nome_intencao = set(bot.base[rank[0][1]]["id"].split("_"))
+                nome_intencao = set(bot.base[indice]["id"].split("_"))
                 if re.match(r"(?:eu )?quero (?!aprender|estudar|praticar|treinar)", n) and ts & nome_intencao:
                     return True
         return False
@@ -125,8 +142,9 @@ class DialogoAberto:
         # Uma pergunta nova não vira resposta a uma pergunta pendente
         # só porque suas palavras se parecem com as de um relato.
         if q["ato"] in ("relato", "preferencia", "objetivo", "ponto_de_vista", "resposta"):
-            if "?" in texto or re.search(r"\b(?:o que e|o que sao|como funciona|para que serve|"
-                                         r"qual e a|quem |onde |quando |me explique|defina)\b", n):
+            if "?" in texto or re.match(r"(?:o que|como|por que|qual|quais|quanto|quantos|quantas|"
+                                       r"quem|onde|quando|existe)\b", n) or re.search(
+                    r"\b(?:me explique|defina|para que serve)\b", n):
                 return None
         if q["ato"] == "resposta" and not (self.ativo or conversa.assunto):
             return None

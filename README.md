@@ -45,6 +45,12 @@ casos e os comandos de reprodução. São verificações de desenvolvimento,
 não uma avaliação externa cega; uma recusa causal pertinente avalia a
 compreensão do pedido, sem contar como conhecimento da causa.
 
+As quatro auditorias existentes de definições, regras, entrada do usuário e
+programação também verificam a coorte histórica de 278 perguntas, retirando
+a pergunta consultada do índice. Os **192 acertos da referência de integração**
+foram mantidos. Consultas sem interrogação continuam sendo consultas durante
+um relato; perguntas com “isso” dependem do contexto declarado.
+
 `raciocinio_dialogo.py` encadeia premissas explícitas como “suponha que todo
 Kavor é Névia” e “todo Névia é verde”. A conclusão fica restrita à hipótese,
 não inverte implicações nem usa ausência de relação como prova. Também
