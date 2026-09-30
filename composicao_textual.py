@@ -419,6 +419,33 @@ class CompositorTextual:
         consulta_mundo = self._consulta_mundo(n, contexto)
         if consulta_mundo is not None:
             return consulta_mundo
+        comparacao_geral = re.fullmatch(r"qual (?:e )?a diferenca entre (.+?) e (.+)", n)
+        if comparacao_geral:
+            ids = tuple(self.resolver(alvo) for alvo in comparacao_geral.groups())
+            if all(ident in self.expandidos for ident in ids) and ids[0] != ids[1]:
+                pares = tuple((ident, i) for ident in ids for i in range(min(2, len(self.itens[ident]["fatos"]))))
+                _, resposta, ctx = self.compor(ids, "comparacao", selecionados=pares, origem="conhecimento")
+                resposta = "Para comparar os dois, estes são os fatos disponíveis:\n\n" + resposta
+                return "escrita:comparacao", resposta, ctx._replace(texto=resposta)
+        # Conceitos editoriais ampliados também participam de perguntas
+        # sobre função/funcionamento. Se não houver esse aspecto marcado,
+        # mostrar os fatos disponíveis com o limite explícito impede que o
+        # recuperador escolha uma resposta de outro assunto por semelhança.
+        aspecto_geral = re.fullmatch(r"(?:qual (?:e )?a (funcao) (?:de|do|da)|"
+                                    r"como (funciona)|para que (serve)) (.+)", n)
+        if aspecto_geral:
+            ident = self.resolver(aspecto_geral.group(4))
+            if ident in self.expandidos:
+                aspecto = "funcionamento" if aspecto_geral.group(2) else "funcao"
+                fatos = self.itens[ident]["fatos"]
+                pares = tuple((ident, i) for i, f in enumerate(fatos) if f.get("aspecto") == aspecto)
+                if pares:
+                    return self.compor((ident,), "explicacao", selecionados=pares[:3], origem="conhecimento")
+                if aspecto == "funcionamento":
+                    return None
+                ident_resposta, resposta, ctx = self._conceito(ident)
+                resposta += "\n\nEsses são os fatos disponíveis sobre " + self.itens[ident]["nome"] + ". Não tenho uma explicação separada desse aspecto."
+                return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
         referencia = self._referencia(n, contexto)
         if referencia:
             return referencia

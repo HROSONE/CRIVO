@@ -1,0 +1,1022 @@
+{
+  "referencia_commit": "ba4e803262f46f93ae2c685454ffc84c0d8d9cd5",
+  "assinatura_casos": "0c288a329a966e1775e5b5f6d2d4a31c0f70040174b134d8b5c61a763d3e9002",
+  "limite": "Sonda autoral de diálogos completos, registrada para comparação antes/depois.\n\nOs cenários são de desenvolvimento, não treino nem avaliação externa cega.\nUma recusa causal pertinente conta como compreensão do pedido, não como\nconhecimento da causa. Os critérios incluem assunto, memória e limites.",
+  "antes": {
+    "dialogos": 15,
+    "dialogos_corretos": 0,
+    "turnos": 58,
+    "turnos_corretos": 9,
+    "casos": [
+      {
+        "nome": "dia difícil",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Oi",
+            "esperado": "social:oi",
+            "obtido": "social:oi",
+            "passou": true,
+            "resposta": "Oi! Sou o Crivo. Assuntos da base ativa: animais; coisas de casa; clima; estações do ano; ciência e psicologia (cérebro, memória, sono, emoções, biologia e ambiente); plantas; programação (css, fundamentos, git, html, javascript, python, sql, web); sistema solar; tempo (horas, datas, calendário); ambiente (ciclo da água, evaporação); aprendizagem (mnemônica); astronomia (Andrômeda, galáxia); biologia (DNA, RNA); computação (internet, API); neurociencia (cérebro, neurônio); psicologia (ansiedade, transtorno de ansiedade); saude (sono, sono REM); tecnologia (biomimética). Digite 'ajuda' para ver as capacidades desta instalação."
+          },
+          {
+            "pergunta": "Tô cansado hoje",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Foi um dia puxado no trabalho",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Meu chefe pediu muita coisa",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "O que você faria no meu lugar?",
+            "esperado": "conversa:reflexao",
+            "obtido": "social:nao_entendido",
+            "passou": false,
+            "resposta": "Não reconheci essa pergunta sobre mim. Posso explicar como processo respostas ou mostrar minhas capacidades; se você quer informação sobre outro assunto, diga qual é o pedido."
+          }
+        ]
+      },
+      {
+        "nome": "projeto e fragmentos",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Quero conversar sobre meu projeto",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “meu projeto”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Estou fazendo um jogo",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Estou fazendo um jogo”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Um jogo de aventura com robôs",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Quero que ele seja divertido",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Quero que ele seja divertido”.\n\nQual é a principal dificuldade para chegar a esse objetivo?"
+          },
+          {
+            "pergunta": "Tem alguma ideia?",
+            "esperado": "conversa:ideias",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "nome e preferência",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Meu nome é Rafael",
+            "esperado": "conversa:relato",
+            "obtido": "quais_estacoes",
+            "passou": false,
+            "resposta": "São quatro: verão, outono, inverno e primavera."
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Eu gosto de música e desenho",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "O que eu gosto de fazer?",
+            "esperado": "conversa:memoria",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "plano com restrição",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Estou pensando em aprender Python",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Por onde eu começo?",
+            "esperado": "conversa:planejamento",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Mas tenho pouco tempo",
+            "esperado": "conversa:relato",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. quantos dias tem o mês\n2. qual a diferença entre clima e tempo\nResponda com o número, o nome da opção ou 'nenhuma'."
+          },
+          {
+            "pergunta": "Só tenho 20 minutos por dia",
+            "esperado": "conversa:relato",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. como fazer arroz\n2. quanto tempo a luz do sol leva para chegar à terra\nResponda com o número, o nome da opção ou 'nenhuma'."
+          },
+          {
+            "pergunta": "Como posso organizar isso?",
+            "esperado": "conversa:planejamento",
+            "obtido": "geladeira",
+            "passou": false,
+            "resposta": "Comida pronta dura de 3 a 4 dias na geladeira. Carnes cruas ficam nas prateleiras de baixo, frutas e verduras na gaveta, e sobras em potes fechados e datados. A temperatura ideal fica entre 3 e 5 °C."
+          },
+          {
+            "pergunta": "Por quê?",
+            "esperado": "conversa:justificativa",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "reparo factual e causa ausente",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "O que é memória?",
+            "esperado": "conhecimento:mundo_memoria",
+            "obtido": "conhecimento:mundo_memoria",
+            "passou": true,
+            "resposta": "A memória é a capacidade de registrar, conservar e recuperar informações e experiências. Além disso, estratégias de associação e ensaio de informações podem melhorar a recordação em tarefas de memorização."
+          },
+          {
+            "pergunta": "Não entendi direito",
+            "esperado": "escrita:simples",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+          },
+          {
+            "pergunta": "Pode explicar de um jeito mais simples?",
+            "esperado": "escrita:simples",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança."
+          },
+          {
+            "pergunta": "Por que isso acontece?",
+            "esperado": "fora",
+            "obtido": "abelhas",
+            "passou": false,
+            "resposta": "Abelhas polinizam grande parte das plantas que dão alimento, como frutas e legumes. Sem elas, a produção de comida cairia bastante. Também produzem mel e cera."
+          }
+        ]
+      },
+      {
+        "nome": "pedido informal e comparação",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Me fala uma coisa: pra que serve o DNA?",
+            "esperado": "escrita:explicacao",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. para que serve a raiz\n2. qual a diferença entre clima e tempo\nResponda com o número, o nome da opção ou 'nenhuma'."
+          },
+          {
+            "pergunta": "E o RNA, faz a mesma coisa?",
+            "esperado": "escrita:comparacao",
+            "obtido": "clima_tempo_dif",
+            "passou": false,
+            "resposta": "Tempo é a condição da atmosfera num momento e lugar (hoje está chovendo). Clima é o padrão médio ao longo de muitos anos (a região costuma ser chuvosa no verão)."
+          }
+        ]
+      },
+      {
+        "nome": "opinião e argumento",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Acho que tecnologia deixa a gente mais sozinho",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Você concorda comigo?",
+            "esperado": "conversa:reflexao",
+            "obtido": "social:nao_entendido",
+            "passou": false,
+            "resposta": "Não reconheci essa pergunta sobre mim. Posso explicar como processo respostas ou mostrar minhas capacidades; se você quer informação sobre outro assunto, diga qual é o pedido."
+          },
+          {
+            "pergunta": "Por quê?",
+            "esperado": "conversa:justificativa",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "decisão com duas opções",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Tenho duas opções: estudar hoje ou descansar",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Amanhã tenho prova e estou cansado",
+            "esperado": "conversa:relato",
+            "obtido": "previsao_hoje",
+            "passou": false,
+            "resposta": "Não tenho acesso à internet nem a dados em tempo real, então não sei como está o tempo agora. Para a previsão, use um app de meteorologia ou o site do INMET."
+          },
+          {
+            "pergunta": "O que vale mais a pena?",
+            "esperado": "conversa:reflexao",
+            "obtido": "lampada",
+            "passou": false,
+            "resposta": "A lâmpada LED gasta até cerca de 80% menos energia e dura muito mais (de 10 mil a 25 mil horas). A incandescente desperdiça a maior parte da energia em forma de calor."
+          }
+        ]
+      },
+      {
+        "nome": "cinema e perspectiva",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Vamos conversar sobre cinema",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “cinema”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Gosto de histórias com finais inesperados",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "E você?",
+            "esperado": "conversa:perspectiva",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "O que faz um final ser bom?",
+            "esperado": "conversa:criterios",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "premissas inéditas",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Se todo Lumo é um Tavi e todo Tavi é azul, um Lumo é azul?",
+            "esperado": "conversa:hipotese",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Então um Tavi é um Lumo?",
+            "esperado": "conversa:hipotese",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "conta com dados do usuário",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Comprei três livros por 20 reais cada. Quanto gastei?",
+            "esperado": "conversa:calculo",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "relação com outra pessoa",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Queria trocar uma ideia contigo",
+            "esperado": "conversa:abertura",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Sobre um problema que tive com um amigo",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Ele não me respondeu desde ontem",
+            "esperado": "conversa:relato",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior."
+          },
+          {
+            "pergunta": "Será que ele está bravo comigo?",
+            "esperado": "conversa:reflexao",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "assunto fora do currículo factual",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Quero conversar sobre restauração de violinos",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “restauração de violinos”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Quero restaurar um instrumento",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Quero restaurar um instrumento”.\n\nQual é a principal dificuldade para chegar a esse objetivo?"
+          },
+          {
+            "pergunta": "Só tenho 25 minutos por dia",
+            "esperado": "conversa:relato",
+            "obtido": "bissexto",
+            "passou": false,
+            "resposta": "O ano tem 365 dias. A cada 4 anos há um ano bissexto de 366 dias, com 29 de fevereiro, porque a Terra leva cerca de 365,25 dias para dar a volta no Sol."
+          },
+          {
+            "pergunta": "Me ajuda a montar um plano",
+            "esperado": "conversa:planejamento",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "correção, negação e esquecimento",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Meu nome é Cecília",
+            "esperado": "conversa:relato",
+            "obtido": "quais_estacoes",
+            "passou": false,
+            "resposta": "São quatro: verão, outono, inverno e primavera."
+          },
+          {
+            "pergunta": "Na verdade, meu nome é Maíra",
+            "esperado": "conversa:relato",
+            "obtido": "quais_estacoes",
+            "passou": false,
+            "resposta": "São quatro: verão, outono, inverno e primavera."
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Eu gosto de violinos",
+            "esperado": "conversa:relato",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Eu não gosto de violinos",
+            "esperado": "conversa:relato",
+            "obtido": "duvida",
+            "passou": false,
+            "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+          },
+          {
+            "pergunta": "O que eu gosto de fazer?",
+            "esperado": "conversa:memoria",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "Mudar de assunto",
+            "esperado": "conversa:reinicio",
+            "obtido": "conversa:reinicio",
+            "passou": true,
+            "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?"
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      },
+      {
+        "nome": "premissas em vários turnos",
+        "passou": false,
+        "turnos": [
+          {
+            "pergunta": "Suponha que todo Kavor é um Névia",
+            "esperado": "conversa:hipotese",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          },
+          {
+            "pergunta": "E todo Névia é verde",
+            "esperado": "conversa:hipotese",
+            "obtido": "fotossintese",
+            "passou": false,
+            "resposta": "As plantas usam luz do sol, água e gás carbônico para produzir açúcar (a comida delas) e liberam oxigênio. Isso acontece principalmente nas folhas, graças à clorofila, o pigmento que também dá a cor verde."
+          },
+          {
+            "pergunta": "Então um Kavor é verde?",
+            "esperado": "conversa:hipotese",
+            "obtido": "fora",
+            "passou": false,
+            "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades."
+          }
+        ]
+      }
+    ],
+    "assinatura_casos": "0c288a329a966e1775e5b5f6d2d4a31c0f70040174b134d8b5c61a763d3e9002",
+    "limite": "Sonda autoral de diálogos completos, registrada para comparação antes/depois.\n\nOs cenários são de desenvolvimento, não treino nem avaliação externa cega.\nUma recusa causal pertinente conta como compreensão do pedido, não como\nconhecimento da causa. Os critérios incluem assunto, memória e limites."
+  },
+  "depois": {
+    "dialogos": 15,
+    "dialogos_corretos": 15,
+    "turnos": 58,
+    "turnos_corretos": 58,
+    "casos": [
+      {
+        "nome": "dia difícil",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Oi",
+            "esperado": "social:oi",
+            "obtido": "social:oi",
+            "passou": true,
+            "resposta": "Oi! Sou o Crivo. Como você está? Pode me contar uma ideia, uma situação ou fazer uma pergunta. Digite 'ajuda' para conhecer as possibilidades de conversa, escrita e programação."
+          },
+          {
+            "pergunta": "Tô cansado hoje",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Pelo que você contou, o dia pesou: “Tô cansado hoje”. Quer falar do que aconteceu ou pensar em como descansar agora?"
+          },
+          {
+            "pergunta": "Foi um dia puxado no trabalho",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Foi um dia puxado no trabalho”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Meu chefe pediu muita coisa",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Meu chefe pediu muita coisa”.\n\nO que você gostaria que fosse diferente nessa situação?"
+          },
+          {
+            "pergunta": "O que você faria no meu lugar?",
+            "esperado": "conversa:reflexao",
+            "obtido": "conversa:reflexao",
+            "passou": true,
+            "resposta": "Vamos partir do que você trouxe: “Meu chefe pediu muita coisa”. Que opções você está considerando e qual critério pesa mais para você?"
+          }
+        ]
+      },
+      {
+        "nome": "projeto e fragmentos",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Quero conversar sobre meu projeto",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “meu projeto”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Estou fazendo um jogo",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Estou fazendo um jogo”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Um jogo de aventura com robôs",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Um jogo de aventura com robôs”.\n\nO que você gostaria que fosse diferente nessa situação?"
+          },
+          {
+            "pergunta": "Quero que ele seja divertido",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Quero que ele seja divertido”. Seu objetivo declarado é “que ele seja divertido”. Qual é a principal dificuldade para chegar a esse objetivo?"
+          },
+          {
+            "pergunta": "Tem alguma ideia?",
+            "esperado": "conversa:ideias",
+            "obtido": "conversa:ideias",
+            "passou": true,
+            "resposta": "Para “que ele seja divertido”, dá para experimentar três caminhos: Você também trouxe “Quero que ele seja divertido”.\n- Reduzir a ideia a uma versão pequena e testar a parte mais importante.\n- Mudar uma regra ou uma limitação e observar como o resultado muda.\n- Combinar dois elementos que você já trouxe de uma forma diferente.\nQual desses caminhos você quer desenvolver? Me diga dois elementos que devem aparecer e posso ajudar a combiná-los."
+          }
+        ]
+      },
+      {
+        "nome": "nome e preferência",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Meu nome é Rafael",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Prazer, Rafael. O que você quer conversar hoje?"
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "conversa:memoria",
+            "passou": true,
+            "resposta": "Você disse que seu nome é Rafael."
+          },
+          {
+            "pergunta": "Eu gosto de música e desenho",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você gosta de “música e desenho”. O que mais te chama a atenção nisso?"
+          },
+          {
+            "pergunta": "O que eu gosto de fazer?",
+            "esperado": "conversa:memoria",
+            "obtido": "conversa:memoria",
+            "passou": true,
+            "resposta": "Você disse que gosta de “música e desenho”."
+          }
+        ]
+      },
+      {
+        "nome": "plano com restrição",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Estou pensando em aprender Python",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Estou pensando em aprender Python”. Seu objetivo declarado é “aprender Python”. Qual é a principal dificuldade para chegar a esse objetivo?"
+          },
+          {
+            "pergunta": "Por onde eu começo?",
+            "esperado": "conversa:planejamento",
+            "obtido": "conversa:planejamento",
+            "passou": true,
+            "resposta": "Para “aprender Python”, eu começaria com um teste pequeno, que você consiga avaliar.\n1. Defina uma parte do objetivo que caiba no tempo que você tem.\n2. Faça uma tentativa curta com um resultado observável.\n3. Compare o resultado com o que queria e ajuste a próxima tentativa.\nQual parte desse objetivo você gostaria de tentar primeiro?"
+          },
+          {
+            "pergunta": "Mas tenho pouco tempo",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Mas tenho pouco tempo”. Seu objetivo declarado é “aprender Python”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Só tenho 20 minutos por dia",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Só tenho 20 minutos por dia”. Seu objetivo declarado é “aprender Python”.\n\nO que você gostaria que fosse diferente nessa situação?"
+          },
+          {
+            "pergunta": "Como posso organizar isso?",
+            "esperado": "conversa:planejamento",
+            "obtido": "conversa:planejamento",
+            "passou": true,
+            "resposta": "Para “aprender Python”, eu começaria com um teste pequeno, que você consiga avaliar.\nVocê tem 20 minutos. Uma divisão possível é:\n1. 4 min para escolher uma tarefa pequena.\n2. 12 min para tentar essa tarefa.\n3. 4 min para anotar o que funcionou e o próximo ajuste.\nQual parte desse objetivo você gostaria de tentar primeiro?"
+          },
+          {
+            "pergunta": "Por quê?",
+            "esperado": "conversa:justificativa",
+            "obtido": "conversa:justificativa",
+            "passou": true,
+            "resposta": "Sugeri uma tentativa pequena porque seu objetivo é “aprender Python”. Também respeitei os 20 minutos que você disse ter. A ideia é obter um resultado concreto antes de assumir um plano grande; isso é uma sugestão, não uma garantia."
+          }
+        ]
+      },
+      {
+        "nome": "reparo factual e causa ausente",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "O que é memória?",
+            "esperado": "conhecimento:mundo_memoria",
+            "obtido": "conhecimento:mundo_memoria",
+            "passou": true,
+            "resposta": "A memória é a capacidade de registrar, conservar e recuperar informações e experiências. Além disso, estratégias de associação e ensaio de informações podem melhorar a recordação em tarefas de memorização."
+          },
+          {
+            "pergunta": "Não entendi direito",
+            "esperado": "escrita:simples",
+            "obtido": "escrita:simples",
+            "passou": true,
+            "resposta": "Por memória, entende-se a capacidade de registrar, conservar e recuperar informações e experiências.\n\nEstratégias de associação e ensaio de informações podem melhorar a recordação em tarefas de memorização."
+          },
+          {
+            "pergunta": "Pode explicar de um jeito mais simples?",
+            "esperado": "escrita:simples",
+            "obtido": "escrita:simples",
+            "passou": true,
+            "resposta": "A definição de memória é: a capacidade de registrar, conservar e recuperar informações e experiências.\n\nEstratégias de associação e ensaio de informações podem melhorar a recordação em tarefas de memorização."
+          },
+          {
+            "pergunta": "Por que isso acontece?",
+            "esperado": "fora",
+            "obtido": "fora",
+            "passou": true,
+            "resposta": "Não tenho uma explicação causal cadastrada para essa resposta. Pode especificar o que quer explicar?"
+          }
+        ]
+      },
+      {
+        "nome": "pedido informal e comparação",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Me fala uma coisa: pra que serve o DNA?",
+            "esperado": "escrita:explicacao",
+            "obtido": "escrita:explicacao",
+            "passou": true,
+            "resposta": "O DNA é a molécula que armazena informações genéticas nos organismos. Além disso, sua estrutura costuma ser descrita como uma dupla hélice.\n\nEsses são os fatos disponíveis sobre DNA. Não tenho uma explicação separada desse aspecto."
+          },
+          {
+            "pergunta": "E o RNA, faz a mesma coisa?",
+            "esperado": "escrita:comparacao",
+            "obtido": "escrita:comparacao",
+            "passou": true,
+            "resposta": "Para comparar os dois, estes são os fatos disponíveis:\n\nO DNA é a molécula que armazena informações genéticas nos organismos. Além disso, sua estrutura costuma ser descrita como uma dupla hélice.\n\nO RNA é uma molécula que participa de diferentes processos de uso da informação genética. Além disso, em geral, o RNA tem uma única fita e usa as bases A, U, C e G."
+          }
+        ]
+      },
+      {
+        "nome": "opinião e argumento",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Acho que tecnologia deixa a gente mais sozinho",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você trouxe a ideia: “Acho que tecnologia deixa a gente mais sozinho”. Que experiência te fez pensar nisso?"
+          },
+          {
+            "pergunta": "Você concorda comigo?",
+            "esperado": "conversa:reflexao",
+            "obtido": "conversa:reflexao",
+            "passou": true,
+            "resposta": "Eu trataria “Acho que tecnologia deixa a gente mais sozinho” como uma hipótese para examinar. O que você observou pode apoiar essa ideia em algumas situações, mas precisamos comparar com casos em que acontece diferente. Que exemplo apoia sua opinião? Consegue pensar em um exemplo que a colocaria em dúvida?"
+          },
+          {
+            "pergunta": "Por quê?",
+            "esperado": "conversa:justificativa",
+            "obtido": "conversa:justificativa",
+            "passou": true,
+            "resposta": "Uma impressão pode ser um bom ponto de partida, mas um exemplo sozinho não estabelece uma regra geral. Comparar casos e explicações alternativas ajuda a avaliar a ideia que você trouxe."
+          }
+        ]
+      },
+      {
+        "nome": "decisão com duas opções",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Tenho duas opções: estudar hoje ou descansar",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você está entre “estudar hoje” e “descansar”. O que pesa mais nessa escolha: o resultado, o prazo ou como você está agora?"
+          },
+          {
+            "pergunta": "Amanhã tenho prova e estou cansado",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Amanhã tenho prova e estou cansado”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "O que vale mais a pena?",
+            "esperado": "conversa:reflexao",
+            "obtido": "conversa:reflexao",
+            "passou": true,
+            "resposta": "Você está entre “estudar hoje” e “descansar” e contou: “Amanhã tenho prova e estou cansado”. Eu compararia as opções pelo que precisa acontecer primeiro, pelo custo de cada uma e pelo que pode ser adiado. Também dá para pensar numa versão menor de uma opção, em vez de tratar a escolha como tudo ou nada. Qual é o prazo e o que você não pode abrir mão?"
+          }
+        ]
+      },
+      {
+        "nome": "cinema e perspectiva",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Vamos conversar sobre cinema",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “cinema”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Gosto de histórias com finais inesperados",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você gosta de “histórias com finais inesperados”. O que mais te chama a atenção nisso?"
+          },
+          {
+            "pergunta": "E você?",
+            "esperado": "conversa:perspectiva",
+            "obtido": "conversa:perspectiva",
+            "passou": true,
+            "resposta": "Não tenho gostos ou experiências pessoais. Posso explorar “histórias com finais inesperados” com você e ajudar a comparar ideias. O que te interessa mais nisso?"
+          },
+          {
+            "pergunta": "O que faz um final ser bom?",
+            "esperado": "conversa:criterios",
+            "obtido": "conversa:criterios",
+            "passou": true,
+            "resposta": "Para avaliar sua pergunta “O que faz um final ser bom?”, precisamos de um critério. Você trouxe “histórias com finais inesperados”; isso pode servir de ponto de partida para avaliar o resultado. Eu compararia o que se esperava com o que foi entregue, o que funcionou e o que poderia melhorar. Qual qualidade é mais importante para você nesse caso?"
+          }
+        ]
+      },
+      {
+        "nome": "premissas inéditas",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Se todo Lumo é um Tavi e todo Tavi é azul, um Lumo é azul?",
+            "esperado": "conversa:hipotese",
+            "obtido": "conversa:hipotese",
+            "passou": true,
+            "resposta": "Sim, supondo verdadeiras as premissas que você deu: Lumo → Tavi → azul. Essa é uma conclusão dentro da hipótese, não um fato novo sobre o mundo."
+          },
+          {
+            "pergunta": "Então um Tavi é um Lumo?",
+            "esperado": "conversa:hipotese",
+            "obtido": "conversa:hipotese",
+            "passou": true,
+            "resposta": "Não consigo concluir essa relação a partir das premissas dadas. Não encontrar um caminho não prova que a afirmação seja falsa."
+          }
+        ]
+      },
+      {
+        "nome": "conta com dados do usuário",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Comprei três livros por 20 reais cada. Quanto gastei?",
+            "esperado": "conversa:calculo",
+            "obtido": "conversa:calculo",
+            "passou": true,
+            "resposta": "O total é R$ 60: 3 × R$ 20. Usei a quantidade e o preço por unidade que você informou."
+          }
+        ]
+      },
+      {
+        "nome": "relação com outra pessoa",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Queria trocar uma ideia contigo",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Pode falar. Quer me contar uma situação, explorar uma ideia ou só conversar sobre como foi seu dia?"
+          },
+          {
+            "pergunta": "Sobre um problema que tive com um amigo",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Vamos falar de “um problema que tive com um amigo”. O que aconteceu ou o que você quer explorar?"
+          },
+          {
+            "pergunta": "Ele não me respondeu desde ontem",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Ele não me respondeu desde ontem”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Será que ele está bravo comigo?",
+            "esperado": "conversa:reflexao",
+            "obtido": "conversa:reflexao",
+            "passou": true,
+            "resposta": "Você contou: “Ele não me respondeu desde ontem”. Só isso não permite saber o que a outra pessoa está sentindo. Pode haver mais de uma explicação; antes de concluir, vale buscar uma informação direta. Aconteceu algo entre vocês antes disso?"
+          }
+        ]
+      },
+      {
+        "nome": "assunto fora do currículo factual",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Quero conversar sobre restauração de violinos",
+            "esperado": "conversa:abertura",
+            "obtido": "conversa:abertura",
+            "passou": true,
+            "resposta": "Vamos conversar sobre “restauração de violinos”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?"
+          },
+          {
+            "pergunta": "Quero restaurar um instrumento",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Quero restaurar um instrumento”. Seu objetivo declarado é “restaurar um instrumento”. Qual é a principal dificuldade para chegar a esse objetivo?"
+          },
+          {
+            "pergunta": "Só tenho 25 minutos por dia",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você contou: “Só tenho 25 minutos por dia”. Seu objetivo declarado é “restaurar um instrumento”.\n\nO que você já tentou e como isso funcionou para você?"
+          },
+          {
+            "pergunta": "Me ajuda a montar um plano",
+            "esperado": "conversa:planejamento",
+            "obtido": "conversa:planejamento",
+            "passou": true,
+            "resposta": "Para “restaurar um instrumento”, eu começaria com um teste pequeno, que você consiga avaliar.\nVocê tem 25 minutos. Uma divisão possível é:\n1. 5 min para escolher uma tarefa pequena.\n2. 15 min para tentar essa tarefa.\n3. 5 min para anotar o que funcionou e o próximo ajuste.\nQual parte desse objetivo você gostaria de tentar primeiro?"
+          }
+        ]
+      },
+      {
+        "nome": "correção, negação e esquecimento",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Meu nome é Cecília",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Prazer, Cecília. O que você quer conversar hoje?"
+          },
+          {
+            "pergunta": "Na verdade, meu nome é Maíra",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Prazer, Maíra. O que você quer conversar hoje?"
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "conversa:memoria",
+            "passou": true,
+            "resposta": "Você disse que seu nome é Maíra."
+          },
+          {
+            "pergunta": "Eu gosto de violinos",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Você gosta de “violinos”. O que mais te chama a atenção nisso?"
+          },
+          {
+            "pergunta": "Eu não gosto de violinos",
+            "esperado": "conversa:relato",
+            "obtido": "conversa:relato",
+            "passou": true,
+            "resposta": "Entendi: você não gosta de “violinos”. O que te incomoda nisso?"
+          },
+          {
+            "pergunta": "O que eu gosto de fazer?",
+            "esperado": "conversa:memoria",
+            "obtido": "conversa:memoria",
+            "passou": true,
+            "resposta": "Você também disse que não gosta de “violinos”."
+          },
+          {
+            "pergunta": "Mudar de assunto",
+            "esperado": "conversa:reinicio",
+            "obtido": "conversa:reinicio",
+            "passou": true,
+            "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?"
+          },
+          {
+            "pergunta": "Como eu me chamo?",
+            "esperado": "conversa:memoria",
+            "obtido": "conversa:memoria",
+            "passou": true,
+            "resposta": "Você ainda não me disse seu nome nesta conversa. Como quer que eu te chame?"
+          }
+        ]
+      },
+      {
+        "nome": "premissas em vários turnos",
+        "passou": true,
+        "turnos": [
+          {
+            "pergunta": "Suponha que todo Kavor é um Névia",
+            "esperado": "conversa:hipotese",
+            "obtido": "conversa:hipotese",
+            "passou": true,
+            "resposta": "Vou tratar como hipótese: todo Kavor é um Névia. Que conclusão você quer verificar?"
+          },
+          {
+            "pergunta": "E todo Névia é verde",
+            "esperado": "conversa:hipotese",
+            "obtido": "conversa:hipotese",
+            "passou": true,
+            "resposta": "Acrescentei à hipótese: “E todo Névia é verde”. Que conclusão quer testar?"
+          },
+          {
+            "pergunta": "Então um Kavor é verde?",
+            "esperado": "conversa:hipotese",
+            "obtido": "conversa:hipotese",
+            "passou": true,
+            "resposta": "Sim, supondo verdadeiras as premissas que você deu: Kavor → Névia → verde. Essa é uma conclusão dentro da hipótese, não um fato novo sobre o mundo."
+          }
+        ]
+      }
+    ],
+    "assinatura_casos": "0c288a329a966e1775e5b5f6d2d4a31c0f70040174b134d8b5c61a763d3e9002",
+    "limite": "Sonda autoral de diálogos completos, registrada para comparação antes/depois.\n\nOs cenários são de desenvolvimento, não treino nem avaliação externa cega.\nUma recusa causal pertinente conta como compreensão do pedido, não como\nconhecimento da causa. Os critérios incluem assunto, memória e limites."
+  },
+  "reproducao": [
+    "python avaliar_bate_papo.py --referencia /caminho/para/checkout-da-referencia --saida antes.json",
+    "python avaliar_bate_papo.py --saida depois.json"
+  ],
+  "base_de_integracao": "193e11f475c07ed14f0e868c5ba5645629071014"
+}

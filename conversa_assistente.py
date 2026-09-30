@@ -66,6 +66,8 @@ def preparar_conversa(texto):
     """
     if identificar_contato(texto) is not None:
         return texto
+    texto = re.sub(r"^\s*(?:me (?:fala|diz|conta) uma coisa|"
+                   r"(?:deixa|deixe) eu te perguntar(?: uma coisa)?)[,:;]\s*", "", texto, count=1, flags=re.I)
     for _ in range(4):
         partes = re.match(r"^([^.!?;:,\n]+)[.!?;:,\n]+\s*(.+)$", texto, re.S)
         if partes and identificar_contato(partes.group(1)) is not None:
@@ -89,7 +91,7 @@ def preparar_conversa(texto):
 def responder_contato(texto, anterior=None):
     tipo = identificar_contato(texto)
     n = normalizar(texto)
-    if (anterior and anterior["id"] == "social:tudobem" and re.fullmatch(
+    if (anterior and anterior["id"] in ("social:tudobem", "social:oi") and re.fullmatch(
             r"(?:sim|(?:estou|to|tou) (?:bem|de boa|tranquilo|tranquila)(?: tambem)?|"
             r"tudo (?:bem|certo)|de boa)(?: e voce)?", n)):
         return "social:acolhimento", "Certo! Sobre o que você quer conversar?"
