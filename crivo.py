@@ -148,7 +148,7 @@ SINONIMOS_CONSULTA_TECNICA = {
 
 # ------------------------------------------------------------- modelo ------
 class Crivo:
-    def __init__(self, caminho_base=None, agora=None):
+    def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.caminho_base = caminho
         from curriculo_mundo import carregar_base, ler_curriculo
@@ -189,7 +189,7 @@ class Crivo:
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
-        self.conversacao = Conversacao()
+        self.conversacao = Conversacao(usar_neural=usar_linguagem_neural)
         self._pedido_turno = None
         self.contexto_textual = None
         self._contexto_textual_anterior = None
@@ -850,11 +850,52 @@ class Crivo:
         return resultado
 
     # ---------------------------------------------------- resposta -------
+    def _executar_preparacao(self, preparacao, texto, registro_anterior):
+        self.ultimo_ato_social = self.ultimo_turno = None
+        self.contexto_textual = self.ultima_resposta_mostrada = None
+        origem = ""
+        if preparacao is not None and preparacao.resultado is not None:
+            ident, resposta, self.contexto_textual, origem = preparacao.resultado
+            resultado = ident, resposta
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.esclarecimento = self.ultimo_assunto = None
+            self.ultimos, self.pos_ultimo = [], 0
+            self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "linguagem_conversa",
+                                   "ato": preparacao.ato._asdict()})
+            self.historico = self.historico[-20:]
+        else:
+            consulta = preparacao.ato.consulta if preparacao is not None else texto
+            resultado = self._responder_impl(consulta)
+            if preparacao is not None:
+                if self.historico and self.historico[-1] is not registro_anterior:
+                    self.historico[-1]["pergunta"] = texto
+                else:
+                    self.historico.append({"pergunta": texto, "id": resultado[0]})
+                    self.historico = self.historico[-20:]
+                self.historico[-1]["ato"] = preparacao.ato._asdict()
+                if preparacao.ato.formato:
+                    if self.contexto_textual is None:
+                        self.contexto_textual = self.compositor.contexto_editorial(*resultado)
+                    if self.contexto_textual is not None:
+                        from linguagem_conversa import Lembranca
+                        snap = Lembranca(resultado[0], resultado[1], self.contexto_textual, self.conversacao.turno)
+                        ident, resposta, self.contexto_textual, origem = self.conversacao.transformar(
+                            preparacao.ato.formato, snap, self)
+                        resultado = ident, resposta
+                        self.historico[-1]["id"] = ident
+        return resultado, origem
+
     def responder(self, texto):
         """Contexto implícito de um turno e retomada explícita da conversa."""
         preparacao = self.conversacao.preparar(texto, self)
         registro_anterior = self.historico[-1] if self.historico else None
         anterior = self.ultima_resposta_mostrada
+        atributos_estado = ("contexto_textual", "ultima_resposta_mostrada", "ultimo_turno",
+            "ultimo_ato_social", "ultimo_assunto", "contexto_frutas", "contexto_consulta",
+            "contexto_geral", "esclarecimento", "ultimos", "pos_ultimo", "historico")
+        estado = {a: getattr(self, a) for a in atributos_estado}
+        estado["historico"] = list(self.historico)
+        estado["ultimos"] = list(self.ultimos)
         self._contexto_textual_anterior = self.contexto_textual
         self._ato_social_anterior = self.ultimo_ato_social
         self._turno_anterior = self.ultimo_turno
@@ -865,38 +906,26 @@ class Crivo:
         self._referencia_turno_anterior = anterior
         self._pedido_turno = None
         try:
-            origem = ""
-            if preparacao is not None and preparacao.resultado is not None:
-                ident, resposta, self.contexto_textual, origem = preparacao.resultado
-                resultado = ident, resposta
-                self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
-                self.esclarecimento = self.ultimo_assunto = None
-                self.ultimos, self.pos_ultimo = [], 0
-                self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "linguagem_conversa",
-                                       "ato": preparacao.ato._asdict()})
-                self.historico = self.historico[-20:]
-            else:
-                consulta = preparacao.ato.consulta if preparacao is not None else texto
-                resultado = self._responder_impl(consulta)
-                # A consulta interna é auditável, mas o histórico e o replay
-                # continuam usando exatamente a mensagem escrita pelo usuário.
-                if preparacao is not None:
-                    if self.historico and self.historico[-1] is not registro_anterior:
-                        self.historico[-1]["pergunta"] = texto
-                    else:
-                        self.historico.append({"pergunta": texto, "id": resultado[0]})
-                        self.historico = self.historico[-20:]
-                    self.historico[-1]["ato"] = preparacao.ato._asdict()
-                    if preparacao.ato.formato:
-                        if self.contexto_textual is None:
-                            self.contexto_textual = self.compositor.contexto_editorial(*resultado)
-                        if self.contexto_textual is not None:
-                            from linguagem_conversa import Lembranca
-                            snap = Lembranca(resultado[0], resultado[1], self.contexto_textual, self.conversacao.turno)
-                            ident, resposta, self.contexto_textual, origem = self.conversacao.transformar(
-                                preparacao.ato.formato, snap, self)
-                            resultado = ident, resposta
-                            self.historico[-1]["id"] = ident
+            resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+            if (preparacao is None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
+                    and self._pedido_turno is None):
+                ato_neural = self.conversacao._analisar_neural(texto)
+                novo_registro = self.historico[-1] if self.historico else None
+                especializado = (novo_registro is not None and novo_registro is not registro_anterior
+                    and novo_registro.get("mecanismo") not in (None, "conversa_assistente", "recuperador"))
+                # Recusas de motores factuais/relacionais são preservadas.
+                # Uma definição com alvo completo já cadastrado pode corrigir
+                # a forma do pedido; uma negação jamais produz conteúdo factual.
+                permitido = (ato_neural is not None and (not especializado or
+                    ato_neural.nome == "negado_neural" or ato_neural.nome == "definir"
+                    and self.compositor.resolver(ato_neural.alvo) is not None))
+                if permitido:
+                    for a,v in estado.items():
+                        setattr(self, a, v)
+                    preparacao = self.conversacao.preparar_ato(ato_neural, self)
+                    resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+                else:
+                    self.conversacao.ultimo_quadro_neural = None
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
             if origem:
@@ -908,6 +937,8 @@ class Crivo:
                                            "mecanismo": "interpretacao_pedido"})
                     self.historico = self.historico[-20:]
                 self.historico[-1]["pedido"] = self._pedido_turno._asdict()
+            if self.conversacao.ultimo_quadro_neural is not None and self.historico:
+                self.historico[-1]["quadro_neural"] = self.conversacao.ultimo_quadro_neural
             if identificador in ("social:assuntos", "social:pensamento"):
                 self.ultimo_ato_social = identificador
             if self.contexto_textual is None:
