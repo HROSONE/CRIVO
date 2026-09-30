@@ -59,12 +59,16 @@ def responder_web(payload):
     origem = (bot.ultimo_turno or {}).get("prova_origem", "")
     ids_editoriais = {e["id"] for e in bot.base}
     prova_editorial = (identificador in ids_editoriais or origem in ids_editoriais)
+    provas_plano = (bot.contexto_textual.provas if bot.contexto_textual is not None else ())
+    prova_planejada = any((i in provas_efetivas or i in ids_editoriais and "Relações verificadas:" in t)
+                         and t in resposta for i,t in provas_plano)
     return {
         "id": identificador,
         "response": resposta,
         "mechanism": mecanismo,
         "neural_active": bot.rede is not None,
+        "plan": bot.planejador.ultimo,
         # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
         "has_proof": (identificador in provas_efetivas or origem in provas_efetivas or
-                      prova_editorial and "Relações verificadas:" in resposta),
+                      prova_editorial and "Relações verificadas:" in resposta or prova_planejada),
     }

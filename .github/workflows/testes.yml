@@ -41,6 +41,9 @@ jobs:
       - name: Avaliar extracao e retomadas (desenvolvimento)
         if: matrix.python-version == '3.11'
         run: python avaliar_retomada.py --saida /tmp/retomada.json
+      - name: Avaliar planejamento, evidencias e dialogo integrado
+        if: matrix.python-version == '3.11'
+        run: python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
       - name: Publicar resultado de validacao
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
@@ -49,6 +52,7 @@ jobs:
           path: |
             /tmp/generalizacao.json
             /tmp/retomada.json
+            /tmp/evolucao-integrada.json
       - name: Medir generalizacao (amostra de 8 epocas)
         if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |

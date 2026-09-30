@@ -56,17 +56,36 @@ class LinguagemNeural:
                       2: ((2, "O"), (3, "B2")) if esperados == 2 else ((2, "O"),),
                       3: ((3, "I2"), (4, "O")), 4: ((4, "O"),)}
         caminhos = {0: (0.0, ())}
+        separadores = None
+        if esperados == 2:
+            inicio_nome = nomes.index("<argumento>") if "<argumento>" in nomes else len(nomes)
+            prefixo = nomes[:inicio_nome]
+            if "entre" in prefixo:
+                separadores = {"e"}
+            elif "diferenca" in prefixo and "de" in prefixo and "para" in nomes:
+                separadores = {"para"}
+            elif "comparacao" in prefixo and "com" in nomes:
+                separadores = {"com"}
         for i, ps in enumerate(probabilidades):
             novos = {}
             for estado, (score, tags) in caminhos.items():
                 for destino, tag in transicoes[estado]:
+                    if (esperados == 2 and estado == 1 and destino == 2 and
+                            separadores is not None and nomes[i] not in separadores):
+                        continue
                     # A rede pode reconhecer ligações dentro do nome, mas
                     # não pode apagar termos desconhecidos do pedido.
                     if tag == "O" and nomes[i] == "<argumento>":
                         continue
                     if i in fora_obrigatorio and tag != "O":
                         continue
-                    valor = score + math.log(max(ps[indices[tag]], 1e-300))
+                    probabilidade = ps[indices[tag]]
+                    if esperados == 1 and tag != "O":
+                        # Com um único argumento, B1/B2 (e I1/I2) são
+                        # evidências da mesma função de conteúdo. O papel
+                        # relativo só distingue sujeitos na comparação.
+                        probabilidade += ps[indices[tag[0]+"2"]]
+                    valor = score + math.log(max(probabilidade, 1e-300))
                     if destino not in novos or valor > novos[destino][0]:
                         novos[destino] = (valor, tags + (tag,))
             caminhos = novos
@@ -94,6 +113,8 @@ class LinguagemNeural:
         if not sufixo or sufixo in (["por", "favor"], ["por", "gentileza"], ["para", "mim"]):
             return True
         if ato == "definir" and sufixo == ["e", "o", "que"]:
+            return True
+        if ato == "definir" and sufixo == ["quero", "dizer", "o", "que"]:
             return True
         if ato == "comparar" and sufixo == ["sao", "igual"]:
             return True
@@ -134,6 +155,12 @@ class LinguagemNeural:
         esperados = 2 if ato == "comparar" else 1 if ato in (
             "definir", "funcionamento", "funcao", "retomar", "negado") else 0
         fora_obrigatorio = self._escopo_negado(nomes, ato)
+        if ato == "definir" and nomes[-4:] == ["quero", "dizer", "o", "que"]:
+            inicio = len(nomes)-4
+            # Um predicado interrogativo depois de uma vírgula não faz
+            # parte do nome. O léxico do alvo continua variável e inteiro.
+            if inicio > 0 and "," in texto[ts[inicio-1][2]:ts[inicio][1]]:
+                fora_obrigatorio |= frozenset(range(inicio, len(nomes)))
         grupos, tags = self._decodificar(probabilidades, esperados, nomes, fora_obrigatorio)
         if len(grupos) != esperados:
             intervalos_validos = False
@@ -146,6 +173,8 @@ class LinguagemNeural:
                 spans.append((nome, ts[a][1], ts[b][2]))
                 papel = "1" if k == 0 else "2"
                 posicoes = [self.tags.rotulos.index(t + papel) for t in ("B", "I")]
+                if esperados == 1:
+                    posicoes += [self.tags.rotulos.index(t + "2") for t in ("B", "I")]
                 confiancas_slots.append(sum(sum(probabilidades[i][p] for p in posicoes)
                                              for i in grupo) / len(grupo))
         campos = {nome: texto[a:b] for nome, a, b in spans}

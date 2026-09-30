@@ -190,6 +190,8 @@ class Crivo:
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
         self.conversacao = Conversacao(usar_neural=usar_linguagem_neural)
+        from planejamento_conversa import PlanejadorConversa
+        self.planejador = PlanejadorConversa(self.compositor)
         self._pedido_turno = None
         self.contexto_textual = None
         self._contexto_textual_anterior = None
@@ -244,8 +246,11 @@ class Crivo:
     # "treino": monta o índice TF-IDF da base
     def _indexar(self):
         docs = []
-        for e in self.base:
+        self.indices_exatos = {}
+        for indice, e in enumerate(self.base):
             c = Counter()
+            for chave in {chave_pergunta(p) for p in e["perguntas"]}:
+                self.indices_exatos.setdefault(chave, []).append(indice)
             for q in dict.fromkeys(e["perguntas"]):
                 for t in tokens(q):
                     c[t] += 3
@@ -655,6 +660,8 @@ class Crivo:
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
         self.conversacao = Conversacao()
+        from planejamento_conversa import PlanejadorConversa
+        self.planejador = PlanejadorConversa(self.compositor)
         self.contexto_textual = None
         self.ultimo_ato_social = None
         self.ultimo_turno = None
@@ -919,6 +926,10 @@ class Crivo:
                 permitido = (ato_neural is not None and (not especializado or
                     ato_neural.nome == "negado_neural" or ato_neural.nome == "definir"
                     and self.compositor.resolver(ato_neural.alvo) is not None))
+                if resultado[0] == "social:nao_entendido" and not re.search(
+                        r"\b(explic\w*|defin\w*|signific\w*|entend\w*|compreend\w*|funciona|serve|"
+                        r"compar\w*|diferenc\w*|retom\w*|resum\w*|reform\w*)\b", normalizar(texto)):
+                    permitido = False
                 if permitido:
                     for a,v in estado.items():
                         setattr(self, a, v)
@@ -944,6 +955,9 @@ class Crivo:
             if self.contexto_textual is None:
                 self.contexto_textual = self.compositor.contexto_editorial(identificador, resultado[1])
             self.conversacao.registrar(identificador, resultado[1], self.contexto_textual)
+            self.planejador.registrar(identificador, self.contexto_textual)
+            if self.planejador.ultimo is not None and self.historico:
+                self.historico[-1]["plano"] = self.planejador.ultimo
             if (preparacao is None and self.contexto_textual is not None or
                     identificador.startswith("social:")):
                 self.conversacao.assunto = self.conversacao.objetivo = None
@@ -1157,8 +1171,7 @@ class Crivo:
         prevencao = re.sub(r"^(?:o que fazer (?:pra|para)|como fazer para|como) nao (?:ter|pegar)\b", "como evitar", n)
         if prevencao != n:
             texto = n = prevencao
-        exatas = [i for i, e in enumerate(self.base) if any(
-            chave_pergunta(p) == chave_pergunta(n) for p in e["perguntas"])]
+        exatas = self.indices_exatos.get(chave_pergunta(n), [])
         if len(exatas) == 1:
             i = exatas[0]
             self.ultimos = [(1.0, i)]

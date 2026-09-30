@@ -28,6 +28,7 @@ class ContextoTexto(NamedTuple):
     formato: str
     texto: str
     origem: str
+    provas: Tuple[Tuple[str, str], ...] = ()
 
 
 class CompositorTextual:

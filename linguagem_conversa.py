@@ -176,7 +176,7 @@ class Conversacao:
         from rede_sequencial import palavras, token_estrutura
         # Uma negação fora do nome não autoriza executar a retomada.
         # Negações dentro de nomes como 'rede não circular' são conservadas.
-        if q.ato == "retomar" and any(t == "nao" and not any(inicio <= a and b <= fim
+        if q.ato in ("retomar", "reformular", "simplificar", "resumir", "topicos", "fontes") and any(t == "nao" and not any(inicio <= a and b <= fim
                 for _, inicio, fim in q.spans) for t, a, b in palavras(texto)):
             return None
         operadores = {token_estrutura(t, rede.estruturais) for t, _, _ in palavras(texto)}
@@ -184,7 +184,12 @@ class Conversacao:
                      "funcionamento": {"funciona"}, "funcao": {"funcao", "serve"},
                      "comparar": {"diferenca", "comparacao", "igual"},
                      "negado": {"definicao", "explicar", "fale", "pedido"},
-                     "retomar": {"retomar"}}
+                     "retomar": {"retomar"},
+                     "reformular": {"reformular", "palavras", "maneira", "redacao", "jeito", "forma"},
+                     "simplificar": {"simples", "dificeis", "jargao", "acessivel"},
+                     "resumir": {"resumo", "curto", "breve", "essencial", "compacta", "sintetize", "reduza"},
+                     "topicos": {"topicos", "organizado", "organize", "itens", "pontos", "liste"},
+                     "fontes": {"fontes"}}
         if q.ato in evidencias and not operadores & evidencias[q.ato]:
             return None
         self.ultimo_quadro_neural = q._asdict()
@@ -326,6 +331,9 @@ class Conversacao:
         escolha = self._escolher(texto, bot)
         if escolha is not None:
             return escolha
+        planejada = bot.planejador.preparar(texto, bot)
+        if planejada is not None:
+            return planejada
         ato = self.analisar(texto, usar_neural=False)
         if ato is None:
             # Uma resposta recuperada sobre o tema não cumpre o pedido de
@@ -530,6 +538,9 @@ class Conversacao:
         if ctx.origem == "base" and "\n\nRelações verificadas:" in ctx.texto:
             prova = ctx.texto.split("\n\nRelações verificadas:", 1)[1]
             texto += "\n\nRelações verificadas:" + prova
+        for _, prova in ctx.provas:
+            if prova not in texto:
+                texto += "\n\n" + prova
         if formato == "exploracao":
             texto += "\n\n" + self._caminhos(ctx, bot)
         usados = tuple(dict.fromkeys(ctx.usados + pares))
