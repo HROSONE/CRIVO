@@ -15,7 +15,7 @@ TEMAS = [
     ("DNA", "dna", "genética"),
     ("RNA", "rna", "genética"),
     ("Andrômeda", "andromeda", "galáxia"),
-    ("gravidade", "gravidade", "atração"),
+    ("gravidade", "gravidade", "massa"),
     ("internet", "internet", "redes"),
     ("neuroplasticidade", "mundo_neuroplasticidade", "conexões"),
 ]
@@ -101,7 +101,9 @@ def gerar():
                            {"texto": "Fala de outro jeito", "esperado": {"ids": ["escrita:reformulacao"]}}]
             dialogos.append(dict(id="d%d_%02d" % (familia, j), familia="dialogo_%d" % familia,
                                  split=split, turnos=turnos))
-    return dict(versao=1, origem="Autoral, português brasileiro; fontes factuais já cadastradas.",
+    return dict(versao=1, revisao=2,
+                nota_oraculo="Revisão 2 corrige o trecho de gravidade: massa, presente no fato; a forma verbal atrai não contém a palavra atração. A referência é recalculada com o mesmo oráculo.",
+                origem="Autoral, português brasileiro; fontes factuais já cadastradas.",
                 politica="300 perguntas / 30 famílias e 60 diálogos / 6 famílias. Separação por família, sem avaliação externa cega. Trechos e IDs vêm do currículo, nunca das respostas medidas.",
                 perguntas=perguntas, dialogos=dialogos)
 
