@@ -15,6 +15,7 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 | Data | Área/módulos | Documento | Estado |
 | --- | --- | --- | --- |
+| 2026-10-01 | Astronomia: auditoria científica focalizada | [Checagem de 279 fatos nominais, fontes, causalidade e fórmulas](astronomia/2026-10-01-auditoria-cientifica-fatos-fontes-e-formulas.md) | Triagem referencial de 72 fichas + quatro luas, correções reais lunar/DART, seis citações genéricas sinalizadas ao integrador e oito contas; NÃO é auditoria final aprovada |
 | 2026-10-01 | Astronomia: auditoria parcial de referências e integração | [Conferência pontual de fontes, URLs e estado da branch](astronomia/2026-10-01-auditoria-parcial-fontes-e-integracao.md) | Auditoria amostral: validações externas e correção da tabela do índice; NÃO é uma auditoria final nem aprova módulos |
 | 2026-10-01 | Astronomia 1–10: curadoria e parada | [Protocolo independente de revisão, provas e encerramento](astronomia/2026-10-01-protocolo-curadoria-revisao-independente-e-porta-saida.md) | Critérios de seleção, prova cega e duas auditorias documentais; NÃO executa treino nem certifica a skill |
 | 2026-10-01 | Astronomia 1, 2, 3, 7, 8, 9 | [Corpos menores, cometas, Kuiper/Oort e DART](astronomia/2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) | Ontologia e mecanismos de famílias de corpos, observações diretas vs reservatórios inferidos, defesa planetária; revisão pendente |
