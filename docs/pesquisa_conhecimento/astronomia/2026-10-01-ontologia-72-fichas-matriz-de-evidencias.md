@@ -111,7 +111,7 @@
 | Sinal observacional não detectado | estabelece no máximo | limite instrumental/modelado para objeto | Método | [instrumentos](2026-10-01-metodos-quantitativos-astrometria-espectros-incertezas.md) |
 | Isótopos pai/filho + sistema fechado | permitem inferir | idade do evento mineral registrado | Cronologia | [crateras](2026-10-01-cronologia-meteoritos-crateras-e-proveniencia.md) |
 | Contagem de crateras + taxa de formação modelada | permite estimar | idade relativa/modelada da superfície | Cronologia | [crateras](2026-10-01-cronologia-meteoritos-crateras-e-proveniencia.md) |
-| Temperatura/ejeção DART + modelo termofísico | ajudam inferir | alteração orbital/transferência de momento | Corpos menores | [corpos menores](2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) |
+| **Impacto cinético DART + fotometria da órbita antes/depois + dinâmica dos ejecta** | permitem medir/modelar | **redução do período orbital de Dimorphos e transferência de momento** | Corpos menores | [corpos menores](2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) |
 
 **Limites comuns de inferência:** 'pode causar' ≠ 'sempre causa'; 'compatível com' ≠ 'identificado sem alternativa'; 'quantidade inferida' ≠ 'propriedade diretamente fotografada'. Variáveis como temperatura, massa, fase de material, composição, orientação orbital, distância e resolução do instrumento precisam acompanhar a proposição.
 
