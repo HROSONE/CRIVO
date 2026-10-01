@@ -181,7 +181,7 @@ class CortexAssociativo:
                 nome = normalizar(alias)
                 propriedade = re.match(
                     r"^([a-z0-9]+(?: [a-z0-9]+){0,3}) "
-                    r"(?:de|do|da|dos|das) " + re.escape(nome) + r"(?:$| )",
+                    r"(?:de|do|da|dos|das|em|no|na) " + re.escape(nome) + r"(?:$| )",
                     restante)
                 if propriedade is None:
                     continue
@@ -251,7 +251,9 @@ class CortexAssociativo:
                  "mecanismo", "explica", "ocorre", "ocorrem", "isso",
                  "pelo", "pela", "pelos", "pelas", "via", "sob", "ate",
                  "entre", "atraves", "num", "numa", "sobre",
-                 "devido", "devida", "devidos", "devidas"}
+                 "devido", "devida", "devidos", "devidas",
+                 "seu", "sua", "seus", "suas",
+                 "apresenta", "apresentam"}
         # Filtrar palavras funcionais ANTES da reducao morfologica:
         # "através" pode virar "atrave" no tokenizador; nao e um
         # qualificador novo nem deve diluir a evidencia recuperada.
