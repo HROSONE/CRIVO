@@ -186,7 +186,7 @@ class CortexAssociativo:
                 if propriedade is None:
                     continue
                 parte = propriedade.group(1)
-                if re.search(r"\\b(?:e|ou|com|sem|nao)\\b", parte):
+                if re.search(r"\b(?:e|ou|com|sem|nao)\b", parte):
                     continue
                 # A parte tambem deve ser conhecimento efetivamente
                 # presente em ao menos um fato tipado desse proprietario.
@@ -209,7 +209,9 @@ class CortexAssociativo:
         if len(unicos) != 1:
             return None
         conceito, alias = next(iter(unicos))
-        depois = restante[len(alias):].strip()
+        fim_sujeito = re.search(r"(?<![a-z0-9])" + re.escape(alias) +
+                                r"(?![a-z0-9])", restante)
+        depois = restante[fim_sujeito.end():].strip()
         # Dois nomes unidos no sujeito sao comparacao/relacao, nao
         # recuperacao de um unico fato individual. O controle por palavras
         # desconhecidas continua atuando no predicado inteiro.
