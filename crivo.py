@@ -1412,6 +1412,25 @@ class Crivo:
         _, vocabulario = self._contexto_consulta(texto)
         toks = self._tokens_consulta(texto, vocabulario)
         desconhecidas = [t for t in toks if t not in vocabulario]
+        # O classificador treinado pode reconhecer a intencao "receber
+        # dados" e ainda assim desconhecer a FONTE: camera, radio,
+        # satelite, API ou qualquer outra que ainda nao tenha sido ensinada.
+        # Verificar a fonte gramatical contra evidencias da intencao,
+        # em vez de aprovar a resposta apenas por pontuacao neural.
+        if rank and self.base[rank[0][1]]["id"] == "py_input":
+            metodo = re.search(
+                r"\b(?:pelo|pela|pelos|pelas|via|por meio (?:de|da|do)|"
+                r"atraves (?:de|da|do)|usando|utilizando)\s+"
+                r"(?:o |a |os |as |um |uma )?([a-z][a-z0-9_-]*)\b", n)
+            if metodo:
+                entrada = self.base[rank[0][1]]
+                evidencias = set(tokens(" ".join(entrada["perguntas"]) +
+                                      " " + entrada["resposta"]))
+                if metodo.group(1) not in evidencias:
+                    return "fora", (
+                        "Reconheci o pedido de obter dados, mas não há instrução "
+                        "cadastrada para o meio de entrada especificado. "
+                        "Não vou substituir esse meio pelo teclado.")
         # se metade ou mais das palavras é desconhecida, o Crivo prefere admitir que não sabe
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []
