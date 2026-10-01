@@ -107,7 +107,7 @@ class CompositorTextual:
                     or not all(isinstance(a, str) and tema(a) for a in item.get("aliases", []))
                     or not isinstance(item.get("fatos"), list) or not 1 <= len(item["fatos"]) <= 12):
                 raise ValueError("Conceito textual inválido ou duplicado")
-            aspectos = set()
+            fatos_por_aspecto = set()
             for fato in item["fatos"]:
                 if (not isinstance(fato, dict) or not isinstance(fato.get("texto"), str)
                         or not 1 <= len(fato["texto"].strip()) <= 1000
@@ -116,10 +116,14 @@ class CompositorTextual:
                     raise ValueError("Fato sem texto, papel ou fonte válida")
                 if "aspecto" in fato:
                     aspecto = fato["aspecto"]
-                    if (not isinstance(aspecto, str) or not re.fullmatch(r"[a-z_]+", aspecto)
-                            or aspecto in aspectos):
+                    if not isinstance(aspecto, str) or not re.fullmatch(r"[a-z_]+", aspecto):
                         raise ValueError("Aspecto inválido ou ambíguo")
-                    aspectos.add(aspecto)
+                    # Um aspecto tem varias evidencias, desde que nao repita
+                    # literalmente a mesma unidade e sua proveniencia.
+                    chave = (aspecto, fato["texto"].strip())
+                    if chave in fatos_por_aspecto:
+                        raise ValueError("Fato repetido no mesmo aspecto")
+                    fatos_por_aspecto.add(chave)
             if item["fatos"][0]["papel"] != "definicao":
                 raise ValueError("O primeiro fato deve definir o conceito")
             self.expandidos.add(item["id"])
@@ -316,6 +320,9 @@ class CompositorTextual:
                             (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
                 return falta
         padroes = (
+            (r"como (?:se formam?|nascem?|surgem?|surgiu) (.+)", "formacao"),
+            (r"como (?:foi|foram) (?:formad[oa]s?|criad[oa]s?|construid[oa]s?) (.+)", "formacao"),
+            (r"qual (?:e )?(?:a|o) (?:origem|formacao) (?:de|do|da|dos|das) (.+)", "formacao"),
             (r"como (?:funciona|funcionam|age|agem) (.+)", "funcionamento"),
             (r"para que (?:serve|servem) (.+)", "funcao"),
             (r"qual (?:e )?(?:a|o) (?:funcao|papel) (?:de|do|da|dos|das) (.+)", "funcao"),
