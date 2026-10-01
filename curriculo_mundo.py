@@ -24,6 +24,21 @@ def ler_curriculo(caminho):
     if not caminho.is_file():
         return None
     dados = json.loads(caminho.read_text(encoding="utf-8"))
+    # Catálogos temáticos pequenos podem ampliar o currículo sem duplicar o
+    # arquivo principal. Eles passam pela mesma validação de fontes, fatos e IDs.
+    # O carregamento é determinístico e local; nenhum conteúdo remoto é baixado.
+    if caminho.name == "conhecimento_mundo.json":
+        for extra_nome in ("conhecimento_astronomia_luas.json",):
+            extra_path = caminho.with_name(extra_nome)
+            if not extra_path.is_file():
+                continue
+            extra = json.loads(extra_path.read_text(encoding="utf-8"))
+            if not isinstance(extra, dict) or extra.get("versao") != 1:
+                raise ValueError("Currículo temático inválido")
+            dados["fontes"].update(extra.get("fontes", {}))
+            dados["itens"].extend(extra.get("itens", []))
+            dados.setdefault("ligacoes", []).extend(extra.get("ligacoes", []))
+            dados.setdefault("comparacoes", []).extend(extra.get("comparacoes", []))
     if (not isinstance(dados, dict) or dados.get("versao") != 1 or
             not isinstance(dados.get("fontes"), dict) or
             not isinstance(dados.get("itens"), list) or
