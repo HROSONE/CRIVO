@@ -114,3 +114,31 @@ A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posterio
 | 10 | Material para futura matriz de evidências e possíveis rubricas | Agente integrador e revisor independente decidirão provas e certificação |
 
 **Nenhum módulo está classificado como pesquisa_documental_pronta.** Próximos dossiês prioritários: fundamentos de fusão estelar e nucleossíntese (módulo 4) e, depois, cosmologia física (módulo 6). Para os módulos 2 e 3, retomar apenas lacunas estruturais, não novas listas de curiosidades. Não alterar percentual certificado (continua 0/10 conforme skill da main), não alegar competência neural/simbólica não medida e não mudar base ativa.
+
+
+## 8. Acompanhamento da Fase B: estrutura estelar, neutrinos, remanescentes e nucleossíntese — 01/10/2026
+
+**Entregas publicadas, com referência e arquivo verificados nesta branch:**
+
+- [Estrutura estelar, fusão nuclear, neutrinos e observação](2026-10-01-estrutura-estelar-fusao-neutrinos-e-observacao.md): equilíbrio hidrostático, energia gravitacional pré-fusão, cadeia pp/CNO, medição Borexino 2020, oscilação de neutrinos, transporte radiativo/convectivo, Gaia H–R e asterossismologia; doze entradas de referências, algumas relacionadas à mesma observação/instituição.
+- [Supernovas, remanescentes e nucleossíntese](2026-10-01-remanescentes-supernovas-nucleossintese-evidencias.md): evolução de gigantes, anãs brancas/estrelas de nêutrons/buracos negros, canais termonuclear e colapso, s-processo, r-processo, GW170817, SN 1987A, GRB 230307A e limites de inferência; 22 entradas de referências, inclusive fontes duplicadas identificadas no próprio documento.
+
+**Inventário atual:** sete dossiês temáticos + esta auditoria; *isso é contagem de documentos, NÃO percentual científico certificado*. Os relatos anteriores apresentados em conversa não devem ser confundidos com publicação em branch. Fontes bibliográficas podem se repetir entre documentos.
+
+**Matriz de lacunas após a Fase B:**
+
+| Módulo | Evidência documental nova | Lacuna de fechamento ainda aberta |
+| --- | --- | --- |
+| 4 — Física estelar | Cadeia causal colapso→fusões→fases evolutivas→remanescentes; casos observacionais Borexino, Gaia, SN 1987A, GW170817 e Webb | Matrizes quantitativas por massa e metalicidade; binárias, baixa massa, cristalização de anãs brancas; revisão externa de limites nucleares e observacionais |
+| 5 — Galáxias | Enriquecimento químico por ventos, explosões e fusões; relação do espectro com metalicidade | Montagem hierárquica e dinâmica galáctica ainda não documentadas amplamente |
+| 6 — Cosmologia | Distinção da nucleossíntese primordial vs. estelar e escala de observação de fontes distantes | Expansão, CMB, nucleossíntese primordial aprofundada, energia escura e interpretações de dados |
+| 7 — Observação | Neutrinos, espectros, oscilação estelar, radiação multi-banda e ondas gravitacionais | Calibração, seleção instrumental, vieses, erros sistemáticos e redução de dados |
+| 8 — Matemática | Equações de suporte hidrostático, energia e escala de luminosidade | Cálculos numéricos com unidades, propagação de incerteza e dados observados |
+| 9 — Raciocínio | Dado versus inferência; exemplos sobre fusão, neutrinos e explosões de origens diversas | Provas independentes, comparações envolvendo outras disciplinas e raciocínio robusto para enunciados inéditos |
+| 10 — Prova final | Referências e exemplos de perguntas para futura curadoria | Avaliação cega e certificação são responsabilidade do agente integrador, nunca desta branch |
+
+**Decisão de qualidade:** módulo 4 recebeu cobertura relevante, mas ainda NÃO satisfaz todos os requisitos de `pesquisa_documental_pronta` (revisão científica independente, matriz de escopo completo e conferência de limites). Nenhum dos dez módulos foi certificado editorial/neuralmente. A conclusão documental continua pendente, sem prazo artificial.
+
+**Próximo foco de pesquisa:** material substancial para módulo 6 — radiação cósmica de fundo, medidas de expansão, modelos cosmológicos e incertezas — priorizando fontes primárias; depois complementar dinâmicas/estrutura galáctica e a matemática observacional transversal. Módulo 4 poderá receber revisão focada para preencher lacunas que restam, não expansão indefinida de curiosidades.
+
+**Integrado ao CRIVO nesta execução:** nada. **Peso neural/CI alterado:** não. **Consulta simbólica/neural avaliada:** não. **Certificação registrada na skill da main:** permanece 0/10.
