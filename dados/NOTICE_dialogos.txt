@@ -1,0 +1,69 @@
+Dados complementares de diálogo humano — Open Assistant Conversations Dataset Release 2
+
+Fonte: OpenAssistant/oasst2, OpenAssistant / LAION-AI e colaboradores.
+Página: https://huggingface.co/datasets/OpenAssistant/oasst2
+Repositório de origem: https://github.com/LAION-AI/Open-Assistant
+Revisão usada: 179dd21fc55192153d94adb0e0ce8f69e222bf75
+Arquivo: 2023-11-05_oasst2_ready.messages.jsonl.gz
+URL fixa:
+https://huggingface.co/datasets/OpenAssistant/oasst2/resolve/179dd21fc55192153d94adb0e0ce8f69e222bf75/2023-11-05_oasst2_ready.messages.jsonl.gz
+
+Licença dos textos de origem: Apache License, Version 2.0.
+Uma cópia integral está em LICENSE_OpenAssistant.txt. A licença abrange estes
+textos derivados por seleção; este aviso não altera a licença do código do Crivo.
+Referência: Köpf et al., “OpenAssistant Conversations — Democratizing Large
+Language Model Alignment”, 2023, https://arxiv.org/abs/2304.07327.
+
+Modificações nesta cópia
+
+A seleção local em dialogos_humanos.json contém 62 pares em 26 árvores: 56 pares
+de treino e 6 de validação. Há 16 pares com histórico. Foram escolhidas raízes
+conversacionais por leitura humana, depois aplicados os critérios de revisão,
+origem, conteúdo e qualidade descritos na própria metadata do JSON. A revisão
+descartou alvos que ignoram restrições ou contexto, contêm erros claros, citam
+fontes não verificadas ou fazem alegações especializadas fora do escopo.
+
+Mensagem, resposta e histórico permanecem integrais e originais. Não houve
+geração, tradução, correção, resumo nem corte de respostas. Campos user_id,
+created_date, eventos, reações e dados de autoria não foram distribuídos. IDs
+públicos de mensagem e árvore são preservados para rastreabilidade.
+
+Os papéis foram renomeados para usuario e assistente. A partição local é um
+hash fixo do ID da árvore inteira, preservando parentes e descendentes na mesma
+partição. Ela não é a partição original da distribuição Hugging Face. OASST2 já
+inclui OASST1: não unir as duas versões sem deduplicar por message_id.
+
+Reprodução
+
+Baixe o arquivo de dados da URL fixa acima e execute, na raiz do repositório:
+
+python scripts/curar_dialogos_humanos.py --fonte /caminho/2023-11-05_oasst2_ready.messages.jsonl.gz
+
+O script usa apenas Python padrão, aceita também uma extração PT-BR desse
+arquivo e lê dados estáticos. Não carrega pesos, não chama modelos ou APIs de
+inferência e não executa conteúdo das mensagens. O índice manual de árvores
+está em selecao_arvores_oasst2.json; os descartes explícitos estão no script.
+Hashes e contagens auditáveis estão em dialogos_humanos.json.
+O script verifica o hash das 2.699 mensagens PT-BR de origem, serializadas em
+JSON canônico e ordenadas por message_id, antes de curar. Outra origem ou uma
+extração incompleta é recusada para evitar atribuição incorreta.
+
+Uso e limites
+
+Este corpus é complementar ao currículo autoral: 62 exemplos não bastam para
+conversa geral. synthetic=false e review_result=true são rótulos da origem,
+não uma verificação independente de autoria ou uma garantia de veracidade.
+O Crivo aprende seus próprios pesos do zero; nenhum peso ou vocabulário de
+modelo pré-treinado é fornecido por esta cópia.
+
+O treinador deve usar apenas exemplos marcados treino e avaliar validação
+separadamente. Se um par ultrapassar limites de comprimento, descarte-o
+inteiro em vez de apresentar uma resposta cortada como alvo original. Com o
+tokenizador próprio inicial do seq2seq e limite de 192 tokens de fonte e 95 de
+resposta, cabem 31 pares completos (26 treino, 5 validação). Comprimentos da
+metadata são aproximados por palavras e pontuação; cada treinador deve aplicar
+seu próprio tokenizador, incluindo marcadores de papel e quebras de linha.
+
+Os textos públicos não são promovidos automaticamente a fatos na base nem
+viram uma tabela de respostas em tempo de execução. Os dados não incluem
+conversas privadas do usuário, saídas do Crivo ou casos das sondas de avaliação.

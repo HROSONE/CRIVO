@@ -148,7 +148,8 @@ SINONIMOS_CONSULTA_TECNICA = {
 
 # ------------------------------------------------------------- modelo ------
 class Crivo:
-    def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True):
+    def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
+                 usar_dialogo_contextual=False):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.caminho_base = caminho
         from curriculo_mundo import carregar_base, ler_curriculo
@@ -189,7 +190,8 @@ class Crivo:
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
-        self.conversacao = Conversacao(usar_neural=usar_linguagem_neural)
+        self.conversacao = Conversacao(usar_neural=usar_linguagem_neural,
+                                      usar_dialogo_contextual=usar_dialogo_contextual)
         from planejamento_conversa import PlanejadorConversa
         self.planejador = PlanejadorConversa(self.compositor)
         self._pedido_turno = None
@@ -440,10 +442,11 @@ class Crivo:
         Não confunde comparação, causa ou característica com definição.
         A interpretação é deliberadamente estreita, não generativa.
         """
-        n = normalizar(texto).strip().strip("?.,;! ")
+        n = normalizar(conversa_assistente.preparar_pedido(texto)).strip().strip("?.,;! ")
         expressoes = (
             r"(?:e\s+)?(?:(?:poderia|pode) me explicar |explique )?o que (?:e|eh|sao) (.+)",
-            r"o que significa (.+)",
+            r"o que (?:significa|quer dizer) (.+)",
+            r"qual (?:e )?(?:o )?significado (?:de|do|da) (.+)",
             r"defina (.+)",
             r"(?:qual e a |qual a )definicao de (.+)",
             r"definicao de (.+)",
@@ -452,6 +455,7 @@ class Crivo:
             match = re.fullmatch(padrao, n)
             if match:
                 conceito = re.sub(r"^(?:um|uma|o|a|os|as)\s+", "", match.group(1))
+                conceito = re.sub(r"^(?:termo|conceito)\s+", "", conceito)
                 # "variável num programa" e "variável em programação"
                 # referem-se ao mesmo conceito geral. Não apaga contexto
                 # de linguagem específica, como "em Python".
@@ -962,6 +966,10 @@ class Crivo:
                 self.historico[-1]["quadro_geracao"] = self.conversacao.geracao.ultimo_quadro
                 self.historico[-1]["mecanismo"] = "geracao_neural"
             self.conversacao.geracao.registrar(identificador, resultado[1], self.conversacao, texto)
+            self.conversacao.contextual.registrar(texto, resultado[1], identificador)
+            if identificador.startswith("conversa:neural_") and self.historico:
+                self.historico[-1]["quadro_contextual"] = self.conversacao.contextual.painel()
+                self.historico[-1]["mecanismo"] = "dialogo_contextual_neural"
             self.planejador.registrar(identificador, self.contexto_textual)
             if self.planejador.ultimo is not None and self.historico:
                 self.historico[-1]["plano"] = self.planejador.ultimo
@@ -1482,8 +1490,8 @@ def rodar_testes(caminho=None):
 
 
 # ---------------------------------------------------------------- CLI ------
-def conversar():
-    bot = Crivo()
+def conversar(usar_dialogo_contextual=False):
+    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual)
     print(f"Crivo {VERSAO} - digite 'sair' para encerrar, 'assuntos' para ver os temas.\n")
     while True:
         try:
@@ -1500,10 +1508,13 @@ def conversar():
 
 if __name__ == "__main__":
     args = sys.argv[1:]
+    experimental = bool(args and args[0] == "--dialogo-experimental")
+    if experimental:
+        args = args[1:]
     if args and args[0] == "--teste":
         ok, total = rodar_testes()
         sys.exit(0 if ok == total else 1)
     elif args:
-        print(Crivo().responder(" ".join(args))[1])
+        print(Crivo(usar_dialogo_contextual=experimental).responder(" ".join(args))[1])
     else:
-        conversar()
+        conversar(usar_dialogo_contextual=experimental)

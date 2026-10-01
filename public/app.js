@@ -14,7 +14,7 @@
     info: document.getElementById("info-button"),
     dialog: document.getElementById("about-dialog")
   };
-  const state = { history: [], busy: false, controller: null, generation: 0 };
+  const state = { history: [], busy: false, controller: null, generation: 0, experimental: false };
   const API = "/api/chat";
   const MAX_HISTORY = 10;
 
@@ -44,8 +44,9 @@
         });
         const data = await response.json();
         if (!response.ok || data.status !== "ok") throw new Error("Sem resposta");
+        state.experimental = data.experimental_dialogue === true;
       } finally { clearTimeout(timeout); }
-      setStatus("online", "CRIVO conectado");
+      setStatus("online", state.experimental ? "CRIVO experimental conectado" : "CRIVO conectado");
     } catch (_error) {
       setStatus("offline", "Servidor indisponível");
     }
@@ -121,7 +122,7 @@
         tag.textContent = "◈ Prova lógica";
       } else if (extra.id === "fora" || extra.id === "duvida") {
         tag.textContent = "◇ Limite de conhecimento";
-      } else if (extra.id && extra.id.indexOf("social:") === 0) {
+      } else if (extra.id && /^(social|conversa):/.test(extra.id)) {
         tag.textContent = "◇ Conversa";
       } else {
         tag.textContent = "◇ Base de conhecimento";
@@ -212,9 +213,10 @@
       if (generation !== state.generation) return;
       pending.remove();
       createMessage("assistant", data.response, data);
+      state.experimental = data.experimental_dialogue === true;
       state.history.push(question);
       state.history = state.history.slice(-MAX_HISTORY);
-      setStatus("online", "CRIVO conectado");
+      setStatus("online", state.experimental ? "CRIVO experimental conectado" : "CRIVO conectado");
     } catch (error) {
       if (generation !== state.generation) return;
       pending.remove();

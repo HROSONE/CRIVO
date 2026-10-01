@@ -4,6 +4,22 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Laboratório de conversa contextual
+
+Há um novo encoder contextual, memória de doze turnos e um gerador com
+atenção/cópia, treinados do zero. Os candidatos permanecem **desativados por
+padrão**: classificação de intenção e qualidade de conversa têm avaliações
+separadas, e os dois treinos ainda não melhoraram a conversa o suficiente.
+A integração preserva a Astronomia e o microcircuito da main `8985096`.
+No modo padrão, pedidos educados de definição, autodescrição básica e
+perguntas sobre a fonte da resposta anterior receberam reparos gerais.
+Veja [arquitetura, dados, resultados e reprodução](DIALOGO_CONTEXTUAL.md).
+
+```bash
+python -m pip install -r requirements.txt
+python web_local.py --dialogo-experimental
+```
+
 ## Ampliação da conversa e da escrita
 
 A GRU autoral agora atende **16 operações**, com **oito estilos** e oito

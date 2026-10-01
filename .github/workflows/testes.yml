@@ -23,7 +23,7 @@ jobs:
         env:
           OPENBLAS_NUM_THREADS: '1'
           OMP_NUM_THREADS: '1'
-        run: python -m unittest testes_geracao testes_intencao_gerativa -v
+        run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq -v
   testes:
     runs-on: ubuntu-latest
     strategy:

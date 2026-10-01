@@ -144,7 +144,7 @@ class Conversacao:
     MAX_LEMBRANCAS = 8
     MAX_INTERVALO = 10
 
-    def __init__(self, caminho=None, usar_neural=True):
+    def __init__(self, caminho=None, usar_neural=True, usar_dialogo_contextual=False):
         caminho = caminho or Path(__file__).with_name("conhecimento_linguagem.json")
         self.regras = carregar_gramatica(str(Path(caminho).resolve()))
         self.lembrancas = deque(maxlen=self.MAX_LEMBRANCAS)
@@ -161,6 +161,8 @@ class Conversacao:
         self.raciocinio_dialogo = RaciocinioDialogo()
         from geracao_conversa import GeracaoConversa
         self.geracao = GeracaoConversa(usar_neural=usar_neural)
+        from dialogo_contextual import DialogoContextual
+        self.contextual = DialogoContextual(usar_neural=usar_neural and usar_dialogo_contextual)
 
     def _analisar_neural(self, texto):
         if (not self.usar_neural or not isinstance(texto, str) or len(texto) > 1200 or
@@ -332,6 +334,7 @@ class Conversacao:
 
     def preparar(self, texto, bot):
         self.turno += 1
+        bot.planejador.ultimo = None
         self.ultimo_quadro_neural = None
         self.dialogo.ultimo_quadro = None
         self.geracao.ultimo_quadro = None
@@ -341,7 +344,21 @@ class Conversacao:
                                maxlen=self.MAX_LEMBRANCAS)
         escolha = self._escolher(texto, bot)
         if escolha is not None:
+            self.contextual.ultimo_quadro = None
             return escolha
+        from conversa_assistente import pedido_fontes_anterior
+        if pedido_fontes_anterior(texto):
+            self.contextual.ultimo_quadro = None
+            atual = self._atual(bot)
+            if atual is not None and atual.contexto is not None:
+                return Preparacao(Ato("fontes_anteriores", "transformar", formato="fontes"),
+                                  (*bot.compositor._fontes(atual.contexto), ""))
+            return Preparacao(Ato("fontes_anteriores", "transformar", formato="fontes"),
+                              ("duvida", "Não tenho uma fonte factual vinculada à resposta anterior. "
+                               "Qual informação você quer verificar?", None, ""))
+        contextual = self.contextual.preparar(texto, bot, self)
+        if contextual is not None:
+            return contextual
         retratada = self.dialogo.preparar_restricao(texto, bot, self)
         if retratada is not None:
             return retratada

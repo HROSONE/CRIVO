@@ -1,6 +1,6 @@
 # Cérebro neuroinspirado do CRIVO — microcircuito v0.1
 
-**Estado experimental na branch de Astronomia, não na `main`.** O objetivo é resolver o problema de *associação ≠ compreensão* sem esconder a insuficiência da rede atual atrás de roteamento por palavras-chave.
+**Microcircuito experimental integrado à `main` em `464ab386`.** O objetivo é resolver o problema de *associação ≠ compreensão* sem esconder a insuficiência da rede atual atrás de roteamento por palavras-chave.
 
 ## Anatomia operacional e analogias (não equivalências biológicas)
 
@@ -45,3 +45,12 @@ A primeira integração responde a consultas que expressem um único referente e
 - [Correcting the Hebbian mistake (2022)](https://pubmed.ncbi.nlm.nih.gov/36219613/): plasticidade hebbiana simples pode gerar interferência; mecanismos guiados por erro podem ser necessários.
 - [Revisão de formação de memória episódica (2023)](https://pubmed.ncbi.nlm.nih.gov/37086812/): integração de objeto e contexto e consolidação.
 - Essas publicações sustentam a **inspiração funcional**; não validam que este código reproduza o cérebro humano nem garantem melhor desempenho em linguagem.
+
+## Laboratório de linguagem contextual
+
+A arquitetura de [diálogo contextual](../DIALOGO_CONTEXTUAL.md) acrescenta
+um BiGRU de atos/papéis, memória com origem por turno e um gerador com
+atenção e cópia, todos autorais e treinados do zero. A geração nova fica
+desativada por padrão porque a avaliação de conversa ainda é insuficiente.
+Os fatos, sinapses, limiares e checkpoint de 193 classes deste microcircuito
+foram preservados; probabilidade de uma interpretação não equivale a prova.
