@@ -142,3 +142,26 @@ A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posterio
 **Próximo foco de pesquisa:** material substancial para módulo 6 — radiação cósmica de fundo, medidas de expansão, modelos cosmológicos e incertezas — priorizando fontes primárias; depois complementar dinâmicas/estrutura galáctica e a matemática observacional transversal. Módulo 4 poderá receber revisão focada para preencher lacunas que restam, não expansão indefinida de curiosidades.
 
 **Integrado ao CRIVO nesta execução:** nada. **Peso neural/CI alterado:** não. **Consulta simbólica/neural avaliada:** não. **Certificação registrada na skill da main:** permanece 0/10.
+
+
+## 9. Acompanhamento da Fase C: cosmologia primordial e expansão — 01/10/2026
+
+**Documentos publicados e relidos nesta branch:**
+- [Cosmologia primordial: nucleossíntese, recombinação e CMB](2026-10-01-cosmologia-primitiva-nucleossintese-recombinacao-cmb.md): física do Universo quente, separação entre núcleos/átomos/estrelas, formação de núcleos leves, observações FIRAS/DMR-COBE, parâmetros Planck publicados em 2020, anisotropias, polarização, inflação sob teste e reionização. Contém 14 entradas de fontes com dependências bibliográficas explícitas.
+- [BAO, distâncias cosmológicas, Hubble, DESI 2026 e energia escura](2026-10-01-baos-hubble-desi-energia-escura-inferencias.md): standard ruler, redshift, distâncias D_L/D_A/D_M, H0 local versus inferido do CMB, escala acústica observada, correlação Lyα de DESI, histórico 2025 versus atualização de 30/07/2026, covariância e sistemáticos. Contém 14 entradas de fontes, incluindo materiais do mesmo levantamento e repetição institucional explícita.
+
+**Inventário documental atual após esta entrega:** 9 dossiês temáticos + 1 auditoria. Isso NÃO significa 90% da especialização ou nove módulos concluídos; dossiês distribuem-se de maneira desigual entre os módulos e ainda carecem de curadoria independente.
+
+| Módulo | Novo conhecimento documentado | Lacuna que ainda impede marcar módulo como pronto |
+| --- | --- | --- |
+| 6 — Cosmologia | Nucleossíntese primordial, recombinação e radiação de fundo, acústica CMB/BAO, formação de estruturas e reionização, histórico de aceleração e tensões de expansão; DESI 2026 contextualizado | Revisão científica cruzada e recente de fontes, integralização dos conceitos delimitados, dinâmica quantitativa da estrutura cósmica, natureza de matéria/energia escura, inferências em modelos concorrentes com condições |
+| 7 — Observação | Distâncias cosmológicas e linhas de absorção Lyα; diferenças entre COBE/Planck/DESI/supernovas; ruído, contaminantes e calibração | Exercícios com reduções de dados e vieses quantitativos reais por técnica; avaliação por especialista |
+| 8 — Matemática aplicada | Relações de redshift, H(z), D_H, D_L, D_A, parâmetro w, exemplos numéricos hipotéticos e dependência de hipóteses | Cálculos reproduzíveis com medições instrumentais, incerteza, covariância e dados abertos documentados |
+| 9 — Raciocínio | Distinções dado→hipótese→modelo, exemplos de inferência e contraexemplos que relacionam várias épocas | Matriz transversal do escopo completo e avaliação independente não contaminada |
+| 10 — Prova final | Matriz bibliográfica/epistêmica disponível para curadoria futura | Prova cega e verificação neural pertencem ao agente integrador; jamais executar nesta branch |
+
+**Resultado do gate de pesquisa documental:** **NENHUM módulo foi certificado como pesquisa_documental_pronta**, pois as condições acordadas incluem revisão cruzada, cobertura integral delimitada e ausência de lacuna central. Não decretar conclusão geral da Astronomia nem mudança de disciplina.
+
+**Próximas lacunas priorizadas:** (a) evolução quantitativa da estrutura cósmica, dinâmica galáctica e halos; (b) instrumentos, matemática aplicada e estudos com dados reproduzíveis; (c) corpos menores e comparação sistemática de asteroides/cometas; (d) revisão da matriz integral de 10 módulos, sem converter volumes de dossiês em certificação. Fontes emergentes de 2026 devem ser sempre comparadas a primários/observações e registrar datas corretamente.
+
+**Integrado na main por esta rotina:** nada. **CI/treino/checkpoints:** inalterados. **Consulta simbólica e competência neural:** não avaliadas. **Certificação:** inalterada em 0/10, conforme última skill verificada na main.
