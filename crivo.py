@@ -149,7 +149,7 @@ SINONIMOS_CONSULTA_TECNICA = {
 # ------------------------------------------------------------- modelo ------
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
-                 usar_dialogo_contextual=False):
+                 usar_dialogo_contextual=False, modelo_linguagem=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.caminho_base = caminho
         from curriculo_mundo import carregar_base, ler_curriculo
@@ -191,7 +191,8 @@ class Crivo:
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
         self.conversacao = Conversacao(usar_neural=usar_linguagem_neural,
-                                      usar_dialogo_contextual=usar_dialogo_contextual)
+                                      usar_dialogo_contextual=usar_dialogo_contextual,
+                                      modelo_linguagem=modelo_linguagem)
         from planejamento_conversa import PlanejadorConversa
         self.planejador = PlanejadorConversa(self.compositor)
         self._pedido_turno = None

@@ -144,7 +144,8 @@ class Conversacao:
     MAX_LEMBRANCAS = 8
     MAX_INTERVALO = 10
 
-    def __init__(self, caminho=None, usar_neural=True, usar_dialogo_contextual=False):
+    def __init__(self, caminho=None, usar_neural=True, usar_dialogo_contextual=False,
+                 modelo_linguagem=None):
         caminho = caminho or Path(__file__).with_name("conhecimento_linguagem.json")
         self.regras = carregar_gramatica(str(Path(caminho).resolve()))
         self.lembrancas = deque(maxlen=self.MAX_LEMBRANCAS)
@@ -162,7 +163,8 @@ class Conversacao:
         from geracao_conversa import GeracaoConversa
         self.geracao = GeracaoConversa(usar_neural=usar_neural)
         from dialogo_contextual import DialogoContextual
-        self.contextual = DialogoContextual(usar_neural=usar_neural and usar_dialogo_contextual)
+        self.contextual = DialogoContextual(usar_neural=usar_neural and
+                (usar_dialogo_contextual or bool(modelo_linguagem)), modelo_linguagem=modelo_linguagem)
 
     def _analisar_neural(self, texto):
         if (not self.usar_neural or not isinstance(texto, str) or len(texto) > 1200 or

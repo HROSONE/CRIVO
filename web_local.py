@@ -44,9 +44,14 @@ class LocalHandler(CrivoAPI):
         self.wfile.write(conteudo)
 
 
-def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False):
+def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False,
+                   modelo_linguagem=None):
+    if modelo_linguagem:
+        from dialogo_linguagem_profunda import carregar_modelo
+        carregar_modelo(modelo_linguagem)  # Falhar no início se pesos/dependências não existem.
     server = ThreadingHTTPServer((host, port), LocalHandler)
     server.dialogo_contextual = usar_dialogo_contextual
+    server.modelo_linguagem = modelo_linguagem
     return server
 
 
@@ -57,8 +62,11 @@ def main():
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--dialogo-experimental", action="store_true",
                         help="Usa os modelos contextuais candidatos; desativados por padrão.")
+    parser.add_argument("--modelo-linguagem-profunda", metavar="DIRETORIO",
+                        help="Usa explicitamente o candidato Transformer treinado do zero.")
     args = parser.parse_args()
-    server = criar_servidor(args.host, args.port, args.dialogo_experimental)
+    server = criar_servidor(args.host, args.port, args.dialogo_experimental,
+                           args.modelo_linguagem_profunda)
     print("CRIVO web: http://%s:%s" % (args.host, server.server_address[1]))
     print("O endpoint não possui login; evite expor a porta na internet.")
     try:

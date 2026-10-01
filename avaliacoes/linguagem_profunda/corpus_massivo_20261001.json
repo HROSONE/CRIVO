@@ -1,0 +1,115 @@
+{
+  "versao": 1,
+  "wikipedia": {
+    "dataset": "wikimedia/wikipedia",
+    "revisao": "b04c8d1ceb2f5cd4588862100d08de323dccfbaa",
+    "arquivo": "20231101.pt/train-00001-of-00006.parquet",
+    "url": "https://huggingface.co/datasets/wikimedia/wikipedia/resolve/b04c8d1ceb2f5cd4588862100d08de323dccfbaa/20231101.pt/train-00001-of-00006.parquet",
+    "sha256": "5e9b4476c0d69b0bffdcf76529de424dfda9510e3a6867676e5d482e6c70f1be",
+    "bytes": 212472795,
+    "licenca": "CC-BY-SA-3.0/GFDL",
+    "download_segundos": 132.33
+  },
+  "oasst2": {
+    "revisao": "179dd21fc55192153d94adb0e0ce8f69e222bf75",
+    "licenca": "Apache-2.0",
+    "filtro_recusas": {
+      "revisao_estrutura": 1064,
+      "qualidade_contato": 51,
+      "identidade_externa": 34,
+      "erro_ja_revisado": 25,
+      "duplicado": 2,
+      "alvos_duplicados_entre_particoes": 0
+    },
+    "arquivo_sha256": "875108bb4cd7a77a07097e3919ed94faf7cbf449ca201d65eea958714ec38240"
+  },
+  "selecao_wikipedia": {
+    "lidos": 185375,
+    "comprimento_recusado": 35061,
+    "duplicados": 1
+  },
+  "contexto": 256,
+  "vocabulario": 4096,
+  "particoes": {
+    "treino": {
+      "documentos": 18985,
+      "tokens_linguagem": 14565841,
+      "pares_humanos": 387,
+      "arvores_humanas": 109,
+      "janelas_dialogo": 116419,
+      "tokens_alvo_dialogo": 10644061,
+      "janelas_humanas": 1389,
+      "descartados_comprimento": {}
+    },
+    "validacao": {
+      "documentos": 614,
+      "tokens_linguagem": 431659,
+      "pares_humanos": 44,
+      "arvores_humanas": 14,
+      "janelas_dialogo": 133,
+      "tokens_alvo_dialogo": 14070,
+      "janelas_humanas": 133,
+      "descartados_comprimento": {}
+    },
+    "teste": {
+      "documentos": 401,
+      "tokens_linguagem": 360521,
+      "pares_humanos": 66,
+      "arvores_humanas": 14,
+      "janelas_dialogo": 187,
+      "tokens_alvo_dialogo": 20280,
+      "janelas_humanas": 187,
+      "descartados_comprimento": {}
+    }
+  },
+  "sintetico_sha256": "c2eabf5defcb7f24c1481c608e254a7ad38f6fef6c463d37d8174382973a8507",
+  "tokenizador_aprendeu_somente_treino": true,
+  "pesos_pre_treinados": false,
+  "dialogos_publicos": {
+    "dataset": "TucanoBR/Tucano-SFT",
+    "revisao": "0f5eb4d493e86d18abad5f9e085a74c49785ac76",
+    "arquivo": "data/train-00000-of-00003.parquet",
+    "destino": "tucano-sft.parquet",
+    "sha256": "2d3b0b096897bf1036fd4a9ec391b6e0f7e831d9dd3e90fbf27c0432586b30a9",
+    "licenca": "MIT para registros cnmoro/GPT4-500k-Augmented-PTBR-Clean selecionados",
+    "contagens": {
+      "lidos": 226537,
+      "duplicados": 828,
+      "identidade_externa": 25,
+      "conversas_alvos_entre_particoes": 1926,
+      "conversas_selecionadas": 48074
+    },
+    "natureza": "textos sintéticos gerados por modelos externos; nenhum peso externo",
+    "pares_treino": 45658,
+    "particoes": {
+      "treino": 45658,
+      "validacao": 1497,
+      "teste": 919
+    },
+    "avaliacao_primaria": "Somente humanos OASST2; públicos reservados não entram nas métricas humanas"
+  },
+  "arquivos": {
+    "dialogo_teste_origem.npy": "19ef637c55b48b3640ca6cf835feaa4f184536b876012a4e14aa874222ea0d87",
+    "dialogo_teste_x.npy": "dd4d910770527ac3f5a9743de47c211e31d524ae580f6a4e1c3d4d975d563cde",
+    "dialogo_teste_y.npy": "f9d485476bb8af27085281b9d1ef357214cb1bf40ce1477f3f24ccedbc790456",
+    "dialogo_treino_origem.npy": "d837a42cbec614e13411798520551ced91eeef568feb8ef75f101957be85b93e",
+    "dialogo_treino_x.npy": "b19f42117a8d038055b04abe36a1f9eb98ec9bb499961405cad2a30c48c1f80f",
+    "dialogo_treino_y.npy": "281b2205a3e94436458a7631c49c047e1fc76def6d1eedcacefa1a4d1bfaee3c",
+    "dialogo_validacao_origem.npy": "d699ca57fcbfa1b9f2dbd74490a0eec0117f3d4390c1b77988cc1817c7432361",
+    "dialogo_validacao_x.npy": "6f62a92eecb2091423e11a62dbdf8b7026acb47ce735016f386a0fa74368e1d5",
+    "dialogo_validacao_y.npy": "e837936a1249fdcfa5bb1275cc62e34bc8c82422c06bd1a7fb9d429b3aeb0193",
+    "dialogos_teste.jsonl": "1e8c021a7e7f148f5acc5dcf2645cce001d6885a502742bf2a02d6e43292c725",
+    "dialogos_treino.jsonl": "f331b02fe2f02fa9cfa516797c931bbecc76f40c1b11844323d602839dcd645e",
+    "dialogos_validacao.jsonl": "e893b9a0ca3eced195f48711cfdf4285786708e89cfb43d9c03838b0653cdf57",
+    "documentos_teste.jsonl": "5e6d4dfdc1601dac12a3699f020b49bf1ca720fcc6b4f1f28e4f26a6fe541325",
+    "documentos_treino.jsonl": "3148bd9d24d3f178a6190d7e58dd67fc48b8a415c61270247b84338bb094d0a7",
+    "documentos_validacao.jsonl": "6107faa59c900db508069831d95db7001ad296a4a07557cc5fa96fd83f357296",
+    "instrucoes_publicas_teste.jsonl": "9bccef1ac69e0c09a76cb9c6e66ea27b3b71994520943cda1602a788fdb04505",
+    "instrucoes_publicas_treino.jsonl": "aff17304319212749a6855ff367710b22ed47d825a6b14788f6b2473bd74ba32",
+    "instrucoes_publicas_validacao.jsonl": "a537534def5487a72b7fa940a86e57e99342ed5c8128adac6c48b2a58e80d765",
+    "linguagem_teste.bin": "d73bbb0e1b087cea402759957f312bece6ae121703f3eef6d638c5a12448d003",
+    "linguagem_treino.bin": "60c6d7578543b14ad3516eb10891142318158e3eb98db553867a60815848bd7c",
+    "linguagem_validacao.bin": "f4272ad3696f8cabd528c5b2a61619a9c2f4ed4c1fe6869553a35895abc1b7d7",
+    "tokenizer.json": "b9190d997bee7129a961763378036297c2a976a400d0fa21145e71ddd50989c5"
+  }
+}

@@ -14,7 +14,7 @@ class PedidoInvalido(ValueError):
     """Entrada inválida: o endpoint pode responder HTTP 400."""
 
 
-def responder_web(payload, usar_dialogo_contextual=False):
+def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -37,7 +37,7 @@ def responder_web(payload, usar_dialogo_contextual=False):
                    "\x00" in p for p in historico)):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
-    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual)
+    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem)
     for anterior in historico:
         bot.responder(anterior)
     identificador, resposta = bot.responder(mensagem)
@@ -68,7 +68,7 @@ def responder_web(payload, usar_dialogo_contextual=False):
         "mechanism": mecanismo,
         "neural_active": bot.rede is not None,
         "plan": bot.planejador.ultimo,
-        "experimental_dialogue": usar_dialogo_contextual,
+        "experimental_dialogue": usar_dialogo_contextual or bool(modelo_linguagem),
         # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
         "has_proof": (identificador in provas_efetivas or origem in provas_efetivas or
                       prova_editorial and "Relações verificadas:" in resposta or prova_planejada),
