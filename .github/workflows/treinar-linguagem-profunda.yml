@@ -1,0 +1,64 @@
+name: Pré-treino amplo e diálogos do zero
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/treinar-linguagem-profunda.yml'
+  workflow_dispatch:
+    inputs:
+      passos_linguagem:
+        description: 'Passos de pré-treino (12 x 256 tokens por passo)'
+        type: number
+        default: 12000
+      passos_dialogo:
+        description: 'Passos de adaptação a diálogos humanos e sintéticos identificados'
+        type: number
+        default: 3000
+permissions:
+  contents: read
+jobs:
+  candidato:
+    # Um merge explicitamente marcado inicia o ciclo pedido pelo usuário.
+    # Edições comuns do workflow não repetem horas de treino automaticamente.
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[treino-linguagem]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+      PASSOS_LINGUAGEM: ${{ inputs.passos_linguagem || 12000 }}
+      PASSOS_DIALOGO: ${{ inputs.passos_dialogo || 3000 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -r requirements-treino.txt -r requirements.txt
+      - run: python -m unittest testes_linguagem_profunda -v
+      - name: Baixar dados públicos verificados
+        run: python scripts/baixar_fontes_linguagem.py --saida trabalho/fontes --dialogos-publicos
+      - name: Preparar documentos e árvores separadas
+        run: |
+          python scripts/preparar_linguagem_profunda.py --wikipedia trabalho/fontes/wikipedia.pt.parquet --origem-wikipedia dados/origem_wikipedia_20261001.json --oasst2 trabalho/fontes/oasst2.pt.jsonl --dialogos-publicos trabalho/fontes/tucano-sft.parquet --limite-dialogos-publicos 50000 --saida trabalho/corpus --documentos 20000 --vocabulario 4096 --contexto 256
+      - name: Aprender português do zero
+        run: |
+          python -u scripts/treinar_linguagem_profunda.py --corpus trabalho/corpus --saida trabalho/pretreino --fase linguagem --passos "$PASSOS_LINGUAGEM" --threads 2
+      - name: Aprender respostas com histórico e papéis
+        run: |
+          python -u scripts/treinar_linguagem_profunda.py --corpus trabalho/corpus --saida trabalho/dialogo --fase dialogo --inicial trabalho/pretreino --passos "$PASSOS_DIALOGO" --lr 0.0003 --threads 2
+      - name: Avaliar teste reservado e preservar respostas livres
+        run: |
+          python scripts/avaliar_linguagem_profunda.py --modelo trabalho/dialogo --corpus trabalho/corpus --saida trabalho/avaliacao_teste.json --threads 2
+      - name: Preservar corpus, Adam, RNG, pesos e relatórios para retomada
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linguagem-profunda-candidata-${{ github.run_id }}
+          path: |
+            trabalho/corpus/
+            trabalho/pretreino/
+            trabalho/dialogo/
+            trabalho/avaliacao_teste.json
+          retention-days: 30
+          if-no-files-found: warn

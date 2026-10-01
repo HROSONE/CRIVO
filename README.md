@@ -7,6 +7,24 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Pré-treino amplo de português e diálogos
+
+O novo laboratório usa um Transformer causal próprio, inicializado do zero,
+BPE aprendido no treino, 20 mil artigos em português e 497 pares humanos públicos,
+além do currículo sintético autoral. O ciclo maior tem 56.523 pares de treino,
+incluindo textos sintéticos públicos com origem identificada. O treinamento tem duas etapas e checkpoints
+com Adam/RNG para continuar sem reiniciar. Não usa pesos ou inferência externos.
+Veja [dados, comandos, orçamento e critérios de avaliação](docs/linguagem_profunda.md).
+
+```bash
+python -m dialogo_linguagem_profunda --modelo artefatos/linguagem_profunda
+python web_local.py --modelo-linguagem-profunda artefatos/linguagem_profunda
+```
+
+Requer as dependências opcionais de `requirements-treino.txt`. Esse candidato
+continua experimental e desligado por padrão: as gerações do piloto ainda são
+incoerentes. Métricas de linguagem e qualidade de conversa são distintas.
+
 ## Laboratório de conversa contextual
 
 Há um novo encoder contextual, memória de doze turnos e um gerador com

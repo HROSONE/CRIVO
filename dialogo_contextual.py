@@ -10,10 +10,11 @@ from arquivos_contextuais import localizar
 
 
 class DialogoContextual:
-    def __init__(self, usar_neural=True):
+    def __init__(self, usar_neural=True, modelo_linguagem=None):
         from memoria_dialogo import MemoriaDialogo
         self.memoria=MemoriaDialogo(max_turnos=12)
         self.usar_neural=usar_neural
+        self.modelo_linguagem=modelo_linguagem
         self.ultimo_quadro=None
         self.erro=None
 
@@ -83,6 +84,24 @@ class DialogoContextual:
     def preparar(self, texto, bot, conversa):
         self.ultimo_quadro=None
         self.erro=None
+        if self.modelo_linguagem and self.usar_neural:
+            # A geração causal não depende de reconhecer um dos 23 atos antigos.
+            # O quadro recusado não cria spans, objetivos ou fatos na memória.
+            if self._proteger(texto,bot,conversa): return None
+            quadro={"ato":"livre", "aceita":False, "confianca":0.,
+                    "rota":"conversa", "confianca_rota":None, "spans":[]}
+            self.ultimo_quadro=quadro
+            from dialogo_linguagem_profunda import responder
+            contexto=self.memoria.contexto(texto)
+            try:
+                saida=responder(self.modelo_linguagem,texto,contexto.get("historico_ativo",[]))
+            except (ImportError,ValueError,RuntimeError,OSError,KeyError) as exc:
+                self.erro=str(exc);return None
+            if not self._valida(saida): return None
+            from linguagem_conversa import Ato,Preparacao
+            self.ultimo_quadro=dict(quadro,geracao={k:v for k,v in saida.items() if k!="texto"})
+            return Preparacao(Ato("dialogo_contextual_livre","dialogar"),
+                              ("conversa:neural_livre",saida["texto"],None,""))
         try:
             q=self._compreender(texto)
         except (ValueError,TypeError,KeyError,OSError) as exc:
@@ -141,4 +160,5 @@ class DialogoContextual:
                 "confianca":q["confianca"],"aceita":q.get("aceita",False),
                 "rota":q.get("rota"),"confianca_rota":q.get("confianca_rota"),
                 "trechos":[{"papel":s["papel"],"texto":s["texto"]} for s in q.get("spans",[])],
-                "modelo":"BiGRU com atenção e papéis; encoder-decoder com cópia"}
+                "modelo":("Transformer causal treinado do zero" if self.modelo_linguagem else
+                          "BiGRU com atenção e papéis; encoder-decoder com cópia")}
