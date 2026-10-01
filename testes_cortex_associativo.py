@@ -80,6 +80,32 @@ class TestesCortexAssociativo(unittest.TestCase):
         self.rede.ajustar_com_prova("cristero", 1, "luminosa", True, autorizado=True)
         self.assertGreater(self.rede.sinapses[chave]["luminosa"], antes * .6)
 
+    def test_compositor_emite_prova_e_contexto_da_sinapse_vencedora(self):
+        import tempfile
+        from pathlib import Path
+        from composicao_textual import CompositorTextual
+        curriculo = {
+            "versao":1, "fontes":{"ref":{"titulo":"Fonte de laboratorio",
+                                           "url":"https://example.org/laboratorio"}},
+            "itens":[dict(id=chave, nome=dados["nome"], aliases=[],
+                         fatos=[f for f in dados["fatos"] if f["fonte"]=="ref"])
+                     for chave, dados in self.itens.items()],
+        }
+        with tempfile.TemporaryDirectory() as pasta:
+            motor = CompositorTextual([], Path(pasta) / "nao-existe.json",
+                                      lambda texto: None, curriculo)
+            pergunta = "De que modo Cristero dispersa luz pela crosta luminosa?"
+            ident, texto, contexto = motor.responder(pergunta)
+            self.assertEqual(ident, "escrita:explicacao")
+            self.assertIn("crosta luminosa", texto)
+            self.assertNotIn("hélice interna", texto)
+            self.assertEqual(contexto.exibidos, (("cristero", 1),))
+            self.assertEqual(contexto.origem, "conhecimento")
+            _, fonte, _ = motor.responder("fontes", contexto)
+            self.assertIn("https://example.org/laboratorio", fonte)
+            self.assertIsNone(motor.responder(
+                "De que modo Cristero produz moedas pela crosta luminosa?"))
+
     def test_reproducibilidade_mesma_evidencia(self):
         outra = CortexAssociativo(self.itens, self.aliases,
                                   {"ref":{"url":"https://example.org"}}, palavras)
