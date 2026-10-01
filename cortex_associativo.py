@@ -147,21 +147,77 @@ class CortexAssociativo:
         self.sinapses = novo
 
     def _sujeito_exato(self, consulta):
-        """Atencao: um unico referente literal, sem supor sinonimos."""
+        """Vincula sujeito por PAPEL na frase, nao por saco de palavras.
+
+        "Como Mercurio orbita o Sol?" fala de Mercurio, ainda que ambos
+        sejam entidades conhecidas. Selecionar o primeiro nome do predicado
+        principal impede que a mencao secundaria do Sol torne a frase
+        ambigua e que uma entidade mencionada no complemento tome o lugar
+        do sujeito. Nenhum alias parcial ou aproximado e inventado.
+        """
+        prefixo = re.match(
+            r"^(?:de que modo|como|qual (?:e )?o mecanismo(?: (?:de|do|da))?) "
+            r"(?:(?:o|a|os|as|um|uma) )?", consulta)
+        if prefixo is None:
+            return None
+        restante = consulta[prefixo.end():]
         encontrados = []
         for alias, ids in self.aliases.items():
             if len(ids) != 1 or not alias:
                 continue
-            alvo = re.search(r"(?<![a-z0-9])" + re.escape(normalizar(alias)) +
-                             r"(?![a-z0-9])", consulta)
-            if alvo:
-                encontrados.append((len(alias), next(iter(ids)), alvo.group()))
+            nome = normalizar(alias)
+            if re.match(re.escape(nome) + r"(?:$| )", restante):
+                encontrados.append((len(nome.split()), len(nome),
+                                    next(iter(ids)), nome))
+        if not encontrados:
+            # Em "a atmosfera de Venus..." o topico recuperavel e Venus,
+            # enquanto "atmosfera" e a PARTE investigada. Exigir um
+            # possessivo curto e um alias inequivoco; a parte permanece nas
+            # pistas e PRECISA aparecer no fato escolhido. Nunca usar um
+            # nome secundario solto como sujeito.
+            for alias, ids in self.aliases.items():
+                if len(ids) != 1 or not alias:
+                    continue
+                nome = normalizar(alias)
+                propriedade = re.match(
+                    r"^([a-z0-9]+(?: [a-z0-9]+){0,3}) "
+                    r"(?:de|do|da|dos|das|em|no|na) " + re.escape(nome) + r"(?:$| )",
+                    restante)
+                if propriedade is None:
+                    continue
+                parte = propriedade.group(1)
+                if re.search(r"\b(?:e|ou|com|sem|nao)\b", parte):
+                    continue
+                # A parte tambem deve ser conhecimento efetivamente
+                # presente em ao menos um fato tipado desse proprietario.
+                pistas_parte = self.tokenizador(parte)
+                if not pistas_parte or not any(
+                    u.conceito == next(iter(ids)) and
+                    all(p in self.sinapses[(u.conceito, u.indice)]
+                        for p in pistas_parte)
+                    for u in self.unidades.values()
+                ):
+                    continue
+                encontrados.append((len(nome.split()), len(nome),
+                                    next(iter(ids)), nome))
         if not encontrados:
             return None
-        conceitos = {c for _, c, _ in encontrados}
-        if len(conceitos) > 1:
+        encontrados.sort(reverse=True)
+        mais_longo = (encontrados[0][0], encontrados[0][1])
+        unicos = {(ident, nome) for tokens_nome, tamanho, ident, nome
+                  in encontrados if (tokens_nome, tamanho) == mais_longo}
+        if len(unicos) != 1:
             return None
-        return max(encontrados)[1:]
+        conceito, alias = next(iter(unicos))
+        fim_sujeito = re.search(r"(?<![a-z0-9])" + re.escape(alias) +
+                                r"(?![a-z0-9])", restante)
+        depois = restante[fim_sujeito.end():].strip()
+        # Dois nomes unidos no sujeito sao comparacao/relacao, nao
+        # recuperacao de um unico fato individual. O controle por palavras
+        # desconhecidas continua atuando no predicado inteiro.
+        if re.match(r"^(?:e|ou|com) (?:o |a |os |as )?", depois):
+            return None
+        return conceito, alias
 
     def associar(self, pergunta, min_cobertura=.66, min_margem=.12):
         """Recuperacao EXPLICAVEL sob alto limiar, nunca inferencia causal.
@@ -172,9 +228,9 @@ class CortexAssociativo:
         """
         consulta = normalizar(pergunta)
         if len(consulta) > 320 or not re.match(
-                r"^(?:como |de que modo |qual (?:e )?o mecanismo )", consulta):
+                r"^(?:como |de que modo |qual (?:e )?o mecanismo(?: (?:de|do|da))? )", consulta):
             return None
-        if re.search(r"\b(nao|nunca|jamais|nem|se|supondo|imaginando|"
+        if re.search(r"\b(nao|nunca|jamais|nem|sem|exceto|se|supondo|imaginando|"
                      r"fictici[oa]|inventad[oa]|hipotetic[oa]|"
                      r"dosagem|dose|medicamento)\b", consulta):
             return None
@@ -192,8 +248,17 @@ class CortexAssociativo:
                  "um", "uma", "do", "da", "dos", "das", "no", "na", "nos", "nas",
                  "ao", "aos", "para", "por", "porque", "me", "pode", "faz",
                  "acontece", "funciona", "funcionamento", "sistema", "processo",
-                 "mecanismo", "explica", "ocorre", "ocorrem", "isso"}
-        pistas = set(self.tokenizador(sem_entidade)) - ruido
+                 "mecanismo", "explica", "ocorre", "ocorrem", "isso",
+                 "pelo", "pela", "pelos", "pelas", "via", "sob", "ate",
+                 "entre", "atraves", "num", "numa", "sobre",
+                 "devido", "devida", "devidos", "devidas",
+                 "seu", "sua", "seus", "suas",
+                 "apresenta", "apresentam"}
+        # Filtrar palavras funcionais ANTES da reducao morfologica:
+        # "através" pode virar "atrave" no tokenizador; nao e um
+        # qualificador novo nem deve diluir a evidencia recuperada.
+        pistas = {token for palavra in sem_entidade.split() if palavra not in ruido
+                  for token in self.tokenizador(palavra) if token not in ruido}
         # Pergunta só com assunto e verbo generico pertence ao compositor
         # tradicional, que conhece o aspecto tipado.
         if len(pistas) < 2 or len(pistas) > 12:
@@ -219,6 +284,22 @@ class CortexAssociativo:
         rival = concorrentes[1][0] if len(concorrentes) > 1 else 0.0
         if vencedor < min_cobertura or vencedor - rival < min_margem:
             return None
+        # Nao descartar silenciosamente um QUALIFICADOR preso ao fato.
+        # "pulsos luminosos" e "pulsos magicos" nao sao a mesma
+        # afirmacao. Um termo aberto colado a uma pista comprovada nao
+        # pode receber evidencias de outra propriedade apenas porque
+        # as demais palavras coincidem. Operadores e preposicoes separam
+        # sintagmas; verbos livres ANTES da entidade nao criam um fato.
+        palavras = sem_entidade.split()
+        sinapses_vencedoras = self.sinapses[chave]
+        for anterior, atual in zip(palavras, palavras[1:]):
+            antes = self.tokenizador(anterior)
+            depois = self.tokenizador(atual)
+            if (len(antes) == len(depois) == 1 and
+                    antes[0] in sinapses_vencedoras and
+                    depois[0] not in sinapses_vencedoras and
+                    atual not in ruido and depois[0] not in ruido):
+                return None
         unidade = self.unidades[chave]
         return Ativacao(conceito, unidade.indice, round(vencedor, 4),
                         round(rival, 4), tuple(sorted(presentes)), unidade.fonte)

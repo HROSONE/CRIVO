@@ -65,6 +65,67 @@ class TestesCortexAssociativo(unittest.TestCase):
         self.assertIsNone(self.rede.associar(
             "De que modo Cristero emite prova inventada?"))
 
+    def test_sujeito_inicial_com_entidade_secundaria_documentada(self):
+        # Um conceito citado no complemento nao pode disputar a funcao de
+        # sujeito da pergunta. Testa a regra em entidades INVENTADAS.
+        self.itens["cristero"]["fatos"][2]["texto"] = (
+            "O núcleo magnético de Cristero emite pulsos que atravessam "
+            "a atmosfera de Velário.")
+        rede = CortexAssociativo(self.itens, self.aliases,
+                                 {"ref": {"url": "https://example.org"}}, palavras)
+        for pergunta in (
+            "De que modo Cristero emite pulsos magnéticos na atmosfera de Velário?",
+            "Como o Cristero emite pulsos magnéticos na atmosfera de Velário?",
+        ):
+            with self.subTest(pergunta=pergunta):
+                ativa = rede.associar(pergunta)
+                self.assertIsNotNone(ativa)
+                self.assertEqual((ativa.conceito, ativa.indice),
+                                 ("cristero", 2))
+        # Sujeito invertido nao autoriza inverter uma relacao na fonte.
+        self.assertIsNone(rede.associar(
+            "Como Velário emite pulsos magnéticos de Cristero?"))
+
+    def test_multiplos_sujeitos_qualificadores_e_alvo_implicito(self):
+        self.itens["cristero"]["fatos"][2]["texto"] = (
+            "O núcleo magnético de Cristero emite pulsos que atravessam "
+            "a atmosfera de Velário.")
+        rede = CortexAssociativo(self.itens, self.aliases,
+                                 {"ref": {"url": "https://example.org"}}, palavras)
+        for pergunta in (
+            "De que modo Cristero e Velário emitem pulsos magnéticos?",
+            "Como Cristero ou Velário emitem pulsos magnéticos?",
+            "Como Cristero com Velário emite pulsos magnéticos?",
+            "Como a atmosfera de Velário emite pulsos magnéticos de Cristero?",
+            "Como Cristero não emite pulsos magnéticos na atmosfera de Velário?",
+            "Como Cristero emite pulsos magnéticos se Velário fosse fictício?",
+            "Como Cristero emite pulsos mágicos na atmosfera de Velário?",
+        ):
+            with self.subTest(pergunta=pergunta):
+                self.assertIsNone(rede.associar(pergunta))
+
+    def test_parte_pertencente_a_entidade_e_identificada_sem_treinar_pergunta(self):
+        for pergunta, esperado in (
+            ("Como o núcleo magnético de Cristero movimenta partículas elétricas?",
+             ("cristero", 2)),
+            ("De que modo a crosta luminosa de Cristero dispersa luz visível?",
+             ("cristero", 1)),
+            ("Como a hélice interna de Velário agita líquido cristalino?",
+             ("velario", 1)),
+        ):
+            with self.subTest(pergunta=pergunta):
+                memoria = self.rede.associar(pergunta)
+                self.assertIsNotNone(memoria)
+                self.assertEqual((memoria.conceito, memoria.indice), esperado)
+        for pergunta in (
+            "Como o núcleo magnético de Cristero e Velário movimenta partículas elétricas?",
+            "Como a crosta luminosa de Cristero produz ouro?",
+            "Como a crosta luminosa de Cristero dispersa luz sem ondas?",
+            "Como o núcleo magnético de Cristero não movimenta partículas elétricas?",
+        ):
+            with self.subTest(pergunta=pergunta):
+                self.assertIsNone(self.rede.associar(pergunta))
+
     def test_plasticidade_local_so_com_revisao(self):
         chave = ("cristero", 1)
         outra = dict(self.rede.sinapses[("cristero", 2)])

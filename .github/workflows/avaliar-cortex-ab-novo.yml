@@ -1,0 +1,37 @@
+name: Experimento independente A/B do cortex
+on:
+  push:
+    branches:
+      - exp/teste-cortex-novo-20261001
+    paths:
+      - 'scripts/avaliar_cortex_ab_novo.py'
+      - 'cortex_associativo.py'
+      - 'composicao_textual.py'
+      - 'testes_cortex_associativo.py'
+      - '.github/workflows/avaliar-cortex-ab-novo.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ab_circuito:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regredir circuito com casos sinteticos e limites de seguranca
+        run: python -m unittest testes_cortex_associativo -v
+      - name: Comparar respostas circuito ligado e desligado sem re-treinar
+        run: python scripts/avaliar_cortex_ab_novo.py
+      - name: Publicar evidencias completas mesmo quando falhar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: experimento-cortex-ab-novo-${{ github.run_number }}
+          path: resultado_cortex_ab.json
+          retention-days: 30
+          if-no-files-found: warn

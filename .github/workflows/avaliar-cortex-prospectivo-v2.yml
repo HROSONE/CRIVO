@@ -1,0 +1,31 @@
+name: Prova prospectiva cortical v2
+on:
+  push:
+    branches:
+      - exp/teste-cortex-novo-20261001
+    paths:
+      - 'scripts/avaliar_cortex_prospectivo_v2.py'
+      - 'cortex_associativo.py'
+      - '.github/workflows/avaliar-cortex-prospectivo-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prova_prospectiva:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Comparar A/B em consultas novas sem alterar pesos
+        run: python scripts/avaliar_cortex_prospectivo_v2.py
+      - name: Conservar todos os casos e falhas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cortex-prospectivo-v2-${{ github.run_number }}
+          path: resultado_cortex_prospectivo_v2.json
+          if-no-files-found: error
+          retention-days: 30
