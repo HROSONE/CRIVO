@@ -42,8 +42,16 @@ class TestesSemanticaProgramacao(unittest.TestCase):
             "git_commit",
         )
 
-    def test_pergunta_sem_intencao_unica_pede_esclarecimento(self):
-        self.assertEqual(Crivo().responder("Como funciona o sistema solar?")[0], "duvida")
+    def test_conhecimento_novo_resolve_ambiguidade_antiga_com_prova(self):
+        # O PR de astronomia cadastrou evidencias de funcionamento que nao
+        # existiam quando este teste foi escrito. Nao exigir "duvida" onde
+        # o catalogo atualizado sustenta uma resposta delimitada.
+        bot = Crivo()
+        identificador, resposta = bot.responder("Como funciona o sistema solar?")
+        self.assertEqual(identificador, "escrita:explicacao")
+        self.assertIn("gravidade", resposta.lower())
+        self.assertIn("órbitas", resposta.lower())
+        self.assertTrue(bot.contexto_textual.exibidos)
 
 
 if __name__ == "__main__":
