@@ -217,8 +217,12 @@ class CortexAssociativo:
                  "acontece", "funciona", "funcionamento", "sistema", "processo",
                  "mecanismo", "explica", "ocorre", "ocorrem", "isso",
                  "pelo", "pela", "pelos", "pelas", "via", "sob", "ate",
-                 "entre", "atraves", "num", "numa", "sobre", "atraves"}
-        pistas = set(self.tokenizador(sem_entidade)) - ruido
+                 "entre", "atraves", "num", "numa", "sobre"}
+        # Filtrar palavras funcionais ANTES da reducao morfologica:
+        # "através" pode virar "atrave" no tokenizador; nao e um
+        # qualificador novo nem deve diluir a evidencia recuperada.
+        pistas = {token for palavra in sem_entidade.split() if palavra not in ruido
+                  for token in self.tokenizador(palavra) if token not in ruido}
         # Pergunta só com assunto e verbo generico pertence ao compositor
         # tradicional, que conhece o aspecto tipado.
         if len(pistas) < 2 or len(pistas) > 12:
@@ -258,7 +262,7 @@ class CortexAssociativo:
             if (len(antes) == len(depois) == 1 and
                     antes[0] in sinapses_vencedoras and
                     depois[0] not in sinapses_vencedoras and
-                    depois[0] not in ruido):
+                    atual not in ruido and depois[0] not in ruido):
                 return None
         unidade = self.unidades[chave]
         return Ativacao(conceito, unidade.indice, round(vencedor, 4),
