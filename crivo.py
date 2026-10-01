@@ -1103,6 +1103,11 @@ class Crivo:
         # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
         # de formato, e continuar um texto não consulta outro assunto.
         composicao = self.compositor.responder(texto, self._contexto_textual_anterior)
+        # Novas palavras como "planeta" nao podem ocultar respostas ja
+        # cadastradas para a pergunta completa na base anterior.
+        if (composicao is not None and composicao[0] == "fora" and
+                len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
+            composicao = None
         if (composicao is not None and composicao[0] == "fora" and
                 self.compositor._menciona_mundo(n)):
             # O currículo novo não invalida uma prova já cadastrada em
@@ -1119,8 +1124,13 @@ class Crivo:
                         composicao = self.compositor._conceito(alvo)
                 else:
                     alternativas.append(self.analisador_portugues.responder(quadro_mundo))
-            if any(r is not None and r[0].startswith("logica:") and r[0] not in
-                   ("logica:desconhecido", "logica:sem_ligacao") for r in alternativas):
+            if (any(r is not None and r[0].startswith("logica:") and r[0] not in
+                   ("logica:desconhecido", "logica:sem_ligacao") for r in alternativas)
+                    or (self.raciocinio is not None and len(alternativas) > 1
+                        and alternativas[1] is not None
+                        and alternativas[1][0] in ("logica:desconhecido", "logica:sem_ligacao"))):
+                # Uma relacao analisada por inteiro pode retornar abstenção;
+                # o nome "orbita" nao deve mascarar o verbo "orbita".
                 composicao = None
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
