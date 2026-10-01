@@ -12,7 +12,8 @@ from urllib.parse import urlparse
 
 
 NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao"))
-REUTILIZACOES = frozenset(("dominio_publico", "CC-BY-4.0", "permissao_institucional"))
+REUTILIZACOES = frozenset(("dominio_publico", "CC-BY-4.0", "permissao_institucional",
+                         "somente_referencia"))
 
 
 def texto_fato(fato):
@@ -51,7 +52,7 @@ def ler_curriculo(caminho):
                 not isinstance(fonte.get("url"), str) or
                 urlparse(fonte["url"]).scheme != "https" or
                 not urlparse(fonte["url"]).netloc or
-                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico") or
+                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico", "catalogo_tecnico") or
                 type(fonte.get("ano")) is not int or
                 not 1900 <= fonte["ano"] <= 2100 or
                 fonte.get("ano_tipo") not in ("publicacao", "consulta")):
@@ -66,6 +67,9 @@ def ler_curriculo(caminho):
                 not isinstance(fonte.get("verificado_em"), str) or
                 not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fonte["verificado_em"])):
             raise ValueError("Fonte científica sem condições de reutilização ou crédito")
+        if (fonte["reutilizacao"] == "somente_referencia" and
+                fonte.get("reproducao_autorizada") is not False):
+            raise ValueError("Referência bibliográfica não pode presumir autorização de reprodução")
     ids = set()
     for item in dados["itens"]:
         if (not isinstance(item, dict) or

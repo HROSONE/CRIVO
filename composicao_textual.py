@@ -111,6 +111,9 @@ class CompositorTextual:
                     or not re.fullmatch(r"https://[^\s<>]+", fonte["url"])):
                 raise ValueError("Fonte textual inválida")
             self.fontes[ident] = dict(fonte)
+            if (fonte.get("reutilizacao") == "somente_referencia" and
+                    fonte.get("reproducao_autorizada") is not False):
+                raise ValueError("Referência bibliográfica não autoriza reprodução")
         for item in dados["itens"]:
             if (not isinstance(item, dict) or not isinstance(item.get("id"), str)
                     or not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", item["id"])
@@ -128,6 +131,8 @@ class CompositorTextual:
                 if (not isinstance(fato, dict) or not isinstance(fato.get("texto"), str)
                         or not 1 <= len(fato["texto"].strip()) <= 1000
                         or fato.get("fonte") not in self.fontes
+                        or not isinstance(fato.get("fontes", []), list)
+                        or not all(isinstance(f, str) and f in self.fontes for f in fato.get("fontes", []))
                         or fato.get("papel") not in ("definicao", "detalhe", "exemplo", "causa", "limite")):
                     raise ValueError("Fato sem texto, papel ou fonte válida")
                 if "aspecto" in fato:
@@ -455,6 +460,25 @@ class CompositorTextual:
             if causas:
                 return self.compor(contexto.temas, "explicacao", anterior=contexto, selecionados=causas)
             return "fora", "Não tenho uma explicação causal cadastrada para essa resposta. Pode especificar o que quer explicar?", None
+        # Aspectos de evidência/limite valem para qualquer catálogo, inclusive
+        # conceitos documentais que não são classes da rede de intenções.
+        # O alvo completo deve existir: qualificadores não são descartados.
+        consulta_evidencia = re.fullmatch(
+            r"(?:qual (?:e )?a (evidencia)|quais (?:sao )?as (evidencias)|"
+            r"quais (?:sao )?(?:os|as) (limites|limitacoes)) "
+            r"(?:(?:de|do|da|dos|das|sobre) (.+)|(disso|dele|dela))", n)
+        if consulta_evidencia:
+            alvo = consulta_evidencia.group(4) or consulta_evidencia.group(5)
+            ident = (contexto.temas[0] if alvo in ("isso","ele","ela","disso","dele","dela")
+                     and contexto and len(contexto.temas) == 1 else self.resolver(alvo))
+            if ident in self.expandidos:
+                limites = bool(consulta_evidencia.group(3))
+                escolhidos = tuple((ident,i) for i,f in enumerate(self.itens[ident]["fatos"])
+                    if (f.get("papel") == "limite" if limites else f.get("aspecto") == "evidencias"))
+                if escolhidos:
+                    return self.compor((ident,), "explicacao", selecionados=escolhidos[:3], origem="conhecimento")
+                return "fora", "Reconheci o assunto, mas não tenho esse aspecto documentado.", None
+            return "fora", "Não tenho evidência cadastrada para esse assunto completo.", None
         consulta_mundo = self._consulta_mundo(n, contexto)
         if consulta_mundo is not None:
             if consulta_mundo[0] == "fora":

@@ -7,6 +7,18 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Astronomia avançada integrada
+
+O acervo pesquisado em `pesquisa/acervo-conhecimento-crivo` ganhou uma primeira
+integração efetiva: 19 conceitos novos, 121 unidades factuais e 26 correções de
+referência, com 54 fontes conferidas. Inclui formação planetária, interiores,
+fusão estelar, kilonovas, evolução galáctica, lentes, BAO e distâncias cosmológicas.
+Os pesos existentes continuam compatíveis; não exige repetir o treino de linguagem.
+
+Experimente: `Como funciona ciclo CNO?`, `Quais são as evidências de matéria escura?`,
+`Quais são os limites de BAO?` e, depois, `Qual é a fonte?`.
+Veja [escopo, rastreabilidade e pendências](docs/integracao_astronomia_20261001.md).
+
 ## Pré-treino amplo de português e diálogos
 
 O novo laboratório usa um Transformer causal próprio, inicializado do zero,

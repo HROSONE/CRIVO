@@ -36,11 +36,14 @@ class TestesConhecimentoMundo(unittest.TestCase):
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
                         metadata = self.curriculo['fontes'][fonte]
-                        self.assertIn(metadata['tipo'], ('institucional_cientifica', 'artigo_cientifico'))
+                        self.assertIn(metadata['tipo'], ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico'))
                         self.assertTrue(metadata['credito'])
                         self.assertTrue(metadata['direitos_url'].startswith('https://'))
                         self.assertIn(metadata['reutilizacao'],
-                                      ('dominio_publico', 'CC-BY-4.0', 'permissao_institucional'))
+                                      ('dominio_publico', 'CC-BY-4.0', 'permissao_institucional',
+                                       'somente_referencia'))
+                        if metadata['reutilizacao'] == 'somente_referencia':
+                            self.assertIs(metadata.get('reproducao_autorizada'), False)
 
     def test_fontes_correspondem_ao_fato_da_relacao(self):
         b = Crivo()

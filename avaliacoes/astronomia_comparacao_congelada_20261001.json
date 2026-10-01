@@ -1,0 +1,153 @@
+{
+  "natureza": "Prova preexistente e congelada: execução antes/depois sem ajuste de pesos ou perguntas.",
+  "antes": {
+    "versao": "heldout-astronomia-v1",
+    "marco": "execucao-local",
+    "pasta_modelo": "rede_crivo.json",
+    "sha256_modelo": "a7055f8df525edd41fd4d99a650db21b1293d031ae2a40f876bbbe98ef86d5aa",
+    "sha256_prova": "1d253a572af09333f7d61c07b47221fbce775d72fffb54ddd3261c3a2f0e3c51",
+    "rede_carregada": true,
+    "erro_rede": null,
+    "grupos": {
+      "vocabulario": {
+        "total": 24,
+        "acertos": 15,
+        "taxa": 0.625,
+        "falhas": [
+          "V02",
+          "V07",
+          "V11",
+          "V13",
+          "V14",
+          "V15",
+          "V17",
+          "V23",
+          "V24"
+        ]
+      },
+      "sistema_solar": {
+        "total": 20,
+        "acertos": 2,
+        "taxa": 0.1,
+        "falhas": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08",
+          "S09",
+          "S10",
+          "S11",
+          "S12",
+          "S14",
+          "S16",
+          "S17",
+          "S18",
+          "S19",
+          "S20"
+        ]
+      },
+      "controle": {
+        "total": 14,
+        "acertos": 14,
+        "taxa": 1.0,
+        "falhas": []
+      }
+    },
+    "rede_isolada": {
+      "total": 29,
+      "acertos": 21,
+      "limite": "somente labels com alvo de ID explícito no classificador"
+    },
+    "apto_pelo_crivo_automatico": {
+      "vocabulario": false,
+      "sistema_solar": false
+    },
+    "independencia": {
+      "separada_dos_exemplos_de_treino": true,
+      "concebida_depois_do_checkpoint": true,
+      "avaliacao_sem_ajustar_pesos": true,
+      "avaliacao_humana_ou_terceiro": false,
+      "observacao": "ID e fragmentos verificam recuperacao de evidencias, nao compreensao causal livre."
+    }
+  },
+  "depois": {
+    "versao": "heldout-astronomia-v1",
+    "marco": "execucao-local",
+    "pasta_modelo": "rede_crivo.json",
+    "sha256_modelo": "a7055f8df525edd41fd4d99a650db21b1293d031ae2a40f876bbbe98ef86d5aa",
+    "sha256_prova": "1d253a572af09333f7d61c07b47221fbce775d72fffb54ddd3261c3a2f0e3c51",
+    "rede_carregada": true,
+    "erro_rede": null,
+    "grupos": {
+      "vocabulario": {
+        "total": 24,
+        "acertos": 15,
+        "taxa": 0.625,
+        "falhas": [
+          "V02",
+          "V07",
+          "V11",
+          "V13",
+          "V14",
+          "V15",
+          "V17",
+          "V23",
+          "V24"
+        ]
+      },
+      "sistema_solar": {
+        "total": 20,
+        "acertos": 2,
+        "taxa": 0.1,
+        "falhas": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08",
+          "S09",
+          "S10",
+          "S11",
+          "S12",
+          "S14",
+          "S16",
+          "S17",
+          "S18",
+          "S19",
+          "S20"
+        ]
+      },
+      "controle": {
+        "total": 14,
+        "acertos": 14,
+        "taxa": 1.0,
+        "falhas": []
+      }
+    },
+    "rede_isolada": {
+      "total": 29,
+      "acertos": 21,
+      "limite": "somente labels com alvo de ID explícito no classificador"
+    },
+    "apto_pelo_crivo_automatico": {
+      "vocabulario": false,
+      "sistema_solar": false
+    },
+    "independencia": {
+      "separada_dos_exemplos_de_treino": true,
+      "concebida_depois_do_checkpoint": true,
+      "avaliacao_sem_ajustar_pesos": true,
+      "avaliacao_humana_ou_terceiro": false,
+      "observacao": "ID e fragmentos verificam recuperacao de evidencias, nao compreensao causal livre."
+    }
+  },
+  "regressoes": [],
+  "observacao": "31/58 em ambas as versões; vocabulário 15/24, sistema solar 2/20, controle 14/14. Não atinge certificação. Este diagnóstico não mede os novos conceitos."
+}
