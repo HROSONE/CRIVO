@@ -78,6 +78,22 @@ class CompositorTextual:
             self.mundo_ids = {i["id"] for i in curriculo_mundo["itens"]}
             self.ligacoes_mundo = curriculo_mundo.get("ligacoes", [])
             self.comparacoes_mundo = curriculo_mundo.get("comparacoes", [])
+        # A memoria sinaptica so coativa fatos com fontes editoriais. Ela
+        # NUNCA usa perguntas de prova, feedback de chat ou pesos externos.
+        # A inicializacao a partir de provas permite auditar cada resposta.
+        from cortex_associativo import CortexAssociativo
+        from crivo import tokens
+        self.cortex = CortexAssociativo(self.itens, self.aliases, self.fontes, tokens)
+
+    def _resposta_associativa(self, pergunta):
+        """Fallback restrito: evidencia forte de UM fato tipado, mesmo assunto."""
+        ativacao = self.cortex.associar(pergunta)
+        if ativacao is None:
+            return None
+        # O circuito so seleciona fatos: o compositor controla a redação,
+        # contexto e proveniencia. Nenhum preenchimento probabilistico.
+        return self.compor((ativacao.conceito,), "explicacao", selecionados=(
+            (ativacao.conceito, ativacao.indice),), origem="conhecimento")
 
     def _adicionar(self, item):
         self.itens[item["id"]] = item
@@ -441,6 +457,10 @@ class CompositorTextual:
             return "fora", "Não tenho uma explicação causal cadastrada para essa resposta. Pode especificar o que quer explicar?", None
         consulta_mundo = self._consulta_mundo(n, contexto)
         if consulta_mundo is not None:
+            if consulta_mundo[0] == "fora":
+                lembranca = self._resposta_associativa(n)
+                if lembranca is not None:
+                    return lembranca
             return consulta_mundo
         comparacao_geral = re.fullmatch(r"qual (?:e )?a diferenca entre (.+?) e (.+)", n)
         if comparacao_geral:
@@ -550,6 +570,9 @@ class CompositorTextual:
         ident = self.resolver(n)
         if ident in self.expandidos:
             return self._conceito(ident)
+        lembranca = self._resposta_associativa(n)
+        if lembranca is not None:
+            return lembranca
         # Nomes acrescentados ao currículo também podem aparecer no meio
         # de consultas legadas: "qual planeta é maior?", "a Lua orbita...".
         # Só bloquear pedidos explicitamente factuais *deste* motor; para
