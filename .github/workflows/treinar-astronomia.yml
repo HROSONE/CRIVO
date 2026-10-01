@@ -65,7 +65,7 @@ jobs:
             testes_web.TestesWebCore.test_reconstroi_contexto_em_vez_de_salvar_no_servidor \
             -v
       - name: Integrar checkpoint validado somente na branch de astronomia
-        if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'ci: publicar checkpoint astronomia')
+        if: "github.event_name == 'push' && startsWith(github.event.head_commit.message, 'ci: publicar checkpoint astronomia')"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
