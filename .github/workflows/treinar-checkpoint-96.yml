@@ -6,6 +6,8 @@ on:
       - 'conhecimento*.json'
       - 'rede_neural.py'
       - 'scripts/treinar_astronomia.py'
+      - 'scripts/avaliar_astronomia_independente.py'
+      - 'testes_avaliador_checkpoint_experimental.py'
       - '.github/workflows/treinar-checkpoint-96.yml'
 jobs:
   treino:
@@ -17,6 +19,16 @@ jobs:
           python-version: '3.11'
       - name: Treinar 100 epocas e salvar pesos
         run: python scripts/treinar_astronomia.py --epocas 100 --saida rede_astronomia_experimental.json
+      - name: Avaliar checkpoint de 96 neuronios em prova retida
+        run: |
+          python scripts/avaliar_astronomia_independente.py --modelo rede_astronomia_experimental.json --relatorio resultado_astronomia_experimental_96.json || echo 'Prova abaixo do gate ou falhou; consultar relatorio e logs; nao promover pesos.'
+      - name: Publicar relatorio experimental
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: crivo-avaliacao-96
+          path: resultado_astronomia_experimental_96.json
+          if-no-files-found: warn
       - name: Publicar pesos treinados
         uses: actions/upload-artifact@v4
         with:
