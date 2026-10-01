@@ -531,7 +531,18 @@ class CompositorTextual:
         ident = self.resolver(n)
         if ident in self.expandidos:
             return self._conceito(ident)
-        if self._menciona_mundo(n):
+        # Nomes acrescentados ao currículo também podem aparecer no meio
+        # de consultas legadas: "qual planeta é maior?", "a Lua orbita...".
+        # Só bloquear pedidos explicitamente factuais *deste* motor; para
+        # outros formatos, devolver o controle aos demais interpretadores.
+        pedido_factual = re.match(
+            r"^(?:o que (?:e|eh|sao)\\b|o que significa\\b|defina\\b|"
+            r"como\\b|por que\\b|porque\\b|"
+            r"(?:me )?(?:fale|explique|conte)\\b|"
+            r"(?:escreva|crie|faca|produza|resuma)\\b|"
+            r"qual (?:e )?(?:a|o) (?:funcao|papel|diferenca|distancia|origem|formacao)\\b)",
+            n)
+        if pedido_factual and self._menciona_mundo(n):
             return ("fora", "Reconheci o assunto, mas não tenho evidência cadastrada "
                     "para essa pergunta completa.", None)
         return None
