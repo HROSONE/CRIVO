@@ -8,10 +8,13 @@ factual depende de uma fonte verificavel ja presente no compositor.
 Os exemplos usados para formar as sinapses sao somente as afirmacoes
 editoriais do curriculo, NUNCA as perguntas da prova retida.
 """
+import hashlib
+import json
 import math
 import re
 import unicodedata
 from collections import Counter
+from pathlib import Path
 from typing import NamedTuple
 
 
@@ -103,6 +106,45 @@ class CortexAssociativo:
         else:
             for termo in pistas:
                 self.sinapses[chave][termo] *= .60
+
+    def assinatura_conhecimento(self):
+        """Mudancas nas provas invalidam pesos consolidados anteriormente."""
+        dados = [(k[0], k[1], u.aspecto, u.fonte, u.texto)
+                 for k, u in sorted(self.unidades.items())]
+        bruto = json.dumps(dados, ensure_ascii=False,
+                           separators=(",", ":")).encode("utf-8")
+        return hashlib.sha256(bruto).hexdigest()
+
+    def salvar_ajustes(self, caminho):
+        """Persistir plasticidade apenas em arquivo explicitamente indicado."""
+        dados = {
+            "versao": 1,
+            "assinatura_conhecimento": self.assinatura_conhecimento(),
+            "sinapses": {"{}:{}".format(c, i): pesos for (c, i), pesos
+                         in sorted(self.sinapses.items())}
+        }
+        Path(caminho).write_text(json.dumps(dados, ensure_ascii=False),
+                                 encoding="utf-8")
+
+    def carregar_ajustes(self, caminho):
+        """Recusar pesos forjados, fontes diferentes ou pistas novas."""
+        dados = json.loads(Path(caminho).read_text(encoding="utf-8"))
+        if (dados.get("versao") != 1 or
+                dados.get("assinatura_conhecimento") != self.assinatura_conhecimento() or
+                not isinstance(dados.get("sinapses"), dict)):
+            raise ValueError("Memoria associativa desatualizada ou sem proveniencia")
+        novo = {}
+        for (conceito, indice), anterior in self.sinapses.items():
+            pesos = dados["sinapses"].get("{}:{}".format(conceito, indice))
+            if (not isinstance(pesos, dict) or set(pesos) != set(anterior) or
+                    any(type(w) not in (int, float) or not math.isfinite(w) or
+                        not 0 <= w <= 1 for w in pesos.values())):
+                raise ValueError("Ajuste sinaptico sem provas compativeis")
+            novo[(conceito, indice)] = {termo: float(w)
+                                       for termo, w in pesos.items()}
+        if len(dados["sinapses"]) != len(novo):
+            raise ValueError("Pesos extras para unidades nao cadastradas")
+        self.sinapses = novo
 
     def _sujeito_exato(self, consulta):
         """Atencao: um unico referente literal, sem supor sinonimos."""
