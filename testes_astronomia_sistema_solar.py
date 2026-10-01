@@ -71,6 +71,13 @@ class TestesSistemaSolar(unittest.TestCase):
             with self.subTest(pergunta=nome):
                 self.assertEqual(perguntas.count(normalizar(nome)), 1)
 
+    def test_evidencia_causal_legada_nao_se_perde_por_nome_novo(self):
+        self.assertEqual(Crivo().responder("Por que Marte tem cor de ferrugem?")[0],
+                         "marte")
+        for pergunta in ("Por que Marte tem cor de ferrugem quântica alienígena?",
+                         "Por que Marte cura depressão?"):
+            self.assertEqual(Crivo().responder(pergunta)[0], "fora")
+
     def test_exemplo_desconhecido_nao_vira_planeta_real(self):
         self.assertEqual(Crivo().responder("O que é o planeta Zorvax-913?")[0], "fora")
 
