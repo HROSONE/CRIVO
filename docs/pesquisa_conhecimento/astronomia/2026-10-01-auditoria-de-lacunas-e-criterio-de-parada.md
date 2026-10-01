@@ -89,3 +89,28 @@ A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posterio
 **Lacunas residuais da Fase A:** diferenciação planetária, cronologia por isótopos, interior comparado dos oito planetas, órbitas de corpos menores, migração de grandes impactos, comparação sistemática entre famílias de luas, exercícios com unidades/erros. Necessário evitar aprofundar uma mesma notícia se ela não fecha uma dessas lacunas.
 
 **Estado por módulos documentais:** 1 = incompleto; 2 = incompleto, agora com relações causais adicionais; 3 = incompleto, agora com mecanismos documentados; 4–9 = incompletos em níveis diferentes; 10 = pendente de consolidação. **Nenhum** marcado como pesquisa_documental_pronta nesta rodada. Certificação neural/simbólica, integração à main e treinamento permanecem fora do escopo deste acervo.
+
+
+## 7. Acompanhamento da Fase A: interiores, oito planetas e cronologia — 01/10/2026
+
+**Dossiês novos publicados e relidos na branch:**
+
+- [Diferenciação interna e comparação física dos oito planetas](2026-10-01-interiores-planetas-comparacao-diferenciacao.md): compara Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano e Netuno quanto a energia, composição, magnetismo, fontes de calor, ambiente superficial, instrumentos e modelos. Destaca revisões de modelos do núcleo de Marte a partir do InSight, núcleo diluído de Júpiter e sismologia indireta por anéis de Saturno; 24 entradas bibliográficas, inclusive referências repetidas.
+- [Cronologia, meteoritos, crateras e proveniência](2026-10-01-cronologia-meteoritos-crateras-e-proveniencia.md): distingue idades de minerais, corpos e superfícies; discute datação Pb–Pb/Al–Mg, Vesta/Ceres, Bennu, superposição e calibração de crateras e interpretações da cronologia lunar; 20 entradas bibliográficas, inclusive repetidas.
+
+**Novo inventário na branch:** 5 dossiês científicos temáticos + 1 protocolo de auditoria. Os textos são material para revisão e possível incorporação pelo outro agente; não foram executados testes ou treinamentos e nenhuma fonte de código foi modificada nesta rodada.
+
+**Efeitos na matriz documental, SEM aprovação antecipada:**
+
+| Módulo | Avanço documental comprovado nesta rodada | Pendência que ainda impede declarar pronto |
+| --- | --- | --- |
+| 1 | Distinções taxonômicas e limites das classificações dos oito planetas | Ontologia completa/aliases canônicos e revisão cruzada das fichas |
+| 2 | Comparação causal de todos os oito planetas; pequenos corpos Vesta, Ceres, Bennu e crateras | Cobertura sistemática de cometas, famílias de asteroides, anéis e todas as dinâmicas do escopo |
+| 3 | Mecanismos de segregação interna, calor radioativo e cronologia de formação | Cenários de impactos, evolução tectônica e formação em diversidade de ambientes |
+| 4–6 | Não foram aprofundados centralmente por estes dois novos dossiês | Pesquisa estelar, galáctica e cosmológica continua pendente |
+| 7 | Sismologia, gravimetria, magnetometria, análise de amostras e crateras | Instrumentos, calibração, seleção de observações e erros em cada método |
+| 8 | Equações e distinções de relógios; fórmulas condicionais | Exercícios com dados e incertezas instrumentais reproduzidos por terceiros |
+| 9 | Contraexemplos físicos e distinções observação/inferência/modelo | Matriz transversal e avaliação inédita não contaminada |
+| 10 | Material para futura matriz de evidências e possíveis rubricas | Agente integrador e revisor independente decidirão provas e certificação |
+
+**Nenhum módulo está classificado como pesquisa_documental_pronta.** Próximos dossiês prioritários: fundamentos de fusão estelar e nucleossíntese (módulo 4) e, depois, cosmologia física (módulo 6). Para os módulos 2 e 3, retomar apenas lacunas estruturais, não novas listas de curiosidades. Não alterar percentual certificado (continua 0/10 conforme skill da main), não alegar competência neural/simbólica não medida e não mudar base ativa.
