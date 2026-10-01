@@ -48,4 +48,16 @@
 
 **Avaliação retida v1, primeira execução independente do treinamento (01/10/2026):** 58 perguntas novas (24 de vocabulário, 20 de Sistema Solar e 14 controles), executadas sem ajuste de pesos no checkpoint integrado de 193 classes. **Vocabulário 11/24 (45,8%); Sistema Solar 2/20 (10%); controles 14/14 (100% de abstenções); classificador isolado 22/29 (75,9% no subconjunto aplicável).** Falhou o critério ≥90% dos dois módulos e, portanto, **0% do currículo certificado**. Todos os enunciados e critérios ficam congelados. O avaliador é independente da rotina de treinamento, mas **não é um terceiro humano externo**; sua análise de IDs e palavras-chave necessita revisão científica/semântica. Evidências, limitações, erros exemplificados, hashes de modelo/prova e workflow: `docs/avaliacao_astronomia_independente_v1.md` e [execução 36819092257](https://github.com/HROSONE/CRIVO/actions/runs/36819092257). Não ajustar o gabarito v1 para promover percentual; corrigir princípios de interpretação e usar v2 inédita após alterações.
 
+### Plano de fechamento do módulo 1 — congelamento de escopo (01/10/2026)
+
+**Escopo congelado para certificação:** as fichas astronômicas já presentes na `main` nesta data, sem incorporar o catálogo lunar ainda em revisão no PR #41. Novos temas ficam em PR separado até a aprovação do módulo 1. Não se altera a prova retida v1 nem se treinam seus enunciados.
+
+**Gate executável novo:** `testes_certificacao_astronomia.py` foi escrito antes de `certificacao_astronomia.py`. A função `certificar_modulo` recusa notas ausentes e exige simultaneamente revisão editorial, consulta simbólica ≥90%, desempenho neural ≥90%, abstenções 100%, prova independente, revisão humana e CI verde no mesmo commit. Esse gate é **um contrato**, não uma prova de que essas condições já foram satisfeitas. A compatibilidade Python 3.8/3.11/3.13 e a execução dos testes novos ainda devem ser confirmadas no CI.
+
+**Evidência anterior preservada:** na prova retida v1, vocabulário 11/24 (45,8%), controles 14/14, rede isolada 22/29 no subconjunto aplicável; a nota neural isolada **não** mede especificamente o módulo 1 nem substitui uma avaliação nova. A cobertura editorial de ≥20 fichas é candidata, não aprovada por revisão científica externa.
+
+**Estado independente dos eixos:** editorial = candidato, sem revisão final; consulta simbólica = 45,8% na rubrica v1 de vocabulário (motor híbrido, não teste isolado de recuperação simbólica); neural = sem nota independente específica do módulo 1; abstenção = 14/14 na v1; CI da branch de fechamento = pendente; certificação = **0%**.
+
+**Próximas ações bloqueantes:** executar novos testes e CI nas três versões; investigar parser genérico de intenção/alvo e recuperação por predicado sem usar enunciados retidos como treino; gerar checkpoint válido sem introduzir catálogo de luas; preparar avaliação v2 inédita após congelar o candidato, revisão humana e só então chamar o gate com evidências reais. O PR #41 não deve ser mesclado para antecipar percentual.
+
 100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
