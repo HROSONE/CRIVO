@@ -54,7 +54,7 @@ Para elipse kepleriana ideal, `r_p=a(1-e)`, `r_a=a(1+e)`, com `0≤e<1`. Daí `e
 
 ## 4. Esfera de Hill, Roche e ressonância
 
-`R_H≈a (m_p/(3M_*))^{1/3}` representa escala do domínio gravitacional de planeta pequeno frente à estrela em órbita aproximadamente circular; não é garantia de estabilidade permanente de satélite em qualquer órbita. O limite de Roche considera gradiente de maré versus coesão e auto-gravitação de corpo; é distinto do raio Hill e pode ser calculado sob várias hipóteses de fluido/rigidez [T3].
+`R_H≈a (m_p/(3M_*))^{1/3}` representa escala do domínio gravitacional de planeta pequeno frente à estrela em órbita aproximadamente circular; não é garantia de estabilidade permanente de satélite em qualquer órbita. Uma análise dinâmica distingue limites de satélites prógrados e retrógrados e perturbações estelares [T11]. O limite de Roche considera gradiente de maré versus coesão e auto-gravitação de corpo; é distinto do raio Hill e pode ser calculado sob várias hipóteses de fluido/rigidez [T3].
 
 **Ressonância p:q:** razão aproximada entre frequências/períodos mais combinação angular de fases; relação de períodos 2:1 em órbitas keplerianas implica `a_2/a_1=2^{2/3}≈1,5874` para mesma massa central, não distância duplicada. Perturbações reais produzem librar ângulos ressonantes e podem alterar excentricidades.
 
@@ -126,6 +126,7 @@ Exemplos editoriais construídos para ensinar princípios, NÃO banco retido par
 | T8 | NASA Science, *Sun Facts*: https://science.nasa.gov/sun/facts/ | Luminosidade, estrutura e radiação; equações didáticas requerem hipóteses. |
 | T9 | D. Hogg, *Distance Measures in Cosmology*: https://arxiv.org/abs/astro-ph/9905116 | Definições e relações de distância; nota científica. |
 | T10 | Gaia DR3 Data Model: https://gea.esac.esa.int/archive/documentation/GDR3/Gaia_archive/chap_datamodel/sec_dm_main_source_catalogue/ssec_dm_gaia_source.html | Campos de erros, correlações e documentação de qualidade. |
+| T11 | Hamilton, D. P. & Burns, J. A. (1992), *Orbital stability zones about asteroids. II: The destabilizing effects of eccentric orbits and of solar radiation*, *Icarus* 96, 43–64, DOI https://doi.org/10.1016/0019-1035(92)90005-R | Artigo científico sobre limite de estabilidade, inclinação, excentricidade e perturbações: **raio de Hill não garante estabilidade de toda órbita**. Os modelos estudam asteroides e seu domínio de aplicação deve ser explicitado. |
 
 **Proveniência:** fórmulas comuns com domínio declarado; nenhum dado real foi processado. Direitos de publicações técnicas, NASA e ESA por item: https://www.nasa.gov/nasa-brand-center/images-and-media/ . Texto novo para pesquisa e revisão, sem cópia de fotos ou tabelas externas. Documento não é prova neural.
 
