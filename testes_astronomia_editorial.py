@@ -62,5 +62,51 @@ class TestesAstronomiaEditorial(unittest.TestCase):
             with self.subTest(conceito=nome):
                 self.assertTrue(any(f["papel"] == "limite" for f in itens[nome]["fatos"]))
 
+
+    def test_formacao_e_funcionamento_sao_consultaveis(self):
+        casos = (
+            ("Como se forma uma estrela?", "escrita:explicacao", ("nuvens moleculares", "protoestrela")),
+            ("Como nasce uma estrela?", "escrita:explicacao", ("nuvens moleculares", "protoestrela")),
+            ("Como se forma um planeta?", "escrita:explicacao", ("discos de gás", "planetesimais")),
+            ("Como surgiu o sistema solar?", "escrita:explicacao", ("4,6 bilhões", "disco")),
+            ("Como funciona uma estrela?", "escrita:explicacao", ("fusão", "núcleo")),
+            ("Como funciona o sistema solar?", "escrita:explicacao", ("gravidade", "órbitas")),
+        )
+        for pergunta, esperado, palavras in casos:
+            with self.subTest(pergunta=pergunta):
+                obtido, resposta = Crivo().responder(pergunta)
+                self.assertEqual(obtido, esperado, (pergunta, resposta))
+                for palavra in palavras:
+                    self.assertIn(palavra.lower(), resposta.lower())
+
+    def test_aspectos_multiplos_sem_fatos_repetidos_ou_adivinhados(self):
+        """Um aspecto pode ter várias evidências independentes, não conclusões inventadas."""
+        import json
+        import tempfile
+        from pathlib import Path
+
+        with tempfile.TemporaryDirectory() as pasta:
+            base = Path(pasta) / "conhecimento.json"
+            base.write_text(json.dumps([dict(id="ola", topico="social",
+                perguntas=["oi"], resposta="Oi.")]), encoding="utf-8")
+            curriculo = dict(versao=1, fontes={"f": self.curriculo["fontes"]["nasa_glossario"]},
+                itens=[dict(id="mundo_brilum", nome="brilum", area="ficcao", aliases=[],
+                    fatos=[
+                        dict(texto="Brilum é uma estrela fictícia.", fonte="f",
+                             papel="definicao", natureza="cientifico"),
+                        dict(texto="Brilum surge quando grãos fictícios colidem.", fonte="f",
+                             papel="detalhe", aspecto="formacao", natureza="cientifico"),
+                        dict(texto="A fase seguinte recebe matéria do disco.", fonte="f",
+                             papel="detalhe", aspecto="formacao", natureza="cientifico"),
+                    ])])
+            (Path(pasta) / "conhecimento_mundo.json").write_text(
+                json.dumps(curriculo), encoding="utf-8")
+            bot = Crivo(base)
+            ident, texto = bot.responder("Como se forma brilum?")
+            self.assertEqual(ident, "escrita:explicacao")
+            self.assertIn("grãos fictícios", texto)
+            self.assertIn("recebe matéria", texto)
+            self.assertEqual(bot.responder("Como se forma zirvax?")[0], "fora")
+
 if __name__ == "__main__":
     unittest.main()
