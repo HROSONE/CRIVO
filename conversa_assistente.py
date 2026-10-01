@@ -131,10 +131,38 @@ def responder_contato(texto, anterior=None):
     return None
 
 
+def limpar_cortesia(texto):
+    """Remove marcadores nas bordas, preservando o conteúdo da pergunta.
+
+    Nunca corta no meio da frase nem dentro de código ou citações.
+    Qualificadores, negações, condições e pedidos adicionais permanecem.
+    """
+    if any(c in texto for c in ('`', '"', '“', '”')):
+        return texto
+    texto = re.sub(r"^\s*por (?:favor|gentileza)[,:;]?\s+", "", texto, flags=re.I)
+    return re.sub(r"[,;!?]\s*por (?:favor|gentileza)[.!?\s]*$", "", texto, flags=re.I).strip()
+
+
+def pedido_fontes_anterior(texto):
+    n = normalizar(limpar_cortesia(texto))
+    return bool(re.fullmatch(
+        r"(?:(?:qual (?:e )?a|quais (?:sao )?as) (?:fontes?|referencias?)|"
+        r"(?:mostre|cite|diga)(?: me)? (?:a|as) (?:fontes?|referencias?)) "
+        r"(?:dessa|desta|daquela|da sua|da ultima) "
+        r"(?:informacao|resposta|explicacao|afirmacao)", n))
+
+
 def preparar_pedido(texto):
     # Retira somente um ato introdutório de pedido ou opinião. O conteúdo
     # completo continua no motor factual; não se apagam qualificadores.
+    texto = limpar_cortesia(texto)
     sujeito = r"(?:voc[eê]|vc|tu)"
+    definicao = re.match(
+        r"^(?:" + sujeito + r"\s+)?(?:pode|poderia|consegue|conseguiria)\s+"
+        r"(?:me\s+)?(?:definir|explicar\s+o\s+significado\s+de)\s+(.+)$", texto, re.I,
+    )
+    if definicao:
+        return "defina " + definicao.group(1)
     # Reformulação explícita, sem apagar 'não quero' ou 'não sei se'.
     texto = re.sub(
         r"^(?:n[aã]o,\s*)?(?:(?:quero (?:saber|entender)|quis dizer)\s+"
@@ -220,7 +248,20 @@ def processamento(bot, completo=False):
 
 
 def responder(n, bot, rotulos, anterior=None):
-    n = normalizar(n)
+    n = normalizar(limpar_cortesia(n))
+    if re.fullmatch(r"(?:voce|crivo) (?:e|eh) (?:uma? )?(?:ia|inteligencia artificial|robo)", n):
+        return "social:identidade", (
+            "Sim, sou o Crivo, uma inteligência artificial experimental. "
+            "Uso modelos próprios e conhecimento registrado para responder; posso errar.")
+    if re.fullmatch(
+        r"(?:voce )?(?:(?:consegue|pode) )?(?:me entende|entende|compreende|entendeu)"
+        r"(?: (?:mesmo|minhas perguntas|meu pedido|o que (?:eu )?"
+        r"(?:digo|falo|quero dizer|quis dizer)))?", n,
+    ):
+        return "social:compreensao", (
+            "Tento interpretar sua mensagem junto com o contexto da conversa. "
+            "Ainda posso perder o sentido ou confundir um pedido. Se eu responder "
+            "algo diferente do que você quis dizer, pode me corrigir.")
     if re.fullmatch(
         r"(?:assuntos?|topicos?|capacidades|funcoes|ajuda|help|"
         r"o que voce (?:sabe(?: fazer)?|faz|consegue fazer|pode fazer)|"

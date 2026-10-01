@@ -1,0 +1,1611 @@
+{
+  "resumo": {
+    "versao": "heldout-astronomia-v1",
+    "marco": "execucao-local",
+    "pasta_modelo": "rede_astronomia_experimental.json",
+    "sha256_modelo": "af10cc84a00b18299a3ca0a65fb4593dcc715b3f66d733e8b03c4230f1b8b82f",
+    "sha256_prova": "1d253a572af09333f7d61c07b47221fbce775d72fffb54ddd3261c3a2f0e3c51",
+    "rede_carregada": true,
+    "erro_rede": null,
+    "grupos": {
+      "vocabulario": {
+        "total": 24,
+        "acertos": 15,
+        "taxa": 0.625,
+        "falhas": [
+          "V02",
+          "V07",
+          "V11",
+          "V13",
+          "V14",
+          "V15",
+          "V17",
+          "V23",
+          "V24"
+        ]
+      },
+      "sistema_solar": {
+        "total": 20,
+        "acertos": 2,
+        "taxa": 0.1,
+        "falhas": [
+          "S01",
+          "S02",
+          "S03",
+          "S04",
+          "S05",
+          "S06",
+          "S07",
+          "S08",
+          "S09",
+          "S10",
+          "S11",
+          "S12",
+          "S14",
+          "S16",
+          "S17",
+          "S18",
+          "S19",
+          "S20"
+        ]
+      },
+      "controle": {
+        "total": 14,
+        "acertos": 14,
+        "taxa": 1.0,
+        "falhas": []
+      }
+    },
+    "rede_isolada": {
+      "total": 29,
+      "acertos": 20,
+      "limite": "somente labels com alvo de ID explícito no classificador"
+    },
+    "apto_pelo_crivo_automatico": {
+      "vocabulario": false,
+      "sistema_solar": false
+    },
+    "independencia": {
+      "separada_dos_exemplos_de_treino": true,
+      "concebida_depois_do_checkpoint": true,
+      "avaliacao_sem_ajustar_pesos": true,
+      "avaliacao_humana_ou_terceiro": false,
+      "observacao": "ID e fragmentos verificam recuperacao de evidencias, nao compreensao causal livre."
+    }
+  },
+  "resultados": [
+    {
+      "id": "V01",
+      "grupo": "vocabulario",
+      "pergunta": "Defina galáxia, por gentileza.",
+      "esperado": "conhecimento:galaxia",
+      "obtido": "conhecimento:galaxia",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "estrelas"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "gravidade"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "galaxias"
+      ],
+      "resposta": "Uma galáxia reúne estrelas, gás, poeira e outros componentes ligados pela gravidade. Além disso, existem galáxias espirais, elípticas e irregulares.",
+      "neural": null
+    },
+    {
+      "id": "V02",
+      "grupo": "vocabulario",
+      "pergunta": "O que quer dizer o termo estrela?",
+      "esperado": "conhecimento:estrela",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "plasma",
+            "gas"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "energia",
+            "luz"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": null
+    },
+    {
+      "id": "V03",
+      "grupo": "vocabulario",
+      "pergunta": "Consegue definir um planeta?",
+      "esperado": "conhecimento:mundo_planeta",
+      "obtido": "conhecimento:mundo_planeta",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gravidade",
+            "orbita"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_glossario",
+        "nasa_sistema"
+      ],
+      "resposta": "Um planeta é um corpo celeste que orbita uma estrela e não produz luz por fusão nuclear como uma estrela; critérios formais de classificação dependem do sistema considerado. Além disso, no sistema solar há oito planetas reconhecidos.",
+      "neural": {
+        "esperado": "mundo_planeta",
+        "obtido": "mundo_planeta",
+        "confianca": 0.93572,
+        "correto": true
+      }
+    },
+    {
+      "id": "V04",
+      "grupo": "vocabulario",
+      "pergunta": "O que vem a ser um satélite natural?",
+      "esperado": "conhecimento:mundo_satelite_natural",
+      "obtido": "conhecimento:mundo_satelite_natural",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "orbita",
+            "gravidade"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_glossario",
+        "nasa_sistema"
+      ],
+      "resposta": "Um satélite natural é um corpo celeste que orbita outro corpo maior, como um planeta; a Lua é o satélite natural da Terra. Além disso, existem luas orbitando planetas, planetas anões e até alguns asteroides.",
+      "neural": {
+        "esperado": "mundo_satelite_natural",
+        "obtido": "mundo_satelite_natural",
+        "confianca": 0.97951,
+        "correto": true
+      }
+    },
+    {
+      "id": "V05",
+      "grupo": "vocabulario",
+      "pergunta": "Pode me dizer o que é um asteroide?",
+      "esperado": "conhecimento:mundo_asteroide",
+      "obtido": "conhecimento:mundo_asteroide",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "rochos",
+            "pequeno"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_rochas"
+      ],
+      "resposta": "Asteroide é um pequeno corpo predominantemente rochoso ou metálico que orbita o Sol. Além disso, muitos asteroides ficam no cinturão principal entre Marte e Júpiter.",
+      "neural": {
+        "esperado": "mundo_asteroide",
+        "obtido": "mundo_asteroide",
+        "confianca": 0.61192,
+        "correto": true
+      }
+    },
+    {
+      "id": "V06",
+      "grupo": "vocabulario",
+      "pergunta": "Defina meteoroide, por favor.",
+      "esperado": "conhecimento:mundo_meteoroide",
+      "obtido": "conhecimento:mundo_meteoroide",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "espaco",
+            "espacial"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_rochas"
+      ],
+      "resposta": "Meteoroide é um pequeno fragmento natural de rocha ou metal que se desloca pelo espaço. Além disso, ao entrar na atmosfera e produzir um fenômeno luminoso, pode originar um meteoro.",
+      "neural": {
+        "esperado": "mundo_meteoroide",
+        "obtido": "py_nameerror",
+        "confianca": 0.68617,
+        "correto": false
+      }
+    },
+    {
+      "id": "V07",
+      "grupo": "vocabulario",
+      "pergunta": "Em astronomia, que significa meteorito?",
+      "esperado": "conhecimento:mundo_meteorito",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "superficie",
+            "solo",
+            "terra"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": {
+        "esperado": "mundo_meteorito",
+        "obtido": "asteroide_cometa",
+        "confianca": 0.52366,
+        "correto": false
+      }
+    },
+    {
+      "id": "V08",
+      "grupo": "vocabulario",
+      "pergunta": "Explique o que significa cinturão de Kuiper.",
+      "esperado": "conhecimento:mundo_cinturao_kuiper",
+      "obtido": "conhecimento:mundo_cinturao_kuiper",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "netuno"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "gelo",
+            "gelad",
+            "objetos"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_kuiper"
+      ],
+      "resposta": "O cinturão de Kuiper é uma região além da órbita de Netuno que contém numerosos corpos gelados. Além disso, plutão pertence à população de objetos transnetunianos associada ao cinturão de Kuiper.",
+      "neural": {
+        "esperado": "mundo_cinturao_kuiper",
+        "obtido": "mundo_cinturao_kuiper",
+        "confianca": 0.98808,
+        "correto": true
+      }
+    },
+    {
+      "id": "V09",
+      "grupo": "vocabulario",
+      "pergunta": "O que se entende por nuvem de Oort?",
+      "esperado": "conhecimento:mundo_nuvem_oort",
+      "obtido": "conhecimento:mundo_nuvem_oort",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "cometas",
+            "cometa"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_oort"
+      ],
+      "resposta": "A nuvem de Oort é uma região esférica hipotética de corpos gelados muito distantes que podem alimentar cometas de longo período. Além disso, sua existência é inferida a partir de modelos e das órbitas de cometas.",
+      "neural": {
+        "esperado": "mundo_nuvem_oort",
+        "obtido": "mundo_nuvem_oort",
+        "confianca": 0.5031,
+        "correto": true
+      }
+    },
+    {
+      "id": "V10",
+      "grupo": "vocabulario",
+      "pergunta": "Pode definir unidade astronômica?",
+      "esperado": "conhecimento:mundo_unidade_astronomica",
+      "obtido": "conhecimento:mundo_unidade_astronomica",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "distancia"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "sol",
+            "terra"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_sistema"
+      ],
+      "resposta": "Unidade astronômica é uma unidade de distância definida como exatamente 149.597.870.700 metros, próxima à distância média entre a Terra e o Sol. Além disso, é útil para expressar distâncias dentro do sistema solar.",
+      "neural": {
+        "esperado": "mundo_unidade_astronomica",
+        "obtido": "mundo_unidade_astronomica",
+        "confianca": 0.99168,
+        "correto": true
+      }
+    },
+    {
+      "id": "V11",
+      "grupo": "vocabulario",
+      "pergunta": "Qual é o sentido de órbita na física espacial?",
+      "esperado": "conhecimento:mundo_orbita",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gravidade",
+            "gravitacional"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": {
+        "esperado": "mundo_orbita",
+        "obtido": "mundo_ressonancia_orbital",
+        "confianca": 0.68585,
+        "correto": false
+      }
+    },
+    {
+      "id": "V12",
+      "grupo": "vocabulario",
+      "pergunta": "Defina disco protoplanetário.",
+      "esperado": "conhecimento:mundo_disco_protoplanetario",
+      "obtido": "conhecimento:mundo_disco_protoplanetario",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gas",
+            "poeira"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "estrela"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_planetarios"
+      ],
+      "resposta": "Disco de gás e poeira em rotação ao redor de uma estrela jovem, no qual podem se formar planetas. Além disso, a rotação e a gravidade organizam parte da matéria que não caiu na protoestrela numa estrutura achatada.",
+      "neural": {
+        "esperado": "mundo_disco_protoplanetario",
+        "obtido": "mundo_disco_protoplanetario",
+        "confianca": 0.99659,
+        "correto": true
+      }
+    },
+    {
+      "id": "V13",
+      "grupo": "vocabulario",
+      "pergunta": "Afinal, o que é acréscimo planetário?",
+      "esperado": "conhecimento:mundo_acrescimo_planetario",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "materia",
+            "particulas",
+            "colisao"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": {
+        "esperado": "mundo_acrescimo_planetario",
+        "obtido": "mundo_acrescimo_planetario",
+        "confianca": 0.99605,
+        "correto": true
+      }
+    },
+    {
+      "id": "V14",
+      "grupo": "vocabulario",
+      "pergunta": "Pode explicar o significado de protoestrela?",
+      "esperado": "conhecimento:mundo_protoestrela",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "formacao",
+            "contracao",
+            "gravidade"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_protoestrela",
+        "obtido": "mundo_protoestrela",
+        "confianca": 0.91608,
+        "correto": true
+      }
+    },
+    {
+      "id": "V15",
+      "grupo": "vocabulario",
+      "pergunta": "Que objeto é um planetesimal?",
+      "esperado": "conhecimento:mundo_planetesimal",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "planetas",
+            "planeta"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "colis",
+            "agrega"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": {
+        "esperado": "mundo_planetesimal",
+        "obtido": "mundo_planetesimal",
+        "confianca": 0.97702,
+        "correto": true
+      }
+    },
+    {
+      "id": "V16",
+      "grupo": "vocabulario",
+      "pergunta": "O que significa diferenciação planetária?",
+      "esperado": "conhecimento:mundo_diferenciacao_planetaria",
+      "obtido": "conhecimento:mundo_diferenciacao_planetaria",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "dens",
+            "nucleo",
+            "materiais"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_formacao_sistema"
+      ],
+      "resposta": "Diferenciação planetária é a separação interna de materiais de um corpo por densidade e outros processos físicos durante sua evolução térmica. Além disso, em mundos rochosos aquecidos, materiais metálicos densos podem afundar e contribuir para um núcleo, enquanto silicatos formam camadas externas.",
+      "neural": {
+        "esperado": "mundo_diferenciacao_planetaria",
+        "obtido": "mundo_diferenciacao_planetaria",
+        "confianca": 0.99942,
+        "correto": true
+      }
+    },
+    {
+      "id": "V17",
+      "grupo": "vocabulario",
+      "pergunta": "Explique o termo zona habitável.",
+      "esperado": "conhecimento:mundo_zona_habitavel",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "agua",
+            "liquida"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_zona_habitavel",
+        "obtido": "mundo_zona_habitavel",
+        "confianca": 0.9984,
+        "correto": true
+      }
+    },
+    {
+      "id": "V18",
+      "grupo": "vocabulario",
+      "pergunta": "Defina fusão estelar.",
+      "esperado": "conhecimento:mundo_fusao_estelar",
+      "obtido": "conhecimento:mundo_fusao_estelar",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "energia",
+            "hidrogenio"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_ciclo_estelar"
+      ],
+      "resposta": "Fusão estelar é a combinação de núcleos atômicos em condições de temperatura e pressão extremas no interior de estrelas. Além disso, na sequência principal, estrelas como o Sol transformam hidrogênio em hélio, liberando energia.",
+      "neural": {
+        "esperado": "mundo_fusao_estelar",
+        "obtido": "mundo_fusao_estelar",
+        "confianca": 0.99863,
+        "correto": true
+      }
+    },
+    {
+      "id": "V19",
+      "grupo": "vocabulario",
+      "pergunta": "Como se define evolução estelar?",
+      "esperado": "conhecimento:mundo_evolucao_estelar",
+      "obtido": "conhecimento:mundo_evolucao_estelar",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "massa",
+            "estrel"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_ciclo_estelar"
+      ],
+      "resposta": "Evolução estelar é o conjunto de mudanças que uma estrela atravessa desde sua formação até seus estágios finais. Além disso, a massa inicial determina grande parte da duração e das transformações de uma estrela.",
+      "neural": {
+        "esperado": "mundo_evolucao_estelar",
+        "obtido": "mundo_evolucao_estelar",
+        "confianca": 0.98147,
+        "correto": true
+      }
+    },
+    {
+      "id": "V20",
+      "grupo": "vocabulario",
+      "pergunta": "Que significa nebulosa?",
+      "esperado": "conhecimento:nebulosa",
+      "obtido": "conhecimento:nebulosa",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gas",
+            "poeira"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nebulosas"
+      ],
+      "resposta": "Uma nebulosa é uma nuvem de gás e poeira no espaço. Além disso, algumas nebulosas são regiões onde novas estrelas se formam.",
+      "neural": null
+    },
+    {
+      "id": "V21",
+      "grupo": "vocabulario",
+      "pergunta": "Pode definir buraco negro?",
+      "esperado": "conhecimento:buraco_negro",
+      "obtido": "conhecimento:buraco_negro",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "luz"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "horizonte",
+            "gravidade"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "buracos_negros"
+      ],
+      "resposta": "Um buraco negro é uma região do espaço com gravidade tão intensa que a luz não consegue escapar de dentro de seu horizonte de eventos. Além disso, o horizonte de eventos marca o limite além do qual não há retorno para a luz.",
+      "neural": null
+    },
+    {
+      "id": "V22",
+      "grupo": "vocabulario",
+      "pergunta": "O que quer dizer ano-luz?",
+      "esperado": "conhecimento:ano_luz",
+      "obtido": "conhecimento:ano_luz",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "distancia"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "luz"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "ano_luz"
+      ],
+      "resposta": "Ano-luz é uma unidade de distância: o percurso da luz no vácuo durante um ano. Além disso, um ano-luz corresponde a aproximadamente 9,46 trilhões de quilômetros.",
+      "neural": null
+    },
+    {
+      "id": "V23",
+      "grupo": "vocabulario",
+      "pergunta": "Defina exoplaneta sem citar nomes de planetas.",
+      "esperado": "conhecimento:exoplaneta",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "fora",
+            "externo",
+            "outro"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "sistema solar",
+            "sol"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": null
+    },
+    {
+      "id": "V24",
+      "grupo": "vocabulario",
+      "pergunta": "Como a astronomia define o universo?",
+      "esperado": "conhecimento:mundo_universo",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "universo",
+            "espaco",
+            "materia"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": {
+        "esperado": "mundo_universo",
+        "obtido": "mundo_universo",
+        "confianca": 0.86614,
+        "correto": true
+      }
+    },
+    {
+      "id": "S01",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Mercúrio em nosso sistema planetário?",
+      "esperado": "conhecimento:mundo_mercurio",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "sol"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "roch",
+            "menor"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_mercurio",
+        "obtido": "mundo_mercurio",
+        "confianca": 0.9613,
+        "correto": true
+      }
+    },
+    {
+      "id": "S02",
+      "grupo": "sistema_solar",
+      "pergunta": "De que modo Mercúrio completa sua órbita?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "sol"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "88",
+            "gravidade"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "S03",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Vênus, exatamente?",
+      "esperado": "conhecimento:mundo_venus",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "rochoso",
+            "rochosa"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_venus",
+        "obtido": "mais_quente",
+        "confianca": 0.8022,
+        "correto": false
+      }
+    },
+    {
+      "id": "S04",
+      "grupo": "sistema_solar",
+      "pergunta": "Como Vênus mantém tanto calor em sua atmosfera?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "estufa"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "carbono",
+            "calor"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "S05",
+      "grupo": "sistema_solar",
+      "pergunta": "Pode definir a Terra como astro?",
+      "esperado": "conhecimento:mundo_terra",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "terceiro",
+            "rochoso",
+            "oceanos"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_terra",
+        "obtido": "mundo_terra",
+        "confianca": 0.55171,
+        "correto": true
+      }
+    },
+    {
+      "id": "S06",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a Terra produz o seu campo magnético?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "ferro"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "nucleo"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "S07",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Marte com precisão.",
+      "esperado": "conhecimento:mundo_marte",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "quarto"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "rochoso"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_marte",
+        "obtido": "marte",
+        "confianca": 0.60492,
+        "correto": false
+      }
+    },
+    {
+      "id": "S08",
+      "grupo": "sistema_solar",
+      "pergunta": "Por que Marte parece avermelhado nas imagens?",
+      "esperado": "marte",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "ferro",
+            "ferrugem"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": {
+        "esperado": "marte",
+        "obtido": "maior_animal",
+        "confianca": 0.4228,
+        "correto": false
+      }
+    },
+    {
+      "id": "S09",
+      "grupo": "sistema_solar",
+      "pergunta": "Descreva Júpiter como planeta.",
+      "esperado": "conhecimento:mundo_jupiter",
+      "obtido": "maior_planeta",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "maior"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "hidrogenio",
+            "helio"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Júpiter, um gigante gasoso tão grande que caberiam mais de mil Terras dentro dele.",
+      "neural": {
+        "esperado": "mundo_jupiter",
+        "obtido": "mundo_jupiter",
+        "confianca": 0.99434,
+        "correto": true
+      }
+    },
+    {
+      "id": "S10",
+      "grupo": "sistema_solar",
+      "pergunta": "Como o interior de Júpiter gera um campo magnético?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "hidrogenio"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "magnetico"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "S11",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Saturno dentro do sistema solar.",
+      "esperado": "conhecimento:mundo_saturno",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "aneis"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "gasoso"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": {
+        "esperado": "mundo_saturno",
+        "obtido": "via_lactea",
+        "confianca": 0.33754,
+        "correto": false
+      }
+    },
+    {
+      "id": "S12",
+      "grupo": "sistema_solar",
+      "pergunta": "O que faz as partículas dos anéis de Saturno permanecerem em órbita?",
+      "esperado": "escrita:explicacao",
+      "obtido": "aneis",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gravidade",
+            "gravitacional"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "aneis",
+            "particulas"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Saturno tem os anéis mais famosos, feitos de gelo e rocha, mas Júpiter, Urano e Netuno também têm anéis, bem mais finos.",
+      "neural": null
+    },
+    {
+      "id": "S13",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Urano?",
+      "esperado": "conhecimento:mundo_urano",
+      "obtido": "conhecimento:mundo_urano",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gigante"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "gelado"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_planeta_urano"
+      ],
+      "resposta": "Urano é o sétimo planeta a partir do Sol, classificado como gigante gelado. Além disso, Urano formou-se a partir de gás e poeira do disco primordial, acumulando materiais voláteis e mantendo uma região interna rica em fluidos densos.",
+      "neural": {
+        "esperado": "mundo_urano",
+        "obtido": "mundo_urano",
+        "confianca": 0.99607,
+        "correto": true
+      }
+    },
+    {
+      "id": "S14",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a inclinação do eixo de Urano influencia suas estações?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "inclinacao"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "sazon",
+            "estac"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "S15",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Netuno.",
+      "esperado": "conhecimento:mundo_netuno",
+      "obtido": "conhecimento:mundo_netuno",
+      "correto_id": true,
+      "rubricados": [
+        {
+          "opcoes": [
+            "oitavo"
+          ],
+          "encontrado": true
+        },
+        {
+          "opcoes": [
+            "gelado"
+          ],
+          "encontrado": true
+        }
+      ],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [
+        "nasa_planeta_netuno"
+      ],
+      "resposta": "Netuno é o oitavo planeta a partir do Sol e, como Urano, é classificado como gigante gelado. Além disso, Netuno formou-se a partir dos materiais do sistema solar primitivo; modelos sugerem que pode ter migrado de uma região mais interna.",
+      "neural": {
+        "esperado": "mundo_netuno",
+        "obtido": "mundo_netuno",
+        "confianca": 0.9896,
+        "correto": true
+      }
+    },
+    {
+      "id": "S16",
+      "grupo": "sistema_solar",
+      "pergunta": "Como os ventos de Netuno se manifestam?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "ventos"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "tempestades",
+            "nuvens"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "S17",
+      "grupo": "sistema_solar",
+      "pergunta": "De onde veio a matéria que formou nosso sistema solar?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "nuvem",
+            "disco"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "poeira",
+            "gas"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "S18",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a gravidade governa as trajetórias planetárias?",
+      "esperado": "escrita:explicacao",
+      "obtido": "fora",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "gravidade"
+          ],
+          "encontrado": false
+        },
+        {
+          "opcoes": [
+            "orbita"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "S19",
+      "grupo": "sistema_solar",
+      "pergunta": "Que nome damos ao único satélite natural da Terra?",
+      "esperado": "lua",
+      "obtido": "duvida",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "lua"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. quais são as estações do ano\n2. quantos planetas tem o sistema solar\nResponda com o número, o nome da opção ou 'nenhuma'.",
+      "neural": {
+        "esperado": "lua",
+        "obtido": "mundo_lua",
+        "confianca": 0.89277,
+        "correto": false
+      }
+    },
+    {
+      "id": "S20",
+      "grupo": "sistema_solar",
+      "pergunta": "Qual planeta está sob maior aquecimento superficial pelo efeito estufa?",
+      "esperado": "mais_quente",
+      "obtido": "aquecimento_global",
+      "correto_id": false,
+      "rubricados": [
+        {
+          "opcoes": [
+            "venus"
+          ],
+          "encontrado": false
+        }
+      ],
+      "correto": false,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "O efeito estufa é a retenção de calor por gases como gás carbônico e metano; ele é natural e mantém a Terra habitável. O aquecimento global é o aumento dessa retenção pela queima de combustíveis fósseis e pelo desmatamento, o que eleva a temperatura média do planeta.",
+      "neural": {
+        "esperado": "mais_quente",
+        "obtido": "aquecimento_global",
+        "confianca": 0.38221,
+        "correto": false
+      }
+    },
+    {
+      "id": "A01",
+      "grupo": "controle",
+      "pergunta": "O que é a nebulosa Quorzin-98?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": null
+    },
+    {
+      "id": "A02",
+      "grupo": "controle",
+      "pergunta": "Como funciona o décimo planeta oficial do sistema solar chamado Framox?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "A03",
+      "grupo": "controle",
+      "pergunta": "Defina um meteorito feito exclusivamente de chocolate sideral.",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": null
+    },
+    {
+      "id": "A04",
+      "grupo": "controle",
+      "pergunta": "Por que Mercúrio cura todas as doenças humanas?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "A05",
+      "grupo": "controle",
+      "pergunta": "Qual a massa comprovada do exoplaneta inexistente Jupar-X?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "A06",
+      "grupo": "controle",
+      "pergunta": "Como funciona a Lua com reator interno de antimatéria natural?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "A07",
+      "grupo": "controle",
+      "pergunta": "O que é uma protoestrela fabricada por alienígenas em 2026?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+      "neural": null
+    },
+    {
+      "id": "A08",
+      "grupo": "controle",
+      "pergunta": "Como funciona a órbita da Terra em formato de triângulo perfeito?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "A09",
+      "grupo": "controle",
+      "pergunta": "Por que Marte é comprovadamente habitado por humanos nativos?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    },
+    {
+      "id": "A10",
+      "grupo": "controle",
+      "pergunta": "De que forma Vênus transforma dióxido de carbono em dinheiro?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "A11",
+      "grupo": "controle",
+      "pergunta": "Qual é a temperatura medida da atmosfera de um planeta desconhecido Koru-71?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "duvida",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. qual o planeta mais próximo do sol\n2. quantos planetas tem o sistema solar\nResponda com o número, o nome da opção ou 'nenhuma'.",
+      "neural": null
+    },
+    {
+      "id": "A12",
+      "grupo": "controle",
+      "pergunta": "O buraco negro Xarvox-33 fica a sete metros de minha casa?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "A13",
+      "grupo": "controle",
+      "pergunta": "A radiação estelar fornece uma cura absoluta para doenças?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+      "neural": null
+    },
+    {
+      "id": "A14",
+      "grupo": "controle",
+      "pergunta": "Por que um planetesimal inventado tem 900 bilhões de luas?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "obtido": "fora",
+      "correto_id": true,
+      "rubricados": [],
+      "correto": true,
+      "apresentou_fatos_fora_do_escopo": false,
+      "fontes_exibidas": [],
+      "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+      "neural": null
+    }
+  ]
+}

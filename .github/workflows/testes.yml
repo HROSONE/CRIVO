@@ -8,7 +8,7 @@ on:
       benchmark:
         description: 'Comparacao neural opcional (as regressoes sempre executam)'
         type: choice
-        options: [nenhum, portugues, historico]
+        options: [nenhum, portugues, historico, ordem]
         default: nenhum
 jobs:
   matematica-geracao:
@@ -23,7 +23,7 @@ jobs:
         env:
           OPENBLAS_NUM_THREADS: '1'
           OMP_NUM_THREADS: '1'
-        run: python -m unittest testes_geracao testes_intencao_gerativa -v
+        run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
     runs-on: ubuntu-latest
     strategy:
@@ -60,6 +60,20 @@ jobs:
       - name: Avaliar planejamento, evidencias e dialogo integrado
         if: matrix.python-version == '3.11'
         run: python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
+      - name: Diagnosticar Astronomia v1 congelada (sem promover certificacao)
+        if: matrix.python-version == '3.11'
+        run: |
+          python scripts/avaliar_astronomia_independente.py > /tmp/astronomia-v1-saida.txt 2>&1 && echo 'Sonda passou' || echo 'Sonda nao atingiu gate; consultar artefato'
+          cat /tmp/astronomia-v1-saida.txt
+      - name: Publicar diagnostico de Astronomia
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-astronomia-modulo1
+          path: |
+            resultado_astronomia_independente_v1.json
+            /tmp/astronomia-v1-saida.txt
+          if-no-files-found: error
       - name: Publicar resultado de validacao
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
@@ -106,3 +120,10 @@ jobs:
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo portugues_sem_filtro --dimensao 512
           python avaliar_rede.py --cruzada --epocas 30 --modo misto --dimensao 512
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
+
+      - name: Comparar ordem de palavras em dobras iguais
+        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'ordem'
+        run: |
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.05
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.15
+          python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.35

@@ -42,7 +42,8 @@ class handler(BaseHTTPRequestHandler):
             return self._json(503, {"status": "unavailable",
                                     "error": "Arquivos de conhecimento ausentes."})
         return self._json(200, {"status": "ok", "name": "CRIVO",
-                                "engine": "python-local", "external_ai": False})
+                                "engine": "python-local", "external_ai": False,
+                                "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)})
 
     def do_POST(self):
         if self.path.split("?", 1)[0] != "/api/chat":
@@ -58,7 +59,8 @@ class handler(BaseHTTPRequestHandler):
         try:
             bruto = self.rfile.read(tamanho)
             pedido = json.loads(bruto.decode("utf-8"))
-            resposta = responder_web(pedido)
+            resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
+                self.server, "dialogo_contextual", False))
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

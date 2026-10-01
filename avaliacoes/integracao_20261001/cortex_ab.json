@@ -1,0 +1,939 @@
+{
+  "resumo": {
+    "ensaio": "cortex-ab-novo-v1",
+    "commit": "local",
+    "modo": "sem treino e sem alteracao de pesos; corpus distinto da prova retida v1",
+    "positivos": 14,
+    "controles": 14,
+    "acertos_com_cortex": 14,
+    "acertos_sem_cortex": 0,
+    "ganhos_exclusivos": 14,
+    "perdas_exclusivas": 0,
+    "acionamentos_associativos": 14,
+    "acionamentos_falsos_controle": 0,
+    "quantidade_exemplos_treino_conferidos": 2030,
+    "quantidade_v1_conferidos": 58,
+    "diferencas_textuais": 14,
+    "casos_novos_compartilham_exemplos": false
+  },
+  "casos": [
+    {
+      "tipo": "positivo",
+      "nome": "Vênus",
+      "pergunta": "De que modo Vênus produz efeito estufa retendo calor na atmosfera?",
+      "fato_esperado": [
+        "mundo_venus",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "O dióxido de carbono abundante na atmosfera produz um efeito estufa extremo, retendo calor e elevando a temperatura superficial.",
+        "evidencias": [
+          [
+            "mundo_venus",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/venus/venus-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_venus",
+          "indice": 2,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "atmosfera",
+            "calor",
+            "efeito",
+            "estufa",
+            "produz",
+            "retendo"
+          ],
+          "fonte": "nasa_planeta_venus"
+        }
+      },
+      "desligado": {
+        "id": "aquecimento_global",
+        "resposta": "O efeito estufa é a retenção de calor por gases como gás carbônico e metano; ele é natural e mantém a Terra habitável. O aquecimento global é o aumento dessa retenção pela queima de combustíveis fósseis e pelo desmatamento, o que eleva a temperatura média do planeta.",
+        "evidencias": [
+          [
+            "aquecimento_global",
+            0
+          ],
+          [
+            "aquecimento_global",
+            1
+          ]
+        ],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Terra",
+      "pergunta": "De que modo Terra produz campo magnético por movimentos de ferro líquido?",
+      "fato_esperado": [
+        "mundo_terra",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "Movimentos do ferro líquido no núcleo externo ajudam a produzir o campo magnético terrestre, que interage com o vento solar.",
+        "evidencias": [
+          [
+            "mundo_terra",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/earth/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_terra",
+          "indice": 2,
+          "potencia": 0.723,
+          "concorrente": 0.0,
+          "pistas": [
+            "campo",
+            "ferro",
+            "liquido",
+            "magnetico",
+            "movimento"
+          ],
+          "fonte": "nasa_planeta_terra"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Júpiter",
+      "pergunta": "De que modo Júpiter transforma hidrogênio em fluido metálico eletricamente condutor?",
+      "fato_esperado": [
+        "mundo_jupiter",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A pressão interna pode transformar hidrogênio em fluido metálico eletricamente condutor, associado ao poderoso campo magnético joviano.",
+        "evidencias": [
+          [
+            "mundo_jupiter",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/jupiter/jupiter-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_jupiter",
+          "indice": 2,
+          "potencia": 0.7943,
+          "concorrente": 0.0,
+          "pistas": [
+            "condutor",
+            "eletricamente",
+            "fluido",
+            "hidrogenio",
+            "metalico"
+          ],
+          "fonte": "nasa_planeta_jupiter"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Saturno",
+      "pergunta": "De que modo Saturno mantém partículas em órbitas sob campo gravitacional?",
+      "fato_esperado": [
+        "mundo_saturno",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "Os anéis de Saturno são compostos por inúmeras partículas que percorrem órbitas individuais sob o campo gravitacional do planeta.",
+        "evidencias": [
+          [
+            "mundo_saturno",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/saturn/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_saturno",
+          "indice": 2,
+          "potencia": 0.6876,
+          "concorrente": 0.0,
+          "pistas": [
+            "campo",
+            "gravitacional",
+            "orbita",
+            "particula"
+          ],
+          "fonte": "nasa_planeta_saturno"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Urano",
+      "pergunta": "De que modo Urano absorve luz vermelha com metano na atmosfera?",
+      "fato_esperado": [
+        "mundo_urano",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "O metano na atmosfera absorve parte da luz vermelha e contribui para a aparência azul-esverdeada de Urano.",
+        "evidencias": [
+          [
+            "mundo_urano",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/uranus/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_urano",
+          "indice": 3,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "absorve",
+            "atmosfera",
+            "luz",
+            "metano",
+            "vermelha"
+          ],
+          "fonte": "nasa_planeta_urano"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Netuno",
+      "pergunta": "De que modo Netuno apresenta ventos intensos e tempestades que mudam?",
+      "fato_esperado": [
+        "mundo_netuno",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A atmosfera de Netuno apresenta ventos intensos, nuvens dinâmicas e tempestades que mudam com o tempo.",
+        "evidencias": [
+          [
+            "mundo_netuno",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/neptune/neptune-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_netuno",
+          "indice": 2,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "intenso",
+            "mudam",
+            "tempestade",
+            "vento"
+          ],
+          "fonte": "nasa_planeta_netuno"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Marte",
+      "pergunta": "De que modo Marte apresenta aparência avermelhada por óxidos de ferro?",
+      "fato_esperado": [
+        "mundo_marte",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "Óxidos de ferro na poeira e no solo ajudam a explicar a aparência avermelhada de Marte.",
+        "evidencias": [
+          [
+            "mundo_marte",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/mars/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_marte",
+          "indice": 3,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "aparencia",
+            "avermelhada",
+            "ferro",
+            "oxido"
+          ],
+          "fonte": "nasa_planeta_marte"
+        }
+      },
+      "desligado": {
+        "id": "marte",
+        "resposta": "Marte tem poeira e rochas ricas em óxido de ferro (ferrugem), que dão a cor avermelhada. Até hoje não há prova de vida lá, mas há sinais de que já teve água líquida.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Mercúrio",
+      "pergunta": "De que modo Mercúrio completa revolução em 88 dias terrestres sob gravidade do Sol?",
+      "fato_esperado": [
+        "mundo_mercurio",
+        2
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A gravidade do Sol mantém Mercúrio em órbita, e uma revolução em torno do Sol dura cerca de 88 dias terrestres.",
+        "evidencias": [
+          [
+            "mundo_mercurio",
+            2
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/mercury/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_mercurio",
+          "indice": 2,
+          "potencia": 0.8019,
+          "concorrente": 0.0,
+          "pistas": [
+            "88",
+            "dia",
+            "gravidade",
+            "revolucao",
+            "sol",
+            "terrestr"
+          ],
+          "fonte": "nasa_planeta_mercurio"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Sistema Solar",
+      "pergunta": "De que modo o Sistema Solar mantém órbitas elípticas e movimentos dos planetas pela gravidade solar?",
+      "fato_esperado": [
+        "sistema_solar",
+        9
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A gravidade solar domina o movimento dos planetas; as órbitas são aproximadamente elípticas, e os planetas também exercem influências gravitacionais uns sobre os outros.",
+        "evidencias": [
+          [
+            "sistema_solar",
+            9
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/universe/stars/planetary-system/"
+        ],
+        "ativacao": {
+          "conceito": "sistema_solar",
+          "indice": 9,
+          "potencia": 0.7339,
+          "concorrente": 0.0,
+          "pistas": [
+            "eliptica",
+            "gravidade",
+            "movimento",
+            "orbita",
+            "planeta",
+            "solar"
+          ],
+          "fonte": "nasa_planetarios"
+        }
+      },
+      "desligado": {
+        "id": "duvida",
+        "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. quantos planetas tem o sistema solar\n2. plutão é planeta\nResponda com o número, o nome da opção ou 'nenhuma'.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "estrela",
+      "pergunta": "De que modo estrela libera energia em radiação através de camadas estelares?",
+      "fato_esperado": [
+        "estrela",
+        8
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A energia produzida no interior atravessa camadas estelares e é emitida como radiação; gravidade e pressão interna participam do equilíbrio estrutural.",
+        "evidencias": [
+          [
+            "estrela",
+            8
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/mission/webb/star-lifecycle/"
+        ],
+        "ativacao": {
+          "conceito": "estrela",
+          "indice": 8,
+          "potencia": 0.6939,
+          "concorrente": 0.0,
+          "pistas": [
+            "camada",
+            "energia",
+            "estelar",
+            "radiacao"
+          ],
+          "fonte": "nasa_ciclo_estelar"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Vênus 2",
+      "pergunta": "De que modo Vênus gira lentamente em sentido contrário à rotação de outros planetas?",
+      "fato_esperado": [
+        "mundo_venus",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "Vênus gira lentamente em sentido contrário ao da maioria dos planetas, e sua rotação é diferente de sua revolução em torno do Sol.",
+        "evidencias": [
+          [
+            "mundo_venus",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/venus/venus-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_venus",
+          "indice": 3,
+          "potencia": 0.7362,
+          "concorrente": 0.0,
+          "pistas": [
+            "contrario",
+            "gira",
+            "lentamente",
+            "planeta",
+            "rotacao",
+            "sentido"
+          ],
+          "fonte": "nasa_planeta_venus"
+        }
+      },
+      "desligado": {
+        "id": "mais_quente",
+        "resposta": "Vênus, com cerca de 460 °C, por causa da atmosfera densa de gás carbônico. É mais quente até que Mercúrio, que fica mais perto do Sol.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Terra 2",
+      "pergunta": "De que modo Terra modifica continentes por placas tectônicas em movimento?",
+      "fato_esperado": [
+        "mundo_terra",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "A superfície terrestre possui placas tectônicas em movimento, atividade que modifica continentes e fundos oceânicos ao longo do tempo geológico.",
+        "evidencias": [
+          [
+            "mundo_terra",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/earth/facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_terra",
+          "indice": 3,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "continente",
+            "modifica",
+            "movimento",
+            "placa",
+            "tectonica"
+          ],
+          "fonte": "nasa_planeta_terra"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Júpiter 2",
+      "pergunta": "De que modo Júpiter mantém tempestades de longa duração nas faixas de nuvens?",
+      "fato_esperado": [
+        "mundo_jupiter",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "As faixas de nuvens e a Grande Mancha Vermelha de Júpiter refletem a circulação atmosférica e tempestades de longa duração.",
+        "evidencias": [
+          [
+            "mundo_jupiter",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/jupiter/jupiter-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_jupiter",
+          "indice": 3,
+          "potencia": 0.7358,
+          "concorrente": 0.0,
+          "pistas": [
+            "duracao",
+            "faixa",
+            "longa",
+            "nuven",
+            "tempestade"
+          ],
+          "fonte": "nasa_planeta_jupiter"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "positivo",
+      "nome": "Netuno 2",
+      "pergunta": "De que modo Netuno absorve luz com metano de sua atmosfera?",
+      "fato_esperado": [
+        "mundo_netuno",
+        3
+      ],
+      "ligado": {
+        "id": "escrita:explicacao",
+        "resposta": "O metano da atmosfera absorve luz de certos comprimentos de onda e contribui para a coloração azul de Netuno.",
+        "evidencias": [
+          [
+            "mundo_netuno",
+            3
+          ]
+        ],
+        "fontes": [
+          "https://science.nasa.gov/neptune/neptune-facts/"
+        ],
+        "ativacao": {
+          "conceito": "mundo_netuno",
+          "indice": 3,
+          "potencia": 0.8704,
+          "concorrente": 0.0,
+          "pistas": [
+            "absorve",
+            "atmosfera",
+            "luz",
+            "metano"
+          ],
+          "fonte": "nasa_planeta_netuno"
+        }
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "acerto_ligado": true,
+      "acerto_desligado": false,
+      "alterou_resposta": true
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Vênus e Netuno usam a mesma turbina de plasma?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo o planeta imaginário Criptor-981 produz hidrogênio líquido?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Vênus não produz efeito estufa retendo calor na atmosfera?",
+      "ligado": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Terra produz campo magnético se fosse feita de chocolate?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Júpiter produz dinheiro usando hidrogênio extraterrestre?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Saturno dispara lasers alimentados por moedas antigas?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Urano não absorve luz vermelha com metano na atmosfera?",
+      "ligado": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Netuno forma um reator de fusão artificial em 2026?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Marte realiza telepatia por óxidos de ferro?",
+      "ligado": {
+        "id": "marte",
+        "resposta": "Marte tem poeira e rochas ricas em óxido de ferro (ferrugem), que dão a cor avermelhada. Até hoje não há prova de vida lá, mas há sinais de que já teve água líquida.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "marte",
+        "resposta": "Marte tem poeira e rochas ricas em óxido de ferro (ferrugem), que dão a cor avermelhada. Até hoje não há prova de vida lá, mas há sinais de que já teve água líquida.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Mercúrio cura doenças com sua gravidade solar?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo Vênus e Marte compartilham um mesmo cérebro humano?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "Por que Vênus usa uma máquina do tempo para aquecer o planeta?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo estrela produz radiação inventada por alienígenas?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    },
+    {
+      "tipo": "controle",
+      "pergunta": "De que modo o Sistema Solar faz órbitas triangulares perfeitas?",
+      "ligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "desligado": {
+        "id": "fora",
+        "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+        "evidencias": [],
+        "fontes": [],
+        "ativacao": null
+      },
+      "disparo_indevido": false
+    }
+  ]
+}

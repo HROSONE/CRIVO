@@ -97,13 +97,16 @@ class RedeCrivo:
         total = sum(exps)
         return h, [v / total for v in exps]
 
-    def treinar(self, exemplos, epocas=100, taxa=0.15, semente=42):
+    def treinar(self, exemplos, epocas=100, taxa=0.15, semente=42, acelerar=False):
         """Exemplos: pares (pergunta, id). Atualiza pesos por gradiente."""
         dados = [(caracteristicas(pergunta, self.dimensao, self.modo),
                   self.rotulos.index(rotulo)) for pergunta, rotulo in exemplos]
         if not dados:
             raise ValueError("Sem exemplos de treinamento")
         rng = random.Random(semente)
+        if acelerar:
+            self._treinar_numpy(dados, epocas, taxa, rng)
+            return
         for _ in range(epocas):
             rng.shuffle(dados)
             for x, alvo in dados:
@@ -123,6 +126,29 @@ class RedeCrivo:
                     for i, v in ativos:
                         self.w1[j][i] -= taxa * delta * v
                     self.b1[j] -= taxa * delta
+
+    def _treinar_numpy(self, dados, epocas, taxa, rng):
+        """Mesmo SGD por exemplo e ordem de sorteio; NumPy só faz a álgebra."""
+        import numpy as np
+        w1, b1, w2, b2 = [np.asarray(getattr(self, n), dtype=np.float64).copy()
+                          for n in ("w1", "b1", "w2", "b2")]
+        dados = [(np.flatnonzero(x), np.asarray(x)[np.flatnonzero(x)], alvo)
+                 for x, alvo in dados]
+        for _ in range(epocas):
+            rng.shuffle(dados)
+            for indices, valores, alvo in dados:
+                h = np.tanh(w1[:, indices] @ valores + b1)
+                logits = w2 @ h + b2
+                delta2 = np.exp(logits - logits.max())
+                delta2 /= delta2.sum()
+                delta2[alvo] -= 1.0
+                delta1 = (1.0 - h * h) * (w2.T @ delta2)
+                w2 -= taxa * np.outer(delta2, h)
+                b2 -= taxa * delta2
+                w1[:, indices] -= taxa * delta1[:, None] * valores
+                b1 -= taxa * delta1
+        for nome, matriz in zip(("w1", "b1", "w2", "b2"), (w1, b1, w2, b2)):
+            setattr(self, nome, matriz.tolist())
 
     def prever(self, texto):
         _, probabilidades = self._forward(caracteristicas(texto, self.dimensao, self.modo))
@@ -153,7 +179,7 @@ class RedeCrivo:
 
 def treinar_base(caminho="conhecimento.json", destino="rede_crivo.json",
                 epocas=100, ocultos=24, dimensao=256, modo="caracteres",
-                taxa=0.15, semente=42):
+                taxa=0.15, semente=42, acelerar=False):
     """Treina todos os exemplos da base e salva um modelo pronto para carregar.
 
     Os benchmarks deixam perguntas fora do treino; este metodo de PRODUCAO
@@ -166,7 +192,7 @@ def treinar_base(caminho="conhecimento.json", destino="rede_crivo.json",
     rede = RedeCrivo([item["id"] for item in base], dimensao=dimensao,
                      ocultos=ocultos, modo=modo, semente=semente)
     rede.treinar([(q, item["id"]) for item in base for q in item["perguntas"]],
-                 epocas=epocas, taxa=taxa, semente=semente)
+                 epocas=epocas, taxa=taxa, semente=semente, acelerar=acelerar)
     rede.assinatura_base = assinatura_base(base)
     rede.assinatura_regras = assinatura_regras(modo)
     rede.salvar(destino)
@@ -185,9 +211,11 @@ if __name__ == "__main__":
                         "portugues", "portugues_sem_filtro"), default="caracteres")
     parser.add_argument("--taxa", type=float, default=0.15)
     parser.add_argument("--semente", type=int, default=42)
+    parser.add_argument("--numpy", action="store_true")
     args = parser.parse_args()
     rede = treinar_base(args.base, args.saida, args.epocas, args.ocultos,
-                        args.dimensao, args.modo, args.taxa, args.semente)
+                        args.dimensao, args.modo, args.taxa, args.semente,
+                        acelerar=args.numpy)
     print("Rede original treinada e salva em", args.saida,
           "| intenções:", len(rede.rotulos), "| modo:", rede.modo,
           "| dimensões:", rede.dimensao, "| neurônios ocultos:", rede.ocultos)

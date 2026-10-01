@@ -1,0 +1,52 @@
+name: Treinar conversa contextual do zero
+on:
+  workflow_dispatch:
+    inputs:
+      epocas_compreensao:
+        description: 'Épocas do encoder de compreensão'
+        type: number
+        default: 15
+      epocas_geracao:
+        description: 'Épocas do encoder-decoder de conversa'
+        type: number
+        default: 12
+permissions:
+  contents: read
+jobs:
+  candidato:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      EPOCAS_COMPREENDER: ${{ inputs.epocas_compreensao }}
+      EPOCAS_GERAR: ${{ inputs.epocas_geracao }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Verificar matemática e fontes de memória
+        run: python -m unittest testes_compreensao testes_seq2seq testes_memoria_dialogo -v
+      - name: Treinar ambos os candidatos com a partição publicada
+        run: |
+          python treinar_compreensao.py --epocas "$EPOCAS_COMPREENDER" --lote 48 --ocultos 40 --embeddings 24 --baldes 2048 --semente 2718 --dropout 0.3 --dropout-trechos 0.5 --suavizacao-atos 0.1 --paciencia 2 --avaliar-cada 5
+          python treinar_dialogo_seq2seq.py --corpus curriculo_compreensao.json --dialogos-humanos dados/dialogos_humanos.json --epocas "$EPOCAS_GERAR" --limite-resposta 96 --semente 173 --dropout 0.2 --dropout-tokens 0.1 --amostragem 0.1 --aquecimento 3 --relatorio avaliacao_seq2seq.json
+      - name: Registrar conversa livre e regressões
+        run: |
+          python avaliar_dialogo_real.py --experimental --saida avaliacao_dialogo_real.json --permitir-falhas
+          python -m unittest discover -p 'testes*.py'
+          python crivo.py --teste
+      - name: Publicar pesos e avaliações para revisão
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conversa-contextual-candidata
+          path: |
+            rede_compreensao.json
+            rede_dialogo_seq2seq.json
+            avaliacao_compreensao.json
+            avaliacao_seq2seq.json
+            avaliacao_dialogo_real.json
+          retention-days: 14
