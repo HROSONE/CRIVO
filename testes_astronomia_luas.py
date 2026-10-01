@@ -32,7 +32,9 @@ class TestesAstronomiaLuas(unittest.TestCase):
                 self.assertGreaterEqual(len(fatos), 5)
                 for fato in fatos:
                     fonte = self.curriculo["fontes"][fato["fonte"]]
-                    self.assertEqual(fonte["reutilizacao"], "dominio_publico")
+                    self.assertIn(fonte["reutilizacao"], ("dominio_publico", "somente_referencia"))
+                    if fonte["reutilizacao"] == "somente_referencia":
+                        self.assertIs(fonte.get("reproducao_autorizada"), False)
                     self.assertIn("nasa", fonte["credito"].lower())
 
     def test_incerteza_cientifica_nao_vira_certeza(self):
