@@ -48,4 +48,14 @@
 
 **Avaliação retida v1, primeira execução independente do treinamento (01/10/2026):** 58 perguntas novas (24 de vocabulário, 20 de Sistema Solar e 14 controles), executadas sem ajuste de pesos no checkpoint integrado de 193 classes. **Vocabulário 11/24 (45,8%); Sistema Solar 2/20 (10%); controles 14/14 (100% de abstenções); classificador isolado 22/29 (75,9% no subconjunto aplicável).** Falhou o critério ≥90% dos dois módulos e, portanto, **0% do currículo certificado**. Todos os enunciados e critérios ficam congelados. O avaliador é independente da rotina de treinamento, mas **não é um terceiro humano externo**; sua análise de IDs e palavras-chave necessita revisão científica/semântica. Evidências, limitações, erros exemplificados, hashes de modelo/prova e workflow: `docs/avaliacao_astronomia_independente_v1.md` e [execução 36819092257](https://github.com/HROSONE/CRIVO/actions/runs/36819092257). Não ajustar o gabarito v1 para promover percentual; corrigir princípios de interpretação e usar v2 inédita após alterações.
 
+### Registro da entrega lunar — PR #41 (01/10/2026)
+
+- **Módulo 2 — entregável parcial:** catálogo local `conhecimento_astronomia_luas.json` com Lua terrestre, Europa, Titã e Encélado, integrado a `ler_curriculo` em `curriculo_mundo.py`. São fichas editoriais, não prova de compreensão.
+- **Fontes e limites:** referências NASA/JPL, URLs e escopo de reutilização registrados por fato; formação lunar e oceanos internos descritos com graus de incerteza. Habitabilidade não implica vida detectada.
+- **Provas de desenvolvimento:** `testes_astronomia_luas.py` verifica quatro IDs, fontes, limites, formação, funcionamento e desambiguação. Corrigido erro de expectativa do teste: nome canônico é `Lua da Terra`, não `Lua`. **A execução do teste no commit atual ainda não foi verificada.**
+- **Lacunas:** faltam corpos menores, dinâmica orbital comparada, relações causais e avaliação inédita independente do módulo 2; falta revisar o conjunto completo do módulo 1 e confirmar CI Python 3.8/3.11/3.13 no commit atual.
+- **Métricas separadas:** cobertura editorial parcial, sem percentual editorial integral aprovado; consulta simbólica lunar **não aferida**; competência neural lunar **não aferida**. Resultados históricos da v1 não podem ser extrapolados às quatro novas luas.
+- **Certificação:** 0/10 módulos, **0%**. Não promover com base apenas na integração ou em testes estruturais.
+- **Próximo passo:** executar CI, corrigir regressões, criar prova v2 inédita com paráfrases, negações, entidades sintéticas e abstenções, e medir consulta simbólica e rede separadamente.
+
 100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
