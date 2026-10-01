@@ -17,7 +17,7 @@
 
 ### Evidência, limites de segurança e aprendizado
 
-O circuito não aprende respostas por uma lista de perguntas. Cada sinapse é inicializada apenas pelo texto de uma **unidade factual verificada**, não pelas 58 perguntas retidas da prova de Astronomia. `CortexAssociativo.associar()` trabalha com ativação, atenção e inibição sem alterar qualquer arquivo de conhecimento. `ajustar_com_prova()` pode alterar uma sinapse somente quando existe uma unidade documental registrada e autorização confiável, e recusa características não presentes nela. Feedback informal nunca se converte automaticamente em verdade.
+O circuito não aprende respostas por uma lista de perguntas. Cada sinapse é inicializada apenas pelo texto de uma **unidade factual verificada**, não pelas 58 perguntas retidas da prova de Astronomia. `CortexAssociativo.associar()` trabalha com ativação, atenção e inibição sem alterar qualquer arquivo de conhecimento. `ajustar_com_prova()` pode alterar uma sinapse somente quando existe uma unidade documental registrada e autorização confiável, e recusa características não presentes nela. `salvar_ajustes()` e `carregar_ajustes()` permitem persistir exclusivamente pesos locais sob assinatura SHA-256 das provas e rejeitar fontes/palavras/pesos incompatíveis. Essa persistência é **explícita e experimental**; não é carregada automaticamente para o usuário final. Feedback informal nunca se converte automaticamente em verdade.
 
 A primeira integração responde a consultas que expressem um único referente e contenham pistas de mecanismo suficientemente explícitas **que já constam de um fato com fonte**. Não responde a perguntas condicionais, negativas ou multi-entidade. A impossibilidade de responder não se converte em falsa negação.
 
