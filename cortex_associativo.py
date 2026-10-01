@@ -242,6 +242,22 @@ class CortexAssociativo:
         rival = concorrentes[1][0] if len(concorrentes) > 1 else 0.0
         if vencedor < min_cobertura or vencedor - rival < min_margem:
             return None
+        # Nao descartar silenciosamente um QUALIFICADOR preso ao fato.
+        # "pulsos luminosos" e "pulsos magicos" nao sao a mesma
+        # afirmacao. Um termo aberto colado a uma pista comprovada nao
+        # pode receber evidencias de outra propriedade apenas porque
+        # as demais palavras coincidem. Operadores e preposicoes separam
+        # sintagmas; verbos livres ANTES da entidade nao criam um fato.
+        palavras = sem_entidade.split()
+        sinapses_vencedoras = self.sinapses[chave]
+        for anterior, atual in zip(palavras, palavras[1:]):
+            antes = self.tokenizador(anterior)
+            depois = self.tokenizador(atual)
+            if (len(antes) == len(depois) == 1 and
+                    antes[0] in sinapses_vencedoras and
+                    depois[0] not in sinapses_vencedoras and
+                    depois[0] not in ruido):
+                return None
         unidade = self.unidades[chave]
         return Ativacao(conceito, unidade.indice, round(vencedor, 4),
                         round(rival, 4), tuple(sorted(presentes)), unidade.fonte)
