@@ -16,7 +16,7 @@ Matéria escura é o nome atribuído a uma componente gravitacional cuja contrib
 
 ## 2. Curvas de rotação e o papel dos bárions
 
-Para massa esférica ideal e órbita circular, \`v_c²(r)=GM(<r)/r\`. Se toda massa gravitante estivesse concentrada no centro e M(<r) deixasse de crescer, a curva seria kepleriana: v∝r^(-1/2). A observação de velocidades externas quase constantes em muitas espirais motivou modelos com massa adicional distribuída por raios grandes [M1,M3].
+Para massa esférica ideal e órbita circular, `v_c²(r)=GM(<r)/r`. Se toda massa gravitante estivesse concentrada no centro e M(<r) deixasse de crescer, a curva seria kepleriana: v∝r^(-1/2). A observação de velocidades externas quase constantes em muitas espirais motivou modelos com massa adicional distribuída por raios grandes [M1,M3].
 
 **Mas galáxias são discos:** em uma galáxia achatada, gravidade de um anel exterior influencia o campo dentro dele; a expressão esférica não permite decompô-la exatamente. Balanço de massa modelado inclui disco de estrelas, gás H I e H₂, bojo e halo sob pressupostos de razão massa-luz, inclinação do disco e distâncias.
 
@@ -28,7 +28,7 @@ Para massa esférica ideal e órbita circular, \`v_c²(r)=GM(<r)/r\`. Se toda ma
 
 Com G ≈ 4,3009×10^-6 kpc (km/s)²/M☉, para órbita circular em potencial ESFÉRICO com raio r=10 kpc e v=200 km/s:
 
-\`M(<r)=v²r/G ≈ (200²×10)/(4,3009×10^-6) ≈ 9,30×10^10 massas solares\`.
+`M(<r)=v²r/G ≈ (200²×10)/(4,3009×10^-6) ≈ 9,30×10^10 massas solares`.
 
 A conta informa massa gravitacional equivalente DENTRO de r no modelo esférico. NÃO demonstra que 9,30×10^10 massas solares são matéria escura, pois falta subtrair bárions e avaliar geometria; não é resultado observado de galáxia específica.
 
@@ -74,9 +74,9 @@ A NASA/JPL divulgou a pesquisa em **26/01/2026**, mostrando região de ~0,54 gra
 
 ## 6. CMB: uma evidência independente de órbitas em galáxias
 
-Os picos acústicos da radiação cósmica de fundo respondem a densidade bariônica, potencial gravitacional, história térmica e geometria. A colaboração Planck obteve, sob ΛCDM de seis parâmetros, densidades físicas \`Ω_c h²≈0,120\` para matéria escura fria e \`Ω_b h²≈0,0224\` para bárions, com incertezas publicadas e combinações de dados específicas [M2].
+Os picos acústicos da radiação cósmica de fundo respondem a densidade bariônica, potencial gravitacional, história térmica e geometria. A colaboração Planck obteve, sob ΛCDM de seis parâmetros, densidades físicas `Ω_c h²≈0,120` para matéria escura fria e `Ω_b h²≈0,0224` para bárions, com incertezas publicadas e combinações de dados específicas [M2].
 
-**O que é direto e indireto:** detector mede anisotropias de temperatura/polarização em diferentes frequências; ajustar densidades é problema inverso. O valor da razão \`Ω_c h²/Ω_b h²≈0,120/0,0224≈5,36\` é um quociente de PARÂMETROS INFERIDOS sob ΛCDM; não é contagem de cinco partículas escuras para cada próton nem porcentagem de toda energia cósmica sem outras componentes.
+**O que é direto e indireto:** detector mede anisotropias de temperatura/polarização em diferentes frequências; ajustar densidades é problema inverso. O valor da razão `Ω_c h²/Ω_b h²≈0,120/0,0224≈5,36` é um quociente de PARÂMETROS INFERIDOS sob ΛCDM; não é contagem de cinco partículas escuras para cada próton nem porcentagem de toda energia cósmica sem outras componentes.
 
 A concordância entre estrutura e CMB pode apoiar um quadro físico conjunto, mas não se deve tratar parâmetros de modelo como medição diretamente fotografada. Comparar hipóteses alternativas requer rodar modelos sobre vários observáveis (CMB, lentes, velocidades, BAO), respeitando a literatura e suas diferentes limitações [M2,M6].
 
@@ -85,11 +85,11 @@ A concordância entre estrutura e CMB pode apoiar um quadro físico conjunto, ma
 Galáxias, filamentos e aglomerados resultam do crescimento gravitacional de pequenas perturbações, condicionado à expansão, à dinâmica de matéria comum, aos possíveis componentes escuros e à evolução de potencial. Observações em diferentes redshifts permitem inferir *crescimento* além de *distância*. A força da lente fraca depende tanto da geometria observador-lente-fonte quanto da massa/estrutura em cada época [M5,M6].
 
 **Três estatísticas diferentes:**
-- \`Ω_m\`: densidade cosmológica atual de matéria em unidades da densidade crítica, sob modelo.
-- \`σ_8\`: amplitude estatística de flutuações de matéria numa escala definida de 8 Mpc/h (esferas comóveis), não velocidade de galáxia.
-- \`S_8=σ_8 sqrt(Ω_m/0,3)\`: combinação frequentemente restringida por lentes fracas; valor depende dos conjuntos de dados e do modelo.
+- `Ω_m`: densidade cosmológica atual de matéria em unidades da densidade crítica, sob modelo.
+- `σ_8`: amplitude estatística de flutuações de matéria numa escala definida de 8 Mpc/h (esferas comóveis), não velocidade de galáxia.
+- `S_8=σ_8 sqrt(Ω_m/0,3)`: combinação frequentemente restringida por lentes fracas; valor depende dos conjuntos de dados e do modelo.
 
-A análise Planck sob base-ΛCDM apresentou \`Ω_m=0,315±0,007\`, \`σ_8=0,811±0,006\`, \`S_8≈0,831±0,013\` (com convenções publicadas) [M2]. A colaboração Dark Energy Survey publicou análise de seis anos (Y6; versão divulgada janeiro de 2026) com \`S_8≈0,789±0,012\` e \`Ω_m≈0,333\` em ΛCDM na combinação indicada [M9].
+A análise Planck sob base-ΛCDM apresentou `Ω_m=0,315±0,007`, `σ_8=0,811±0,006`, `S_8≈0,831±0,013` (com convenções publicadas) [M2]. A colaboração Dark Energy Survey publicou análise de seis anos (Y6; versão divulgada janeiro de 2026) com `S_8≈0,789±0,012` e `Ω_m≈0,333` em ΛCDM na combinação indicada [M9].
 
 **Interpretação prudente:** o deslocamento de valores centrais é indício de discrepância a examinar, não demonstra por si só que o modelo padrão foi falsificado. Sua significância exige comparar correlações, parâmetros, métodos, seleção e sistemáticos; outras análises e publicações podem concordar mais estreitamente. As próprias equipes documentam limites de modelagem, incluindo feedback bariônico, alinhamentos intrínsecos e não linearidades [M9,M10].
 
