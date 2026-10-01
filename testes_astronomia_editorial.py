@@ -122,5 +122,18 @@ class TestesAstronomiaEditorial(unittest.TestCase):
             with self.subTest(pergunta=pergunta):
                 self.assertEqual(Crivo().responder(pergunta)[0], esperado)
 
+
+    def test_primeiro_modulo_requer_limites_para_todos_os_termos(self):
+        curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
+        astronomia = [x for x in curriculo["itens"] if x["area"] == "astronomia"]
+        self.assertGreaterEqual(len(astronomia), 20)
+        for item in astronomia:
+            with self.subTest(conceito=item["nome"]):
+                self.assertEqual(item["fatos"][0]["papel"], "definicao")
+                self.assertTrue(any(f["papel"] == "limite" for f in item["fatos"]))
+                self.assertTrue(all(f["fonte"] in curriculo["fontes"] for f in item["fatos"]))
+                self.assertTrue(all(curriculo["fontes"][f["fonte"]]["direitos_url"].startswith("https://")
+                                    for f in item["fatos"]))
+
 if __name__ == "__main__":
     unittest.main()
