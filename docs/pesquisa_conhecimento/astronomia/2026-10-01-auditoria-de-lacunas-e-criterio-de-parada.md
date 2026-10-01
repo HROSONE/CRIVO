@@ -165,3 +165,27 @@ A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posterio
 **Próximas lacunas priorizadas:** (a) evolução quantitativa da estrutura cósmica, dinâmica galáctica e halos; (b) instrumentos, matemática aplicada e estudos com dados reproduzíveis; (c) corpos menores e comparação sistemática de asteroides/cometas; (d) revisão da matriz integral de 10 módulos, sem converter volumes de dossiês em certificação. Fontes emergentes de 2026 devem ser sempre comparadas a primários/observações e registrar datas corretamente.
 
 **Integrado na main por esta rotina:** nada. **CI/treino/checkpoints:** inalterados. **Consulta simbólica e competência neural:** não avaliadas. **Certificação:** inalterada em 0/10, conforme última skill verificada na main.
+
+
+## 10. Acompanhamento adicional: ciclo do gás, matéria escura e métodos quantitativos — 01/10/2026
+
+**Arquivos novos confirmados por leitura nesta branch:**
+
+- [Ciclo bariônico, feedback e evolução ambiental](2026-10-01-ciclo-barionico-galaxias-feedback-ambiente.md): contrasta ISM, CGM e ICM, formação estelar e traçadores PHANGS, eficiência, balanço de reservatório, jatos, ram-pressure e a estimativa CO de REBELS-25 divulgada pelo ALMA/VLA em 12/06/2026. Fonte listada não é prova de medição independente nem do treino do CRIVO.
+- [Matéria escura, lentes e crescimento](2026-10-01-materia-escura-crescimento-estrutura-lentes.md): decomposição de curvas SPARC, colisão do Bullet Cluster, mapa de lentes fracas COSMOS-Web de janeiro de 2026, parâmetros Planck e DES Y6. Deixa explícito que mapa de massa é inferido e que a natureza microscópica não foi identificada.
+- [Astrometria, espectros e incertezas](2026-10-01-metodos-quantitativos-astrometria-espectros-incertezas.md): Gaia DR3, paralaxe ruidosa, correções sistemáticas variáveis, Doppler/redshift, fotometria, SNR e propagação de covariância, com contas didáticas e protocolos de dados futuros **NÃO executados**.
+
+**Inventário após os documentos:** 13 dossiês temáticos listados no README + uma auditoria de lacunas. O índice havia sido atualizado por outro agente com um dossiê de dinâmica galáctica, por isso a contagem de 13 resulta de trabalho intercalado, não apenas dos três novos documentos. A existência de arquivo não implica 13 módulos, 13% ou proficiência científica.
+
+| Módulo | Lacuna parcialmente atacada | Bloqueio remanescente para encerramento DOCUMENTAL |
+| --- | --- | --- |
+| 5 — Galáxias | Ciclo do gás, feedback, stripping, matéria não luminosa, comparação de linhas independentes | Funções de luminosidade e massa; relação halo–galáxia e alterações por redshift; revisão crítica de teorias alternativas e seleção observacional |
+| 6 — Cosmologia | Estrutura e lentes, Planck e DES Y6, conexão baryon feedback–potência de matéria | Confrontar modelos e dados entre sondas, diferenças CMB/lentes e generalização de amostras |
+| 7 — Observação | Gaia DR3, espectroscopia, PHANGS, SNR e papel do detector | Trabalhar dados reais versionados e independentes, revisar amostragem de diversas técnicas e erros de calibração |
+| 8 — Matemática aplicada | Equações de densidade, velocidade, massa dinâmica, distância, redshift e covariância, com unidades | Exercícios sobre o inventário completo de física orbital/estelar e repetição de contas com dados externos |
+| 9 — Raciocínio | Condições, causa vs. correlação, exemplos que corrigem premissas falsas | Matriz geral de raciocínio por módulos, rubrica científica externa e avaliação inédita |
+| 10 — Prova final | Bibliografia, limites, propostas para protocolos de teste futuros | Avaliações cegas, treinamento e CI pertencem ao agente integrador, NÃO são ação desta branch |
+
+**Decisão de qualidade:** os documentos aprofundam lacunas centrais, mas ainda há tópicos obrigatórios não cobertos/revisados; **nenhum módulo foi classificado pesquisa_documental_pronta**, não encerrar Astronomia agora. **Próximos passos documentais prioritários:** completar lacunas de corpos menores e observação planetária; aprofundar funções e ambientes de galáxias apenas quando o inventário exigir; publicar mapa conceitual canônico, matriz integral de fontes/afirmações e auditorias de revisão. Evitar curiosidades repetidas.
+
+**Não alterado:** main, pesos, testes, treino, modelos, skills de produção, CI ou PR. Esta pesquisa não certificou o CRIVO e não mede consulta neural/simbólica. Estado oficial prévio conforme main: 0/10.
