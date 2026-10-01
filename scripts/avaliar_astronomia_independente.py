@@ -29,9 +29,16 @@ def assinatura(caminho):
     return hashlib.sha256(caminho.read_bytes()).hexdigest()
 
 
-def rodar():
+def resolver_modelo(caminho=None):
+    destino = Path(caminho).resolve() if caminho else RAIZ / 'rede_crivo.json'
+    if caminho and not destino.is_file():
+        raise FileNotFoundError('Checkpoint experimental ausente: ' + str(destino))
+    return destino
+
+
+def rodar(caminho_modelo=None, destino_relatorio=None):
     casos_path = RAIZ / "avaliacoes" / "astronomia_independente_v1.json"
-    modelo_path = RAIZ / "rede_crivo.json"
+    modelo_path = resolver_modelo(caminho_modelo)
     casos = json.loads(casos_path.read_text(encoding="utf-8"))
     if len(casos["casos"]) < 50:
         raise ValueError("A prova independente precisa de pelo menos 50 sondas")
@@ -47,11 +54,15 @@ def rodar():
             raise ValueError("Prova possui pergunta duplicada: " + caso["id"])
         vistos.add(q)
     motor = Crivo()
+    if caminho_modelo:
+        motor.carregar_rede(modelo_path)
     rede_ativa = motor.rede is not None and motor.erro_rede is None
     resultados = []
     for caso in casos["casos"]:
         # Cada caso isolado, sem contexto de questoes anteriores.
         bot = Crivo()
+        if caminho_modelo:
+            bot.carregar_rede(modelo_path)
         identificador, resposta = bot.responder(caso["pergunta"])
         abstencao = caso["grupo"] == "controle"
         esperado = caso["esperado"]
@@ -104,7 +115,7 @@ def rodar():
     resumo = {
         "versao":casos["versao"],
         "marco":os.getenv("GITHUB_SHA", "execucao-local"),
-        "pasta_modelo":"rede_crivo.json",
+        "pasta_modelo":modelo_path.name,
         "sha256_modelo":assinatura(modelo_path),
         "sha256_prova":assinatura(casos_path),
         "rede_carregada":rede_ativa,
@@ -128,7 +139,7 @@ def rodar():
         },
     }
     relatorio = dict(resumo=resumo, resultados=resultados)
-    destino = RAIZ / "resultado_astronomia_independente_v1.json"
+    destino = Path(destino_relatorio).resolve() if destino_relatorio else RAIZ / "resultado_astronomia_independente_v1.json"
     destino.write_text(json.dumps(relatorio, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
     print(json.dumps(resumo, ensure_ascii=False, indent=2), flush=True)
     print("RELATORIO " + str(destino),flush=True)
@@ -142,4 +153,9 @@ def rodar():
 
 
 if __name__ == "__main__":
-    rodar()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--modelo", default=None)
+    parser.add_argument("--relatorio", default=None)
+    args = parser.parse_args()
+    rodar(args.modelo, args.relatorio)
