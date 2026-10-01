@@ -8,8 +8,8 @@
 
 | Módulo | Entregável verificável | Estado inicial (01/10/2026) |
 | --- | --- | --- |
-| 1. Vocabulário | Pelo menos 20 conceitos astronômicos com definição, fonte e limite | Candidato: 31 conceitos na branch; sem validação de CI |
-| 2. Sistema solar | Sol, planetas, luas, corpos menores, órbitas, origem e distinções | Parcial; ainda faltam fichas de cada planeta |
+| 1. Vocabulário | Pelo menos 20 conceitos astronômicos com definição, fonte e limite | Candidato: 28 conceitos astronômicos próprios e fichas canônicas anteriores aprofundadas; CI e prova independente ainda exigidos |
+| 2. Sistema solar | Sol, planetas, luas, corpos menores, órbitas, origem e distinções | Candidato: oito fichas planetárias com formação, propriedades e limites; ainda faltam testes conclusivos e luas em profundidade |
 | 3. Formação planetária | Disco, agregação, planetesimais, diferenciação, migração, exemplos | Parcial |
 | 4. Física estelar | Formação, fusão, espectros, equilíbrio, evolução e remanescentes | Parcial |
 | 5. Galáxias | Via Láctea, tipos, meio interestelar, dinâmica, formação e observação | Parcial |
@@ -36,4 +36,14 @@
 4. Implementar avaliações independentes com enunciados novos e relatório automático que distingue **cobertura**, **respostas corretas**, **erros** e **abstenções**.
 5. Só então prosseguir pelos módulos 3 a 10; publicar a matriz de evidências e o progresso verificável em cada PR.
 
-**Estado de partida:** 31 conceitos astronômicos no currículo da branch, dos quais vários têm apenas poucos fatos. O primeiro módulo é *candidato*, não aprovado. **Progresso editorial certificado: 0/10 (0%) até concluir a auditoria de conteúdo e CI; isso não quer dizer que o CRIVO saiba zero astronomia.** Desempenho em avaliação independente: **não medido**. Não foi feita avaliação cega nem comprovado treino neural nesta branch.
+**Estado auditado em 01/10/2026:** 28 conceitos do currículo `conhecimento_mundo.json` em Astronomia, incluindo os oito planetas. Sete conceitos repetidos foram consolidados em `conhecimento_expandido.json`; termos legados do sistema solar continuam na base original. Assim, a redução anterior de 31 para 20 fichas no currículo do mundo não significou perda das explicações consolidadas; oito planetas elevaram o total atual de 20 para 28. O primeiro e o segundo módulos permanecem *candidatos*, não aprovados. **Progresso certificado: 0/10 (0%) enquanto as provas e o CI completos estiverem pendentes.**
+
+### Evidência de treinamento e próximos critérios de promoção
+
+- Treinamento neural anterior, **antes da consolidação dos duplicados e dos oito planetas**: modelo autoral com 196 rótulos; 16/31 acertos exatos no classificador de desenvolvimento e 20/31 no motor híbrido. Esses números são históricos e **não se transferem** à nova população de conceitos.
+- As novas perguntas neurais diversificam **formulações gerais**, mantêm `Defina X` fora do currículo de treino e filtram exemplos repetidos que causavam rótulos concorrentes. Esse mecanismo não substitui avaliação independente, compreensão causal nem escrita livre.
+- O arquivo `testes_astronomia_sistema_solar.py` verifica existência, proveniência, formação, funcionamento e não regressão dos oito planetas. `testes_astronomia_editorial.py` verifica conteúdos iniciais e desambiguação.
+- Executar a matriz Python 3.8, 3.11 e 3.13, as auditorias e a preparação do treino candidato **no commit mais recente**. Resolver qualquer falha antes de certificar 10%.
+- Para completar o módulo 2, ainda acrescentar e testar principais luas, estruturas planetárias, dinâmica entre corpos, composição comparada, limites observacionais e uma prova independente. Cadastro de oito fichas, por si só, não certifica os 20%.
+
+**Estado de avaliação independente:** ainda não medido nesta versão. 100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
