@@ -36,6 +36,8 @@ jobs:
           python-version: '3.11'
       - name: Testar regras e limites do grafo
         run: python -m unittest testes_raciocinio testes_regras_mistas testes_interpretacao_geral -v
+      - name: Testar limites de fonte de entrada com classificador ativo
+        run: python -m unittest testes_entrada_usuario -v
       - name: Comparar avaliacao geral com grafo realmente carregado
         run: |
           set -o pipefail
