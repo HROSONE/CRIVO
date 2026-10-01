@@ -108,13 +108,15 @@ def testar():
         esperado = [i for i, f in enumerate(fatos) if trecho.lower() in f["texto"].lower()]
         if len(esperado) != 1:
             raise AssertionError("Gabarito factual nao unico: " + nome)
-        expected_key = [alvo, esperado[0]]
+        expected_key = (alvo, esperado[0])  # contexto guarda tuplas (id, indice)
         # Conta como acerto factual somente se a resposta realmente exibiu
         # a unidade alvo e a unidade tem URL de evidencia documentada.
         def acerta(out):
             return (expected_key in out["evidencias"] and trecho.lower() in
                     out["resposta"].lower() and bool(out["fontes"]))
         a, b = acerta(ligado), acerta(desligado)
+        if ligado["ativacao"] is not None and ligado["ativacao"]["indice"] == esperado[0] and not a:
+            raise AssertionError("Metrica incoerente: ativacao certa sem evidencias: " + nome)
         ganho += int(a and not b)
         piora += int(b and not a)
         resultados.append(dict(tipo="positivo", nome=nome, pergunta=pergunta,
