@@ -61,3 +61,17 @@
 **Próximas ações bloqueantes:** executar novos testes e CI nas três versões; investigar parser genérico de intenção/alvo e recuperação por predicado sem usar enunciados retidos como treino; gerar checkpoint válido sem introduzir catálogo de luas; preparar avaliação v2 inédita após congelar o candidato, revisão humana e só então chamar o gate com evidências reais. O PR #41 não deve ser mesclado para antecipar percentual.
 
 100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
+
+### Métrica de cobertura editorial da base (01/10/2026)
+
+Para evitar confundir quantidade de fichas com especialização, a skill passa a registrar uma segunda régua. Cobertura editorial mede somente o preenchimento do currículo local; não aumenta o percentual certificado e não prova compreensão.
+
+- Inventário atual da branch de trabalho: **75 conceitos astronômicos e 264 fatos**, após a ampliação editorial ainda não integrada à main.
+- Estrutura observada: 75/75 fichas com definição, 75/75 com limite, 73/75 com detalhe; somente 1 ficha possui fato explicitamente marcado como causa, 2 possuem exemplo e nenhuma possui fato marcado como comparação. A contagem bruta, portanto, superestima profundidade relacional.
+- A estimativa anterior de 75/300 = 25% fica apenas como **referência provisória de volume**. O denominador 300 ainda não é um currículo auditado e não pode ser apresentado como 25% científico ou 25% certificado.
+- Próximo gate editorial: fechar inventário canônico por módulos 1–8, com IDs esperados e requisitos de profundidade: definição, mecanismo ou causa quando aplicável, propriedades, relações, evidência e limite. Só depois calcular itens preenchidos / itens previstos por módulo.
+- Eixos continuam separados: **cobertura editorial**, **consulta simbólica**, **competência neural** e **certificação**. O último permanece **0/10 (0%)** até os gates independentes serem satisfeitos.
+
+### Estado desta rodada
+
+A main ainda não contém esta skill; a referência original continua na branch do PR #39 e o fechamento atual está isolado no PR #42. PR #41 mantém luas em trabalho separado. Nenhum desses estados autoriza merge automático. A expansão editorial recente precisa de CI e revisão de proveniência antes de ser tratada como evidência aceita.
