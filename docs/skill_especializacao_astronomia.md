@@ -75,3 +75,11 @@ Para evitar confundir quantidade de fichas com especialização, a skill passa a
 ### Estado desta rodada
 
 A main ainda não contém esta skill; a referência original continua na branch do PR #39 e o fechamento atual está isolado no PR #42. PR #41 mantém luas em trabalho separado. Nenhum desses estados autoriza merge automático. A expansão editorial recente precisa de CI e revisão de proveniência antes de ser tratada como evidência aceita.
+
+### Evidência CI e checkpoint dobrado — 01/10/2026
+
+CI geral aprovado em Python 3.8, 3.11 e 3.13 no commit 524105b0. O job 3.11 executou 455 testes com sucesso. O workflow de 100 épocas também terminou e publicou o artefato crivo-pesos-96, com 669006 bytes. O checkpoint permanece experimental e não foi promovido para produção.
+
+A avaliação retida v1 executada no mesmo CI não carregou a rede de produção porque a base mudou. Logo, ela não mede a competência neural do novo checkpoint. No motor híbrido, vocabulário ficou em 13/24 (54,17%), Sistema Solar em 2/20 (10%) e controles em 14/14 (100%). Assim, cobertura editorial continua candidata; consulta híbrida continua abaixo do gate; competência neural nova ainda carece de avaliação independente válida; certificação permanece 0/10 (0%).
+
+Próxima etapa: avaliar o checkpoint de 96 neurônios sem alterar a prova v1 e corrigir causas gerais de interpretação e recuperação sem treinar os enunciados retidos. Só depois criar avaliação v2 inédita. CI verde e treinamento concluído, isoladamente, não aumentam o percentual certificado.
