@@ -71,7 +71,7 @@ Contas realizadas com as mesmas hipóteses explicitadas na documentação, sem p
 
 - DESI, atualização **30/07/2026**, https://www.desi.lbl.gov/2026/07/30/new-desi-dr2-lyman-alpha-results-shed-light-on-dark-energy/ : resultado `full-shape` Lyα deslocou centro em direção a `ΛCDM` num teste específico; não é demonstração conclusiva de inexistência de evolução da energia escura.
 - DES Year 6, https://arxiv.org/abs/2601.14559 : `S8=0,789±0,012` em `ΛCDM` para a combinação especificada; uma discrepância projetada no parâmetro não equivale automaticamente a uma refutação estatística conjunta.
-- Khan et al. (2023), https://www.nature.com/articles/s41586-023-06586-4 : raio inferido do núcleo marciano `1675±30 km`, camada basáltica/silicatada **fundida** de `150±15 km`; valores são modelados a partir do InSight, não sondagem direta por câmera.
+- Khan et al. (2023), https://www.nature.com/articles/s41586-023-06586-4 : raio inferido do núcleo marciano `1675±30 km`, camada de silicatos **fundidos** de `150±15 km`; valores são modelados a partir do InSight, não sondagem direta por câmera.
 - Scognamiglio et al. (2026), https://www.nature.com/articles/s41550-025-02763-9 : mapeamento por lentes fracas no COSMOS-Web com cerca de **129 formas úteis/arcmin²** e região `0,77°×0,70°`. Contagem de objetos na foto e catálogo de formas não são a mesma coisa.
 - Joy et al., periódico 2025, publicado on-line em 2024, https://www.nature.com/articles/s41550-024-02380-y .
 - Hamilton & Burns, 1992, https://doi.org/10.1016/0019-1035(92)90005-R .
