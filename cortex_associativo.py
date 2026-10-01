@@ -147,21 +147,44 @@ class CortexAssociativo:
         self.sinapses = novo
 
     def _sujeito_exato(self, consulta):
-        """Atencao: um unico referente literal, sem supor sinonimos."""
+        """Vincula sujeito por PAPEL na frase, nao por saco de palavras.
+
+        "Como Mercurio orbita o Sol?" fala de Mercurio, ainda que ambos
+        sejam entidades conhecidas. Selecionar o primeiro nome do predicado
+        principal impede que a mencao secundaria do Sol torne a frase
+        ambigua e que uma entidade mencionada no complemento tome o lugar
+        do sujeito. Nenhum alias parcial ou aproximado e inventado.
+        """
+        prefixo = re.match(
+            r"^(?:de que modo|como|qual (?:e )?o mecanismo(?: (?:de|do|da))?) "
+            r"(?:(?:o|a|os|as|um|uma) )?", consulta)
+        if prefixo is None:
+            return None
+        restante = consulta[prefixo.end():]
         encontrados = []
         for alias, ids in self.aliases.items():
             if len(ids) != 1 or not alias:
                 continue
-            alvo = re.search(r"(?<![a-z0-9])" + re.escape(normalizar(alias)) +
-                             r"(?![a-z0-9])", consulta)
-            if alvo:
-                encontrados.append((len(alias), next(iter(ids)), alvo.group()))
+            nome = normalizar(alias)
+            if re.match(re.escape(nome) + r"(?:$| )", restante):
+                encontrados.append((len(nome.split()), len(nome),
+                                    next(iter(ids)), nome))
         if not encontrados:
             return None
-        conceitos = {c for _, c, _ in encontrados}
-        if len(conceitos) > 1:
+        encontrados.sort(reverse=True)
+        mais_longo = (encontrados[0][0], encontrados[0][1])
+        unicos = {(ident, nome) for tokens_nome, tamanho, ident, nome
+                  in encontrados if (tokens_nome, tamanho) == mais_longo}
+        if len(unicos) != 1:
             return None
-        return max(encontrados)[1:]
+        conceito, alias = next(iter(unicos))
+        depois = restante[len(alias):].strip()
+        # Dois nomes unidos no sujeito sao comparacao/relacao, nao
+        # recuperacao de um unico fato individual. O controle por palavras
+        # desconhecidas continua atuando no predicado inteiro.
+        if re.match(r"^(?:e|ou|com) (?:o |a |os |as )?", depois):
+            return None
+        return conceito, alias
 
     def associar(self, pergunta, min_cobertura=.66, min_margem=.12):
         """Recuperacao EXPLICAVEL sob alto limiar, nunca inferencia causal.
