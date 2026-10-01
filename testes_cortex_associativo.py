@@ -106,6 +106,33 @@ class TestesCortexAssociativo(unittest.TestCase):
             self.assertIsNone(motor.responder(
                 "De que modo Cristero produz moedas pela crosta luminosa?"))
 
+    def test_persistencia_validada_e_rejeicao_de_corrupcao(self):
+        import json
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as pasta:
+            destino = Path(pasta) / "ajustes.json"
+            chave = ("cristero", 1)
+            self.rede.ajustar_com_prova("cristero", 1, "luminosa", False,
+                                      autorizado=True)
+            peso = self.rede.sinapses[chave]["luminosa"]
+            self.rede.salvar_ajustes(destino)
+            nova = CortexAssociativo(self.itens, self.aliases,
+                                     {"ref":{"url":"https://example.org"}}, palavras)
+            nova.carregar_ajustes(destino)
+            self.assertEqual(nova.sinapses[chave]["luminosa"], peso)
+            falso = json.loads(destino.read_text(encoding="utf-8"))
+            falso["sinapses"]["cristero:1"]["inexistente"] = 1.0
+            destino.write_text(json.dumps(falso), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                nova.carregar_ajustes(destino)
+            falso["sinapses"]["cristero:1"].pop("inexistente")
+            falso["assinatura_conhecimento"] = "forjada"
+            destino.write_text(json.dumps(falso), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                nova.carregar_ajustes(destino)
+            self.assertEqual(nova.sinapses[chave]["luminosa"], peso)
+
     def test_reproducibilidade_mesma_evidencia(self):
         outra = CortexAssociativo(self.itens, self.aliases,
                                   {"ref":{"url":"https://example.org"}}, palavras)
