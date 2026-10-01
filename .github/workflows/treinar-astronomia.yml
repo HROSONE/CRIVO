@@ -1,0 +1,36 @@
+name: Treinar candidata astronomia CRIVO
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - exp/conhecimento-astronomia-basica-20261001
+    paths:
+      - .github/workflows/treinar-astronomia.yml
+
+permissions:
+  contents: read
+
+jobs:
+  treinamento:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Testar conhecimento astronomico antes de treinar
+        run: |
+          python crivo.py --teste
+          python -m unittest testes_astronomia_editorial -q
+      - name: Treinar classificador proprio e avaliar respostas
+        run: python scripts/treinar_especializacao_astronomia.py
+      - name: Publicar somente artefatos candidatos, sem fazer deploy
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidato-astronomia-${{ github.run_number }}
+          path: |
+            rede_crivo.json
+            avaliacao_treino_astronomia.json
+          retention-days: 14
+          if-no-files-found: error
