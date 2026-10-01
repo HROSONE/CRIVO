@@ -34,7 +34,7 @@ def treinar(saida, epocas=100):
     return {"arquivo": str(destino), "classes": len(rede.rotulos),
             "epocas": epocas, "dimensao": rede.dimensao,
             "neuronios_ocultos": rede.ocultos, "prova_usada_no_treino": False,
-            "estado": "checkpoint experimental, não certificado"}
+            "estado": "checkpoint experimental, não certificado", "parametros": rede.dimensao * rede.ocultos + rede.ocultos + rede.ocultos * len(rede.rotulos) + len(rede.rotulos)}
 
 
 if __name__ == "__main__":
