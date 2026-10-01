@@ -60,6 +60,20 @@ jobs:
       - name: Avaliar planejamento, evidencias e dialogo integrado
         if: matrix.python-version == '3.11'
         run: python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
+      - name: Diagnosticar Astronomia v1 congelada (sem promover certificacao)
+        if: matrix.python-version == '3.11'
+        run: |
+          python scripts/avaliar_astronomia_independente.py > /tmp/astronomia-v1-saida.txt 2>&1 && echo 'Sonda passou' || echo 'Sonda nao atingiu gate; consultar artefato'
+          cat /tmp/astronomia-v1-saida.txt
+      - name: Publicar diagnostico de Astronomia
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-astronomia-modulo1
+          path: |
+            resultado_astronomia_independente_v1.json
+            /tmp/astronomia-v1-saida.txt
+          if-no-files-found: error
       - name: Publicar resultado de validacao
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
