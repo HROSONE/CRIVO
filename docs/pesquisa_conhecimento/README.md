@@ -13,6 +13,7 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 ## Dossiês disponíveis
 
+| 2026-10-01 | Astronomia 1–10: curadoria e parada | [Protocolo independente de revisão, provas e encerramento](astronomia/2026-10-01-protocolo-curadoria-revisao-independente-e-porta-saida.md) | Critérios de seleção, prova cega e duas auditorias documentais; NÃO executa treino nem certifica a skill |
 | 2026-10-01 | Astronomia 1, 2, 3, 7, 8, 9 | [Corpos menores, cometas, Kuiper/Oort e DART](astronomia/2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) | Ontologia e mecanismos de famílias de corpos, observações diretas vs reservatórios inferidos, defesa planetária; revisão pendente |
 | 2026-10-01 | Astronomia 2, 3, 7, 8, 9, 10 | [Exoplanetas: trânsito, Doppler, lentes, imagens e atmosferas](astronomia/2026-10-01-exoplanetas-metodos-deteccao-vieses-atmosferas.md) | Seleção, falsos positivos, raio/massa, atmosferas e catálogos PS NASA; revisão pendente |
 | 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Funções de massa galáctica e relação com halos](astronomia/2026-10-01-funcoes-massa-galaxias-halos-abundance-matching.md) | Luminosidade, seleção, abundância de halos, HOD e limitações; revisão pendente |
@@ -74,3 +75,9 @@ As rodadas narrativas anteriores da conversa ainda NÃO foram integralmente tran
 **Nota sobre versões:** o bloco histórico de nove e treze dossiês abaixo descreve etapas anteriores e não o total atual. O número atual é o da tabela de dossiês no início deste README; novas publicações concorrentes precisam recarregar o arquivo antes de atualizar essas contagens.
 
 **Lacunas que continuam abertas apesar da amplitude:** revisão científica individual e independente das afirmações (inclusive URLs e evidência primária), reprodução de análises com dados observacionais brutos/erros e documentação definitiva da rubrica da skill, testes cegos e integração pelo outro agente. Esses bloqueios NÃO podem ser resolvidos apenas escrevendo mais dossiês. Astronomia **não** foi declarada formalmente encerrada porque a auditoria ainda não encontrou duas revisões finais sem lacunas centrais.
+
+## Controle atual de volume e limites — entrega de complementação (01/10/2026)
+
+**Indexados agora: 21 dossiês temáticos**, mais a auditoria de lacunas. Os documentos científicos adicionais cobrem corpos menores, exoplanetas, binárias e cristalização estelar, funções de massa galáctica, matemática orbital, checagens com números publicados, ontologia canônica e procedimento de avaliação independente. **Esse número representa arquivos publicados, não módulos aprovados ou desempenho da IA.** Dada a ampla cobertura temática, a próxima etapa de rotina deve priorizar correção de evidências, qualidade e auditorias antes de criar novas curiosidades sobre Astronomia.
+
+**Bloqueio verdadeiro para encerrar a pesquisa:** revisão cruzada por evidência e pelo escopo dos dez módulos; auditoria externa quando houver revisor; execução independente de dados quantitativos, quando autorizada; duas auditorias documentais consecutivas sem lacuna crítica para o encerramento editorial. O protocolo foi registrado, mas nenhuma dessas auditorias finais foi considerada aprovada por pressuposição. Certificação do CRIVO na main: não modificada por esta branch.
