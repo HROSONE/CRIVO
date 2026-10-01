@@ -14,7 +14,7 @@ Os códigos de fontes citados no corpo foram comparados com as definições bibl
 
 **Navegação:** todas as **24 referências internas Markdown** encontradas nesses 20 dossiês apontam para nomes de arquivos presentes no índice da branch; os arquivos do índice haviam sido lidos pela auditoria anterior. Isso não testa todos os URLs EXTERNOS. Fontes da mesma agência, mesma missão ou mesmo estudo não foram contadas como confirmações independentes.
 
-**Critério:** existência e coerência de IDs são necessários para curadoria, mas insuficientes para declarar 'verificado cientificamente'. A primeira auditoria encontrou 27 enunciados com origem excessivamente geral e 232 enunciados ainda não analisados em semântica frase a frase.
+**Critério:** existência e coerência de IDs são necessários para curadoria, mas insuficientes para declarar 'verificado cientificamente'. A primeira auditoria foi corrigida após descobrir o verbete Lagrange no glossário NASA: **25 enunciados** com fonte pouco específica, **dois de Lagrange** com apoio conceitual parcial e **232** ainda não analisados semanticamente frase a frase.
 
 ## 2. Descoberta de 2026 ausente nos dossiês de DART — CORRIGIDA
 
@@ -71,18 +71,18 @@ A versão de 2022 da NASA documentava redução de **~32±2 minutos** no períod
 
 ## 5. Lacunas que permanecem apesar da segunda inspeção
 
-1. **A primeira auditoria bloqueou a aprovação por fonte:** 27 fatos usam nove pares fonte–conceito que não explicam diretamente os temas. Exemplos: 12 fatos de métodos exoplanetários citam a página genérica `nasa_planetarios`; nove afirmações de Roche, Hill e ressonância citam `nasa_sistema` sem verbetes correspondentes; mais seis sobre Lagrange e escape citam glossário sem entradas específicas. A main não foi corrigida por esta execução — cabe ao integrador.
-2. **Ausência de revisão por pares do acervo completo:** a consulta bibliográfica amostral não aprova individualmente os 279 fatos; 232 seguem marcados com semântica não conferida, e 20 ficaram apenas com suporte conceitual parcialmente comparado. Revisor externo do conhecimento específico ainda não examinou o currículo completo.
+1. **A primeira auditoria bloqueou a aprovação por fonte:** **25 fatos** usam fontes que não justificam suficientemente os seus detalhes; **dois fatos sobre Lagrange foram falsos positivos**, pois o glossário NASA já contém o verbete. Exemplos: 12 fatos de métodos exoplanetários citam a página genérica `nasa_planetarios`; nove afirmações de Roche, Hill e ressonância citam `nasa_sistema` sem os mecanismos exigidos; três de escape não encontram verbete no glossário, e uma das três de Lagrange requer informação de estabilidade além do verbete geral. As 25 correções e dois refinamentos foram preparados em proposta para o integrador. A main não foi corrigida por esta execução.
+2. **Ausência de revisão por pares do acervo completo:** a consulta bibliográfica amostral não aprova individualmente os 279 fatos; 232 seguem marcados com semântica não conferida, e **22** ficaram apenas com suporte conceitual parcialmente comparado. Revisor externo do conhecimento específico ainda não examinou o currículo completo.
 3. **Matemática, reproduções e direitos:** as 15 contas são verificações de cálculos fornecidos, não exercícios novos com medições independentes; dados observacionais brutos e incertezas reais NÃO foram reprocessados. A classificação dos direitos de cada obra também permanece necessária antes de importar imagens/datasets.
 4. **Avaliação cognitiva e prova cega:** foram deliberadamente mantidas fora desta branch e são responsabilidade do integrador; pesquisa extensa não comprova competências do modelo.
 5. **Risco de atualizações recentes:** ciência avançou depois da redação original, como DART 2026; estatísticas DESI e DES Y6 variam por combinação de dados/versão. Novos achados exigem correção editorial focada, não declaração de conhecimento eterno.
 
 ## 6. Veredito conjunto das duas auditorias solicitadas
 
-**Auditoria 1 EXECUTADA:** matriz de todos 279 fatos, 27 enunciados com fonte inadequadamente específica e 232 ainda sem validação semântica → **NÃO APROVADA**.
+**Auditoria 1 EXECUTADA:** matriz de todos 279 fatos, 25 enunciados com fonte insuficientemente específica, dois de Lagrange reclassificados como parcialmente sustentados, e 232 ainda sem validação semântica → **NÃO APROVADA**.
 
 **Auditoria 2 EXECUTADA:** coerência estrutural dos 20 dossiês, 24 vínculos internos, 15 checagens aritméticas com resultados conformes, correção da nova descoberta DART 2026 em três documentos, leitura cruzada de fontes selecionadas, direitos e dependências → **NÃO APROVADA PARA ENCERRAMENTO** pelas mesmas lacunas sistêmicas ainda abertas.
 
-**Importante:** são duas passagens diferentes conduzidas pelo mesmo agente, não dois revisores independentes; o protocolo pede **DUAS AUDITORIAS FINAIS CONSECUTIVAS SATISFATÓRIAS**, que não podem ser registradas se achados importantes persistem. Não declarar módulo ou disciplina pronta enquanto existirem as 27 fontes imprecisas e os demais problemas.
+**Importante:** são duas passagens diferentes conduzidas pelo mesmo agente, não dois revisores independentes; o protocolo pede **DUAS AUDITORIAS FINAIS CONSECUTIVAS SATISFATÓRIAS**, que não podem ser registradas se achados importantes persistem. Não declarar módulo ou disciplina pronta enquanto os 25 defeitos essenciais de fonte não forem integrados/revistos e os demais problemas não forem resolvidos.
 
 **Mudanças efetivas:** apenas documentos na branch `pesquisa/acervo-conhecimento-crivo`. Nenhuma mudança em `main`, treino, pesos, testes, CI, deploy, PR ou modelo. Certificação oficial permanece inalterada. **Próximo trabalho não deve ser terceira auditoria repetida com a mesma rubrica:** corrigir raízes das fontes em parceria com o integrador e confrontar as 279 frases com fontes especializadas/humanas; repetir as auditorias finais somente depois de sanar as causas que fizeram ambas reprovar.
