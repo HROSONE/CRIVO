@@ -189,3 +189,40 @@ A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posterio
 **Decisão de qualidade:** os documentos aprofundam lacunas centrais, mas ainda há tópicos obrigatórios não cobertos/revisados; **nenhum módulo foi classificado pesquisa_documental_pronta**, não encerrar Astronomia agora. **Próximos passos documentais prioritários:** completar lacunas de corpos menores e observação planetária; aprofundar funções e ambientes de galáxias apenas quando o inventário exigir; publicar mapa conceitual canônico, matriz integral de fontes/afirmações e auditorias de revisão. Evitar curiosidades repetidas.
 
 **Não alterado:** main, pesos, testes, treino, modelos, skills de produção, CI ou PR. Esta pesquisa não certificou o CRIVO e não mede consulta neural/simbólica. Estado oficial prévio conforme main: 0/10.
+
+
+## 11. Auditoria documental de cobertura e integridade de links internos — 01/10/2026
+
+**Motivo:** o usuário pediu acrescentar o restante das lacunas. Antes de declarar prontidão, a checagem precisa distinguir novas *áreas documentadas* de ciência efetivamente revisada e de capacidade do modelo.
+
+**Inventário verificado na branch:**
+- Foram acrescentados sete dossiês científicos/documentais nesta etapa de complementação: [corpos menores](2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md), [exoplanetas](2026-10-01-exoplanetas-metodos-deteccao-vieses-atmosferas.md), [funções de massa e halos](2026-10-01-funcoes-massa-galaxias-halos-abundance-matching.md), [estrelas de baixa massa e binárias](2026-10-01-fisica-estelar-baixa-massa-binarias-cristalizacao.md), [matemática orbital](2026-10-01-matematica-orbital-observacional-inversoes-limites.md), [checagens com números publicados](2026-10-01-checagens-numericas-dados-publicados-dimensoes.md) e [ontologia e mapa das fichas](2026-10-01-ontologia-72-fichas-matriz-de-evidencias.md). Também foi acrescentado o [protocolo independente de curadoria](2026-10-01-protocolo-curadoria-revisao-independente-e-porta-saida.md).
+- O README contém **21 dossiês temáticos** e **uma auditoria principal de lacunas**. O repositório foi consultado em duas amostras de onze caminhos e **todos os 22 arquivos listados existem** nesta branch. Essa é verificação de integridade de navegação, não validação científica das referências externas.
+- Os **72 nomes canônicos** do catálogo `conhecimento_mundo.json` foram distribuídos SEM duplicata e sem termo omitido na matriz conceitual; as **4 luas** do arquivo próprio foram relacionadas separadamente. A checagem é NOMINAL: **não** equivale a verificar cada afirmação individual da base, nem fatos que possam estar em outros arquivos.
+- No dossiê de exoplanetas, quatro URLs institucionais inicialmente inexistentes ou inacessíveis foram corrigidas para páginas reais de material NASA/JPL. No dossiê de binárias, uma referência de imagens genérica foi substituída por notícia ESA/Hubble de 21/01/2026 sobre *blue stragglers*. Isso é prova de que controle de fontes é necessário mesmo para pesquisa original.
+- O caderno matemático inclui equações com hipóteses; o documento de checagens aplica a valores divulgados por NASA, ESA e Planck em contas reproduzíveis à mão. **Não** foi efetuado reprocessamento independente de dados instrumentais de catálogo, nem auditoria independente de artigo por artigo.
+
+### Cobertura temática reavaliada, sem nota de aprovação
+
+| Módulo | Amplitude documental nesta branch | Principal lacuna que ainda bloqueia qualidade certificada |
+| --- | --- | --- |
+| 1 — Vocabulário | 72 nomes mapeados e classes explicitadas, com distinções gerais | Revisão científica de definições, limites e normalização/alias das fichas ativas |
+| 2 — Sistema Solar | Oito planetas, luas, meteoritos, Kuiper/Oort, asteroides, cometas e defesa | Revisão artigo por artigo, geologia/evolução de cada classe, cobertura observacional controlada |
+| 3 — Formação | Colapso, disco, acreção, migração, diferenciação, tempo isotópico e pequenos corpos | Verificação externa dos modelos/hipóteses, cenários alternativos e ligações quantitativas |
+| 4 — Física estelar | Fusão, estrutura, CNO/pp, estrelas M, binárias, remanescentes, nucleossíntese | Auditoria independente de limiares, canais estelares e interpretação populacional |
+| 5 — Galáxias | Dinâmica Gaia, montagem, gás, feedback, matéria escura, funções estelar/halo | Erros de seleção e interpretação de amostras, origem/história e revisão de modelos |
+| 6 — Cosmologia | BBN, recombinação, CMB, H0/BAO/DESI, matéria/energia escuras | Modelos concorrentes, hipóteses, datas/erratas e revisão metodológica cruzada |
+| 7 — Observação | Gaia, espectros, lentes, métodos de exoplanetas, PHANGS e medições de gás | Trabalhos com dados brutos versionados, PSF, incompletude e calibração real |
+| 8 — Matemática | Kepler, vis-viva, momentos, radiação, paralaxe, cosmologia, covariâncias e casos com números publicados | Checagens numéricas por revisor externo e reprocessamento de dados observados |
+| 9 — Raciocínio | Vinte vínculos causais curados editorialmente e contraexemplos por área | Capacidade em perguntas inéditas do modelo CRIVO, **não** demonstrada pela documentação |
+| 10 — Prova final | Roteiro documental de avaliação cega e parada | **Não houve prova nem CI nem certificação; integrador é o responsável** |
+
+### Decisão de avanço
+
+A **cobertura temática macro dos dez módulos agora tem documentação candidata**, inclusive as áreas antes ausentes de exoplanetas, corpos menores e funções de massa galáctica. Assim, **não é eficiente continuar abrindo novos dossiês genéricos de Astronomia** apenas para aumentar volume.
+
+**Atenção:** essa conclusão NÃO é a primeira auditoria científica final aprovada, pois faltam conferência rigorosa de afirmações, validação de método/dados e revisão realmente independente. Logo não iniciar contagem de duas auditorias finais satisfatórias. A pesquisa NÃO deve fingir fechamento formal.
+
+**Próxima ação legítima da rotina:** auditoria de fontes, contradições e erros nos dossiês já existentes, priorizando afirmações surpreendentes de 2026 e cópia de direitos; corrigir somente dentro da branch e documentar defeitos. Se as auditorias sucessivas ficarem sem lacunas centrais, encerrar oficialmente a PESQUISA e passar a Física/Matemática; se surgirem lacunas, corrigir precisamente, sem repetir indiscriminadamente o currículo.
+
+**Não alterado por esta auditoria:** main, bases de produção, código, CI, testes e pesos; treino e avaliação não realizados; módulos certificados oficialmente continuam 0/10 no registro da skill consultada.
