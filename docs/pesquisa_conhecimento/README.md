@@ -15,6 +15,7 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 | Data | Área/módulos | Documento | Estado |
 | --- | --- | --- | --- |
+| 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Dinâmica galáctica, arqueologia da Via Láctea e montagem hierárquica](astronomia/2026-10-01-dinamica-galactica-via-lactea-montagem-hierarquica.md) | Cinemática, warp, meio interestelar 3D, fusões antigas e limites de inferência; revisão/integração pendentes |
 | 2026-10-01 | Astronomia 4, 5, 6, 7, 8, 9 | [Cosmologia primordial: nucleossíntese, recombinação e CMB](astronomia/2026-10-01-cosmologia-primitiva-nucleossintese-recombinacao-cmb.md) | Mecanismos térmicos, núcleos leves, espectro COBE, anisotropias Planck, acústica e reionização; revisão/integração pendentes |
 | 2026-10-01 | Astronomia 6, 7, 8, 9, 10 | [BAO, distâncias, Hubble, DESI 2026 e energia escura](astronomia/2026-10-01-baos-hubble-desi-energia-escura-inferencias.md) | Medições DESI DR2, régua acústica, inferência da expansão, tensão de Hubble, distâncias e covariâncias; revisão/integração pendentes |
 | 2026-10-01 | Astronomia 1, 4, 7, 8, 9 | [Estrutura estelar, fusão nuclear, neutrinos e observação](astronomia/2026-10-01-estrutura-estelar-fusao-neutrinos-e-observacao.md) | Pesquisa de equilíbrio, sequência principal, cadeia pp/CNO, Borexino, oscilações e observações Gaia; revisão/integração pendentes |
