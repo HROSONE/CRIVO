@@ -1103,6 +1103,14 @@ class Crivo:
         # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
         # de formato, e continuar um texto não consulta outro assunto.
         composicao = self.compositor.responder(texto, self._contexto_textual_anterior)
+        # "Fale sobre X" já é um comando editorial direto em parte da
+        # base histórica. Conservar a resposta exata antiga e evitar que
+        # novas fichas com o mesmo nome quebrem contratos existentes.
+        if (composicao is not None and re.fullmatch(r"fale sobre .+", n)
+                and len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
+            indice_antigo = self.indices_exatos[chave_pergunta(n)][0]
+            if self.base[indice_antigo].get("origem_curriculo") != "mundo":
+                composicao = None
         # Novas palavras como "planeta" nao podem ocultar respostas ja
         # cadastradas para a pergunta completa na base anterior.
         if (composicao is not None and composicao[0] == "fora" and
