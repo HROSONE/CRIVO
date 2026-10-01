@@ -13,7 +13,7 @@ class TestesAstronomiaLuas(unittest.TestCase):
 
     def test_luas_prioritarias_com_proveniencia_limite_e_profundidade(self):
         esperadas = {
-            "mundo_lua": ("Lua", "Terra"),
+            "mundo_lua": ("Lua da Terra", "Terra"),
             "mundo_europa": ("Europa", "Júpiter"),
             "mundo_tita": ("Titã", "Saturno"),
             "mundo_encelado": ("Encélado", "Saturno"),
