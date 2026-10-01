@@ -27,7 +27,7 @@ def treinar(saida, epocas=100):
         if colisoes:
             raise ValueError("Contaminação de treino detectada: " + ", ".join(colisoes))
     rede = treinar_base(str(RAIZ / "conhecimento.json"), str(destino),
-                        epocas=epocas, ocultos=48, dimensao=512, modo="portugues")
+                        epocas=epocas, ocultos=96, dimensao=512, modo="portugues")
     carregada = RedeCrivo.carregar(destino)
     assert carregada.assinatura_base == assinatura_base(base)
     assert carregada.assinatura_regras == assinatura_regras("portugues")
