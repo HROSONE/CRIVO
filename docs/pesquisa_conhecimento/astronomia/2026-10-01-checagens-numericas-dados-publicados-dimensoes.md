@@ -21,7 +21,7 @@
 
 **Conversão:** `P_antes=11×60+55=715 min`; `P_depois=11×60+23=683 min`. `ΔP=-32 min`. Redução fracional `-32/715≈-0,04476`, isto é, **−4,48%** com arredondamento.
 
-**Não extrapolar:** a variação percentual do período da lua não é variação percentual de distância ao Sol do sistema Didymos; efeito do impacto incluiu momento de fragmentos e é dependente do alvo.
+**Não extrapolar:** a variação percentual do período da lua **não** é a variação percentual da órbita heliocêntrica do sistema Didymos; efeito do impacto incluiu momento dos fragmentos e é dependente do alvo. **Evidência publicada em 06/03/2026**, posterior às primeiras análises de 2022–2024, mostra que a DART **também** produziu alteração mensurável, MAS MUITO MENOR, do período do sistema em torno do Sol: cerca de **0,15 segundo para uma órbita de ~770 dias**, a partir de observações incluindo ocultações estelares [K12]. Não afirmar que o período solar ficou rigorosamente inalterado.
 
 ## 3. Astrometria: valores publicados versus exemplo sintético
 
@@ -83,6 +83,7 @@ Considere dois satélites circulares fictícios com semieixos a1 e a2=4 a1 orbit
 | K9 | ESA Planck, *Why the microwave?*, https://www.esa.int/Science_Exploration/Space_Science/Planck/Why_the_microwave | Redshift e modelo físico de desacoplamento. |
 | K10 | ALMA (12/06/2026), *REBELS-25 gas reservoir*, https://www.almaobservatory.org/en/press-releases/alma-and-vla-reveal-a-vast-reservoir-of-star-forming-fuel-in-a-galaxy-near-cosmic-dawn/ | Contraste de CO com CMB, estimativas inferidas. |
 | K11 | NASA Science, *How We Find and Characterize*, https://science.nasa.gov/exoplanets/how-we-find-and-characterize/ | Massa e raio planetários por métodos distintos; exemplo 8/2 é **hipotético**. |
+| K12 | Makadia, R. et al. (2026), *Direct detection of an asteroid's heliocentric deflection: The Didymos system after DART*, *Science Advances* 12(10), eaea4259, https://doi.org/10.1126/sciadv.aea4259 ; https://www.jpl.nasa.gov/news/nasas-dart-mission-changed-orbit-of-asteroid-didymos-around-sun/ | Aproximadamente 0,15 s no período heliocêntrico, **não** 32 minutos. Artigo e comunicado correspondem ao mesmo estudo. |
 
 **Licenças:** nenhuma imagem, artigo integral ou tabela foi reproduzida; este documento inclui síntese, referências e contas autorais. NASA/ESA, periódicos e ALMA possuem termos por obra; conferir antes de distribuir mídia: https://www.nasa.gov/nasa-brand-center/images-and-media/ .
 
