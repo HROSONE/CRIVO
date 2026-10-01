@@ -215,7 +215,9 @@ class CortexAssociativo:
                  "um", "uma", "do", "da", "dos", "das", "no", "na", "nos", "nas",
                  "ao", "aos", "para", "por", "porque", "me", "pode", "faz",
                  "acontece", "funciona", "funcionamento", "sistema", "processo",
-                 "mecanismo", "explica", "ocorre", "ocorrem", "isso"}
+                 "mecanismo", "explica", "ocorre", "ocorrem", "isso",
+                 "pelo", "pela", "pelos", "pelas", "via", "sob", "ate",
+                 "entre", "atraves", "num", "numa", "sobre", "atraves"}
         pistas = set(self.tokenizador(sem_entidade)) - ruido
         # Pergunta só com assunto e verbo generico pertence ao compositor
         # tradicional, que conhece o aspecto tipado.
