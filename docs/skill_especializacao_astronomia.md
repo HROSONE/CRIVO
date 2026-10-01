@@ -31,9 +31,9 @@
 ### Próximo trabalho priorizado
 
 1. Verificar CI e executar testes atuais do PR; corrigir falhas antes de ampliar.
-2. Completar o módulo 1 com revisão de definições, fontes e limites de todos os 31 conceitos; não contar apenas nomes.
+2. Completar o módulo 1 com revisão de definições, fontes e limites do catálogo consolidado de astronomia; não contar apenas nomes.
 3. Completar o módulo 2 com fichas científicas dos oito planetas, luas e propriedades físicas, diferenciando afirmações bem estabelecidas de hipóteses.
-4. Implementar avaliações independentes com enunciados novos e relatório automático que distingue **cobertura**, **respostas corretas**, **erros** e **abstenções**.
+4. Avaliação retida v1 implementada e **executada**, porém com resultados insuficientes (ver `docs/avaliacao_astronomia_independente_v1.md`): investigar as causas gerais dos erros sem treinar com a prova; criar nova prova v2 após mudanças.
 5. Só então prosseguir pelos módulos 3 a 10; publicar a matriz de evidências e o progresso verificável em cada PR.
 
 **Estado auditado em 01/10/2026:** 28 conceitos do currículo `conhecimento_mundo.json` em Astronomia, incluindo os oito planetas. Sete conceitos repetidos foram consolidados em `conhecimento_expandido.json`; termos legados do sistema solar continuam na base original. Assim, a redução anterior de 31 para 20 fichas no currículo do mundo não significou perda das explicações consolidadas; oito planetas elevaram o total atual de 20 para 28. O primeiro e o segundo módulos permanecem *candidatos*, não aprovados. **Progresso certificado: 0/10 (0%) enquanto as provas e o CI completos estiverem pendentes.**
@@ -46,4 +46,6 @@
 - Executar a matriz Python 3.8, 3.11 e 3.13, as auditorias e a preparação do treino candidato **no commit mais recente**. Resolver qualquer falha antes de certificar 10%.
 - Para completar o módulo 2, ainda acrescentar e testar principais luas, estruturas planetárias, dinâmica entre corpos, composição comparada, limites observacionais e uma prova independente. Cadastro de oito fichas, por si só, não certifica os 20%.
 
-**Estado de avaliação independente:** ainda não medido nesta versão. 100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
+**Avaliação retida v1, primeira execução independente do treinamento (01/10/2026):** 58 perguntas novas (24 de vocabulário, 20 de Sistema Solar e 14 controles), executadas sem ajuste de pesos no checkpoint integrado de 193 classes. **Vocabulário 11/24 (45,8%); Sistema Solar 2/20 (10%); controles 14/14 (100% de abstenções); classificador isolado 22/29 (75,9% no subconjunto aplicável).** Falhou o critério ≥90% dos dois módulos e, portanto, **0% do currículo certificado**. Todos os enunciados e critérios ficam congelados. O avaliador é independente da rotina de treinamento, mas **não é um terceiro humano externo**; sua análise de IDs e palavras-chave necessita revisão científica/semântica. Evidências, limitações, erros exemplificados, hashes de modelo/prova e workflow: `docs/avaliacao_astronomia_independente_v1.md` e [execução 36819092257](https://github.com/HROSONE/CRIVO/actions/runs/36819092257). Não ajustar o gabarito v1 para promover percentual; corrigir princípios de interpretação e usar v2 inédita após alterações.
+
+100% é o encerramento de um currículo delimitado, não uma equivalência automática a diploma universitário.
