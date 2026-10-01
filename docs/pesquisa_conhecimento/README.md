@@ -15,7 +15,12 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 | Data | Área/módulos | Documento | Estado |
 | --- | --- | --- | --- |
+| 2026-10-01 | Astronomia: auditoria dos 10 módulos | [Lacunas, critérios de qualidade e parada](astronomia/2026-10-01-auditoria-de-lacunas-e-criterio-de-parada.md) | Escopo do acervo e condições para encerrar a PESQUISA e passar à próxima área; não é certificação do CRIVO |
 | 2026-10-01 | Astronomia 5, 6, 7, 8 e 9 | [Lentes gravitacionais, buracos negros e distâncias](astronomia/2026-10-01-lentes-buracos-negros-e-distancias.md) | Pesquisa redigida e fontes institucionais consultadas; revisão e integração pendentes |
+
+## Critério de transição entre áreas
+
+Antes de aprofundar indefinidamente uma área, aplicar a [auditoria de lacunas e critério de parada de Astronomia](astronomia/2026-10-01-auditoria-de-lacunas-e-criterio-de-parada.md): cada módulo exige inventário, explicação causal, evidências, limites, comparação, fontes verificadas e revisão cruzada. Após os 10 módulos documentais e duas revisões sem lacuna central ou erro bloqueante, encerrar a pesquisa dessa área, registrar o parecer e escolher outra disciplina. Isso NÃO altera a porcentagem de certificação, os pesos neurais ou a base ativa. Para novas áreas, criar protocolo análogo.
 
 ## Histórico e lacunas
 
