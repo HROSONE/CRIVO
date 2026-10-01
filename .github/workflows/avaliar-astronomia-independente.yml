@@ -1,0 +1,34 @@
+name: Avaliacao independente Astronomia v1
+on:
+  push:
+    branches:
+      - exp/conhecimento-astronomia-basica-20261001
+    paths:
+      - 'avaliacoes/astronomia_independente_v1.json'
+      - 'scripts/avaliar_astronomia_independente.py'
+      - '.github/workflows/avaliar-astronomia-independente.yml'
+      - 'rede_crivo.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prova_retida:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Rodar prova retida sem alterar pesos ou base
+        run: python scripts/avaliar_astronomia_independente.py
+      - name: Publicar relatorio completo mesmo com falhas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-astronomia-independente-v1-${{ github.run_number }}
+          path: resultado_astronomia_independente_v1.json
+          retention-days: 30
+          if-no-files-found: error
