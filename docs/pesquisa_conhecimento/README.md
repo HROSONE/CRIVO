@@ -13,6 +13,8 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 ## Dossiês disponíveis
 
+| Data | Área/módulos | Documento | Estado |
+| --- | --- | --- | --- |
 | 2026-10-01 | Astronomia 1–10: curadoria e parada | [Protocolo independente de revisão, provas e encerramento](astronomia/2026-10-01-protocolo-curadoria-revisao-independente-e-porta-saida.md) | Critérios de seleção, prova cega e duas auditorias documentais; NÃO executa treino nem certifica a skill |
 | 2026-10-01 | Astronomia 1, 2, 3, 7, 8, 9 | [Corpos menores, cometas, Kuiper/Oort e DART](astronomia/2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) | Ontologia e mecanismos de famílias de corpos, observações diretas vs reservatórios inferidos, defesa planetária; revisão pendente |
 | 2026-10-01 | Astronomia 2, 3, 7, 8, 9, 10 | [Exoplanetas: trânsito, Doppler, lentes, imagens e atmosferas](astronomia/2026-10-01-exoplanetas-metodos-deteccao-vieses-atmosferas.md) | Seleção, falsos positivos, raio/massa, atmosferas e catálogos PS NASA; revisão pendente |
@@ -24,8 +26,6 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 | 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Ciclo bariônico, feedback e evolução ambiental](astronomia/2026-10-01-ciclo-barionico-galaxias-feedback-ambiente.md) | Gás ISM/CGM/ICM, PHANGS, SFR, stripping, modelo de reserva, REBELS-25 2026; revisão científica e integração pendentes |
 | 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Matéria escura: observações, lentes e crescimento](astronomia/2026-10-01-materia-escura-crescimento-estrutura-lentes.md) | SPARC, Bullet Cluster, COSMOS-Web 2026, Planck e DES Y6; limites instrumentais e de modelos; revisão/integracão pendentes |
 | 2026-10-01 | Astronomia 7, 8, 9, 10 | [Astrometria, espectros e incertezas com matemática](astronomia/2026-10-01-metodos-quantitativos-astrometria-espectros-incertezas.md) | Gaia DR3, distâncias probabilísticas, redshifts, CO, SNR e covariâncias; exercícios DIDÁTICOS, sem dados reais processados; integração pendente |
-| Data | Área/módulos | Documento | Estado |
-| --- | --- | --- | --- |
 | 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Dinâmica galáctica, arqueologia da Via Láctea e montagem hierárquica](astronomia/2026-10-01-dinamica-galactica-via-lactea-montagem-hierarquica.md) | Cinemática, warp, meio interestelar 3D, fusões antigas e limites de inferência; revisão/integração pendentes |
 | 2026-10-01 | Astronomia 4, 5, 6, 7, 8, 9 | [Cosmologia primordial: nucleossíntese, recombinação e CMB](astronomia/2026-10-01-cosmologia-primitiva-nucleossintese-recombinacao-cmb.md) | Mecanismos térmicos, núcleos leves, espectro COBE, anisotropias Planck, acústica e reionização; revisão/integração pendentes |
 | 2026-10-01 | Astronomia 6, 7, 8, 9, 10 | [BAO, distâncias, Hubble, DESI 2026 e energia escura](astronomia/2026-10-01-baos-hubble-desi-energia-escura-inferencias.md) | Medições DESI DR2, régua acústica, inferência da expansão, tensão de Hubble, distâncias e covariâncias; revisão/integração pendentes |
