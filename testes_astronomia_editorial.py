@@ -31,5 +31,36 @@ class TestesAstronomiaEditorial(unittest.TestCase):
                 identificador, _ = Crivo().responder(pergunta)
                 self.assertEqual(identificador, "fora")
 
+
+    def test_formacao_e_mecanismos_documentados(self):
+        curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
+        itens = {item["nome"]: item for item in curriculo["itens"]}
+        expectativas = {
+            "planeta": ("formacao", "funcionamento"),
+            "estrela": ("formacao", "funcionamento"),
+            "sistema solar": ("formacao", "funcionamento"),
+            "disco protoplanetário": ("definicao", "detalhe"),
+            "acréscimo planetário": ("definicao", "detalhe"),
+            "protoestrela": ("definicao", "detalhe"),
+            "planetesimal": ("definicao", "detalhe"),
+            "diferenciação planetária": ("definicao", "detalhe"),
+            "zona habitável": ("definicao", "limite"),
+        }
+        for nome, papeis in expectativas.items():
+            with self.subTest(conceito=nome):
+                self.assertIn(nome, itens)
+                fatos = itens[nome]["fatos"]
+                self.assertGreaterEqual(len(fatos), 3)
+                self.assertTrue(all(f["fonte"] in curriculo["fontes"] for f in fatos))
+                for aspecto in papeis:
+                    self.assertTrue(any(f["papel"] == aspecto or f.get("aspecto") == aspecto for f in fatos), (nome, aspecto))
+
+    def test_limites_cientificos_explicitos(self):
+        curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
+        itens = {item["nome"]: item for item in curriculo["itens"]}
+        for nome in ("planeta", "estrela", "sistema solar", "zona habitável"):
+            with self.subTest(conceito=nome):
+                self.assertTrue(any(f["papel"] == "limite" for f in itens[nome]["fatos"]))
+
 if __name__ == "__main__":
     unittest.main()
