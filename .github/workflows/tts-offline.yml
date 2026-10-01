@@ -1,0 +1,24 @@
+name: TTS offline - contrato isolado
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/tts/**"
+      - "tests/tts_offline.test.cjs"
+      - ".github/workflows/tts-offline.yml"
+  pull_request:
+    paths:
+      - "public/tts/**"
+      - "tests/tts_offline.test.cjs"
+      - ".github/workflows/tts-offline.yml"
+  workflow_dispatch:
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Testar seleção sem acesso a serviços externos
+        run: node --test tests/tts_offline.test.cjs

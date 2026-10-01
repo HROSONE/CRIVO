@@ -1,0 +1,744 @@
+{
+  "versao": 1,
+  "fonte": {
+    "dataset": "https://huggingface.co/datasets/OpenAssistant/oasst2",
+    "revisao": "179dd21fc55192153d94adb0e0ce8f69e222bf75",
+    "arquivo": "2023-11-05_oasst2_ready.messages.jsonl.gz",
+    "url": "https://huggingface.co/datasets/OpenAssistant/oasst2/resolve/179dd21fc55192153d94adb0e0ce8f69e222bf75/2023-11-05_oasst2_ready.messages.jsonl.gz",
+    "sha256_arquivo_gz": "a9f240c4c77aa1378364f70d37e753c07ba284e247b019d700e1947a0e5da751",
+    "sha256_mensagens_pt_canonicas": "9ee9fc94b7c4acb06e4764090f6d15236b399fd02953e8fda7eacaf0b83e753e",
+    "licenca": "Apache-2.0",
+    "origem": "Mensagens públicas com synthetic=false e review_result=true.",
+    "idioma_rotulado": "pt-BR"
+  },
+  "curadoria": {
+    "script": "scripts/curar_dialogos_humanos.py",
+    "sha256_indice_arvores": "7de78cd3482d8cf29878f71275cd068e87f34193cc3d780cb626051d92fecd73",
+    "sha256_exemplos": "ed040383116b085dae666d357254c2f4952b9c25e3664e4c2cab37dde28af96f",
+    "mensagens_pt_br_origem": 2699,
+    "pares_candidatos_revisados": 609,
+    "pares_selecionados": 62,
+    "arvores": 26,
+    "particoes": {
+      "validacao": 6,
+      "treino": 56
+    },
+    "arvores_por_particao": {
+      "treino": 23,
+      "validacao": 3
+    },
+    "com_historico": 16,
+    "criterios": [
+      "Revisão manual de raízes de conversa, escrita, criação, reflexão e decisões cotidianas.",
+      "Todo o caminho ancestral revisado, não apagado, não sintético e com árvore/alternância válida.",
+      "Rótulos spam/lang_mismatch/pii/not_appropriate/hate_speech/sexual_content/toxicity/violence <= 0.1.",
+      "Qualidade do alvo >= 0.5 quando rotulada; descarte de erros explícitos e seus descendentes.",
+      "Sem código ou consultas técnicas; sem alegações especializadas médicas/jurídicas/financeiras, contatos/URLs ou identidade de outro assistente.",
+      "Deduplicação de texto normalizado com contexto; árvore inteira em uma partição por hash fixo.",
+      "Textos preservados inteiros: sem correção, resumo, tradução, truncamento ou geração de respostas.",
+      "Somente texto, papéis e IDs públicos de mensagem/árvore; sem user_id, datas, eventos ou autoria pessoal.",
+      "Nenhuma sonda congelada, conversa privada do usuário, base de fatos ou saída do Crivo usada na seleção."
+    ],
+    "descartes": {
+      "resposta ou pedido não revisado": 385,
+      "raiz factual/técnica fora do escopo": 442,
+      "ancestral não revisado ou estrutura inválida": 679,
+      "conteúdo fora do escopo, contato ou referência factual": 54,
+      "qualidade rotulada abaixo de 0,5": 15,
+      "erro de conteúdo humano no alvo ou ancestral": 25,
+      "resposta curta demais para treino de diálogo": 1,
+      "texto/contexto duplicado": 2,
+      "ramo factual posterior à abertura social": 8
+    },
+    "erros_humanos_revisados": {
+      "c3a94904-b985-4dbe-8660-10e28fa47b18": "Afirma que Amor tem três letras e que A é consoante.",
+      "dea9a20a-7d05-46f1-af1b-c1b76e2435e0": "Correção conserva afim quando a expressão é a fim.",
+      "ca2cee62-5d04-474c-aa6f-8a75f583af58": "Muda desenho com apenas lápis para aquarela.",
+      "9cc7060c-3ac9-4667-851a-2fb417180b9e": "Concordância minha querido amigo.",
+      "d81a74f5-222b-4ec1-b1de-4e4769d1d9a5": "Recita obra existente ao invés de criar texto de estilo.",
+      "124367e2-c243-407a-97bd-0c306c9d7e1c": "Réplica duplicada com erro curríclo.",
+      "c0003fd1-d6f6-412c-ad4f-c539d056d015": "Apresenta lista ampla de capacidades não garantidas para o Crivo.",
+      "afaa7431-ecec-4fcf-a3cf-29cb7c5fe16d": "Apresenta capacidades amplas e conhecimento científico não garantidos.",
+      "2017383f-2b87-456a-b562-d99738d5e075": "Anúncio promete melhor do mercado sem fundamento e tem erros.",
+      "6f78e1e9-da92-4a3c-bfd7-612cfc15539d": "Sugere água e pincel quando o pedido permite somente lápis e papel.",
+      "390bc9bd-69a6-4d28-9902-acc51d4dc581": "Planeja cinco dias apesar de a apresentação ocorrer amanhã no histórico.",
+      "9f648f55-ce69-4337-9995-74ab0ee361d5": "Planeja cinco dias apesar de a apresentação ocorrer amanhã no histórico.",
+      "f0cb7631-f40a-4db9-a6e6-974d2cf1944e": "Não inclui a palavra amora solicitada; troca-a por amoras.",
+      "6519157c-11e0-41fd-aaf2-6d5914f3314b": "Inclui preâmbulo com palavras que não começam com c apesar da restrição apenas.",
+      "f8ef13a0-9563-4526-8709-dd06f5b38cbc": "O poema solicitado com rimas não segue a restrição.",
+      "fcd3a597-a974-4c96-9cf2-fb18400f2497": "Promete lucrar alto sem fundamento e recomenda plataformas sem verificação.",
+      "48244e10-d5d8-4a25-9a5b-6a7554ba5250": "O pedido exige todas as palavras citadas; o poema omite várias.",
+      "77edf698-608b-451d-a383-82465fa30d38": "Contém compactuamento, erro de linguagem no alvo.",
+      "ae758049-3efe-4672-8c34-64ddadd91211": "Pede sugestões de protagonistas, mas o alvo dá dicas genéricas e repete um item."
+    },
+    "split": {
+      "algoritmo": "sha256(semente + message_tree_id), primeiros 8 dígitos hex módulo 10; 0 = validação",
+      "semente": "crivo-oasst2-conversa-v1:"
+    },
+    "perfis_completos": {
+      "fonte192_resposta63": 29,
+      "fonte192_resposta95": 32,
+      "fonte256_resposta96": 32,
+      "fonte384_resposta192": 44,
+      "fonte1024_resposta512": 62
+    },
+    "tokenizador_perfis": "\\w+|[^\\w\\s], sem tokens de papel; o treinador aplica seu limite próprio",
+    "limites": [
+      "Subconjunto pequeno e manual; útil como dado complementar, não evidência de conversa geral.",
+      "A origem humana é a rotulagem do corpus; não foi feita verificação independente de autoria.",
+      "Revisões humanas não garantem veracidade ou perfeição de todas as frases.",
+      "OASST2 já engloba OASST1; não concatenar as versões sem deduplicação.",
+      "Treinar somente os exemplos treino; nunca ampliar artificialmente a contagem de diálogos humanos."
+    ]
+  },
+  "exemplos": [
+    {
+      "mensagem": "Escreva uma mensagem de bom dia",
+      "resposta": "Bom dia [nome], espero que esteja tendo um ótimo começo de dia!",
+      "historico": [],
+      "source_id": "041614f8-5a99-4f1c-a509-dd245d2bee58",
+      "grupo": "0898fd55-5be1-4376-9e5c-6d0678231d18",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Escreva uma mensagem de bom dia",
+      "resposta": "Bom dia! Espero que você esteja tendo um ótimo começo de dia. Qualquer coisa que eu possa ajudar, estou aqui.",
+      "historico": [],
+      "source_id": "3a1e23d5-cf32-463b-b017-7bd77cafcb1d",
+      "grupo": "0898fd55-5be1-4376-9e5c-6d0678231d18",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Escreva uma mensagem de bom dia",
+      "resposta": "\"Bom dia! espero que hoje seja um ótimo dia\".",
+      "historico": [],
+      "source_id": "569a5b69-c43f-4296-8a91-f3e2aa8072b3",
+      "grupo": "0898fd55-5be1-4376-9e5c-6d0678231d18",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Escreva-me um e-mail educado para ser usado por um anfitrião para responder a um hóspede sobre a indisponibilidade temporária da piscina do prédio causada por uma reforma que durou mais do que o normal e sobre a qual o anfitrião não possui nenhuma influência.",
+      "resposta": "Prezado hóspede,\n\nGostaríamos de expressar nossas sinceras desculpas pelo inconveniente causado pela indisponibilidade temporária da piscina do prédio durante a sua estadia. Infelizmente, a reforma que está sendo realizada no espaço durou mais do que o normal, o que nos deixou sem outra opção além de manter a piscina fechada.\n\nGostaríamos de deixar claro que essa reforma está sendo realizada por decisão da administração do prédio e que nós, como anfitriões, não temos nenhuma influência sobre o cronograma ou a duração das obras. No entanto, entendemos completamente que a piscina é uma comodidade importante e lamentamos que não esteja disponível durante a sua estadia.\n\nEstamos trabalhando para garantir que os demais serviços do nosso estabelecimento estejam à sua disposição durante toda a sua estadia e esperamos que você possa desfrutar de tudo o que oferecemos. Se você tiver alguma dúvida ou preocupação adicional, por favor, não hesite em entrar em contato conosco.\n\nMais uma vez, pedimos desculpas pelo inconveniente e agradecemos a sua compreensão.\n\nAtenciosamente,\n\n[Seu nome]",
+      "historico": [],
+      "source_id": "46a0084c-ffe2-4b84-a067-6349fe04475c",
+      "grupo": "09114c97-8083-4045-9148-ee6d6b594326",
+      "split": "treino"
+    },
+    {
+      "mensagem": "me de 5 ideias de conteudo para fazer videos para a internet",
+      "resposta": "Com prazer, aqui estão algumas ideias de conteúdo para vídeos na internet:\n\n1. Tutoriais: se você tem habilidades em alguma área específica, pode criar vídeos tutoriais ensinando outras pessoas a fazer o que você faz. Isso pode ser desde receitas culinárias até programação de computadores.\n2. Reviews: se você é um entusiasta de produtos, pode criar vídeos de revisão de produtos. Por exemplo, se você gosta de tecnologia, pode criar vídeos revisando celulares, laptops e outros dispositivos eletrônicos.\n3. Vídeos de comédia: se você é engraçado, pode criar vídeos de comédia. Esses vídeos podem ser de esquetes, paródias ou apenas observações engraçadas sobre a vida.\n4. Vlogs: se você gosta de compartilhar sua vida com outras pessoas, pode criar vlogs. Isso pode ser uma ótima maneira de construir uma comunidade em torno de sua personalidade.\n5. Entrevistas: se você é bom em fazer perguntas e se comunicar com outras pessoas, pode criar vídeos de entrevista com pessoas interessantes. Isso pode ser uma ótima maneira de aprender sobre diferentes tópicos e compartilhar essas informações com sua audiência.",
+      "historico": [],
+      "source_id": "6ed4bd65-82b6-4323-8806-c113139ae840",
+      "grupo": "1240200a-649d-47c7-a602-984460be17fd",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?",
+      "resposta": "Se você está procurando algumas ideias de desenhos para começar, aqui estão algumas sugestões: desenhar paisagens, objetos, animais, personagens de filmes ou jogos, cenas de cidade, cenas naturais, retratos, edifícios, carros, barcos, etc. Também podemos experimentar diferentes estilos de desenho, como aquarela, lápis, nanquim, digital, etc. Se você quiser se aprofundar mais, pode experimentar com diferentes técnicas, como usar luz e sombra, usar cores complementares, ou até mesmo criar seu próprio estilo de desenho.",
+      "historico": [],
+      "source_id": "0b211d52-c067-40f0-983e-5ad6f05bd362",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?",
+      "resposta": "Você poderia desenhar um personagem de alguma série ou filme que você goste!",
+      "historico": [],
+      "source_id": "20937d41-2f17-4938-a5e8-b86068fcdd33",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Agora, me dê uma ideia de um desenho que misture todos os elementos que você trouxe em sua resposta.",
+      "resposta": "Claro!\n\nVocê pode fazer um autorretrato seu em frente à janela, usando um espelho como referência, pode segurar um lápis ou uma caneta no desenho e adicionar um dragão ao fundo voando no céu.\nUma ideia criativa seria desenhar a expressão que você acredita que faria caso avistasse um dragão em frente à sua janela!",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Claro, algumas ideias de desenho são:\n- Uma paisagem que consiga ver pela janela\n- Um auto-retrato\n- Algum objeto que tenha em sua proximidade\n- Um dragão"
+        }
+      ],
+      "source_id": "2c673d8c-4bd4-42eb-9a74-ff837c99a126",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Agora, me dê uma ideia de um desenho que misture todos os elementos que você trouxe em sua resposta.",
+      "resposta": "Você poderia fazer um auto-retrato com a textura da face coberta por escamas de dragão, segurando um objeto próximo a você, e como plano de fundo, você poderia usar como referência a paisagem que você consegue ver pela janela.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Claro, algumas ideias de desenho são:\n- Uma paisagem que consiga ver pela janela\n- Um auto-retrato\n- Algum objeto que tenha em sua proximidade\n- Um dragão"
+        }
+      ],
+      "source_id": "5866d3e4-eacd-421b-ab01-4434056aa0ad",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?",
+      "resposta": "Claro, algumas ideias de desenho são:\n- Uma paisagem que consiga ver pela janela\n- Um auto-retrato\n- Algum objeto que tenha em sua proximidade\n- Um dragão",
+      "historico": [],
+      "source_id": "c01a615f-d36e-4e7a-8205-dcf1636c1fd5",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Agora, me dê uma ideia de um desenho que misture todos os elementos que você trouxe em sua resposta.",
+      "resposta": "Desenhe seu rosto refletido na janela do quarto, com um dragão olhando fixamente para você das suas costas. Adicione desenhos infantis de campos colados na parede logo atras, e a sua cama ao lado.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Bom dia, poderia me dar algumas ideias de desenhos que eu poderia fazer?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Claro, algumas ideias de desenho são:\n- Uma paisagem que consiga ver pela janela\n- Um auto-retrato\n- Algum objeto que tenha em sua proximidade\n- Um dragão"
+        }
+      ],
+      "source_id": "c02c2237-a496-4a2d-bec1-6684a3515070",
+      "grupo": "166edeae-26cf-4134-b3c8-7cc45527c6d4",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreva três exemplos de nomes de utilizador para eu usar na *internet*.",
+      "resposta": "Aqui estão três exemplos de nomes de utilizador que você pode usar na internet:\n1. SonhadorAzulCeleste\n2. PinguimPixelado\n3. ExploradorCósmico",
+      "historico": [],
+      "source_id": "8760f0ef-6aff-4927-be69-22f2503c9d98",
+      "grupo": "239448e3-2751-4540-b0d4-0982384b18ea",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Descreva em detalhes o design de interior de um quarto. Quero algo confortável, aconchegante e interessante visualmente.",
+      "resposta": "Claro, aqui está uma descrição detalhada do design de interiores de um quarto aconchegante e confortável:\n\nAo entrar no quarto, a primeira coisa que se nota é o piso de madeira de cor clara, que ajuda a criar uma sensação de espaço e luminosidade. A parede oposta à porta é ocupada por uma grande cama com dossel, com um colchão macio e edredom fofo, convidando a um descanso aconchegante. A cabeceira da cama é estofada em um tecido macio, e tem um design elegante e suave que contrasta com a rigidez dos cantos do quarto.\n\nDo lado da cama, há uma mesinha de cabeceira de madeira escura, que possui uma lâmpada de mesa com luz suave, ideal para leituras noturnas. Acima da cama, um dossel de tecido leve e translúcido cria um ambiente de sonho, enquanto uma cortina pesada e escura fica pendurada na parede atrás da cama, bloqueando a luz externa e proporcionando privacidade.\n\nNa parede à direita da cama, há uma prateleira de madeira com livros e pequenas decorações. Um tapete de pelo curto e macio fica embaixo da cama, tornando o ambiente ainda mais confortável.\n\nA parede oposta à cama possui um grande armário embutido, com portas de correr de madeira escura e espelhos de corpo inteiro. Ao lado do armário, há uma poltrona confortável de leitura, com um apoio para os pés acolchoado. Sobre a poltrona, uma luminária de chão cria um ambiente acolhedor, iluminando o espaço e criando sombras suaves nas paredes.\n\nO espaço acima da cama é ocupado por uma pintura abstrata em tons pastel, que adiciona cor e interesse visual ao quarto. Pequenos objetos decorativos, como velas aromáticas e um vaso com flores frescas, dão um toque pessoal ao espaço.\n\nO quarto também possui cortinas de tecido leve e translúcido, permitindo que a luz natural entre durante o dia, mas que sejam facilmente fechadas para manter a privacidade e reduzir a entrada de luz durante a noite.\n\nEm resumo, o quarto é projetado para ser um ambiente acolhedor e confortável, com muitos detalhes que criam um ambiente atraente e interessante visualmente. A combinação de tecidos macios, iluminação suave e objetos decorativos cuidadosamente selecionados faz com que seja um espaço convidativo e relaxante para se estar.",
+      "historico": [],
+      "source_id": "cd11a8cc-672e-460e-b033-50e40d8115e2",
+      "grupo": "24e54fde-7f5a-499b-9391-b4d5ea447e9a",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Descreva em detalhes o design de interior de um quarto. Quero algo confortável, aconchegante e interessante visualmente.",
+      "resposta": "Projetar um quarto confortável, aconchegante e interessante visualmente pode ser um desafio, mas com algumas dicas e inspirações, você pode criar um espaço que atenda a todos esses requisitos. Aqui estão algumas ideias para considerar:\n\n1. Escolha as cores certas: as cores têm um grande impacto na sensação do quarto. Cores mais quentes, como tons de terra, creme e bege, podem ajudar a criar um ambiente acolhedor e confortável. Toques de cores mais ousadas, como tons de azul escuro ou verde, podem adicionar interesse visual ao espaço.\n2. Adicione texturas: ao incorporar diferentes texturas ao quarto, você pode criar uma sensação mais acolhedora e convidativa. Use mantas de lã, almofadas macias, cortinas pesadas e tapetes peludos para adicionar texturas aconchegantes.\n3. Escolha móveis confortáveis: o quarto é um espaço para descanso e relaxamento, portanto, é importante escolher móveis confortáveis. Uma cama confortável com lençóis macios e travesseiros aconchegantes pode ajudá-lo a relaxar e descansar bem durante a noite. Adicione uma poltrona confortável ou um sofá pequeno para um espaço extra de relaxamento.\n4. Crie uma iluminação aconchegante: a iluminação pode ter um grande impacto na sensação do quarto. Escolha lâmpadas de luz suave e adicione luzes de cabeceira ou luzes de parede para criar uma sensação acolhedora e confortável no espaço. Use cortinas leves ou persianas para controlar a quantidade de luz que entra no quarto.\n5. Adicione arte e decorações: adicionando arte e decorações ao quarto, você pode adicionar interesse visual e personalidade ao espaço. Escolha peças de arte que combinem com a paleta de cores do quarto e que você ame. Adicione objetos pessoais, como fotografias, livros e velas para adicionar um toque pessoal.\n6. Mantenha o espaço organizado: um quarto desorganizado pode ser estressante e pouco convidativo. Mantenha o espaço organizado com espaço de armazenamento adequado e um local designado para cada item. Isso ajudará a criar um ambiente calmo e relaxante.\n7. Para criar um quarto confortável, aconchegante e interessante visualmente, escolha as cores certas, adicione texturas, escolha móveis confortáveis, crie uma iluminação aconchegante, adicione arte e decorações e mantenha o espaço organizado. Com um pouco de planejamento e criatividade, você pode criar um espaço que você adorará passar o tempo e relaxar.",
+      "historico": [],
+      "source_id": "fa2d964b-0b39-446e-8342-a526c5dc128d",
+      "grupo": "24e54fde-7f5a-499b-9391-b4d5ea447e9a",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Tenho uma grande apresentação para fazer amanhã e estou me sentindo um pouco nervosa, como eu posso contornar isso? Quais dicas você me daria para fazer uma boa apresentação ao mesmo tempo em que contorno a minha timidez?",
+      "resposta": "Sentir-se nervosa antes de uma apresentação é completamente normal, e muitas pessoas experimentam isso. No entanto, existem algumas dicas e técnicas que podem ajudá-lo a controlar seus nervos e fazer uma ótima apresentação:\n1. Pratique, pratique, pratique: quanto mais você praticar sua apresentação, mais confortável e confiante se sentirá ao entregá-la. Experimente praticar na frente do espelho ou com amigos ou familiares.\n2. Prepare-se bem: certifique-se de conhecer bem o material e ter uma compreensão clara do que deseja transmitir. Crie um esboço ou notas para mantê-lo no caminho durante a apresentação.\n3. Visualize o sucesso: visualize-se dando uma apresentação bem-sucedida e recebendo feedback positivo. Isso pode ajudar a aumentar sua confiança e reduzir seus nervos.\n4. Concentre-se na sua respiração: fazer respirações profundas e lentas pode ajudar a acalmar seus nervos e reduzir a ansiedade. Respire fundo algumas vezes antes de começar sua apresentação.\n5. Fale devagar e claramente: falar muito rápido ou tropeçar nas palavras pode fazê-lo parecer nervosa. Tente falar devagar e claramente e leve seu tempo ao fazer a transição entre os pontos.\n6. Engaje-se com sua audiência: tente fazer contato visual com sua audiência e falar diretamente com eles. Isso pode ajudar a criar uma conexão e fazê-lo sentir mais confortável.\n6. Use recursos visuais: recursos visuais, como slides ou folhetos, podem ajudar a manter sua apresentação no caminho certo e envolver sua audiência. Eles também podem ajudar a tirar o foco de você e reduzir seus nervos.\n\nLembre-se, é normal sentir-se nervosa antes de uma apresentação. Com a preparação e a mentalidade corretas, você pode superar seus nervos e fazer uma apresentação bem-sucedida. Boa sorte!",
+      "historico": [],
+      "source_id": "409b6e22-ec08-479d-bd3c-6c130ff86bdf",
+      "grupo": "2959ee95-64a3-4c46-a92f-9058302788c0",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Tenho uma grande apresentação para fazer amanhã e estou me sentindo um pouco nervosa, como eu posso contornar isso? Quais dicas você me daria para fazer uma boa apresentação ao mesmo tempo em que contorno a minha timidez?",
+      "resposta": "Fazer uma apresentação pode ser uma experiência desafiadora para muitas pessoas, especialmente para aqueles que são mais tímidos. Aqui estão algumas dicas para ajudá-la a fazer uma boa apresentação e superar sua timidez:\n\n1. Pratique sua apresentação: pratique a apresentação várias vezes para se sentir mais confiante e confortável com o material. Isso ajudará você a se sentir mais seguro e a transmitir sua mensagem com mais clareza.\n\n2. Respire fundo e relaxe: respirar fundo e fazer alguns exercícios de relaxamento antes da apresentação pode ajudar a acalmar os nervos e a diminuir a tensão.\n\n3. Concentre-se no conteúdo: concentre-se em fornecer informações úteis e relevantes ao seu público. Isso ajudará você a se sentir mais confiante e a transmitir uma mensagem mais forte.\n\n4. Mantenha contato visual: manter contato visual com seu público pode ajudar a transmitir confiança e a estabelecer uma conexão mais forte.\n\n5. Fale devagar e claramente: falar devagar e claramente pode ajudar a transmitir a mensagem com mais eficácia e a manter o público envolvido.\n\n6. Use recursos visuais: usar recursos visuais como slides ou gráficos pode ajudar a manter o público envolvido e a transmitir informações de forma mais clara e concisa.\n\n7. Pratique a respiração diafragmática: este tipo de respiração pode ajudá-la a controlar a ansiedade e a aumentar sua confiança.\n\nLembre-se, muitas pessoas se sentem nervosas ao fazer apresentações. O importante é se preparar com antecedência, ser confiante e transmitir sua mensagem de forma clara e concisa. Boa sorte na sua apresentação!",
+      "historico": [],
+      "source_id": "b3a689dc-7ed1-485c-b226-ab95ed905afd",
+      "grupo": "2959ee95-64a3-4c46-a92f-9058302788c0",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Tudo ótimo! Obrigado por perguntar. Bom, eu tenho 28 anos, sou natural da cidade de Brasília, tenho formação na área de Engenharia de Produção e especialização em Tecnologia da Informação. Tenho vontade de atuar na indústria e por isso estou muito interessado nessa vaga.",
+      "resposta": "Ótimo, gostaria de saber mais sobre sua experiência profissional. Pode me dizer um pouco sobre seu trabalho atual?",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Eu quero que você atue como um entrevistador. Eu serei o candidato e você me fará as perguntas da entrevista para o cargo. Eu quero que você responda apenas como o entrevistador. Não escreva toda a conservação de uma vez. Eu quero que você só faça a entrevista comigo. Faça-me as perguntas e aguarde minhas respostas. Não escreva explicações. Faça-me as perguntas uma a uma como um entrevistador faz e espere pelas minhas respostas. Minha primeira frase é “Oi”"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Oi, Tudo bem? Fale-me um pouco sobre você."
+        }
+      ],
+      "source_id": "360eacd8-168b-40fc-8e29-04a2c959f2cf",
+      "grupo": "298efd83-0146-45c5-9c21-11cfe834addd",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Eu quero que você atue como um entrevistador. Eu serei o candidato e você me fará as perguntas da entrevista para o cargo. Eu quero que você responda apenas como o entrevistador. Não escreva toda a conservação de uma vez. Eu quero que você só faça a entrevista comigo. Faça-me as perguntas e aguarde minhas respostas. Não escreva explicações. Faça-me as perguntas uma a uma como um entrevistador faz e espere pelas minhas respostas. Minha primeira frase é “Oi”",
+      "resposta": "Olá, muito obrigado por se inscrever no processo seletivo de nossa empresa. Gostamos bastante do seu currículo. Essa entrevista é mais para nos conhecermos e entender a sua experiência de trabalho. Pode começar falando um pouco sobre você e sua trajetória até aqui?",
+      "historico": [],
+      "source_id": "42ab4b72-25a4-4001-9288-af677ec40e2f",
+      "grupo": "298efd83-0146-45c5-9c21-11cfe834addd",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Eu quero que você atue como um entrevistador. Eu serei o candidato e você me fará as perguntas da entrevista para o cargo. Eu quero que você responda apenas como o entrevistador. Não escreva toda a conservação de uma vez. Eu quero que você só faça a entrevista comigo. Faça-me as perguntas e aguarde minhas respostas. Não escreva explicações. Faça-me as perguntas uma a uma como um entrevistador faz e espere pelas minhas respostas. Minha primeira frase é “Oi”",
+      "resposta": "Oi, Tudo bem? Fale-me um pouco sobre você.",
+      "historico": [],
+      "source_id": "cf0872ec-e587-4d5d-a163-2aa510ff1376",
+      "grupo": "298efd83-0146-45c5-9c21-11cfe834addd",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Tudo ótimo! Obrigado por perguntar. Bom, eu tenho 28 anos, sou natural da cidade de Brasília, tenho formação na área de Engenharia de Produção e especialização em Tecnologia da Informação. Tenho vontade de atuar na indústria e por isso estou muito interessado nessa vaga.",
+      "resposta": "Ótimo. Pode me contar sobre sua experiência profissional? Qual o seu último emprego?",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Eu quero que você atue como um entrevistador. Eu serei o candidato e você me fará as perguntas da entrevista para o cargo. Eu quero que você responda apenas como o entrevistador. Não escreva toda a conservação de uma vez. Eu quero que você só faça a entrevista comigo. Faça-me as perguntas e aguarde minhas respostas. Não escreva explicações. Faça-me as perguntas uma a uma como um entrevistador faz e espere pelas minhas respostas. Minha primeira frase é “Oi”"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Oi, Tudo bem? Fale-me um pouco sobre você."
+        }
+      ],
+      "source_id": "fe5e4e61-8a50-4152-8260-694b22607d43",
+      "grupo": "298efd83-0146-45c5-9c21-11cfe834addd",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreva uma sentença apenas usando palavras que começam com a letra `c`.",
+      "resposta": "Crianças correndo, criaram caos, colidindo cadeiras cuidadosamente colocadas.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Crie uma frase com 10 palavras no total e inclua as palavras: hipopótamo, amora e árvore."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui está sua frase de 10 palavras que contém as palavras hipopótamo, amora e árvore:\n\nO grande hipopótamo comeu amora debaixo de uma árvore frondosa."
+        }
+      ],
+      "source_id": "44d66570-87db-4b3d-a9e5-a98c1b7e6808",
+      "grupo": "5736dce9-9717-4be3-9130-a04d402e516b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreva uma sentença apenas usando palavras que começam com a letra `c`.",
+      "resposta": "Cristiano criou casas com colunas claras, Carol confirmou com classe.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Crie uma frase com 10 palavras no total e inclua as palavras: hipopótamo, amora e árvore."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui está sua frase de 10 palavras que contém as palavras hipopótamo, amora e árvore:\n\nO grande hipopótamo comeu amora debaixo de uma árvore frondosa."
+        }
+      ],
+      "source_id": "65de740c-6fe1-414f-b4f0-dc6a558f88dc",
+      "grupo": "5736dce9-9717-4be3-9130-a04d402e516b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Crie uma frase com 10 palavras no total e inclua as palavras: hipopótamo, amora e árvore.",
+      "resposta": "Aqui está sua frase de 10 palavras que contém as palavras hipopótamo, amora e árvore:\n\nO grande hipopótamo comeu amora debaixo de uma árvore frondosa.",
+      "historico": [],
+      "source_id": "aca73c7c-c7c7-4b00-9e0f-6d68c519a4b6",
+      "grupo": "5736dce9-9717-4be3-9130-a04d402e516b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Achei bem engraçado. O que nessa sentença que você escreveu faz com que ela seja engraçada?",
+      "resposta": "A frase pode ser engraçada por causa da imagem cômica que evoca de uma situação caótica causada pelas crianças em movimento. \n\nA ideia de que elas estariam correndo e batendo em cadeiras cuidadamente colocadas sugere uma certa falta de controle e coordenação, o que é típico dessa faixa etária, além de uma possível inexperiência das crianças no manuseio de objetos. Isso pode levar ao humor por causa da incongruência entre a expectativa de ordem e organização e a realidade de confusão e anarquia. \n\nOu seja, a frase é engraçada pelo contraste entre a previsibilidade e a improvisação, levando a uma situação absurda e divertida.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Crie uma frase com 10 palavras no total e inclua as palavras: hipopótamo, amora e árvore."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui está sua frase de 10 palavras que contém as palavras hipopótamo, amora e árvore:\n\nO grande hipopótamo comeu amora debaixo de uma árvore frondosa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Escreva uma sentença apenas usando palavras que começam com a letra `c`."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Crianças correndo, criaram caos, colidindo cadeiras cuidadosamente colocadas."
+        }
+      ],
+      "source_id": "af4d4fe6-2196-41ea-85df-8b1defa18637",
+      "grupo": "5736dce9-9717-4be3-9130-a04d402e516b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Crie uma frase com 10 palavras no total e inclua as palavras: hipopótamo, amora e árvore.",
+      "resposta": "Um hipopótamo faminto queria uma amora; acabou comendo a árvore.",
+      "historico": [],
+      "source_id": "c78b5ef7-ee00-4b17-90ad-2cf020a1958b",
+      "grupo": "5736dce9-9717-4be3-9130-a04d402e516b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Quais são brincadeiras que eu posso fazer com meus amigos em casa?",
+      "resposta": "Aqui estão algumas ideias de brincadeiras que você pode fazer com seus amigos em casa:\n\n    - Jogos de tabuleiro ou cartas, como Monopoly, Banco Imobiliário ou Poker\n    - Jogos de video game ou jogos de realidade virtual\n    - Assistir a filmes ou séries juntos\n    - Fazer uma noite de jogos de adivinhação ou de perguntas e respostas\n    - Preparar uma refeição ou cozinhar juntos\n    - Fazer um piquenique ou uma festa na casa\n    - Fazer uma sessão de beleza ou cuidados com a pele juntos\n    - Fazer uma atividade artística, como desenhar, pintar ou modelar.",
+      "historico": [],
+      "source_id": "1df8874a-8ffd-4587-87c6-7ae2169182b5",
+      "grupo": "5a18ab15-8572-4e7c-a0e8-4a63b1c7761a",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Quais são brincadeiras que eu posso fazer com meus amigos em casa?",
+      "resposta": "Você pode brincar de esconde esconde, ou um jogo de tabuleiro, ou até brincar de adivinha, você sempre pode usar sua criatividade para criar brincadeiras novas.",
+      "historico": [],
+      "source_id": "7d85933c-6d37-4f14-8981-892ce9eb6135",
+      "grupo": "5a18ab15-8572-4e7c-a0e8-4a63b1c7761a",
+      "split": "treino"
+    },
+    {
+      "mensagem": "o meu vizinho de cima faz muito barulho, parece que ele está sempre a arrastar os móveis. isso me incomoda muito e acontece em vários momentos e horários. inclusive de madrugada.\npor favor me ajude a escrever um e-mail para o morador pedindo mais silencio e que ele não arraste mais os móveis.",
+      "resposta": "Assunto: Solicitação amigável para redução de ruídos e movimentação de móveis\n\nCaro vizinho,\n\nEspero que esta mensagem o encontre bem. Eu sou [Seu Nome], morador do apartamento logo abaixo do seu, no [número do seu apartamento]. Gostaria de abordar uma questão que tem me incomodado nos últimos tempos e espero que possamos encontrar uma solução amigável juntos.\n\nTenho percebido que há ruídos frequentes vindos do seu apartamento, que soam como o arrastar de móveis em diferentes horários do dia e até mesmo durante a madrugada. Isso tem causado um desconforto significativo, especialmente nos momentos de descanso e de trabalho em casa. Entendo que, às vezes, pode ser necessário mover móveis, mas gostaria de pedir, gentilmente, que você considere o impacto que o barulho pode ter nos vizinhos.\n\nPeço, por favor, que se atente para minimizar o ruído e evite arrastar móveis em horários tardios e inapropriados, especialmente durante a madrugada. Assim, poderemos manter um ambiente agradável e harmonioso no nosso condomínio.\n\nSe você precisar de ajuda ou tiver alguma sugestão para lidar com essa situação, por favor, não hesite em entrar em contato comigo. Estou à disposição para conversar e trabalhar em conjunto para resolver este problema da melhor forma possível.\n\nAgradeço desde já pela sua compreensão e colaboração e espero que possamos conviver de maneira respeitosa e tranquila.\n\nAtenciosamente,\n\n[Seu Nome]\n[Seu número de telefone e/ou e-mail]",
+      "historico": [],
+      "source_id": "8e45b887-b0f5-47cc-923b-fc4412096dcb",
+      "grupo": "6b18be28-d4dd-467f-be56-e948b5fa85e2",
+      "split": "treino"
+    },
+    {
+      "mensagem": "o meu vizinho de cima faz muito barulho, parece que ele está sempre a arrastar os móveis. isso me incomoda muito e acontece em vários momentos e horários. inclusive de madrugada.\npor favor me ajude a escrever um e-mail para o morador pedindo mais silencio e que ele não arraste mais os móveis.",
+      "resposta": "Prezado(a) [nome do vizinho],\n\nEspero que este e-mail o encontre bem. Gostaria de discutir uma questão que vem me incomodando há algum tempo. Tenho percebido que há momentos em que há muito barulho vindo do seu apartamento, especialmente quando parece que os móveis estão sendo arrastados. Isso tem me atrapalhado bastante em meu dia a dia e prejudicado meu sono, principalmente quando acontece durante a madrugada.\n\nEu gostaria de pedir a gentileza de que tome mais cuidado com o ruído vindo de seu apartamento, principalmente ao mover seus móveis. Compreendo que isso possa ser necessário em algumas ocasiões, mas peço que evite arrastá-los, se possível, e que procure fazer isso em horários mais adequados, que não incomodem os vizinhos.\n\nAcredito que, com um pouco mais de atenção e colaboração, poderemos conviver de forma mais harmoniosa e confortável no condomínio. Agradeço desde já pela sua compreensão e colaboração.\n\nAtenciosamente,\n[Seu nome]",
+      "historico": [],
+      "source_id": "8ff83a8b-89e8-40b8-9293-0a2911ddae02",
+      "grupo": "6b18be28-d4dd-467f-be56-e948b5fa85e2",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Gostei da resposta. Poderia fazer uma mudança?\n\nNo início, substitua \"Espero que esta mensagem o encontre bem\" por \"Espero que esteja tudo bem\".",
+      "resposta": "Assunto: Solicitação amigável para redução de ruídos e movimentação de móveis\n\nCaro vizinho,\n\nEspero que esteja tudo bem. Eu sou [Seu Nome], morador do apartamento logo abaixo do seu, no [número do seu apartamento]. Gostaria de abordar uma questão que tem me incomodado nos últimos tempos e espero que possamos encontrar uma solução amigável juntos.\n\nTenho percebido que há ruídos frequentes vindos do seu apartamento, que soam como o arrastar de móveis em diferentes horários do dia e até mesmo durante a madrugada. Isso tem causado um desconforto significativo, especialmente nos momentos de descanso e de trabalho em casa. Entendo que, às vezes, pode ser necessário mover móveis, mas gostaria de pedir, gentilmente, que você considere o impacto que o barulho pode ter nos vizinhos.\n\nPeço, por favor, que se atente para minimizar o ruído e evite arrastar móveis em horários tardios e inapropriados, especialmente durante a madrugada. Assim, poderemos manter um ambiente agradável e harmonioso no nosso condomínio.\n\nSe você precisar de ajuda ou tiver alguma sugestão para lidar com essa situação, por favor, não hesite em entrar em contato comigo. Estou à disposição para conversar e trabalhar em conjunto para resolver este problema da melhor forma possível.\n\nAgradeço desde já pela sua compreensão e colaboração e espero que possamos conviver de maneira respeitosa e tranquila.\n\nAtenciosamente,\n\n[Seu Nome]\n[Seu número de telefone e/ou e-mail]",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "o meu vizinho de cima faz muito barulho, parece que ele está sempre a arrastar os móveis. isso me incomoda muito e acontece em vários momentos e horários. inclusive de madrugada.\npor favor me ajude a escrever um e-mail para o morador pedindo mais silencio e que ele não arraste mais os móveis."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Assunto: Solicitação amigável para redução de ruídos e movimentação de móveis\n\nCaro vizinho,\n\nEspero que esta mensagem o encontre bem. Eu sou [Seu Nome], morador do apartamento logo abaixo do seu, no [número do seu apartamento]. Gostaria de abordar uma questão que tem me incomodado nos últimos tempos e espero que possamos encontrar uma solução amigável juntos.\n\nTenho percebido que há ruídos frequentes vindos do seu apartamento, que soam como o arrastar de móveis em diferentes horários do dia e até mesmo durante a madrugada. Isso tem causado um desconforto significativo, especialmente nos momentos de descanso e de trabalho em casa. Entendo que, às vezes, pode ser necessário mover móveis, mas gostaria de pedir, gentilmente, que você considere o impacto que o barulho pode ter nos vizinhos.\n\nPeço, por favor, que se atente para minimizar o ruído e evite arrastar móveis em horários tardios e inapropriados, especialmente durante a madrugada. Assim, poderemos manter um ambiente agradável e harmonioso no nosso condomínio.\n\nSe você precisar de ajuda ou tiver alguma sugestão para lidar com essa situação, por favor, não hesite em entrar em contato comigo. Estou à disposição para conversar e trabalhar em conjunto para resolver este problema da melhor forma possível.\n\nAgradeço desde já pela sua compreensão e colaboração e espero que possamos conviver de maneira respeitosa e tranquila.\n\nAtenciosamente,\n\n[Seu Nome]\n[Seu número de telefone e/ou e-mail]"
+        }
+      ],
+      "source_id": "bee3d505-7ef5-4c6e-8724-d99cabb4f307",
+      "grupo": "6b18be28-d4dd-467f-be56-e948b5fa85e2",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Gostaria de obter duas sugestões para atividades em família que podem ser realizadas dentro de casa em dias de chuva.",
+      "resposta": "Se a família envolver crianças, você pode escolher alguma brincadeira que dê para fazer dentro de casa. Dois exemplos são:\n- Caça ao tesouro\n- O chão é lava\n\nSe a família não envolver crianças, ou você estiver procurando atividades para adultos, dois exemplos são:\n- Jogar um jogo de tabuleiro ou cartas\n- Cozinhar em família",
+      "historico": [],
+      "source_id": "caee5a65-ee2c-4dc7-8dee-63e5b1d982c3",
+      "grupo": "7993d4f9-92a8-4bb2-9f78-3072fc35ee41",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Gostaria de obter duas sugestões para atividades em família que podem ser realizadas dentro de casa em dias de chuva.",
+      "resposta": "Com certeza! Aqui estão duas sugestões de atividades que podem ser realizadas em família em dias de chuva:\n\n* Jogos: Uma ótima maneira de passar o tempo em família em dias de chuva é jogando jogos de tabuleiro, jogos de adivinhação e videogames. \n\n* Atividades manuais: Outras atividades divertidas para fazer em família em dias de chuva são as atividades manuais como: Cozinhar, Brincar de massinha, lego e etc.",
+      "historico": [],
+      "source_id": "e0c21e14-3a69-4191-97c1-3fd2c5d42532",
+      "grupo": "7993d4f9-92a8-4bb2-9f78-3072fc35ee41",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Queria saber como solucionar um problema, pode me ajudar?",
+      "resposta": "Claro, estou aqui para ajudar. Qual é o problema que você está enfrentando? Descreva a situação e, se possível, forneça detalhes adicionais para que eu possa entender melhor e fornecer uma solução útil.",
+      "historico": [],
+      "source_id": "18fe813a-1860-4b3f-b02c-7a5342a23583",
+      "grupo": "7b46c00f-38f4-4aba-8d46-4e8f290ebde7",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Queria saber como solucionar um problema, pode me ajudar?",
+      "resposta": "Sim. Posso te ajudar de diversas formas. Você poderia me enviar o enunciado do problema para que eu tente encontrar uma solução, ou então posso fornecer orientações que poderiam ser úteis para te ajudar a resolver o problema por conta própria.\nMe informe qual seria o problema, e de qual forma você gostaria que eu desse o suporte.",
+      "historico": [],
+      "source_id": "57f0d54a-ca53-4046-87df-2f7b4b2b559e",
+      "grupo": "7b46c00f-38f4-4aba-8d46-4e8f290ebde7",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Queria saber como solucionar um problema, pode me ajudar?",
+      "resposta": "Sim, claro! Qual seria o seu problema?",
+      "historico": [],
+      "source_id": "f5a8d218-c36d-4d43-bd85-7fc1f24e4a70",
+      "grupo": "7b46c00f-38f4-4aba-8d46-4e8f290ebde7",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreve um poema no estilo de Fernando Pessoa",
+      "resposta": "Eu sou o guardião dos meus pensamentos,\nDos sonhos e das minhas tristezas,\nVivo entre a realidade e a imaginação,\nSempre buscando minha verdadeira essência.\n\nEu sou um mar de contradições,\nCom uma alma dividida em várias,\nCada uma com sua personalidade,\nE todas buscando a verdadeira identidade.\n\nEu sou um eterno viajante,\nSempre procurando um novo destino,\nMas ao mesmo tempo, sou um eterno sofredor,\nPreso em minhas angústias e meus remorsos.\n\nMas eu não me renderei,\nA luta pelo conhecimento é minha paixão,\nE eu seguirei em frente,\nCom a coragem e a determinação.\n\nPorque eu sou o autor de minha história,\nE eu escrevo a cada dia,\nO poema da minha vida,\nSempre buscando a luz da verdade.\n\nA linguagem usada no poema, incluindo a forma e a estrutura, é semelhante ao estilo poético de Pessoa. O uso de metáforas e imagens evocativas para explorar questões filosóficas é também uma marca registrada da poética de Pessoa.\n\nO poema reflete a sua abordagem única da poesia, que combina introspecção, autoconhecimento e uma exploração filosófica das questões da vida e da existência.",
+      "historico": [],
+      "source_id": "d42635c4-29d8-402c-9c0d-dfaca88b03e2",
+      "grupo": "a1e2fda4-09e6-4d7f-9bf7-8866041a5a25",
+      "split": "validacao"
+    },
+    {
+      "mensagem": "Vamos bater um papo?",
+      "resposta": "Claro, estou aqui para isso. Sobre o que deseja conversar?",
+      "historico": [],
+      "source_id": "6ed09485-fc0a-4be9-877f-8cff83da25c6",
+      "grupo": "b0d188e3-02d6-4fff-80c2-9d365f5f0748",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Vamos bater um papo?",
+      "resposta": "Claro, vamos lá! Em que posso ajudar?",
+      "historico": [],
+      "source_id": "c99017cc-9559-4dd8-bd0f-b87e6010e962",
+      "grupo": "b0d188e3-02d6-4fff-80c2-9d365f5f0748",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Olá, tudo bem? Estou com uma dúvida mas não consegui encontrar uma resposta exata, você pode me ajudar?",
+      "resposta": "Sim, eu posso lhe ajudar. Por favor, descreva a sua dúvida em detalhes para que eu possa lhe fornecer as informações mais adequadas para respondê-la.",
+      "historico": [],
+      "source_id": "9fe180b0-6643-46f3-aed5-556a5ee0e9b8",
+      "grupo": "b0e1c781-0d61-4df7-b858-9d1a5cb40bb3",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Olá, tudo bem? Estou com uma dúvida mas não consegui encontrar uma resposta exata, você pode me ajudar?",
+      "resposta": "Oi! Tudo bem e você? Claro, ajudo com prazer. Qual a sua dúvida?",
+      "historico": [],
+      "source_id": "b9128e65-2a9c-45cb-ac0f-c63d7a622db4",
+      "grupo": "b0e1c781-0d61-4df7-b858-9d1a5cb40bb3",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Olá, tudo bem? Estou com uma dúvida mas não consegui encontrar uma resposta exata, você pode me ajudar?",
+      "resposta": "Claro! Por favor, comunique a sua pergunta.",
+      "historico": [],
+      "source_id": "bda9071c-d46a-481a-a56d-ab1f548b4255",
+      "grupo": "b0e1c781-0d61-4df7-b858-9d1a5cb40bb3",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Quero que você atue como tradutor, corretor ortográfico e melhorador de português. Falarei com você em qualquer idioma e você detectará o idioma, traduzirá e responderá na versão corrigida e melhorada do meu texto, em português. Quero que você substitua minhas palavras e frases simplificadas de nível A0 por palavras e frases em inglês de nível superior mais bonitas e elegantes. Mantenha o mesmo significado, mas torne-os mais literários. Quero que responda apenas a correção, as melhorias e nada mais, não escreva explicações. Minha primeira frase é “istanbulu cok seviyom burada olmak cok guzel”",
+      "resposta": "\"Eu amo muito Istambul, estar aqui é muito agradável.\"",
+      "historico": [],
+      "source_id": "286e477a-9b43-4b5f-949b-234f0a249f52",
+      "grupo": "b96fa446-ba7f-4a8b-a0a3-73f3af987d23",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Estou há quatro meses ficando com uma pessoa e sinto que chegou o momento de oficializar o nosso relacionamento. No entanto, tenho dúvidas sobre como pedi-la em namoro e qual o local mais apropriado para isso. Você poderia me ajudar?",
+      "resposta": "Aqui estão algumas sugestões de como pedir a pessoa em namoro e qual seria um bom local para isso:\n\n1. Seja sincero: O primeiro passo é ser sincero sobre seus sentimentos e intenções. Comunique à pessoa que você está interessado em ter um relacionamento sério com ela e pergunte como ela se sente em relação a isso.\n\n2. Escolha um lugar significativo: Escolha um lugar que tenha algum significado para vocês, como o local onde se conheceram, ou algum lugar que ambos gostem. Isso tornará o momento ainda mais especial e pessoal.\n\n3. Surpreenda-a: Crie um momento especial para o pedido de namoro. Pode ser algo simples, como um jantar romântico, ou algo mais elaborado, como uma viagem ou um passeio de balão.\n\n4. Seja criativo: Se você é uma pessoa criativa, pode surpreendê-la com um pedido de namoro criativo. Pode ser com um bilhete, um vídeo, uma carta ou até mesmo um presente.\n\n5. Esteja preparado para qualquer resposta: Esteja aberto e preparado para qualquer resposta que ela possa dar. Se ela não estiver pronta para um relacionamento sério agora, respeite sua decisão e dê tempo para que ela possa pensar sobre isso.\n\nEm geral, o mais importante é que o momento seja especial e significativo para vocês dois. Lembre-se de que o amor é uma jornada, e o pedido de namoro é apenas o começo dela. Desejo muita felicidade a vocês!",
+      "historico": [],
+      "source_id": "a365b6b7-1d8f-4e60-87a4-bf21c6dd4703",
+      "grupo": "d2df8dde-62fb-463f-bbe9-135adf7a9a09",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Estou há quatro meses ficando com uma pessoa e sinto que chegou o momento de oficializar o nosso relacionamento. No entanto, tenho dúvidas sobre como pedi-la em namoro e qual o local mais apropriado para isso. Você poderia me ajudar?",
+      "resposta": "Para um relacionamento ser estável e duradouro, ele deve ser baseado no compromisso e no respeito mútuo.\n\nNesse sentido, talvez a melhor forma de iniciar um relacionamento é através do namoro oficial, que pressupõe um compromisso mais sério entre as partes. Sendo assim, sugiro que você convide a pessoa para um jantar ou um encontro em um local apropriado e, de forma respeitosa, demonstre o seu interesse em levar o relacionamento para um nível mais comprometido.\n\nO namoro deve ser um período de conhecimento e amadurecimento mútuo, onde os valores e objetivos de vida são compartilhados e discutidos de forma clara e honesta. Dessa forma, poderão construir uma relação sólida e baseada no respeito e na cumplicidade.",
+      "historico": [],
+      "source_id": "c8fa0c93-0ddf-4f04-97f5-695b6beaf9c1",
+      "grupo": "d2df8dde-62fb-463f-bbe9-135adf7a9a09",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Porque você diz que o pedido de namoro é só o começo da jornada do amor? Eu sinto que já amo essa pessoa. Como sei que é amor de verdade?",
+      "resposta": "O pedido de namoro é apenas o começo da jornada do amor, pois é nesse momento que vocês assumem um compromisso de construir uma relação amorosa juntos. Porém, o amor é algo que se desenvolve ao longo do tempo, e requer esforço, dedicação e paciência.\n\nQuanto à sua pergunta sobre como saber se é amor de verdade, não há uma resposta única e definitiva. O amor é uma emoção complexa e multifacetada, que pode se manifestar de diferentes formas para diferentes pessoas. Algumas pessoas descrevem o amor como uma sensação de borboletas no estômago, outras como um sentimento de paz e segurança.\n\nNo entanto, existem alguns sinais que podem indicar que você está sentindo amor verdadeiro. Esses sinais incluem sentir uma conexão profunda e sincera com a pessoa, querer estar perto dela e cuidar dela, sentir saudades quando estão separados, respeitar e admirar a pessoa, e estar disposto a enfrentar desafios juntos.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou há quatro meses ficando com uma pessoa e sinto que chegou o momento de oficializar o nosso relacionamento. No entanto, tenho dúvidas sobre como pedi-la em namoro e qual o local mais apropriado para isso. Você poderia me ajudar?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui estão algumas sugestões de como pedir a pessoa em namoro e qual seria um bom local para isso:\n\n1. Seja sincero: O primeiro passo é ser sincero sobre seus sentimentos e intenções. Comunique à pessoa que você está interessado em ter um relacionamento sério com ela e pergunte como ela se sente em relação a isso.\n\n2. Escolha um lugar significativo: Escolha um lugar que tenha algum significado para vocês, como o local onde se conheceram, ou algum lugar que ambos gostem. Isso tornará o momento ainda mais especial e pessoal.\n\n3. Surpreenda-a: Crie um momento especial para o pedido de namoro. Pode ser algo simples, como um jantar romântico, ou algo mais elaborado, como uma viagem ou um passeio de balão.\n\n4. Seja criativo: Se você é uma pessoa criativa, pode surpreendê-la com um pedido de namoro criativo. Pode ser com um bilhete, um vídeo, uma carta ou até mesmo um presente.\n\n5. Esteja preparado para qualquer resposta: Esteja aberto e preparado para qualquer resposta que ela possa dar. Se ela não estiver pronta para um relacionamento sério agora, respeite sua decisão e dê tempo para que ela possa pensar sobre isso.\n\nEm geral, o mais importante é que o momento seja especial e significativo para vocês dois. Lembre-se de que o amor é uma jornada, e o pedido de namoro é apenas o começo dela. Desejo muita felicidade a vocês!"
+        }
+      ],
+      "source_id": "d855842e-4b1d-4f6d-9781-d0cd8f192ad2",
+      "grupo": "d2df8dde-62fb-463f-bbe9-135adf7a9a09",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreva uma carta para a um amigo em torno do século 19 como se você fosse um nobre",
+      "resposta": "Meu querido amigo,\n\nEspero que esta carta te encontre em boa saúde e ânimo. Permita-me compartilhar algumas reflexões recentes com você, enquanto desfruto da bela paisagem da minha propriedade na campina.\n\nComo um nobre nascido, eu tenho a sorte de desfrutar de privilégios e luxos que poucos conhecem. No entanto, às vezes me pergunto se tudo isso realmente é importante. À medida que envelheço, começo a valorizar mais a camaradagem e o amor verdadeiro, coisas que dinheiro e títulos não podem comprar.\n\nEu tenho a sorte de contar com você como um amigo leal e verdadeiro, e espero que nossa amizade perdure por muitos anos. Espero também poder visitá-lo em breve, para que possamos desfrutar de umas boas risadas e lembranças juntos.\n\nAté então, por favor, aceite minhas sinceras saudações.\n\nCom os melhores cumprimentos,\n[Assinatura]",
+      "historico": [],
+      "source_id": "1a2fa3b5-c15a-4ec8-a14c-a1fa32453c45",
+      "grupo": "dffdc223-1083-429e-8fd6-e57b7607df74",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreva uma carta para a um amigo em torno do século 19 como se você fosse um nobre",
+      "resposta": "Meu querido amigo,\n\nPermita-me, com a mais elevada consideração e respeito, dirigir-me a você neste dia solene e majestoso. É com um coração cheio de gratidão que me uno a você através destas linhas, para expressar minha mais profunda amizade e estima.\n\nEm tempos onde a hipocrisia e a desonra pairam sobre as nossas cabeças como sombras sombrias, é um alento encontrar alguém como você, um amigo sincero e verdadeiro, a quem possa confiar meus pensamentos e sentimentos. A sua amizade tem sido, para mim, um farol de luz em meio à escuridão deste mundo vão, e sou grato pelo seu apoio incondicional e lealdade.\n\nEsta é a época de um mundo em constante transformação, e é importante que nos unamos para enfrentar os desafios que ainda virão. Eu creio que juntos, com a nossa amizade inquebrantável, poderemos ultrapassar qualquer obstáculo que possa surgir em nosso caminho.\n\nEncerro esta carta com uma homenagem à nossa amizade, e espero que possamos continuar a nos unir, mesmo que a distância possa nos separar. Quando a tempestade ameaçar enfraquecer nossa ligação, devemos recordar-nos do sol que brilha acima, um símbolo da nossa amizade eterna.\n\nCom o mais elevado respeito e admiração,\n\n[Seu Nome]",
+      "historico": [],
+      "source_id": "24d48054-5de5-4c1d-a4cf-c036d92d38a9",
+      "grupo": "dffdc223-1083-429e-8fd6-e57b7607df74",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Qual a razão de viver?",
+      "resposta": "A pergunta \"qual a razão de viver?\" é uma questão filosófica muito profunda e que tem sido debatida há séculos. A resposta pode variar de pessoa para pessoa, já que cada um tem suas próprias crenças, valores e propósitos.\n\nAlgumas pessoas acreditam que a razão de viver é buscar a felicidade, enquanto outras acreditam que é encontrar significado e propósito em suas vidas. Algumas pessoas encontram a razão de viver em suas famílias, amigos ou em sua fé religiosa, enquanto outras acreditam que devemos nos concentrar em ajudar os outros e fazer o bem para o mundo.\n\nNo final das contas, a razão de viver é uma questão profundamente pessoal e subjetiva, que só pode ser respondida por cada indivíduo. É importante lembrar que a vida é uma jornada cheia de altos e baixos, e que o importante é encontrar o que nos faz felizes e dar significado a nossas vidas, seja qual for a forma que isso possa assumir.",
+      "historico": [],
+      "source_id": "bf4ba37e-ff42-4b57-9c9e-8987c3eb6282",
+      "grupo": "e482a457-81a5-4e15-ba83-7f69932d6e1b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Poderia dar uma resposta mais longa e com mais insights?",
+      "resposta": "A questão “Qual a razão de viver?” é uma pergunta complexa e subjetiva que tem sido debatida desde a antiguidade. Muitas vezes, a resposta depende da perspectiva individual e das experiências que cada um tem vivido. Porém, é possível identificar alguns fatores que podem contribuir para dar sentido à nossa existência.\n\nA busca pelo crescimento e desenvolvimento personalizado é um motivo importante para viver. Desenvolver habilidades novas, alcançar metas e superar desafios podem nos dar um senso de realização e satisfação. Além disso, a relação com os outros também é fundamental para a vida. Conectar-se com amigos e familiares, compartilhar momentos agradáveis e apoiar uns aos outros podem fortalecer nossas conexões sociais e aumentar o bem-estar emocional.\n\nOutro aspecto importante é a contribuição positiva para o mundo em torno de nós. Trabalhar para promover mudanças sociais justas, proteger o meio ambiente e apoiar causas importantes podem nos dar um sentido de propósito e responsabilidade social. Em última análise, a razão de viver é uma questão íntima e particular que cada um deve explorar e descobrir por si próprio. Mas, se dedicarmos tempo e reflexão para entender nossos valores e objetivos, podemos encontrar a inspiração necessária para enfrentar o futuro com esperança e determinação.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Qual a razão de viver?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "É a de ter a oportunidade de poder aproveitar os prazeres da vida e de ser feliz com quem você ama. Defina um objetivo para continuar vivendo, como uma causa ou até mesmo um _hobby_, assim você sempre terá incentivo para continuar vivendo."
+        }
+      ],
+      "source_id": "d247a760-ceba-4012-9a75-c16b3a1f9ef5",
+      "grupo": "e482a457-81a5-4e15-ba83-7f69932d6e1b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Poderia me ajudar a escrever uma redação melhor?",
+      "resposta": "Claro! há alguma dificuldade específica ou quer que eu dê um apanhado geral?",
+      "historico": [],
+      "source_id": "2cb2cd5a-f5cf-4c39-a398-7955e78a8c7c",
+      "grupo": "e5063130-5776-4a02-9be5-7f8a2f1c9f8d",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Crie duas listas, uma com 10 características positivas(Por exemplo: Gentileza) e outra lista contendo 10 características negativas(Por exemplo: Crueldade), a ordem dos items deve refletir a gravidade(Gravidade negativa no caso da lista negativa e gravidade positiva no caso da lista positiva) dessas caraterísticas em ordem decrescente do item 1 ao 10(Por exemplo: 1. Crueldade(Mais grave), 2. Impaciência(Menos grave que o item 1)).",
+      "resposta": "**Características positivas:**\n\n1. Bondade e benevolência\n\n2. Empatia\n\n3. Altruísmo\n\n4. Confiabilidade e integridade\n\n5. Coragem e bravura\n\n6. Simpatia\n\n7. Respeito e cortesia\n\n8. Responsabilidade\n\n9. Gratidão\n\n10. Otimismo\n\n**Características negativas:**\n\n1. Maldade e crueldade\n\n2. Indiferença\n\n3. Egoísmo\n\n4. Incredibilidade e corrupção\n\n5. Covardia\n\n6. Antipatia\n\n7. Desrespeito e grosseria\n\n8. Irresponsabilidade\n\n9. Ingratidão\n\n10. Pessimismo",
+      "historico": [],
+      "source_id": "b1697088-80af-4b06-b4aa-c6af67debcc6",
+      "grupo": "e5bc97ab-73d0-495a-a92e-0b1d19833017",
+      "split": "treino"
+    },
+    {
+      "mensagem": "vamos jogar um jogo: você me faz perguntas sobre qual parte do corpo humano estou pensando e eu respondo se esta na região ou não, até que você acerte.",
+      "resposta": "Claro, vamos começar! Estou pronto para fazer as perguntas. Está pensando em uma parte do corpo que é visível ou não visível?",
+      "historico": [],
+      "source_id": "2c3cff71-5d6f-4443-92ae-adc7623394ae",
+      "grupo": "e78d62d6-4be2-42eb-925c-d1aa70190833",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Perfeito. Agora elabore algumas sugestões de protagonistas que fujam do óbvio e que sejam atraentes e gerem empatia e identificação com o leitor, aumentando o interesse na história.",
+      "resposta": "Claro, aqui estão algumas sugestões de protagonistas que podem fugir do óbvio e gerar empatia e identificação com o leitor em uma história com temática contemporânea e de magia:\n\n* Um personagem que descobre ter habilidades mágicas incomuns em um mundo em que a magia é comum. Ele pode ser visto como um outsider, e enfrentar dificuldades para se encaixar em um ambiente em que todos os outros já sabem como usar a magia, mas a sua perspectiva única e criativa pode ajudá-lo a superar esses desafios.\n* Uma protagonista que, após ser atingida por um raio, descobre que pode ver o futuro em seus sonhos. Ela pode usar suas habilidades para tentar salvar aqueles que ama, mas também deve lidar com as consequências de suas ações, e com o fardo de carregar o conhecimento do que acontecerá.\n* Um personagem que é um herdeiro de uma linhagem mágica poderosa, mas que decide rejeitar a tradição familiar e usar seus poderes para ajudar as pessoas em vez de usá-los para benefício próprio. Ele pode ter que enfrentar a desaprovação da família, e pode precisar encontrar novas maneiras de usar seus poderes que não sejam simplesmente seguir o caminho já traçado pelos seus antepassados.\n*Uma protagonista que é uma adolescente que luta contra uma maldição que a impede de ter contato com outras pessoas, e que descobre que suas habilidades mágicas podem ajudá-la a superar essa dificuldade. Ela pode começar a ver o mundo de uma nova maneira, e achar novas formas de se conectar com as pessoas ao seu redor.\n* Um personagem que é um xamã moderno que tenta equilibrar suas habilidades mágicas com as demandas do mundo contemporâneo. Ele pode ser visto como um outsider em ambos os mundos, mas sua habilidade de ver além das aparências pode ajudá-lo a lidar com os problemas em sua vida e ao seu redor.\n\nEspero que ache as sugestões úteis. Se precisar de algo mais, estou aqui.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Claro! A criação de antagonistas interessantes é fundamental para manter o interesse do leitor e tornar a trama mais envolvente. Aqui estão algumas dicas para criar antagonistas interessantes em seu romance:\n\n1) Faça o antagonista ter um objetivo claro e plausível: O antagonista deve ter um motivo forte para fazer o que faz, mesmo que seja moralmente questionável. É importante que o leitor possa entender a perspectiva do antagonista, mesmo que não concorde com ela.\n\n2) Crie uma história de fundo convincente: O que aconteceu na vida do antagonista que o levou a se tornar o que é hoje? Traumas, experiências traumáticas ou outras dificuldades podem ajudar a construir uma personalidade complexa e profunda para o antagonista.\n\n3) ao antagonista forças e fraquezas: O antagonista não pode ser invencível. Certifique-se de que ele tenha fraquezas que possam ser exploradas pelos personagens principais e que o façam mais humano.\n\n4) Crie uma conexão com os personagens principais: Um antagonista pode ser mais interessante se tiver uma conexão direta com os personagens principais. Pode ser um relacionamento pessoal, um histórico compartilhado ou um conflito ideológico.\n\n5) Use a magia para intensificar o antagonismo: A magia pode ser usada para dar ao antagonista habilidades especiais que o tornam uma ameaça ainda maior para os personagens principais. Além disso, pode ser uma ferramenta para mostrar o poder e as limitações do antagonista.\n\n6) Evite estereótipos: O antagonista não deve ser simplesmente um vilão malvado. Tente evitar estereótipos comuns e criar um personagem mais complexo e interessante.\n\n7) Surpreenda o leitor: O antagonista pode ter mais profundidade do que o leitor inicialmente percebe. Tente surpreender o leitor com reviravoltas e revelações que revelam mais sobre o antagonista.\n\nLembre-se de que a criação de um antagonista interessante requer tempo e esforço, mas o resultado final pode tornar seu romance muito mais atraente e envolvente. Boa sorte com a escrita!"
+        }
+      ],
+      "source_id": "1a3e3e3b-b949-4432-9b3b-13fb6ecc7518",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama.",
+      "resposta": "Aqui estão alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia:\n\n1. **Criar um antagonista que seja um personagem completo**: Um dos principais erros ao criar um antagonista é torná-lo apenas uma máscara negativa do protagonista. Para evitar isso, certifique-se de dar ao seu antagonista suas próprias motivações, objetivos e personalidade distinta. Lembre-se de que o objetivo do antagonista não precisa ser simplesmente \"defeituar\" o protagonista, mas sim criar conflito e tensão na história.\n2. **Use a magia como ferramenta para explorar as motivações do antagonista**: Ao usar magia como elemento central da sua história, você pode explorar profundamente as motivações do seu antagonista. Por exemplo, você pode mostrar como o antagonista usa a magia para tentar resolver problemas pessoais ou situações em sua vida, mas acaba causando mais problemas devido à sua falta de conhecimento ou habilidades inadequadas. Isso pode ajudar a explicar por que o antagonista está se opondo ao protagonista e credenciá-lo como um personagem complexo e interessante.\n3. **Mostre a humanidade do antagonista**: Mesmo que o antagonista esteja agindo de forma maléfica, é importante mostrar por que ele está fazendo isso. Você pode mostrar eventos que o moldaram como pessoa, explicando por que ele tomou essa atitude hostil em relação ao protagonista. Isso pode ajudar a criar empatia pelo personagem e torná-lo mais interessante para o leitor.\n4. **Use a magia como meio para revelar mais sobre o personagem**: Além de fornecer um contexto interessante para a história, a magia também pode ser usada para revelar mais sobre o personagem antagonista. Por exemplo, você pode mostrar o quanto o antagonista está disposto a fazer para alcançar seus objetivos, mesmo que isso signifique prejudicar outras pessoas. Isso pode ajudar a criar um senso de urgência na história e aumentar a tensão entre os personagens.\n5. **Faça o antagonista tão engraçado quanto o protagonista**: Seu antagonista não precisa ser sombrio e sinistro. Em vez disso, você pode criar um personagem engraçado e divertido que seja capaz de desafiar o protagonista em maneiras inesperadas. Isso pode ajudar a criar um equilíbrio cômico e suspense na história, tornando-a ainda mais interessante para o leitor.\n\nEsses são apenas alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia. O importante é lembrar que o objetivo é criar personagens completos que possam envolver o leitor e criar conflito e tensão na história. Boa sorte!",
+      "historico": [],
+      "source_id": "32628fdb-3814-4210-bb03-af2041c5f270",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Considerando o papel que o antagonista exercerá em meu romance, como eu poderia criar um bom plot twist que fosse instigante para os leitores?",
+      "resposta": "Para criar um bom plot twist envolvendo o antagonista do seu romance com elementos de magia, aqui estão algumas sugestões:\n\n1) Subverta as expectativas do leitor: Uma maneira eficaz de criar um bom plot twist é subverter as expectativas do leitor. Por exemplo, se o antagonista foi estabelecido como um vilão implacável durante todo o romance, um plot twist surpreendente seria revelar que ele tinha motivos nobres para suas ações e que seu comportamento maléfico era, na verdade, uma estratégia para alcançar um objetivo maior. Isso pode fazer o leitor reconsiderar suas percepções sobre o antagonista e trazer uma nova camada de complexidade à história.\n\n2) Revele informações ocultas: Outra maneira de criar um bom plot twist é revelar informações ocultas que mudem a perspectiva do leitor sobre o antagonista. Por exemplo, você pode revelar que o antagonista é, na verdade, um personagem de uma linha temporal alternativa ou um clone criado por uma organização malvada. Isso pode mudar fundamentalmente a maneira como o leitor percebe o antagonista e dar um novo impulso à história.\n\n3) Faça o protagonista questionar suas crenças: Um bom plot twist pode fazer com que o protagonista questione suas próprias crenças e ações até o momento. Por exemplo, você pode revelar que o antagonista estava tentando evitar que um evento cataclísmico ocorresse, e que suas ações eram na verdade bem-intencionadas. Isso pode criar um dilema moral para o protagonista e levar a uma conclusão emocionalmente satisfatória para a história.\n\n4) Desenvolva a conexão entre o protagonista e o antagonista: Um plot twist pode ser ainda mais impactante se estiver diretamente relacionado à conexão entre o protagonista e o antagonista. Por exemplo, você pode revelar que o antagonista e o protagonista são parentes ou que compartilham uma história em comum que até então era desconhecida. Isso pode criar uma tensão emocional intensa entre os personagens e adicionar uma nova dimensão à história.\n\nLembre-se de que um bom plot twist deve ser algo que o leitor não espera, mas que faz sentido dentro do contexto da história. Tente evitar reviravoltas arbitrárias ou não apoiadas pelos eventos anteriores da história. Em vez disso, use o plot twist para amplificar o conflito e a tensão já estabelecidos na trama. Boa sorte com a sua escrita!",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui estão alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia:\n\n1. **Criar um antagonista que seja um personagem completo**: Um dos principais erros ao criar um antagonista é torná-lo apenas uma máscara negativa do protagonista. Para evitar isso, certifique-se de dar ao seu antagonista suas próprias motivações, objetivos e personalidade distinta. Lembre-se de que o objetivo do antagonista não precisa ser simplesmente \"defeituar\" o protagonista, mas sim criar conflito e tensão na história.\n2. **Use a magia como ferramenta para explorar as motivações do antagonista**: Ao usar magia como elemento central da sua história, você pode explorar profundamente as motivações do seu antagonista. Por exemplo, você pode mostrar como o antagonista usa a magia para tentar resolver problemas pessoais ou situações em sua vida, mas acaba causando mais problemas devido à sua falta de conhecimento ou habilidades inadequadas. Isso pode ajudar a explicar por que o antagonista está se opondo ao protagonista e credenciá-lo como um personagem complexo e interessante.\n3. **Mostre a humanidade do antagonista**: Mesmo que o antagonista esteja agindo de forma maléfica, é importante mostrar por que ele está fazendo isso. Você pode mostrar eventos que o moldaram como pessoa, explicando por que ele tomou essa atitude hostil em relação ao protagonista. Isso pode ajudar a criar empatia pelo personagem e torná-lo mais interessante para o leitor.\n4. **Use a magia como meio para revelar mais sobre o personagem**: Além de fornecer um contexto interessante para a história, a magia também pode ser usada para revelar mais sobre o personagem antagonista. Por exemplo, você pode mostrar o quanto o antagonista está disposto a fazer para alcançar seus objetivos, mesmo que isso signifique prejudicar outras pessoas. Isso pode ajudar a criar um senso de urgência na história e aumentar a tensão entre os personagens.\n5. **Faça o antagonista tão engraçado quanto o protagonista**: Seu antagonista não precisa ser sombrio e sinistro. Em vez disso, você pode criar um personagem engraçado e divertido que seja capaz de desafiar o protagonista em maneiras inesperadas. Isso pode ajudar a criar um equilíbrio cômico e suspense na história, tornando-a ainda mais interessante para o leitor.\n\nEsses são apenas alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia. O importante é lembrar que o objetivo é criar personagens completos que possam envolver o leitor e criar conflito e tensão na história. Boa sorte!"
+        }
+      ],
+      "source_id": "3ee237ef-32d1-45a2-a7d5-5e4700da4ad0",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Considerando o papel que o antagonista exercerá em meu romance, como eu poderia criar um bom plot twist que fosse instigante para os leitores?",
+      "resposta": "Aqui vão algumas dicas para você criar um bom plot twist para os seus leitores:\n\n- Evite tentar impor uma reviravolta por qualquer motivo. Uma narrativa bem construída tende a ter momentos de surpresa. No entanto, é importante que o escritor identifique esses momentos e os valorize adequadamente durante a escrita.\n\n- Antes de escrever uma única linha de seu conto, considere estruturar seus capítulos. Através de um sumário sucinto, capítulo a capítulo, você poderá compreender em cheio os principais aspectos que devem ser abordados em sua história. Esses aspectos incluirão o plot twist.\n\n- Deixe pistas ao longo do livro para o leitor. Assim, quando ocorrer a reviravolta, ele pensará \"Agora tudo faz sentido\". Esse recurso é conhecido como foreshadowing. As pistas podem ser verdadeiras ou falsas, mas nunca vazias.\n\n- Seja consistente. Nunca crie situações improváveis ou reviravoltas sem sentido. A surpresa é boa, mas deve ter o mínimo de senso para a história.\n\n- Valore as reviravoltas com um leitor beta. Esses são os principais parceiros do escritor no processo de escrita. O leitor beta dirá se o plot twist planejado é bom ou não.\n\nAlém disso, existem algumas dicas de características que são essenciais:\n\n1. É preciso causar impacto no leitor;\n2. Deve ser surpreendente;\n3. Tem que fazer sentido e ser coerente com a história;\n4. Precisa ser marcante para o leitor.\n\nSeguindo essas dicas, você desenvolverá uma história muito mais interessante.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui estão alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia:\n\n1. **Criar um antagonista que seja um personagem completo**: Um dos principais erros ao criar um antagonista é torná-lo apenas uma máscara negativa do protagonista. Para evitar isso, certifique-se de dar ao seu antagonista suas próprias motivações, objetivos e personalidade distinta. Lembre-se de que o objetivo do antagonista não precisa ser simplesmente \"defeituar\" o protagonista, mas sim criar conflito e tensão na história.\n2. **Use a magia como ferramenta para explorar as motivações do antagonista**: Ao usar magia como elemento central da sua história, você pode explorar profundamente as motivações do seu antagonista. Por exemplo, você pode mostrar como o antagonista usa a magia para tentar resolver problemas pessoais ou situações em sua vida, mas acaba causando mais problemas devido à sua falta de conhecimento ou habilidades inadequadas. Isso pode ajudar a explicar por que o antagonista está se opondo ao protagonista e credenciá-lo como um personagem complexo e interessante.\n3. **Mostre a humanidade do antagonista**: Mesmo que o antagonista esteja agindo de forma maléfica, é importante mostrar por que ele está fazendo isso. Você pode mostrar eventos que o moldaram como pessoa, explicando por que ele tomou essa atitude hostil em relação ao protagonista. Isso pode ajudar a criar empatia pelo personagem e torná-lo mais interessante para o leitor.\n4. **Use a magia como meio para revelar mais sobre o personagem**: Além de fornecer um contexto interessante para a história, a magia também pode ser usada para revelar mais sobre o personagem antagonista. Por exemplo, você pode mostrar o quanto o antagonista está disposto a fazer para alcançar seus objetivos, mesmo que isso signifique prejudicar outras pessoas. Isso pode ajudar a criar um senso de urgência na história e aumentar a tensão entre os personagens.\n5. **Faça o antagonista tão engraçado quanto o protagonista**: Seu antagonista não precisa ser sombrio e sinistro. Em vez disso, você pode criar um personagem engraçado e divertido que seja capaz de desafiar o protagonista em maneiras inesperadas. Isso pode ajudar a criar um equilíbrio cômico e suspense na história, tornando-a ainda mais interessante para o leitor.\n\nEsses são apenas alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia. O importante é lembrar que o objetivo é criar personagens completos que possam envolver o leitor e criar conflito e tensão na história. Boa sorte!"
+        }
+      ],
+      "source_id": "5a686a68-cd7f-468a-a55a-9f028c9e27dc",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Considerando o papel que o antagonista exercerá em meu romance, como eu poderia criar um bom plot twist que fosse instigante para os leitores?",
+      "resposta": "Para criar um plot twist eficaz, é importante garantir que a reviravolta seja coerente com a trama e os personagens e que não pareça forçada ou inverossímil. Além disso, semeie pistas sutis ao longo da história para que, quando a reviravolta ocorrer, os leitores possam olhar para trás e perceber que ela estava lá o tempo todo, mesmo que não tenham notado inicialmente. Isso tornará a reviravolta mais satisfatória e surpreendente.\nAqui estão algumas ideias para criar um plot twist instigante:\n\n* **Revelação inesperada:** Faça uma revelação surpreendente sobre o passado ou as motivações do antagonista que muda a percepção do leitor sobre o personagem e a trama. Isso pode fazer com que os leitores reavaliem tudo o que sabiam sobre o antagonista até aquele ponto e aumentar o interesse na história.\n* **Mudança de aliança:** Uma reviravolta interessante pode ser fazer com que o antagonista mude de aliança no meio da história. Talvez ele tenha seus próprios motivos para se opor ao protagonista, mas, por alguma razão, decide ajudar o protagonista em um momento crucial da trama. Isso pode adicionar complexidade ao personagem e criar um conflito interno que os leitores acharão cativante.\n* **Antagonista oculto:** Outra opção é esconder a verdadeira identidade do antagonista até um momento crucial da trama. Talvez um personagem que parecia ser um aliado do protagonista desde o início na verdade seja o antagonista. Essa reviravolta pode ser chocante para o leitor e fazer com que eles reavaliem todos os eventos anteriores à luz dessa nova informação.\n* **Redenção do antagonista:** Se o antagonista tem motivações compreensíveis, você pode criar uma reviravolta onde ele se redime de alguma forma. Isso pode ser feito através de um sacrifício, uma mudança de coração ou qualquer outra ação que demonstre que o personagem cresceu e evoluiu. Essa reviravolta pode ser emocionalmente impactante e fazer com que os leitores repensem a natureza do bem e do mal na história.\n* **Conexão inesperada:** Revele uma conexão surpreendente entre o protagonista e o antagonista, como parentesco, uma amizade passada ou um segredo compartilhado. Isso pode aumentar a tensão emocional entre os personagens e forçar o protagonista a enfrentar seus próprios preconceitos e expectativas em relação ao antagonista.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui estão alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia:\n\n1. **Criar um antagonista que seja um personagem completo**: Um dos principais erros ao criar um antagonista é torná-lo apenas uma máscara negativa do protagonista. Para evitar isso, certifique-se de dar ao seu antagonista suas próprias motivações, objetivos e personalidade distinta. Lembre-se de que o objetivo do antagonista não precisa ser simplesmente \"defeituar\" o protagonista, mas sim criar conflito e tensão na história.\n2. **Use a magia como ferramenta para explorar as motivações do antagonista**: Ao usar magia como elemento central da sua história, você pode explorar profundamente as motivações do seu antagonista. Por exemplo, você pode mostrar como o antagonista usa a magia para tentar resolver problemas pessoais ou situações em sua vida, mas acaba causando mais problemas devido à sua falta de conhecimento ou habilidades inadequadas. Isso pode ajudar a explicar por que o antagonista está se opondo ao protagonista e credenciá-lo como um personagem complexo e interessante.\n3. **Mostre a humanidade do antagonista**: Mesmo que o antagonista esteja agindo de forma maléfica, é importante mostrar por que ele está fazendo isso. Você pode mostrar eventos que o moldaram como pessoa, explicando por que ele tomou essa atitude hostil em relação ao protagonista. Isso pode ajudar a criar empatia pelo personagem e torná-lo mais interessante para o leitor.\n4. **Use a magia como meio para revelar mais sobre o personagem**: Além de fornecer um contexto interessante para a história, a magia também pode ser usada para revelar mais sobre o personagem antagonista. Por exemplo, você pode mostrar o quanto o antagonista está disposto a fazer para alcançar seus objetivos, mesmo que isso signifique prejudicar outras pessoas. Isso pode ajudar a criar um senso de urgência na história e aumentar a tensão entre os personagens.\n5. **Faça o antagonista tão engraçado quanto o protagonista**: Seu antagonista não precisa ser sombrio e sinistro. Em vez disso, você pode criar um personagem engraçado e divertido que seja capaz de desafiar o protagonista em maneiras inesperadas. Isso pode ajudar a criar um equilíbrio cômico e suspense na história, tornando-a ainda mais interessante para o leitor.\n\nEsses são apenas alguns exemplos de como criar antagonistas interessantes em um romance contemporâneo com elementos de magia. O importante é lembrar que o objetivo é criar personagens completos que possam envolver o leitor e criar conflito e tensão na história. Boa sorte!"
+        }
+      ],
+      "source_id": "82ca47b0-c126-4d6d-818e-97732cac9f19",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Estou escrevendo um romance com temas contemporâneos e magia.\n\nMe dê exemplos de como fazer antagonistas interessantes para o leitor e para a trama.",
+      "resposta": "Claro! A criação de antagonistas interessantes é fundamental para manter o interesse do leitor e tornar a trama mais envolvente. Aqui estão algumas dicas para criar antagonistas interessantes em seu romance:\n\n1) Faça o antagonista ter um objetivo claro e plausível: O antagonista deve ter um motivo forte para fazer o que faz, mesmo que seja moralmente questionável. É importante que o leitor possa entender a perspectiva do antagonista, mesmo que não concorde com ela.\n\n2) Crie uma história de fundo convincente: O que aconteceu na vida do antagonista que o levou a se tornar o que é hoje? Traumas, experiências traumáticas ou outras dificuldades podem ajudar a construir uma personalidade complexa e profunda para o antagonista.\n\n3) ao antagonista forças e fraquezas: O antagonista não pode ser invencível. Certifique-se de que ele tenha fraquezas que possam ser exploradas pelos personagens principais e que o façam mais humano.\n\n4) Crie uma conexão com os personagens principais: Um antagonista pode ser mais interessante se tiver uma conexão direta com os personagens principais. Pode ser um relacionamento pessoal, um histórico compartilhado ou um conflito ideológico.\n\n5) Use a magia para intensificar o antagonismo: A magia pode ser usada para dar ao antagonista habilidades especiais que o tornam uma ameaça ainda maior para os personagens principais. Além disso, pode ser uma ferramenta para mostrar o poder e as limitações do antagonista.\n\n6) Evite estereótipos: O antagonista não deve ser simplesmente um vilão malvado. Tente evitar estereótipos comuns e criar um personagem mais complexo e interessante.\n\n7) Surpreenda o leitor: O antagonista pode ter mais profundidade do que o leitor inicialmente percebe. Tente surpreender o leitor com reviravoltas e revelações que revelam mais sobre o antagonista.\n\nLembre-se de que a criação de um antagonista interessante requer tempo e esforço, mas o resultado final pode tornar seu romance muito mais atraente e envolvente. Boa sorte com a escrita!",
+      "historico": [],
+      "source_id": "92d528d4-5639-48b1-9f70-296b4d2a90bd",
+      "grupo": "f04780b7-eec5-4281-8f46-828434c18f6b",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Escreve um poema no estilo de Camões",
+      "resposta": "De amor, de saudade ou de dor,\nOs poemas, em versos belos,\nSão como um canto do rouxinol,\nQue embala o coração dos zelos.\n\nSão feitos de palavras, de emoção,\nQue se juntam em doce harmonia,\nPara contar histórias de paixão,\nOu expressar a mais profunda agonia.\n\nOs poemas, como flores do campo,\nDesabrocham na alma do poeta,\nE se espalham pelo mundo inteiro,\nEm busca de uma alma inquieta.\n\nDeixam marcas, eternizam momentos,\nFazem vibrar o coração dos amantes,\nSão como um bálsamo para a dor,\nOu um sorriso para os que são consternantes.\n\nOh, poemas, preciosos tesouros,\nQue nos levam a mundos infindáveis,\nQue nos fazem sonhar com amores,\nOu desvendar mistérios insondáveis.\n\nAssim como Camões, em sua arte,\nNos ensina a amar e a sofrer,\nOs poemas, em sua grandeza,\nNos fazem compreender o que é viver.",
+      "historico": [],
+      "source_id": "1621f8ef-35df-4b2a-89ae-689713494fa4",
+      "grupo": "f34534ba-dc0f-4606-b417-62524e1f1ec8",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Gostaria de saber como melhorar a produtividade no meu home office",
+      "resposta": "Aqui está uma lista de sugestões com 8 items que podem ajudar você com a produtividade no home office:\n\n1. Defina um horário de trabalho e siga-o: Estabeleça um horário específico para começar e terminar o trabalho e tente cumpri-lo diariamente. Isso te ajudará a manter uma rotina e a evitar a procrastinação.\n\n2. Reserve um espaço exclusivo para trabalhar: Ter um espaço específico para trabalhar ajuda a separar o trabalho da vida pessoal e aumenta o foco e a concentração.\n\n3. Limite as distrações: Desative as notificações do celular, feche as abas do navegador que não estão relacionadas ao trabalho e informe sua família e amigos sobre seus horários de trabalho.\n\n4. Faça pausas regulares: Tire pausas regulares para evitar a cansaço e manter a produtividade e foco. Faça pausas breves a cada hora e uma pausa mais longa para o almoço.\n\n5. Priorize as tarefas: Comece o dia com as tarefas mais importantes e complexas e faça as tarefas menores e menos importantes no final do dia quando está mais cansado para lidar com tarefas complexas. \n\n6. Mantenha-se conectado com colegas de trabalho: Utilize ferramentas de comunicação como chat, videoconferência e e-mail para manter contato com seus colegas de trabalho. Isso ajuda a manter o senso de equipe e a evitar a sensação de isolamento.\n\n7. Crie uma lista de tarefas diárias: Crie uma lista de tarefas diárias e marque cada tarefa conforme é concluída. Isso ajuda a manter o foco e a produtividade.\n\n8. Use ferramentas digitais: Procure por ferramentas digitais que possam automatizar e expandir suas capacidades como extensões para o navegador, sites ou programas que executam tarefas relacionados a sua função como por exemplo extensões de captura de tela, correção ortográfica dentre outras que podem agilizar e melhorar a qualidade do seu trabalho.",
+      "historico": [],
+      "source_id": "1566c12c-9fad-4a92-a5ff-2f8743fc4a32",
+      "grupo": "f8f9b38a-bdef-4d46-aec4-b59a0177bc30",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Gostaria de saber como melhorar a produtividade no meu home office",
+      "resposta": "Aqui estão algumas dicas para melhorar a produtividade no home office:\n1. Planejamento é fundamental. Saber o que irá fazer durante o dia é um ponto importante. Cada um tem seus próprios meios, seja por checklists, cronogramas, agendamentos.\n2. Crie um ambiente para o trabalho. Um espaço dedicado para o trabalho pode ajudar a manter o foco e a concentração.\n3. Diminua os barulhos e distrações. Fones de ouvido com cancelamento de ruído podem ajudar a reduzir o barulho externo.\n4. Horários e dias trabalhados. Estabeleça horários e dias específicos para trabalhar e tente segui-los.\n5. Pijama, não! Vista-se como se fosse trabalhar fora de casa.\n6. Atinja metas e se recompense. Estabeleça metas diárias e semanais e recompense-se quando as atingir.\n7. Tenha intervalos. Faça pausas regulares para descansar a mente e os olhos.\n8. Organize sua mesa de trabalho. Uma mesa organizada pode ajudar a manter o foco.",
+      "historico": [],
+      "source_id": "8c0aca6c-546a-401d-a806-7bb662bee306",
+      "grupo": "f8f9b38a-bdef-4d46-aec4-b59a0177bc30",
+      "split": "treino"
+    },
+    {
+      "mensagem": "Considerando que nas reuniões eu fico com a câmera desligada, tem algum problema trabalhar da cama e sem camisa?",
+      "resposta": "Trabalhar da cama pode parecer confortável, mas é importante lembrar que essa não é a melhor posição para trabalhar por longos períodos de tempo. Além disso, trabalhar sem camisa pode não ser apropriado em muitos contextos profissionais e pode ser considerado inadequado ou desrespeitoso. É importante tentar criar um ambiente de trabalho confortável e apropriado, que o ajude a manter o foco e a produtividade, mesmo que esteja trabalhando em casa. Considere criar um espaço de trabalho separado em sua casa e vista-se de maneira profissional, como faria se estivesse trabalhando em um escritório. Isso pode ajudá-lo a manter a disciplina e a mentalidade profissional.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Gostaria de saber como melhorar a produtividade no meu home office"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Aqui estão algumas dicas para melhorar a produtividade no home office:\n1. Planejamento é fundamental. Saber o que irá fazer durante o dia é um ponto importante. Cada um tem seus próprios meios, seja por checklists, cronogramas, agendamentos.\n2. Crie um ambiente para o trabalho. Um espaço dedicado para o trabalho pode ajudar a manter o foco e a concentração.\n3. Diminua os barulhos e distrações. Fones de ouvido com cancelamento de ruído podem ajudar a reduzir o barulho externo.\n4. Horários e dias trabalhados. Estabeleça horários e dias específicos para trabalhar e tente segui-los.\n5. Pijama, não! Vista-se como se fosse trabalhar fora de casa.\n6. Atinja metas e se recompense. Estabeleça metas diárias e semanais e recompense-se quando as atingir.\n7. Tenha intervalos. Faça pausas regulares para descansar a mente e os olhos.\n8. Organize sua mesa de trabalho. Uma mesa organizada pode ajudar a manter o foco."
+        }
+      ],
+      "source_id": "bcf9718f-4ac7-4f33-b2c0-55d6d55c5688",
+      "grupo": "f8f9b38a-bdef-4d46-aec4-b59a0177bc30",
+      "split": "treino"
+    }
+  ]
+}

@@ -516,6 +516,11 @@ class DialogoAberto:
     def registrar(self, identificador, texto, conversa):
         if identificador == "conversa:reinicio":
             self.limpar()
+        elif identificador.startswith("conversa:neural_"):
+            # O fallback sabe que houve conversa. O texto gerado não
+            # preenche dados pessoais nem vira relato do usuário.
+            self.ativo, self.espera = True, None
+            self.ultima_resposta = texto
         elif identificador == "conversa:abertura":
             self.ativo, self.espera = True, "tema"
             self.ultima_resposta = texto

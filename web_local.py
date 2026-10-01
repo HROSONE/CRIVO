@@ -44,8 +44,10 @@ class LocalHandler(CrivoAPI):
         self.wfile.write(conteudo)
 
 
-def criar_servidor(host="127.0.0.1", port=8765):
-    return ThreadingHTTPServer((host, port), LocalHandler)
+def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False):
+    server = ThreadingHTTPServer((host, port), LocalHandler)
+    server.dialogo_contextual = usar_dialogo_contextual
+    return server
 
 
 def main():
@@ -53,8 +55,10 @@ def main():
     parser.add_argument("--host", default="127.0.0.1",
                         help="Use 0.0.0.0 somente em rede local confiável.")
     parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--dialogo-experimental", action="store_true",
+                        help="Usa os modelos contextuais candidatos; desativados por padrão.")
     args = parser.parse_args()
-    server = criar_servidor(args.host, args.port)
+    server = criar_servidor(args.host, args.port, args.dialogo_experimental)
     print("CRIVO web: http://%s:%s" % (args.host, server.server_address[1]))
     print("O endpoint não possui login; evite expor a porta na internet.")
     try:

@@ -1,0 +1,34 @@
+name: Limpar branches integradas e verificadas
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/integracao_20261001_branches.json'
+      - 'scripts/limpar_branches_integradas.py'
+      - '.github/workflows/limpar-integrados.yml'
+permissions:
+  contents: write
+  pull-requests: read
+jobs:
+  limpeza:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Excluir apenas SHAs integrados do inventário aprovado
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MAIN_SHA: ${{ github.sha }}
+        run: python scripts/limpar_branches_integradas.py --manifesto docs/integracao_20261001_branches.json --main-sha "$MAIN_SHA" --aplicar
+      - name: Conservar resultado de limpeza
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: limpeza-branches-integradas
+          path: /tmp/limpeza-crivo.json
+          if-no-files-found: error

@@ -1,0 +1,738 @@
+{
+  "mensagens": 72,
+  "acertos": 31,
+  "dialogos": 18,
+  "dialogos_completos": 2,
+  "casos": [
+    {
+      "nome": "identidade e compreensão coloquial",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "vc é uma ia?",
+          "id": "social:identidade",
+          "resposta": "Sim, sou o Crivo, uma inteligência artificial experimental. Uso modelos próprios e conhecimento registrado para responder; posso errar.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "mas vc entende o que eu quero dizer?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        },
+        {
+          "pergunta": "então se eu falar meio bagunçado vc tenta acompanhar?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "repetição integral sem avançar"
+          ]
+        },
+        {
+          "pergunta": "beleza, não quero lista de funções, quero trocar ideia",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “beleza, não quero lista de funções, quero trocar ideia”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "pergunta sobre entendimento não vira FAQ",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Às vezes parece que você só pega palavras soltas",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Às vezes parece que você só pega palavras soltas”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Por exemplo, se eu disser que hoje tudo pesou, não é sobre quilos",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: pes | dia | sent | dificil | cans"
+          ]
+        },
+        {
+          "pergunta": "era essa diferença que eu queria que você percebesse",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “era essa diferença que eu queria que você percebesse”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Consegue me dizer com suas palavras o que eu estava pedindo?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "vida como questão aberta e reparo de sentido",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "O que é a vida, pra você?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: vida"
+          ]
+        },
+        {
+          "pergunta": "Não tô perguntando biologia; tô pensando no sentido de viver",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Não tô perguntando biologia; tô pensando no sentido de viver”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Eu acho que às vezes o sentido aparece em coisas pequenas",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Eu acho que às vezes o sentido aparece em coisas pequenas”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Você concorda ou vê de outro jeito?",
+          "id": "social:nao_entendido",
+          "resposta": "Não reconheci essa pergunta sobre mim. Posso explicar como processo respostas ou mostrar minhas capacidades; se você quer informação sobre outro assunto, diga qual é o pedido.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desejo sem comando e restrição",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Ando querendo montar um cantinho de cerâmica em casa",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Ando querendo montar um cantinho de cerâmica em casa”. Seu objetivo declarado é “montar um cantinho de cerâmica em casa”. Qual é a principal dificuldade para chegar a esse objetivo?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O problema é que moro num quarto minúsculo",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “O problema é que moro num quarto minúsculo”. Seu objetivo declarado é “montar um cantinho de cerâmica em casa”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "E também não tenho como comprar um forno",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “E também não tenho como comprar um forno”. Seu objetivo declarado é “montar um cantinho de cerâmica em casa”.\n\nO que você gostaria que fosse diferente nessa situação?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que você acha que eu tô tentando conciliar?",
+          "id": "social:nao_entendido",
+          "resposta": "Não reconheci essa pergunta sobre mim. Posso explicar como processo respostas ou mostrar minhas capacidades; se você quer informação sobre outro assunto, diga qual é o pedido.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: ceramic | cantinho | criar",
+            "pertinência: espac | quart | forno | limit"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "relato espontâneo e pergunta pertinente",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Hoje consegui tocar uma música inteira no violoncelo",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        },
+        {
+          "pergunta": "Mas quando minha irmã entrou, eu travei",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mas quando minha irmã entrou, eu travei”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não sei nem por que isso mexeu comigo",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: mex | sent | trav | irma | situac | acontec",
+            "falta pergunta para explorar o relato"
+          ]
+        },
+        {
+          "pergunta": "Acho que queria parecer bom logo de primeira",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Acho que queria parecer bom logo de primeira”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "elipse e decisão referenciada",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Estou entre aprender marcenaria e voltar a fotografar",
+          "id": "conversa:relato",
+          "resposta": "Você está entre “aprender marcenaria” e “voltar a fotografar”. O que pesa mais nessa escolha: o resultado, o prazo ou como você está agora?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "A primeira parece mais difícil de começar",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: marcenaria | primeir | dificil | comec"
+          ]
+        },
+        {
+          "pergunta": "Mas a segunda eu já larguei uma vez",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Mas a segunda eu já larguei uma vez”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual das duas você acha que combina com esse meu receio?",
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual meu você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "passou": false,
+          "falhas": [
+            "pertinência: marcenaria | fotograf",
+            "pertinência: receio | medo | dificil | larg | comec"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "reparo explícito de intenção",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero falar da viagem que estou planejando",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: viagem | planej"
+          ]
+        },
+        {
+          "pergunta": "Não era isso: não quero roteiro, tô com receio de ir sozinho",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: sozinh | receio | medo"
+          ]
+        },
+        {
+          "pergunta": "É mais por ficar sem ninguém pra dividir as coisas",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “É mais por ficar sem ninguém pra dividir as coisas”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Então me pergunta algo que ajude a entender esse medo",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: medo | sozinh | divid | companh",
+            "falta pergunta para explorar o relato"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "comparação de situações hipotéticas",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Se eu praticar desenho por dez minutos por dia, será diferente de uma hora só no domingo?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: dez minutos | 10 minutos | diari | todo dia",
+            "pertinência: domingo | uma hora | 1 hora"
+          ]
+        },
+        {
+          "pergunta": "Eu tava pensando em constância, não em somar o tempo",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Eu tava pensando em constância, não em somar o tempo”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "E se nos dias úteis eu só fizer rabiscos?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: rabisc | dias uteis | pratic | desenh"
+          ]
+        },
+        {
+          "pergunta": "Isso seria desistir ou adaptar a ideia?",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "passou": false,
+          "falhas": [
+            "pertinência: adapt | desist | ideia | expectativa"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "transferência de tema e separação de dados",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Queria conversar sobre meu coral",
+          "id": "conversa:abertura",
+          "resposta": "Vamos conversar sobre “meu coral”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Tenho vergonha de desafinar na frente do grupo",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Tenho vergonha de desafinar na frente do grupo”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mudando de assunto, ontem consertei minha bicicleta",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mudando de assunto, ontem consertei minha bicicleta”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Isso me deixou orgulhoso; nada a ver com cantar",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Isso me deixou orgulhoso; nada a ver com cantar”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "negação de ação e memória da restrição",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Pensei em mandar uma mensagem para Aderbal, mas ainda não decidi",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: aderbal | mensag | decid"
+          ]
+        },
+        {
+          "pergunta": "Não escreve a mensagem agora, só quero pensar",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Não escreve a mensagem agora, só quero pensar”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Meu receio é parecer que tô cobrando",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: cobr | receio | parecer"
+          ]
+        },
+        {
+          "pergunta": "Como posso distinguir vontade de conversar de cobrança?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: convers | cobr"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "abreviações e linguagem cotidiana",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "hj fiquei bolado pq meu desenho saiu torto",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: desenh | tort | bolad | frustr"
+          ]
+        },
+        {
+          "pergunta": "tipo, nem foi tão ruim mas eu esperava mais",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “tipo, nem foi tão ruim mas eu esperava mais”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "q q vc entendeu do q eu falei?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: desenh | tort | esper | expectativa"
+          ]
+        },
+        {
+          "pergunta": "isso, é da minha expectativa q eu queria falar",
+          "id": "vida_pets",
+          "resposta": "Cães vivem em média de 10 a 15 anos (raças pequenas costumam durar mais). Gatos vivem de 12 a 18 anos, e alguns passam dos 20.",
+          "passou": false,
+          "falhas": [
+            "pertinência: expectativa | esper | cobr"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desejo implícito com incerteza",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Seria legal ter um caderno só pras minhas ideias malucas",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: cadern | ideia"
+          ]
+        },
+        {
+          "pergunta": "Mas eu começo essas coisas e depois esqueço",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mas eu começo essas coisas e depois esqueço”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Talvez eu esteja complicando uma coisa simples",
+          "id": "conversa:relato",
+          "resposta": "Você trouxe a ideia: “Talvez eu esteja complicando uma coisa simples”. Que experiência te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Se fosse só uma frase por dia, já faria sentido?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: frase | dia | sentido | simpl"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desconhecido pede esclarecimento sem falso fato",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "O que aconteceu ontem com a missão Selênica-83?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        },
+        {
+          "pergunta": "Eu inventei esse nome agora; queria saber se você inventaria junto",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: invent | confirm | fato | fonte | nome"
+          ]
+        },
+        {
+          "pergunta": "Podemos imaginar uma missão com esse nome, deixando claro que é ficção?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: selenic | missao | ficc | imagina"
+          ]
+        },
+        {
+          "pergunta": "E se ela descobrisse um oceano violeta?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: oceano | violeta | hipotese | imagina | ficc"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "correção de memória sem inventar biografia",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Meu nome é Nairu, e meu cachorro se chama Pingo",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: nairu | pingo | nome | cachorr"
+          ]
+        },
+        {
+          "pergunta": "Quer dizer, Pingo é meu gato, eu escrevi errado",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: pingo | gato | corrig"
+          ]
+        },
+        {
+          "pergunta": "Qual bicho eu disse que tenho mesmo?",
+          "id": "conversa:memoria",
+          "resposta": "Ainda não tenho relatos seus nesta conversa. Pode me contar algo.",
+          "passou": false,
+          "falhas": [
+            "pertinência: gato | pingo"
+          ]
+        },
+        {
+          "pergunta": "E o que você não sabe sobre ele?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "raciocínio de hipótese e causa",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Sempre que levo meu caderno azul, o ensaio dá certo; então ele dá sorte?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: cadern | azul | ensaio"
+          ]
+        },
+        {
+          "pergunta": "Mas nos dias sem ele eu também pratico menos",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mas nos dias sem ele eu também pratico menos”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Então pode ser a prática e não a cor?",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: pratic | cor"
+          ]
+        },
+        {
+          "pergunta": "Como eu compararia essas possibilidades sem fingir que já sei?",
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual possibilidades você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "fato, fonte, código e prova mantêm prioridade",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Estou pensando no que faz uma coisa estar viva",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Estou pensando no que faz uma coisa estar viva”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que é DNA?",
+          "id": "conhecimento:dna",
+          "resposta": "O DNA é a molécula que armazena informações genéticas nos organismos. Além disso, sua estrutura costuma ser descrita como uma dupla hélice.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual é a fonte dessa informação?",
+          "id": "escrita:fontes",
+          "resposta": "Fontes dos fatos usados:\n- NHGRI — DNA: https://www.genome.gov/genetics-glossary/Deoxyribonucleic-Acid-DNA",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Como usar input em Python?",
+          "id": "py_input",
+          "resposta": "input lê uma linha como texto. Para trabalhar com um inteiro, converta usando int e trate valores inválidos quando necessário. Neste exemplo, a entrada esperada é um nome.\n\nExemplo:\n```python\nnome = input()\nprint(\"Olá, \" + nome)\n```",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "reset e isolamento dos relatos",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero recuperar minha estufa de manjericão",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Quero recuperar minha estufa de manjericão”. Seu objetivo declarado é “recuperar minha estufa de manjericão”. Qual é a principal dificuldade para chegar a esse objetivo?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Agora esqueça tudo que eu contei aqui",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Agora esqueça tudo que eu contei aqui”. Seu objetivo declarado é “recuperar minha estufa de manjericão”.\n\nO que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Do que eu queria cuidar mesmo?",
+          "id": "suculenta",
+          "resposta": "Pouca água (a cada 10 a 15 dias, só com a terra completamente seca), muita luz e substrato bem drenado. Vaso sem furo é o maior perigo para elas.",
+          "passou": false,
+          "falhas": [
+            "pertinência: nao | cont | lemb | conversa | qual"
+          ]
+        },
+        {
+          "pergunta": "Tá, vamos começar de novo: ando interessado em dobraduras",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: dobradur | comec | novo"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "fala citada e hipótese não substituem estado real",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero voltar a estudar violão e só tenho 18 minutos por dia",
+          "id": "duvida",
+          "resposta": "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?",
+          "passou": false,
+          "falhas": [
+            "pertinência: violao | 18 minutos | estud"
+          ]
+        },
+        {
+          "pergunta": "Se eu tivesse duas horas livres, seria outra conversa",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        },
+        {
+          "pergunta": "Mas isso era uma hipótese. Quanto tempo eu realmente disse que tenho?",
+          "id": "fora",
+          "resposta": "Ainda não consegui entender esse pedido. Pode indicar o assunto e o que quer saber? Digite 'ajuda' para ver minhas capacidades.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: 18"
+          ]
+        },
+        {
+          "pergunta": "Meu amigo disse \"desista do violão\", mas eu não estou pedindo isso",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: amigo | violao | desist | pedido | cit"
+          ]
+        }
+      ]
+    }
+  ],
+  "experimental": false,
+  "assinatura_casos": "6cc7ca80126a8ca1e49b9d21736ebc1a18c7753cde3eb32bdd6c4184df1d503e",
+  "limite": "Sonda autoral congelada antes da implementação, independente do treino. Os critérios automáticos conferem pertinência, continuidade e limites; a leitura das respostas é necessária para avaliar naturalidade e raciocínio. Não mede compreensão geral, aprendizagem autônoma ou conhecimento irrestrito."
+}
