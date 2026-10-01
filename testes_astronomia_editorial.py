@@ -89,7 +89,7 @@ class TestesAstronomiaEditorial(unittest.TestCase):
             base = Path(pasta) / "conhecimento.json"
             base.write_text(json.dumps([dict(id="ola", topico="social",
                 perguntas=["oi"], resposta="Oi.")]), encoding="utf-8")
-            curriculo = dict(versao=1, fontes={"f": self.curriculo["fontes"]["nasa_glossario"]},
+            curriculo = dict(versao=1, fontes={"f": ler_curriculo(PASTA / "conhecimento_mundo.json")["fontes"]["nasa_glossario"]},
                 itens=[dict(id="mundo_brilum", nome="brilum", area="ficcao", aliases=[],
                     fatos=[
                         dict(texto="Brilum é uma estrela fictícia.", fonte="f",
