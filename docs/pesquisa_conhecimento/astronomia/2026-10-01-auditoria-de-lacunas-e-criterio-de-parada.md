@@ -226,3 +226,20 @@ A **cobertura temática macro dos dez módulos agora tem documentação candidat
 **Próxima ação legítima da rotina:** auditoria de fontes, contradições e erros nos dossiês já existentes, priorizando afirmações surpreendentes de 2026 e cópia de direitos; corrigir somente dentro da branch e documentar defeitos. Se as auditorias sucessivas ficarem sem lacunas centrais, encerrar oficialmente a PESQUISA e passar a Física/Matemática; se surgirem lacunas, corrigir precisamente, sem repetir indiscriminadamente o currículo.
 
 **Não alterado por esta auditoria:** main, bases de produção, código, CI, testes e pesos; treino e avaliação não realizados; módulos certificados oficialmente continuam 0/10 no registro da skill consultada.
+
+
+## 12. Auditoria focalizada de fatos, fontes e fórmulas — 01/10/2026
+
+Foi publicada e indexada a [auditoria focalizada de proveniência e causalidade](2026-10-01-auditoria-cientifica-fatos-fontes-e-formulas.md), que representa **auditoria parcial em execução**, não primeira auditoria final satisfatória.
+
+**Conferência estrutural:** `main:conhecimento_mundo.json` contém 72 itens com `area=astronomia`, totalizando 255 afirmações, de 23 IDs de fonte usados; nenhuma dessas afirmações apontou para ID ausente no respectivo dicionário de fontes. `main:conhecimento_astronomia_luas.json` contém quatro itens lunares com 24 fatos referencialmente vinculados; total nominal 279 afirmações. Integridade de chave **NÃO implica exatidão semântica ou confiabilidade de origem**.
+
+**Auditoria de abrangência da branch:** todos os 20 dossiês científicos foram relidos estruturalmente. Em 19 documentos com referências tabuladas, não foram detectadas referências numéricas editoriais citadas fora das respectivas tabelas no verificador textual utilizado. O documento de dinâmica galáctica usa referências G1–G14 em LISTA numerada, e o documento de ontologia trabalha com links diretos: nenhum dos dois deve ser classificado automaticamente como 'sem fonte' com base em parser de tabelas.
+
+**Correções factuais efetivas na branch:** autoria e data da análise lunar SPA (Joy et al., publicado on-line em 2024 e no volume 2025, e não Tartèse como primeiro autor), e distinção dos mecanismos de DART vs. Yarkovsky na matriz de 20 relações. Referência orbital primária adicionada para estabilidade de Hill nos dossiês de matemática e luas. Oito contas selecionadas foram refeitas, sem divergência aritmética nas hipóteses escritas.
+
+**Problema de fundamentação encontrado na MAIN, somente relatado:** `nasa_glossario` embasa 84/255 afirmações astronômicas da base mundo; em amostra, as três afirmações de `velocidade de escape` não têm entrada explícita de escape no glossário da NASA consultado. As três de `esfera de Hill` apontam para página Solar System Facts sem menção explícita a Hill. A formulação dessas seis afirmações pode ser fisicamente correta; é a **precisão da ligação fonte–fato** que está pendente. Propor ao integrador fontes NASA GSFC e estudo Hamilton–Burns, detalhadas no novo relatório. A main NÃO foi alterada por esta pesquisa.
+
+**Critério de parada:** NÃO atingido. Verificação de fonte amostral, links estruturados, correção de dois erros e contas simples **não** constituem auditoria independente das 279 afirmações, tampouco demonstram entendimento neural ou provas cegas. Próximo esforço deve realizar matriz de cada afirmação nominal, com classificação `fonte adequada`/`fonte genérica`/`inferência condicionada`/`desatualizada`/`evidência insuficiente`, e revisar bibliografia restante, incluindo direitos. Só depois de duas auditorias documentais FINAIS realmente satisfatórias e cobertura completa dos dez módulos encerrar pesquisa de Astronomia e passar à próxima área.
+
+**Ainda não realizado:** treinamento, integração main, testes de CI, verificação de competência do CRIVO, reprocessamento de dados brutos por instrumentos, auditoria científica humana independente. Certificação da skill oficial não foi modificada.
