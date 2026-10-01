@@ -111,7 +111,7 @@
 | Sinal observacional não detectado | estabelece no máximo | limite instrumental/modelado para objeto | Método | [instrumentos](2026-10-01-metodos-quantitativos-astrometria-espectros-incertezas.md) |
 | Isótopos pai/filho + sistema fechado | permitem inferir | idade do evento mineral registrado | Cronologia | [crateras](2026-10-01-cronologia-meteoritos-crateras-e-proveniencia.md) |
 | Contagem de crateras + taxa de formação modelada | permite estimar | idade relativa/modelada da superfície | Cronologia | [crateras](2026-10-01-cronologia-meteoritos-crateras-e-proveniencia.md) |
-| **Impacto cinético DART + fotometria da órbita antes/depois + dinâmica dos ejecta** | permitem medir/modelar | **redução do período orbital de Dimorphos e transferência de momento** | Corpos menores | [corpos menores](2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md) |
+| **Impacto cinético DART + fotometria binária + ocultações estelares + dinâmica dos ejecta** | permitem medir/modelar | **redução do período Dimorphos–Didymos (~32–33 min) e alteração muito menor do período heliocêntrico do par (~0,15 s, 2026)** | Corpos menores | [corpos menores](2026-10-01-corpos-menores-cometas-cinturoes-defesa-planetaria.md), [Makadia et al. (2026)](https://doi.org/10.1126/sciadv.aea4259) |
 
 **Limites comuns de inferência:** 'pode causar' ≠ 'sempre causa'; 'compatível com' ≠ 'identificado sem alternativa'; 'quantidade inferida' ≠ 'propriedade diretamente fotografada'. Variáveis como temperatura, massa, fase de material, composição, orientação orbital, distância e resolução do instrumento precisam acompanhar a proposição.
 
