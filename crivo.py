@@ -1108,6 +1108,28 @@ class Crivo:
         if (composicao is not None and composicao[0] == "fora" and
                 len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
             composicao = None
+        # Um conceito novo pode compartilhar seu nome com uma pergunta
+        # causal anterior. Só ceder à fonte legada quando o sujeito da
+        # pergunta e TODOS os termos consultados constarem na evidência
+        # editorial preexistente, sem aceitar qualificadores desconhecidos.
+        if (composicao is not None and composicao[0] == "fora" and
+                n.startswith("por que ")):
+            sujeito = re.match(r"^por que (?:o |a |um |uma )?([a-z0-9_-]+)\b", n)
+            if sujeito and self.compositor.resolver(sujeito.group(1)) in self.compositor.mundo_ids:
+                assunto = sujeito.group(1)
+                termos_pedido = set(tokens(texto))
+                legadas = []
+                for entrada in self.base:
+                    if entrada.get("origem_curriculo") == "mundo":
+                        continue
+                    perguntas = entrada["perguntas"]
+                    causal = any(normalizar(p).startswith("por que " + assunto + " ")
+                                 for p in perguntas)
+                    evidencia = set(tokens(" ".join(perguntas) + " " + entrada["resposta"]))
+                    if causal and termos_pedido <= evidencia:
+                        legadas.append(entrada["id"])
+                if len(legadas) == 1:
+                    composicao = None
         if (composicao is not None and composicao[0] == "fora" and
                 self.compositor._menciona_mundo(n)):
             # O currículo novo não invalida uma prova já cadastrada em
