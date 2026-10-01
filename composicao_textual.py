@@ -319,6 +319,22 @@ class CompositorTextual:
                         return self.compor((ref["origem"],), "comparacao", selecionados=(
                             (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
                 return falta
+        # Uma ligacao positiva comprovada nao serve como prova de sua
+        # negacao. Reconhecer sujeito, verbo e objeto INTEIROS antes de
+        # chegar ao filtro generico de negacoes. A resposta e abstenção,
+        # nunca a inversao de uma relacao editorial.
+        negada = re.fullmatch(r"(?:o |a |os |as )?(.+?) nao (.+)", n)
+        if negada:
+            sujeito = self.resolver(negada.group(1))
+            predicado = negada.group(2)
+            for ligacao in self.ligacoes_mundo:
+                if ligacao["origem"] != sujeito:
+                    continue
+                for verbo in ligacao["verbos"]:
+                    prefixo = normalizar(verbo) + " "
+                    if (predicado.startswith(prefixo) and
+                            self.resolver(predicado[len(prefixo):]) == ligacao["destino"]):
+                        return falta
         padroes = (
             (r"como (?:se formam?|nascem?|surgem?|surgiu) (.+)", "formacao"),
             (r"como (?:foi|foram) (?:formad[oa]s?|criad[oa]s?|construid[oa]s?) (.+)", "formacao"),
