@@ -57,7 +57,7 @@ Em setembro de 2022, a nave DART impactou Dimorphos, satélite de Didymos. Obser
 
 Outros comunicados posteriores arredondam o resultado para ~33 minutos sob ajustes, razão pela qual uma futura ficha deve acompanhar a fonte/ano da medição e a versão instrumental, não corrigir um dado pelo outro sem explicar métodos. [P16,P17]
 
-**Separar três grandezas:** tempo de órbita do *satélite ao redor do asteroide*; percurso heliocêntrico de todo o sistema; impulso do projétil+ejeção. O experimento não provou que qualquer asteroid enorme possa ser desviado com nave idêntica; composição, momento, antecedência e geometria importam. Dimorphos/Didymos não foram ameaça à Terra. [P16]
+**Duas mudanças REAIS de órbita, com tamanhos diferentes (atualização científica de 06/03/2026):** o impacto encurtou em ~32 min (estimativa inicial de 2022; revisada para ~33 min em estudos posteriores) o período de **Dimorphos ao redor de Didymos**. Estudo posterior de Makadia e colaboradores (**Science Advances**, publicado 06/03/2026) mediu também mudança de cerca de **0,15 segundo no período de ~770 dias de Didymos–Dimorphos ao redor do Sol**, com ocultações estelares e astrometria [P16,P17,P19]. O primeiro número NÃO é o segundo, e 0,15 segundo não é uma órbita nula. O experimento não prova que qualquer asteroide enorme possa ser desviado com nave idêntica; composição, momento, antecedência e geometria importam. Dimorphos/Didymos não foram ameaça à Terra.
 
 **Impacto → observação:** mudança periódica em curvas de luz e telemetria; modelos de quantidade de movimento e ejeção dão estimativa de eficiência do impacto. O período de uma binária é medição geométrica/temporal, não observação direta de cada fragmento ejetado.
 
@@ -87,7 +87,7 @@ Risco em horizonte temporal longo não se obtém de uma única foto angular: pos
 | Oort é esférica | Órbitas de cometas longos + dinâmica | **Reservatório inferido**, não população observada integralmente |
 | Coma tem gases e poeira | Espectroscopia/fotometria e sondas | Composição global varia com distância e física da superfície |
 | Yarkovsky existe como força térmica orbital | Astrometria e modelos termofísicos | Magnitude depende de propriedade física/giro |
-| DART alterou movimento orbital de Dimorphos | Fotometria orbital antes/depois | O que foi medido é período do par; extrapolação para outros alvos exige novos dados |
+| DART alterou órbita binária E, em medida muito menor, a órbita heliocêntrica do par | Fotometria da órbita de Dimorphos e ocultações estelares/astrometria do sistema em 2022–2025, artigo 2026 | Medidas DISTINTAS: ~32–33 min na órbita interna; ~0,15 s no período heliocêntrico de ~770 dias; extrapolação para outros alvos requer modelos [P16,P19] |
 | Asteroide com pequena MOID é ameaça certa | Nenhuma | Falso: critérios de população não determinam probabilidade de impacto |
 
 ## 10. Fontes e direitos para incorporação futura
@@ -112,6 +112,7 @@ Risco em horizonte temporal longo não se obtém de uma única foto angular: pos
 | P16 | NASA Science, *Didymos & Dimorphos*, https://science.nasa.gov/solar-system/asteroids/didymos/ | 32±~2 min na versão de fatos; cronologia própria. |
 | P17 | NASA Science, *DART mission*, https://science.nasa.gov/mission/dart/ | Versões/atualizações do desvio; mesma missão de P13, NÃO independente. |
 | P18 | NASA/JPL CNEOS, *FAQ*, https://cneos.jpl.nasa.gov/faq/ | Separar PHA de previsão certa e amostras com diferentes dimensões. |
+| P19 | Makadia, R. et al., *Direct detection of an asteroid’s heliocentric deflection: The Didymos system after DART*, *Science Advances* **12(10)**, eaea4259 (**06/03/2026**), DOI https://doi.org/10.1126/sciadv.aea4259 ; [divulgação NASA/JPL](https://www.jpl.nasa.gov/news/nasas-dart-mission-changed-orbit-of-asteroid-didymos-around-sun/) | Estudo primário com astrometria/22 ocultações estelares, período heliocêntrico alterado ~0,15 s; comunicado e artigo são a MESMA pesquisa, não duas confirmações independentes. |
 
 **Direitos:** síntese autoral, sem copiar textos, dados e imagens integrais. Fontes NASA geralmente sujeitas à política de mídia em https://www.nasa.gov/nasa-brand-center/images-and-media/; ESA e publicações vinculadas precisam de licença própria. Links são referências científicas, não autorização geral para mineração e redistribuição. Não utilizar jw.org.
 
