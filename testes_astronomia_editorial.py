@@ -3,7 +3,7 @@ import unittest
 from crivo import Crivo, PASTA
 from curriculo_mundo import ler_curriculo
 
-NOVOS = ("galáxia", "estrela", "planeta", "satélite natural", "sistema solar", "via láctea", "exoplaneta", "planeta anão", "asteroide", "cometa", "meteoroide", "meteoro", "meteorito", "cinturão de kuiper", "nuvem de oort", "unidade astronômica", "órbita", "nebulosa", "buraco negro", "ano-luz")
+NOVOS = ("planeta", "satélite natural", "asteroide", "meteoroide", "meteorito", "cinturão de kuiper", "nuvem de oort", "unidade astronômica", "órbita", "disco protoplanetário", "acréscimo planetário", "protoestrela", "planetesimal", "diferenciação planetária", "zona habitável", "fusão estelar", "evolução estelar")
 
 class TestesAstronomiaEditorial(unittest.TestCase):
     def test_conceitos_e_proveniencia(self):
@@ -34,7 +34,13 @@ class TestesAstronomiaEditorial(unittest.TestCase):
 
     def test_formacao_e_mecanismos_documentados(self):
         curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
-        itens = {item["nome"]: item for item in curriculo["itens"]}
+        from pathlib import Path
+        import json
+        expandido = json.loads((PASTA / "conhecimento_expandido.json").read_text(encoding="utf-8"))
+        itens = {item["nome"].lower(): item for item in expandido["itens"]}
+        itens.update({item["nome"].lower(): item for item in curriculo["itens"]})
+        fontes = dict(expandido["fontes"])
+        fontes.update(curriculo["fontes"])
         expectativas = {
             "planeta": ("formacao", "funcionamento"),
             "estrela": ("formacao", "funcionamento"),
@@ -51,13 +57,16 @@ class TestesAstronomiaEditorial(unittest.TestCase):
                 self.assertIn(nome, itens)
                 fatos = itens[nome]["fatos"]
                 self.assertGreaterEqual(len(fatos), 3)
-                self.assertTrue(all(f["fonte"] in curriculo["fontes"] for f in fatos))
+                self.assertTrue(all(f["fonte"] in fontes for f in fatos))
                 for aspecto in papeis:
                     self.assertTrue(any(f["papel"] == aspecto or f.get("aspecto") == aspecto for f in fatos), (nome, aspecto))
 
     def test_limites_cientificos_explicitos(self):
         curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
-        itens = {item["nome"]: item for item in curriculo["itens"]}
+        import json
+        expandido = json.loads((PASTA / "conhecimento_expandido.json").read_text(encoding="utf-8"))
+        itens = {item["nome"].lower(): item for item in expandido["itens"]}
+        itens.update({item["nome"].lower(): item for item in curriculo["itens"]})
         for nome in ("planeta", "estrela", "sistema solar", "zona habitável"):
             with self.subTest(conceito=nome):
                 self.assertTrue(any(f["papel"] == "limite" for f in itens[nome]["fatos"]))
@@ -122,6 +131,24 @@ class TestesAstronomiaEditorial(unittest.TestCase):
             with self.subTest(pergunta=pergunta):
                 self.assertEqual(Crivo().responder(pergunta)[0], esperado)
 
+
+
+    def test_sem_dupla_identidade_para_termos_ja_conhecidos(self):
+        """A expansão aprofunda conceitos anteriores em vez de inventar IDs concorrentes."""
+        import json
+        from composicao_textual import normalizar
+        mundo = ler_curriculo(PASTA / "conhecimento_mundo.json")
+        expandido = json.loads((PASTA / "conhecimento_expandido.json").read_text(encoding="utf-8"))
+        nomes_mundo = {normalizar(i["nome"]) for i in mundo["itens"]}
+        nomes_exp = {normalizar(i["nome"]) for i in expandido["itens"]}
+        self.assertFalse(nomes_mundo & nomes_exp, nomes_mundo & nomes_exp)
+        for nome in ("galáxia", "estrela", "sistema solar", "exoplaneta",
+                     "nebulosa", "buraco negro", "ano-luz"):
+            with self.subTest(conceito=nome):
+                item = next(i for i in expandido["itens"] if normalizar(i["nome"]) == normalizar(nome))
+                self.assertTrue(any(f["fonte"].startswith("nasa_") for f in item["fatos"]))
+                self.assertTrue(any(f["papel"] == "limite" for f in item["fatos"]))
+                self.assertLessEqual(len(item["fatos"]), 12)
 
     def test_primeiro_modulo_requer_limites_para_todos_os_termos(self):
         curriculo = ler_curriculo(PASTA / "conhecimento_mundo.json")
