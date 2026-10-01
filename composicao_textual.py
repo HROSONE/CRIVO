@@ -521,6 +521,21 @@ class CompositorTextual:
             if ident in self.expandidos:
                 return self._conceito(ident, aspecto)
             return None
+        # Normalização gramatical de pedidos de definição: extrai o alvo
+        # inteiro, sem aproximar nomes ou apagar qualificadores desconhecidos.
+        # Funciona para qualquer conceito cadastrado, inclusive sintéticos.
+        definicao = re.fullmatch(
+            r"(?:defina|definir|defina para mim|explique o significado de|"
+            r"qual (?:e )?(?:a definicao|o significado|o sentido) de|"
+            r"o que (?:quer dizer|vem a ser|se entende por)|"
+            r"(?:me )?(?:diga|explique) o que (?:e|eh)) (.+)", n)
+        if definicao:
+            alvo = re.sub(r"^(?:o|a|um|uma|os|as) ", "", definicao.group(1))
+            ident = self.resolver(alvo)
+            if ident in self.expandidos:
+                return self._conceito(ident)
+            # Não reduzir "planeta fictício" a "planeta".
+            return None
         m = re.fullmatch(r"(?:o que (?:e|eh|sao)|o que significa|defina) (.+)", n)
         if m:
             ident = self.resolver(m.group(1))
