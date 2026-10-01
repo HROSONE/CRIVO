@@ -5,11 +5,16 @@ on:
     branches:
       - exp/conhecimento-astronomia-basica-20261001
     paths:
-      - .github/workflows/treinar-astronomia.yml
       - scripts/treinar_especializacao_astronomia.py
+      - conhecimento.json
+      - conhecimento_mundo.json
+      - conhecimento_expandido.json
+      - curriculo_mundo.py
+      - rede_neural.py
+      - crivo.py
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   treinamento:
@@ -64,17 +69,3 @@ jobs:
             testes_semantica_programacao.TestesSemanticaProgramacao.test_conhecimento_novo_resolve_ambiguidade_antiga_com_prova \
             testes_web.TestesWebCore.test_reconstroi_contexto_em_vez_de_salvar_no_servidor \
             -v
-      - name: Integrar checkpoint validado somente na branch de astronomia
-        if: "github.event_name == 'push' && startsWith(github.event.head_commit.message, 'ci: publicar checkpoint astronomia')"
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git fetch origin "$GITHUB_REF_NAME"
-          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA" || {
-            echo "A branch mudou enquanto o treino rodava; nunca enviar pesos de uma base antiga."
-            exit 1
-          }
-          git add rede_crivo.json
-          git diff --cached --quiet && exit 0
-          git commit -m "train: publicar checkpoint compatível de astronomia na branch candidata"
-          git push origin "HEAD:$GITHUB_REF_NAME"
