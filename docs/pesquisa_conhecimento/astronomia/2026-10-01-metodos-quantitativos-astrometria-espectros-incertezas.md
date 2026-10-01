@@ -155,7 +155,7 @@ O agente integrador pode futuramente, se autorizado, executar protocolos separad
 | Q11 | Lindegren e colaboradores (2021), *Gaia EDR3 Parallax Bias Versus Magnitude, Colour, and Position*, DOI https://doi.org/10.1051/0004-6361/202039653 | Correção variável da paralaxe e sistemáticos, artigo primário; ESA Q3 o referencia. |
 | Q12 | ESA/Gaia, *DR3 Software Tools*, https://www.cosmos.esa.int/web/gaia/dr3-software-tools | Exemplos oficiais de correção de paralaxe, covariância e acesso a produtos; não executados aqui. |
 | Q13 | SDSS DR17, *Redshifts and Classifications*, https://www.sdss4.org/dr17/algorithms/redshifts/ | Ajustes de espectros e linhas múltiplas, qualidade e classificação; mesma release de Q8/Q9. |
-| Q14 | NASA/SDSS, *Redshift Catalog Tutorial*, https://www.sdss4.org/dr17/tutorials/allspectra | Métodos para recuperar dados; licença/condições da base devem ser consultadas antes de redistribuição. |
+| Q14 | SDSS, *Redshift Catalog Tutorial*, https://www.sdss4.org/dr17/tutorials/allspectra | Métodos para recuperar dados; licença/condições da base devem ser consultadas antes de redistribuição. |
 
 **Direitos e métodos:** a síntese foi escrita originalmente; nenhuma imagem, tabela de dados obtida por download, espectro, foto, peso neural ou código do CRIVO foi copiado/mudado. Fontes NASA/ESA/SDSS/ALMA têm condições distintas, inclusive direitos de terceiros. Publicação de relatório próprio com links não autoriza redistribuir integralmente FITS e imagens sem verificar termos por arquivo. NASA: https://www.nasa.gov/nasa-brand-center/images-and-media/ .
 
