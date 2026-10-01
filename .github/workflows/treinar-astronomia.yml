@@ -23,6 +23,7 @@ jobs:
         run: |
           python crivo.py --teste
           python -m unittest             testes_astronomia_editorial.TestesAstronomiaEditorial.test_conceitos_e_proveniencia             testes_astronomia_editorial.TestesAstronomiaEditorial.test_formacao_e_mecanismos_documentados             testes_astronomia_editorial.TestesAstronomiaEditorial.test_primeiro_modulo_requer_limites_para_todos_os_termos             -q
+          python -m unittest testes_astronomia_sistema_solar -q
       # O experimento neural pode gerar metricas e pesos candidatos mesmo que
       # o CI completo da PR continue vermelho. Isto NAO autoriza merge/deploy.
       - name: Treinar classificador proprio e avaliar respostas
