@@ -1103,6 +1103,41 @@ class Crivo:
         # antigo comando de ranking 'mais'. 'Em tópicos' é uma mudança
         # de formato, e continuar um texto não consulta outro assunto.
         composicao = self.compositor.responder(texto, self._contexto_textual_anterior)
+        # "Fale sobre X" já é um comando editorial direto em parte da
+        # base histórica. Conservar a resposta exata antiga e evitar que
+        # novas fichas com o mesmo nome quebrem contratos existentes.
+        if (composicao is not None and re.fullmatch(r"fale sobre .+", n)
+                and len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
+            indice_antigo = self.indices_exatos[chave_pergunta(n)][0]
+            if self.base[indice_antigo].get("origem_curriculo") != "mundo":
+                composicao = None
+        # Novas palavras como "planeta" nao podem ocultar respostas ja
+        # cadastradas para a pergunta completa na base anterior.
+        if (composicao is not None and composicao[0] == "fora" and
+                len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
+            composicao = None
+        # Um conceito novo pode compartilhar seu nome com uma pergunta
+        # causal anterior. Só ceder à fonte legada quando o sujeito da
+        # pergunta e TODOS os termos consultados constarem na evidência
+        # editorial preexistente, sem aceitar qualificadores desconhecidos.
+        if (composicao is not None and composicao[0] == "fora" and
+                n.startswith("por que ")):
+            sujeito = re.match(r"^por que (?:o |a |um |uma )?([a-z0-9_-]+)\b", n)
+            if sujeito and self.compositor.resolver(sujeito.group(1)) in self.compositor.mundo_ids:
+                assunto = sujeito.group(1)
+                termos_pedido = set(tokens(texto))
+                legadas = []
+                for entrada in self.base:
+                    if entrada.get("origem_curriculo") == "mundo":
+                        continue
+                    perguntas = entrada["perguntas"]
+                    causal = any(normalizar(p).startswith("por que " + assunto + " ")
+                                 for p in perguntas)
+                    evidencia = set(tokens(" ".join(perguntas) + " " + entrada["resposta"]))
+                    if causal and termos_pedido <= evidencia:
+                        legadas.append(entrada["id"])
+                if len(legadas) == 1:
+                    composicao = None
         if (composicao is not None and composicao[0] == "fora" and
                 self.compositor._menciona_mundo(n)):
             # O currículo novo não invalida uma prova já cadastrada em
@@ -1119,8 +1154,13 @@ class Crivo:
                         composicao = self.compositor._conceito(alvo)
                 else:
                     alternativas.append(self.analisador_portugues.responder(quadro_mundo))
-            if any(r is not None and r[0].startswith("logica:") and r[0] not in
-                   ("logica:desconhecido", "logica:sem_ligacao") for r in alternativas):
+            if (any(r is not None and r[0].startswith("logica:") and r[0] not in
+                   ("logica:desconhecido", "logica:sem_ligacao") for r in alternativas)
+                    or (self.raciocinio is not None and len(alternativas) > 1
+                        and alternativas[1] is not None
+                        and alternativas[1][0] in ("logica:desconhecido", "logica:sem_ligacao"))):
+                # Uma relacao analisada por inteiro pode retornar abstenção;
+                # o nome "orbita" nao deve mascarar o verbo "orbita".
                 composicao = None
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
@@ -1372,6 +1412,25 @@ class Crivo:
         _, vocabulario = self._contexto_consulta(texto)
         toks = self._tokens_consulta(texto, vocabulario)
         desconhecidas = [t for t in toks if t not in vocabulario]
+        # O classificador treinado pode reconhecer a intencao "receber
+        # dados" e ainda assim desconhecer a FONTE: camera, radio,
+        # satelite, API ou qualquer outra que ainda nao tenha sido ensinada.
+        # Verificar a fonte gramatical contra evidencias da intencao,
+        # em vez de aprovar a resposta apenas por pontuacao neural.
+        if rank and self.base[rank[0][1]]["id"] == "py_input":
+            metodo = re.search(
+                r"\b(?:pelo|pela|pelos|pelas|via|por meio (?:de|da|do)|"
+                r"atraves (?:de|da|do)|usando|utilizando)\s+"
+                r"(?:o |a |os |as |um |uma )?([a-z][a-z0-9_-]*)\b", n)
+            if metodo:
+                entrada = self.base[rank[0][1]]
+                evidencias = set(tokens(" ".join(entrada["perguntas"]) +
+                                      " " + entrada["resposta"]))
+                if metodo.group(1) not in evidencias:
+                    return "fora", (
+                        "Reconheci o pedido de obter dados, mas não há instrução "
+                        "cadastrada para o meio de entrada especificado. "
+                        "Não vou substituir esse meio pelo teclado.")
         # se metade ou mais das palavras é desconhecida, o Crivo prefere admitir que não sabe
         if rank and toks and len(desconhecidas) / len(toks) >= 0.5 and rank[0][0] < 0.9:
             rank = []

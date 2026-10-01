@@ -1,0 +1,30 @@
+name: Experimento cortical local sem APIs
+on:
+  pull_request:
+    paths:
+      - 'cortex_associativo.py'
+      - 'testes_cortex_associativo.py'
+      - 'composicao_textual.py'
+      - '.github/workflows/experimento-cortex-local.yml'
+  push:
+    branches: [exp/conhecimento-astronomia-basica-20261001]
+    paths:
+      - 'cortex_associativo.py'
+      - 'testes_cortex_associativo.py'
+      - 'composicao_textual.py'
+      - '.github/workflows/experimento-cortex-local.yml'
+permissions:
+  contents: read
+jobs:
+  microcircuito:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.11', '3.13']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Aprendizagem local sem prova retida
+        run: python -m unittest testes_cortex_associativo -v

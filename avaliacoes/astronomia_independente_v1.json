@@ -1,0 +1,819 @@
+{
+  "versao": "heldout-astronomia-v1",
+  "elaborado_em": "2026-10-01",
+  "escopo": "Prova retida de autor independente das perguntas de treino: não alimenta atualização de pesos ou exemplos.",
+  "fontes_revisao": [
+    "https://science.nasa.gov/solar-system/solar-system-facts/",
+    "https://science.nasa.gov/resource/solar-system-temperatures/",
+    "https://science.nasa.gov/exoplanets/facts/",
+    "https://science.nasa.gov/exoplanets/what-is-an-exoplanet/"
+  ],
+  "criterios": {
+    "min_acerto_por_modulo": 0.9,
+    "max_controles_factualmente_respondidos": 0,
+    "avaliar_rede_isolada_separadamente": true,
+    "nao_reutilizar_casos_apos_treinamento": true
+  },
+  "casos": [
+    {
+      "id": "V01",
+      "grupo": "vocabulario",
+      "pergunta": "Defina galáxia, por gentileza.",
+      "esperado": "conhecimento:galaxia",
+      "tokens": [
+        [
+          "estrelas"
+        ],
+        [
+          "gravidade"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "V02",
+      "grupo": "vocabulario",
+      "pergunta": "O que quer dizer o termo estrela?",
+      "esperado": "conhecimento:estrela",
+      "tokens": [
+        [
+          "plasma",
+          "gas"
+        ],
+        [
+          "energia",
+          "luz"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "V03",
+      "grupo": "vocabulario",
+      "pergunta": "Consegue definir um planeta?",
+      "esperado": "conhecimento:mundo_planeta",
+      "tokens": [
+        [
+          "gravidade",
+          "orbita"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V04",
+      "grupo": "vocabulario",
+      "pergunta": "O que vem a ser um satélite natural?",
+      "esperado": "conhecimento:mundo_satelite_natural",
+      "tokens": [
+        [
+          "orbita",
+          "gravidade"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V05",
+      "grupo": "vocabulario",
+      "pergunta": "Pode me dizer o que é um asteroide?",
+      "esperado": "conhecimento:mundo_asteroide",
+      "tokens": [
+        [
+          "rochos",
+          "pequeno"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V06",
+      "grupo": "vocabulario",
+      "pergunta": "Defina meteoroide, por favor.",
+      "esperado": "conhecimento:mundo_meteoroide",
+      "tokens": [
+        [
+          "espaco",
+          "espacial"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V07",
+      "grupo": "vocabulario",
+      "pergunta": "Em astronomia, que significa meteorito?",
+      "esperado": "conhecimento:mundo_meteorito",
+      "tokens": [
+        [
+          "superficie",
+          "solo",
+          "terra"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V08",
+      "grupo": "vocabulario",
+      "pergunta": "Explique o que significa cinturão de Kuiper.",
+      "esperado": "conhecimento:mundo_cinturao_kuiper",
+      "tokens": [
+        [
+          "netuno"
+        ],
+        [
+          "gelo",
+          "gelad",
+          "objetos"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V09",
+      "grupo": "vocabulario",
+      "pergunta": "O que se entende por nuvem de Oort?",
+      "esperado": "conhecimento:mundo_nuvem_oort",
+      "tokens": [
+        [
+          "cometas",
+          "cometa"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V10",
+      "grupo": "vocabulario",
+      "pergunta": "Pode definir unidade astronômica?",
+      "esperado": "conhecimento:mundo_unidade_astronomica",
+      "tokens": [
+        [
+          "distancia"
+        ],
+        [
+          "sol",
+          "terra"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "V11",
+      "grupo": "vocabulario",
+      "pergunta": "Qual é o sentido de órbita na física espacial?",
+      "esperado": "conhecimento:mundo_orbita",
+      "tokens": [
+        [
+          "gravidade",
+          "gravitacional"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V12",
+      "grupo": "vocabulario",
+      "pergunta": "Defina disco protoplanetário.",
+      "esperado": "conhecimento:mundo_disco_protoplanetario",
+      "tokens": [
+        [
+          "gas",
+          "poeira"
+        ],
+        [
+          "estrela"
+        ]
+      ],
+      "fonte": "nasa_formacao_sistema"
+    },
+    {
+      "id": "V13",
+      "grupo": "vocabulario",
+      "pergunta": "Afinal, o que é acréscimo planetário?",
+      "esperado": "conhecimento:mundo_acrescimo_planetario",
+      "tokens": [
+        [
+          "materia",
+          "particulas",
+          "colisao"
+        ]
+      ],
+      "fonte": "nasa_formacao_sistema"
+    },
+    {
+      "id": "V14",
+      "grupo": "vocabulario",
+      "pergunta": "Pode explicar o significado de protoestrela?",
+      "esperado": "conhecimento:mundo_protoestrela",
+      "tokens": [
+        [
+          "formacao",
+          "contracao",
+          "gravidade"
+        ]
+      ],
+      "fonte": "nasa_ciclo_estelar"
+    },
+    {
+      "id": "V15",
+      "grupo": "vocabulario",
+      "pergunta": "Que objeto é um planetesimal?",
+      "esperado": "conhecimento:mundo_planetesimal",
+      "tokens": [
+        [
+          "planetas",
+          "planeta"
+        ],
+        [
+          "colis",
+          "agrega"
+        ]
+      ],
+      "fonte": "nasa_formacao_sistema"
+    },
+    {
+      "id": "V16",
+      "grupo": "vocabulario",
+      "pergunta": "O que significa diferenciação planetária?",
+      "esperado": "conhecimento:mundo_diferenciacao_planetaria",
+      "tokens": [
+        [
+          "dens",
+          "nucleo",
+          "materiais"
+        ]
+      ],
+      "fonte": "nasa_formacao_sistema"
+    },
+    {
+      "id": "V17",
+      "grupo": "vocabulario",
+      "pergunta": "Explique o termo zona habitável.",
+      "esperado": "conhecimento:mundo_zona_habitavel",
+      "tokens": [
+        [
+          "agua",
+          "liquida"
+        ]
+      ],
+      "fonte": "nasa_planetarios"
+    },
+    {
+      "id": "V18",
+      "grupo": "vocabulario",
+      "pergunta": "Defina fusão estelar.",
+      "esperado": "conhecimento:mundo_fusao_estelar",
+      "tokens": [
+        [
+          "energia",
+          "hidrogenio"
+        ]
+      ],
+      "fonte": "nasa_ciclo_estelar"
+    },
+    {
+      "id": "V19",
+      "grupo": "vocabulario",
+      "pergunta": "Como se define evolução estelar?",
+      "esperado": "conhecimento:mundo_evolucao_estelar",
+      "tokens": [
+        [
+          "massa",
+          "estrel"
+        ]
+      ],
+      "fonte": "nasa_ciclo_estelar"
+    },
+    {
+      "id": "V20",
+      "grupo": "vocabulario",
+      "pergunta": "Que significa nebulosa?",
+      "esperado": "conhecimento:nebulosa",
+      "tokens": [
+        [
+          "gas",
+          "poeira"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "V21",
+      "grupo": "vocabulario",
+      "pergunta": "Pode definir buraco negro?",
+      "esperado": "conhecimento:buraco_negro",
+      "tokens": [
+        [
+          "luz"
+        ],
+        [
+          "horizonte",
+          "gravidade"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "V22",
+      "grupo": "vocabulario",
+      "pergunta": "O que quer dizer ano-luz?",
+      "esperado": "conhecimento:ano_luz",
+      "tokens": [
+        [
+          "distancia"
+        ],
+        [
+          "luz"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "V23",
+      "grupo": "vocabulario",
+      "pergunta": "Defina exoplaneta sem citar nomes de planetas.",
+      "esperado": "conhecimento:exoplaneta",
+      "tokens": [
+        [
+          "fora",
+          "externo",
+          "outro"
+        ],
+        [
+          "sistema solar",
+          "sol"
+        ]
+      ],
+      "fonte": "nasa_planetarios"
+    },
+    {
+      "id": "V24",
+      "grupo": "vocabulario",
+      "pergunta": "Como a astronomia define o universo?",
+      "esperado": "conhecimento:mundo_universo",
+      "tokens": [
+        [
+          "universo",
+          "espaco",
+          "materia"
+        ]
+      ],
+      "fonte": "nasa_glossario"
+    },
+    {
+      "id": "S01",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Mercúrio em nosso sistema planetário?",
+      "esperado": "conhecimento:mundo_mercurio",
+      "tokens": [
+        [
+          "sol"
+        ],
+        [
+          "roch",
+          "menor"
+        ]
+      ],
+      "fonte": "nasa_planeta_mercurio"
+    },
+    {
+      "id": "S02",
+      "grupo": "sistema_solar",
+      "pergunta": "De que modo Mercúrio completa sua órbita?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "sol"
+        ],
+        [
+          "88",
+          "gravidade"
+        ]
+      ],
+      "fonte": "nasa_planeta_mercurio"
+    },
+    {
+      "id": "S03",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Vênus, exatamente?",
+      "esperado": "conhecimento:mundo_venus",
+      "tokens": [
+        [
+          "rochoso",
+          "rochosa"
+        ]
+      ],
+      "fonte": "nasa_planeta_venus"
+    },
+    {
+      "id": "S04",
+      "grupo": "sistema_solar",
+      "pergunta": "Como Vênus mantém tanto calor em sua atmosfera?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "estufa"
+        ],
+        [
+          "carbono",
+          "calor"
+        ]
+      ],
+      "fonte": "nasa_planeta_venus"
+    },
+    {
+      "id": "S05",
+      "grupo": "sistema_solar",
+      "pergunta": "Pode definir a Terra como astro?",
+      "esperado": "conhecimento:mundo_terra",
+      "tokens": [
+        [
+          "terceiro",
+          "rochoso",
+          "oceanos"
+        ]
+      ],
+      "fonte": "nasa_planeta_terra"
+    },
+    {
+      "id": "S06",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a Terra produz o seu campo magnético?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "ferro"
+        ],
+        [
+          "nucleo"
+        ]
+      ],
+      "fonte": "nasa_planeta_terra"
+    },
+    {
+      "id": "S07",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Marte com precisão.",
+      "esperado": "conhecimento:mundo_marte",
+      "tokens": [
+        [
+          "quarto"
+        ],
+        [
+          "rochoso"
+        ]
+      ],
+      "fonte": "nasa_planeta_marte"
+    },
+    {
+      "id": "S08",
+      "grupo": "sistema_solar",
+      "pergunta": "Por que Marte parece avermelhado nas imagens?",
+      "esperado": "marte",
+      "tokens": [
+        [
+          "ferro",
+          "ferrugem"
+        ]
+      ],
+      "fonte": "nasa_planeta_marte"
+    },
+    {
+      "id": "S09",
+      "grupo": "sistema_solar",
+      "pergunta": "Descreva Júpiter como planeta.",
+      "esperado": "conhecimento:mundo_jupiter",
+      "tokens": [
+        [
+          "maior"
+        ],
+        [
+          "hidrogenio",
+          "helio"
+        ]
+      ],
+      "fonte": "nasa_planeta_jupiter"
+    },
+    {
+      "id": "S10",
+      "grupo": "sistema_solar",
+      "pergunta": "Como o interior de Júpiter gera um campo magnético?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "hidrogenio"
+        ],
+        [
+          "magnetico"
+        ]
+      ],
+      "fonte": "nasa_planeta_jupiter"
+    },
+    {
+      "id": "S11",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Saturno dentro do sistema solar.",
+      "esperado": "conhecimento:mundo_saturno",
+      "tokens": [
+        [
+          "aneis"
+        ],
+        [
+          "gasoso"
+        ]
+      ],
+      "fonte": "nasa_planeta_saturno"
+    },
+    {
+      "id": "S12",
+      "grupo": "sistema_solar",
+      "pergunta": "O que faz as partículas dos anéis de Saturno permanecerem em órbita?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "gravidade",
+          "gravitacional"
+        ],
+        [
+          "aneis",
+          "particulas"
+        ]
+      ],
+      "fonte": "nasa_planeta_saturno"
+    },
+    {
+      "id": "S13",
+      "grupo": "sistema_solar",
+      "pergunta": "O que é Urano?",
+      "esperado": "conhecimento:mundo_urano",
+      "tokens": [
+        [
+          "gigante"
+        ],
+        [
+          "gelado"
+        ]
+      ],
+      "fonte": "nasa_planeta_urano"
+    },
+    {
+      "id": "S14",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a inclinação do eixo de Urano influencia suas estações?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "inclinacao"
+        ],
+        [
+          "sazon",
+          "estac"
+        ]
+      ],
+      "fonte": "nasa_planeta_urano"
+    },
+    {
+      "id": "S15",
+      "grupo": "sistema_solar",
+      "pergunta": "Defina Netuno.",
+      "esperado": "conhecimento:mundo_netuno",
+      "tokens": [
+        [
+          "oitavo"
+        ],
+        [
+          "gelado"
+        ]
+      ],
+      "fonte": "nasa_planeta_netuno"
+    },
+    {
+      "id": "S16",
+      "grupo": "sistema_solar",
+      "pergunta": "Como os ventos de Netuno se manifestam?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "ventos"
+        ],
+        [
+          "tempestades",
+          "nuvens"
+        ]
+      ],
+      "fonte": "nasa_planeta_netuno"
+    },
+    {
+      "id": "S17",
+      "grupo": "sistema_solar",
+      "pergunta": "De onde veio a matéria que formou nosso sistema solar?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "nuvem",
+          "disco"
+        ],
+        [
+          "poeira",
+          "gas"
+        ]
+      ],
+      "fonte": "nasa_formacao_sistema"
+    },
+    {
+      "id": "S18",
+      "grupo": "sistema_solar",
+      "pergunta": "Como a gravidade governa as trajetórias planetárias?",
+      "esperado": "escrita:explicacao",
+      "tokens": [
+        [
+          "gravidade"
+        ],
+        [
+          "orbita"
+        ]
+      ],
+      "fonte": "nasa_planetarios"
+    },
+    {
+      "id": "S19",
+      "grupo": "sistema_solar",
+      "pergunta": "Que nome damos ao único satélite natural da Terra?",
+      "esperado": "lua",
+      "tokens": [
+        [
+          "lua"
+        ]
+      ],
+      "fonte": "nasa_sistema"
+    },
+    {
+      "id": "S20",
+      "grupo": "sistema_solar",
+      "pergunta": "Qual planeta está sob maior aquecimento superficial pelo efeito estufa?",
+      "esperado": "mais_quente",
+      "tokens": [
+        [
+          "venus"
+        ]
+      ],
+      "fonte": "nasa_planeta_venus"
+    },
+    {
+      "id": "A01",
+      "grupo": "controle",
+      "pergunta": "O que é a nebulosa Quorzin-98?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A02",
+      "grupo": "controle",
+      "pergunta": "Como funciona o décimo planeta oficial do sistema solar chamado Framox?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A03",
+      "grupo": "controle",
+      "pergunta": "Defina um meteorito feito exclusivamente de chocolate sideral.",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A04",
+      "grupo": "controle",
+      "pergunta": "Por que Mercúrio cura todas as doenças humanas?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A05",
+      "grupo": "controle",
+      "pergunta": "Qual a massa comprovada do exoplaneta inexistente Jupar-X?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A06",
+      "grupo": "controle",
+      "pergunta": "Como funciona a Lua com reator interno de antimatéria natural?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A07",
+      "grupo": "controle",
+      "pergunta": "O que é uma protoestrela fabricada por alienígenas em 2026?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A08",
+      "grupo": "controle",
+      "pergunta": "Como funciona a órbita da Terra em formato de triângulo perfeito?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A09",
+      "grupo": "controle",
+      "pergunta": "Por que Marte é comprovadamente habitado por humanos nativos?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A10",
+      "grupo": "controle",
+      "pergunta": "De que forma Vênus transforma dióxido de carbono em dinheiro?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A11",
+      "grupo": "controle",
+      "pergunta": "Qual é a temperatura medida da atmosfera de um planeta desconhecido Koru-71?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A12",
+      "grupo": "controle",
+      "pergunta": "O buraco negro Xarvox-33 fica a sete metros de minha casa?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A13",
+      "grupo": "controle",
+      "pergunta": "A radiação estelar fornece uma cura absoluta para doenças?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    },
+    {
+      "id": "A14",
+      "grupo": "controle",
+      "pergunta": "Por que um planetesimal inventado tem 900 bilhões de luas?",
+      "esperado": [
+        "fora",
+        "duvida"
+      ],
+      "tokens": [],
+      "fonte": null
+    }
+  ]
+}

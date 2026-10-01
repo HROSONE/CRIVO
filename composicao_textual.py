@@ -78,6 +78,22 @@ class CompositorTextual:
             self.mundo_ids = {i["id"] for i in curriculo_mundo["itens"]}
             self.ligacoes_mundo = curriculo_mundo.get("ligacoes", [])
             self.comparacoes_mundo = curriculo_mundo.get("comparacoes", [])
+        # A memoria sinaptica so coativa fatos com fontes editoriais. Ela
+        # NUNCA usa perguntas de prova, feedback de chat ou pesos externos.
+        # A inicializacao a partir de provas permite auditar cada resposta.
+        from cortex_associativo import CortexAssociativo
+        from crivo import tokens
+        self.cortex = CortexAssociativo(self.itens, self.aliases, self.fontes, tokens)
+
+    def _resposta_associativa(self, pergunta):
+        """Fallback restrito: evidencia forte de UM fato tipado, mesmo assunto."""
+        ativacao = self.cortex.associar(pergunta)
+        if ativacao is None:
+            return None
+        # O circuito so seleciona fatos: o compositor controla a redação,
+        # contexto e proveniencia. Nenhum preenchimento probabilistico.
+        return self.compor((ativacao.conceito,), "explicacao", selecionados=(
+            (ativacao.conceito, ativacao.indice),), origem="conhecimento")
 
     def _adicionar(self, item):
         self.itens[item["id"]] = item
@@ -107,7 +123,7 @@ class CompositorTextual:
                     or not all(isinstance(a, str) and tema(a) for a in item.get("aliases", []))
                     or not isinstance(item.get("fatos"), list) or not 1 <= len(item["fatos"]) <= 12):
                 raise ValueError("Conceito textual inválido ou duplicado")
-            aspectos = set()
+            fatos_por_aspecto = set()
             for fato in item["fatos"]:
                 if (not isinstance(fato, dict) or not isinstance(fato.get("texto"), str)
                         or not 1 <= len(fato["texto"].strip()) <= 1000
@@ -116,10 +132,14 @@ class CompositorTextual:
                     raise ValueError("Fato sem texto, papel ou fonte válida")
                 if "aspecto" in fato:
                     aspecto = fato["aspecto"]
-                    if (not isinstance(aspecto, str) or not re.fullmatch(r"[a-z_]+", aspecto)
-                            or aspecto in aspectos):
+                    if not isinstance(aspecto, str) or not re.fullmatch(r"[a-z_]+", aspecto):
                         raise ValueError("Aspecto inválido ou ambíguo")
-                    aspectos.add(aspecto)
+                    # Um aspecto tem varias evidencias, desde que nao repita
+                    # literalmente a mesma unidade e sua proveniencia.
+                    chave = (aspecto, fato["texto"].strip())
+                    if chave in fatos_por_aspecto:
+                        raise ValueError("Fato repetido no mesmo aspecto")
+                    fatos_por_aspecto.add(chave)
             if item["fatos"][0]["papel"] != "definicao":
                 raise ValueError("O primeiro fato deve definir o conceito")
             self.expandidos.add(item["id"])
@@ -315,7 +335,26 @@ class CompositorTextual:
                         return self.compor((ref["origem"],), "comparacao", selecionados=(
                             (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
                 return falta
+        # Uma ligacao positiva comprovada nao serve como prova de sua
+        # negacao. Reconhecer sujeito, verbo e objeto INTEIROS antes de
+        # chegar ao filtro generico de negacoes. A resposta e abstenção,
+        # nunca a inversao de uma relacao editorial.
+        negada = re.fullmatch(r"(?:o |a |os |as )?(.+?) nao (.+)", n)
+        if negada:
+            sujeito = self.resolver(negada.group(1))
+            predicado = negada.group(2)
+            for ligacao in self.ligacoes_mundo:
+                if ligacao["origem"] != sujeito:
+                    continue
+                for verbo in ligacao["verbos"]:
+                    prefixo = normalizar(verbo) + " "
+                    if (predicado.startswith(prefixo) and
+                            self.resolver(predicado[len(prefixo):]) == ligacao["destino"]):
+                        return falta
         padroes = (
+            (r"como (?:se formam?|nascem?|surgem?|surgiu) (.+)", "formacao"),
+            (r"como (?:foi|foram) (?:formad[oa]s?|criad[oa]s?|construid[oa]s?) (.+)", "formacao"),
+            (r"qual (?:e )?(?:a|o) (?:origem|formacao) (?:de|do|da|dos|das) (.+)", "formacao"),
             (r"como (?:funciona|funcionam|age|agem) (.+)", "funcionamento"),
             (r"para que (?:serve|servem) (.+)", "funcao"),
             (r"qual (?:e )?(?:a|o) (?:funcao|papel) (?:de|do|da|dos|das) (.+)", "funcao"),
@@ -418,6 +457,10 @@ class CompositorTextual:
             return "fora", "Não tenho uma explicação causal cadastrada para essa resposta. Pode especificar o que quer explicar?", None
         consulta_mundo = self._consulta_mundo(n, contexto)
         if consulta_mundo is not None:
+            if consulta_mundo[0] == "fora":
+                lembranca = self._resposta_associativa(n)
+                if lembranca is not None:
+                    return lembranca
             return consulta_mundo
         comparacao_geral = re.fullmatch(r"qual (?:e )?a diferenca entre (.+?) e (.+)", n)
         if comparacao_geral:
@@ -432,16 +475,19 @@ class CompositorTextual:
         # mostrar os fatos disponíveis com o limite explícito impede que o
         # recuperador escolha uma resposta de outro assunto por semelhança.
         aspecto_geral = re.fullmatch(r"(?:qual (?:e )?a (funcao) (?:de|do|da)|"
-                                    r"como (funciona)|para que (serve)) (.+)", n)
+                                    r"como (funciona|se forma|nasce|surgiu)|para que (serve)) (.+)", n)
         if aspecto_geral:
             ident = self.resolver(aspecto_geral.group(4))
             if ident in self.expandidos:
-                aspecto = "funcionamento" if aspecto_geral.group(2) else "funcao"
+                verbo = aspecto_geral.group(2)
+                aspecto = ("funcionamento" if verbo == "funciona" else
+                           "formacao" if verbo in ("se forma", "nasce", "surgiu") else
+                           "funcao")
                 fatos = self.itens[ident]["fatos"]
                 pares = tuple((ident, i) for i, f in enumerate(fatos) if f.get("aspecto") == aspecto)
                 if pares:
                     return self.compor((ident,), "explicacao", selecionados=pares[:3], origem="conhecimento")
-                if aspecto == "funcionamento":
+                if aspecto in ("funcionamento", "formacao"):
                     return None
                 ident_resposta, resposta, ctx = self._conceito(ident)
                 resposta += "\n\nEsses são os fatos disponíveis sobre " + self.itens[ident]["nome"] + ". Não tenho uma explicação separada desse aspecto."
@@ -524,7 +570,21 @@ class CompositorTextual:
         ident = self.resolver(n)
         if ident in self.expandidos:
             return self._conceito(ident)
-        if self._menciona_mundo(n):
+        lembranca = self._resposta_associativa(n)
+        if lembranca is not None:
+            return lembranca
+        # Nomes acrescentados ao currículo também podem aparecer no meio
+        # de consultas legadas: "qual planeta é maior?", "a Lua orbita...".
+        # Só bloquear pedidos explicitamente factuais *deste* motor; para
+        # outros formatos, devolver o controle aos demais interpretadores.
+        pedido_factual = re.match(
+            r"^(?:o que (?:e|eh|sao)\b|o que significa\b|defina\b|"
+            r"como\b|por que\b|porque\b|"
+            r"(?:me )?(?:fale|explique|conte)\b|"
+            r"(?:escreva|crie|faca|produza|resuma)\b|"
+            r"qual (?:e )?(?:a|o) (?:funcao|papel|diferenca|distancia|origem|formacao)\b)",
+            n)
+        if pedido_factual and self._menciona_mundo(n):
             return ("fora", "Reconheci o assunto, mas não tenho evidência cadastrada "
                     "para essa pergunta completa.", None)
         return None

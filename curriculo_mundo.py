@@ -6,6 +6,7 @@ modelo pronto, chave ou download é necessário durante a conversa/treino.
 """
 import json
 import re
+import unicodedata
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -111,7 +112,9 @@ def entradas_mundo(curriculo):
     for item in curriculo["itens"]:
         nomes = list(dict.fromkeys([item["nome"]] + item.get("aliases", [])))
         perguntas = [modelo.format(nome=nome) for nome in nomes for modelo in
-                     ("fale sobre {nome}", "quero conversar sobre {nome}", "assunto {nome}")]
+                     ("fale sobre {nome}", "quero conversar sobre {nome}", "assunto {nome}",
+                      "me explique {nome}", "quero entender {nome}", "apresente {nome}",
+                      "pode falar sobre {nome}", "qual e o significado de {nome}")]
         fontes = sorted({f["fonte"] for f in item["fatos"]})
         entradas.append({
             "id": item["id"], "topico": "mundo", "origem_curriculo": "mundo",
@@ -131,4 +134,23 @@ def carregar_base(caminho, curriculo=None):
     novas = entradas_mundo(curriculo)
     if {e["id"] for e in base} & {e["id"] for e in novas}:
         raise ValueError("Currículo do mundo duplicado na base editorial")
+    # Dois conceitos podem ter exemplos de consulta coincidentes em um
+    # catálogo expandido ("fale sobre Marte"). Preservar a intenção antiga
+    # exata e remover somente a colisão de treinamento, não o conceito.
+    def chave(pergunta):
+        n = unicodedata.normalize("NFD", pergunta.casefold())
+        n = "".join(c for c in n if unicodedata.category(c) != "Mn")
+        return " ".join(re.findall(r"[a-z0-9]+", n))
+
+    usados = {chave(p) for item in base for p in item["perguntas"]}
+    for item in novas:
+        validas = []
+        for pergunta in item["perguntas"]:
+            q = chave(pergunta)
+            if q not in usados:
+                usados.add(q)
+                validas.append(pergunta)
+        if not validas:
+            raise ValueError("Conceito sem exemplos de treino não ambíguos")
+        item["perguntas"] = validas
     return base + novas

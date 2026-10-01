@@ -41,12 +41,15 @@ class TestesWebCore(unittest.TestCase):
     def test_reconstroi_contexto_em_vez_de_salvar_no_servidor(self):
         isolada = responder_web({"message": "1"})
         self.assertEqual(isolada["id"], "duvida")
+        # Agora o sistema solar tem uma resposta factual: nao deve gerar
+        # uma escolha pendente artificial. Verificar a memoria HTTP com
+        # uma ambiguidade REAL entre dois assuntos.
         historica = responder_web({
             "message": "1",
-            "history": ["Como funciona o sistema solar?"]
+            "history": ["O que são DNA e RNA?", "Pode desenvolver essa ideia?"]
         })
         self.assertNotEqual(historica["id"], "duvida")
-        self.assertTrue(historica["response"])
+        self.assertIn("DNA", historica["response"])
 
     def test_conhecimento_e_provas_de_fatos(self):
         dado = responder_web({"message": "Por que a aranha é um inseto?"})

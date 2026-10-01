@@ -29,6 +29,23 @@ class TestesEntradaUsuario(unittest.TestCase):
             with self.subTest(pergunta=pergunta):
                 self.assertIn(Crivo().responder(pergunta)[0], ("fora", "duvida"))
 
+    def test_nova_fonte_de_entrada_precisa_constar_na_evidencia(self):
+        # Contraprovas variam o canal, mantendo a intencao geral da
+        # pergunta. Nenhuma delas vira exemplo de treinamento neural.
+        for pergunta in (
+            "Em Python, como receber dados da pessoa via satélite?",
+            "Em Python, como receber dados da pessoa pelo rádio?",
+            "Em Python, como solicitar informações usando um sensor inventado?",
+            "Como capturar dados de pessoa pela câmera usando Python?",
+        ):
+            with self.subTest(pergunta=pergunta):
+                self.assertIn(Crivo().responder(pergunta)[0], ("fora", "duvida"))
+        # A fonte realmente ensinada deve continuar funcionando.
+        self.assertEqual(
+            Crivo().responder("Em Python, como receber dados pelo teclado?")[0],
+            "py_input",
+        )
+
     def test_nao_interceptar_pergunta_sobre_nome_do_usuario_com_social(self):
         self.assertEqual(
             Crivo().responder("Em Python, como solicitar que uma pessoa informe seu nome?")[0],
