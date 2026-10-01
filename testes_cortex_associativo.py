@@ -104,6 +104,28 @@ class TestesCortexAssociativo(unittest.TestCase):
             with self.subTest(pergunta=pergunta):
                 self.assertIsNone(rede.associar(pergunta))
 
+    def test_parte_pertencente_a_entidade_e_identificada_sem_treinar_pergunta(self):
+        for pergunta, esperado in (
+            ("Como o núcleo magnético de Cristero movimenta partículas elétricas?",
+             ("cristero", 2)),
+            ("De que modo a crosta luminosa de Cristero dispersa luz visível?",
+             ("cristero", 1)),
+            ("Como a hélice interna de Velário agita líquido cristalino?",
+             ("velario", 1)),
+        ):
+            with self.subTest(pergunta=pergunta):
+                memoria = self.rede.associar(pergunta)
+                self.assertIsNotNone(memoria)
+                self.assertEqual((memoria.conceito, memoria.indice), esperado)
+        for pergunta in (
+            "Como o núcleo magnético de Cristero e Velário movimenta partículas elétricas?",
+            "Como a crosta luminosa de Cristero produz ouro?",
+            "Como a crosta luminosa de Cristero dispersa luz sem ondas?",
+            "Como o núcleo magnético de Cristero não movimenta partículas elétricas?",
+        ):
+            with self.subTest(pergunta=pergunta):
+                self.assertIsNone(self.rede.associar(pergunta))
+
     def test_plasticidade_local_so_com_revisao(self):
         chave = ("cristero", 1)
         outra = dict(self.rede.sinapses[("cristero", 2)])
