@@ -81,7 +81,7 @@ Em 2020, a equipe estudou dados de posição/orbita da Cassini e outras observa�
 
 **Roche:** próximo ao planeta, a diferença espacial de atração pode exceder a capacidade de manter unido um objeto grande de baixa resistência. O limite depende da densidade e estrutura do satélite, de sua resistência coesiva, da trajetória e de hipóteses do modelo. Isso ajuda a entender por que certas populações de anéis podem permanecer dispersas, sem explicar univocamente a origem dos anéis de Saturno [S17].
 
-**Hill:** em aproximação circular restrita com massa planetária muito menor que a da estrela, o raio da região gravitacionalmente dominante em torno do planeta pode ser estimado por R_H ≈ a (m_p/(3M_estrela))^(1/3). Essa é uma escala aproximada, não uma garantia automática de satélite estável em qualquer inclinação e excentricidade. Planetas mais longe da estrela, mantendo as massas, têm uma escala de Hill maior.
+**Hill:** em aproximação circular restrita com massa planetária muito menor que a da estrela, o raio da região gravitacionalmente dominante em torno do planeta pode ser estimado por R_H ≈ a (m_p/(3M_estrela))^(1/3). Essa é uma escala aproximada, não uma garantia automática de satélite estável em qualquer inclinação e excentricidade. Planetas mais longe da estrela, mantendo as massas, têm uma escala de Hill maior. **Fonte dinâmica adicional:** estudos de regiões estáveis mostram como excentricidade, inclinação e pressão de radiação podem reduzir/alterar o volume estável em torno de pequenos corpos [S21]; não generalizar o limite numérico desses asteroides a todas as luas planetárias sem refazer a dinâmica.
 
 **Erro duplo a evitar:** 'dentro do raio de Hill todo objeto é eternamente estável' e 'fora do limite de Roche todo agregado vira lua'. Ressônancias, perturbações de outros corpos, colisões e propriedades materiais também importam.
 
@@ -147,6 +147,7 @@ Os exemplos abaixo são *propostas documentais* — não foram apresentados como
 | S18 | NASA/JPL Solar System Dynamics, *Asteroid Main-Belt Distribution*: https://ssd.jpl.nasa.gov/diagrams/mb_hist.html | Histograma e lacunas de Kirkwood associadas a ressonâncias. |
 | S19 | ESO, condições de copyright das publicações institucionais: https://www.eso.org/public/outreach/copyright/ | Divulgação em geral sob CC BY 4.0 com crédito; NÃO automaticamente aplicável a artigos científicos/códigos. |
 | S20 | NASA, política de uso de mídia: https://www.nasa.gov/nasa-brand-center/images-and-media/ | Conteúdo informativo em geral sujeito a condições; cuidado especial com terceiros, imagens e atribuição em aplicações de IA. |
+| S21 | Hamilton, D. P. & Burns, J. A. (1992), *Orbital stability zones about asteroids. II*, *Icarus* 96, 43–64, DOI https://doi.org/10.1016/0019-1035(92)90005-R | Pesquisa sobre satélites/debris em asteroides: domínio estável depende de inclinação, excentricidade e perturbações. É referência de mecânica orbital, NÃO medição direta da estabilidade de luas de gigantes. |
 
 ## 13. Direitos e lacunas restantes
 
