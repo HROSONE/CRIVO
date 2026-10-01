@@ -170,6 +170,37 @@ class CortexAssociativo:
                 encontrados.append((len(nome.split()), len(nome),
                                     next(iter(ids)), nome))
         if not encontrados:
+            # Em "a atmosfera de Venus..." o topico recuperavel e Venus,
+            # enquanto "atmosfera" e a PARTE investigada. Exigir um
+            # possessivo curto e um alias inequivoco; a parte permanece nas
+            # pistas e PRECISA aparecer no fato escolhido. Nunca usar um
+            # nome secundario solto como sujeito.
+            for alias, ids in self.aliases.items():
+                if len(ids) != 1 or not alias:
+                    continue
+                nome = normalizar(alias)
+                propriedade = re.match(
+                    r"^([a-z0-9]+(?: [a-z0-9]+){0,3}) "
+                    r"(?:de|do|da|dos|das) " + re.escape(nome) + r"(?:$| )",
+                    restante)
+                if propriedade is None:
+                    continue
+                parte = propriedade.group(1)
+                if re.search(r"\\b(?:e|ou|com|sem|nao)\\b", parte):
+                    continue
+                # A parte tambem deve ser conhecimento efetivamente
+                # presente em ao menos um fato tipado desse proprietario.
+                pistas_parte = self.tokenizador(parte)
+                if not pistas_parte or not any(
+                    u.conceito == next(iter(ids)) and
+                    all(p in self.sinapses[(u.conceito, u.indice)]
+                        for p in pistas_parte)
+                    for u in self.unidades.values()
+                ):
+                    continue
+                encontrados.append((len(nome.split()), len(nome),
+                                    next(iter(ids)), nome))
+        if not encontrados:
             return None
         encontrados.sort(reverse=True)
         mais_longo = (encontrados[0][0], encontrados[0][1])
@@ -195,9 +226,9 @@ class CortexAssociativo:
         """
         consulta = normalizar(pergunta)
         if len(consulta) > 320 or not re.match(
-                r"^(?:como |de que modo |qual (?:e )?o mecanismo )", consulta):
+                r"^(?:como |de que modo |qual (?:e )?o mecanismo(?: (?:de|do|da))? )", consulta):
             return None
-        if re.search(r"\b(nao|nunca|jamais|nem|se|supondo|imaginando|"
+        if re.search(r"\b(nao|nunca|jamais|nem|sem|exceto|se|supondo|imaginando|"
                      r"fictici[oa]|inventad[oa]|hipotetic[oa]|"
                      r"dosagem|dose|medicamento)\b", consulta):
             return None
@@ -217,7 +248,8 @@ class CortexAssociativo:
                  "acontece", "funciona", "funcionamento", "sistema", "processo",
                  "mecanismo", "explica", "ocorre", "ocorrem", "isso",
                  "pelo", "pela", "pelos", "pelas", "via", "sob", "ate",
-                 "entre", "atraves", "num", "numa", "sobre"}
+                 "entre", "atraves", "num", "numa", "sobre",
+                 "devido", "devida", "devidos", "devidas"}
         # Filtrar palavras funcionais ANTES da reducao morfologica:
         # "através" pode virar "atrave" no tokenizador; nao e um
         # qualificador novo nem deve diluir a evidencia recuperada.
