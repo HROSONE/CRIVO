@@ -108,5 +108,19 @@ class TestesAstronomiaEditorial(unittest.TestCase):
             self.assertIn("recebe matéria", texto)
             self.assertEqual(bot.responder("Como se forma zirvax?")[0], "fora")
 
+
+    def test_nova_terminologia_nao_bloqueia_consultas_anteriores(self):
+        pares = (
+            ("quantos planetas existem no nosso sistema solar?", "planetas"),
+            ("plutão ainda é considerado planeta?", "plutao"),
+            ("qual planeta é o maior de todos?", "maior_planeta"),
+            ("A Lua orbita Júpiter?", "logica:desconhecido"),
+            ("A Lua orbita o Sol?", "logica:desconhecido"),
+            ("A Via Láctea faz parte da Terra?", "logica:desconhecido"),
+        )
+        for pergunta, esperado in pares:
+            with self.subTest(pergunta=pergunta):
+                self.assertEqual(Crivo().responder(pergunta)[0], esperado)
+
 if __name__ == "__main__":
     unittest.main()
