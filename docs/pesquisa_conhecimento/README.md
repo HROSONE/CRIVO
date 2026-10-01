@@ -13,6 +13,9 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 ## Dossiês disponíveis
 
+| 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Ciclo bariônico, feedback e evolução ambiental](astronomia/2026-10-01-ciclo-barionico-galaxias-feedback-ambiente.md) | Gás ISM/CGM/ICM, PHANGS, SFR, stripping, modelo de reserva, REBELS-25 2026; revisão científica e integração pendentes |
+| 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Matéria escura: observações, lentes e crescimento](astronomia/2026-10-01-materia-escura-crescimento-estrutura-lentes.md) | SPARC, Bullet Cluster, COSMOS-Web 2026, Planck e DES Y6; limites instrumentais e de modelos; revisão/integracão pendentes |
+| 2026-10-01 | Astronomia 7, 8, 9, 10 | [Astrometria, espectros e incertezas com matemática](astronomia/2026-10-01-metodos-quantitativos-astrometria-espectros-incertezas.md) | Gaia DR3, distâncias probabilísticas, redshifts, CO, SNR e covariâncias; exercícios DIDÁTICOS, sem dados reais processados; integração pendente |
 | Data | Área/módulos | Documento | Estado |
 | --- | --- | --- | --- |
 | 2026-10-01 | Astronomia 5, 6, 7, 8, 9 | [Dinâmica galáctica, arqueologia da Via Láctea e montagem hierárquica](astronomia/2026-10-01-dinamica-galactica-via-lactea-montagem-hierarquica.md) | Cinemática, warp, meio interestelar 3D, fusões antigas e limites de inferência; revisão/integração pendentes |
@@ -50,3 +53,9 @@ As rodadas narrativas anteriores da conversa ainda NÃO foram integralmente tran
 5. Informar o link efetivo do arquivo ao outro agente; não supor que esteja na `main`.
 
 **Separação de eixos:** cobertura editorial de produção = não alterada; pesquisa documental = registrada; consulta simbólica = não testada; competência neural = não testada; certificação = não alterada.
+
+## Atualização complementar — ciclo bariônico, massa escura e métodos quantitativos (01/10/2026)
+
+**Inventário a partir das entradas deste índice:** 13 dossiês temáticos com link da branch, além do protocolo de auditoria. Alguns foram registrados pelo outro agente durante a pesquisa, e não foram reescritos aqui para evitar conflito. Nesta etapa foram acrescentados os três dossiês acima, enfocando mecanismos de gás e feedback, evidências gravitacionais e calibração quantitativa; cada um separa observação, modelo e hipótese. A contagem mede arquivos indexados, não porcentagem de domínio, fontes independentes, certificação neural ou estudo humano revisado. A seção histórica anterior com contagem de nove dossiês permanece como fotografia da época anterior.
+
+**Pendências priorizadas:** completar parte observacional de corpos menores/exoplanetas, dinâmica de halo–galáxia e funções de massa, revisar cientificamente os dez módulos por conceito, reunir exercícios com dados abertos reais e suas covariâncias e preparar matriz editorial completa de provas para o agente integrador. **Nenhum módulo desta skill está certificado ou concluído pela pesquisa nesta etapa.**
