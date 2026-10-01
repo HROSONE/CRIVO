@@ -75,3 +75,17 @@ Se a pesquisa não conseguir validar uma afirmação controversa, marcar `eviden
 - **Próximo bloqueio concreto:** começar a fase A, verificar e registrar fontes dos materiais sobre formação planetária e dinâmica de luas antes de transferir os relatos da conversa.
 
 **Referências internas de navegação:** [skill de astronomia na main](https://github.com/HROSONE/CRIVO/blob/main/docs/skill_especializacao_astronomia.md), [catálogo científico](https://github.com/HROSONE/CRIVO/blob/main/conhecimento_mundo.json), [catálogo lunar](https://github.com/HROSONE/CRIVO/blob/main/conhecimento_astronomia_luas.json), [relatório de integração](https://github.com/HROSONE/CRIVO/blob/main/avaliacoes/integracao_20261001.json) e [acervo documental](https://github.com/HROSONE/CRIVO/tree/pesquisa/acervo-conhecimento-crivo/docs/pesquisa_conhecimento).
+
+
+## 6. Acompanhamento da Fase A após a auditoria inicial — 01/10/2026
+
+A auditoria acima preserva a fotografia feita ANTES dos dossiês novos. Posteriormente, foram publicados e relidos na mesma branch:
+
+- [Formação planetária, transporte de momento angular e evidências](2026-10-01-formacao-planetaria-dinamica-evidencias.md): mecanismo de crescimento de sólidos, obstáculos à formação de planetesimais, instabilidade de fluxo, acreção de seixos, linha de gelo, migração, estrutura PDS 70 e inferências sobre discos, com 14 referências listadas.
+- [Luas, ressonâncias, marés e oceanos](2026-10-01-luas-ressonancias-mares-oceanos.md): origens alternativas, Io/Europa/Ganimedes, campo magnético de Europa, plumas e fosfatos de Encélado, meteorologia de Titã, captura de Tritão e escalas gravitacionais, com 20 referências listadas.
+
+**Inventário verificável agora:** três dossiês temáticos no acervo, incluindo o documento anterior de lentes/buracos negros/distâncias, mais este protocolo. Isso amplia a Fase A, mas não certifica módulos: não houve inventário exaustivo de todos os corpos e relações, revisão científica externa nem duas auditorias finais. A contagem de referências é bibliográfica, NÃO indica número de fatos assimilados ou fontes independentes.
+
+**Lacunas residuais da Fase A:** diferenciação planetária, cronologia por isótopos, interior comparado dos oito planetas, órbitas de corpos menores, migração de grandes impactos, comparação sistemática entre famílias de luas, exercícios com unidades/erros. Necessário evitar aprofundar uma mesma notícia se ela não fecha uma dessas lacunas.
+
+**Estado por módulos documentais:** 1 = incompleto; 2 = incompleto, agora com relações causais adicionais; 3 = incompleto, agora com mecanismos documentados; 4–9 = incompletos em níveis diferentes; 10 = pendente de consolidação. **Nenhum** marcado como pesquisa_documental_pronta nesta rodada. Certificação neural/simbólica, integração à main e treinamento permanecem fora do escopo deste acervo.
