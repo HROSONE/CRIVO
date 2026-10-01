@@ -112,7 +112,9 @@ def entradas_mundo(curriculo):
     for item in curriculo["itens"]:
         nomes = list(dict.fromkeys([item["nome"]] + item.get("aliases", [])))
         perguntas = [modelo.format(nome=nome) for nome in nomes for modelo in
-                     ("fale sobre {nome}", "quero conversar sobre {nome}", "assunto {nome}")]
+                     ("fale sobre {nome}", "quero conversar sobre {nome}", "assunto {nome}",
+                      "me explique {nome}", "quero entender {nome}", "apresente {nome}",
+                      "pode falar sobre {nome}", "qual e o significado de {nome}")]
         fontes = sorted({f["fonte"] for f in item["fatos"]})
         entradas.append({
             "id": item["id"], "topico": "mundo", "origem_curriculo": "mundo",
