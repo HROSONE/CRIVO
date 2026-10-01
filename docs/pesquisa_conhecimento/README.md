@@ -15,6 +15,8 @@ O agente integrador pode consultar este acervo quando conveniente e selecionar f
 
 | Data | Área/módulos | Documento | Estado |
 | --- | --- | --- | --- |
+| 2026-10-01 | Astronomia 2, 3, 7, 8, 9 | [Formação planetária, migração e evidências](astronomia/2026-10-01-formacao-planetaria-dinamica-evidencias.md) | Dossiê científico de mecanismos, fluxos de gás/sólidos, acreção, migração, disco PDS 70 e limitações; revisão/integração pendentes |
+| 2026-10-01 | Astronomia 1, 2, 3, 7, 8, 9 | [Luas, marés, ressonâncias e oceanos](astronomia/2026-10-01-luas-ressonancias-mares-oceanos.md) | Origem de luas, Io/Europa/Ganimedes, Encélado, Titã, Tritão, Roche e Hill; revisão/integração pendentes |
 | 2026-10-01 | Astronomia: auditoria dos 10 módulos | [Lacunas, critérios de qualidade e parada](astronomia/2026-10-01-auditoria-de-lacunas-e-criterio-de-parada.md) | Escopo do acervo e condições para encerrar a PESQUISA e passar à próxima área; não é certificação do CRIVO |
 | 2026-10-01 | Astronomia 5, 6, 7, 8 e 9 | [Lentes gravitacionais, buracos negros e distâncias](astronomia/2026-10-01-lentes-buracos-negros-e-distancias.md) | Pesquisa redigida e fontes institucionais consultadas; revisão e integração pendentes |
 
@@ -24,9 +26,13 @@ Antes de aprofundar indefinidamente uma área, aplicar a [auditoria de lacunas e
 
 ## Histórico e lacunas
 
-As quatro rodadas narrativas anteriores foram apresentadas na conversa, porém **não** foram despejadas automaticamente nesta branch: qualquer passagem para o acervo exige nova verificação das fontes, datas e direitos, especialmente para alegações de pesquisas de 2026.
+As rodadas narrativas anteriores da conversa ainda NÃO foram integralmente transpostas: algumas lacunas dos módulos 2 e 3 foram agora pesquisadas e REDIGIDAS novamente, com referências verificadas, nos dossiês de formação planetária e de luas. Os demais conteúdos continuam exigindo curadoria antes de publicação. Material de pesquisa não equivale a conhecimento integrado.
 
-**Backlog científico prioritário, sem garantia de ineditismo ou de aprovação:** migração planetária e aquecimento de marés; ressonâncias de luas; nucleossíntese e evolução de estrelas; formação das primeiras galáxias; distâncias, erros sistemáticos e covariâncias; dinâmica e distribuição de matéria escura; expansão cósmica e interpretações de dados. Conferir o inventário atual antes de produzir outra ficha.
+**Backlog científico prioritário, sem garantia de ineditismo ou de aprovação:** agora há DOSSÊS de migração planetária, aquecimento de marés e ressonâncias lunares, mas ainda faltam revisão científica humana e complemento de diferenciação planetária e composição comparada dos planetas. Próximos: nucleossíntese e evolução de estrelas; formação das primeiras galáxias; distâncias, erros sistemáticos e covariâncias; dinâmica e distribuição de matéria escura; expansão cósmica e interpretações de dados. Conferir o inventário atual antes de produzir outra ficha.
+
+## Estado documental após a pesquisa de 01/10/2026
+
+**Dossiês temáticos registrados e consultáveis na branch: 3** (formação planetária, luas e lentes/buracos negros/distâncias), além do protocolo de lacunas. Foram acrescentadas **34 referências explicitamente listadas nos dois novos dossiês**, mas referências listadas não equivalem a 34 fontes independentes nem a 34 fatos certificados. Nenhum módulo passou por todas as condições de conclusão documental; a certificação do CRIVO permanece inalterada em 0/10. Os novos dossiês ainda devem ser revisados quanto a interpretações e atualizações por especialistas antes de qualquer integração.
 
 ## Como ampliar o acervo sem conflitos
 
