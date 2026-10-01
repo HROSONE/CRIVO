@@ -1,8 +1,8 @@
 # Astronomia — Estrutura estelar, fusão nuclear, neutrinos e formas de observar interiores
 
 **Pesquisa documental:** 2026-10-01. **Módulos da skill:** 1 (conceitos), 4 (física estelar), 7 (observação), 8 (matemática), 9 (inferência).  
-**Status:** PESQUISA PARA REVISÃO. **NÃO integrada à base ativa, NÃO treinada e NÃO certificada.** A \`main\` não foi modificada.  
-**Motivação:** a base canônica já define \`protoestrela\`, \`fusão estelar\`, \`sequência principal\` e \`massa estelar\`; falta explicar mecanismo, transporte de energia, composição, observações independentes e hipóteses. Este dossiê complementa fichas existentes, não cria aliases/IDs de produção.
+**Status:** PESQUISA PARA REVISÃO. **NÃO integrada à base ativa, NÃO treinada e NÃO certificada.** A `main` não foi modificada.  
+**Motivação:** a base canônica já define `protoestrela`, `fusão estelar`, `sequência principal` e `massa estelar`; falta explicar mecanismo, transporte de energia, composição, observações independentes e hipóteses. Este dossiê complementa fichas existentes, não cria aliases/IDs de produção.
 
 ## 1. Da nuvem molecular à sequência principal
 
@@ -18,13 +18,13 @@
 
 Em simetria esférica e equilíbrio aproximado:
 
-\`dP/dr = -G M(r) ρ(r) / r²\`.
+`dP/dr = -G M(r) ρ(r) / r²`.
 
 P é pressão em pascals; r, raio em metros; M(r), massa contida até r em quilogramas; ρ, densidade em kg/m³; G, constante gravitacional. O sinal negativo indica que a pressão cai em direção ao exterior, compensando o peso das camadas.
 
 Esta equação é local; **não exige** que o gás esteja parado a nível microscópico ou que a fusão ocorra exatamente em todas as camadas. Uma protoestrela pode estar aproximadamente suportada por pressão de gás gerada por contração; uma anã branca pode ser suportada principalmente pela pressão de degenerescência dos elétrons sem fusão estável. Para pulsos, choques, rotação rápida, campos magnéticos muito fortes ou episódios explosivos, o equilíbrio hidrostático simplificado não descreve tudo. [E1,E2]
 
-**Equações complementares de estrutura:** a conservação de massa é \`dM/dr = 4πr²ρ\`. A fonte local de energia e seu transporte requerem tratar taxa nuclear, energia gravitacional, opacidades, radiação e convecção. Uma equação isolada do equilíbrio não permite inferir temperatura central ou composição sem hipóteses adicionais.
+**Equações complementares de estrutura:** a conservação de massa é `dM/dr = 4πr²ρ`. A fonte local de energia e seu transporte requerem tratar taxa nuclear, energia gravitacional, opacidades, radiação e convecção. Uma equação isolada do equilíbrio não permite inferir temperatura central ou composição sem hipóteses adicionais.
 
 **Raciocínio hipotético:** mantendo uma massa M e aproximando um corpo por esfera de raio R, sua aceleração gravitacional externa se comporta aproximadamente como GM/R². Reduzir R pela metade quadruplica essa aceleração, *se M permanecer constante* e o modelo newtoniano/esférico for aplicável. Isso não determina a pressão interna sem um perfil de densidade. Um número em uma fórmula não equivale a uma observação independente.
 
@@ -34,7 +34,7 @@ O Teorema do Virial fornece uma conexão entre energia gravitacional e temperatu
 
 **Definição negativa:** não se trata de que 'a gravidade fabrica energia'; é conversão de energia potencial. Uma fonte radiativa pode, portanto, existir antes da ignição nuclear, e a distribuição e duração do aquecimento dependem da taxa de acreção e da estrutura. [E1]
 
-**Fusão nuclear:** a diferença de massas entre reagentes/produtos, ou entre estados com energias de ligação distintas, corresponde a energia liberada por meio de \`ΔE = Δm c²\`. No caso de hidrogênio produzindo hélio, a energia total é distribuída entre o material estelar, fótons e neutrinos. Não interpretar toda a energia da reação como luz que chega à superfície: neutrinos podem escapar rapidamente, enquanto fótons são repetidamente absorvidos/reemitidos e a energia é transportada por muitos processos [E2,E4].
+**Fusão nuclear:** a diferença de massas entre reagentes/produtos, ou entre estados com energias de ligação distintas, corresponde a energia liberada por meio de `ΔE = Δm c²`. No caso de hidrogênio produzindo hélio, a energia total é distribuída entre o material estelar, fótons e neutrinos. Não interpretar toda a energia da reação como luz que chega à superfície: neutrinos podem escapar rapidamente, enquanto fótons são repetidamente absorvidos/reemitidos e a energia é transportada por muitos processos [E2,E4].
 
 **Não confundir fusão nuclear e combustão química:** a reação ocorre entre núcleos, não por oxidação de átomos em uma chama.
 
@@ -72,9 +72,9 @@ A NASA descreve o Sol com núcleo, zona radiativa e zona convectiva. No núcleo 
 
 ## 7. Massa, luminosidade e tempo de vida: por que a estrela maior pode morrer primeiro
 
-Um tempo nuclear esquemático para uma estrela da sequência principal pode ser representado por \`t_nuc ∝ (f M X Q) / L\`, onde M é massa, X é fração do combustível relevante, f fração acessível ao processo e Q energia liberada por unidade de massa do combustível. A expressão NÃO é fórmula universal exata: mistura/convectividade, composição, rotação, perda de massa e evolução de L alteram f e o resultado. [E1,E2]
+Um tempo nuclear esquemático para uma estrela da sequência principal pode ser representado por `t_nuc ∝ (f M X Q) / L`, onde M é massa, X é fração do combustível relevante, f fração acessível ao processo e Q energia liberada por unidade de massa do combustível. A expressão NÃO é fórmula universal exata: mistura/convectividade, composição, rotação, perda de massa e evolução de L alteram f e o resultado. [E1,E2]
 
-**Teste lógico:** compare estrelas A e B. B tem cinco vezes mais combustível efetivamente acessível, mas emite cem vezes mais energia por segundo. Na aproximação de taxas constantes, \`t_B/t_A ≈ 5/100 = 0,05\`. B consumiria sua reserva em aproximadamente 5% do tempo de A. Não extrapolar que toda estrela de cinco massas solares seja cem vezes mais brilhante sem calcular modelos ou consultar observações.
+**Teste lógico:** compare estrelas A e B. B tem cinco vezes mais combustível efetivamente acessível, mas emite cem vezes mais energia por segundo. Na aproximação de taxas constantes, `t_B/t_A ≈ 5/100 = 0,05`. B consumiria sua reserva em aproximadamente 5% do tempo de A. Não extrapolar que toda estrela de cinco massas solares seja cem vezes mais brilhante sem calcular modelos ou consultar observações.
 
 **Desambiguação:** massa estelar inicial ≠ massa atual: ventos, transferência de material em binárias e explosões podem alterá-la. Massa influencia luminosidade, mas observar só cor sem distância, composição, extinção e classe de luminosidade não permite obter massa única.
 
@@ -82,7 +82,7 @@ Um tempo nuclear esquemático para uma estrela da sequência principal pode ser 
 
 Em um diagrama H–R, as estrelas são representadas por luminosidade ou magnitude absoluta num eixo e temperatura efetiva ou índice de cor no outro. Populações diferentes podem ocupar sequência principal, ramo das gigantes e sequência das anãs brancas. A ESA publicou em 2018 um diagrama Gaia baseado em mais de quatro milhões de estrelas: posições e cores não equivalem a acompanhar uma estrela individual por milhões de anos. [E9]
 
-**Temperatura efetiva e raio:** para uma aproximação de corpo negro e emissão esférica, \`L = 4πR²σT_eff⁴\`. Se duas estrelas têm mesma T_eff, mas uma tem raio dez vezes maior, sua luminosidade nessa aproximação é cem vezes maior. Portanto cor/temperatura idênticas não significam tamanho ou fase idênticos. O espectro real possui linhas de absorção e desvios de corpo negro; \`T_eff\` é parâmetro operacional de fluxo.
+**Temperatura efetiva e raio:** para uma aproximação de corpo negro e emissão esférica, `L = 4πR²σT_eff⁴`. Se duas estrelas têm mesma T_eff, mas uma tem raio dez vezes maior, sua luminosidade nessa aproximação é cem vezes maior. Portanto cor/temperatura idênticas não significam tamanho ou fase idênticos. O espectro real possui linhas de absorção e desvios de corpo negro; `T_eff` é parâmetro operacional de fluxo.
 
 **Seleção e incerteza:** Gaia combina paralaxe, brilho aparente e cor, sob filtros de qualidade. Extinção por poeira, sistemas binários não resolvidos, limitações de magnitude e calibração podem deslocar objetos no diagrama. O guia Gaia DR2 registra cortes explícitos de qualidade de paralaxe e extinção em amostras representadas. [E10]
 
