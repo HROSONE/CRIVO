@@ -111,11 +111,11 @@ Esses exemplos editoriais não devem ser reaproveitados como prova cega do CRIVO
 | --- | --- | --- |
 | X1 | NASA Science, *How We Find and Characterize*: https://science.nasa.gov/exoplanets/how-we-find-and-characterize/ | Procedimentos gerais de trânsito, Doppler, microlente, imagem direta e espectroscopia; divulgação, sem substituição de artigos de inferência. |
 | X2 | NASA Exoplanet Archive, *About Planetary Systems Table*: https://exoplanetarchive.ipac.caltech.edu/docs/planetarysystems_about.html | Tabela PS, versões de soluções, status e referências; não presumir independência de parâmetros compostos. |
-| X3 | NASA Science, *Planetary Transits*: https://science.nasa.gov/exoplanets/planetary-transits/ | Geometria, periodos e detecção, com condição de alinhamento. |
+| X3 | NASA/JPL-Caltech, *Exoplanet Detection: Transit Method*: https://science.nasa.gov/resource/exoplanet-detection-transit-method/ | Geometria, periodos e detecção, com condição de alinhamento. |
 | X4 | NASA Exoplanet Archive, *Statistics and candidates*: https://exoplanetarchive.ipac.caltech.edu/docs/counts_detail.html | Contagens dependem do método e atualização, não taxa universal de ocorrência. |
-| X5 | NASA Science, *Radial Velocity*: https://science.nasa.gov/exoplanets/radial-velocity/ | Efeito Doppler e relação massa orbital, no nível introdutório. |
-| X6 | NASA Science, *Gravitational Microlensing*: https://science.nasa.gov/exoplanets/gravitational-microlensing/ | Alinhamento gravitacional e seleção. |
-| X7 | NASA Science, *Direct Imaging*: https://science.nasa.gov/exoplanets/direct-imaging/ | Contraste, bandas e fatores de seleção. |
+| X5 | NASA/JPL-Caltech, *Exoplanet Detection: Radial Velocity Method*: https://science.nasa.gov/resource/exoplanet-detection-radial-velocity-method/ | Efeito Doppler e relação massa orbital, no nível introdutório. |
+| X6 | NASA/JPL-Caltech, *Exoplanet Detection: Microlensing Method*: https://science.nasa.gov/resource/exoplanet-detection-microlensing-method/ | Alinhamento gravitacional e seleção. |
+| X7 | NASA Science, *Direct Imaging*: https://science.nasa.gov/resource/direct-imaging/ | Contraste, bandas e fatores de seleção. |
 | X8 | ESA/Gaia, *Gaia DR3 documentation*: https://gea.esac.esa.int/archive/documentation/GDR3/ | Astrometria, paralaxe e movimentos, não base de massa planetária automática. |
 | X9 | NASA/Webb, *Spectroscopy 101*: https://science.nasa.gov/mission/webb/science-overview/science-explainers/spectroscopy-101-beyond-temperature-and-composition/ | Espectros, condições físicas e limitações. |
 | X10 | NASA Science, *The Search for Life*: https://science.nasa.gov/exoplanets/search-for-life/ | Zona habitável, biossinais e ressalvas; material institucional. |
