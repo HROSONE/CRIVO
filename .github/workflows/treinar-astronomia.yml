@@ -9,7 +9,7 @@ on:
       - scripts/treinar_especializacao_astronomia.py
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   treinamento:
@@ -38,3 +38,43 @@ jobs:
             avaliacao_treino_astronomia.json
           retention-days: 14
           if-no-files-found: error
+
+      - name: Validar assinaturas e qualidade do checkpoint candidato
+        run: |
+          python - <<'PY'
+          import json
+          from crivo import Crivo
+          from rede_neural import RedeCrivo
+          bot = Crivo()
+          rede = RedeCrivo.carregar("rede_crivo.json")
+          dados = json.load(open("avaliacao_treino_astronomia.json", encoding="utf-8"))
+          assert bot.rede is not None and bot.erro_rede is None, bot.erro_rede
+          assert set(rede.rotulos) == {x["id"] for x in bot.base}
+          a = dados["astronomia"]
+          assert a["classificador"]["acertos"] * 4 >= a["classificador"]["total"] * 3, a
+          assert a["hibrido"]["acertos"] * 10 >= a["hibrido"]["total"] * 9, a
+          assert all(c["absteve"] for c in dados["controles_desconhecidos"]), dados
+          print("Checkpoint compativel com base e provas candidatas: OK")
+          PY
+      - name: Repetir as quatro regressões com a nova rede realmente ativa
+        run: |
+          python -m unittest \
+            testes_conhecimento_mundo.TestesConhecimentoMundo.test_relacoes_nao_descartam_negacao_qualificadores_ou_direcao \
+            testes_linguagem_conversa.TestesLinguagemConversa.test_reformulacoes_sucessivas_sao_variadas_e_deterministicas \
+            testes_semantica_programacao.TestesSemanticaProgramacao.test_conhecimento_novo_resolve_ambiguidade_antiga_com_prova \
+            testes_web.TestesWebCore.test_reconstroi_contexto_em_vez_de_salvar_no_servidor \
+            -v
+      - name: Integrar checkpoint validado somente na branch de astronomia
+        if: github.event_name == 'push' && startsWith(github.event.head_commit.message, 'ci: publicar checkpoint astronomia')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin "$GITHUB_REF_NAME"
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA" || {
+            echo "A branch mudou enquanto o treino rodava; nunca enviar pesos de uma base antiga."
+            exit 1
+          }
+          git add rede_crivo.json
+          git diff --cached --quiet && exit 0
+          git commit -m "train: publicar checkpoint compatível de astronomia na branch candidata"
+          git push origin "HEAD:$GITHUB_REF_NAME"
