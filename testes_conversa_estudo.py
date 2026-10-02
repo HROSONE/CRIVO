@@ -16,6 +16,11 @@ class TestesContexto(unittest.TestCase):
         _, r = conversa("e Júpiter, é feito de quê?", "tem como pousar lá?")
         self.assertIn("superfície sólida", r[1][1])
 
+    def test_la_artigo_ou_contraste_nao_retoma_o_assunto(self):
+        bot, _ = conversa("o que é Júpiter?")
+        self.assertEqual(bot.responder("o que é la niña")[0], "el_nino")
+        self.assertEqual(bot.responder("por que é inverno lá e verão aqui")[0], "natal_verao")
+
     def test_elipse_herda_a_pergunta_anterior(self):
         _, r = conversa("quanto tempo dura um dia em Vênus?", "e em Marte?")
         self.assertIn("243 dias", r[0][1])

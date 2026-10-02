@@ -955,7 +955,7 @@ class Crivo:
                         self.historico[-1]["id"] = ident
         return resultado, origem
 
-    _PRONOMES = re.compile(r"(?<![\w])(?:(n|d)(ele|ela|eles|elas)|(ele|ela)|(l[aá]))(?![\w])", re.IGNORECASE)
+    _PRONOMES = re.compile(r"(?<![\w])(?:(n|d)(ele|ela|eles|elas)|(ele|ela)|(lá))(?![\w])", re.IGNORECASE)
 
     def _resolver_pronome(self, texto):
         """Troca "ele/ela/lá/nele/dela…" pelo assunto da conversa.
@@ -973,10 +973,13 @@ class Crivo:
         nome = self.compositor.itens[self.assunto_conversa]["nome"]
         outro = self.compositor.assunto_mencionado(texto)
 
+        # "lá e aqui" contrasta lugares; não retoma o assunto.
+        contraste = bool(re.search(r"\b(?:aqui|ca)\b", n))
+
         def troca(m):
             prep, pron, sujeito, la = m.groups()
             if la:
-                return "em " + nome
+                return m.group(0) if contraste else "em " + nome
             if prep:
                 return ("em " if prep.lower() == "n" else "de ") + nome
             return m.group(0) if outro else nome
