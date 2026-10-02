@@ -321,3 +321,13 @@ Não individualizar determinantes estruturais e não converter risco populaciona
 
 ### Regra de psicoterapia
 O nome da escola não é mecanismo. Armazenar separadamente **manual/componentes → teoria → alvo → target engagement/mediação → eficácia → efetividade → danos → população/comparador**.
+
+
+## Aprofundamento 9 — farmacologia por molécula
+
+| Documento | Escopo |
+| --- | --- |
+| [Antidepressivos e antipsicóticos por molécula](2026-10-02-psicofarmacologia-antidepressivos-antipsicoticos-moleculas.md) | diferenças intraclasse de alvo, metabólitos, CYP, meia-vida qualitativa, retirada, interações, efeitos adversos e interpretação comparativa |
+
+### Controle de precisão farmacológica
+Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, clearance, frequências de eventos) só devem entrar como números quando ligados a fonte primária/regulatória identificável e versão/data. Evitar falsa precisão derivada de memória ou agregadores.
