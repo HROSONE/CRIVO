@@ -50,6 +50,7 @@ class Evento:
         self.palavras = []
         self.nucleo_objeto = ""
         self.encaixado = False
+        self.antigo = False
 
     def __repr__(self):
         return "Evento(%s, agente=%r, objeto=%r, tempo=%r, lugar=%r, neg=%s, rel=%s)" % (
@@ -256,11 +257,15 @@ class MemoriaRelatos:
             self._leitor = Leitor()
         return self._leitor
 
-    def guardar(self, frase):
+    def guardar(self, frase, antigo=False):
+        """antigo=True: relato de uma conversa anterior (memória do navegador)."""
         if not self.leitor.disponivel:
             return []
+        if re.search(r"\b(?:se chama|me chamo|meu nome|nome (?:dele|dela|do|da))\b", sem_acento(frase)):
+            return []  # nomes têm memória própria
         evs = [e for e in self.leitor.eventos(frase) if e.acao]
         for e in evs:
+            e.antigo = antigo
             self.eventos.append((e, frase.strip()))
         self.eventos = self.eventos[-self.LIMITE:]
         return evs
@@ -270,6 +275,10 @@ class MemoriaRelatos:
         if not self.eventos or not self.leitor.disponivel:
             return None
         n = sem_acento(pergunta).strip(" ?!.")
+        contei = re.fullmatch(r"(?:e )?(?:o que|oq|que) (?:foi que )?(?:eu )?(?:te |lhe )?(?:contei|falei|disse)"
+                              r"(?: (?:pra voce|para voce|a voce))?(?: (?:de|do|da|dos|das|sobre) (.+))?", n)
+        if contei:
+            return self._contado(contei.group(1))
         opiniao = bool(_OPINIAO.match(n))
         tipo = "causa" if opiniao else next((t for t, padrao in _PERGUNTA if padrao.match(n)), None)
         if tipo is None:
@@ -330,12 +339,32 @@ class MemoriaRelatos:
             return self._inferir(ev, frase), ev
         resposta = self._resposta(tipo, ev, frase, condicao)
         if tipo == "causa" and "causa" not in ev.relacoes:
+            # Só a frase logo antes, na mesma conversa, serve de palpite.
             anterior = next((e for e, f in reversed(self.eventos[max(0, idx - 3):idx])
                              if f != frase and not e.encaixado), None)
+            if anterior is not None and (getattr(anterior, "antigo", False) or getattr(ev, "antigo", False)):
+                anterior = None
             if anterior is not None:
                 resposta += (" Mas imagino que tenha a ver com o que você contou antes: %s. "
                              "É só um palpite." % self._voce(anterior))
         return resposta, ev
+
+    def _contado(self, alvo):
+        """"O que eu te contei (da minha mãe)?": os relatos guardados,
+        inclusive de conversas anteriores, na voz de "você"."""
+        frases = []
+        alvo_n = _sem_possessivo(alvo or "")
+        for ev, frase in self.eventos:
+            if ev.encaixado:
+                continue
+            if alvo_n and alvo_n not in _sem_possessivo(" ".join((ev.agente, ev.objeto, ev.texto))):
+                continue
+            texto = self._voce(ev)
+            if texto not in frases:
+                frases.append(texto)
+        if not frases:
+            return None
+        return ("Você me contou que " + "; e que ".join(frases[-3:]) + "."), None
 
     def _inferir(self, ev, frase):
         """Quarto nível de saber: o provável. Só a partir de noções (para que

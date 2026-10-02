@@ -83,8 +83,8 @@ def avaliar(conjunto, transcrever=False):
 
 def main():
     args = sys.argv[1:]
-    alvo = next((a for a in args if a in ("dev", "retido", "todos")), "dev")
-    for conjunto in (("dev", "retido") if alvo == "todos" else (alvo,)):
+    alvo = next((a for a in args if a in ("dev", "retido", "retido2", "todos")), "dev")
+    for conjunto in (("dev", "retido", "retido2") if alvo == "todos" else (alvo,)):
         resumo, falhas, transcricao = avaliar(conjunto)
         print(json.dumps(resumo, ensure_ascii=False))
         if "--detalhes" in args:

@@ -243,3 +243,26 @@ def _com_artigo(tema):
     if " " in tema or tema in ("gripe", "doença"):
         feminino = tema.endswith("a") or tema in ("gripe", "doença")
     return ("a " if feminino else "o ") + tema
+
+
+def de_volta(bot, variacao):
+    """Primeiro "oi" de quem já conversou antes e pediu para ser lembrado."""
+    perfil = getattr(bot, "perfil", None)
+    nome = nome_tratamento(bot)
+    oi = "Oi de novo%s!" % ((", " + nome) if nome else "")
+    if perfil is None:
+        return oi + " Que bom te ver."
+    for t in reversed(perfil.temas):
+        proprio = perfil.nomes.get(t[1])
+        if proprio:
+            artigo = "a" if (t[4] or "").startswith(("sua", "minha")) else "o"
+            return oi + " E %s %s, como está?" % (artigo, proprio)
+    marcante = perfil.marcante()
+    if marcante is None:
+        return oi + " Que bom te ver. Como você está?"
+    _, tema, tom, _, agente = marcante
+    if tom == "saude" and agente and agente != "você":
+        return oi + " E %s, já melhorou?" % agente
+    if tom in ("neg", "saude"):
+        return oi + " Da última vez você não estava num dia muito bom. Como estão as coisas agora?"
+    return oi + " Da última vez você estava animado. Como estão as coisas?"

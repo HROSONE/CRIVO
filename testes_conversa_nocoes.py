@@ -20,7 +20,15 @@ class TestesCatraca(unittest.TestCase):
     def conferir(self, conjunto):
         resumo, _, _ = avaliar(conjunto)
         limite = LIMIARES[conjunto]
-        self.assertGreaterEqual(resumo["acertos"], limite["acertos_min"], resumo)
+        try:
+            import numpy  # noqa: F401
+            from analisador_frases import analisador as _a
+            com_analisador = _a().disponivel
+        except ImportError:
+            com_analisador = False
+        acertos_min = limite["acertos_min"] if com_analisador else limite.get(
+            "acertos_min_sem_analisador", limite["acertos_min"])
+        self.assertGreaterEqual(resumo["acertos"], acertos_min, resumo)
         self.assertLessEqual(resumo["fatos_errados"], limite["fatos_errados_max"], resumo)
         try:
             import numpy  # noqa: F401
@@ -37,6 +45,9 @@ class TestesCatraca(unittest.TestCase):
 
     def test_retido(self):
         self.conferir("retido")
+
+    def test_retido2(self):
+        self.conferir("retido2")
 
 
 class TestesNocoes(unittest.TestCase):

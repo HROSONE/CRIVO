@@ -14,6 +14,43 @@ class PedidoInvalido(ValueError):
     """Entrada inválida: o endpoint pode responder HTTP 400."""
 
 
+TONS = ("pos", "neg", "saude", "neutro")
+
+
+def _texto_curto(valor, limite):
+    return isinstance(valor, str) and 0 < len(valor.strip()) <= limite and "\x00" not in valor
+
+
+def _validar_memoria(memoria):
+    """Memória entre conversas, guardada SÓ no navegador de quem optou por
+    ela e reenviada a cada pedido. O servidor valida, usa e devolve a versão
+    atualizada; não guarda nada."""
+    if not isinstance(memoria, dict) or set(memoria) - {"nome", "nomes", "relatos", "temas"}:
+        raise PedidoInvalido("Memória inválida.")
+    limpa = {}
+    if "nome" in memoria:
+        if not _texto_curto(memoria["nome"], 40):
+            raise PedidoInvalido("Memória inválida.")
+        limpa["nome"] = memoria["nome"].strip()
+    nomes = memoria.get("nomes", {})
+    if (not isinstance(nomes, dict) or len(nomes) > 10
+            or not all(_texto_curto(k, 40) and _texto_curto(v, 40) for k, v in nomes.items())):
+        raise PedidoInvalido("Memória inválida.")
+    limpa["nomes"] = dict(nomes)
+    relatos = memoria.get("relatos", [])
+    if (not isinstance(relatos, list) or len(relatos) > 8
+            or not all(_texto_curto(r, 300) for r in relatos)):
+        raise PedidoInvalido("Memória inválida.")
+    limpa["relatos"] = list(relatos)
+    temas = memoria.get("temas", [])
+    if (not isinstance(temas, list) or len(temas) > 6 or not all(
+            isinstance(t, list) and len(t) == 3 and _texto_curto(t[0], 40) and t[1] in TONS
+            and isinstance(t[2], str) and len(t[2]) <= 60 for t in temas)):
+        raise PedidoInvalido("Memória inválida.")
+    limpa["temas"] = [list(t) for t in temas]
+    return limpa
+
+
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None):
     """Valida o contrato JSON e devolve um resultado serializável.
 
@@ -23,8 +60,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None)
     """
     if not isinstance(payload, dict):
         raise PedidoInvalido("Envie um objeto JSON.")
-    if set(payload) - {"message", "history"}:
+    if set(payload) - {"message", "history", "memory"}:
         raise PedidoInvalido("Campos não reconhecidos no pedido.")
+    memoria = _validar_memoria(payload["memory"]) if "memory" in payload else None
     mensagem = payload.get("message")
     historico = payload.get("history", [])
     if (not isinstance(mensagem, str) or
@@ -38,6 +76,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None)
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
     bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem)
+    if memoria:
+        bot.carregar_memoria(memoria)
     for anterior in historico:
         bot.responder(anterior)
     identificador, resposta = bot.responder(mensagem)
@@ -62,7 +102,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None)
     provas_plano = (bot.contexto_textual.provas if bot.contexto_textual is not None else ())
     prova_planejada = any((i in provas_efetivas or i in ids_editoriais and "Relações verificadas:" in t)
                          and t in resposta for i,t in provas_plano)
+    extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
     return {
+        **extra,
         "id": identificador,
         "response": resposta,
         "mechanism": mecanismo,

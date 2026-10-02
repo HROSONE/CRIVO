@@ -1013,6 +1013,40 @@ class Crivo:
 
     NAO_ENTENDI = "Hum, não entendi bem."
 
+    # ----- memória entre conversas (guardada só no navegador, opcional) -----
+    def carregar_memoria(self, memoria):
+        dados = self.conversacao.dialogo.dados
+        if memoria.get("nome"):
+            dados["nome"] = memoria["nome"]
+        self.perfil.nomes.update(memoria.get("nomes", {}))
+        for tema, tom, agente in memoria.get("temas", []):
+            self.perfil.temas.append((-10, tema, tom, "", agente))
+        for relato in memoria.get("relatos", []):
+            try:
+                self._memoria().guardar(relato, antigo=True)
+            except Exception:
+                pass
+        self.memoria_anterior = bool(memoria.get("nome") or memoria.get("temas") or memoria.get("nomes"))
+
+    def exportar_memoria(self):
+        dados = self.conversacao.dialogo.dados
+        saida = {"nomes": dict(list(self.perfil.nomes.items())[-10:]), "relatos": [], "temas": []}
+        if isinstance(dados.get("nome"), str) and 0 < len(dados["nome"]) <= 40:
+            saida["nome"] = dados["nome"]
+        vistos = []
+        memoria = getattr(self, "memoria_relatos", None)
+        for _, frase in (memoria.eventos if memoria is not None else []):
+            if frase not in vistos and len(frase) <= 300:
+                vistos.append(frase)
+        saida["relatos"] = vistos[-8:]
+        temas = {}
+        for t in self.perfil.temas:  # o mais recente de cada assunto
+            if t[1] and t[1] != "isso" and len(t[1]) <= 40:
+                temas.pop(t[1], None)
+                temas[t[1]] = [t[1], t[2], (t[4] or "")[:60]]
+        saida["temas"] = list(temas.values())[-6:]
+        return saida
+
     def _nao_entendi_com_presenca(self, texto, resposta):
         """Durante uma conversa, "não entendi" retoma o assunto em vez de
         oferecer um menu."""
@@ -1154,6 +1188,10 @@ class Crivo:
                 nocao = self._nocao_definicao(texto) or self._nocao_limite(texto, depois_de_fora=True)
                 if nocao is not None:
                     return nocao
+            if ident == "social:oi" and getattr(self, "memoria_anterior", False) and self.perfil.turno <= 1:
+                from presenca import de_volta
+                from conversa_cotidiana import _presenca
+                resposta = de_volta(self, _presenca(self)) or resposta
             if ident == "fora" and resposta.startswith(self.NAO_ENTENDI):
                 return self._nao_entendi_com_presenca(texto, resposta)
             if ident == "conversa:planejamento" and getattr(self, "perfil", None) is not None and self.perfil.temas:
