@@ -419,6 +419,9 @@ class CompositorTextual:
         acontece aconteceu ocorre ocorreu vale mede medem equivale corresponde
         leva levam demora demoram dar da isso isto ele ela eles elas seu sua
         algum alguma alguns algumas mesmo realmente verdade certo sim
+        seus suas tao muito deixa deixam torna tornam causa causam provoca provocam
+        explica explicam afeta afetam influencia influenciam continua continuam
+        mecanismo maneira modo
     """.split())
     # Nomes genéricos dispensáveis quando um nome próprio raro identifica
     # o assunto ("missão DART"): não são qualificadores do fato.
@@ -432,13 +435,28 @@ class CompositorTextual:
         "volt": ("volt", "revoluc", "orbit", "translac"),
         "temperatur": ("temperatur", "quent", "calor"),
         "detect": ("detect", "detecc", "observ"),
+        "quent": ("quent", "temperatur", "calor"),
+        "maior": ("maior", "superior", "mais"), "mais": ("maior", "superior", "mais"),
+        "menor": ("menor", "inferior", "menos"), "menos": ("menor", "inferior", "menos"),
+        "vermelh": ("vermelh", "avermelh"), "avermelh": ("vermelh", "avermelh"),
+        "estaco": ("estac", "sazon"), "estac": ("estac", "sazon"),
+        "retem": ("retem", "retend", "reten", "reter", "retid"),
     }
+    # Linguagem causal explícita no fato: coocorrência não basta para
+    # responder "por que" ou "o que causa".
+    _CAUSAL = re.compile(
+        r"\b(?:produz\w*|caus\w*|provoc\w*|resulta\w*|explic\w*|contribu\w*|"
+        r"gera|geram|eleva\w*|ret[eé]m|retendo|devido|por causa|leva a|levam a|"
+        r"faz com que|torna\w*|mant[eé]m|impulsion\w*|alimenta\w*)\b")
     _SUFIXOS = ("amento", "imento", "acoes", "acao", "icoes", "icao", "aram",
                 "eram", "iram", "ados", "adas", "idos", "idas", "ando", "endo",
                 "ado", "ada", "ido", "ida", "ou", "eu", "iu", "am", "em", "ar",
                 "er", "ir", "es", "a", "e", "o", "s")
 
     def _raiz(self, palavra):
+        # Plural primeiro: "extremas" e "extrema" têm a mesma raiz.
+        if len(palavra) > 4 and palavra.endswith("s") and not palavra.endswith(("ss", "us", "is")):
+            palavra = palavra[:-1]
         for sufixo in self._SUFIXOS:
             if palavra.endswith(sufixo) and len(palavra) - len(sufixo) >= 4:
                 return palavra[:-len(sufixo)]
@@ -456,6 +474,59 @@ class CompositorTextual:
             r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto_normalizado)
             for alias, ids in self.aliases.items())
 
+    def assunto_mencionado(self, texto):
+        """Único conceito com ficha citado por nome inteiro no texto."""
+        n = normalizar(texto)
+        achados = {next(iter(ids)) for alias, ids in self.aliases.items()
+                   if len(ids) == 1 and next(iter(ids)) in self.expandidos and re.search(
+                       r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n)}
+        return next(iter(achados)) if len(achados) == 1 else None
+
+    def _descricao(self, alvo):
+        """"Descreva Vênus como um mundo do Sistema Solar": o conceito do
+        início, desde que o enquadramento só use palavras dos seus fatos ou
+        nomes de outros conceitos cadastrados."""
+        palavras = alvo.split()
+        for fim in range(len(palavras), 0, -1):
+            ident = self.resolver(" ".join(palavras[:fim]))
+            if ident in self.expandidos:
+                break
+        else:
+            return None
+        resto = " ".join(palavras[fim:])
+        for alias, ids in self.aliases.items():
+            if len(ids) == 1 and next(iter(ids)) in self.expandidos and len(alias) >= 4:
+                resto = re.sub(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", " ", resto)
+        raizes = [r for f in self.itens[ident]["fatos"] for r in self._raizes(f["texto"])]
+        for palavra in resto.split():
+            if palavra in self._FORMA_PERGUNTA or palavra in ("como", "sendo", "enquanto"):
+                continue
+            if not self._pista_no_fato(self._raiz(palavra), raizes):
+                return None
+        return ident
+
+    def _elo(self, par, excluidos):
+        """Um único salto: a definição de UM outro conceito com ficha que o
+        fato escolhido cita por nome inteiro. Nunca um conceito parecido."""
+        texto = normalizar(self.itens[par[0]]["fatos"][par[1]]["texto"])
+        citados = {next(iter(ids)) for alias, ids in self.aliases.items()
+                   if len(ids) == 1 and next(iter(ids)) in self.expandidos
+                   and next(iter(ids)) not in excluidos and len(alias) >= 4
+                   and re.search(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto)}
+        if len(citados) != 1:
+            return None
+        citado = next(iter(citados))
+        definicao = self.itens[citado]["fatos"][0]
+        if definicao.get("papel") != "definicao":
+            return None
+        # O elo precisa acrescentar algo ligado ao fato, não só repetir o nome.
+        nomes = {r for a, ids in self.aliases.items() if citado in ids for r in self._raizes(a)}
+        comuns = ({r for r in self._raizes(texto) if len(r) >= 5} &
+                  {r for r in self._raizes(definicao["texto"]) if len(r) >= 5}) - nomes
+        if len(comuns) < 2:
+            return None
+        return (citado, 0)
+
     def buscar_fatos(self, texto, contexto=None):
         """Localiza fatos cadastrados que contêm TODAS as pistas da pergunta.
 
@@ -466,19 +537,31 @@ class CompositorTextual:
         para aproximar outro assunto e nenhuma conclusão sim/não é gerada.
         """
         self.assunto_busca = None
+        self.busca_explicativa = False
         if not isinstance(texto, str) or len(texto) > 320:
             return None
         n = normalizar(texto)
         if re.search(r"\b(nao|nunca|jamais|nem|sem|exceto|supondo|imaginando|imagine|"
-                     r"fictici[oa]s?|inventad[oa]s?|hipotetic[oa]s?|dose|dosagem|"
+                     r"fictici[oa]s?|inventad[oa]s?|hipotetic[oa]s?|magic[oa]s?|dose|dosagem|"
                      r"medicamento|remedio|diagnostico)\b|(?:^|\b(?:e|mas) )se\b", n):
             return None
         palavras = n.replace("-", " ").replace(",", " ").split()
         if not 2 <= len(palavras) <= 16:
             return None
-        # Coocorrência de palavras num fato não prova causa.
-        if re.match(r"(?:por que|porque|pq)\b", n):
-            return None
+        # Perguntas de causa/mecanismo: a moldura sai das pistas, mas a
+        # causa exige linguagem causal no próprio fato (coocorrência não
+        # prova causa).
+        moldura = re.match(
+            r"(?:por que|porque|pq|o que (?:deixa|faz|torna|causa|provoca|explica)|"
+            r"qual (?:e )?(?:a |o )?(?:causa|razao|motivo)(?: (?:de|do|da|dos|das))?|"
+            r"de que (?:maneira|modo|forma)|por qual mecanismo|"
+            r"qual (?:e )?o mecanismo(?: (?:de|do|da|dos|das))?)(?= |$)", n)
+        causal = bool(moldura) and not re.match(r"(?:de que|por qual|qual (?:e )?o mecanismo)", n)
+        mecanismo = bool(moldura) and not causal or n.startswith("como ")
+        comparacao = bool(re.search(r"\b(?:mais|menos|maior|menor|superior|inferior)\b.* (?:que|do que) ", n))
+        if moldura:
+            self.busca_explicativa = True
+            n = " " * moldura.end() + n[moldura.end():]
         # Assunto: alias inteiro de um conceito com fontes, o mais longo.
         candidatos = []
         for alias, ids in self.aliases.items():
@@ -496,6 +579,17 @@ class CompositorTextual:
         assuntos.sort()
         assunto = assuntos[0][1] if assuntos else None
         self.assunto_busca = assunto
+        # "Urano tem estações": o segundo termo é uma propriedade do
+        # primeiro, ligada só por posse; vira pista e não relação.
+        if len({i for _, i in assuntos}) > 1:
+            primeiro = min(ocupados)
+            seguintes = sorted(o for o in ocupados if o != primeiro)
+            ponte = n[primeiro[1]:seguintes[0][0]].split()
+            if ponte and set(ponte) <= {"tem", "possui", "possuem", "teve", "com", "e", "sao",
+                                        "de", "do", "da", "dos", "das", "suas", "seus", "sua",
+                                        "seu", "o", "a", "os", "as", "uma", "um"}:
+                ocupados = [primeiro]
+                assuntos = assuntos[:1]
         resto = n
         for ini, fim in sorted(ocupados, reverse=True):
             resto = resto[:ini] + " " + resto[fim:]
@@ -511,9 +605,10 @@ class CompositorTextual:
         # Dois conceitos na pergunta formam uma relação com direção
         # ("a memória ajuda o sono" ≠ "o sono ajuda a memória"); um fato
         # que apenas cita os dois não prova nenhum dos sentidos.
-        if len({i for _, i in assuntos}) > 1:
+        if len({i for _, i in assuntos}) > 1 and not comparacao:
             return None
-        mencoes = []
+        # Numa comparação, o fato precisa citar TODOS os conceitos.
+        mencoes = [i for _, i in assuntos[1:]] if comparacao else []
         if len(pistas) > 6 or (not pistas and not quantidade and not tempo):
             return None
 
@@ -527,6 +622,8 @@ class CompositorTextual:
                     return False
             if (quantidade or tempo) and not pistas and not re.search(r"\d", texto_fato):
                 return False
+            if causal and not self._CAUSAL.search(texto_fato):
+                return False
             return True
 
         prefixo = ""
@@ -534,6 +631,10 @@ class CompositorTextual:
         if assunto is not None:
             escolhidos = [(assunto, i) for i, f in enumerate(self.itens[assunto]["fatos"])
                           if casa(f["texto"])]
+            if not escolhidos and comparacao:
+                # A comparação pode estar documentada na ficha do outro termo.
+                escolhidos = [(e, i) for e in mencoes for i, f in enumerate(self.itens[e]["fatos"])
+                              if casa(f["texto"], assunto)]
             if not escolhidos:
                 # O assunto pode estar documentado na ficha de outro
                 # conceito ("Mercúrio e Vênus não têm satélites...").
@@ -543,7 +644,11 @@ class CompositorTextual:
                 if len(escolhidos) > 3:
                     return None
         else:
-            if not pistas:
+            # Sem ficha própria, só um pedido sobre um NOME ("o que foi o
+            # DART?") justifica procurar onde ele é citado.
+            if not pistas or not re.match(
+                    r"(?:o que (?:e|eh|foi|sao|era|eram|aconteceu com)|quem (?:e|foi)|onde (?:fica|esta)|"
+                    r"(?:me )?(?:fale|fala|conte|conta) (?:sobre|do|da|de)) ", n):
                 return None
             frequencia = {}
             for e in self.expandidos:
@@ -580,6 +685,11 @@ class CompositorTextual:
         if not any(p.startswith(("form", "orig", "nasc", "surg")) for p in pistas):
             escolhidos.sort(key=lambda p: self.itens[p[0]]["fatos"][p[1]].get("aspecto") == "formacao")
         escolhidos = tuple(escolhidos[:2 if assunto is not None else 3])
+        if (causal or mecanismo) and not prefixo:
+            elo = self._elo(escolhidos[0], {e for e, _ in escolhidos} | ({assunto} if assunto else set()))
+            if elo is not None:
+                escolhidos = escolhidos[:1] + (elo,)
+                prefixo = "Juntando fatos cadastrados ligados entre si:\n\n"
         ids = tuple(dict.fromkeys(e for e, _ in escolhidos))
         _, resposta, ctx = self.compor(ids, "explicacao", selecionados=escolhidos,
                                        origem="conhecimento")
@@ -609,6 +719,16 @@ class CompositorTextual:
         n = normalizar(texto)
         n = re.sub(r"^(?:voce )?(?:pode|poderia|consegue) (?:me )?"
                    r"(?=(?:escrever|criar|fazer|produzir|montar|resumir|explicar|falar)\b)", "", n)
+        origem = re.fullmatch(r"(?:(?:me )?(?:explique|explica|conte|conta|fale|fala|descreva)|"
+                              r"o que (?:e|eh|foi)) "
+                              r"(?:a |sobre a )?(?:origem|formacao) (?:de|do|da|dos|das) (.+)", n)
+        if origem and self.resolver(origem.group(1)) is not None:
+            n = "como se formou " + origem.group(1)
+        descricao = re.fullmatch(r"(?:me )?(?:descreva|descreve|descrever) (?:o |a |os |as )?(.+)", n)
+        if descricao:
+            alvo = self._descricao(descricao.group(1))
+            if alvo is not None:
+                return self._conceito(alvo)
         svo = re.fullmatch(r"como (?:(?:o|a|os|as|um|uma) )?(.+?) (se form(?:a|am|ou|aram)|"
                            r"nasc(?:e|em|eu|eram)|surg(?:e|em|iu|iram)|funcionam?)", n)
         if svo and self.resolver(svo.group(1)) is not None:
@@ -786,7 +906,8 @@ class CompositorTextual:
             if tamanho == "simples":
                 modo = "simples"
             return self.compor(ids, modo, limite=limite)
-        m = re.fullmatch(r"(?:me )?(fale|falar|conte|explique|explicar|resuma|resumir)(?: sobre)? (.+)", n)
+        m = re.fullmatch(r"(?:me )?(fale|fala|falar|conte|conta|contar|explique|explica|explicar|"
+                         r"resuma|resumir)(?: (?:sobre|um pouco sobre|algo sobre))? (.+)", n)
         if m:
             ids, faltam = self._temas(m.group(2))
             if ids and not faltam:

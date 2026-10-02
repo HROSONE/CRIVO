@@ -1015,6 +1015,8 @@ class Crivo:
                     identificador.startswith("conhecimento:") or
                     identificador.startswith("escrita:") and identificador != "escrita:fim"):
                 self.ultima_resposta_mostrada = resultado[1]
+            if identificador != "conversa:repeticao":
+                self.conversacao.ultima_resposta_texto = resultado[1]
             return resultado
         finally:
             self._referencia_turno_anterior = None
@@ -1470,7 +1472,10 @@ class Crivo:
         # aproximada que nem menciona esse assunto ("Quantas luas tem
         # Júpiter?" não é uma pergunta sobre a Lua da Terra).
         busca = self._buscar_fatos(texto)
-        if busca is not None and not self._base_cobre(texto, n, self.compositor.assunto_busca):
+        # "Por que/de que maneira": a resposta antiga precisa cobrir a
+        # pergunta inteira, não só citar o assunto.
+        if busca is not None and not self._base_cobre(
+                texto, n, None if self.compositor.busca_explicativa else self.compositor.assunto_busca):
             ident, resposta, self.contexto_textual = busca
             self.esclarecimento = None
             self.ultimo_assunto = None

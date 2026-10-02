@@ -158,6 +158,13 @@ class Conversacao:
         self.erro_neural = None
         from dialogo_aberto import DialogoAberto
         self.dialogo = DialogoAberto(usar_neural=usar_neural)
+        # Estado do bate-papo curto (conversa_cotidiana): oferta pendente
+        # ("quer saber mais?"), curiosidades já contadas e última resposta.
+        import random as _random
+        self.oferta = None
+        self.curiosidades_usadas = set()
+        self.sorteio = _random.Random()
+        self.ultima_resposta_texto = None
         from raciocinio_dialogo import RaciocinioDialogo
         self.raciocinio_dialogo = RaciocinioDialogo()
         from geracao_conversa import GeracaoConversa
@@ -348,6 +355,11 @@ class Conversacao:
         if escolha is not None:
             self.contextual.ultimo_quadro = None
             return escolha
+        from conversa_cotidiana import responder as responder_cotidiano
+        cotidiano = responder_cotidiano(texto, bot)
+        if cotidiano is not None:
+            self.contextual.ultimo_quadro = None
+            return Preparacao(Ato("cotidiano", "dialogar"), cotidiano)
         from conversa_assistente import pedido_fontes_anterior
         if pedido_fontes_anterior(texto):
             self.contextual.ultimo_quadro = None
