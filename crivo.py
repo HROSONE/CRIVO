@@ -246,6 +246,23 @@ class Crivo:
             return None
         return self.rede.prever(pergunta)
 
+    def _usar_consolidacao(self, texto, original):
+        """Fallback factual tardio, depois dos motores especializados."""
+        resultado = self.compositor._resposta_consolidada(
+            texto, self._contexto_textual_anterior)
+        if resultado is None:
+            return None
+        ident, resposta, self.contexto_textual = resultado
+        self.esclarecimento = None
+        self.ultimo_assunto = None
+        self.historico.append({
+            "pergunta": original,
+            "id": ident,
+            "mecanismo": "consolidacao_conhecimento",
+        })
+        self.historico = self.historico[-20:]
+        return ident, resposta
+
     # "treino": monta o índice TF-IDF da base
     def _indexar(self):
         docs = []
@@ -1332,6 +1349,10 @@ class Crivo:
 
         definicao = self._responder_definicao(n, original)
         if definicao is not None:
+            if definicao[0] == "fora":
+                consolidada = self._usar_consolidacao(n, original)
+                if consolidada is not None:
+                    return consolidada
             return definicao
         # Inferência estruturada somente para relações comprováveis.
         # Os casos não reconhecidos continuam no recuperador habitual.
@@ -1462,6 +1483,11 @@ class Crivo:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
             self.pos_ultimo = 0
             return self._registrar(rank[0][1], original)
+        # So depois de exatas, logica, analise gramatical, rede e ranking.
+        # Assim a consolidacao amplia cobertura sem roubar competencias.
+        consolidada = self._usar_consolidacao(n, original)
+        if consolidada is not None:
+            return consolidada
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             return self._pedir_esclarecimento([rank[0][1]], original)
         return "fora", ("Ainda não consegui entender esse pedido. Pode indicar o assunto "
