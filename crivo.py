@@ -208,6 +208,7 @@ class Crivo:
         # Último conceito com ficha de que a conversa tratou ("ele", "lá"…).
         self.assunto_conversa = None
         self.linguagem_conversa = None
+        self.nocao_conversa = None
         # Última resposta efetivamente proferida; o servidor HTTP
         # reconstrói esse estado pelo replay seguro do histórico.
         self.ultima_resposta_mostrada = None
@@ -886,6 +887,9 @@ class Crivo:
                                  "Digite 'ajuda' para conhecer as possibilidades de conversa, escrita e programação.")
         if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
+        if re.fullmatch(r"(?:(?:muito )?obrigad[oa]|valeu|brigad[oa]) (?:por|pela|pelo) "
+                        r"(?:me )?(?:ouvir|escutar|conversar|a conversa|o papo|tudo|a ajuda|ajudar)(?: crivo)?", n):
+            return "social:obrigado", "Eu que agradeço pela conversa! Quando quiser, é só voltar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
         # contém o verbo "falou", mas não é uma despedida.
         if re.fullmatch(r"(?:tchau|ate logo|ate mais|falou|adeus)[!. ]*", n):
@@ -1003,6 +1007,42 @@ class Crivo:
             return texto.rstrip(" ?!.") + " em " + self.linguagem_conversa + ("?" if "?" in texto else "")
         return texto
 
+    def _registrar_nocao(self, texto, ident, resposta, nocao):
+        self.nocao_conversa = nocao
+        self.esclarecimento = None
+        self.contexto_textual = None
+        self.ultimo_turno = {"pergunta": texto, "id": ident}
+        self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "nocao"})
+        self.historico = self.historico[-20:]
+        return ident, resposta
+
+    def _nocao_limite(self, texto, depois_de_fora=False):
+        """“Como funciona a geladeira por dentro?”: sem ficha nem resposta
+        cadastrada que cubra a pergunta, dizer o básico como noção e admitir
+        que não sabe o resto, em vez de responder outra coisa."""
+        from conversa_cotidiana import nocoes
+        if "?" not in texto and not re.match(r"\s*(?:como|por que)\b", normalizar(texto)):
+            return None
+        achado = nocoes().nao_sei(texto, getattr(self, "nocao_conversa", None))
+        if achado is None or self.compositor.assunto_mencionado(achado[2]) is not None:
+            return None
+        if not depois_de_fora and (self.compositor.assunto_mencionado(texto) is not None
+                                   or self._base_cobre(texto, normalizar(texto))):
+            return None
+        if depois_de_fora and self.historico and self.historico[-1].get("pergunta") == texto:
+            self.historico.pop()
+        return self._registrar_nocao(texto, "nocao:nao_sei", achado[1], achado[0])
+
+    def _nocao_definicao(self, texto):
+        from conversa_cotidiana import nocoes
+        achado = nocoes().definir(texto)
+        # Conceito com ficha (o Sol, a Lua) nunca é respondido por noção.
+        if achado is None or self.compositor.assunto_mencionado(texto) is not None:
+            return None
+        if self.historico and self.historico[-1].get("pergunta") == texto:
+            self.historico.pop()
+        return self._registrar_nocao(texto, "nocao:definicao", achado[1], achado[0])
+
     def _herdar_pergunta(self, texto):
         """“e em Marte?” logo após “quanto tempo dura um dia em Vênus?”
         (respondida por uma ficha) vira a mesma pergunta sobre Marte."""
@@ -1028,7 +1068,15 @@ class Crivo:
         original_usuario = texto
         texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         try:
-            return self._responder_turno(texto)
+            limite = self._nocao_limite(texto)
+            if limite is not None:
+                return limite
+            ident, resposta = self._responder_turno(texto)
+            if ident in ("fora", "duvida", "social:nao_entendido"):
+                nocao = self._nocao_definicao(texto) or self._nocao_limite(texto, depois_de_fora=True)
+                if nocao is not None:
+                    return nocao
+            return ident, resposta
         finally:
             for nome, padrao in self._LINGUAGENS:
                 if padrao.search(texto):
