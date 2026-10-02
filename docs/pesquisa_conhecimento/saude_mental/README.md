@@ -429,3 +429,17 @@ Não maximizar número de documentos. Priorizar ledger de proveniência para cla
 - pendências materiais: suicidabilidade/self-harm, pediatria, sono, dissociação, eating disorders, funcionamento infantil, invariância/DIF e measurement error/MCID onde aplicável.
 
 **Critério de conclusão doutoral: NÃO ATINGIDO.** A cobertura instrumental avançou substancialmente, mas a auditoria global ainda aponta lacunas em classificação ICD-11 granular, epidemiologia quantitativa por transtorno, tratamentos quantitativos, populações especiais, sono, somatic/FND, perinatal, infância/adolescência, história/filosofia e auditoria integral fonte-afirmação/atualidade.
+
+## Aprofundamento 16 — epidemiologia psiquiátrica quantitativa
+
+| Documento | Escopo |
+| --- | --- |
+| [Epidemiologia psiquiátrica quantitativa por transtorno — lote 1](2026-10-02-epidemiologia-psiquiatrica-quantitativa-por-transtorno-01.md) | prevalência/incidência/burden; MDD, ansiedade, bipolaridade e psychotic experiences; heterogeneidade, transportabilidade, causalidade, GBD/WHO e ledger fonte→afirmação |
+
+### Estado da lacuna epidemiológica
+- consolidada regra obrigatória de provenance: construct/case definition/sistema/população/geografia/idade/janela/método/estimate/incerteza/fonte;
+- MDD, anxiety, bipolar spectrum e psychotic experiences agora têm exemplos quantitativos rastreáveis e limites explícitos;
+- prevalence, incidence, symptom prevalence e DALY/YLD foram formalmente separados;
+- pendências: OCD, PTSD/CPTSD, eating disorders, SUD, ADHD/autism por idade, personality, dementia/delirium, suicide/self-harm e decomposição regional/idade/sexo.
+
+**Critério de conclusão doutoral: NÃO ATINGIDO.** A lacuna epidemiológica foi reduzida, não encerrada. Permanecem também classificação ICD-11 granular, tratamentos quantitativos, populações especiais e auditoria integral fonte-afirmação/atualidade.
