@@ -345,3 +345,18 @@ Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, 
 - alimentação: peso/BMI isolado não determina diagnóstico, gravidade ou recuperação;
 - trauma não deve ser inferido a partir de BPD;
 - psicofármaco usado em BPD não demonstra etiologia nem constitui tratamento específico da personalidade.
+
+
+## Aprofundamento 11 — substâncias e dependência
+
+| Documento | Escopo |
+| --- | --- |
+| [Substâncias, dependência, aprendizagem e tratamento](2026-10-02-substancias-dependencia-aprendizagem-tratamento.md) | uso/intoxicação/withdrawal/dependência/SUD, tolerância, craving, reinforcement/incentive sensitization/RL, álcool, opioides, estimulantes, cannabis, nicotina, benzodiazepínicos, diferenciais, tratamento, redução de danos e recovery |
+
+### Regras adicionadas
+- dependência física não é sinônimo de transtorno por uso;
+- tolerância e withdrawal não demonstram compulsividade;
+- dopamina não é explicação suficiente de addiction;
+- exposição toxicológica não diagnostica SUD;
+- retorno ao uso não deve ser interpretado moralmente;
+- separar produto, dose, via, PK/PD, aprendizagem, contexto e prejuízo.
