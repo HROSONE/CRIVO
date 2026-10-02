@@ -1,0 +1,32 @@
+{
+ "descricao": "Diálogo único (dev): relatos em primeira pessoa, objetivos e opiniões com a mesma presença das observações; respostas curtas e falta de assunto recebem continuação ou iniciativa, não menu. nao_contem_sempre vale para todo turno.",
+ "nao_contem_sempre": ["Você trouxe a ideia", "objetivo declarado", "Você contou: “", "faça uma pergunta sobre qualquer assunto", "digite 'ajuda'", "Você gosta de “", "não gosta de “"],
+ "conversas": [
+  {"nome": "cansaço e opinião", "turnos": [
+    ["oi", {}],
+    ["eu tô cansado hoje", {"especifico": true}],
+    ["acho que trabalhei demais", {"especifico": true, "contem": ["trabalhou demais"]}],
+    ["quero dormir mais cedo", {"especifico": true, "contem": ["dormir mais cedo"]}],
+    ["não sei", {"nao_contem": ["Sobre o que você quer conversar", "Posso falar de astronomia"]}],
+    ["nada", {"nao_contem": ["Certo, nada", ", nada."]}]]},
+  {"nome": "término", "turnos": [
+    ["estou triste", {"especifico": true}],
+    ["minha namorada terminou comigo", {"especifico": true}],
+    ["sei lá", {"nao_contem": ["Posso falar de astronomia"]}],
+    ["hmm", {"nao_contem": ["hmm."]}]]},
+  {"nome": "objetivo com obstáculo", "turnos": [
+    ["eu quero aprender violão", {"contem": ["violão"]}],
+    ["mas não tenho tempo", {"contem": ["não tem tempo", "violão"]}],
+    ["ok", {"nao_contem": ["Posso falar de astronomia", "Sobre o que você quer conversar"]}]]},
+  {"nome": "sem assunto", "turnos": [
+    ["oi", {}],
+    ["tudo bem", {}],
+    ["nada de mais", {"nao_contem": ["não entendi"], "contem": ["?"]}],
+    ["hmm", {"nao_contem": ["não entendi"], "contem": ["?"]}]]},
+  {"nome": "gosto e iniciativa", "turnos": [
+    ["oi", {}],
+    ["eu gosto de ler", {"contem": ["ler"]}],
+    ["principalmente romance", {"nao_contem": ["não entendi"]}],
+    ["ok", {"nao_contem": ["Posso falar de astronomia"]}]]}
+ ]
+}

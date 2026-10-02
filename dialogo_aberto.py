@@ -221,7 +221,8 @@ class DialogoAberto:
             resposta = " ".join(partes) or "Você ainda não contou suas preferências nesta conversa. Do que você gosta?"
         elif re.search(r"\b(?:objetivo|quero|meta)\b", n):
             valor = self.dados.get("objetivo")
-            resposta = "Seu objetivo declarado é “" + valor + "”." if valor else "Ainda não tenho um objetivo declarado por você. O que quer fazer?"
+            resposta = ("Você me disse que quer “" + valor + "”." if valor
+                        else "Você ainda não me disse o que quer fazer. Tem algum objetivo em mente?")
         elif re.search(r"\b(?:tempo|minutos)\b", n):
             valor = self.dados.get("minutos")
             resposta = "Você disse que tem " + valor + " minutos." if valor else "Você ainda não especificou quanto tempo tem disponível."
@@ -246,6 +247,8 @@ class DialogoAberto:
         era_ativo = self.ativo or bool(conversa.assunto)
         self.ativo = True
         nome, gosto, negativo, objetivo = self._extrair(texto)
+        from conversa_cotidiana import eco_voce
+        eco = eco_voce(texto)
         if re.match(r"(?:eu )?nao (?:quero|pretendo|vou)\b", normalizar(texto)):
             conversa.objetivo = None
         original = texto.strip()[:600]
@@ -258,23 +261,33 @@ class DialogoAberto:
             resposta = "Prazer, " + self.dados["nome"] + ". O que você quer conversar hoje?"
         elif gosto:
             self.espera = "preferencia"
-            resposta = "Você gosta de “" + self.dados["preferencia"] + "”. O que mais te chama a atenção nisso?"
+            resposta = ("Que legal, " + (eco or "você gosta de " + _voce(self.dados["preferencia"])) +
+                        "! O que mais te chama a atenção nisso?")
         elif negativo:
             self.espera = "preferencia"
-            resposta = "Entendi: você não gosta de “" + self.dados["aversao"] + "”. O que te incomoda nisso?"
+            resposta = ("Entendi, " + (eco or "você não gosta de " + _voce(self.dados["aversao"])) +
+                        ". O que te incomoda nisso?")
         elif objetivo:
             self.opiniao = ""
             self.opcoes = ()
             conversa.objetivo, conversa.etapa = self.dados.get("objetivo"), 1
             self.espera = "obstaculo"
-            resposta = "Você contou: “" + original + "”. Seu objetivo declarado é “" + (conversa.objetivo or original) + "”. Qual é a principal dificuldade para chegar a esse objetivo?"
+            alvo = _voce(conversa.objetivo or original)
+            resposta = (_sortear(conversa, OBJETIVO_NOVO) % alvo + " Qual é a principal dificuldade para chegar lá?")
         elif self.opcoes and re.match(r"(?:tenho (?:duas|2) opcoes|estou entre)\b", normalizar(texto)):
             self.espera = "criterio"
             resposta = "Você está entre “" + "” e “".join(self.opcoes) + "”. O que pesa mais nessa escolha: o resultado, o prazo ou como você está agora?"
         elif ato == "ponto_de_vista":
             self.opiniao = original
             self.espera = "argumento"
-            resposta = "Você trouxe a ideia: “" + original + "”. Que experiência te fez pensar nisso?"
+            if not eco:
+                # "a gente" e outras formas que o conversor não troca com
+                # segurança: a opinião fica nas palavras da pessoa.
+                resto = re.sub(r"^(?:eu\s+)?(?:acho|penso|creio)\s+que\s+", "", original.rstrip(" .!"), flags=re.I)
+                eco = "você acha que " + resto if resto != original.rstrip(" .!") else ""
+            resposta = ((eco[0].upper() + eco[1:] + "? ") if eco else "Hum, entendi. ") + _sortear(
+                conversa, ("O que te fez pensar nisso?", "Que experiência te fez pensar nisso?",
+                           "Por que você acha isso?"))
         elif not era_ativo and re.search(r"\b(?:cansad\w*|puxad\w*|triste|frustrad\w*|esgotad\w*)\b", normalizar(texto)):
             self.espera = "detalhe"
             resposta = "Pelo que você contou, o dia pesou: “" + original + "”. Quer falar do que aconteceu ou pensar em como descansar agora?"
@@ -292,9 +305,7 @@ class DialogoAberto:
             resposta = ("Você contou: “" + original + "”. Quer me contar mais sobre isso "
                         "ou perguntar alguma coisa?")
         else:
-            resposta = "Você contou: “" + original + "”."
-            if conversa.objetivo:
-                resposta += " Seu objetivo declarado é “" + conversa.objetivo + "”."
+            resposta, ligacao = reacao_relato(texto, eco, conversa.objetivo, conversa)
             if conversa.etapa <= 1:
                 conversa.etapa = 2
                 self.espera = "tentativa"
@@ -306,7 +317,7 @@ class DialogoAberto:
             else:
                 self.espera = "proximo_passo"
                 pergunta = "Qual pequeno próximo passo parece possível para você?"
-            resposta += "\n\n" + pergunta
+            resposta = com_ligacao(resposta, ligacao, pergunta)
         self._salvar_situacao(conversa)
         self.motivo = "Parti do que você contou, sem assumir detalhes que você ainda não explicou. A pergunta ajuda a entender o que é mais importante para você."
         return "conversa:relato", resposta, None, ""
@@ -555,3 +566,39 @@ class DialogoAberto:
             # declarados ficam disponíveis somente para lembrança explícita.
             self.ativo, self.espera = False, None
             self.motivo = ""
+
+
+OBJETIVO_NOVO = ("Você contou que quer %s. Que bom!", "Você contou que quer %s, que legal.",
+                 "Legal! Você contou que quer %s.")
+
+
+def reacao_relato(texto, eco, objetivo, conversa):
+    """Reação a mais um pedaço do relato ("mas não tenho tempo"): o que a
+    pessoa disse na voz dela e a ligação com o objetivo, para a pergunta
+    seguinte ("E pensando em aprender violão, o que você já tentou…?")."""
+    pesado = re.search(r"\b(?:nao consigo|problema\w*|dificuldade\w*|cansad\w*|triste|medo|preocupad\w*|"
+                       r"ansios\w*|estressad\w*|frustrad\w*|travad\w*|sozinh\w*|preguica|nao tenho)\b",
+                       normalizar(texto))
+    abertura = _sortear(conversa, ("Entendo", "Imagino", "Poxa") if pesado else ("Entendi", "Certo"))
+    # Sem eco seguro (analisador desligado ou conversão incerta), as
+    # palavras da pessoa vão citadas: o que ela contou nunca some.
+    resposta = abertura + (", " + eco + "." if eco else ", você disse: “" + texto.strip().rstrip(".!")[:300] + "”.")
+    # O objetivo vai com as palavras da própria pessoa.
+    ligacao = ("E pensando em “" + objetivo + "”, ") if objetivo else ""
+    return resposta, ligacao
+
+
+def com_ligacao(resposta, ligacao, pergunta):
+    return resposta + " " + (ligacao + pergunta[0].lower() + pergunta[1:] if ligacao else pergunta)
+
+
+def _voce(texto):
+    """Palavras da pessoa na voz de "você": "organizar meus estudos" →
+    "organizar seus estudos"."""
+    trocas = {"meu": "seu", "minha": "sua", "meus": "seus", "minhas": "suas", "mim": "você", "comigo": "com você"}
+    return " ".join(trocas.get(w.lower(), w) for w in texto.split())
+
+
+def _sortear(conversa, opcoes):
+    sorteio = getattr(conversa, "sorteio", None)
+    return sorteio.choice(opcoes) if sorteio is not None else opcoes[0]

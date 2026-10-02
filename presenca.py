@@ -24,7 +24,15 @@ IRREGULARES = {
     "dormi": "dormiu", "corri": "correu", "vendi": "vendeu", "escrevi": "escreveu", "aprendi": "aprendeu",
     "consegui": "conseguiu", "senti": "sentiu", "abri": "abriu", "parti": "partiu", "assisti": "assistiu",
     "decidi": "decidiu", "descobri": "descobriu", "subi": "subiu", "cheguei": "chegou",
+    "farei": "fará", "direi": "dirá", "trarei": "trará", "irei": "irá",
 }
+# Presente em primeira pessoa que o etiquetador às vezes lê como substantivo
+# ("eu gosto", "mas fico"): só vira verbo depois de sujeito ou advérbio.
+PRESENTES = {"gosto": "gosta", "fico": "fica", "acho": "acha", "adoro": "adora", "odeio": "odeia",
+             "amo": "ama", "prefiro": "prefere", "preciso": "precisa", "moro": "mora", "trabalho": "trabalha",
+             "estudo": "estuda", "penso": "pensa", "sinto": "sente", "consigo": "consegue", "durmo": "dorme",
+             "canso": "cansa", "esqueço": "esquece", "acordo": "acorda", "corro": "corre", "leio": "lê"}
+_ANTES_DO_VERBO = ("eu", "nao", "ja", "tambem", "ainda", "so", "nunca", "sempre", "mas", "e", "que", "hoje")
 POSSESSIVOS = {"meu": "seu", "minha": "sua", "meus": "seus", "minhas": "suas", "eu": "você",
                "mim": "você", "comigo": "com você", "nosso": "de vocês", "nossa": "de vocês"}
 
@@ -33,9 +41,22 @@ def verbo_para_voce(forma, lema=""):
     f = forma.lower()
     if f in IRREGULARES:
         return IRREGULARES[f]
+    if f in PRESENTES:
+        return PRESENTES[f]
     l = lema.lower()
-    if f.endswith("ei") and (l.endswith("ar") or not l):
-        return f[:-2] + "ou"
+    if f.endswith(("arei", "erei", "irei")) and l == f[:-2] and len(l) >= 4:
+        return f[:-2] + "á"  # futuro: "comerei" → "comerá" (mas "parei" → "parou")
+    if f.endswith("ei") and len(f) > 3:
+        # Pretérito de verbo em -ar, pela grafia (o lema do etiquetador pode
+        # errar): "peguei" → "pegou", "fiquei" → "ficou", "comecei" → "começou".
+        raiz = f[:-2]
+        if raiz.endswith("gu"):
+            raiz = raiz[:-1]
+        elif raiz.endswith("qu"):
+            raiz = raiz[:-2] + "c"
+        elif raiz.endswith("c"):
+            raiz = raiz[:-1] + "ç"
+        return raiz + "ou"
     if f.endswith("i") and l.endswith("er"):
         return f[:-1] + "eu"
     if f.endswith("i") and l.endswith("ir"):
@@ -58,27 +79,31 @@ def para_voce(palavras, nucleo_id=None):
     formas = [p.forma.lower() for p in palavras]
     if "gente" in formas and "a" in formas or "nós" in formas:
         return None  # "a gente"/"nós" pedem "vocês" e outra conjugação
-    for p in palavras:
+    palavras = _juntar_consigo(palavras)
+    verbos = [_verbo_primeira(p, palavras[i - 1] if i else None) for i, p in enumerate(palavras)]
+    for p, verbo in zip(palavras, verbos):
         baixo = p.forma.lower()
         if baixo in ("me", "nos", "comigo") and p.classe == "PRON":
             return None
         if baixo in POSSESSIVOS:
             saida.append(POSSESSIVOS[baixo])
             continue
-        if p.classe in ("VERB", "AUX") and _primeira_pessoa(p):
+        if verbo:
             v = verbo_para_voce(p.forma, p.lema)
             if v is None:
                 return None
             saida.append(v)
             continue
         saida.append(p.forma)
-    if not sujeito_explicito and _primeira_pessoa_algum(palavras):
-        k = next(i for i, p in enumerate(palavras) if p.classe in ("VERB", "AUX") and _primeira_pessoa(p))
+    if not sujeito_explicito and any(verbos):
+        k = verbos.index(True)
         # "não", "também", "ainda" ficam junto do verbo: "você não foi".
         while k > 0 and palavras[k - 1].classe == "ADV" and normalizar(palavras[k - 1].forma) in (
                 "nao", "tambem", "ainda", "ja", "so", "nunca", "sempre"):
             k -= 1
         saida.insert(k, "você")
+        if k + 1 < len(saida) and palavras[k].classe != "PROPN" and saida[k + 1] == palavras[k].forma:
+            saida[k + 1] = saida[k + 1].lower()
     if saida and palavras and palavras[0].classe != "PROPN" and saida[0] == palavras[0].forma:
         saida[0] = saida[0].lower()
     return " ".join(saida)
@@ -92,6 +117,28 @@ def _primeira_pessoa(p):
     return (p.forma.lower() in IRREGULARES and p.forma.lower() not in ("estava", "era", "ia", "tinha")) or \
         (f.endswith("ei") and len(f) > 3) or (f.endswith("i") and len(f) > 3 and p.lema.lower().endswith(("er", "ir"))
                                                and f != normalizar(p.lema))
+
+
+def _juntar_consigo(palavras):
+    """O tokenizador separa "consigo" em "com si" (como no treebank); depois
+    de "eu"/"não" é o verbo conseguir."""
+    saida, i = [], 0
+    while i < len(palavras):
+        p = palavras[i]
+        if (p.forma.lower() == "com" and i + 1 < len(palavras) and palavras[i + 1].forma.lower() == "si"
+                and saida and normalizar(saida[-1].forma) in _ANTES_DO_VERBO):
+            saida.append(type(p)(p.id, "consigo", "conseguir", "VERB", p.pai, p.ligacao))
+            i += 2
+            continue
+        saida.append(p)
+        i += 1
+    return saida
+
+
+def _verbo_primeira(p, anterior):
+    if p.classe in ("VERB", "AUX") and _primeira_pessoa(p):
+        return True
+    return p.forma.lower() in PRESENTES and (anterior is None or normalizar(anterior.forma) in _ANTES_DO_VERBO)
 
 
 def _primeira_pessoa_algum(palavras):
@@ -166,6 +213,19 @@ CONTINUAR = {
     "pos": ("Me conta mais!", "E o que mais tem de novo?", "Que bom saber disso. O que mais aconteceu?"),
     "neutro": ("Me conta mais.", "E o que mais?", "Como foi isso?"),
 }
+
+# Perguntas leves para puxar conversa quando a pessoa não traz assunto.
+INICIATIVA = (
+    "Posso te perguntar uma coisa? O que você mais gosta de fazer quando tem um tempo livre?",
+    "Então me conta: como está sendo a sua semana?",
+    "Tem alguma coisa que você está esperando para fazer nos próximos dias?",
+    "Qual foi a melhor parte do seu dia hoje, mesmo que pequena?",
+    "Se você pudesse fazer qualquer coisa agora, o que seria?",
+)
+
+
+SEGUIR_OBJETIVO = ("Se quiser, a gente pensa num primeiro passo pequeno para %s.",
+                   "E sobre %s: tem alguma ideia de por onde começar?")
 
 # Reação ao nome de alguém que a pessoa contou ("ele se chama Thor").
 REACAO_NOME = {

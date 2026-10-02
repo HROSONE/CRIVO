@@ -1,0 +1,29 @@
+{
+ "descricao": "Diálogo único (retido): só o agregado é usado.",
+ "nao_contem_sempre": ["Você trouxe a ideia", "objetivo declarado", "Você contou: “", "faça uma pergunta sobre qualquer assunto", "digite 'ajuda'", "Você gosta de “", "não gosta de “"],
+ "conversas": [
+  {"nome": "estresse no estudo", "turnos": [
+    ["boa tarde", {}],
+    ["estou estressado com a faculdade", {"especifico": true}],
+    ["acho que peguei matérias demais", {"especifico": true, "contem": ["pegou"]}],
+    ["talvez", {"nao_contem": ["Posso falar de astronomia"]}],
+    ["sei lá", {"nao_contem": ["Posso falar de astronomia"]}]]},
+  {"nome": "objetivo de correr", "turnos": [
+    ["eu quero começar a correr", {"contem": ["correr"]}],
+    ["mas fico com preguiça", {"especifico": true}],
+    ["beleza", {"nao_contem": ["Posso falar de astronomia", "Sobre o que você quer conversar"]}]]},
+  {"nome": "dia parado", "turnos": [
+    ["olá", {}],
+    ["tô bem", {}],
+    ["nada não", {"nao_contem": ["não entendi"], "contem": ["?"]}],
+    ["sei lá", {"nao_contem": ["Posso falar de astronomia"]}]]},
+  {"nome": "não gosto", "turnos": [
+    ["eu não gosto de segunda-feira", {"contem": ["segunda"]}],
+    ["é muito corrida", {"nao_contem": ["não entendi"]}],
+    ["hm", {"nao_contem": ["hm."]}]]},
+  {"nome": "opinião sobre trabalho", "turnos": [
+    ["acho que meu chefe não gosta de mim", {"especifico": true}],
+    ["ele sempre me ignora nas reuniões", {"especifico": true}],
+    ["não sei", {"nao_contem": ["Posso falar de astronomia"]}]]}
+ ]
+}

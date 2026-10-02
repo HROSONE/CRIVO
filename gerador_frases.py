@@ -40,9 +40,10 @@ def _raizes(texto):
 
 
 def _vocabulario_conversa():
-    from presenca import ABERTURAS, ACOLHER_CURTO, CONTINUAR, REACAO_NOME
+    from presenca import ABERTURAS, ACOLHER_CURTO, CONTINUAR, INICIATIVA, REACAO_NOME, SEGUIR_OBJETIVO
     textos = [t.replace("%s", "") for d in (ABERTURAS, ACOLHER_CURTO, CONTINUAR, REACAO_NOME)
               for v in d.values() for t in v]
+    textos += [t.replace("%s", "") for t in INICIATIVA + SEGUIR_OBJETIVO]
     textos += list(_CONQUISTA) + list(_SAUDE) + list(CONECTORES)
     textos += ["E foi porque, né? Tudo isso porque. Ah, então foi porque."]
     raizes = set()
