@@ -258,3 +258,15 @@ Cada próximo dossiê deve explicar, sempre que a evidência permitir:
 **fenomenologia → mecanismo → circuito/sistema → aprendizagem/desenvolvimento → mensuração → diferenciais → intervenção → mecanismo da intervenção → eventos adversos → evidência conflitante → questões abertas.**
 
 O acervo não será declarado completo por quantidade de documentos.
+
+
+## Aprofundamento 5 — farmacologia e ciência da intervenção
+
+| Data | Documento | Escopo |
+| --- | --- | --- |
+| 2026-10-02 | [Psicofarmacologia fundamental](2026-10-02-psicofarmacologia-pk-pd-receptores-retirada.md) | ADME, PK/PD, ocupação, dose–resposta, CYP, fenoconversão, farmacogenômica, antidepressivos, benzodiazepínicos, antipsicóticos, lítio, estimulantes, ketamina, retirada e interações |
+| 2026-10-02 | [Ciência da psicoterapia](2026-10-02-ciencia-psicoterapia-mecanismos-evidencia-danos.md) | Mecanismos, fatores comuns/específicos, CBT/ACT/DBT/psicodinâmica/IPT/sistêmica, mediação/moderação, dismantling, measurement-based care, danos, dropout e cultura |
+
+### Nova exigência
+
+Para farmacologia, futuras fichas devem separar **alvo molecular, PK, PD, efeito clínico e inferência etiológica**. Para psicoterapia, devem separar **eficácia, componente, mecanismo hipotético, mediação demonstrada e fatores comuns**. Resposta ao tratamento nunca será usada sozinha como prova da causa do transtorno.
