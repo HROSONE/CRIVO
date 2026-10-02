@@ -300,6 +300,11 @@ class ConsolidadorConhecimento:
             return None
         entidades = tuple(entidades[:3])
         intencao = self._intencao(pergunta)
+        # Proposicoes gerais ("X orbita Y?", "X e Y?") pertencem aos
+        # provadores relacionais. Este modulo cuida de pedidos factuais
+        # explicativos, definicoes, comparacoes, evidencias e limites.
+        if intencao == "geral":
+            return None
         crus, conteudo = self._tokens_pergunta(pergunta, entidades)
 
         candidatos = []
