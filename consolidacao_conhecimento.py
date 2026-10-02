@@ -234,6 +234,8 @@ class ConsolidadorConhecimento:
         bonus_entidade = 0.0
         if unidade.conceito in entidades:
             bonus_entidade += 1.20
+        if entidades and unidade.conceito == entidades[0]:
+            bonus_entidade += .65
         bonus_entidade += .55 * sum(1 for e in entidades
                                     if e != unidade.conceito and e in unidade.mencoes)
         if len(entidades) >= 2 and set(entidades) <= universo:
@@ -244,7 +246,11 @@ class ConsolidadorConhecimento:
         cobertura = sum(self.idf.get(t, 1.2) for t in presentes) / total
 
         bonus = self._bonus_intencao(intencao, unidade)
-        if intencao == "comparacao" and len(entidades) >= 2 and set(entidades) <= universo:
+        if intencao == "comparacao" and len(entidades) >= 2:
+            # Comparar A e B exige uma unidade que realmente ligue A e B.
+            # Duas descricoes independentes nao autorizam inventar contraste.
+            if not set(entidades) <= universo:
+                return None
             bonus += 1.10
 
         # Definicao com entidade inequivoca pode ser respondida mesmo sem
@@ -272,6 +278,16 @@ class ConsolidadorConhecimento:
             if not (equivalentes & set(unidade.tokens)):
                 desconhecidos.append(termo)
         return tuple(sorted(desconhecidos))
+
+    @staticmethod
+    def _causal_explicita(unidade):
+        if unidade.papel == "causa":
+            return True
+        n = normalizar(unidade.texto)
+        return bool(re.search(
+            r"\b(?:causa|causam|causado|provoca|provocam|produz|produzem|"
+            r"gera|geram|leva|levam|eleva|elevam|retendo|reter|explica|"
+            r"explicam|devido|decorre|resulta)\b|por causa", n))
 
     def _encadear(self, primeira, selecionados):
         """Um unico salto, somente por conceito CITADO no primeiro fato."""
@@ -355,6 +371,17 @@ class ConsolidadorConhecimento:
             rival = candidatos[1][3]
             if rival.conceito != melhor.conceito and cobertura < .72:
                 return None
+
+        # Em mecanismo/causa/formacao com dois conceitos, a ordem importa:
+        # a evidencia precisa pertencer ao primeiro conceito mencionado e
+        # citar o segundo. Isso impede inverter "zunto aciona torva".
+        if (len(entidades) >= 2 and intencao in ("causal", "mecanismo", "formacao")):
+            if melhor.conceito != entidades[0] or not set(entidades[1:]) <= set(melhor.mencoes):
+                return None
+        # Uma pergunta causal entre conceitos nao pode promover mera
+        # correlacao/associacao a causa. Exige linguagem causal na unidade.
+        if intencao == "causal" and not self._causal_explicita(melhor):
+            return None
 
         desconhecidos = self._qualificadores_desconhecidos(crus, entidades, melhor)
         if desconhecidos:
