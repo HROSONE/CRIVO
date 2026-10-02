@@ -123,6 +123,7 @@ class Perfil:
         self.nocoes_usadas = set()
         self.perguntas_usadas = set()
         self.nomes = {}  # nome da noção → nome próprio ("cachorro" → "Thor")
+        self.ultima_forma = None  # esqueleto da última resposta montada pelo gerador
 
     def anotar(self, nome, tom, reflexao, agente=""):
         self.temas.append((self.turno, nome, tom, reflexao, agente))
@@ -164,6 +165,13 @@ CONTINUAR = {
     "saude": ("Como você está com isso?", "Se quiser, me conta como estão as coisas."),
     "pos": ("Me conta mais!", "E o que mais tem de novo?", "Que bom saber disso. O que mais aconteceu?"),
     "neutro": ("Me conta mais.", "E o que mais?", "Como foi isso?"),
+}
+
+# Reação ao nome de alguém que a pessoa contou ("ele se chama Thor").
+REACAO_NOME = {
+    "animal": ("%s! Gostei do nome. Faz tempo que vocês estão juntos?", "%s, que nome bom! Vou lembrar."),
+    "evento": ("%s, que nome lindo! Parabéns de novo.", "Que lindo, %s! Vou lembrar."),
+    "outro": ("%s, anotado! Vou lembrar.", "Ah, %s. Legal saber o nome!"),
 }
 
 
