@@ -40,12 +40,30 @@ class TestesSentido(unittest.TestCase):
 class TestesMemoria(unittest.TestCase):
     def test_catraca(self):
         from scripts.avaliar_memoria_relatos import avaliar
-        for conjunto in ("dev", "retido", "retido2"):
+        for conjunto in ("dev", "retido", "retido2", "informal_dev", "informal_retido"):
             with self.subTest(conjunto=conjunto):
                 resumo, falhas = avaliar(conjunto)
-                if conjunto.startswith("retido"):
+                if "retido" in conjunto:
                     falhas = "(retido: detalhes não exibidos)"
                 self.assertGreaterEqual(resumo["dialogos_ok"], LIMIARES[conjunto]["dialogos_ok_min"], falhas)
+
+    def test_ele_e_ela_viram_quem_foi_contado_antes(self):
+        from sentido_frases import MemoriaRelatos, _genero_numero
+        self.assertEqual(_genero_numero("minha vó"), ("f", "s"))
+        self.assertEqual(_genero_numero("meus pais"), ("m", "p"))
+        self.assertIsNone(_genero_numero("Pedro"))
+        m = MemoriaRelatos()
+        m.guardar("minha irmã chegou cedo")
+        m.guardar("meu primo chegou tarde")
+        m.guardar("ela trouxe um bolo")
+        self.assertIn("sua irmã", m.responder("quem trouxe o bolo?")[0])
+        m.guardar("comprei um celular novo")
+        m.guardar("ele já quebrou")
+        self.assertIn("celular", m.responder("o que quebrou?")[0])
+        # Sem referente compatível, o pronome fica.
+        m2 = MemoriaRelatos()
+        m2.guardar("ela ligou cedo")
+        self.assertIn("ela", m2.responder("quem ligou?")[0])
 
     def test_responde_como_relato_e_nao_inventa(self):
         from crivo import Crivo

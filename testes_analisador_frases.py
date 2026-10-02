@@ -27,6 +27,12 @@ class TestesTokenizador(unittest.TestCase):
                          ["Estou", "em", "a", "casa", "de", "o", "João", ",", "abriu", "se", "a", "porta",
                           "?", "para", "mim", "3,5", "guarda-chuva"])
 
+    def test_abreviacoes_e_pq_de_pergunta(self):
+        t = af.Tokenizador({})
+        self.assertEqual(t("ele ligou pq o sistema caiu"), ["ele", "ligou", "porque", "o", "sistema", "caiu"])
+        self.assertEqual(t("pq ele ligou?"), ["por", "que", "ele", "ligou", "?"])
+        self.assertEqual(t("e pq vc foi dps?"), ["e", "por", "que", "você", "foi", "depois", "?"])
+
     def test_regra_de_lema_ida_e_volta(self):
         for forma, lema in (("abriu", "abrir"), ("meninas", "menina"), ("é", "ser"), ("PT", "PT")):
             self.assertEqual(af.aplicar_regra_lema(forma, af.regra_lema(forma, lema)), lema.lower())

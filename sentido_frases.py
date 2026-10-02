@@ -51,6 +51,7 @@ class Evento:
         self.nucleo_objeto = ""
         self.encaixado = False
         self.antigo = False
+        self.correferencia = ""  # pronome original quando o sujeito foi resolvido
 
     def __repr__(self):
         return "Evento(%s, agente=%r, objeto=%r, tempo=%r, lugar=%r, neg=%s, rel=%s)" % (
@@ -209,7 +210,9 @@ class Leitor:
         if not ev.agente:
             # Sujeito oculto de primeira pessoa: "viajei", "esqueci".
             from presenca import _primeira_pessoa
-            ev.primeira_pessoa = _primeira_pessoa(no)
+            # "tô cansada": a raiz é o adjetivo; a pessoa está no verbo de ligação.
+            ev.primeira_pessoa = _primeira_pessoa(no) or any(
+                c.ligacao in ("cop", "aux") and _primeira_pessoa(c) for c in filhos[no.id])
         return ev
 
 
@@ -244,6 +247,25 @@ def _sem_possessivo(nucleo_texto):
                                  "os", "as", "um", "uma", "teu", "tua"))
 
 
+_PRONOME_GN = {"ele": ("m", "s"), "ela": ("f", "s"), "eles": ("m", "p"), "elas": ("f", "p")}
+_DETERMINANTES = {
+    ("m", "s"): ("o", "um", "meu", "seu", "teu", "nosso", "esse", "este", "aquele", "do", "no", "ao"),
+    ("f", "s"): ("a", "uma", "minha", "sua", "tua", "nossa", "essa", "esta", "aquela", "da", "na"),
+    ("m", "p"): ("os", "uns", "meus", "seus", "teus", "nossos", "esses", "estes", "aqueles"),
+    ("f", "p"): ("as", "umas", "minhas", "suas", "tuas", "nossas", "essas", "estas", "aquelas"),
+}
+
+
+def _genero_numero(texto):
+    """Gênero e número pelo determinante ("minha vó" → feminino singular);
+    None quando não há determinante (nome próprio: serve para ele ou ela)."""
+    primeira = sem_acento(texto.split()[0]) if texto.split() else ""
+    for gn, dets in _DETERMINANTES.items():
+        if primeira in dets:
+            return gn
+    return None
+
+
 class MemoriaRelatos:
     LIMITE = 30
 
@@ -266,9 +288,30 @@ class MemoriaRelatos:
         evs = [e for e in self.leitor.eventos(frase) if e.acao]
         for e in evs:
             e.antigo = antigo
+            self._resolver_pronome(e, antigo)
             self.eventos.append((e, frase.strip()))
         self.eventos = self.eventos[-self.LIMITE:]
         return evs
+
+    def _resolver_pronome(self, ev, antigo):
+        """"meu irmão chegou" + "ele trouxe um presente": o sujeito "ele" é o
+        irmão. Vale o referente mais recente da mesma conversa com o mesmo
+        gênero e número; sem nenhum, o pronome fica."""
+        pronome = sem_acento(ev.agente).strip()
+        if pronome not in _PRONOME_GN:
+            return
+        alvo = _PRONOME_GN[pronome]
+        for anterior, _ in reversed(self.eventos[-6:]):
+            if anterior.antigo != antigo:
+                continue
+            referentes = [(anterior.objeto, anterior.nucleo_objeto)]
+            if not anterior.primeira_pessoa:
+                referentes.append((anterior.agente, anterior.agente_nucleo))
+            for texto, nucleo in referentes:
+                if texto and sem_acento(nucleo) not in _PRONOME_GN and _genero_numero(texto) in (alvo, None):
+                    ev.correferencia = ev.agente
+                    ev.agente, ev.agente_nucleo = texto, sem_acento(nucleo)
+                    return
 
     def responder(self, pergunta):
         """(resposta, evento) se a pergunta é sobre algo contado; senão None."""
@@ -279,6 +322,9 @@ class MemoriaRelatos:
                               r"(?: (?:pra voce|para voce|a voce))?(?: (?:de|do|da|dos|das|sobre) (.+))?", n)
         if contei:
             return self._contado(contei.group(1))
+        # "o que você faria no meu lugar?" pede a visão do Crivo, não o relato.
+        if re.search(r"\bno meu lugar\b|\b(?:voce|vc) (?:faria|recomenda|sugere|aconselha|indica)\b", n):
+            return None
         opiniao = bool(_OPINIAO.match(n))
         tipo = "causa" if opiniao else next((t for t, padrao in _PERGUNTA if padrao.match(n)), None)
         if tipo is None:
@@ -409,6 +455,9 @@ class MemoriaRelatos:
         if tipo == "lugar":
             return ("Você me contou que foi %s." % ev.lugar[0]) if ev.lugar else (
                 "Você me contou isso, mas não disse onde: “%s”." % frase)
+        # "o que quebrou?" pergunta pelo sujeito quando ele é uma coisa.
+        if not ev.objeto and ev.agente and not ev.primeira_pessoa and getattr(ev, "correferencia", ""):
+            return "Pelo que você me contou, foi %s." % _segunda_pessoa(ev.agente)
         # objeto / o que fez
         return "Você me contou que %s." % voce
 

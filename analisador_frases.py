@@ -34,6 +34,10 @@ INFORMAL = {
     "tavam": "estavam", "tamo": "estamos", "pra": "para", "pro": "para o",
     "pros": "para os", "pras": "para as", "né": "não é", "vc": "você", "vcs": "vocês", "cê": "você",
     "q": "que", "tb": "também", "tbm": "também", "mto": "muito", "mt": "muito", "hj": "hoje",
+    "pq": "porque", "pk": "porque", "porq": "porque", "msm": "mesmo", "td": "tudo", "tds": "todos",
+    "dps": "depois", "agr": "agora", "cmg": "comigo", "ctg": "contigo", "qnd": "quando", "qdo": "quando",
+    "oq": "o que", "naum": "não", "vdd": "verdade", "fds": "fim de semana", "blz": "beleza",
+    "mds": "meu Deus", "sla": "sei lá",
 }
 CLITICOS = {"se", "me", "te", "lhe", "lhes", "o", "a", "os", "as", "lo", "la", "los", "las",
             "no", "na", "nos", "vos"}
@@ -82,6 +86,9 @@ class Tokenizador:
             baixo = bruto.lower()
             if baixo in INFORMAL and (baixo not in ("to", "ta") or len(texto.split()) > 1):
                 partes = INFORMAL[baixo].split()
+                if baixo in ("pq", "pk", "porq") and (not palavras or palavras[-1] in ("e", "E")) \
+                        and texto.rstrip().endswith("?"):
+                    partes = ["por", "que"]  # "pq ele ligou?" pergunta o motivo
                 partes[0] = partes[0].capitalize() if bruto[:1].isupper() else partes[0]
                 palavras.extend(partes)
                 continue
