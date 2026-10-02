@@ -95,12 +95,20 @@ class ConsolidadorConhecimento:
         self.itens = itens
         self.tokenizador = tokenizador
 
-        self.aliases = []
+        # Indice de n-gramas: evita testar centenas de regexes para cada
+        # fato sempre que um Crivo e criado. Colisoes introduzidas pela
+        # normalizacao (por exemplo pontuacao tecnica) sao descartadas.
+        candidatos_alias = {}
         for alias, ids in aliases.items():
-            if len(ids) == 1 and alias:
-                self.aliases.append((normalizar(alias), next(iter(ids))))
-        # Nomes longos primeiro para "sistema solar" vencer "solar".
-        self.aliases.sort(key=lambda x: (-len(x[0].split()), -len(x[0]), x[0]))
+            if len(ids) != 1 or not alias:
+                continue
+            chave = normalizar(alias)
+            if chave:
+                candidatos_alias.setdefault(chave, set()).update(ids)
+        self.aliases = {a: next(iter(ids)) for a, ids in candidatos_alias.items()
+                        if len(ids) == 1}
+        self.tamanhos_alias = tuple(sorted(
+            {len(a.split()) for a in self.aliases}, reverse=True))
 
         unidades_brutas = []
         df = Counter()
@@ -141,21 +149,27 @@ class ConsolidadorConhecimento:
         return saida
 
     def _entidades(self, texto):
-        n = normalizar(texto)
+        palavras = normalizar(texto).split()
+        if not palavras:
+            return ()
         encontrados = []
-        for alias, ident in self.aliases:
-            for m in re.finditer(r"(?<![a-z0-9])" + re.escape(alias) +
-                                 r"(?![a-z0-9])", n):
-                encontrados.append((m.start(), m.end(), alias, ident))
-        # Remove aliases menores que ocupem o mesmo trecho.
-        escolhidos = []
-        for inicio, fim, alias, ident in sorted(
-                encontrados, key=lambda x: (-(x[1]-x[0]), x[0])):
-            if any(not (fim <= a or inicio >= b) for a, b, _, _ in escolhidos):
+        ocupados = set()
+        # Nomes compostos vencem nomes menores que ocupem o mesmo trecho.
+        for tamanho in self.tamanhos_alias:
+            if tamanho > len(palavras):
                 continue
-            escolhidos.append((inicio, fim, alias, ident))
-        escolhidos.sort()
-        return tuple(dict.fromkeys(e[3] for e in escolhidos))
+            for inicio in range(len(palavras) - tamanho + 1):
+                faixa = set(range(inicio, inicio + tamanho))
+                if faixa & ocupados:
+                    continue
+                alias = " ".join(palavras[inicio:inicio + tamanho])
+                ident = self.aliases.get(alias)
+                if ident is None:
+                    continue
+                encontrados.append((inicio, ident))
+                ocupados.update(faixa)
+        encontrados.sort()
+        return tuple(dict.fromkeys(ident for _, ident in encontrados))
 
     @staticmethod
     def _intencao(texto):
