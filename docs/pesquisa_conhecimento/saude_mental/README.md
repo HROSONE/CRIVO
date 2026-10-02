@@ -205,3 +205,15 @@ A página editorial da OMS para o mhGAP 2023 declara **CC BY-NC-SA 3.0 IGO** (�
 - Treinamento/pesos: **não realizado**.
 - Competência clínica/neural: **não avaliada**.
 - Certificação: **não modificada**.
+
+
+## Dossiês aprofundados
+
+| Data | Documento | Escopo |
+| --- | --- | --- |
+| 2026-10-02 | [Fundamentos: neurobiologia, psicometria e psicopatologia](2026-10-02-fundamentos-neurobiologia-psicometria-psicopatologia.md) | Sinapse→circuito, plasticidade, mensuração, Bayes, diagnóstico, RDoC, genética poligênica, causalidade e evidência clínica |
+| 2026-10-02 | [Circuitos, aprendizagem, ameaça, recompensa e cognição](2026-10-02-circuitos-aprendizagem-ameaca-recompensa-cognicao.md) | Extinção, exposição, memória, recompensa, controle cognitivo, psicose, HPA, sono, desenvolvimento, neuroimagem e tradução animal→humano |
+
+### Estado após aprofundamento 1
+
+A arquitetura inicial já possui fundação metodológica e neurobiológica, mas **não** atingiu profundidade doutoral global. Próxima prioridade: neuroendocrinologia/neuroimunologia e desenvolvimento; depois psicopatologia diferencial por famílias e tratamentos. A profundidade será avaliada por cobertura mecanística, evidência conflitante, métodos e questões abertas, não por número de arquivos.
