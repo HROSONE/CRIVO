@@ -95,3 +95,34 @@ As fontes novas usam `somente_referencia` e `reproducao_autorizada: false`.
 Isso registra bibliografia de sínteses originais, sem presumir autorização de
 cópia integral, imagens, tabelas, dados ou endosso dos autores e instituições.
 Não há download ou serviço externo durante a conversa.
+
+## Compreensão da própria base (02/10/2026)
+
+Uma sondagem com perguntas comuns mostrou que o Crivo tinha os fatos, mas não
+os alcançava: "Como as estrelas nascem?" e "Como Júpiter se formou?" (ordem de
+palavras), "Europa tem oceano?" e "Mercúrio tem luas?" (propriedade),
+"Quantos metros tem uma unidade astronômica?" (quantidade), "Qual a idade do
+Sistema Solar?" (tempo) e "O que foi a missão DART?" (nome citado só dentro
+de fatos). Pior: "Quantas luas tem Júpiter?" respondia sobre a Lua da Terra
+e "Encélado tem vida?" sobre a vida de cães e gatos.
+
+`CompositorTextual.buscar_fatos` localiza o fato que contém **todas** as
+pistas da pergunta dentro do conceito citado (ou, sem ficha própria, um nome
+raro presente em até três fatos, avisando isso). Perguntas de quantidade e
+tempo preferem fatos com valor numérico; sem valor, a resposta diz
+"Não tenho esse valor numérico cadastrado". Não responde perguntas causais
+("por que"), negações, hipóteses, qualificadores ausentes ou relações entre
+dois conceitos, cuja direção pertence ao raciocinador. A fonte e os limites
+continuam retomáveis com "Qual é a fonte?" e "Quais são os limites disso?".
+
+No `crivo.py`, uma resposta aproximada da base anterior só vence a busca
+factual quando é candidata clara e menciona o assunto; uma recusa do
+compositor não oculta mais uma resposta cadastrada que cobre todas as
+palavras ("Por que Plutão não é mais planeta?"; "não é mais X" é tratado
+como "deixou de ser X"). Na prova congelada, 31/58 passou a 32/58, com
+14/14 controles e nenhum fato fora de escopo.
+
+Lacunas de conteúdo (recusadas corretamente, sem ficha cadastrada): Big Bang,
+idade do universo, temperatura do Sol, telescópio James Webb e número de luas
+de Júpiter. Preenchê-las exige novas fichas com fontes verificadas.
+Testes: `python -m unittest testes_busca_factual -v`.

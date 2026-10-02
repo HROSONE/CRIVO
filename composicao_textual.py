@@ -284,6 +284,12 @@ class CompositorTextual:
             ctx = ctx._replace(origem="base")
         return publico or "conhecimento:" + ident, texto, ctx
 
+    def _sem_aspecto(self, ident):
+        _, resposta, ctx = self._conceito(ident)
+        resposta += ("\n\nEsses são os fatos disponíveis sobre " + self.itens[ident]["nome"] +
+                     ". Não tenho uma explicação separada desse aspecto.")
+        return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
+
     def _fontes(self, contexto):
         fontes = set()
         for e, i in contexto.exibidos:
@@ -357,7 +363,7 @@ class CompositorTextual:
                             self.resolver(predicado[len(prefixo):]) == ligacao["destino"]):
                         return falta
         padroes = (
-            (r"como (?:se formam?|nascem?|surgem?|surgiu) (.+)", "formacao"),
+            (r"como (?:se form(?:a|am|ou|aram)|nasc(?:e|em|eu|eram)|surg(?:e|em|iu|iram)) (.+)", "formacao"),
             (r"como (?:foi|foram) (?:formad[oa]s?|criad[oa]s?|construid[oa]s?) (.+)", "formacao"),
             (r"qual (?:e )?(?:a|o) (?:origem|formacao) (?:de|do|da|dos|das) (.+)", "formacao"),
             (r"como (?:funciona|funcionam|age|agem) (.+)", "funcionamento"),
@@ -403,6 +409,183 @@ class CompositorTextual:
             return falta
         return None
 
+    # Palavras que formulam a pergunta, sem descrever o conteúdo procurado.
+    _FORMA_PERGUNTA = frozenset("""
+        o a os as um uma uns umas de do da dos das em no na nos nas ao aos
+        e com que qual quais quem quanto quanta quantos quantas quando onde como
+        por porque para pra me voce sabe saber diga dizer explique fale
+        tem ter tenha teem possui possuem possuia existe existem existiu ha
+        houve eh sao foi foram era eram esta estao fica ficam faz fazem fez
+        acontece aconteceu ocorre ocorreu vale mede medem equivale corresponde
+        leva levam demora demoram dar da isso isto ele ela eles elas seu sua
+        algum alguma alguns algumas mesmo realmente verdade certo sim
+    """.split())
+    # Nomes genéricos dispensáveis quando um nome próprio raro identifica
+    # o assunto ("missão DART"): não são qualificadores do fato.
+    _NOMES_GENERICOS = frozenset("missao sonda nave projeto experimento evento".split())
+    # Pequena ponte lexical para pistas de pergunta; cada grupo só aceita
+    # palavras que aparecem literalmente nos fatos.
+    _EQUIVALENTES = {
+        "lua": ("lua", "satelit"), "satelit": ("lua", "satelit"),
+        "vida": ("vida", "vivo", "organism"),
+        "idad": ("idad", "anos"), "temp": ("temp", "dura", "anos", "dias"),
+        "volt": ("volt", "revoluc", "orbit", "translac"),
+        "temperatur": ("temperatur", "quent", "calor"),
+        "detect": ("detect", "detecc", "observ"),
+    }
+    _SUFIXOS = ("amento", "imento", "acoes", "acao", "icoes", "icao", "aram",
+                "eram", "iram", "ados", "adas", "idos", "idas", "ando", "endo",
+                "ado", "ada", "ido", "ida", "ou", "eu", "iu", "am", "em", "ar",
+                "er", "ir", "es", "a", "e", "o", "s")
+
+    def _raiz(self, palavra):
+        for sufixo in self._SUFIXOS:
+            if palavra.endswith(sufixo) and len(palavra) - len(sufixo) >= 4:
+                return palavra[:-len(sufixo)]
+        return palavra
+
+    def _raizes(self, texto):
+        return [self._raiz(p) for p in normalizar(texto).replace("-", " ").replace(",", " ").split()]
+
+    def _pista_no_fato(self, pista, raizes_fato):
+        opcoes = self._EQUIVALENTES.get(pista, (pista,))
+        return any(r.startswith(o) for o in opcoes for r in raizes_fato)
+
+    def _menciona_conceito(self, ident, texto_normalizado):
+        return any(ident in ids and re.search(
+            r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto_normalizado)
+            for alias, ids in self.aliases.items())
+
+    def buscar_fatos(self, texto, contexto=None):
+        """Localiza fatos cadastrados que contêm TODAS as pistas da pergunta.
+
+        Serve a perguntas de propriedade ("Europa tem oceano?"), quantidade
+        e tempo, e a formas cuja ordem de palavras os moldes não preveem.
+        O assunto é um nome inteiro cadastrado; as outras palavras de
+        conteúdo precisam aparecer no mesmo fato. Nenhum termo é descartado
+        para aproximar outro assunto e nenhuma conclusão sim/não é gerada.
+        """
+        self.assunto_busca = None
+        if not isinstance(texto, str) or len(texto) > 320:
+            return None
+        n = normalizar(texto)
+        if re.search(r"\b(nao|nunca|jamais|nem|sem|exceto|supondo|imaginando|imagine|"
+                     r"fictici[oa]s?|inventad[oa]s?|hipotetic[oa]s?|dose|dosagem|"
+                     r"medicamento|remedio|diagnostico)\b|(?:^|\b(?:e|mas) )se\b", n):
+            return None
+        palavras = n.replace("-", " ").replace(",", " ").split()
+        if not 2 <= len(palavras) <= 16:
+            return None
+        # Coocorrência de palavras num fato não prova causa.
+        if re.match(r"(?:por que|porque|pq)\b", n):
+            return None
+        # Assunto: alias inteiro de um conceito com fontes, o mais longo.
+        candidatos = []
+        for alias, ids in self.aliases.items():
+            if len(ids) != 1 or next(iter(ids)) not in self.expandidos:
+                continue
+            for m in re.finditer(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n):
+                candidatos.append((m.start(), m.end(), next(iter(ids))))
+        candidatos.sort(key=lambda c: (-(c[1] - c[0]), c[0]))
+        ocupados, assuntos = [], []
+        for ini, fim, ident in candidatos:
+            if any(ini < f and i < fim for i, f in ocupados):
+                continue
+            ocupados.append((ini, fim))
+            assuntos.append((ini, ident))
+        assuntos.sort()
+        assunto = assuntos[0][1] if assuntos else None
+        self.assunto_busca = assunto
+        resto = n
+        for ini, fim in sorted(ocupados, reverse=True):
+            resto = resto[:ini] + " " + resto[fim:]
+        pistas = []
+        for palavra in resto.replace("-", " ").replace(",", " ").split():
+            if palavra in self._FORMA_PERGUNTA or len(palavra) < 2:
+                continue
+            raiz = self._raiz(palavra)
+            if raiz not in pistas:
+                pistas.append(raiz)
+        quantidade = bool(re.search(r"\b(quant[oa]s?|quanto tempo)\b", n))
+        tempo = bool(re.search(r"\b(quando|idade|ha quanto tempo)\b", n))
+        # Dois conceitos na pergunta formam uma relação com direção
+        # ("a memória ajuda o sono" ≠ "o sono ajuda a memória"); um fato
+        # que apenas cita os dois não prova nenhum dos sentidos.
+        if len({i for _, i in assuntos}) > 1:
+            return None
+        mencoes = []
+        if len(pistas) > 6 or (not pistas and not quantidade and not tempo):
+            return None
+
+        def casa(fato_texto, exigir_assunto=None):
+            raizes = self._raizes(fato_texto)
+            if not all(self._pista_no_fato(p, raizes) for p in pistas):
+                return False
+            texto_fato = normalizar(fato_texto)
+            for ident in mencoes + ([exigir_assunto] if exigir_assunto else []):
+                if not self._menciona_conceito(ident, texto_fato):
+                    return False
+            if (quantidade or tempo) and not pistas and not re.search(r"\d", texto_fato):
+                return False
+            return True
+
+        prefixo = ""
+        escolhidos = []
+        if assunto is not None:
+            escolhidos = [(assunto, i) for i, f in enumerate(self.itens[assunto]["fatos"])
+                          if casa(f["texto"])]
+            if not escolhidos:
+                # O assunto pode estar documentado na ficha de outro
+                # conceito ("Mercúrio e Vênus não têm satélites...").
+                escolhidos = [(e, i) for e in sorted(self.expandidos) if e != assunto
+                              for i, f in enumerate(self.itens[e]["fatos"])
+                              if casa(f["texto"], assunto)]
+                if len(escolhidos) > 3:
+                    return None
+        else:
+            if not pistas:
+                return None
+            frequencia = {}
+            for e in self.expandidos:
+                for f in self.itens[e]["fatos"]:
+                    raizes = self._raizes(f["texto"])
+                    for p in pistas:
+                        if self._pista_no_fato(p, raizes):
+                            frequencia[p] = frequencia.get(p, 0) + 1
+            raras = [p for p in pistas if 0 < frequencia.get(p, 0) <= 3]
+            if not raras:
+                return None
+            # "Missão", "sonda" etc. só nomeiam a categoria do nome raro.
+            genericos = {self._raiz(g) for g in self._NOMES_GENERICOS}
+            if any(p not in genericos for p in raras):
+                pistas = [p for p in pistas if p not in genericos]
+            escolhidos = [(e, i) for e in sorted(self.expandidos)
+                          for i, f in enumerate(self.itens[e]["fatos"]) if casa(f["texto"])]
+            if not 1 <= len(escolhidos) <= 3:
+                return None
+            prefixo = ("Não tenho uma ficha própria sobre esse nome, mas ele aparece "
+                       "nestes fatos cadastrados:\n\n")
+        if not escolhidos:
+            return None
+        if quantidade or tempo:
+            com_numero = [p for p in escolhidos
+                          if re.search(r"\d", self.itens[p[0]]["fatos"][p[1]]["texto"])]
+            if com_numero:
+                escolhidos = com_numero
+            elif not prefixo:
+                prefixo = ("Não tenho esse valor numérico cadastrado. O que encontrei "
+                           "sobre isso:\n\n")
+        # Um fato de origem só responde primeiro a perguntas de origem:
+        # "isótopos de vida curta" não trata de vida em Encélado.
+        if not any(p.startswith(("form", "orig", "nasc", "surg")) for p in pistas):
+            escolhidos.sort(key=lambda p: self.itens[p[0]]["fatos"][p[1]].get("aspecto") == "formacao")
+        escolhidos = tuple(escolhidos[:2 if assunto is not None else 3])
+        ids = tuple(dict.fromkeys(e for e, _ in escolhidos))
+        _, resposta, ctx = self.compor(ids, "explicacao", selecionados=escolhidos,
+                                       origem="conhecimento")
+        resposta = prefixo + resposta
+        return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
+
     def _referencia(self, n, contexto):
         m = re.fullmatch(
             r"(qual (?:e )?o nome|como se chama|onde fica) (?:d?esse|d?essa) "
@@ -426,6 +609,10 @@ class CompositorTextual:
         n = normalizar(texto)
         n = re.sub(r"^(?:voce )?(?:pode|poderia|consegue) (?:me )?"
                    r"(?=(?:escrever|criar|fazer|produzir|montar|resumir|explicar|falar)\b)", "", n)
+        svo = re.fullmatch(r"como (?:(?:o|a|os|as|um|uma) )?(.+?) (se form(?:a|am|ou|aram)|"
+                           r"nasc(?:e|em|eu|eram)|surg(?:e|em|iu|iram)|funcionam?)", n)
+        if svo and self.resolver(svo.group(1)) is not None:
+            n = "como " + svo.group(2) + " " + svo.group(1)
         comandos = {
             "mais curto": "resumo", "mais curta": "resumo", "resuma": "resumo",
             "resuma isso": "resumo", "pode resumir": "resumo", "em uma frase": "resumo",
@@ -499,23 +686,21 @@ class CompositorTextual:
         # mostrar os fatos disponíveis com o limite explícito impede que o
         # recuperador escolha uma resposta de outro assunto por semelhança.
         aspecto_geral = re.fullmatch(r"(?:qual (?:e )?a (funcao) (?:de|do|da)|"
-                                    r"como (funciona|se forma|nasce|surgiu)|para que (serve)) (.+)", n)
+                                    r"como (funcionam?|se form(?:a|am|ou|aram)|nasc(?:e|em|eu|eram)|"
+                                    r"surg(?:e|em|iu|iram))|para que (serve|servem)) (.+)", n)
         if aspecto_geral:
             ident = self.resolver(aspecto_geral.group(4))
             if ident in self.expandidos:
                 verbo = aspecto_geral.group(2)
-                aspecto = ("funcionamento" if verbo == "funciona" else
-                           "formacao" if verbo in ("se forma", "nasce", "surgiu") else
-                           "funcao")
+                aspecto = ("funcao" if verbo is None else
+                           "funcionamento" if verbo.startswith("funciona") else "formacao")
                 fatos = self.itens[ident]["fatos"]
                 pares = tuple((ident, i) for i, f in enumerate(fatos) if f.get("aspecto") == aspecto)
                 if pares:
                     return self.compor((ident,), "explicacao", selecionados=pares[:3], origem="conhecimento")
                 if aspecto in ("funcionamento", "formacao"):
                     return None
-                ident_resposta, resposta, ctx = self._conceito(ident)
-                resposta += "\n\nEsses são os fatos disponíveis sobre " + self.itens[ident]["nome"] + ". Não tenho uma explicação separada desse aspecto."
-                return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
+                return self._sem_aspecto(ident)
         referencia = self._referencia(n, contexto)
         if referencia:
             return referencia

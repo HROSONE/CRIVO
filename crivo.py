@@ -676,6 +676,33 @@ class Crivo:
         self.ultimos = []
         self.pos_ultimo = 0
 
+    def _buscar_fatos(self, texto):
+        """Busca factual, salvo relações com sujeito/objeto ("a Lua orbita o
+        Sol"), que pertencem ao raciocinador e dependem da direção."""
+        if self.raciocinio is not None:
+            relacao = self.raciocinio.identificar_relacao(texto)
+            if relacao is not None and relacao[2] != "tem_caracteristica":
+                return None
+        return self.compositor.buscar_fatos(texto)
+
+    def _base_cobre(self, texto, n, assunto=None):
+        """A base anterior tem resposta confiável sobre o mesmo assunto?
+
+        Com um assunto identificado, a entrada precisa mencioná-lo; sem
+        assunto, precisa conter todas as palavras de conteúdo da pergunta.
+        """
+        if len(self.indices_exatos.get(chave_pergunta(n), [])) == 1:
+            return True
+        rank = self._ranking(texto)
+        if not rank or rank[0][0] < LIMIAR:
+            return False
+        if len(rank) > 1 and rank[0][0] - rank[1][0] < 0.06:
+            return False
+        entrada = self.base[rank[0][1]]
+        evidencia = set(tokens(" ".join(entrada["perguntas"]) + " " + entrada["resposta"]))
+        exigidos = set(tokens(self.compositor.itens[assunto]["nome"] if assunto else texto))
+        return bool(exigidos) and exigidos <= evidencia
+
     def _registrar(self, indice, pergunta):
         e = self.base[indice]
         self.esclarecimento = None
@@ -1034,6 +1061,10 @@ class Crivo:
             n = normalizar(texto).strip().strip("?.,; ").rstrip("!")
         texto = conversa_assistente.preparar_conversa(texto)
         texto = conversa_assistente.preparar_pedido(texto)
+        # "Não é mais X" relata mudança de estado, não nega uma propriedade:
+        # equivale a "deixou de ser X" e não deve cair no filtro de negações.
+        texto = re.sub(r"\bn[aã]o (?:é|e|eh) mais\b", "deixou de ser", texto, flags=re.IGNORECASE)
+        texto = re.sub(r"\bn[aã]o s[aã]o mais\b", "deixaram de ser", texto, flags=re.IGNORECASE)
         n = normalizar(texto).strip().strip("?.,;! ")
         if not n:
             return "vazio", "Pode falar, estou ouvindo."
@@ -1171,6 +1202,14 @@ class Crivo:
                 # Uma relacao analisada por inteiro pode retornar abstenção;
                 # o nome "orbita" nao deve mascarar o verbo "orbita".
                 composicao = None
+        if composicao is not None and composicao[0] == "fora":
+            # A recusa do compositor não oculta uma resposta cadastrada que
+            # cobre TODAS as palavras da pergunta ("Por que Plutão não é
+            # mais planeta?"). Sem essa cobertura, procurar o fato completo.
+            if self._base_cobre(texto, n):
+                composicao = None
+            else:
+                composicao = self._buscar_fatos(texto) or composicao
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
             self.esclarecimento = None
@@ -1354,6 +1393,16 @@ class Crivo:
                                 "\n\nRelações verificadas:\n" + inferencia[1])
                 self.esclarecimento = None
                 self.ultimo_assunto = None
+                # Sem relação no grafo, um fato documentado pode tratar
+                # exatamente da pergunta ("Mercúrio e Vênus não têm...").
+                if inferencia[0] in ("logica:desconhecido", "logica:sem_ligacao"):
+                    busca = self._buscar_fatos(texto)
+                    if busca is not None:
+                        ident, resposta, self.contexto_textual = busca
+                        self.historico.append({"pergunta": original, "id": ident,
+                                               "mecanismo": "busca_factual"})
+                        self.historico = self.historico[-20:]
+                        return ident, resposta
                 self.historico.append({"pergunta": original, "id": inferencia[0],
                                        "mecanismo": "raciocinio_relacional"})
                 self.historico = self.historico[-20:]
@@ -1417,6 +1466,18 @@ class Crivo:
             if indice is not None:
                 self.ultimos = [(1.0, indice)]
                 return self._registrar(indice, original)
+        # Fatos documentados do assunto citado vêm antes de uma resposta
+        # aproximada que nem menciona esse assunto ("Quantas luas tem
+        # Júpiter?" não é uma pergunta sobre a Lua da Terra).
+        busca = self._buscar_fatos(texto)
+        if busca is not None and not self._base_cobre(texto, n, self.compositor.assunto_busca):
+            ident, resposta, self.contexto_textual = busca
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": ident,
+                                   "mecanismo": "busca_factual"})
+            self.historico = self.historico[-20:]
+            return ident, resposta
         rank = self._ranking(texto)
         _, vocabulario = self._contexto_consulta(texto)
         toks = self._tokens_consulta(texto, vocabulario)
