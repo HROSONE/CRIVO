@@ -33,7 +33,10 @@ GRUPOS_SEMANTICOS = (
     frozenset(("frio", "gelado", "resfriamento", "resfriar")),
     frozenset(("vermelho", "avermelhado", "avermelhada", "vermelha", "vermelho")),
     frozenset(("manter", "mantem", "reter", "retendo", "conservar", "preservar")),
-    frozenset(("formar", "formacao", "origem", "originar", "surgir", "nascer")),
+    frozenset(("formar", "forma", "formam", "formou", "formaram", "formado",
+               "formada", "formados", "formadas", "formacao", "origem",
+               "originar", "originou", "surgir", "surge", "surgiu", "nascer",
+               "nasce", "nasceu")),
     frozenset(("causa", "causar", "provocar", "produzir", "gerar", "explicar", "motivo", "razao")),
     frozenset(("orbita", "orbitar", "orbitando", "revolucao", "girar", "circulacao")),
     frozenset(("inclinacao", "inclinado", "inclinada", "eixo")),
@@ -287,7 +290,7 @@ class ConsolidadorConhecimento:
         return bool(re.search(
             r"\b(?:causa|causam|causado|provoca|provocam|produz|produzem|"
             r"gera|geram|leva|levam|eleva|elevam|retendo|reter|explica|"
-            r"explicam|devido|decorre|resulta)\b|por causa", n))
+            r"explica|explicar|explicam|devido|decorre|resulta)\b|por causa", n))
 
     def _encadear(self, primeira, selecionados):
         """Um unico salto, somente por conceito CITADO no primeiro fato."""
