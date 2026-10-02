@@ -160,9 +160,13 @@ class CompositorTextual:
                 raise ValueError("Preferência de nome inválida")
             alias = tema(pref["alias"])
             destino, substitui = pref.get("destino"), pref.get("substitui")
+            # "novo": o nome ainda não pertence ao destino (sem alterar o
+            # conceito nem as perguntas da rede); só redireciona o apelido
+            # que hoje leva exclusivamente à entrada antiga.
+            esperado = {substitui} if pref.get("novo") is True else {destino, substitui}
             if (not alias or alias in vistos or destino not in self.expandidos
                     or substitui not in ids_base or destino == substitui
-                    or self.aliases.get(alias) != {destino, substitui}):
+                    or self.aliases.get(alias) != esperado):
                 raise ValueError("Preferência sem correspondência editorial única")
             vistos.add(alias)
             self.aliases[alias] = {destino}
@@ -469,17 +473,22 @@ class CompositorTextual:
         opcoes = self._EQUIVALENTES.get(pista, (pista,))
         return any(r.startswith(o) for o in opcoes for r in raizes_fato)
 
+    def _padrao_alias(self, alias, ident):
+        """Nome próprio ("Lua", "Marte") não aceita plural: "luas" é
+        substantivo comum. Conceitos comuns aceitam o plural simples."""
+        plural = "s?" if not self.itens[ident]["nome"][:1].isupper() else ""
+        return r"(?<![a-z0-9])" + re.escape(alias) + plural + r"(?![a-z0-9])"
+
     def _menciona_conceito(self, ident, texto_normalizado):
-        return any(ident in ids and re.search(
-            r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto_normalizado)
-            for alias, ids in self.aliases.items())
+        return any(ident in ids and re.search(self._padrao_alias(alias, ident), texto_normalizado)
+                   for alias, ids in self.aliases.items())
 
     def assunto_mencionado(self, texto):
         """Único conceito com ficha citado por nome inteiro no texto."""
         n = normalizar(texto)
         achados = {next(iter(ids)) for alias, ids in self.aliases.items()
                    if len(ids) == 1 and next(iter(ids)) in self.expandidos and re.search(
-                       r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n)}
+                       self._padrao_alias(alias, next(iter(ids))), n)}
         return next(iter(achados)) if len(achados) == 1 else None
 
     def _descricao(self, alvo):
@@ -567,7 +576,7 @@ class CompositorTextual:
         for alias, ids in self.aliases.items():
             if len(ids) != 1 or next(iter(ids)) not in self.expandidos:
                 continue
-            for m in re.finditer(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n):
+            for m in re.finditer(self._padrao_alias(alias, next(iter(ids))), n):
                 candidatos.append((m.start(), m.end(), next(iter(ids))))
         candidatos.sort(key=lambda c: (-(c[1] - c[0]), c[0]))
         ocupados, assuntos = [], []
@@ -672,10 +681,26 @@ class CompositorTextual:
                        "nestes fatos cadastrados:\n\n")
         if not escolhidos:
             return None
+        if (quantidade or tempo) and assunto is not None and not any(
+                re.search(r"\d", self.itens[e]["fatos"][i]["texto"]) for e, i in escolhidos):
+            # O valor pode estar na ficha de outro conceito que cita o assunto.
+            outros = [(e, i) for e in sorted(self.expandidos) if e != assunto
+                      for i, f in enumerate(self.itens[e]["fatos"])
+                      if re.search(r"\d", f["texto"]) and casa(f["texto"], assunto)]
+            if 1 <= len(outros) <= 2:
+                escolhidos = outros
         if quantidade or tempo:
             com_numero = [p for p in escolhidos
                           if re.search(r"\d", self.itens[p[0]]["fatos"][p[1]]["texto"])]
             if com_numero:
+                # Número junto da palavra pedida ("95 luas") vem antes de
+                # um número qualquer do mesmo fato ("em 1610").
+                def junto(par):
+                    palavras = normalizar(self.itens[par[0]]["fatos"][par[1]]["texto"]).split()
+                    return any(re.fullmatch(r"[\d.,]+", a) and any(
+                        self._pista_no_fato(p, [self._raiz(b)]) for p in pistas for b in palavras[k + 1:k + 3])
+                        for k, a in enumerate(palavras))
+                com_numero.sort(key=lambda par: not junto(par))
                 escolhidos = com_numero
             elif not prefixo:
                 prefixo = ("Não tenho esse valor numérico cadastrado. O que encontrei "
@@ -694,7 +719,9 @@ class CompositorTextual:
         _, resposta, ctx = self.compor(ids, "explicacao", selecionados=escolhidos,
                                        origem="conhecimento")
         resposta = prefixo + resposta
-        return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
+        # Ficha que herdou uma intenção editorial mantém o ID público dela.
+        publico = self.itens[ids[0]].get("id_resposta") if len(ids) == 1 and not prefixo else None
+        return publico or "escrita:explicacao", resposta, ctx._replace(texto=resposta)
 
     def _referencia(self, n, contexto):
         m = re.fullmatch(
