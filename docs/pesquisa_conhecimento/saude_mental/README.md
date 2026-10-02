@@ -217,3 +217,15 @@ A página editorial da OMS para o mhGAP 2023 declara **CC BY-NC-SA 3.0 IGO** (�
 ### Estado após aprofundamento 1
 
 A arquitetura inicial já possui fundação metodológica e neurobiológica, mas **não** atingiu profundidade doutoral global. Próxima prioridade: neuroendocrinologia/neuroimunologia e desenvolvimento; depois psicopatologia diferencial por famílias e tratamentos. A profundidade será avaliada por cobertura mecanística, evidência conflitante, métodos e questões abertas, não por número de arquivos.
+
+
+## Aprofundamento 2 — sistemas corporais e raciocínio clínico
+
+| Data | Documento | Escopo |
+| --- | --- | --- |
+| 2026-10-02 | [Neuroendocrinologia, neuroimunologia, sono e desenvolvimento](2026-10-02-neuroendocrino-neuroimune-sono-desenvolvimento.md) | HPA/HPG, cortisol, citocinas, microglia/complemento, C4/esquizofrenia e controvérsia 2026, desenvolvimento, puberdade, sono/circadiano |
+| 2026-10-02 | [Psicopatologia avançada I: raciocínio diagnóstico e diferenciais](2026-10-02-psicopatologia-raciocinio-diferencial-familias.md) | Estado/traço, depressão, bipolaridade, psicose, ansiedade, OCD, trauma, dissociação, neurodesenvolvimento, personalidade, substâncias e diferenciais médicos |
+
+### Estado editorial
+
+A base possui agora quatro dossiês aprofundados além do mapa curricular. **Ainda não é considerada completa nem “nível doutorado” em todas as áreas.** O próximo gargalo passou a ser aprofundar cada família clínica individualmente e cruzá-la com tratamento e farmacologia, preservando evidência, curso, heterogeneidade e diagnóstico diferencial.
