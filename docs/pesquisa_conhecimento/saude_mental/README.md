@@ -443,3 +443,23 @@ Não maximizar número de documentos. Priorizar ledger de proveniência para cla
 - pendências: OCD, PTSD/CPTSD, eating disorders, SUD, ADHD/autism por idade, personality, dementia/delirium, suicide/self-harm e decomposição regional/idade/sexo.
 
 **Critério de conclusão doutoral: NÃO ATINGIDO.** A lacuna epidemiológica foi reduzida, não encerrada. Permanecem também classificação ICD-11 granular, tratamentos quantitativos, populações especiais e auditoria integral fonte-afirmação/atualidade.
+
+## Aprofundamento 17 — expansão massiva transversal
+
+| Documento | Escopo |
+| --- | --- |
+| [Expansão clínica transversal: sono, FND, perinatal e populações](2026-10-02-expansao-clinica-transversal-sono-fnd-perinatal-populacoes.md) | fisiologia/modelos de sono, insomnia/CBT-I, OSA/circadiano/RLS/parasomnias/hypersomnolence; FND com sinais positivos, predictive processing, diferenciais, tratamento e iatrogenia; perinatal; infância/adolescência; geriatria e deficiência intelectual |
+| [Epidemiologia quantitativa — lote 2](2026-10-02-epidemiologia-psiquiatrica-quantitativa-por-transtorno-02.md) | PTSD, neurodesenvolvimento, eating disorders, SUD framework, neurocognição, suicide/self-harm, measurement/base-rate e ontologia WHO/GBD |
+
+### Mudança de cobertura
+- **Sono:** deixou de ser lacuna quase vazia; agora há arquitetura clínica/mecanística e tratamento, mas ainda faltam dossiers quantitativos por disorder e circadian therapeutics.
+- **FND:** avançou de cobertura introdutória para diagnóstico positivo, mecanismos, diferencial, intervenção e iatrogenia; ainda falta ledger de RCTs e accuracy de sinais positivos.
+- **Perinatal:** ganhou framework de differential, postpartum psychosis, PK/PD, lactação e confounding by indication; falta farmacologia quantitativa por molécula e guideline ledger.
+- **Child/adolescent:** ganhou princípios multi-informant, anxiety/depression/OCD/PTSD, self-harm, disruptive behavior e developmental pharmacology; trials quantitativos permanecem.
+- **Geriatria/ID:** differential/iatrogenia/diagnostic overshadowing agora explícitos; falta aprofundamento terapêutico quantitativo.
+- **Epidemiologia:** PTSD e categorias GBD de autism/ADHD/eating foram adicionados com ressalvas ontológicas; suicide/self-harm recebeu denominadores separados.
+
+### Regra de expansão
+A partir deste checkpoint, preferir blocos que eliminem várias lacunas relacionadas sem sacrificar source→claim. Não elevar cobertura por contagem de arquivos.
+
+**Critério doutoral: NÃO ATINGIDO.** Maiores gargalos remanescentes: classificação ICD-11 granular; tratamentos quantitativos/NNT-NNH; source→claim integral; perinatal/pediatria quantitativas; sexual health; severe medical illness; auditoria de atualidade/contradições e auditoria adversarial final.
