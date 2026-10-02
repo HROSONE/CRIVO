@@ -1,0 +1,43 @@
+{
+ "descricao": "Memória do que a pessoa conta (dev): guia o desenvolvimento. Cada turno: contem (algum), nao_contem, nao_fora.",
+ "dialogos": [
+  {"nome": "causa simples", "turnos": [
+    ["meu cachorro latiu a noite toda porque viu um gato", {"nao_fora": true}],
+    ["por que ele latiu?", {"contem": ["gato"], "nao_contem": ["Não sei"]}]]},
+  {"nome": "causa com sujeito explícito", "turnos": [
+    ["a menina abriu o guarda-chuva porque começou a chover", {}],
+    ["por que a menina abriu o guarda-chuva?", {"contem": ["chover"]}]]},
+  {"nome": "quem fez", "turnos": [
+    ["meu irmão quebrou a janela da sala", {"nao_fora": true}],
+    ["quem quebrou a janela?", {"contem": ["irmão"]}]]},
+  {"nome": "o que fez", "turnos": [
+    ["minha mãe fez um bolo de cenoura", {"nao_fora": true}],
+    ["o que sua mãe fez?", {"contem": ["bolo"]}]]},
+  {"nome": "quando", "turnos": [
+    ["eu viajei para a praia no sábado", {"nao_fora": true}],
+    ["quando eu viajei?", {"contem": ["sábado"]}]]},
+  {"nome": "onde", "turnos": [
+    ["meu gato dormiu em cima do sofá", {"nao_fora": true}],
+    ["onde o gato dormiu?", {"contem": ["sofá"]}]]},
+  {"nome": "sem motivo contado", "turnos": [
+    ["o ônibus atrasou hoje", {"nao_fora": true}],
+    ["por que o ônibus atrasou?", {"contem": ["não disse", "não me disse", "não contou", "não me contou"], "nao_contem": ["porque"]}]]},
+  {"nome": "negação preservada", "turnos": [
+    ["meu filho não foi à escola porque estava doente", {}],
+    ["por que ele não foi à escola?", {"contem": ["doente"]}]]},
+  {"nome": "condição", "turnos": [
+    ["se chover amanhã, a gente fica em casa", {}],
+    ["o que vocês fazem se chover?", {"contem": ["casa"]}]]},
+  {"nome": "dois eventos", "turnos": [
+    ["minha irmã comprou um carro novo", {}],
+    ["meu pai vendeu a moto porque precisava de dinheiro", {}],
+    ["o que minha irmã comprou?", {"contem": ["carro"]}],
+    ["por que meu pai vendeu a moto?", {"contem": ["dinheiro"]}]]},
+  {"nome": "conhecimento continua valendo", "turnos": [
+    ["meu cachorro latiu porque viu um gato", {}],
+    ["quantas luas tem Júpiter?", {"contem": ["95"]}]]},
+  {"nome": "não inventa o que não foi contado", "turnos": [
+    ["meu cachorro latiu porque viu um gato", {}],
+    ["por que o vizinho gritou?", {"nao_contem": ["gato", "você me contou", "Você me contou"]}]]}
+ ]
+}

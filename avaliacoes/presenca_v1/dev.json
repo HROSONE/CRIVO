@@ -1,0 +1,48 @@
+{
+ "descricao": "Presença na conversa (dev). Por turno: contem (algum), nao_contem, especifico (a resposta retoma uma palavra de conteúdo da fala). Por conversa: respostas genéricas e repetições são contadas.",
+ "conversas": [
+  {"nome": "noite mal dormida", "turnos": [
+    ["oi", {}],
+    ["meu nome é Ana", {"contem": ["Ana"]}],
+    ["dormi muito mal essa noite", {"especifico": true}],
+    ["meu cachorro latiu a noite toda porque viu um gato", {"especifico": true, "nao_contem": ["Qual o nome dele"]}],
+    ["pois é", {}],
+    ["ele se chama Thor", {"contem": ["Thor"]}],
+    ["quantas luas tem Júpiter?", {"contem": ["95"]}],
+    ["valeu, vou tentar descansar", {"contem": ["descans", "Ana", "noite"]}]]},
+  {"nome": "dia de trabalho", "turnos": [
+    ["boa noite", {}],
+    ["hoje foi um dia puxado", {"especifico": true}],
+    ["meu chefe pediu um relatório em cima da hora", {"especifico": true}],
+    ["e eu ainda perdi o ônibus", {"especifico": true}],
+    ["sei lá, cansa né", {}],
+    ["mas amanhã é sexta", {"especifico": true}],
+    ["boa noite, crivo", {"contem": ["descans", "sexta", "amanhã", "dia"]}]]},
+  {"nome": "notícia boa", "turnos": [
+    ["passei na prova de matemática!", {"especifico": true, "contem": ["parabéns", "Parabéns", "Que bom", "Que ótimo", "Que legal"]}],
+    ["estudei a semana inteira", {"especifico": true}],
+    ["vou comemorar com uma pizza", {"especifico": true}],
+    ["o que eu falei que passei?", {"contem": ["prova"]}]]},
+  {"nome": "inferência marcada", "turnos": [
+    ["vi uma menina abrindo o guarda-chuva no ponto de ônibus", {"especifico": true}],
+    ["por que você acha que ela abriu?", {"contem": ["provavelmente", "Provavelmente", "talvez", "Talvez"], "nao_contem": ["Você me contou que foi porque"]}]]},
+  {"nome": "lembrar e retomar", "turnos": [
+    ["minha mãe está gripada", {"especifico": true}],
+    ["obrigado", {}],
+    ["e aí, tudo bem?", {"contem": ["mãe", "gripe", "gripada"]}]]},
+  {"nome": "respostas curtas", "turnos": [
+    ["comprei uma bicicleta", {"especifico": true}],
+    ["sim", {}],
+    ["mais ou menos", {}],
+    ["não sei", {}],
+    ["hmm", {}]]},
+  {"nome": "sem entender, mas sem robô", "turnos": [
+    ["fiz um bolo de chocolate", {"especifico": true}],
+    ["xablau tremeluzente", {"nao_contem": ["Digite 'ajuda'", "Pode indicar o assunto"]}],
+    ["ficou meio queimado", {"especifico": true}]]},
+  {"nome": "pergunta sobre ele", "turnos": [
+    ["você gosta de conversar?", {"nao_contem": ["Não reconheci"]}],
+    ["o que você faz o dia todo?", {"nao_contem": ["Não reconheci", "Ainda não consegui"]}],
+    ["você tem sentimentos?", {"nao_contem": ["Não reconheci", "Ainda não consegui"]}]]}
+ ]
+}

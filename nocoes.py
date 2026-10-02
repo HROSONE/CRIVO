@@ -33,10 +33,10 @@ _PERGUNTA_POR_DENTRO = re.compile(
 # Marcas de relato: pessoa, tempo ou um acontecimento no passado.
 _RELATO = re.compile(
     r"\b(?:eu|to|tou|estou|estava|tava|fiquei|fui|fiz|tive|tenho que|meu|minha|meus|minhas|"
-    r"a gente|nos|hoje|ontem|agora|de novo|acabei|acordei|comprei|vi|comi|dormi|perdi|esqueci|"
+    r"a gente|nos|hoje|ontem|amanha|agora|de novo|acabei|acordei|comprei|vi|comi|dormi|perdi|esqueci|"
     r"passei|comecei|assisti|ganhei|cozinhei|corri|caminhei|cheguei|sai|voltei|"
     r"ta fazendo|esta fazendo|ta (?:muito |tao )?\w+ndo|esta (?:muito |tao )?\w+ndo)\b|"
-    r"\b\w+(?:ou|eu|iu)\b(?!(?:a|o|os|as) (?:\w+ )?(?:de|da|do)\b)")
+    r"\b\w{3,}ei\b|\b\w+(?:ou|eu|iu)\b")
 _EXCLAMACAO = re.compile(r"que (?:calor|frio|preguica|sono|fome|tedio|saudade|chuva|cansaco|dia|noite)\b")
 _RECUSA = re.compile(r"\b(?:dose|dosagem|remedio|medicamento|diagnostico|tratamento|tratar|cura|curar|"
                      r"depressao|doenca|doencas|nao|nunca|sem)\b")

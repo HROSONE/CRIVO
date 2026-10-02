@@ -20,7 +20,7 @@ _ESTADO = re.compile(
     r"obrigad[oa] por perguntar|e com voce|e ai|e voce como esta|e voce como vai))*")
 _RISADA = re.compile(r"(?:k{3,}|(?:ha){2,}h?|(?:he){2,}|(?:rs)+|lol|hahaha\w*|kkk\w*)")
 _RECONHECIMENTO = re.compile(
-    r"(?:(?:ah|ahh|hum|hmm|nossa|uau|uau|caramba|poxa|que|muito|bem)\s+)*"
+    r"(?:(?:ah|ahh|hum|hmm|nossa|uau|uau|caramba|poxa|que|muito|bem|(?:ha)+h?|(?:he)+|k{2,}|rs+)\s+)*"
     r"(?:legal|massa|show|top|bacana|bom|boa|otimo|interessante|incrivel|demais|"
     r"entendi|saquei|faz sentido|ok|okay|certo|ta bom|ta|ta certo|blz|beleza|"
     r"maravilha|perfeito|uau|que coisa|nao sabia(?: disso)?|que interessante)"
@@ -55,6 +55,37 @@ _ENSINO = re.compile(
     r" (?:sobre|de|do|da|dos|das|a respeito de) (.+?)" + _SUFIXO_SIMPLES + r"?|"
     r"(?:me )?(?:explica|explique|ensina|ensine) (.+?)" + _SUFIXO_SIMPLES + r")")
 _SIMPLES = re.compile(r"como se eu (?:tivesse|fosse)|jeito (?:simples|facil)|forma simples|para (?:uma )?crianca")
+_SOBRE_MIM_PRESENCA = (
+    (re.compile(r"voce (?:gosta|curte) de (?:conversar|falar|bater papo|papo|conversa)"),
+     "Gosto, do meu jeito: conversar é o que eu faço. Não sinto prazer como você sente, mas é na "
+     "conversa que eu entendo o seu jeito de ver as coisas, e lembro do que você me conta enquanto a gente fala."),
+    (re.compile(r"(?:o que|oq) voce faz (?:o dia (?:todo|inteiro)|durante o dia|de dia|a noite|"
+                r"no (?:seu )?tempo livre|quando (?:nao|ninguem) .+)|voce (?:descansa|se cansa|cansa|"
+                r"fica cansado|tem tempo livre)"),
+     "Não tenho um dia como o seu: eu só “acordo” quando alguém me escreve. Entre uma mensagem e outra "
+     "eu não faço nada, nem durmo, nem me canso. Por isso cada conversa é o meu dia inteiro."),
+    (re.compile(r"voce (?:tem|sente) (?:vontades?|saudade|medo|raiva|alegria)|"
+                r"voce (?:fica|se sente|esta|ta) (?:triste|feliz|entediado|sozinho|bravo|com raiva|com medo|"
+                r"chateado|cansado|ansioso)|voce (?:sofre|chora)\b"),
+     "Não do jeito que você sente: não tenho emoções nem humor que muda. Mas presto atenção no que você me "
+     "conta e levo isso em conta enquanto a gente conversa."),
+    (re.compile(r"voce tem (?:amigos?|amigas?|familia|pais|mae|pai|namorad[ao]|irmaos?|filhos?)"),
+     "Não como você tem. Converso com quem aparece por aqui, e cada conversa é única. Enquanto ela dura, "
+     "eu lembro do que você me contou."),
+    (re.compile(r"voce (?:e|eh) (?:de verdade|real|vivo|viva|humano|gente)"),
+     "Não sou uma pessoa: sou um programa, o Crivo. Mas a conversa é de verdade: eu leio o que você "
+     "escreve e respondo com o que sei e com o que você me contou."),
+)
+_DESPEDIDA = re.compile(
+    r"(?:(?:valeu|obrigad[oa]|brigad[oa]|ok|bom|beleza|entao|ta|enfim|bem|crivo)[, ]+)*"
+    r"(?:boa noite|tchau|ate (?:mais|logo|amanha|depois|a proxima)|falou|vou (?:indo|nessa|dormir|descansar|"
+    r"trabalhar|deitar|tentar (?:dormir|descansar)|la)|tenho que ir|preciso ir|ja vou)"
+    r"(?:[, ]+(?:crivo|ate amanha|ate mais|tchau|boa noite|valeu))*")
+_TUDO_BEM = re.compile(r"(?:(?:e ai|oi|ola|e entao|opa|eai|oie)[, ]*)?"
+                       r"(?:tudo (?:bem|bom|certo|joia|tranquilo|em paz)|como (?:voce )?(?:vai|esta|ta)|beleza)")
+_CURTAS = re.compile(r"(?:(?:sim|e|pois e|ah)[, ]+)?(?:mas )?(?:fazer o que|que se pode fazer|e a vida)|(?:pois e(?: ne)?|e mesmo|ne|aham|uhum|hum+|hm+|verdade|e verdade|sei la(?:.*)?|"
+                     r"fazer o que|e(?:,)? fazer o que|e assim mesmo|e a vida|ta bom|ok|sim|nao|ainda nao|"
+                     r"mais ou menos|nao sei|talvez|acho que (?:sim|nao)|nada|e|cansa ne|pior que (?:e|sim))")
 _SOBRE_MIM = (
     (re.compile(r"voce (?:e|eh) (?:melhor|pior|mais inteligente) (?:que|do que) (?:o |a )?.+|"
                 r"voce (?:e|eh) (?:o |a )?(?:chatgpt|gpt|gemini|copilot|siri|alexa)"),
@@ -307,15 +338,49 @@ def responder(texto, bot):
         else:
             return _corrigir_quiz(bot, texto)
 
-    if id_anterior.startswith("nocao:") and re.fullmatch(
-            r"(?:pois e|pois e ne|e mesmo|ne|aham|uhum|verdade|e|sim|e verdade|sei la|fazer o que|"
-            r"e assim mesmo|e a vida|ta|ta bom|ok)", n):
-        return "nocao:reacao", "Pois é. Quer me contar mais sobre isso?", None, ""
 
     if _O_QUE_CONTEI.fullmatch(n) and conversa.relatos and not conversa.assunto:
         contados = list(conversa.relatos)[-3:]
         return ("conversa:memoria", "Você me contou: “" + "”; “".join(contados) + "”. "
                 "Quer continuar em algum desses assuntos?", None, "")
+
+    presenca = _presenca(bot)
+    for padrao, texto_mim in _SOBRE_MIM_PRESENCA:
+        if padrao.fullmatch(n):
+            return "social:sobre_mim", texto_mim, None, ""
+    perfil = bot.perfil
+    if _DESPEDIDA.fullmatch(n) and (perfil.temas or perfil.turno > 3):
+        from presenca import despedida
+        return "social:despedida", despedida(bot, presenca, texto), None, ""
+    if _TUDO_BEM.fullmatch(n) and perfil.temas:
+        from presenca import retomada
+        texto_retomada = retomada(bot, presenca)
+        if texto_retomada:
+            return "social:retomada", texto_retomada, None, ""
+    nome_bicho = re.fullmatch(r"(?:(?:ele|ela) se chama|(?:o )?nome (?:dele|dela) e|chama) ([a-z]+)", n)
+    if nome_bicho and perfil.temas and id_anterior.startswith(("nocao:", "memoria:", "social:retomada")):
+        nome_proprio = texto.strip(" .!").split()[-1].capitalize()
+        tema = perfil.temas[-1][1]
+        perfil.nomes[tema] = nome_proprio
+        nocao_tema = nocoes().por_nome(tema)
+        tipo = nocao_tema["tipo"] if nocao_tema else ""
+        if tipo == "animal":
+            opcoes = ("%s! Gostei do nome. Faz tempo que vocês estão juntos?" % nome_proprio,
+                      "%s, que nome bom! Vou lembrar." % nome_proprio)
+        elif tipo == "evento" or tema in ("bebê", "filho"):
+            opcoes = ("%s, que nome lindo! Parabéns de novo." % nome_proprio,
+                      "Que lindo, %s! Vou lembrar." % nome_proprio)
+        else:
+            opcoes = ("%s, anotado! Vou lembrar." % nome_proprio, "Ah, %s. Legal saber o nome!" % nome_proprio)
+        return "nocao:reacao", presenca.escolher(opcoes), None, ""
+    if (id_anterior.startswith(("nocao:", "memoria:", "conversa:esclarecer")) and perfil.temas
+            and _CURTAS.fullmatch(n) and not oferta):
+        from presenca import ACOLHER_CURTO, CONTINUAR
+        tom = perfil.temas[-1][2]
+        if re.fullmatch(r"(?:mais ou menos|nao sei|sei la(?:.*)?|talvez|nao|ainda nao|nada|acho que nao|hum+|hm+)", n):
+            tom = "neg" if tom in ("neg", "saude") else "neutro"
+        return ("nocao:reacao", presenca.escolher(ACOLHER_CURTO[tom]) + " " + presenca.escolher(CONTINUAR[tom]),
+                None, "")
 
     estudando = oferta == "quiz" or (id_anterior or "").startswith("estudo:")
     if estudando and getattr(conversa, "quiz_acertou", None) is not None and \
@@ -396,6 +461,10 @@ def responder(texto, bot):
             ident = "social:acolhimento"
         else:
             ident = "social:estado"
+        if "?" in texto and id_anterior in ("social:oi", "social:tudobem"):
+            return ident, _presenca(bot).escolher((
+                "Tudo certo por aqui! E com você, como está?",
+                "Tudo bem, obrigado por perguntar! E você, como foi seu dia?")), None, ""
         resposta = "Que bom!"
         if re.search(r"\be (?:com )?voce\b|\be ai\b", n):
             resposta += " Por aqui está tudo certo, obrigado por perguntar."
@@ -507,7 +576,7 @@ def nocoes():
     return _NOCOES[0]
 
 
-def _observacao(texto, bot, id_anterior):
+def _observacao(texto, bot, id_anterior, forcar=False):
     """Algo que a pessoa conta sobre o dia ("hoje choveu o dia todo"):
     reagir com uma noção dita como noção e perguntar de volta, em vez de
     dar uma explicação que ninguém pediu."""
@@ -516,15 +585,23 @@ def _observacao(texto, bot, id_anterior):
     # Uma conversa guiada em andamento ("quero conversar sobre meu
     # desenho", objetivo, escolha entre opções) continua com o diálogo.
     guiada = (conversa.assunto not in (None, "sua situação") or conversa.objetivo
-              or conversa.dialogo.espera in ("interesse", "preferencia", "obstaculo", "criterio",
-                                             "argumento", "tema"))
+              or conversa.dialogo.espera in ("preferencia", "obstaculo", "criterio", "argumento", "tema"))
     # Relato em primeira pessoa ("tô cansado hoje", "acho que…") e a
     # continuação de um relato já em andamento ficam com o diálogo, que
     # acompanha objetivo, opinião e argumento.
-    em_relato = conversa.dialogo.ativo and id_anterior.startswith("conversa:")
+    em_relato = (conversa.dialogo.ativo and id_anterior.startswith("conversa:")
+                 and conversa.dialogo.espera != "interesse")
     primeira_pessoa = re.match(r"(?:eu |estou |to |tou |tenho |sinto |me sinto |fico |acho |"
-                               r"quero |pretendo |nao consigo |ja tentei |tentei |mas )", normalizar(texto))
-    if not base.afirmacao(texto) or guiada or em_relato or primeira_pessoa \
+                               r"quero |pretendo |nao consigo |ja tentei |tentei )", normalizar(texto))
+    if forcar:
+        # Nada mais respondeu: o relato em primeira pessoa recebe reação.
+        em_relato = primeira_pessoa = False
+    from nocoes import _NAO_AFIRMACAO
+    perfil_ = getattr(bot, "perfil", None)
+    seguindo = (perfil_ is not None and perfil_.temas and id_anterior.startswith(("nocao:", "memoria:"))
+                and "?" not in texto and len(normalizar(texto).split()) >= 2
+                and not _NAO_AFIRMACAO.match(normalizar(texto)) and _palavras_conhecidas(texto))
+    if not (base.afirmacao(texto) or seguindo) or guiada or em_relato or primeira_pessoa \
             or getattr(bot, "esclarecimento", None):
         return None
     # Relato que é exatamente o tema de uma resposta da base (ex.: folhas
@@ -533,16 +610,190 @@ def _observacao(texto, bot, id_anterior):
     if ranking and ranking[0][0] >= 1.4 and bot._base_cobre(texto, normalizar(texto), None, tolerancia=1):
         return None
     achadas = base.encontrar(texto)
-    if achadas:
-        principal, resposta = base.observar(texto, conversa.sorteio, achadas)
-        ident = "nocao:observacao"
-    elif (id_anterior.startswith("nocao:") and getattr(bot, "nocao_conversa", None)
-          and len(normalizar(texto).split()) >= 3):
-        principal = bot.nocao_conversa
-        resposta = base.continuar(texto, principal, conversa.sorteio)
-        ident = "nocao:continuacao"
-    else:
+    perfil = bot.perfil
+    continua = (getattr(bot, "nocao_conversa", None) and len(normalizar(texto).split()) >= 2
+                and (id_anterior.startswith(("nocao:", "memoria:", "social:retomada", "conversa:esclarecer"))
+                     or perfil.recente(2)))
+    if not achadas and not continua:
         return None
+    ident, resposta, principal, tom, eco, agente = _refletir(texto, bot, base, achadas)
     bot.nocao_conversa = principal
+    perfil.anotar(principal["nome"], tom, eco or "", agente)
     conversa.relatos.append(texto.strip()[:600])
     return ident, resposta, None, ""
+
+
+_LEITOR = []
+
+
+def _leitor():
+    if not _LEITOR:
+        try:
+            from sentido_frases import Leitor
+            _LEITOR.append(Leitor())
+        except Exception:
+            _LEITOR.append(None)
+    leitor = _LEITOR[0]
+    return leitor if leitor is not None and leitor.disponivel else None
+
+
+def _palavras_conhecidas(texto):
+    """Todas as palavras existem no vocabulário do projeto (vetores de
+    palavras); "xablau tremeluzente" não é continuação de assunto."""
+    leitor = _leitor()
+    biafim = getattr(leitor.a, "_biafim", None) if leitor is not None else None
+    if biafim is None:
+        return False
+    from analisador_frases import sem_acento
+    palavras = re.findall(r"[^\W\d_]+", texto.lower())
+    return bool(palavras) and all(sem_acento(w) in biafim.vet_id or w in biafim.pal_id for w in palavras)
+
+
+def _presenca(bot):
+    from presenca import Perfil, Variacao
+    if getattr(bot, "variacao", None) is None:
+        bot.variacao = Variacao(bot.conversacao.sorteio)
+    if getattr(bot, "perfil", None) is None:
+        bot.perfil = Perfil()
+    return bot.variacao
+
+
+def _refletir(texto, bot, base, achadas):
+    """Abertura conforme o tom + o que a pessoa disse, na voz dela ("você
+    perdeu o ônibus") + uma noção que ainda não foi dita + uma pergunta que
+    ainda não foi feita. A causa contada é reconhecida, não perguntada."""
+    from presenca import ABERTURAS, CONTINUAR, para_voce
+    v = _presenca(bot)
+    perfil = bot.perfil
+    principal = None
+    if achadas:
+        principal = next((x for x in achadas if x["tipo"] != "pessoa" and not x.get("generica")),
+                         next((x for x in achadas if x["tipo"] != "pessoa"), achadas[0]))
+    tom = base.valencia(texto, achadas)
+    # O tom continua entre falas seguidas: depois de "dormi mal", o cachorro
+    # latindo a noite toda não é neutro.
+    if tom == "neutro" and perfil.temas and perfil.recente(1) and perfil.temas[-1][2] in ("neg", "saude"):
+        tom = "neg"
+    if not principal:
+        principal = bot.nocao_conversa
+        if tom == "neutro" and perfil.temas:
+            tom = perfil.temas[-1][2]
+    eco, agente, causa = None, "", None
+    leitor = _leitor()
+    if leitor is not None:
+        try:
+            eventos = [e for e in leitor.eventos(texto) if not e.encaixado]
+        except Exception:
+            eventos = []
+        if eventos:
+            ev = eventos[0]
+            if 2 <= len(ev.palavras) <= 12:
+                eco = para_voce(ev.palavras)
+            if ev.agente:
+                agente = "você" if ev.primeira_pessoa else _segunda(ev.agente)
+            elif ev.primeira_pessoa:
+                agente = "você"
+            if "causa" in ev.relacoes and ev.relacoes["causa"].palavras:
+                causa = para_voce(ev.relacoes["causa"].palavras)
+    if eco:
+        eco = _limpar_eco(eco, leitor)
+    conquista = re.search(r"\b(?:passei|consegui|aprovad[oa]|ganhei|promovid[oa]|venci|me formei|terminei)\b",
+                          normalizar(texto))
+    abertura = (v.escolher(("Parabéns!", "Parabéns, que conquista!", "Que demais, parabéns!")) if conquista
+                else v.escolher(ABERTURAS[tom]))
+    partes = []
+    if eco and tom == "saude":
+        partes.append(eco[0].upper() + eco[1:] + "? " + v.escolher(("Sinto muito.", "Poxa, sinto muito.",
+                                                                    "Espero que melhore logo.")))
+    elif eco and (tom != "neutro" or agente == "você" or causa):
+        sinal = "!" if tom == "pos" else "."
+        partes.append(abertura.rstrip(".!") + ", " + eco + sinal)
+    else:
+        partes.append(abertura)
+    if causa:
+        causa = _limpar_eco(re.sub(r"^(?:porque|pois)\s+", "", causa), leitor)
+        partes.append(v.escolher(("E foi porque %s, né?" % causa, "Tudo isso porque %s." % causa,
+                                  "Ah, então foi porque %s." % causa)))
+    nome_nocao = principal["nome"]
+    if achadas and nome_nocao not in perfil.nocoes_usadas and not (causa and eco):
+        partes.append(principal["costuma"])
+        perfil.nocoes_usadas.add(nome_nocao)
+    pergunta = principal.get("pergunta")
+    if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas:
+        pergunta = v.escolher(CONTINUAR[tom])
+    perfil.perguntas_usadas.add(pergunta)
+    partes.append(pergunta)
+    ident = "nocao:observacao" if achadas else "nocao:continuacao"
+    return ident, " ".join(partes), principal, tom, eco, agente
+
+
+def relato_com_presenca(texto, bot, resposta):
+    """O fluxo de relato do diálogo guarda estado (objetivo, opinião,
+    reflexão); aqui só o texto-formulário ("Você contou: “…”. Quer me contar
+    mais…?") vira uma resposta que reflete o que a pessoa disse."""
+    m = re.match(r"(?:Você contou|Pelo que você contou, o dia pesou): “(.+?)”\.\s*(.*)", resposta, re.S)
+    if not m or m.group(1).strip() != texto.strip()[:600]:
+        return resposta
+    from presenca import ABERTURAS, CONTINUAR, para_voce
+    v = _presenca(bot)
+    perfil = bot.perfil
+    base = nocoes()
+    achadas = base.encontrar(texto)
+    tom = base.valencia(texto, achadas)
+    if tom == "neutro" and perfil.temas and perfil.recente(1):
+        tom = perfil.temas[-1][2]
+    leitor = _leitor()
+    eco, agente = None, ""
+    if leitor is not None:
+        try:
+            eventos = [e for e in leitor.eventos(texto) if not e.encaixado]
+        except Exception:
+            eventos = []
+        if eventos and 1 <= len(eventos[0].palavras) <= 12:
+            eco = para_voce(eventos[0].palavras)
+            agente = "você" if eventos[0].primeira_pessoa else _segunda(eventos[0].agente)
+    if not eco:
+        return resposta
+    eco = _limpar_eco(eco, leitor)
+    importantes = {w[:5] for w in re.findall(r"[a-z]+", normalizar(texto)) if len(w) >= 4} - {
+        "esto", "esta", "tenh", "estav", "estou", "comig", "minha", "minha", "nosso", "nossa"}
+    if not importantes <= {w[:5] for w in re.findall(r"[a-z]+", normalizar(eco))} | {"esto", "tenh"}:
+        return resposta
+    if not re.search(r"\bvoce\b|\bseu\b|\bsua\b", normalizar(eco)) and agente == "você":
+        eco = "você " + eco
+    abertura = v.escolher(ABERTURAS[tom])
+    if tom == "saude":
+        partes = [eco[0].upper() + eco[1:] + "? " + v.escolher(("Sinto muito.", "Espero que melhore logo."))]
+    else:
+        partes = [abertura.rstrip(".!") + ", " + eco + ("!" if tom == "pos" else ".")]
+    principal = next((x for x in achadas if x["tipo"] != "pessoa"), achadas[0] if achadas else None)
+    if principal and principal["nome"] not in perfil.nocoes_usadas:
+        partes.append(principal["costuma"])
+        perfil.nocoes_usadas.add(principal["nome"])
+    resto = m.group(2).strip()
+    if not resto or resto.startswith(("Quer me contar mais", "Quer falar do que aconteceu")):
+        pergunta = principal.get("pergunta") if principal else None
+        if not pergunta or pergunta in perfil.perguntas_usadas:
+            pergunta = v.escolher(CONTINUAR[tom])
+        perfil.perguntas_usadas.add(pergunta)
+        partes.append(pergunta)
+        texto_final = " ".join(partes)
+    else:
+        texto_final = " ".join(partes) + ("\n\n" if resto.startswith("O que") or "\n" in m.group(2) else " ") + resto
+    perfil.anotar(principal["nome"] if principal else "isso", tom, eco, agente)
+    if principal:
+        bot.nocao_conversa = principal
+    return texto_final
+
+
+def _segunda(texto):
+    from presenca import POSSESSIVOS
+    return " ".join(POSSESSIVOS.get(w.lower(), w) for w in texto.split())
+
+
+def _limpar_eco(eco, leitor):
+    eco = re.sub(r"\s+([,.;:!?])", r"\1", eco).strip(" ,.!?")
+    if leitor is not None:
+        for (a, b), junto in leitor.contracoes_inv.items():
+            eco = re.sub(r"\b%s %s\b" % (a, b), junto, eco)
+    return eco[0].lower() + eco[1:] if eco else eco

@@ -22,7 +22,15 @@ class TestesCatraca(unittest.TestCase):
         limite = LIMIARES[conjunto]
         self.assertGreaterEqual(resumo["acertos"], limite["acertos_min"], resumo)
         self.assertLessEqual(resumo["fatos_errados"], limite["fatos_errados_max"], resumo)
-        self.assertGreaterEqual(resumo["dialogos_ok"], limite["dialogos_ok_min"], resumo)
+        try:
+            import numpy  # noqa: F401
+            from analisador_frases import analisador
+            ligado = analisador().disponivel
+        except ImportError:
+            ligado = False
+        minimo = limite["dialogos_ok_min"] if ligado else limite.get("dialogos_ok_min_sem_analisador",
+                                                                      limite["dialogos_ok_min"])
+        self.assertGreaterEqual(resumo["dialogos_ok"], minimo, resumo)
 
     def test_dev(self):
         self.conferir("dev")

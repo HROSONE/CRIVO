@@ -209,6 +209,10 @@ class Crivo:
         self.assunto_conversa = None
         self.linguagem_conversa = None
         self.nocao_conversa = None
+        self.memoria_relatos = None
+        from presenca import Perfil
+        self.perfil = Perfil()
+        self.variacao = None
         # Última resposta efetivamente proferida; o servidor HTTP
         # reconstrói esse estado pelo replay seguro do histórico.
         self.ultima_resposta_mostrada = None
@@ -882,13 +886,13 @@ class Crivo:
         if re.fullmatch(
                 r"(?:oi+|ola|e ai|eai|eae|opa|salve|hey|hello)"
                 r"(?:[, ]+crivo)?", n):
-            return "social:oi", ("Oi! Sou o Crivo. Como você está? "
-                                 "Pode me contar uma ideia, uma situação ou fazer uma pergunta. "
-                                 "Digite 'ajuda' para conhecer as possibilidades de conversa, escrita e programação.")
+            return "social:oi", ("Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia "
+                                 "ou perguntar sobre astronomia, natureza, ciência ou programação.")
         if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         if re.fullmatch(r"(?:(?:muito )?obrigad[oa]|valeu|brigad[oa]) (?:por|pela|pelo) "
-                        r"(?:me )?(?:ouvir|escutar|conversar|a conversa|o papo|tudo|a ajuda|ajudar)(?: crivo)?", n):
+                        r"(?:me )?(?:ouvir|escutar|conversar|a conversa|conversa|o papo|papo|tudo|a ajuda|ajuda|"
+                        r"ajudar|forca|companhia)(?: crivo)?", n):
             return "social:obrigado", "Eu que agradeço pela conversa! Quando quiser, é só voltar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
         # contém o verbo "falou", mas não é uma despedida.
@@ -1007,6 +1011,75 @@ class Crivo:
             return texto.rstrip(" ?!.") + " em " + self.linguagem_conversa + ("?" if "?" in texto else "")
         return texto
 
+    NAO_ENTENDI = "Hum, não entendi bem."
+
+    def _nao_entendi_com_presenca(self, texto, resposta):
+        """Durante uma conversa, "não entendi" retoma o assunto em vez de
+        oferecer um menu."""
+        from conversa_cotidiana import _observacao, _presenca
+        if "?" not in texto:
+            anterior = (self.historico[-2] if len(self.historico) > 1 else {}).get("id", "")
+            reacao = _observacao(texto, self, anterior, forcar=True)
+            if reacao is not None:
+                ident, texto_resp = reacao[0], reacao[1]
+                if self.historico and self.historico[-1].get("pergunta") == texto:
+                    self.historico[-1]["id"] = ident
+                self.ultimo_turno = {"pergunta": texto, "id": ident}
+                return ident, texto_resp
+        perfil = getattr(self, "perfil", None)
+        if perfil is None or not perfil.recente(3) or "?" in texto:
+            return "fora", resposta
+        tema = perfil.temas[-1][1]
+        v = _presenca(self)
+        texto_resp = v.escolher((
+            "Não peguei bem essa. A gente ainda está falando de %s? Me conta de outro jeito." % tema,
+            "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de %s." % tema,
+            "Acho que me perdi nessa. Você pode dizer de outro jeito?"))
+        if self.historico and self.historico[-1].get("pergunta") == texto:
+            self.historico[-1]["id"] = "conversa:esclarecer"
+        self.ultimo_turno = {"pergunta": texto, "id": "conversa:esclarecer"}
+        return "conversa:esclarecer", texto_resp
+
+    _PERGUNTA_MEMORIA = re.compile(r"\s*(?:e )?(?:por que|porque|pq|por qual motivo|quem|quando|onde|aonde|o que|que|qual)\b")
+
+    def _memoria(self):
+        if getattr(self, "memoria_relatos", None) is None:
+            from sentido_frases import MemoriaRelatos
+            self.memoria_relatos = MemoriaRelatos()
+        return self.memoria_relatos
+
+    def _memoria_guardar(self, texto):
+        """Relatos ("meu cachorro latiu porque viu um gato") viram eventos
+        na memória da conversa, com quem, o quê, por quê, quando e onde."""
+        from nocoes import _NAO_AFIRMACAO
+        n = normalizar(texto).strip()
+        if (not isinstance(texto, str) or "?" in texto or len(n.split()) < 3 or len(texto) > 300
+                or _NAO_AFIRMACAO.match(n)):
+            return
+        try:
+            self._memoria().guardar(texto)
+        except Exception:  # a memória nunca derruba a conversa
+            pass
+
+    def _memoria_responder(self, texto):
+        memoria = getattr(self, "memoria_relatos", None)
+        if memoria is None or not memoria.eventos or not isinstance(texto, str):
+            return None
+        if not self._PERGUNTA_MEMORIA.match(normalizar(texto)):
+            return None
+        try:
+            achado = memoria.responder(texto)
+        except Exception:
+            return None
+        if achado is None:
+            return None
+        self.esclarecimento = None
+        self.contexto_textual = None
+        self.ultimo_turno = {"pergunta": texto, "id": "memoria:relato"}
+        self.historico.append({"pergunta": texto, "id": "memoria:relato", "mecanismo": "memoria_relatos"})
+        self.historico = self.historico[-20:]
+        return "memoria:relato", achado[0]
+
     def _registrar_nocao(self, texto, ident, resposta, nocao):
         self.nocao_conversa = nocao
         self.esclarecimento = None
@@ -1067,7 +1140,12 @@ class Crivo:
         """Contexto implícito de um turno e retomada explícita da conversa."""
         original_usuario = texto
         texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
+        if getattr(self, "perfil", None) is not None:
+            self.perfil.turno += 1
         try:
+            lembrado = self._memoria_responder(original_usuario)
+            if lembrado is not None:
+                return lembrado
             limite = self._nocao_limite(texto)
             if limite is not None:
                 return limite
@@ -1076,8 +1154,24 @@ class Crivo:
                 nocao = self._nocao_definicao(texto) or self._nocao_limite(texto, depois_de_fora=True)
                 if nocao is not None:
                     return nocao
+            if ident == "fora" and resposta.startswith(self.NAO_ENTENDI):
+                return self._nao_entendi_com_presenca(texto, resposta)
+            if ident == "conversa:planejamento" and getattr(self, "perfil", None) is not None and self.perfil.temas:
+                from conversa_cotidiana import _CURTAS, _presenca
+                if _CURTAS.fullmatch(normalizar(original_usuario).strip(" .!")):
+                    from presenca import ACOLHER_CURTO, CONTINUAR
+                    tom = self.perfil.temas[-1][2]
+                    v = _presenca(self)
+                    return "nocao:reacao", v.escolher(ACOLHER_CURTO[tom]) + " " + v.escolher(CONTINUAR[tom])
+            if ident == "conversa:relato":
+                try:
+                    from conversa_cotidiana import relato_com_presenca
+                    resposta = relato_com_presenca(original_usuario, self, resposta)
+                except Exception:
+                    pass
             return ident, resposta
         finally:
+            self._memoria_guardar(original_usuario)
             for nome, padrao in self._LINGUAGENS:
                 if padrao.search(texto):
                     self.linguagem_conversa = nome
@@ -1635,9 +1729,9 @@ class Crivo:
         if conversa_assistente.pergunta_pessoal(texto):
             return self._registrar_social((
                 "social:nao_entendido",
-                "Não reconheci essa pergunta sobre mim. Posso explicar como "
-                "processo respostas ou mostrar minhas capacidades; se você "
-                "quer informação sobre outro assunto, diga qual é o pedido.",
+                "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem "
+                "uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, "
+                "e posso explicar como eu funciono, se quiser.",
             ), original)
 
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
@@ -1721,8 +1815,8 @@ class Crivo:
             return self._registrar(rank[0][1], original)
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             return self._pedir_esclarecimento([rank[0][1]], original)
-        return "fora", ("Ainda não consegui entender esse pedido. Pode indicar o assunto "
-                        "e o que quer saber? Digite 'ajuda' para ver minhas capacidades.")
+        return "fora", (self.NAO_ENTENDI + " Pode dizer de outro jeito? Pode ser uma pergunta "
+                        "ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.")
 
 
 # ------------------------------------------------------------- testes ------
