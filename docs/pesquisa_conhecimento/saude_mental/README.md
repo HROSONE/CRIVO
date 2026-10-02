@@ -474,3 +474,15 @@ A partir deste checkpoint, preferir blocos que eliminem várias lacunas relacion
 Pesquisa sem commit confirmado não conta como concluída. Após bloqueio de escrita, o conteúdo deve ser recuperado e confirmado por leitura da branch antes de avançar.
 
 **Estado:** material recuperado; ainda não constitui conclusão doutoral.
+## Aprofundamento 21 — perinatal quantitativa e saúde sexual
+
+| Documento | Escopo |
+| --- | --- |
+| [Psiquiatria perinatal quantitativa](2026-10-02-psiquiatria-perinatal-quantitativa-causalidade-farmacologia.md) | fenótipos/diferenciais, causalidade e confounding by indication, risco absoluto, antidepressivos, neonatal adaptation, lactação, bipolar/psychosis, lítio, valproato, psicoterapia e mensuração |
+| [Saúde sexual e psiquiatria](2026-10-02-saude-sexual-funcao-sexual-psiquiatria-iatrogenia.md) | função sexual multidimensional, diferenciais, antidepressivos/antipsicóticos, persistência pós-fármaco, mensuração causal, pain, trauma, compulsividade, mania, consentimento, minorias e iatrogenia |
+
+### Mudança de cobertura
+- **Perinatal:** deixou de ser apenas framework clínico; agora inclui estrutura quantitativa/causal de exposição, risco absoluto, PK/monitoramento e outcomes materno-fetais. Ainda faltam tabelas molecule-specific com estimates/CI por outcome.
+- **Saúde sexual:** deixou de ser lacuna praticamente aberta; agora há arquitetura biopsicossocial, medicamentosa, causal, diagnóstica e de mensuração. Ainda faltam ledgers quantitativos molecule/domain-specific e validação de instrumentos.
+
+**Critério doutoral: NÃO ATINGIDO.** Persistem source→claim retrospectivo, tratamentos com números absolutos por intervenção, special populations restantes, code-level ICD-11 e auditorias de currentness/contradição/adversarial.
