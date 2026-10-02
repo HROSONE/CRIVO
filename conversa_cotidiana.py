@@ -304,6 +304,34 @@ def _corrigir_quiz(bot, texto):
     return "estudo:correcao", resposta, ctx._replace(texto=resposta), ""
 
 
+_SEM_ASSUNTO = re.compile(r"(?:nada(?: (?:de mais|demais|nao|de novo|especial|demais nao))?|nadinha|normal|"
+                          r"o de sempre|na mesma|mesma coisa(?: de sempre)?|sei la|nao sei|hum+|hm+)")
+def _iniciativa(bot, variacao, prefixo=""):
+    from presenca import INICIATIVA
+    perfil = bot.perfil
+    livres = [p for p in INICIATIVA if p not in perfil.perguntas_usadas]
+    if not livres:
+        return (prefixo + " Tô por aqui. Se quiser, me conta qualquer coisa, ou me pergunta algo.").strip()
+    pergunta = variacao.escolher(livres)
+    perfil.perguntas_usadas.add(pergunta)
+    if "então" in prefixo:
+        pergunta = re.sub(r"^Então me conta", "Me conta", pergunta)
+    return (prefixo + " " + pergunta).strip()
+
+
+def _seguir(bot, variacao):
+    """Continuação dentro de uma conversa em andamento, ou None."""
+    conversa, perfil = bot.conversacao, bot.perfil
+    if conversa.objetivo:
+        from dialogo_aberto import _voce
+        from presenca import SEGUIR_OBJETIVO
+        return variacao.escolher(SEGUIR_OBJETIVO) % _voce(conversa.objetivo)
+    if perfil.temas:
+        from presenca import CONTINUAR
+        return variacao.escolher(CONTINUAR[perfil.temas[-1][2]])
+    return None
+
+
 def _convite(bot):
     return "Sobre o que você quer conversar? Posso falar de astronomia, natureza, ciência ou programação."
 
@@ -368,14 +396,29 @@ def responder(texto, bot):
         grupo = "animal" if tipo == "animal" else "evento" if tipo == "evento" or tema in ("bebê", "filho") else "outro"
         opcoes = tuple(o % nome_proprio for o in REACAO_NOME[grupo])
         return "nocao:reacao", presenca.escolher(opcoes), None, ""
-    if (id_anterior.startswith(("nocao:", "memoria:", "conversa:esclarecer")) and perfil.temas
-            and _CURTAS.fullmatch(n) and not oferta):
+    em_conversa = bool(perfil.temas or conversa.objetivo)
+    incerto = re.fullmatch(r"(?:mais ou menos|nao sei|sei la(?:.*)?|talvez|nao|ainda nao|nada|acho que nao|"
+                           r"hum+|hm+|depende|acho que sim)", n)
+    # Sem assunto nenhum ("oi" → "tudo bem" → "nada de mais"): o Crivo
+    # puxa conversa em vez de pedir um tema ou dizer que não entendeu.
+    if (_SEM_ASSUNTO.fullmatch(n) and not em_conversa and not oferta and not pendente
+            and (id_anterior in ("", "fora") or id_anterior.startswith(("social:oi", "social:acolhimento",
+                                                                         "social:tudobem", "social:iniciativa",
+                                                                         "social:reconhecimento", "social:incerteza")))):
+        prefixo = ("Tudo bem." if re.fullmatch(r"(?:hum+|hm+|sei la|nao sei)", n)
+                   else presenca.escolher(("Dia tranquilo, então.", "Ah, um dia mais calmo, então.")))
+        return "social:iniciativa", _iniciativa(bot, presenca, prefixo), None, ""
+    if ((id_anterior.startswith(("nocao:", "memoria:", "conversa:esclarecer")) and perfil.temas)
+            or (id_anterior.startswith(("conversa:relato", "social:iniciativa", "social:incerteza",
+                                        "social:reconhecimento")) and em_conversa)) \
+            and _CURTAS.fullmatch(n) and not oferta:
         from presenca import ACOLHER_CURTO, CONTINUAR
-        tom = perfil.temas[-1][2]
-        if re.fullmatch(r"(?:mais ou menos|nao sei|sei la(?:.*)?|talvez|nao|ainda nao|nada|acho que nao|hum+|hm+)", n):
+        tom = perfil.temas[-1][2] if perfil.temas else "neutro"
+        if incerto:
             tom = "neg" if tom in ("neg", "saude") else "neutro"
-        return ("nocao:reacao", presenca.escolher(ACOLHER_CURTO[tom]) + " " + presenca.escolher(CONTINUAR[tom]),
-                None, "")
+        seguir = _seguir(bot, presenca) if conversa.objetivo else presenca.escolher(CONTINUAR[tom])
+        ident = "social:incerteza" if id_anterior.startswith("conversa:") and incerto and n != "nada" else "nocao:reacao"
+        return ident, presenca.escolher(ACOLHER_CURTO[tom]) + " " + seguir, None, ""
 
     estudando = oferta == "quiz" or (id_anterior or "").startswith("estudo:")
     if estudando and getattr(conversa, "quiz_acertou", None) is not None and \
@@ -528,8 +571,10 @@ def responder(texto, bot):
         return None
 
     if re.fullmatch(r"(?:talvez|nao sei|sei la|acho que (?:sim|nao)|mais ou menos|depende)", n) and anterior:
-        return ("social:incerteza", "Sem problema. Se quiser, me conte mais ou faça uma pergunta "
-                "sobre qualquer assunto.", None, "")
+        seguir = _seguir(bot, _presenca(bot))
+        if seguir:
+            return "social:incerteza", "Tudo bem, sem pressa. " + seguir, None, ""
+        return "social:incerteza", _iniciativa(bot, _presenca(bot), "Sem problema."), None, ""
 
     if _NAO.fullmatch(n) and anterior:
         return "social:recusa", "Tudo bem! Se quiser, pergunte outra coisa ou mude de assunto.", None, ""
@@ -557,7 +602,10 @@ def responder(texto, bot):
             return ("social:reconhecimento", "Que bom! Quer saber mais sobre " + _nome_tema(bot, ctx) +
                     "? É só dizer “sim”, ou pergunte outra coisa.", ctx, "")
         if anterior:
-            return "social:reconhecimento", "Certo! " + _convite(bot), None, ""
+            seguir = _seguir(bot, _presenca(bot))
+            if seguir:
+                return "social:reconhecimento", "Certo. " + seguir, None, ""
+            return "social:reconhecimento", _iniciativa(bot, _presenca(bot), "Certo!"), None, ""
     return _observacao(texto, bot, id_anterior)
 
 
@@ -577,6 +625,8 @@ def _observacao(texto, bot, id_anterior, forcar=False):
     dar uma explicação que ninguém pediu."""
     conversa = bot.conversacao
     base = nocoes()
+    if _CURTAS.fullmatch(_limpar(texto)) or _SEM_ASSUNTO.fullmatch(_limpar(texto)):
+        return None  # "nada", "hmm": resposta curta, não relato para refletir
     # Uma conversa guiada em andamento ("quero conversar sobre meu
     # desenho", objetivo, escolha entre opções) continua com o diálogo.
     guiada = (conversa.assunto not in (None, "sua situação") or conversa.objetivo
@@ -785,6 +835,27 @@ def relato_com_presenca(texto, bot, resposta):
     if principal:
         bot.nocao_conversa = principal
     return texto_final
+
+
+def eco_voce(texto):
+    """A fala inteira na voz de "você" ("mas não tenho tempo" → "você não tem
+    tempo"), ou None se o analisador estiver desligado ou a conversão não
+    for segura."""
+    leitor = _leitor()
+    if leitor is None:
+        return None
+    from presenca import para_voce
+    try:
+        palavras = leitor.a.analisar(texto.strip()[:300])
+    except Exception:
+        return None
+    if not 1 <= len(palavras) <= 16:
+        return None
+    eco = para_voce(palavras)
+    if not eco:
+        return None
+    eco = re.sub(r"^(?:mas|e|ah|entao|então|porque|pois|só que)\s+", "", _limpar_eco(eco, leitor))
+    return eco if re.search(r"\b(?:você|seu|sua|seus|suas)\b", eco) else None
 
 
 def _segunda(texto):

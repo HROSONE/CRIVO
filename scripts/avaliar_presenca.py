@@ -9,7 +9,8 @@ conteúdo que não veio da fala, da noção nem do vocabulário de conversa.
 Por conversa: respostas genéricas (não entendi/menu) e repetições
 (mesma frase de abertura ou mesmo texto já dito na conversa).
 
-Uso: python scripts/avaliar_presenca.py [dev|retido|todos] [--detalhes] [--transcricao]
+Uso: python scripts/avaliar_presenca.py [dev|retido|retido2|todos] [--bateria=presenca_v1|dialogo_unico_v1]
+     [--detalhes] [--transcricao]
 """
 import json
 import re
@@ -53,9 +54,9 @@ def conferir(esperado, fala, resposta):
     return True
 
 
-def avaliar(conjunto, transcrever=False):
+def avaliar(conjunto, transcrever=False, bateria="presenca_v1"):
     from crivo import Crivo
-    dados = json.loads((PASTA / "avaliacoes" / "presenca_v1" / (conjunto + ".json")).read_text(encoding="utf-8"))
+    dados = json.loads((PASTA / "avaliacoes" / bateria / (conjunto + ".json")).read_text(encoding="utf-8"))
     from gerador_frases import estrutura, palavras_novas
     from nocoes import NocoesPT
     base = NocoesPT()
@@ -71,7 +72,10 @@ def avaliar(conjunto, transcrever=False):
             ident, resposta = bot.responder(fala)
             transcricao.append("  VOCÊ: %s\n  CRIVO [%s]: %s" % (fala, ident, resposta.replace("\n", " / ")))
             turnos += 1
-            passou = conferir(esperado, fala, resposta)
+            # Marcas de texto-formulário ("Você contou: “") valem ao pé da
+            # letra, com pontuação e aspas.
+            passou = conferir(esperado, fala, resposta) and not any(
+                m in resposta for m in dados.get("nao_contem_sempre", ()))
             ok += passou
             if not passou:
                 falhas.append({"conversa": c["nome"], "fala": fala, "id": ident, "resposta": resposta[:200]})
@@ -106,8 +110,10 @@ def avaliar(conjunto, transcrever=False):
 def main():
     args = sys.argv[1:]
     alvo = next((a for a in args if a in ("dev", "retido", "retido2", "todos")), "dev")
-    for conjunto in (("dev", "retido", "retido2") if alvo == "todos" else (alvo,)):
-        resumo, falhas, transcricao = avaliar(conjunto)
+    bateria = next((a.split("=", 1)[1] for a in args if a.startswith("--bateria=")), "presenca_v1")
+    todos = sorted(p.stem for p in (PASTA / "avaliacoes" / bateria).glob("*.json") if p.stem != "limiares")
+    for conjunto in (todos if alvo == "todos" else (alvo,)):
+        resumo, falhas, transcricao = avaliar(conjunto, bateria=bateria)
         print(json.dumps(resumo, ensure_ascii=False))
         if "--detalhes" in args:
             for f in falhas:

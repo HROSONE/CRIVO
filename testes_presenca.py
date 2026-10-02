@@ -4,7 +4,7 @@ import random
 import unittest
 from pathlib import Path
 
-from presenca import Perfil, Variacao, despedida, verbo_para_voce
+from presenca import Perfil, Variacao, despedida, para_voce, verbo_para_voce
 
 try:
     import numpy  # noqa: F401
@@ -25,6 +25,23 @@ class TestesConjugacao(unittest.TestCase):
         for (forma, lema), esperado in casos.items():
             with self.subTest(forma=forma):
                 self.assertEqual(verbo_para_voce(forma, lema), esperado)
+
+
+    def test_preterito_pela_grafia_futuro_pelo_lema_e_presente_comum(self):
+        for forma, lema, esperado in (("peguei", "peguer", "pegou"), ("fiquei", "", "ficou"),
+                                      ("comecei", "começar", "começou"), ("parei", "par", "parou"),
+                                      ("comerei", "comer", "comerá"), ("gosto", "", "gosta"),
+                                      ("consigo", "conseguir", "consegue")):
+            self.assertEqual(verbo_para_voce(forma, lema), esperado, forma)
+
+    def test_consigo_separado_pelo_tokenizador_volta_a_ser_verbo(self):
+        from analisador_frases import Palavra
+        palavras = [Palavra(1, "Eu", "eu", "PRON", 4, "nsubj"), Palavra(2, "não", "não", "ADV", 4, "advmod"),
+                    Palavra(3, "com", "com", "ADP", 4, "case"), Palavra(4, "si", "se", "PRON", 0, "root"),
+                    Palavra(5, "estudar", "estudar", "VERB", 4, "xcomp")]
+        self.assertEqual(para_voce(palavras), "você não consegue estudar")
+        palavras[0] = Palavra(1, "Ele", "ele", "PRON", 4, "nsubj")
+        self.assertNotIn("consegue", para_voce(palavras[:1] + palavras[2:]))
 
 
 class TestesVariacaoEPerfil(unittest.TestCase):
@@ -69,6 +86,20 @@ class TestesConversa(unittest.TestCase):
                 self.assertLessEqual(resumo["repeticoes"], limite["repeticoes_max"], resumo)
                 self.assertLessEqual(resumo["mesma_estrutura"], limite["mesma_estrutura_max"], resumo)
                 self.assertLessEqual(resumo["fatos_novos"], limite["fatos_novos_max"], falhas)
+
+    def test_catraca_dialogo_unico(self):
+        from scripts.avaliar_presenca import avaliar
+        limiares = json.loads((Path(__file__).parent / "avaliacoes" / "dialogo_unico_v1" / "limiares.json")
+                              .read_text(encoding="utf-8"))
+        for conjunto in ("dev", "retido"):
+            with self.subTest(conjunto=conjunto):
+                resumo, falhas, _ = avaliar(conjunto, bateria="dialogo_unico_v1")
+                if conjunto == "retido":
+                    falhas = "(retido: detalhes não exibidos)"
+                limite = limiares[conjunto]
+                self.assertGreaterEqual(resumo["turnos_ok"], limite["turnos_ok_min"], falhas)
+                for chave in ("genericas", "repeticoes", "mesma_estrutura", "fatos_novos"):
+                    self.assertLessEqual(resumo[chave], limite[chave + "_max"], resumo)
 
     def test_reflete_lembra_nome_e_retoma(self):
         from crivo import Crivo

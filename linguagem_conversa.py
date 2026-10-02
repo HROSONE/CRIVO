@@ -490,7 +490,8 @@ class Conversacao:
                     self.relatos = deque(relatos, maxlen=self.MAX_LEMBRANCAS)
                     resposta = "Voltando a “" + assunto + "”. Você tinha contado: “" + relatos[-1] + "”."
                     if objetivo:
-                        resposta += " Seu objetivo declarado era “" + objetivo + "”."
+                        from dialogo_aberto import _voce
+                        resposta += " Você queria " + _voce(objetivo) + "."
                     return Preparacao(ato, ("conversa:retomada", resposta + "\n\nO que mudou desde então?", None, ""))
                 return Preparacao(ato, ("duvida", "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?", None, ""))
             lembranca = candidatos[-1]
@@ -537,9 +538,12 @@ class Conversacao:
         original = texto.strip()[:600]
         self.relatos.append(original)
         objetivo = re.fullmatch(r"(?:eu )?(?:quero|pretendo|meu objetivo e) (.+)", n)
+        from dialogo_aberto import _sortear, _voce, com_ligacao, reacao_relato
         if objetivo:
-            self.objetivo, self.etapa = objetivo.group(1), 1
-            pergunta = "Qual é a principal dificuldade para chegar a esse objetivo?"
+            alvo = re.fullmatch(r"(?:eu )?(?:quero|pretendo|meu objetivo [eé]) (.+)", original.rstrip(" .!"), re.I)
+            self.objetivo, self.etapa = (alvo.group(1) if alvo else objetivo.group(1)), 1
+            from dialogo_aberto import OBJETIVO_NOVO
+            resposta = _sortear(self, OBJETIVO_NOVO) % _voce(self.objetivo) + " Qual é a principal dificuldade para chegar lá?"
         elif self.etapa <= 1:
             self.etapa = 2
             pergunta = "O que você já tentou e como isso funcionou para você?"
@@ -548,12 +552,13 @@ class Conversacao:
             pergunta = "O que você gostaria que fosse diferente nessa situação?"
         else:
             pergunta = "Qual pequeno próximo passo parece possível para você?"
-        resposta = "Você contou: “" + original + "”."
-        if self.objetivo and not objetivo:
-            resposta += " Seu objetivo declarado é “" + self.objetivo + "”."
+        if not objetivo:
+            from conversa_cotidiana import eco_voce
+            reacao, ligacao = reacao_relato(texto, eco_voce(texto), self.objetivo, self)
+            resposta = com_ligacao(reacao, ligacao, pergunta)
         self.situacoes = deque((s for s in self.situacoes if s[0] != self.assunto), maxlen=self.MAX_LEMBRANCAS)
         self.situacoes.append((self.assunto, self.objetivo, tuple(self.relatos), self.etapa, self.turno))
-        return "conversa:relato", resposta + "\n\n" + pergunta, None, ""
+        return "conversa:relato", resposta, None, ""
 
     @staticmethod
     def _caminhos(ctx, bot):
