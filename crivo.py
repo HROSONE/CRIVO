@@ -891,7 +891,8 @@ class Crivo:
         if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         if re.fullmatch(r"(?:(?:muito )?obrigad[oa]|valeu|brigad[oa]) (?:por|pela|pelo) "
-                        r"(?:me )?(?:ouvir|escutar|conversar|a conversa|o papo|tudo|a ajuda|ajudar)(?: crivo)?", n):
+                        r"(?:me )?(?:ouvir|escutar|conversar|a conversa|conversa|o papo|papo|tudo|a ajuda|ajuda|"
+                        r"ajudar|forca|companhia)(?: crivo)?", n):
             return "social:obrigado", "Eu que agradeço pela conversa! Quando quiser, é só voltar."
         # Despedida é um ato de fala COMPLETO. "Você falou do Sol?"
         # contém o verbo "falou", mas não é uma despedida.
@@ -1155,6 +1156,19 @@ class Crivo:
                     return nocao
             if ident == "fora" and resposta.startswith(self.NAO_ENTENDI):
                 return self._nao_entendi_com_presenca(texto, resposta)
+            if ident == "conversa:planejamento" and getattr(self, "perfil", None) is not None and self.perfil.temas:
+                from conversa_cotidiana import _CURTAS, _presenca
+                if _CURTAS.fullmatch(normalizar(original_usuario).strip(" .!")):
+                    from presenca import ACOLHER_CURTO, CONTINUAR
+                    tom = self.perfil.temas[-1][2]
+                    v = _presenca(self)
+                    return "nocao:reacao", v.escolher(ACOLHER_CURTO[tom]) + " " + v.escolher(CONTINUAR[tom])
+            if ident == "conversa:relato":
+                try:
+                    from conversa_cotidiana import relato_com_presenca
+                    resposta = relato_com_presenca(original_usuario, self, resposta)
+                except Exception:
+                    pass
             return ident, resposta
         finally:
             self._memoria_guardar(original_usuario)
@@ -1715,9 +1729,9 @@ class Crivo:
         if conversa_assistente.pergunta_pessoal(texto):
             return self._registrar_social((
                 "social:nao_entendido",
-                "Não reconheci essa pergunta sobre mim. Posso explicar como "
-                "processo respostas ou mostrar minhas capacidades; se você "
-                "quer informação sobre outro assunto, diga qual é o pedido.",
+                "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem "
+                "uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, "
+                "e posso explicar como eu funciono, se quiser.",
             ), original)
 
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:

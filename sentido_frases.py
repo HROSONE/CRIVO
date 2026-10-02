@@ -165,7 +165,12 @@ class Leitor:
         ev = Evento()
         ev.acao, ev.verbo = no.lema.lower(), no.forma
         subordinadas = ("advcl", "conj", "cc", "punct", "parataxis")
-        ids = self._sub(no, filhos, subordinadas + ("mark",))
+        ids = self._sub(no, filhos, subordinadas)
+        # Só o conectivo que abre a oração sai ("porque viu…"); o "que" de
+        # "teve que colocar" fica.
+        abertura = min(ids)
+        ids = [i for i in ids if not (por_id[i].ligacao == "mark" and por_id[i].pai == no.id and i <= abertura + 1
+                                      and i < no.id)]
         ev.texto = self._texto(ids, por_id)
         ev.palavras = [por_id[i] for i in ids if por_id[i].ligacao != "punct"]
         ev.nucleo_objeto = ""
@@ -320,10 +325,17 @@ class MemoriaRelatos:
             candidatos.append((pont, idx, ev, frase))
         if not candidatos:
             return None
-        _, _, ev, frase = max(candidatos, key=lambda c: (c[0], c[1]))
+        _, idx, ev, frase = max(candidatos, key=lambda c: (c[0], c[1]))
         if opiniao and "causa" not in ev.relacoes:
             return self._inferir(ev, frase), ev
-        return self._resposta(tipo, ev, frase, condicao), ev
+        resposta = self._resposta(tipo, ev, frase, condicao)
+        if tipo == "causa" and "causa" not in ev.relacoes:
+            anterior = next((e for e, f in reversed(self.eventos[max(0, idx - 3):idx])
+                             if f != frase and not e.encaixado), None)
+            if anterior is not None:
+                resposta += (" Mas imagino que tenha a ver com o que você contou antes: %s. "
+                             "É só um palpite." % self._voce(anterior))
+        return resposta, ev
 
     def _inferir(self, ev, frase):
         """Quarto nível de saber: o provável. Só a partir de noções (para que

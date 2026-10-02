@@ -55,6 +55,9 @@ def para_voce(palavras, nucleo_id=None):
     (clíticos de primeira pessoa, verbos irregulares desconhecidos)."""
     saida = []
     sujeito_explicito = any(normalizar(p.forma) == "eu" for p in palavras)
+    formas = [p.forma.lower() for p in palavras]
+    if "gente" in formas and "a" in formas or "nós" in formas:
+        return None  # "a gente"/"nós" pedem "vocês" e outra conjugação
     for p in palavras:
         baixo = p.forma.lower()
         if baixo in ("me", "nos", "comigo") and p.classe == "PRON":
@@ -69,10 +72,16 @@ def para_voce(palavras, nucleo_id=None):
             saida.append(v)
             continue
         saida.append(p.forma)
-    texto = " ".join(saida)
-    if not sujeito_explicito and saida and _primeira_pessoa_algum(palavras):
-        texto = "você " + texto
-    return texto
+    if not sujeito_explicito and _primeira_pessoa_algum(palavras):
+        k = next(i for i, p in enumerate(palavras) if p.classe in ("VERB", "AUX") and _primeira_pessoa(p))
+        # "não", "também", "ainda" ficam junto do verbo: "você não foi".
+        while k > 0 and palavras[k - 1].classe == "ADV" and normalizar(palavras[k - 1].forma) in (
+                "nao", "tambem", "ainda", "ja", "so", "nunca", "sempre"):
+            k -= 1
+        saida.insert(k, "você")
+    if saida and palavras and palavras[0].classe != "PROPN" and saida[0] == palavras[0].forma:
+        saida[0] = saida[0].lower()
+    return " ".join(saida)
 
 
 def _primeira_pessoa(p):
@@ -202,16 +211,30 @@ def retomada(bot, variacao):
     if marcante is None:
         return None
     _, tema, tom, reflexao, agente = marcante
+    # Alguém com nome (a bebê Clara, o cachorro Thor) é o melhor gancho.
+    for t in reversed(perfil.temas):
+        proprio_t = perfil.nomes.get(t[1])
+        if proprio_t and t[2] in ("pos", "neutro", tom):
+            artigo = "a" if (t[4] or "").startswith(("sua", "minha")) else "o"
+            return variacao.escolher(("Tudo ótimo por aqui! E %s %s, como está?" % (artigo, proprio_t),
+                                      "Tudo certo! E como vai %s %s?" % (artigo, proprio_t)))
     if tom == "saude":
         if agente and agente != "você":
             return variacao.escolher(("Tudo bem por aqui! E %s, já melhorou?" % agente,
                                       "Por aqui tudo certo. E %s, como está?" % agente))
         return "Tudo bem por aqui! E você, já está melhor?"
     proprio = perfil.nomes.get(tema)
+    if tom == "neg" and tema in ("cansaço", "sono", "estresse", "tristeza", "preguiça"):
+        return variacao.escolher(("Tudo bem por aqui! E você, um pouco mais descansado?",
+                                  "Por aqui tudo certo. E você, como está o ânimo agora?"))
     if tom == "neg":
         if proprio:
             return "Tudo bem por aqui! E o %s, sossegou?" % proprio
-        return "Tudo bem por aqui! E você, melhorou o ânimo depois daquilo de %s?" % tema
+        return variacao.escolher(("Tudo bem por aqui! E você, mais tranquilo depois daquilo que me contou?",
+                                  "Por aqui tudo certo. E você, como está se sentindo agora?"))
+    if proprio:
+        return "Tudo ótimo! E a %s, como está?" % proprio if tema in ("bebê", "filho") else \
+            "Tudo ótimo! E o %s, como está?" % proprio
     return "Tudo ótimo! E você, ainda animado com %s?" % _com_artigo(tema)
 
 
