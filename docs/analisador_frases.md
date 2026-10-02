@@ -27,18 +27,21 @@ Os pesos só são usados se a avaliação no **teste oficial** (frases que o
 treino não vê) passar do mínimo em `analisador_frases.MINIMO`; sem pesos
 aprovados ou sem NumPy, o analisador fica desligado.
 
-## Primeira versão no repositório (modelo de CPU)
+## Modelo no repositório
 
-`artefatos/analisador_pt` traz o modelo de CPU (8 épocas do etiquetador, 10
-do parser, semente fixa). Teste oficial do Bosque, 1.167 frases, 27.604
-palavras, pontuação incluída:
+`artefatos/analisador_pt` traz o modelo **biafim treinado no Google Colab**
+(GPU T4, 40 épocas, semente 20261002, notebook deste repositório). Teste
+oficial do Bosque (1.167 frases, 27.604 palavras, pontuação incluída),
+reavaliado fora do Colab com a execução em NumPy:
 
-| classe (UPOS) | lema | UAS (ligação certa) | LAS (ligação e tipo certos) |
-|---|---|---|---|
-| 96,3% | 97,9% | 84,3% | 80,3% |
+| modelo | classe | lema | UAS (ligação certa) | LAS (ligação e tipo) | tempo/frase |
+|---|---|---|---|---|---|
+| CPU: janela + transições | 96,3% | 97,9% | 84,3% | 80,3% | 1–3 ms |
+| **Colab: BiLSTM + biafim** | **97,0%** | **98,0%** | **88,9%** | **85,3%** | ~16 ms |
 
-Cerca de 1–3 ms por frase. O modelo biafim do Colab deve substituí-lo se
-tiver notas melhores no mesmo teste.
+O biafim erra 29% menos ligações. Ainda erra casos pontuais (em "A menina
+abriu o guarda-chuva porque começou a chover", liga "porque" a "chover" em
+vez de "começou").
 
 ## Dados e licença
 
