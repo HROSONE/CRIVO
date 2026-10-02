@@ -89,7 +89,8 @@ class CompositorTextual:
         # mecanismos, formacao, comparacoes, evidencias e limites, mas
         # continua proibida de criar fatos ou aprender com o chat.
         from consolidacao_conhecimento import ConsolidadorConhecimento
-        self.consolidador = ConsolidadorConhecimento(self.itens, self.aliases, tokens)
+        self.consolidador = ConsolidadorConhecimento(
+            self.itens, self.aliases, tokens, permitidos=self.expandidos)
 
     def _resposta_associativa(self, pergunta):
         """Fallback restrito: evidencia forte de UM fato tipado, mesmo assunto."""
@@ -639,9 +640,6 @@ class CompositorTextual:
         lembranca = self._resposta_associativa(n)
         if lembranca is not None:
             return lembranca
-        consolidada = self._resposta_consolidada(n, contexto)
-        if consolidada is not None:
-            return consolidada
         # Nomes acrescentados ao currículo também podem aparecer no meio
         # de consultas legadas: "qual planeta é maior?", "a Lua orbita...".
         # Só bloquear pedidos explicitamente factuais *deste* motor; para
