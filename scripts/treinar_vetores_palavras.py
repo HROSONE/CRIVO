@@ -146,8 +146,14 @@ def main():
     rng_controle = np.random.default_rng(1)
     amostra = rng_controle.integers(0, len(vocab), (2000, 2))
     base = float(np.mean(np.sum(normas[amostra[:, 0]] * normas[amostra[:, 1]], axis=1)))
+    antonimos = [("quente", "frio"), ("forte", "fraco"), ("fortes", "fracos"), ("grande", "pequeno"),
+                 ("alto", "baixo"), ("rapido", "lento"), ("claro", "escuro"), ("novo", "velho"),
+                 ("cheio", "vazio"), ("maior", "menor"), ("antigo", "moderno"), ("chuva", "seca")]
+    sims_ant = [float(normas[indice[a]] @ normas[indice[b]]) for a, b in antonimos
+                if a in indice and b in indice]
     controle = {"pares_equivalentes": round(float(np.mean(sims)), 3) if sims else None,
-                "pares_avaliados": len(sims), "pares_aleatorios": round(base, 3)}
+                "pares_avaliados": len(sims), "pares_aleatorios": round(base, 3),
+                "pares_antonimos": round(float(np.mean(sims_ant)), 3) if sims_ant else None}
     (saida / "vocabulario.json").write_text(json.dumps(vocab, ensure_ascii=False), encoding="utf-8")
     (saida / "treino.json").write_text(json.dumps({
         "metodo": "skip-gram com amostragem negativa, NumPy, do zero",

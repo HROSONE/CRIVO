@@ -20,6 +20,7 @@ def _normalizar(palavra):
 class VetoresPalavras:
     MINIMO_EQUIVALENTES = 0.45
     MARGEM_MINIMA = 0.35
+    MARGEM_ANTONIMOS = 0.15
 
     def __init__(self, pasta=PASTA):
         self.indice = {}
@@ -37,11 +38,15 @@ class VetoresPalavras:
         try:
             controle = json.loads((Path(pasta) / "treino.json").read_text(encoding="utf-8"))["controle"]
             equivalentes, aleatorios = controle["pares_equivalentes"], controle["pares_aleatorios"]
+            antonimos = controle["pares_antonimos"]
         except (OSError, ValueError, KeyError, TypeError):
             return
-        if (equivalentes is None or controle.get("pares_avaliados", 0) < 8
+        # Vetores de contexto aproximam antônimos ("quente"/"frio"); aceitar
+        # só se os equivalentes ficarem claramente acima dos antônimos.
+        if (equivalentes is None or antonimos is None or controle.get("pares_avaliados", 0) < 8
                 or equivalentes < self.MINIMO_EQUIVALENTES
-                or equivalentes - aleatorios < self.MARGEM_MINIMA):
+                or equivalentes - aleatorios < self.MARGEM_MINIMA
+                or equivalentes - antonimos < self.MARGEM_ANTONIMOS):
             return
         self.indice = {p: i for i, p in enumerate(vocab)}
         self.vetores = vetores

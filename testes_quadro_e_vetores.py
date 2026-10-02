@@ -24,9 +24,10 @@ def criar_vetores(pasta, pares, controle_ok=True):
     m /= np.linalg.norm(m, axis=1, keepdims=True)
     np.save(Path(pasta) / "vetores.npy", m.astype(np.float16))
     (Path(pasta) / "vocabulario.json").write_text(json.dumps(vocab), encoding="utf-8")
-    controle = ({"pares_equivalentes": 0.7, "pares_aleatorios": 0.02, "pares_avaliados": 12}
-                if controle_ok else {"pares_equivalentes": 0.9, "pares_aleatorios": 0.85,
-                                     "pares_avaliados": 12})
+    controle = ({"pares_equivalentes": 0.7, "pares_aleatorios": 0.02, "pares_antonimos": 0.3,
+                 "pares_avaliados": 12}
+                if controle_ok else {"pares_equivalentes": 0.58, "pares_aleatorios": 0.0,
+                                     "pares_antonimos": 0.6, "pares_avaliados": 12})
     (Path(pasta) / "treino.json").write_text(json.dumps({"controle": controle}), encoding="utf-8")
 
 
@@ -78,7 +79,20 @@ class TestesQuadro(unittest.TestCase):
         self.assertIn("5.500 °C", Crivo().responder("Qual a temperatura do Sol?")[1])
 
 
+try:
+    import numpy  # noqa: F401
+    TEM_NUMPY = True
+except ImportError:
+    TEM_NUMPY = False
+
+
+@unittest.skipUnless(TEM_NUMPY, "vetores de palavras exigem NumPy")
 class TestesVetores(unittest.TestCase):
+    def test_vetores_do_repositorio_com_antonimos_proximos_ficam_desligados(self):
+        # O treino de 100 mil artigos aproximou antônimos tanto quanto
+        # sinônimos; sem a medida de antônimos, os vetores não são usados.
+        self.assertFalse(VetoresPalavras().disponivel)
+
     def test_vetores_sem_controle_de_qualidade_ficam_desligados(self):
         with tempfile.TemporaryDirectory() as pasta:
             criar_vetores(pasta, [("fortes", "intensos")], controle_ok=False)
