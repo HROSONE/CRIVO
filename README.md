@@ -7,6 +7,12 @@ Assistente de conversa em português, primeiro teste.
 Assuntos: plantas, animais, clima, tempo, estações do ano, sistema solar,
 coisas de casa, programação, ciência e psicologia.
 
+## Medição, fichas com fonte e quadro único (02/10/2026)
+
+Bateria de 232 perguntas e 25 diálogos com catraca no CI, fichas com fonte no
+lugar das respostas antigas de astronomia, quadro único de interpretação e
+vetores de palavras treinados do zero. Veja [o documento](docs/proximo_nivel_20261002.md).
+
 ## Astronomia avançada integrada
 
 O acervo pesquisado em `pesquisa/acervo-conhecimento-crivo` ganhou uma primeira
