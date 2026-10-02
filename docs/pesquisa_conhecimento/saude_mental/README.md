@@ -414,3 +414,18 @@ Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, 
 
 ### Nova prioridade
 Não maximizar número de documentos. Priorizar ledger de proveniência para claims materiais, começando por farmacologia, tratamentos, biomarcadores/neurociência causal, epidemiologia e classificação diagnóstica.
+
+
+## Aprofundamento 15 — instrumentos clínicos quantitativos, lote 3
+
+| Documento | Escopo |
+| --- | --- |
+| [Instrumentos clínicos quantitativos — lote 3](2026-10-02-instrumentos-clinicos-quantitativos-03.md) | Y-BOCS/Y-BOCS-II, PCL-5, YMRS, ADOS-2/ADI-R, DAST-10 e WHODAS 2.0; finalidade, psicometria, heterogeneidade, diagnóstico diferencial e limites de inferência |
+
+### Estado de cobertura instrumental
+- PHQ-9, GAD-7, ITQ, ASRS, MoCA/MMSE e AUDIT: cobertos no lote/matriz anterior;
+- PANSS, MADRS e HAM-D: cobertos no lote 2;
+- Y-BOCS, PCL-5, YMRS, ADOS-2/ADI-R, DAST-10 e WHODAS 2.0: aprofundados no lote 3;
+- pendências materiais: suicidabilidade/self-harm, pediatria, sono, dissociação, eating disorders, funcionamento infantil, invariância/DIF e measurement error/MCID onde aplicável.
+
+**Critério de conclusão doutoral: NÃO ATINGIDO.** A cobertura instrumental avançou substancialmente, mas a auditoria global ainda aponta lacunas em classificação ICD-11 granular, epidemiologia quantitativa por transtorno, tratamentos quantitativos, populações especiais, sono, somatic/FND, perinatal, infância/adolescência, história/filosofia e auditoria integral fonte-afirmação/atualidade.
