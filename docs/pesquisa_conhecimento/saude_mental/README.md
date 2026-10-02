@@ -241,3 +241,20 @@ A base possui agora quatro dossiês aprofundados além do mapa curricular. **Ain
 ### Próximo gargalo
 
 A próxima expansão clínica deve cobrir **ansiedade/pânico/fobias + OCD**, seguida por **trauma/dissociação**, e depois neurodesenvolvimento. Paralelamente ainda falta um dossiê farmacológico transversal com PK/PD, interações, retirada, farmacogenômica e monitorização.
+
+
+## Aprofundamento 4 — mecanismos detalhados
+
+| Data | Documento | Escopo |
+| --- | --- | --- |
+| 2026-10-02 | [Ansiedade, pânico e fobias](2026-10-02-ansiedade-panico-fobias-aprendizagem-exposicao.md) | Ameaça, Rescorla–Wagner, generalização, evitação/reforço negativo, segurança, extinção, aprendizagem inibitória, interocepção, CBT e farmacoterapia |
+| 2026-10-02 | [TOC e transtornos relacionados](2026-10-02-toc-obsessoes-compulsoes-erp-circuitos.md) | Intrusões, responsabilidade, compulsões mentais, hábito, CSTC, ERP, insight, diferenciais, farmacoterapia e neuromodulação |
+| 2026-10-02 | [Trauma, PTSD e dissociação](2026-10-02-trauma-ptsd-dissociacao-memoria-tratamento.md) | Reexperiência, memória, evitação, CPTSD, dissociação, sugestão, reconsolidação, PE/CPT/EMDR e prevenção |
+| 2026-10-02 | [Neurodesenvolvimento: TDAH e autismo](2026-10-02-neurodesenvolvimento-tdah-autismo.md) | Trajetória, atenção, funções executivas, recompensa, estimulantes, comunicação social, sensorial, double empathy, camuflagem e diferenciais |
+
+### Critério de profundidade atualizado
+
+Cada próximo dossiê deve explicar, sempre que a evidência permitir:
+**fenomenologia → mecanismo → circuito/sistema → aprendizagem/desenvolvimento → mensuração → diferenciais → intervenção → mecanismo da intervenção → eventos adversos → evidência conflitante → questões abertas.**
+
+O acervo não será declarado completo por quantidade de documentos.
