@@ -293,3 +293,17 @@ Prioridades seguintes:
 6. epidemiologia, prevenção, saúde pública e determinantes sociais;
 7. ética, direitos, cultura e serviços;
 8. auditoria fonte–afirmação de todo o acervo.
+
+
+## Aprofundamento 7 — fundamentos quantitativos e moleculares
+
+| Documento | Escopo |
+| --- | --- |
+| [Estatística, psicometria e inferência causal avançada](2026-10-02-estatistica-psicometria-inferencia-causal-avancada.md) | p/IC/efeitos, Bayes, base rates, calibração, CTT/IRT/DIF/invariância, DAGs, mediação, time-varying confounding, target trials, meta-análise/GRADE e reprodutibilidade |
+| [Neurobiologia celular e molecular](2026-10-02-neurobiologia-celular-molecular-plasticidade.md) | membrana, canais, sinapse, receptores, transmissores, glia, BBB, LTP/LTD/STDP, homeostase, BDNF, epigenética, desenvolvimento e tradução molecular→clínica |
+
+### Critério adicional de nível avançado
+
+Nenhuma explicação biológica deve saltar diretamente de associação molecular para transtorno. Registrar os elos **molécula → célula → circuito → computação/processo psicológico → fenótipo → desfecho clínico**, marcando quais elos têm evidência causal e quais são inferidos.
+
+Nenhuma afirmação quantitativa deve ser armazenada sem população, desenho, medida, efeito/incerteza e contexto de generalização quando esses dados estiverem disponíveis.
