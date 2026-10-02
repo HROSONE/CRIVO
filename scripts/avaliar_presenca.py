@@ -93,7 +93,7 @@ def avaliar(conjunto, transcrever=False, bateria="presenca_v1"):
                 if forma == forma_anterior and len(forma) > 1:
                     mesma_estrutura += 1
                 forma_anterior = forma
-                fontes = falas + [" ".join((n["nome"], n["e"], n["costuma"], n["pergunta"]))
+                fontes = falas + [" ".join((n["nome"], n["e"], n["costuma"], n["pergunta"], n.get("pergunta_geral", "")))
                                   for f in falas for n in base.encontrar(f)]
                 novas = palavras_novas(resposta, fontes)
                 if novas:
