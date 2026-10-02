@@ -29,17 +29,16 @@ def normalizar(texto):
 # Grupos LINGUISTICOS gerais. Nenhum nome de planeta, pessoa ou resposta
 # especifica aparece aqui. Eles servem para aproximar parafrases comuns.
 GRUPOS_SEMANTICOS = (
-    frozenset(("quente", "calor", "temperatura", "aquecimento", "aquecer")),
-    frozenset(("frio", "gelado", "temperatura", "resfriamento", "resfriar")),
+    frozenset(("quente", "calor", "aquecimento", "aquecer")),
+    frozenset(("frio", "gelado", "resfriamento", "resfriar")),
     frozenset(("vermelho", "avermelhado", "avermelhada", "vermelha", "vermelho")),
-    frozenset(("azul", "azulada", "azulado", "coloracao", "cor")),
     frozenset(("manter", "mantem", "reter", "retendo", "conservar", "preservar")),
-    frozenset(("formar", "formacao", "origem", "originar", "surgir", "nascer", "gerar")),
+    frozenset(("formar", "formacao", "origem", "originar", "surgir", "nascer")),
     frozenset(("causa", "causar", "provocar", "produzir", "gerar", "explicar", "motivo", "razao")),
     frozenset(("orbita", "orbitar", "orbitando", "revolucao", "girar", "circulacao")),
     frozenset(("inclinacao", "inclinado", "inclinada", "eixo")),
     frozenset(("estacao", "estacoes", "sazonal", "sazonais", "sazonalidade")),
-    frozenset(("campo", "magnetico", "magnetica", "magnetismo")),
+    frozenset(("magnetico", "magnetica", "magnetismo")),
     frozenset(("evidencia", "evidencias", "sinal", "sinais", "indicio", "indicios")),
     frozenset(("limite", "limites", "limitacao", "limitacoes", "incerteza", "incertezas")),
     frozenset(("maior", "superior", "mais")),
