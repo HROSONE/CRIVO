@@ -61,3 +61,30 @@ Os vetores só são usados se o relatório do treino passar no controle de
 qualidade: pares equivalentes conhecidos precisam ficar claramente mais próximos
 que pares aleatórios. O primeiro treino (8 mil artigos, 2 minutos) não passou e
 fica desligado. Os números da tabela acima são **sem** vetores.
+
+## 5. Sinônimos e antônimos: experimento e decisão
+
+O treino de 100 mil artigos passou no controle inicial (sinônimos 0,58 contra
+pares aleatórios 0,00), mas aproximou **antônimos tanto quanto sinônimos**
+(0,60 contra 0,58; "rápido"/"lento" 0,79). Usá-los poderia trocar *frio* por
+*quente*. Dois experimentos, medidos em pares **reservados** do léxico
+`dados/lexico_sinonimos_antonimos_pt.json` (palavras ausentes do ajuste):
+
+| experimento | sinônimos reservados | antônimos reservados |
+|---|---|---|
+| vetores originais | 0,472 | 0,523 |
+| counter-fitting (`scripts/ajustar_vetores_lexico.py`) | 0,472 | 0,524 |
+
+O ajuste separa perfeitamente os pares que viu (0,985 contra 0,109), mas **não
+generaliza**. Um classificador logístico sinônimo × antônimo sobre os vetores
+também não generalizou (AUC 0,51 nos reservados). Conclusão: vetores de
+contexto desse porte não distinguem sinônimo de antônimo, e aproximar por
+similaridade não é seguro. Eles continuam desligados; o controle agora exige
+equivalentes ao menos 0,15 acima dos antônimos.
+
+A busca usa diretamente o **léxico curado** (180 pares autorais, com flexões):
+um sinônimo listado pode substituir **uma** palavra da pergunta, com aviso
+("Entendi “fortes” como próximo de “intensos”…"); um antônimo listado nunca é
+aproximado. Ganho medido: dev 98 → 99/124, retido 46/81, sem aumento de
+assunto errado ou invenção. Ampliar o léxico (ou usar um tesauro com licença
+compatível) amplia a cobertura sem o risco dos vetores.

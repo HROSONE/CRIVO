@@ -56,7 +56,9 @@ class CompositorTextual:
         self.aliases_busca_extra = {}
         self.fichas_busca = set()
         from vetores_palavras import VetoresPalavras
+        from lexico_pt import LexicoPT
         self.vetores = VetoresPalavras()
+        self.lexico = LexicoPT()
         self.ligacoes_mundo = []
         self.comparacoes_mundo = []
         for e in base:
@@ -690,7 +692,8 @@ class CompositorTextual:
         if quadro is None or quadro.recusa:
             return None
         resultado = self._planejar(quadro, aproximar=False)
-        if resultado is None and self.vetores.disponivel and len(quadro.pistas) >= 2:
+        if (resultado is None and len(quadro.pistas) >= 2
+                and (self.lexico.sinonimos or self.vetores.disponivel)):
             resultado = self._planejar(quadro, aproximar=True)
         return resultado
 
@@ -727,9 +730,16 @@ class CompositorTextual:
             if faltam:
                 if not aproximar or len(faltam) != 1 or len(originais[faltam[0]]) < 4:
                     return False
+                palavra = originais[faltam[0]]
                 palavras = [w for w in re.findall(r"[a-z]+", normalizar(fato_texto))
                             if len(w) >= 4 and w not in self._FORMA_PERGUNTA]
-                par = self.vetores.mais_parecida(originais[faltam[0]], palavras, self.LIMIAR_VETOR)
+                # Primeiro o léxico curado; os vetores só entram se aprovados
+                # no controle de qualidade, e nunca para um antônimo listado.
+                par = next((w for w in palavras if self.lexico.sinonimo(palavra, w)), None)
+                if par is None and self.vetores.disponivel:
+                    par = self.vetores.mais_parecida(
+                        palavra, [w for w in palavras if not self.lexico.antonimo(palavra, w)],
+                        self.LIMIAR_VETOR)
                 if par is None:
                     return False
                 aproximacoes[fato_texto] = (originais[faltam[0]], par)

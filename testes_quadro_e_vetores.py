@@ -79,6 +79,26 @@ class TestesQuadro(unittest.TestCase):
         self.assertIn("5.500 °C", Crivo().responder("Qual a temperatura do Sol?")[1])
 
 
+class TestesLexico(unittest.TestCase):
+    def test_sinonimo_listado_e_aproximado_com_aviso(self):
+        resposta = Crivo().responder("Netuno tem ventos fortes?")[1]
+        self.assertIn("Entendi “fortes” como próximo de “intensos”", resposta)
+
+    def test_antonimo_nunca_e_aproximado(self):
+        from lexico_pt import LexicoPT
+        lexico = LexicoPT()
+        self.assertTrue(lexico.antonimo("fortes", "fracos"))
+        self.assertTrue(lexico.sinonimo("fortes", "intensos"))
+        self.assertNotIn("Entendi", Crivo().responder("Netuno tem ventos fracos?")[1])
+
+    def test_lexico_tem_reservados_sem_palavras_de_treino(self):
+        import json
+        from lexico_pt import CAMINHO
+        dados = json.loads(CAMINHO.read_text(encoding="utf-8"))
+        palavras = lambda parte: {w for k in dados[parte] for _, a, b in dados[parte][k] for w in (a, b)}
+        self.assertFalse(palavras("treino") & palavras("reservados"))
+
+
 try:
     import numpy  # noqa: F401
     TEM_NUMPY = True
