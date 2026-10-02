@@ -36,7 +36,11 @@ _RELATO = re.compile(
     r"a gente|nos|hoje|ontem|amanha|agora|de novo|acabei|acordei|comprei|vi|comi|dormi|perdi|esqueci|"
     r"passei|comecei|assisti|ganhei|cozinhei|corri|caminhei|cheguei|sai|voltei|"
     r"ta fazendo|esta fazendo|ta (?:muito |tao )?\w+ndo|esta (?:muito |tao )?\w+ndo)\b|"
-    r"\b\w{3,}ei\b|\b\w+(?:ou|eu|iu)\b")
+    r"\b\w{3,}ei\b|\b\w+(?:ou|eu|iu)\b|"
+    # Avaliação do que aconteceu: "o show foi incrível", "a festa foi chata".
+    r"\b(?:foi|tava|estava|ficou) (?:muito |tao |super |bem |meio )?(?:incrivel|otim[oa]|bo[am]|ruim|pessim[oa]|"
+    r"legal|lind[oa]|demais|chat[oa]|cansativ[oa]|divertid[oa]|horrivel|top|massa|maravilhos[oa]|corrid[oa]|"
+    r"tranquil[oa]|dificil|facil|estranh[oa]|engracad[oa])\b")
 _EXCLAMACAO = re.compile(r"que (?:calor|frio|preguica|sono|fome|tedio|saudade|chuva|cansaco|dia|noite)\b")
 _RECUSA = re.compile(r"\b(?:dose|dosagem|remedio|medicamento|diagnostico|tratamento|tratar|cura|curar|"
                      r"depressao|doenca|doencas|nao|nunca|sem)\b")

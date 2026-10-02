@@ -49,6 +49,11 @@ class TestesCatraca(unittest.TestCase):
     def test_retido2(self):
         self.conferir("retido2")
 
+    def test_noções_ampliadas(self):
+        for conjunto in ("amplo_dev", "amplo_retido"):
+            with self.subTest(conjunto=conjunto):
+                self.conferir(conjunto)
+
 
 class TestesNocoes(unittest.TestCase):
     @classmethod
