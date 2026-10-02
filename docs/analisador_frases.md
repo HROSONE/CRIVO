@@ -53,3 +53,36 @@ treebank não ficam no repositório; os pesos derivados seguem a mesma licença.
 
 Limites: o Bosque é texto jornalístico; fala informal ("tô", "pra") é
 normalizada antes, mas frases muito coloquiais devem ter mais erros.
+
+## Passo 2: sentido e memória do que a pessoa conta (`sentido_frases.py`)
+
+Cada oração vira um evento: ação (lema), agente, objeto, tempo, lugar,
+negação e relações com outras orações pelos conectivos — porque/pois → causa,
+quando → tempo, se → condição, para → finalidade, embora → concessão.
+
+O Crivo guarda os eventos dos relatos (frases afirmativas) e responde
+perguntas sobre eles **como relato** ("Você me contou que…"), nunca como fato
+do conhecimento:
+
+```
+VOCÊ: meu cachorro latiu a noite toda porque viu um gato
+VOCÊ: por que ele latiu?        → Você me contou que foi porque viu um gato.
+VOCÊ: quem latiu?               → Pelo que você me contou, foi seu cachorro.
+VOCÊ: o ônibus atrasou hoje
+VOCÊ: por que o ônibus atrasou? → Você me contou que o ônibus atrasou hoje, mas não disse por quê.
+```
+
+Pergunta que não casa com nada contado (outro verbo, outro sujeito) segue o
+caminho normal; conhecimento com fonte continua respondendo.
+
+Bateria `avaliacoes/memoria_relatos_v1` (escrita antes da implementação):
+
+| | antes | depois |
+|---|---|---|
+| dev (12 diálogos) | 2 | 12 |
+| retido (8 diálogos) | 2 | 8 |
+
+Limites: o retido tem só 8 diálogos e segue a mesma forma do dev; um erro do
+analisador vira erro de memória (por isso o conectivo também é procurado na
+oração encaixada); verbos em primeira pessoa são citados entre aspas em vez
+de reconjugados.

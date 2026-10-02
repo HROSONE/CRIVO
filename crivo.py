@@ -209,6 +209,7 @@ class Crivo:
         self.assunto_conversa = None
         self.linguagem_conversa = None
         self.nocao_conversa = None
+        self.memoria_relatos = None
         # Última resposta efetivamente proferida; o servidor HTTP
         # reconstrói esse estado pelo replay seguro do histórico.
         self.ultima_resposta_mostrada = None
@@ -1007,6 +1008,46 @@ class Crivo:
             return texto.rstrip(" ?!.") + " em " + self.linguagem_conversa + ("?" if "?" in texto else "")
         return texto
 
+    _PERGUNTA_MEMORIA = re.compile(r"\s*(?:e )?(?:por que|porque|pq|por qual motivo|quem|quando|onde|aonde|o que|que|qual)\b")
+
+    def _memoria(self):
+        if getattr(self, "memoria_relatos", None) is None:
+            from sentido_frases import MemoriaRelatos
+            self.memoria_relatos = MemoriaRelatos()
+        return self.memoria_relatos
+
+    def _memoria_guardar(self, texto):
+        """Relatos ("meu cachorro latiu porque viu um gato") viram eventos
+        na memória da conversa, com quem, o quê, por quê, quando e onde."""
+        from nocoes import _NAO_AFIRMACAO
+        n = normalizar(texto).strip()
+        if (not isinstance(texto, str) or "?" in texto or len(n.split()) < 3 or len(texto) > 300
+                or _NAO_AFIRMACAO.match(n)):
+            return
+        try:
+            self._memoria().guardar(texto)
+        except Exception:  # a memória nunca derruba a conversa
+            pass
+
+    def _memoria_responder(self, texto):
+        memoria = getattr(self, "memoria_relatos", None)
+        if memoria is None or not memoria.eventos or not isinstance(texto, str):
+            return None
+        if not self._PERGUNTA_MEMORIA.match(normalizar(texto)):
+            return None
+        try:
+            achado = memoria.responder(texto)
+        except Exception:
+            return None
+        if achado is None:
+            return None
+        self.esclarecimento = None
+        self.contexto_textual = None
+        self.ultimo_turno = {"pergunta": texto, "id": "memoria:relato"}
+        self.historico.append({"pergunta": texto, "id": "memoria:relato", "mecanismo": "memoria_relatos"})
+        self.historico = self.historico[-20:]
+        return "memoria:relato", achado[0]
+
     def _registrar_nocao(self, texto, ident, resposta, nocao):
         self.nocao_conversa = nocao
         self.esclarecimento = None
@@ -1068,6 +1109,9 @@ class Crivo:
         original_usuario = texto
         texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         try:
+            lembrado = self._memoria_responder(original_usuario)
+            if lembrado is not None:
+                return lembrado
             limite = self._nocao_limite(texto)
             if limite is not None:
                 return limite
@@ -1078,6 +1122,7 @@ class Crivo:
                     return nocao
             return ident, resposta
         finally:
+            self._memoria_guardar(original_usuario)
             for nome, padrao in self._LINGUAGENS:
                 if padrao.search(texto):
                     self.linguagem_conversa = nome
