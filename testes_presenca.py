@@ -58,9 +58,11 @@ class TestesVariacaoEPerfil(unittest.TestCase):
 class TestesConversa(unittest.TestCase):
     def test_catraca(self):
         from scripts.avaliar_presenca import avaliar
-        for conjunto in ("dev", "retido"):
+        for conjunto in ("dev", "retido", "retido2"):
             with self.subTest(conjunto=conjunto):
                 resumo, falhas, _ = avaliar(conjunto)
+                if conjunto.startswith("retido"):
+                    falhas = "(retido: detalhes não exibidos)"
                 limite = LIMIARES[conjunto]
                 self.assertGreaterEqual(resumo["turnos_ok"], limite["turnos_ok_min"], falhas)
                 self.assertLessEqual(resumo["genericas"], limite["genericas_max"], resumo)

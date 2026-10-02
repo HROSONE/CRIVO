@@ -40,9 +40,11 @@ class TestesSentido(unittest.TestCase):
 class TestesMemoria(unittest.TestCase):
     def test_catraca(self):
         from scripts.avaliar_memoria_relatos import avaliar
-        for conjunto in ("dev", "retido"):
+        for conjunto in ("dev", "retido", "retido2"):
             with self.subTest(conjunto=conjunto):
                 resumo, falhas = avaliar(conjunto)
+                if conjunto.startswith("retido"):
+                    falhas = "(retido: detalhes não exibidos)"
                 self.assertGreaterEqual(resumo["dialogos_ok"], LIMIARES[conjunto]["dialogos_ok_min"], falhas)
 
     def test_responde_como_relato_e_nao_inventa(self):

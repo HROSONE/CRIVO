@@ -14,7 +14,42 @@
     info: document.getElementById("info-button"),
     dialog: document.getElementById("about-dialog")
   };
-  const state = { history: [], busy: false, controller: null, generation: 0, experimental: false };
+  const state = { history: [], busy: false, controller: null, generation: 0, experimental: false,
+    remember: false, memory: null };
+  const KEY_REMEMBER = "crivo_lembrar";
+  const KEY_MEMORY = "crivo_memoria";
+  const KEY_FEEDBACK = "crivo_avaliacoes";
+
+  // Armazenamento local: pode estar bloqueado (aba privada, política do navegador).
+  function lerLocal(chave, padrao) {
+    try {
+      const bruto = window.localStorage.getItem(chave);
+      return bruto === null ? padrao : JSON.parse(bruto);
+    } catch (_err) { return padrao; }
+  }
+  function gravarLocal(chave, valor) {
+    try { window.localStorage.setItem(chave, JSON.stringify(valor)); } catch (_err) { /* sem armazenamento */ }
+  }
+  function apagarLocal(chave) {
+    try { window.localStorage.removeItem(chave); } catch (_err) { /* sem armazenamento */ }
+  }
+  state.remember = lerLocal(KEY_REMEMBER, false) === true;
+  state.memory = state.remember ? lerLocal(KEY_MEMORY, {}) : null;
+
+  function avaliacoes() {
+    const lista = lerLocal(KEY_FEEDBACK, []);
+    return Array.isArray(lista) ? lista : [];
+  }
+  function atualizarContagem() {
+    const alvo = document.getElementById("feedback-count");
+    if (alvo) alvo.textContent = String(avaliacoes().length);
+  }
+  function registrarAvaliacao(registro) {
+    const lista = avaliacoes().filter(function (r) { return r.chave !== registro.chave; });
+    lista.push(registro);
+    gravarLocal(KEY_FEEDBACK, lista.slice(-500));
+    atualizarContagem();
+  }
   const API = "/api/chat";
   const MAX_HISTORY = 10;
 
@@ -122,13 +157,39 @@
         tag.textContent = "◈ Prova lógica";
       } else if (extra.id === "fora" || extra.id === "duvida") {
         tag.textContent = "◇ Limite de conhecimento";
-      } else if (extra.id && /^(social|conversa):/.test(extra.id)) {
+      } else if (extra.id && /^memoria:/.test(extra.id)) {
+        tag.textContent = "◇ Do que você contou";
+      } else if (extra.id && /^nocao:/.test(extra.id)) {
+        tag.textContent = "◇ Conversa · noção";
+      } else if (extra.id && /^(social|conversa|estudo):/.test(extra.id)) {
         tag.textContent = "◇ Conversa";
       } else {
         tag.textContent = "◇ Base de conhecimento";
       }
       tag.title = "Motor: " + (extra.mechanism || "recuperador");
       row.appendChild(tag);
+      if (extra.question) {
+        const chave = String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8);
+        [["👍", 1, "Boa resposta"], ["👎", -1, "Resposta ruim"]].forEach(function (opcao) {
+          const botao = document.createElement("button");
+          botao.type = "button";
+          botao.className = "feedback-button";
+          botao.textContent = opcao[0];
+          botao.title = opcao[2];
+          botao.setAttribute("aria-label", opcao[2]);
+          botao.setAttribute("aria-pressed", "false");
+          botao.addEventListener("click", function () {
+            row.querySelectorAll(".feedback-button").forEach(function (b) { b.setAttribute("aria-pressed", "false"); });
+            botao.setAttribute("aria-pressed", "true");
+            registrarAvaliacao({
+              chave: chave, quando: new Date().toISOString(), nota: opcao[1],
+              pergunta: extra.question, resposta: text, id: extra.id,
+              historico: (extra.history || []).slice(-4)
+            });
+          });
+          row.appendChild(botao);
+        });
+      }
       const copy = document.createElement("button");
       copy.className = "copy-button";
       copy.type = "button";
@@ -196,10 +257,10 @@
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         cache: "no-store",
-        body: JSON.stringify({
+        body: JSON.stringify(Object.assign({
           message: question,
           history: state.history.slice(-MAX_HISTORY)
-        }),
+        }, state.remember ? { memory: state.memory || {} } : {})),
         signal: controller.signal
       });
       const data = await res.json();
@@ -212,7 +273,13 @@
       }
       if (generation !== state.generation) return;
       pending.remove();
-      createMessage("assistant", data.response, data);
+      createMessage("assistant", data.response, Object.assign({}, data, {
+        question: question, history: state.history.slice(-MAX_HISTORY)
+      }));
+      if (state.remember && data.memory && typeof data.memory === "object") {
+        state.memory = data.memory;
+        gravarLocal(KEY_MEMORY, data.memory);
+      }
       state.experimental = data.experimental_dialogue === true;
       state.history.push(question);
       state.history = state.history.slice(-MAX_HISTORY);
@@ -269,7 +336,36 @@
     ui.welcome.hidden = false;
     updateComposer();
   });
-  ui.info.addEventListener("click", function () { ui.dialog.showModal(); });
+  const toggle = document.getElementById("remember-toggle");
+  toggle.checked = state.remember;
+  toggle.addEventListener("change", function () {
+    state.remember = toggle.checked;
+    gravarLocal(KEY_REMEMBER, state.remember);
+    if (state.remember) {
+      state.memory = lerLocal(KEY_MEMORY, {});
+    } else {
+      state.memory = null;
+      apagarLocal(KEY_MEMORY);
+    }
+  });
+  document.getElementById("forget-button").addEventListener("click", function () {
+    state.memory = state.remember ? {} : null;
+    apagarLocal(KEY_MEMORY);
+    const botao = document.getElementById("forget-button");
+    botao.textContent = "Esquecido!";
+    setTimeout(function () { botao.textContent = "Esquecer tudo"; }, 1600);
+  });
+  document.getElementById("export-button").addEventListener("click", function () {
+    const dados = JSON.stringify({ formato: "crivo-avaliacoes-v1", avaliacoes: avaliacoes() }, null, 1);
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(new Blob([dados], { type: "application/json" }));
+    link.download = "crivo-avaliacoes.json";
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(function () { URL.revokeObjectURL(link.href); link.remove(); }, 1000);
+  });
+  atualizarContagem();
+  ui.info.addEventListener("click", function () { atualizarContagem(); ui.dialog.showModal(); });
   document.getElementById("about-close").addEventListener("click", function () {
     ui.dialog.close();
   });

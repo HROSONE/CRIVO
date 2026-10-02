@@ -113,7 +113,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 14-7-4.2 14-3.1-6-6.7-1Z" stroke-linejoin="round"/><path d="m11.7 13 7.3-8" stroke-linecap="round"/></svg>
           </button>
         </form>
-        <p class="composer-note">O CRIVO é experimental e pode errar. Sem IA externa · Histórico somente nesta aba.</p>
+        <p class="composer-note">O CRIVO é experimental e pode errar. Sem IA externa · Avalie as respostas com 👍/👎 para ajudar a melhorá-lo.</p>
       </div>
     </main>
   </div>
@@ -126,7 +126,15 @@
     <div class="about-stat"><span>Raciocínio</span><strong>Grafo simbólico próprio</strong></div>
     <div class="about-stat"><span>Privacidade</span><strong>Sem armazenamento de conversas no servidor</strong></div>
     <div class="about-stat"><span>Limite</span><strong>Não é um LLM nem inteligência geral</strong></div>
-    <p class="about-foot">Nesta interface o histórico curto é reenviado a cada pergunta para preservar o contexto entre requisições; não há login nem armazenamento permanente.</p>
+    <p class="about-foot">Nesta interface o histórico curto é reenviado a cada pergunta para preservar o contexto entre requisições; não há login nem armazenamento no servidor.</p>
+    <div class="about-memory">
+      <label class="memory-toggle"><input type="checkbox" id="remember-toggle"> Lembrar de mim neste navegador</label>
+      <p class="about-foot">Se ligado, seu nome, nomes que você citar e alguns relatos ficam guardados só neste navegador e são reenviados ao CRIVO na próxima visita. Nada fica no servidor.</p>
+      <div class="memory-actions">
+        <button type="button" id="forget-button" class="about-secondary">Esquecer tudo</button>
+        <button type="button" id="export-button" class="about-secondary">Baixar avaliações (<span id="feedback-count">0</span>)</button>
+      </div>
+    </div>
     <button type="button" id="about-ok" class="about-ok">Entendido</button>
   </dialog>
 </body>
