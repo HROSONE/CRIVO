@@ -887,7 +887,7 @@ class Crivo:
                 r"(?:oi+|ola|e ai|eai|eae|opa|salve|hey|hello)"
                 r"(?:[, ]+crivo)?", n):
             return "social:oi", ("Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia "
-                                 "ou me perguntar alguma coisa.")
+                                 "ou perguntar sobre astronomia, natureza, ciência ou programação.")
         if re.fullmatch(r"(?:obrigad[oa]|valeu|brigad[oa]|thanks)(?: crivo)?", n):
             return "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."
         if re.fullmatch(r"(?:(?:muito )?obrigad[oa]|valeu|brigad[oa]) (?:por|pela|pelo) "
