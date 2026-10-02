@@ -38,12 +38,17 @@ _RELATO = re.compile(
     r"ta fazendo|esta fazendo|ta (?:muito |tao )?\w+ndo|esta (?:muito |tao )?\w+ndo)\b|"
     r"\b\w+(?:ou|eu|iu)\b(?!(?:a|o|os|as) (?:\w+ )?(?:de|da|do)\b)")
 _EXCLAMACAO = re.compile(r"que (?:calor|frio|preguica|sono|fome|tedio|saudade|chuva|cansaco|dia|noite)\b")
-_RECUSA = re.compile(r"\b(?:dose|dosagem|remedio|medicamento|diagnostico|tratamento|nao|nunca|sem)\b")
+_RECUSA = re.compile(r"\b(?:dose|dosagem|remedio|medicamento|diagnostico|tratamento|tratar|cura|curar|"
+                     r"depressao|doenca|doencas|nao|nunca|sem)\b")
 
 
 class NocoesPT:
     def __init__(self, caminho=CAMINHO):
-        dados = json.loads(Path(caminho).read_text(encoding="utf-8"))
+        try:
+            dados = json.loads(Path(caminho).read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            # Pacote sem a pasta de dados: sem noções, o Crivo segue como antes.
+            dados = {"nocoes": [], "eventos": {"neg": [], "pos": [], "saude": []}}
         self.nocoes = dados["nocoes"]
         self.eventos = {k: [normalizar(w) for w in v] for k, v in dados["eventos"].items()}
         self._formas = []
@@ -135,7 +140,7 @@ class NocoesPT:
         if not m or _RECUSA.search(normalizar(texto)):
             return None
         nocao = self.por_nome(m.group(1))
-        if nocao is None:
+        if nocao is None or nocao["tipo"] == "saude":
             return None
         return nocao, "Tenho uma noção, sem fonte: " + nocao["e"] + " " + nocao["costuma"]
 
@@ -147,11 +152,11 @@ class NocoesPT:
         if not m:
             return None
         alvo = next(g for g in m.groups() if g)
-        nocao = self.por_nome(alvo) or self.por_nome(alvo.split()[0] if alvo.split() else "")
+        nocao = self.por_nome(alvo)
         resto = ""
         if nocao is None and nocao_contexto is not None and re.search(r"\b(?:dele|dela|nele|nela)\b", n):
             nocao, resto = nocao_contexto, re.sub(r"\s*\b(?:dele|dela)\b", "", alvo).strip()
-        if nocao is None:
+        if nocao is None or nocao["tipo"] == "saude":
             return None
         if n.startswith("por que"):
             limite = "Não sei explicar o porquê disso."
@@ -160,7 +165,11 @@ class NocoesPT:
                       _de(nocao["nome"]) + ".")
         else:
             limite = "Não sei explicar como " + _artigo(nocao["nome"]) + " funciona por dentro."
-        return nocao, "Sei só o básico, como noção: " + nocao["e"] + " " + limite
+        # Trecho com a palavra seguinte: "energia solar" é outro conceito.
+        palavras = n.split()
+        inicio = palavras.index(alvo.split()[0]) if alvo.split()[0] in palavras else 0
+        trecho = " ".join(palavras[inicio:inicio + len(alvo.split()) + 1])
+        return nocao, "Sei só o básico, como noção: " + nocao["e"] + " " + limite, trecho
 
 
 def _artigo(nome):

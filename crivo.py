@@ -1024,7 +1024,7 @@ class Crivo:
         if "?" not in texto and not re.match(r"\s*(?:como|por que)\b", normalizar(texto)):
             return None
         achado = nocoes().nao_sei(texto, getattr(self, "nocao_conversa", None))
-        if achado is None:
+        if achado is None or self.compositor.assunto_mencionado(achado[2]) is not None:
             return None
         if not depois_de_fora and (self.compositor.assunto_mencionado(texto) is not None
                                    or self._base_cobre(texto, normalizar(texto))):

@@ -518,7 +518,14 @@ def _observacao(texto, bot, id_anterior):
     guiada = (conversa.assunto not in (None, "sua situação") or conversa.objetivo
               or conversa.dialogo.espera in ("interesse", "preferencia", "obstaculo", "criterio",
                                              "argumento", "tema"))
-    if not base.afirmacao(texto) or guiada or getattr(bot, "esclarecimento", None):
+    # Relato em primeira pessoa ("tô cansado hoje", "acho que…") e a
+    # continuação de um relato já em andamento ficam com o diálogo, que
+    # acompanha objetivo, opinião e argumento.
+    em_relato = conversa.dialogo.ativo and id_anterior.startswith("conversa:")
+    primeira_pessoa = re.match(r"(?:eu |estou |to |tou |tenho |sinto |me sinto |fico |acho |"
+                               r"quero |pretendo |nao consigo |ja tentei |tentei |mas )", normalizar(texto))
+    if not base.afirmacao(texto) or guiada or em_relato or primeira_pessoa \
+            or getattr(bot, "esclarecimento", None):
         return None
     # Relato que é exatamente o tema de uma resposta da base (ex.: folhas
     # amarelas) fica com a base, que tem a orientação.

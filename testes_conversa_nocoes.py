@@ -84,11 +84,11 @@ class TestesConversa(unittest.TestCase):
 
     def test_conversa_continua_e_lembra(self):
         bot = Crivo()
-        bot.responder("tô cansado do trabalho")
+        self.assertEqual(bot.responder("o trabalho hoje foi pesado")[0], "nocao:observacao")
         self.assertEqual(bot.responder("pois é")[0], "nocao:reacao")
         self.assertEqual(bot.responder("e ainda tenho que entregar um relatório amanhã")[0],
                          "nocao:continuacao")
-        self.assertIn("cansado do trabalho", bot.responder("sobre o que eu falei?")[1])
+        self.assertIn("trabalho hoje foi pesado", bot.responder("sobre o que eu falei?")[1])
         self.assertEqual(bot.responder("valeu por ouvir")[0], "social:obrigado")
 
     def test_pronome_retoma_a_nocao(self):
@@ -97,6 +97,15 @@ class TestesConversa(unittest.TestCase):
         ident, resposta = bot.responder("como funciona a marcha dela?")
         self.assertEqual(ident, "nocao:nao_sei")
         self.assertIn("bicicleta", resposta)
+
+    def test_relato_em_primeira_pessoa_fica_com_o_dialogo(self):
+        self.assertEqual(Crivo().responder("Tô cansado hoje")[0], "conversa:relato")
+
+    def test_pergunta_com_ficha_nao_vira_nocao(self):
+        for pergunta in ("Por que o sono favorece a memória?", "Por que a energia solar sustenta a fotossíntese?",
+                         "Por que sono cura depressão?"):
+            with self.subTest(pergunta=pergunta):
+                self.assertFalse(Crivo().responder(pergunta)[0].startswith("nocao:"))
 
     def test_base_com_orientacao_continua_valendo(self):
         self.assertEqual(Crivo().responder("minha planta tá com folhas amarelas")[0], "folha_amarela")
