@@ -376,3 +376,21 @@ Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, 
 - diagnóstico de demência não elimina automaticamente capacidade decisória;
 - memória prejudicada não identifica Alzheimer;
 - depressão com déficit cognitivo não deve ser descartada como “pseudodemência” reversível por definição.
+
+
+## Aprofundamento 13 — ética, direitos, cultura, capacidade e IA
+
+| Documento | Escopo |
+| --- | --- |
+| [Ética, direitos, cultura, capacidade, IA e serviços](2026-10-02-etica-direitos-cultura-capacidade-ia-servicos.md) | autonomia/consentimento/capacidade, confidencialidade, coerção, direitos, formulação cultural, desigualdade, recovery, shared decision-making, pesquisa, genética, IA, digital phenotyping, serviços e equidade |
+
+### Regras adicionadas
+- diagnóstico não elimina capacidade decisória automaticamente;
+- capacidade é específica à decisão e momento;
+- regra jurídica sempre precisa de jurisdição/versão;
+- crença culturalmente contextualizada não é delírio apenas por ser incomum;
+- diversidade sexual/de gênero não é psicopatologia;
+- eficácia científica não resolve sozinha decisão ética;
+- IA deve separar discriminação, calibração, utilidade e dano;
+- “human in the loop” não é salvaguarda suficiente sem autoridade/competência/tempo;
+- conhecimento documental não concede autoridade clínica ou legal.
