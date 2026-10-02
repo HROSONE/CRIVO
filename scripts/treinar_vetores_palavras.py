@@ -56,9 +56,13 @@ def treinar(sentencas, vocabulario, dim, janela, negativos, epocas, taxa, sement
     ids = [np.array([indice[p] for p in s if p in indice], dtype=np.int32) for s in sentencas]
     inicio = time.time()
     pares_vistos = 0
+    taxa_inicial = taxa
+    passos_totais = max(1, epocas * len(ids))
     for epoca in range(epocas):
         rng.shuffle(ids)
         for n, frase in enumerate(ids):
+            # Decaimento linear da taxa, como no word2vec original.
+            taxa = max(taxa_inicial * 1e-4, taxa_inicial * (1 - (epoca * len(ids) + n) / passos_totais))
             if len(frase) < 2:
                 continue
             frase = frase[rng.random(len(frase)) < manter[frase]]
@@ -125,19 +129,34 @@ def main():
                              a.epocas, a.taxa, a.semente, a.limite_minutos * 60)
     saida = Path(a.saida)
     saida.mkdir(parents=True, exist_ok=True)
-    normas = vetores / (np.linalg.norm(vetores, axis=1, keepdims=True) + 1e-9)
+    # Centralizar remove a direção comum a todas as palavras (anisotropia),
+    # que inflava similaridades entre palavras sem relação.
+    centrados = vetores - vetores.mean(axis=0, keepdims=True)
+    normas = centrados / (np.linalg.norm(centrados, axis=1, keepdims=True) + 1e-9)
     np.save(saida / "vetores.npy", normas.astype(np.float16))
     sondas = ["forte", "fortes", "intensos", "chove", "chuva", "morre", "planeta", "estrela",
               "lua", "quente", "gigante", "ano", "jatos", "suga"]
     relatorio = {p: vizinhos(vocab, normas, p) for p in sondas}
+    # Pares de controle: equivalentes devem ficar mais próximos que pares aleatórios.
+    indice = {p: i for i, p in enumerate(vocab)}
+    pares = [("forte", "intenso"), ("fortes", "intensos"), ("grande", "enorme"), ("rapido", "veloz"),
+             ("comecar", "iniciar"), ("morrer", "falecer"), ("chuva", "chuvas"), ("terminar", "acabar"),
+             ("pequeno", "minusculo"), ("quente", "calor"), ("mostrar", "exibir"), ("antigo", "velho")]
+    sims = [float(normas[indice[a]] @ normas[indice[b]]) for a, b in pares if a in indice and b in indice]
+    rng_controle = np.random.default_rng(1)
+    amostra = rng_controle.integers(0, len(vocab), (2000, 2))
+    base = float(np.mean(np.sum(normas[amostra[:, 0]] * normas[amostra[:, 1]], axis=1)))
+    controle = {"pares_equivalentes": round(float(np.mean(sims)), 3) if sims else None,
+                "pares_avaliados": len(sims), "pares_aleatorios": round(base, 3)}
     (saida / "vocabulario.json").write_text(json.dumps(vocab, ensure_ascii=False), encoding="utf-8")
     (saida / "treino.json").write_text(json.dumps({
         "metodo": "skip-gram com amostragem negativa, NumPy, do zero",
         "fonte": "wikimedia/wikipedia 20231101.pt (ver dados/origem_wikipedia_20261001.json)",
         "licenca_fonte": "CC-BY-SA-3.0/GFDL", "documentos": len(textos), "frases": len(sentencas),
         "vocabulario": len(vocab), "dim": a.dim, "janela": a.janela, "negativos": a.negativos,
-        "epocas": a.epocas, "semente": a.semente, "vizinhos": relatorio}, ensure_ascii=False, indent=1),
+        "epocas": a.epocas, "semente": a.semente, "controle": controle, "vizinhos": relatorio}, ensure_ascii=False, indent=1),
         encoding="utf-8")
+    print("controle", controle, flush=True)
     for p_, v in relatorio.items():
         print(p_, v, flush=True)
 
