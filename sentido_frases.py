@@ -30,6 +30,7 @@ PREP_LUGAR = {"em", "sobre", "sob", "dentro", "embaixo", "debaixo", "atras", "pe
 SEGUNDA_PESSOA = {"meu": "seu", "minha": "sua", "meus": "seus", "minhas": "suas"}
 PRONOMES_CORINGA = {"ele", "ela", "eles", "elas", "isso", "aquilo"}
 GENERICOS = {"fazer", "acontecer", "ser", "estar", "ter", "ir"}
+PREFERENCIAS = {"gostar", "preferir", "odiar", "detestar", "amar", "adorar", "querer", "chamar", "curtir"}
 
 
 class Evento:
@@ -46,6 +47,9 @@ class Evento:
         self.primeira_pessoa = False
         self.texto = ""       # oração sem as subordinadas
         self.relacoes = {}    # tipo → Evento
+        self.palavras = []
+        self.nucleo_objeto = ""
+        self.encaixado = False
 
     def __repr__(self):
         return "Evento(%s, agente=%r, objeto=%r, tempo=%r, lugar=%r, neg=%s, rel=%s)" % (
@@ -117,6 +121,27 @@ class Leitor:
             if not ev.agente and saida:
                 ev.agente, ev.agente_nucleo = saida[0].agente, saida[0].agente_nucleo
             saida.append(ev)
+        # Orações encaixadas viram eventos próprios: em "vi uma menina
+        # abrindo o guarda-chuva", a menina abriu o guarda-chuva.
+        for p in palavras:
+            gerundio_solto = p.ligacao == "advcl" and not any(c.ligacao == "mark" for c in filhos[p.id])
+            if p.classe != "VERB" or (p.ligacao not in ("xcomp", "ccomp", "acl", "acl:relcl")
+                                      and not gerundio_solto):
+                continue
+            ev = self._evento(p, filhos, por_id)
+            ev.encaixado = True
+            if not ev.agente:
+                cab = por_id.get(p.pai)
+                if p.ligacao.startswith("acl") and cab is not None:
+                    ev.agente = self._texto([i for i in self._sub(cab, filhos, ("acl", "acl:relcl", "punct"))
+                                             if por_id[i].ligacao != "case"], por_id)
+                    ev.agente_nucleo = sem_acento(cab.lema)
+                elif cab is not None:
+                    obj = next((c for c in filhos[cab.id] if c.ligacao == "obj"), None)
+                    if obj is not None:
+                        ev.agente = self._texto(self._sub(obj, filhos, ("acl", "acl:relcl")), por_id)
+                        ev.agente_nucleo = sem_acento(obj.lema)
+            saida.append(ev)
         return saida
 
     def evento_pergunta(self, texto):
@@ -129,7 +154,10 @@ class Leitor:
             return None
         por_id = {p.id: p for p in palavras}
         filhos = self._filhos(palavras)
-        no = (next((p for p in palavras if p.classe == "VERB"), None)
+        verbos = [p for p in palavras if p.classe == "VERB"]
+        dizer = ("falar", "dizer", "contar", "achar", "lembrar", "pensar", "ser")
+        uteis = [p for p in verbos if p.lema.lower() not in dizer]
+        no = ((uteis or verbos or [None])[0]
               or next((p for p in palavras if p.pai == 0), None))
         return self._evento(no, filhos, por_id) if no else None
 
@@ -137,7 +165,10 @@ class Leitor:
         ev = Evento()
         ev.acao, ev.verbo = no.lema.lower(), no.forma
         subordinadas = ("advcl", "conj", "cc", "punct", "parataxis")
-        ev.texto = self._texto(self._sub(no, filhos, subordinadas + ("mark",)), por_id)
+        ids = self._sub(no, filhos, subordinadas + ("mark",))
+        ev.texto = self._texto(ids, por_id)
+        ev.palavras = [por_id[i] for i in ids if por_id[i].ligacao != "punct"]
+        ev.nucleo_objeto = ""
         for f in filhos[no.id]:
             lig = f.ligacao
             if lig in ("nsubj", "nsubj:pass", "csubj"):
@@ -146,6 +177,7 @@ class Leitor:
                 ev.primeira_pessoa = sem_acento(f.forma) in ("eu", "nos") or ev.agente.lower() == "a gente"
             elif lig == "obj":
                 ev.objeto = self._texto(self._sub(f, filhos, subordinadas), por_id)
+                ev.nucleo_objeto = f.lema.lower()
             elif lig in ("obl", "obl:agent", "advmod", "nmod:tmod"):
                 trecho = self._texto(self._sub(f, filhos, subordinadas), por_id)
                 if sem_acento(f.forma) in ("nao", "nunca", "jamais"):
@@ -170,14 +202,16 @@ class Leitor:
                     ev.relacoes[tipo] = self._evento(f, filhos, por_id)
         if not ev.agente:
             # Sujeito oculto de primeira pessoa: "viajei", "esqueci".
-            v = sem_acento(no.forma)
-            ev.primeira_pessoa = v.endswith("ei") or (v.endswith("i") and len(v) > 3 and
-                                                      no.lema.endswith(("er", "ir")) and v != no.lema)
+            from presenca import _primeira_pessoa
+            ev.primeira_pessoa = _primeira_pessoa(no)
         return ev
 
 
 # ---------------------------------------------------------------------------
 # Perguntas sobre o que foi contado
+
+_OPINIAO = re.compile(r"(?:e )?(?:por que (?:voce acha|sera|tu acha)(?: que)?|o que (?:voce acha|sera) que|"
+                      r"qual (?:sera|voce acha que (?:e|foi)) o motivo)\b")
 
 _PERGUNTA = [
     ("causa", re.compile(r"(?:e )?(?:por que|porque|pq|por qual motivo|qual (?:foi )?o motivo de)\b")),
@@ -231,7 +265,8 @@ class MemoriaRelatos:
         if not self.eventos or not self.leitor.disponivel:
             return None
         n = sem_acento(pergunta).strip(" ?!.")
-        tipo = next((t for t, padrao in _PERGUNTA if padrao.match(n)), None)
+        opiniao = bool(_OPINIAO.match(n))
+        tipo = "causa" if opiniao else next((t for t, padrao in _PERGUNTA if padrao.match(n)), None)
         if tipo is None:
             return None
         condicao = None
@@ -240,6 +275,10 @@ class MemoriaRelatos:
             condicao = m.group(1)
         qe = self.leitor.evento_pergunta(pergunta)
         if qe is None:
+            return None
+        # Preferências e nome têm memória própria no diálogo (com correção
+        # e negação); a memória de relatos não responde por elas.
+        if any(_casa_verbo(qe.acao, p) or _casa_verbo(qe.verbo, p) for p in PREFERENCIAS):
             return None
         verbo_q = qe.acao
         # "o que X fez?" pergunta pela ação; o verbo genérico não precisa casar.
@@ -282,21 +321,42 @@ class MemoriaRelatos:
         if not candidatos:
             return None
         _, _, ev, frase = max(candidatos, key=lambda c: (c[0], c[1]))
+        if opiniao and "causa" not in ev.relacoes:
+            return self._inferir(ev, frase), ev
         return self._resposta(tipo, ev, frase, condicao), ev
+
+    def _inferir(self, ev, frase):
+        """Quarto nível de saber: o provável. Só a partir de noções (para que
+        serve o objeto) ou do que aconteceu junto; sempre marcado."""
+        try:
+            from conversa_cotidiana import nocoes
+            base = nocoes()
+        except Exception:
+            base = None
+        if base is not None:
+            for alvo in (ev.objeto, ev.nucleo_objeto, ev.texto):
+                for nocao in base.encontrar(alvo or ""):
+                    if nocao.get("para"):
+                        return ("Você não me disse o motivo, mas provavelmente foi para %s. "
+                                "É só um palpite pelo que eu sei de %s." % (nocao["para"], nocao["nome"]))
+        junto = ev.relacoes.get("quando")
+        if junto is not None:
+            return ("Você não me disse o motivo. Talvez tenha a ver com o que aconteceu junto: %s. "
+                    "Mas é só um palpite." % junto.texto)
+        return "Você não me disse o motivo, e eu não tenho pista suficiente para dar um palpite. O que você acha?"
 
     def _resposta(self, tipo, ev, frase, condicao):
         citar = "Você me contou: “%s”." % frase
         if condicao:
             return citar
+        voce = re.sub(r"^você ", "", self._voce(ev)) if ev.primeira_pessoa else self._voce(ev)
         if tipo == "causa":
             causa = ev.relacoes.get("causa")
             if causa is None:
-                return ("Você me contou que %s, mas não disse por quê." % self._oracao(ev)
-                        if not ev.primeira_pessoa else "Você me contou: “%s”, mas não disse por quê." % frase)
-            causa.texto = re.sub(r"^(?:porque|pois|ja que|já que|visto que)\s+", "", causa.texto, flags=re.I)
-            if causa.primeira_pessoa or ev.primeira_pessoa:
-                return "Você me contou que foi porque “%s”." % causa.texto
-            return "Você me contou que foi porque %s." % _segunda_pessoa(causa.texto)
+                return "Você me contou que %s, mas não disse por quê." % voce
+            texto_causa = self._voce(causa)
+            texto_causa = re.sub(r"^(?:porque|pois|ja que|já que|visto que)\s+", "", texto_causa, flags=re.I)
+            return "Você me contou que foi porque %s." % texto_causa
         if tipo == "agente":
             if not ev.agente:
                 return citar
@@ -309,9 +369,19 @@ class MemoriaRelatos:
             return ("Você me contou que foi %s." % ev.lugar[0]) if ev.lugar else (
                 "Você me contou isso, mas não disse onde: “%s”." % frase)
         # objeto / o que fez
-        if ev.primeira_pessoa:
-            return citar
-        return "Você me contou que %s." % self._oracao(ev)
+        return "Você me contou que %s." % voce
+
+    def _voce(self, ev):
+        """Oração do evento na voz de "você"; cita entre aspas se não der."""
+        if ev.palavras:
+            from presenca import para_voce
+            texto = para_voce(ev.palavras)
+            if texto:
+                texto = re.sub(r"\s+([,.;:!?])", r"\1", texto)
+                for (a, b), junto in self.leitor.contracoes_inv.items():
+                    texto = re.sub(r"\b%s %s\b" % (a, b), junto, texto)
+                return texto[0].lower() + texto[1:]
+        return "“%s”" % ev.texto
 
     @staticmethod
     def _oracao(ev):

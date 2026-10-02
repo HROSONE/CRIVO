@@ -79,6 +79,7 @@ def avaliar(conjunto):
     dialogos_ok, falhas = 0, []
     for dialogo in dados["dialogos"]:
         bot, ok = Crivo(), True
+        bot.conversacao.sorteio.seed(20261002)
         for fala, esperado in dialogo["turnos"]:
             ident, resposta = bot.responder(fala)
             if not conferir_turno(esperado, ident, resposta):

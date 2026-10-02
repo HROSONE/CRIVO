@@ -32,6 +32,7 @@ def avaliar(conjunto):
     ok, falhas = 0, []
     for d in dados["dialogos"]:
         bot, passou = Crivo(), True
+        bot.conversacao.sorteio.seed(20261002)
         for fala, esperado in d["turnos"]:
             ident, resposta = bot.responder(fala)
             if not conferir(esperado, ident, resposta):
