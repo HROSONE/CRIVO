@@ -360,3 +360,19 @@ Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, 
 - exposição toxicológica não diagnostica SUD;
 - retorno ao uso não deve ser interpretado moralmente;
 - separar produto, dose, via, PK/PD, aprendizagem, contexto e prejuízo.
+
+
+## Aprofundamento 12 — neurocognição, delirium e demências
+
+| Documento | Escopo |
+| --- | --- |
+| [Neurocognição, delirium, demências e biomarcadores](2026-10-02-neurocognicao-delirium-demencias-biomarcadores.md) | domínios/testagem, delirium, mild/major NCD, Alzheimer, Lewy, FTD/PPA, vascular, causas médicas, FCD, função/capacidade, biomarcadores, tratamentos, prevenção e controvérsias |
+
+### Regras adicionadas
+- queixa subjetiva, desempenho objetivo, declínio e incapacidade funcional são variáveis distintas;
+- screening cognitivo não é diagnóstico etiológico;
+- delirium é síndrome aguda/flutuante que exige busca etiológica;
+- biomarcador positivo não equivale automaticamente a demência clínica;
+- diagnóstico de demência não elimina automaticamente capacidade decisória;
+- memória prejudicada não identifica Alzheimer;
+- depressão com déficit cognitivo não deve ser descartada como “pseudodemência” reversível por definição.
