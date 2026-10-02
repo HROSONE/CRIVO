@@ -755,7 +755,8 @@ def _refletir(texto, bot, base, achadas):
     aberturas = tuple(v.sorteio.sample(livres, min(2, len(livres))))
     nome_nocao = principal["nome"]
     usar_nocao = bool(achadas and nome_nocao not in perfil.nocoes_usadas and not (causa and eco))
-    pergunta = principal.get("pergunta")
+    from nocoes import pergunta_para
+    pergunta = pergunta_para(principal, texto) if principal.get("pergunta") else None
     if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas \
             or not tempo_compativel(texto, pergunta):
         opcoes = [p for p in CONTINUAR[tom] if p not in v.usadas[-12:]] or list(CONTINUAR[tom])
@@ -823,7 +824,8 @@ def relato_com_presenca(texto, bot, resposta):
         perfil.nocoes_usadas.add(principal["nome"])
     resto = m.group(2).strip()
     if not resto or resto.startswith(("Quer me contar mais", "Quer falar do que aconteceu")):
-        pergunta = principal.get("pergunta") if principal else None
+        from nocoes import pergunta_para
+        pergunta = pergunta_para(principal, texto) if principal and principal.get("pergunta") else None
         if not pergunta or pergunta in perfil.perguntas_usadas:
             pergunta = v.escolher(CONTINUAR[tom])
         perfil.perguntas_usadas.add(pergunta)

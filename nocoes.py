@@ -46,6 +46,30 @@ _RECUSA = re.compile(r"\b(?:dose|dosagem|remedio|medicamento|diagnostico|tratame
                      r"depressao|doenca|doencas|nao|nunca|sem)\b")
 
 
+# Relato de algo que já aconteceu: verbo no passado ("fiz", "pedi", "foi",
+# "comprou"). Gosto ("adoro pizza"), plano ("vou fazer") e fragmento
+# ("principalmente massa") não são.
+_PASSADO = re.compile(
+    r"\b(?!(?:eu|seu|meu|teu|sou|vou|estou|dou|ou|ceu|chapeu|museu|pneu)\b)\w{2,}(?:ei|ou|eu|iu)\b|"
+    r"\b(?:fui|fiz|tive|vi|vim|dei|pus|quis|comi|bebi|dormi|perdi|corri|li|cai|sai|ouvi|senti|abri|"
+    r"assisti|decidi|subi|pedi|foi|fez|teve|viu|veio|disse|trouxe|estava|tava|era|tinha)\b")
+_GOSTO = re.compile(r"\b(?:gosto|adoro|amo|odeio|detesto|prefiro|curto|queria|quero|gostaria)\b")
+
+
+def evento_passado(texto):
+    n = normalizar(texto)
+    return bool(_PASSADO.search(n)) and not _GOSTO.search(n)
+
+
+def pergunta_para(nocao, texto):
+    """A pergunta específica ("Fez com qual molho?") supõe que algo
+    aconteceu; fora de um relato assim, vale a pergunta aberta."""
+    geral = nocao.get("pergunta_geral")
+    if geral and not evento_passado(texto):
+        return geral
+    return nocao["pergunta"]
+
+
 class NocoesPT:
     def __init__(self, caminho=CAMINHO):
         try:
@@ -126,7 +150,7 @@ class NocoesPT:
         partes = [sorteio.choice(self._ABERTURA[tom]), principal["costuma"]]
         if tom == "saude" and principal["tipo"] != "saude":
             partes.append("Espero que melhore logo.")
-        partes.append(principal["pergunta"])
+        partes.append(pergunta_para(principal, texto))
         return principal, " ".join(partes)
 
     def continuar(self, texto, anterior, sorteio):

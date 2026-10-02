@@ -55,6 +55,27 @@ class TestesCatraca(unittest.TestCase):
                 self.conferir(conjunto)
 
 
+class TestesSuposicao(unittest.TestCase):
+    def test_catraca(self):
+        from scripts.avaliar_suposicao import avaliar
+        limiares = json.loads((Path(__file__).parent / "avaliacoes" / "suposicao_v1" / "limiares.json")
+                              .read_text(encoding="utf-8"))
+        for conjunto in ("dev", "retido"):
+            with self.subTest(conjunto=conjunto):
+                resumo, falhas = avaliar(conjunto)
+                self.assertGreaterEqual(resumo["acertos"], limiares[conjunto]["acertos_min"],
+                                        "(retido: detalhes não exibidos)" if conjunto == "retido" else falhas)
+
+    def test_pergunta_aberta_fora_de_relato(self):
+        from nocoes import NocoesPT, evento_passado, pergunta_para
+        pizza = NocoesPT().por_nome("pizza")
+        self.assertTrue(evento_passado("pedi uma pizza hoje"))
+        self.assertFalse(evento_passado("eu adoro pizza"))
+        self.assertFalse(evento_passado("amanhã vou pedir pizza"))
+        self.assertEqual(pergunta_para(pizza, "pedi uma pizza hoje"), pizza["pergunta"])
+        self.assertEqual(pergunta_para(pizza, "eu adoro pizza"), pizza["pergunta_geral"])
+
+
 class TestesNocoes(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

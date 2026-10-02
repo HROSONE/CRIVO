@@ -16,7 +16,11 @@ import re
 from functools import lru_cache
 from pathlib import Path
 
-PASTA = Path(__file__).resolve().parent / "artefatos" / "linguagem_profunda"
+_ARTEFATOS = Path(__file__).resolve().parent / "artefatos"
+# Pontuador treinado para isso (notebooks/treinar_pontuador_colab.ipynb), se
+# já foi aprovado e publicado; senão, o transformer de linguagem do projeto.
+PASTA = (_ARTEFATOS / "pontuador_pt" if (_ARTEFATOS / "pontuador_pt" / "pesos_numpy.npz").exists()
+         else _ARTEFATOS / "linguagem_profunda")
 
 # Pré-tokenização do BPE em bytes (padrão GPT-2), com letras = [^\W\d_].
 _PRE = re.compile(r"""'s|'t|'re|'ve|'m|'ll|'d| ?[^\W\d_]+| ?\d+| ?[^\s\w]+|\s+(?!\S)|\s+|_+""")
