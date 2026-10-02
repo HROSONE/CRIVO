@@ -165,6 +165,9 @@ class Conversacao:
         self.curiosidades_usadas = set()
         self.sorteio = _random.Random()
         self.ultima_resposta_texto = None
+        self.quiz = None
+        self.quiz_escopo = None
+        self.quiz_acertou = None
         from raciocinio_dialogo import RaciocinioDialogo
         self.raciocinio_dialogo = RaciocinioDialogo()
         from geracao_conversa import GeracaoConversa
@@ -424,6 +427,12 @@ class Conversacao:
                 self.ultimo_quadro_neural = None
                 if informativo is not None and informativo.operacao == "consulta":
                     return None
+            # Um relato que é exatamente o tema de uma resposta da base
+            # ("minha planta tá com folhas amarelas") vai para a base.
+            ranking = bot._ranking(texto)
+            if (ranking and ranking[0][0] >= 1.4
+                    and bot._base_cobre(texto, normalizar(texto), None, tolerancia=1)):
+                return None
             dialogo = self.dialogo.preparar(texto, bot, self)
             if dialogo is not None:
                 return dialogo

@@ -205,6 +205,9 @@ class Crivo:
         self.ultimos = []     # ranking da última pergunta, para "mais"
         self.pos_ultimo = 0
         self.historico = []
+        # Último conceito com ficha de que a conversa tratou ("ele", "lá"…).
+        self.assunto_conversa = None
+        self.linguagem_conversa = None
         # Última resposta efetivamente proferida; o servidor HTTP
         # reconstrói esse estado pelo replay seguro do histórico.
         self.ultima_resposta_mostrada = None
@@ -714,9 +717,20 @@ class Crivo:
                 return {self.compositor._raiz(w) for w in re.findall(r"[a-z0-9]+", normalizar(t))
                         if w not in STOP and len(w) > 1}
             evidencia = raizes(" ".join(entrada["perguntas"]) + " " + entrada["resposta"])
-            nome = raizes(self.compositor.itens[assunto]["nome"]) if assunto else set()
+            # O assunto precisa ser o TEMA da entrada (suas perguntas), não uma
+            # menção de passagem na resposta ("…a volta no Sol" em bissexto).
+            # Para a resposta antiga vencer uma ficha que tem o fato
+            # (tolerância 0), o nome completo do assunto precisa estar nas
+            # perguntas dela; para evitar a recusa, basta um nome ("Lua").
+            perguntas = normalizar(" ".join(entrada["perguntas"]))
+            if assunto is None:
+                tema_ok = True
+            elif tolerancia == 0:
+                tema_ok = raizes(self.compositor.itens[assunto]["nome"]) <= raizes(perguntas)
+            else:
+                tema_ok = self.compositor._menciona_conceito(assunto, perguntas)
             pergunta = raizes(texto)
-            return bool(pergunta) and nome <= evidencia and len(pergunta - evidencia) <= tolerancia
+            return bool(pergunta) and tema_ok and len(pergunta - evidencia) <= tolerancia
         exigidos = set(tokens(self.compositor.itens[assunto]["nome"] if assunto else texto))
         return bool(exigidos) and exigidos <= evidencia
 
@@ -941,8 +955,101 @@ class Crivo:
                         self.historico[-1]["id"] = ident
         return resultado, origem
 
+    _PRONOMES = re.compile(r"(?<![\w])(?:(n|d)(ele|ela|eles|elas)|(ele|ela)|(lá))(?![\w])", re.IGNORECASE)
+
+    def _resolver_pronome(self, texto):
+        """Troca "ele/ela/lá/nele/dela…" pelo assunto da conversa.
+
+        Só em perguntas, e só quando o turno anterior tratou de um conceito
+        com ficha. "Ele" sem preposição não é trocado se a pergunta já cita
+        outro conceito ("a Terra está nela?" troca só "nela").
+        """
+        if not self.assunto_conversa or self.assunto_conversa not in self.compositor.itens:
+            return texto
+        n = normalizar(texto)
+        if not ("?" in texto or re.match(r"(?:e |o que|como|quant|qual|quais|por ?que|onde|quando|"
+                                         r"tem |ha |existe|da pra|dá pra|e possivel)", n)):
+            return texto
+        nome = self.compositor.itens[self.assunto_conversa]["nome"]
+        outro = self.compositor.assunto_mencionado(texto)
+
+        # "lá e aqui" contrasta lugares; não retoma o assunto.
+        contraste = bool(re.search(r"\b(?:aqui|ca)\b", n))
+
+        def troca(m):
+            prep, pron, sujeito, la = m.groups()
+            if la:
+                return m.group(0) if contraste else "em " + nome
+            if prep:
+                return ("em " if prep.lower() == "n" else "de ") + nome
+            return m.group(0) if outro else nome
+        novo = self._PRONOMES.sub(troca, texto)
+        return novo
+
+    _LINGUAGENS = (("python", re.compile(r"\bpython\b", re.I)),
+                   ("javascript", re.compile(r"\b(?:javascript|js)\b", re.I)))
+    _TERMO_PROGRAMACAO = re.compile(
+        r"\b(?:loop|lacos?|la[cç]os?|repeti[cç][aã]o|if|else|condicional|fun[cç](?:[aã]o|[oõ]es)|"
+        r"variave(?:l|is)|vari[aá]ve(?:l|is)|for|while|listas?|arrays?|dicion[aá]rios?|classes?|"
+        r"objetos?|import|m[oó]dulos?|try|except|exce[cç](?:[aã]o|[oõ]es)|print|input)\b", re.I)
+
+    def _completar_linguagem(self, texto):
+        """“como faço um loop?” depois de falar de Python vira
+        “como faço um loop em python?”. Só vale para termos de programação."""
+        if any(p.search(texto) for _, p in self._LINGUAGENS):
+            return re.sub(r"\bloops?\b", "laço de repetição", texto, flags=re.I)
+        if self.linguagem_conversa and self._TERMO_PROGRAMACAO.search(texto):
+            texto = re.sub(r"\bloops?\b", "laço de repetição", texto, flags=re.I)
+            return texto.rstrip(" ?!.") + " em " + self.linguagem_conversa + ("?" if "?" in texto else "")
+        return texto
+
+    def _herdar_pergunta(self, texto):
+        """“e em Marte?” logo após “quanto tempo dura um dia em Vênus?”
+        (respondida por uma ficha) vira a mesma pergunta sobre Marte."""
+        m = re.fullmatch(r"\s*e (?:(?:em|no|na|de|do|da|sobre|com|o|a|os|as) )?(.+?)\s*\??\s*", texto, re.I)
+        anterior = self.historico[-1] if self.historico else {}
+        quadro = anterior.get("quadro_factual") or {}
+        if not m or anterior.get("mecanismo") != "busca_factual" or not quadro.get("assunto") \
+                or quadro.get("intencao") == "propriedade" and not quadro.get("pistas"):
+            return texto
+        c = self.compositor
+        novo = c.aliases_busca.get(re.sub(r"^(?:o|a|os|as) ", "", normalizar(m.group(1))))
+        velho = quadro["assunto"]
+        if novo is None or novo == velho or novo not in c.itens:
+            return texto
+        pergunta = normalizar(anterior.get("pergunta", ""))
+        for alias, destino in sorted(c.aliases_busca.items(), key=lambda a: -len(a[0])):
+            if destino == velho and re.search(c._padrao_alias(alias, velho), pergunta):
+                return re.sub(c._padrao_alias(alias, velho), m.group(1).strip(), pergunta, count=1) + "?"
+        return texto
+
     def responder(self, texto):
         """Contexto implícito de um turno e retomada explícita da conversa."""
+        original_usuario = texto
+        texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
+        try:
+            return self._responder_turno(texto)
+        finally:
+            for nome, padrao in self._LINGUAGENS:
+                if padrao.search(texto):
+                    self.linguagem_conversa = nome
+            self._atualizar_assunto(texto)
+            if texto != original_usuario and self.historico:
+                self.historico[-1].setdefault("pronome_resolvido", texto)
+
+    def _atualizar_assunto(self, texto):
+        ident = self.ultimo_turno.get("id", "") if self.ultimo_turno else ""
+        if ident.startswith(("social:", "conversa:", "duvida", "vazio", "mais:")):
+            return
+        ctx = self.contexto_textual
+        if ctx is not None and len(ctx.temas) == 1 and ctx.temas[0] in self.compositor.itens:
+            self.assunto_conversa = ctx.temas[0]
+            return
+        mencionado = self.compositor.assunto_mencionado(texto)
+        if mencionado is not None:
+            self.assunto_conversa = mencionado
+
+    def _responder_turno(self, texto):
         preparacao = self.conversacao.preparar(texto, self)
         registro_anterior = self.historico[-1] if self.historico else None
         anterior = self.ultima_resposta_mostrada
@@ -1226,11 +1333,15 @@ class Crivo:
             # cobre TODAS as palavras da pergunta ("Por que Plutão não é
             # mais planeta?"). Sem essa cobertura, procurar o fato completo.
             assunto_ficha = self.compositor.assunto_mencionado(texto)
-            if (self._base_cobre(texto, n, assunto_ficha, tolerancia=1) if assunto_ficha
+            busca = self._buscar_fatos(texto) if assunto_ficha else None
+            # Ficha com o fato pedido vence a resposta antiga aproximada.
+            if busca is not None and not self._base_cobre(texto, n, assunto_ficha, tolerancia=0):
+                composicao = busca
+            elif (self._base_cobre(texto, n, assunto_ficha, tolerancia=1) if assunto_ficha
                     else self._base_cobre(texto, n)):
                 composicao = None
             else:
-                composicao = self._buscar_fatos(texto) or composicao
+                composicao = busca or self._buscar_fatos(texto) or composicao
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
             self.esclarecimento = None
