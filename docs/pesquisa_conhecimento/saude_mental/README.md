@@ -394,3 +394,23 @@ Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, 
 - IA deve separar discriminação, calibração, utilidade e dano;
 - “human in the loop” não é salvaguarda suficiente sem autoridade/competência/tempo;
 - conhecimento documental não concede autoridade clínica ou legal.
+
+
+## Aprofundamento 14 — neuroanatomia e início da auditoria científica
+
+| Documento | Escopo |
+| --- | --- |
+| [Neuroanatomia funcional, redes e sistemas](2026-10-02-neuroanatomia-funcional-redes-sistemas.md) | córtex/subcórtex, redes, conectoma, gradientes, corpo-cérebro, memória, ameaça/recompensa, desenvolvimento, perturbação causal e tradução |
+| [Auditoria científica transversal fonte→afirmação](2026-10-02-auditoria-cientifica-transversal-fonte-afirmacao.md) | classes de claim, níveis S0–S4, volatilidade V0–V4, auditoria causal, replicabilidade, tratamentos, diagnóstico, população e proveniência |
+
+### Estado de cobertura após auditoria
+- cobertura temática: **ampla**;
+- profundidade conceitual: **alta em múltiplos eixos**;
+- rastreabilidade sentença→fonte: **insuficiente**;
+- quantificação sistemática de efeitos: **insuficiente**;
+- auditoria de atualidade: **parcial**;
+- replicabilidade explicitamente registrada: **parcial**;
+- critério de conclusão doutoral: **NÃO ATINGIDO**.
+
+### Nova prioridade
+Não maximizar número de documentos. Priorizar ledger de proveniência para claims materiais, começando por farmacologia, tratamentos, biomarcadores/neurociência causal, epidemiologia e classificação diagnóstica.
