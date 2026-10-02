@@ -629,12 +629,15 @@ class CompositorTextual:
             if tamanho == "simples":
                 modo = "simples"
             return self.compor(ids, modo, limite=limite)
-        # Antes do pedido generico "explique X", dar chance aos aspectos
-        # tipados. "Explique a origem de X" deve recuperar formacao, nao
-        # simplesmente as primeiras frases sobre X.
-        consolidada = self._resposta_consolidada(n, contexto)
-        if consolidada is not None:
-            return consolidada
+        # Antes do pedido generico "explique X", tratar SOMENTE pedidos
+        # explicitos de origem/formacao. Outros mecanismos continuam tendo
+        # prioridade no cortex associativo e nos provadores existentes.
+        if re.fullmatch(
+                r"(?:me )?(?:explique|explicar|conte|fale|descreva) "
+                r"(?:a )?(?:origem|formacao) (?:de|do|da|dos|das) .+", n):
+            consolidada = self._resposta_consolidada(n, contexto)
+            if consolidada is not None:
+                return consolidada
         m = re.fullmatch(r"(?:me )?(fale|falar|conte|explique|explicar|resuma|resumir)(?: sobre)? (.+)", n)
         if m:
             ids, faltam = self._temas(m.group(2))
