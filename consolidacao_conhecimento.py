@@ -91,20 +91,22 @@ class PlanoConsolidacao(NamedTuple):
 class ConsolidadorConhecimento:
     """Recuperador conservador sobre TODAS as fichas do compositor."""
 
-    def __init__(self, itens, aliases, tokenizador):
+    def __init__(self, itens, aliases, tokenizador, permitidos=None):
         self.itens = itens
         self.tokenizador = tokenizador
+        self.permitidos = set(itens) if permitidos is None else set(permitidos)
 
         # Indice de n-gramas: evita testar centenas de regexes para cada
         # fato sempre que um Crivo e criado. Colisoes introduzidas pela
         # normalizacao (por exemplo pontuacao tecnica) sao descartadas.
         candidatos_alias = {}
         for alias, ids in aliases.items():
-            if len(ids) != 1 or not alias:
+            ids_validos = set(ids) & self.permitidos
+            if len(ids_validos) != 1 or not alias:
                 continue
             chave = normalizar(alias)
             if chave:
-                candidatos_alias.setdefault(chave, set()).update(ids)
+                candidatos_alias.setdefault(chave, set()).update(ids_validos)
         self.aliases = {a: next(iter(ids)) for a, ids in candidatos_alias.items()
                         if len(ids) == 1}
         self.tamanhos_alias = tuple(sorted(
@@ -113,6 +115,8 @@ class ConsolidadorConhecimento:
         unidades_brutas = []
         df = Counter()
         for conceito, item in itens.items():
+            if conceito not in self.permitidos:
+                continue
             nomes = [item.get("nome", "")] + list(item.get("aliases", []))
             tokens_nome = set()
             for nome in nomes:
@@ -302,6 +306,11 @@ class ConsolidadorConhecimento:
             return None
         n = normalizar(pergunta)
         if BLOQUEIOS.search(n):
+            return None
+        # Relacoes estruturadas pertencem ao grafo/provadores dedicados.
+        if re.search(r"\b(?:se relaciona|se relacionam|relacao entre|ligacao entre|"
+                     r"tem em comum|semelhanca entre|faz parte|orbita|orbitam|"
+                     r"e um tipo de|e uma especie de)\b", n):
             return None
 
         entidades = list(self._entidades(pergunta))
