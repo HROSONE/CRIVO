@@ -307,3 +307,17 @@ Prioridades seguintes:
 Nenhuma explicação biológica deve saltar diretamente de associação molecular para transtorno. Registrar os elos **molécula → célula → circuito → computação/processo psicológico → fenótipo → desfecho clínico**, marcando quais elos têm evidência causal e quais são inferidos.
 
 Nenhuma afirmação quantitativa deve ser armazenada sem população, desenho, medida, efeito/incerteza e contexto de generalização quando esses dados estiverem disponíveis.
+
+
+## Aprofundamento 8 — população e psicoterapias monográficas
+
+| Documento | Escopo |
+| --- | --- |
+| [Epidemiologia, prevenção e determinantes sociais](2026-10-02-epidemiologia-prevencao-determinantes-sociais-servicos.md) | incidência/prevalência, risco absoluto/relativo, PAF, adversidade, desigualdade, cultura, prevenção, screening, treatment gap, stepped/collaborative care, economia, implementação e equidade |
+| [Psicoterapias comparativas](2026-10-02-psicoterapias-cbt-ba-dbt-act-ipt-psicodinamica.md) | CBT, BA, DBT, ACT, IPT e psicodinâmica: componentes, mecanismos propostos, especificidade, fidelity/competence, fatores comuns, danos e personalização |
+
+### Regra populacional
+Não individualizar determinantes estruturais e não converter risco populacional em destino individual. Toda associação epidemiológica importante deve registrar risco absoluto quando disponível, temporalidade, confundimento e modificadores.
+
+### Regra de psicoterapia
+O nome da escola não é mecanismo. Armazenar separadamente **manual/componentes → teoria → alvo → target engagement/mediação → eficácia → efetividade → danos → população/comparador**.
