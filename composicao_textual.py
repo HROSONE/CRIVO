@@ -84,6 +84,12 @@ class CompositorTextual:
         from cortex_associativo import CortexAssociativo
         from crivo import tokens
         self.cortex = CortexAssociativo(self.itens, self.aliases, self.fontes, tokens)
+        # Consolida TODAS as fichas editoriais do compositor. Ao contrario
+        # do cortex associativo estreito, esta camada cobre definicoes,
+        # mecanismos, formacao, comparacoes, evidencias e limites, mas
+        # continua proibida de criar fatos ou aprender com o chat.
+        from consolidacao_conhecimento import ConsolidadorConhecimento
+        self.consolidador = ConsolidadorConhecimento(self.itens, self.aliases, tokens)
 
     def _resposta_associativa(self, pergunta):
         """Fallback restrito: evidencia forte de UM fato tipado, mesmo assunto."""
@@ -94,6 +100,24 @@ class CompositorTextual:
         # contexto e proveniencia. Nenhum preenchimento probabilistico.
         return self.compor((ativacao.conceito,), "explicacao", selecionados=(
             (ativacao.conceito, ativacao.indice),), origem="conhecimento")
+
+    def _resposta_consolidada(self, pergunta, contexto=None):
+        """Recupera fatos cadastrados e, quando possivel, encadeia um elo."""
+        temas_contexto = contexto.temas if contexto is not None else ()
+        plano = self.consolidador.buscar(pergunta, temas_contexto)
+        if plano is None:
+            return None
+        _, resposta, ctx = self.compor(
+            plano.temas, "explicacao", selecionados=plano.selecionados,
+            origem="consolidacao")
+        if ctx is None:
+            return None
+        if len(plano.selecionados) > 1:
+            resposta = ("Juntando apenas fatos já cadastrados e ligados entre si:\n\n" +
+                        resposta)
+        provas = tuple(("consolidacao", p) for p in plano.provas)
+        ctx = ctx._replace(texto=resposta, origem="consolidacao", provas=provas)
+        return "conhecimento:consolidado", resposta, ctx
 
     def _adicionar(self, item):
         self.itens[item["id"]] = item
@@ -485,6 +509,9 @@ class CompositorTextual:
                 lembranca = self._resposta_associativa(n)
                 if lembranca is not None:
                     return lembranca
+                consolidada = self._resposta_consolidada(n, contexto)
+                if consolidada is not None:
+                    return consolidada
             return consulta_mundo
         comparacao_geral = re.fullmatch(r"qual (?:e )?a diferenca entre (.+?) e (.+)", n)
         if comparacao_geral:
@@ -612,6 +639,9 @@ class CompositorTextual:
         lembranca = self._resposta_associativa(n)
         if lembranca is not None:
             return lembranca
+        consolidada = self._resposta_consolidada(n, contexto)
+        if consolidada is not None:
+            return consolidada
         # Nomes acrescentados ao currículo também podem aparecer no meio
         # de consultas legadas: "qual planeta é maior?", "a Lua orbita...".
         # Só bloquear pedidos explicitamente factuais *deste* motor; para
