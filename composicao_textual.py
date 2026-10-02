@@ -54,6 +54,7 @@ class CompositorTextual:
         self.mundo_ids = set()
         self.ultimo_quadro = None
         self.aliases_busca_extra = {}
+        self.fichas_busca = set()
         from vetores_palavras import VetoresPalavras
         self.vetores = VetoresPalavras()
         self.ligacoes_mundo = []
@@ -102,7 +103,7 @@ class CompositorTextual:
         # fontes entre seus significados; preferências explícitas valem.
         self.aliases_busca = {}
         for alias, ids in self.aliases.items():
-            fichas = ids & self.expandidos
+            fichas = ids & (self.expandidos | self.fichas_busca)
             if len(fichas) == 1:
                 self.aliases_busca[alias] = next(iter(fichas))
         self.aliases_busca.update(self.aliases_busca_extra)
@@ -143,6 +144,7 @@ class CompositorTextual:
             if (not isinstance(item, dict) or not isinstance(item.get("id"), str)
                     or not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", item["id"])
                     or item["id"] in self.itens or item["id"] in self.expandidos
+                    or item["id"] in self.fichas_busca
                     or not isinstance(item.get("nome"), str) or not tema(item["nome"])
                     or ("id_resposta" in item and item["id_resposta"] not in ids_base)
                     or ("area" in item and (not isinstance(item["area"], str)
@@ -172,14 +174,15 @@ class CompositorTextual:
                     fatos_por_aspecto.add(chave)
             if item["fatos"][0]["papel"] != "definicao":
                 raise ValueError("O primeiro fato deve definir o conceito")
-            self.expandidos.add(item["id"])
             if item.get("somente_busca") is True:
                 # Nome já usado por uma entrada anterior: a ficha atende à
                 # busca factual sem tornar o nome ambíguo nas definições.
                 self.itens[item["id"]] = item
+                self.fichas_busca.add(item["id"])
                 for nome in [item["nome"]] + item.get("aliases", []):
                     self.aliases_busca_extra.setdefault(tema(nome), item["id"])
                 continue
+            self.expandidos.add(item["id"])
             self._adicionar(item)
         # Uma decisão editorial explícita pode substituir um apelido
         # genérico antigo (galáxia -> Via Láctea), sem escolher por ordem.
@@ -194,7 +197,7 @@ class CompositorTextual:
             if pref.get("somente_busca") is True:
                 # Só a busca factual passa a preferir a ficha; definições,
                 # elipses e referências continuam com a entrada anterior.
-                if (not alias or pref.get("destino") not in self.expandidos
+                if (not alias or pref.get("destino") not in self.expandidos | self.fichas_busca
                         or alias not in self.aliases or alias in self.aliases_busca_extra):
                     raise ValueError("Preferência de busca sem nome existente")
                 self.aliases_busca_extra[alias] = pref["destino"]
@@ -557,10 +560,9 @@ class CompositorTextual:
         """Um único salto: a definição de UM outro conceito com ficha que o
         fato escolhido cita por nome inteiro. Nunca um conceito parecido."""
         texto = normalizar(self.itens[par[0]]["fatos"][par[1]]["texto"])
-        citados = {next(iter(ids)) for alias, ids in self.aliases.items()
-                   if len(ids) == 1 and next(iter(ids)) in self.expandidos
-                   and next(iter(ids)) not in excluidos and len(alias) >= 4
-                   and re.search(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto)}
+        citados = {ident for alias, ident in self.aliases_busca.items()
+                   if ident not in excluidos and len(alias) >= 4
+                   and re.search(self._padrao_alias(alias, ident), texto)}
         if len(citados) != 1:
             return None
         citado = next(iter(citados))
@@ -568,7 +570,7 @@ class CompositorTextual:
         if definicao.get("papel") != "definicao":
             return None
         # O elo precisa acrescentar algo ligado ao fato, não só repetir o nome.
-        nomes = {r for a, ids in self.aliases.items() if citado in ids for r in self._raizes(a)}
+        nomes = {r for a, ident in self.aliases_busca.items() if ident == citado for r in self._raizes(a)}
         comuns = ({r for r in self._raizes(texto) if len(r) >= 5} &
                   {r for r in self._raizes(definicao["texto"]) if len(r) >= 5}) - nomes
         if len(comuns) < 2:
@@ -725,7 +727,7 @@ class CompositorTextual:
             if faltam:
                 if not aproximar or len(faltam) != 1 or len(originais[faltam[0]]) < 4:
                     return False
-                palavras = [w for w in normalizar(fato_texto).replace("-", " ").split()
+                palavras = [w for w in re.findall(r"[a-z]+", normalizar(fato_texto))
                             if len(w) >= 4 and w not in self._FORMA_PERGUNTA]
                 par = self.vetores.mais_parecida(originais[faltam[0]], palavras, self.LIMIAR_VETOR)
                 if par is None:
@@ -753,7 +755,7 @@ class CompositorTextual:
             if not escolhidos:
                 # O assunto pode estar documentado na ficha de outro
                 # conceito ("Mercúrio e Vênus não têm satélites...").
-                escolhidos = [(e, i) for e in sorted(self.expandidos) if e != assunto
+                escolhidos = [(e, i) for e in sorted(self.expandidos | self.fichas_busca) if e != assunto
                               for i, f in enumerate(self.itens[e]["fatos"])
                               if casa(f["texto"], assunto)]
                 if len(escolhidos) > 3:
@@ -777,7 +779,7 @@ class CompositorTextual:
             genericos = {self._raiz(g) for g in self._NOMES_GENERICOS}
             if any(p not in genericos for p in raras):
                 pistas = [p for p in pistas if p not in genericos]
-            escolhidos = [(e, i) for e in sorted(self.expandidos)
+            escolhidos = [(e, i) for e in sorted(self.expandidos | self.fichas_busca)
                           for i, f in enumerate(self.itens[e]["fatos"]) if casa(f["texto"])]
             if not 1 <= len(escolhidos) <= 3:
                 return None
@@ -788,7 +790,7 @@ class CompositorTextual:
         if (quantidade or tempo) and assunto is not None and not any(
                 re.search(r"\d", self.itens[e]["fatos"][i]["texto"]) for e, i in escolhidos):
             # O valor pode estar na ficha de outro conceito que cita o assunto.
-            outros = [(e, i) for e in sorted(self.expandidos) if e != assunto
+            outros = [(e, i) for e in sorted(self.expandidos | self.fichas_busca) if e != assunto
                       for i, f in enumerate(self.itens[e]["fatos"])
                       if re.search(r"\d", f["texto"]) and casa(f["texto"], assunto)]
             if 1 <= len(outros) <= 2:

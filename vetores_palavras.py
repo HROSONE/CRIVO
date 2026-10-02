@@ -18,6 +18,9 @@ def _normalizar(palavra):
 
 
 class VetoresPalavras:
+    MINIMO_EQUIVALENTES = 0.45
+    MARGEM_MINIMA = 0.35
+
     def __init__(self, pasta=PASTA):
         self.indice = {}
         self.vetores = None
@@ -28,6 +31,17 @@ class VetoresPalavras:
         except (ImportError, OSError, ValueError):
             return
         if len(vocab) != len(vetores):
+            return
+        # Controle de qualidade do treino: pares equivalentes precisam ficar
+        # claramente mais próximos que pares aleatórios. Sem isso, desligado.
+        try:
+            controle = json.loads((Path(pasta) / "treino.json").read_text(encoding="utf-8"))["controle"]
+            equivalentes, aleatorios = controle["pares_equivalentes"], controle["pares_aleatorios"]
+        except (OSError, ValueError, KeyError, TypeError):
+            return
+        if (equivalentes is None or controle.get("pares_avaliados", 0) < 8
+                or equivalentes < self.MINIMO_EQUIVALENTES
+                or equivalentes - aleatorios < self.MARGEM_MINIMA):
             return
         self.indice = {p: i for i, p in enumerate(vocab)}
         self.vetores = vetores
