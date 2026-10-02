@@ -364,14 +364,9 @@ def responder(texto, bot):
         perfil.nomes[tema] = nome_proprio
         nocao_tema = nocoes().por_nome(tema)
         tipo = nocao_tema["tipo"] if nocao_tema else ""
-        if tipo == "animal":
-            opcoes = ("%s! Gostei do nome. Faz tempo que vocês estão juntos?" % nome_proprio,
-                      "%s, que nome bom! Vou lembrar." % nome_proprio)
-        elif tipo == "evento" or tema in ("bebê", "filho"):
-            opcoes = ("%s, que nome lindo! Parabéns de novo." % nome_proprio,
-                      "Que lindo, %s! Vou lembrar." % nome_proprio)
-        else:
-            opcoes = ("%s, anotado! Vou lembrar." % nome_proprio, "Ah, %s. Legal saber o nome!" % nome_proprio)
+        from presenca import REACAO_NOME
+        grupo = "animal" if tipo == "animal" else "evento" if tipo == "evento" or tema in ("bebê", "filho") else "outro"
+        opcoes = tuple(o % nome_proprio for o in REACAO_NOME[grupo])
         return "nocao:reacao", presenca.escolher(opcoes), None, ""
     if (id_anterior.startswith(("nocao:", "memoria:", "conversa:esclarecer")) and perfil.temas
             and _CURTAS.fullmatch(n) and not oferta):
@@ -699,32 +694,38 @@ def _refletir(texto, bot, base, achadas):
         eco = _limpar_eco(eco, leitor)
     conquista = re.search(r"\b(?:passei|consegui|aprovad[oa]|ganhei|promovid[oa]|venci|me formei|terminei)\b",
                           normalizar(texto))
-    abertura = (v.escolher(("Parabéns!", "Parabéns, que conquista!", "Que demais, parabéns!")) if conquista
-                else v.escolher(ABERTURAS[tom]))
-    partes = []
-    if eco and tom == "saude":
-        partes.append(eco[0].upper() + eco[1:] + "? " + v.escolher(("Sinto muito.", "Poxa, sinto muito.",
-                                                                    "Espero que melhore logo.")))
-    elif eco and (tom != "neutro" or agente == "você" or causa):
-        sinal = "!" if tom == "pos" else "."
-        partes.append(abertura.rstrip(".!") + ", " + eco + sinal)
-    else:
-        partes.append(abertura)
     if causa:
         causa = _limpar_eco(re.sub(r"^(?:porque|pois)\s+", "", causa), leitor)
-        partes.append(v.escolher(("E foi porque %s, né?" % causa, "Tudo isso porque %s." % causa,
-                                  "Ah, então foi porque %s." % causa)))
+    from gerador_frases import Plano, realizar, tempo_compativel, _CONQUISTA, _SAUDE
+    if eco and tom == "saude":
+        lista = _SAUDE
+    else:
+        lista = _CONQUISTA if conquista else ABERTURAS[tom]
+    livres = [a for a in lista if a not in v.usadas[-12:]] or list(lista)
+    aberturas = tuple(v.sorteio.sample(livres, min(2, len(livres))))
     nome_nocao = principal["nome"]
-    if achadas and nome_nocao not in perfil.nocoes_usadas and not (causa and eco):
-        partes.append(principal["costuma"])
-        perfil.nocoes_usadas.add(nome_nocao)
+    usar_nocao = bool(achadas and nome_nocao not in perfil.nocoes_usadas and not (causa and eco))
     pergunta = principal.get("pergunta")
-    if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas:
-        pergunta = v.escolher(CONTINUAR[tom])
-    perfil.perguntas_usadas.add(pergunta)
-    partes.append(pergunta)
+    if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas \
+            or not tempo_compativel(texto, pergunta):
+        opcoes = [p for p in CONTINUAR[tom] if p not in v.usadas[-12:]] or list(CONTINUAR[tom])
+        perguntas = tuple(v.sorteio.sample(opcoes, min(2, len(opcoes))))
+    else:
+        perguntas = (pergunta,)
+    plano = Plano(tom=tom, aberturas=aberturas, eco=eco or "",
+                  eco_na_abertura=bool(eco and (tom != "neutro" or agente == "você" or causa)),
+                  causa=causa or "", nocao=principal["costuma"] if usar_nocao else "",
+                  perguntas=perguntas, fala=texto)
+    feito = realizar(plano, v, getattr(perfil, "ultima_forma", None))
+    if feito is None:
+        resposta = " ".join(x for x in (aberturas[0], plano.nocao, perguntas[0]) if x)
+    else:
+        resposta, perfil.ultima_forma = feito
+    if usar_nocao:
+        perfil.nocoes_usadas.add(nome_nocao)
+    perfil.perguntas_usadas.add(next((p for p in perguntas if p[1:] in resposta), perguntas[0]))
     ident = "nocao:observacao" if achadas else "nocao:continuacao"
-    return ident, " ".join(partes), principal, tom, eco, agente
+    return ident, resposta, principal, tom, eco, agente
 
 
 def relato_com_presenca(texto, bot, resposta):

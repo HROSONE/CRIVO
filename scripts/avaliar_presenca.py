@@ -3,6 +3,9 @@
 
 Por turno: "contem" (algum), "nao_contem" (nenhum), "especifico" (a
 resposta retoma ao menos uma palavra de conteúdo da fala da pessoa).
+Nas reações a relatos (nocao:*): "mesma_estrutura" conta respostas
+seguidas com o mesmo esqueleto e "fatos_novos" as que trazem palavra de
+conteúdo que não veio da fala, da noção nem do vocabulário de conversa.
 Por conversa: respostas genéricas (não entendi/menu) e repetições
 (mesma frase de abertura ou mesmo texto já dito na conversa).
 
@@ -53,12 +56,16 @@ def conferir(esperado, fala, resposta):
 def avaliar(conjunto, transcrever=False):
     from crivo import Crivo
     dados = json.loads((PASTA / "avaliacoes" / "presenca_v1" / (conjunto + ".json")).read_text(encoding="utf-8"))
-    turnos = ok = genericas = repeticoes = 0
+    from gerador_frases import estrutura, palavras_novas
+    from nocoes import NocoesPT
+    base = NocoesPT()
+    turnos = ok = genericas = repeticoes = mesma_estrutura = fatos_novos = 0
     falhas, transcricao = [], []
     for c in dados["conversas"]:
         bot = Crivo()
         bot.conversacao.sorteio.seed(20261002)
         ditas, aberturas = set(), []
+        falas, forma_anterior = [], None
         transcricao.append("== " + c["nome"])
         for fala, esperado in c["turnos"]:
             ident, resposta = bot.responder(fala)
@@ -76,8 +83,23 @@ def avaliar(conjunto, transcrever=False):
                 repeticoes += 1
             ditas.add(chave)
             aberturas.append(frase1)
+            falas.append(fala)
+            if ident.startswith("nocao:"):
+                forma = estrutura(resposta)
+                if forma == forma_anterior and len(forma) > 1:
+                    mesma_estrutura += 1
+                forma_anterior = forma
+                fontes = falas + [" ".join((n["nome"], n["e"], n["costuma"], n["pergunta"]))
+                                  for f in falas for n in base.encontrar(f)]
+                novas = palavras_novas(resposta, fontes)
+                if novas:
+                    fatos_novos += 1
+                    falhas.append({"conversa": c["nome"], "fala": fala, "id": ident,
+                                   "resposta": "[palavras novas: %s] %s" % (", ".join(novas), resposta[:150])})
+            else:
+                forma_anterior = None
     resumo = {"conjunto": conjunto, "turnos": turnos, "turnos_ok": ok, "genericas": genericas,
-              "repeticoes": repeticoes}
+              "repeticoes": repeticoes, "mesma_estrutura": mesma_estrutura, "fatos_novos": fatos_novos}
     return resumo, falhas, transcricao
 
 

@@ -67,6 +67,8 @@ class TestesConversa(unittest.TestCase):
                 self.assertGreaterEqual(resumo["turnos_ok"], limite["turnos_ok_min"], falhas)
                 self.assertLessEqual(resumo["genericas"], limite["genericas_max"], resumo)
                 self.assertLessEqual(resumo["repeticoes"], limite["repeticoes_max"], resumo)
+                self.assertLessEqual(resumo["mesma_estrutura"], limite["mesma_estrutura_max"], resumo)
+                self.assertLessEqual(resumo["fatos_novos"], limite["fatos_novos_max"], falhas)
 
     def test_reflete_lembra_nome_e_retoma(self):
         from crivo import Crivo
