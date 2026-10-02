@@ -229,3 +229,15 @@ A arquitetura inicial já possui fundação metodológica e neurobiológica, mas
 ### Estado editorial
 
 A base possui agora quatro dossiês aprofundados além do mapa curricular. **Ainda não é considerada completa nem “nível doutorado” em todas as áreas.** O próximo gargalo passou a ser aprofundar cada família clínica individualmente e cruzá-la com tratamento e farmacologia, preservando evidência, curso, heterogeneidade e diagnóstico diferencial.
+
+
+## Aprofundamento 3 — famílias clínicas
+
+| Data | Documento | Escopo |
+| --- | --- | --- |
+| 2026-10-02 | [Transtornos do humor: depressão e bipolaridade](2026-10-02-transtornos-humor-depressao-bipolaridade.md) | Curso longitudinal, polaridade, estados mistos, suicidabilidade, diferenciais, psicoterapia, antidepressivos, lítio, valproato, antipsicóticos, ECT e manutenção |
+| 2026-10-02 | [Psicose e esquizofrenia](2026-10-02-psicose-esquizofrenia-tratamento-recuperacao.md) | Fenomenologia, negativos/cognição, primeiro episódio, risco clínico, mecanismos, antipsicóticos, clozapina/REMS 2025, CBT/família, reabilitação e recuperação |
+
+### Próximo gargalo
+
+A próxima expansão clínica deve cobrir **ansiedade/pânico/fobias + OCD**, seguida por **trauma/dissociação**, e depois neurodesenvolvimento. Paralelamente ainda falta um dossiê farmacológico transversal com PK/PD, interações, retirada, farmacogenômica e monitorização.
