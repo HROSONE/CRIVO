@@ -331,3 +331,17 @@ O nome da escola não é mecanismo. Armazenar separadamente **manual/componentes
 
 ### Controle de precisão farmacológica
 Parâmetros quantitativos (Ki, ocupação, Tmax, meia-vida, biodisponibilidade, clearance, frequências de eventos) só devem entrar como números quando ligados a fonte primária/regulatória identificável e versão/data. Evitar falsa precisão derivada de memória ou agregadores.
+
+
+## Aprofundamento 10 — personalidade e transtornos alimentares
+
+| Documento | Escopo |
+| --- | --- |
+| [Personalidade e padrão borderline](2026-10-02-personalidade-borderline-modelos-dimensionais-tratamento.md) | ICD-11 dimensional, gravidade/traços, BPD, diferenciais, attachment/mentalization, análise funcional, DBT/MBT/TFP/schema/GPM, farmacoterapia adjunta, prognóstico e danos |
+| [Transtornos alimentares](2026-10-02-transtornos-alimentares-fisiologia-psicologia-tratamento.md) | AN/atypical AN/BN/BED/ARFID, binge/restrição/purgação, homeostase, starvation/refeeding, risco médico, mensuração, diferenciais, psicoterapia, família e recovery |
+
+### Regras adicionadas
+- personalidade: não converter traço em transtorno nem instabilidade afetiva em bipolaridade sem curso episódico;
+- alimentação: peso/BMI isolado não determina diagnóstico, gravidade ou recuperação;
+- trauma não deve ser inferido a partir de BPD;
+- psicofármaco usado em BPD não demonstra etiologia nem constitui tratamento específico da personalidade.
