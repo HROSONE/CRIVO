@@ -1,0 +1,47 @@
+name: Vetores de palavras do zero
+# Só manual: um treino dura horas e grava na branch escolhida.
+on:
+  workflow_dispatch:
+    inputs:
+      documentos:
+        description: 'Artigos da Wikipédia em português'
+        type: number
+        default: 100000
+permissions:
+  contents: write
+jobs:
+  vetores:
+    runs-on: ubuntu-latest
+    timeout-minutes: 210
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      DOCUMENTOS: ${{ inputs.documentos || 100000 }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.24,<3' 'pyarrow>=15,<26'
+      - name: Baixar artigos públicos com SHA verificado
+        run: python scripts/baixar_fontes_linguagem.py --saida trabalho/fontes
+      - name: Treinar skip-gram do zero
+        run: |
+          python -u scripts/treinar_vetores_palavras.py --wikipedia trabalho/fontes/wikipedia.pt.parquet \
+            --saida artefatos/vetores_pt --documentos "$DOCUMENTOS" --vocabulario 40000 --dim 64 \
+            --epocas 3 --limite-minutos 170
+      - name: Preservar relatório
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vetores-pt-${{ github.run_id }}
+          path: artefatos/vetores_pt/
+          if-no-files-found: warn
+      - name: Gravar vetores na mesma branch
+        if: github.ref_name != 'main'
+        run: |
+          git config user.name "crivo-treino"
+          git config user.email "crivo-treino@users.noreply.github.com"
+          git add artefatos/vetores_pt
+          git commit -m "Vetores de palavras treinados no CI (${GITHUB_RUN_ID})" || exit 0
+          git pull --rebase origin "$GITHUB_REF_NAME"
+          git push origin "HEAD:$GITHUB_REF_NAME"

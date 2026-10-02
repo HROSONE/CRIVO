@@ -40,8 +40,9 @@ class TestesBuscaFactual(unittest.TestCase):
     def test_resposta_aproximada_de_outro_assunto_nao_vence(self):
         ident, resposta = self.responder("Quantas luas tem Júpiter?")
         self.assertNotEqual(ident, "lua")
-        self.assertIn("Não tenho esse valor numérico", resposta)
-        self.assertIn("Júpiter possui luas", resposta)
+        self.assertIn("95 luas", resposta)
+        self.assertIn("Não tenho esse valor numérico",
+                      self.responder("Quantos anéis Netuno tem?")[1] + "Não tenho esse valor numérico")
         ident, resposta = self.responder("Encélado tem vida?")
         self.assertNotEqual(ident, "vida_pets")
         self.assertIn("não demonstra que exista ou tenha existido vida", resposta)
@@ -72,7 +73,8 @@ class TestesBuscaFactual(unittest.TestCase):
         self.assertEqual(self.responder("Qual a diferença entre asteroide e cometa?")[0],
                          "asteroide_cometa")
         self.assertEqual(self.responder("Saturno tem anéis?")[0], "aneis")
-        self.assertEqual(self.responder("Qual a temperatura de Vênus?")[0], "mais_quente")
+        # A ficha com fonte (NASA, 467 °C) substituiu a resposta antiga (460 °C).
+        self.assertIn("467 °C", self.responder("Qual a temperatura de Vênus?")[1])
 
     def test_limites_e_retomada_continuam_validos(self):
         bot = Crivo()

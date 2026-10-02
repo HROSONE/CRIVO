@@ -31,7 +31,20 @@ class ContextoTexto(NamedTuple):
     provas: Tuple[Tuple[str, str], ...] = ()
 
 
+class QuadroFactual(NamedTuple):
+    texto: str
+    forma: str            # pergunta normalizada, moldura causal apagada
+    intencao: str         # propriedade, quantidade, tempo, causa, mecanismo, comparacao
+    assunto: object       # conceito com ficha, ou None
+    outros: tuple         # outros conceitos citados (só aceitos em comparação)
+    pistas: tuple         # (raiz, palavra original) de cada palavra de conteúdo
+    recusa: str           # motivo para não buscar, ou ""
+    pedido_nome: bool     # "o que é/foi X", "onde fica X": busca por nome raro
+
+
 class CompositorTextual:
+    LIMIAR_VETOR = 0.62
+
     def __init__(self, base, caminho, extrair_definicao, curriculo_mundo=None):
         self.itens = {}
         self.aliases = {}
@@ -39,6 +52,11 @@ class CompositorTextual:
         self.expandidos = set()
         self.referencias = []
         self.mundo_ids = set()
+        self.ultimo_quadro = None
+        self.aliases_busca_extra = {}
+        self.fichas_busca = set()
+        from vetores_palavras import VetoresPalavras
+        self.vetores = VetoresPalavras()
         self.ligacoes_mundo = []
         self.comparacoes_mundo = []
         for e in base:
@@ -81,6 +99,14 @@ class CompositorTextual:
         # A memoria sinaptica so coativa fatos com fontes editoriais. Ela
         # NUNCA usa perguntas de prova, feedback de chat ou pesos externos.
         # A inicializacao a partir de provas permite auditar cada resposta.
+        # Tabela de nomes da busca factual: um nome leva à única ficha com
+        # fontes entre seus significados; preferências explícitas valem.
+        self.aliases_busca = {}
+        for alias, ids in self.aliases.items():
+            fichas = ids & (self.expandidos | self.fichas_busca)
+            if len(fichas) == 1:
+                self.aliases_busca[alias] = next(iter(fichas))
+        self.aliases_busca.update(self.aliases_busca_extra)
         from cortex_associativo import CortexAssociativo
         from crivo import tokens
         self.cortex = CortexAssociativo(self.itens, self.aliases, self.fontes, tokens)
@@ -118,6 +144,7 @@ class CompositorTextual:
             if (not isinstance(item, dict) or not isinstance(item.get("id"), str)
                     or not re.fullmatch(r"[a-z][a-z0-9_]{1,63}", item["id"])
                     or item["id"] in self.itens or item["id"] in self.expandidos
+                    or item["id"] in self.fichas_busca
                     or not isinstance(item.get("nome"), str) or not tema(item["nome"])
                     or ("id_resposta" in item and item["id_resposta"] not in ids_base)
                     or ("area" in item and (not isinstance(item["area"], str)
@@ -147,6 +174,14 @@ class CompositorTextual:
                     fatos_por_aspecto.add(chave)
             if item["fatos"][0]["papel"] != "definicao":
                 raise ValueError("O primeiro fato deve definir o conceito")
+            if item.get("somente_busca") is True:
+                # Nome já usado por uma entrada anterior: a ficha atende à
+                # busca factual sem tornar o nome ambíguo nas definições.
+                self.itens[item["id"]] = item
+                self.fichas_busca.add(item["id"])
+                for nome in [item["nome"]] + item.get("aliases", []):
+                    self.aliases_busca_extra.setdefault(tema(nome), item["id"])
+                continue
             self.expandidos.add(item["id"])
             self._adicionar(item)
         # Uma decisão editorial explícita pode substituir um apelido
@@ -159,10 +194,22 @@ class CompositorTextual:
             if not isinstance(pref, dict) or not isinstance(pref.get("alias"), str):
                 raise ValueError("Preferência de nome inválida")
             alias = tema(pref["alias"])
+            if pref.get("somente_busca") is True:
+                # Só a busca factual passa a preferir a ficha; definições,
+                # elipses e referências continuam com a entrada anterior.
+                if (not alias or pref.get("destino") not in self.expandidos | self.fichas_busca
+                        or alias not in self.aliases or alias in self.aliases_busca_extra):
+                    raise ValueError("Preferência de busca sem nome existente")
+                self.aliases_busca_extra[alias] = pref["destino"]
+                continue
             destino, substitui = pref.get("destino"), pref.get("substitui")
+            # "novo": o nome ainda não pertence ao destino (sem alterar o
+            # conceito nem as perguntas da rede); só redireciona o apelido
+            # que hoje leva exclusivamente à entrada antiga.
+            esperado = {substitui} if pref.get("novo") is True else {destino, substitui}
             if (not alias or alias in vistos or destino not in self.expandidos
                     or substitui not in ids_base or destino == substitui
-                    or self.aliases.get(alias) != {destino, substitui}):
+                    or self.aliases.get(alias) != esperado):
                 raise ValueError("Preferência sem correspondência editorial única")
             vistos.add(alias)
             self.aliases[alias] = {destino}
@@ -469,17 +516,21 @@ class CompositorTextual:
         opcoes = self._EQUIVALENTES.get(pista, (pista,))
         return any(r.startswith(o) for o in opcoes for r in raizes_fato)
 
+    def _padrao_alias(self, alias, ident):
+        """Nome próprio ("Lua", "Marte") não aceita plural: "luas" é
+        substantivo comum. Conceitos comuns aceitam o plural simples."""
+        plural = "s?" if not self.itens[ident]["nome"][:1].isupper() else ""
+        return r"(?<![a-z0-9])" + re.escape(alias) + plural + r"(?![a-z0-9])"
+
     def _menciona_conceito(self, ident, texto_normalizado):
-        return any(ident in ids and re.search(
-            r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto_normalizado)
-            for alias, ids in self.aliases.items())
+        return any(destino == ident and re.search(self._padrao_alias(alias, ident), texto_normalizado)
+                   for alias, destino in self.aliases_busca.items())
 
     def assunto_mencionado(self, texto):
         """Único conceito com ficha citado por nome inteiro no texto."""
         n = normalizar(texto)
-        achados = {next(iter(ids)) for alias, ids in self.aliases.items()
-                   if len(ids) == 1 and next(iter(ids)) in self.expandidos and re.search(
-                       r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n)}
+        achados = {ident for alias, ident in self.aliases_busca.items()
+                   if re.search(self._padrao_alias(alias, ident), n)}
         return next(iter(achados)) if len(achados) == 1 else None
 
     def _descricao(self, alvo):
@@ -509,10 +560,9 @@ class CompositorTextual:
         """Um único salto: a definição de UM outro conceito com ficha que o
         fato escolhido cita por nome inteiro. Nunca um conceito parecido."""
         texto = normalizar(self.itens[par[0]]["fatos"][par[1]]["texto"])
-        citados = {next(iter(ids)) for alias, ids in self.aliases.items()
-                   if len(ids) == 1 and next(iter(ids)) in self.expandidos
-                   and next(iter(ids)) not in excluidos and len(alias) >= 4
-                   and re.search(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", texto)}
+        citados = {ident for alias, ident in self.aliases_busca.items()
+                   if ident not in excluidos and len(alias) >= 4
+                   and re.search(self._padrao_alias(alias, ident), texto)}
         if len(citados) != 1:
             return None
         citado = next(iter(citados))
@@ -520,55 +570,63 @@ class CompositorTextual:
         if definicao.get("papel") != "definicao":
             return None
         # O elo precisa acrescentar algo ligado ao fato, não só repetir o nome.
-        nomes = {r for a, ids in self.aliases.items() if citado in ids for r in self._raizes(a)}
+        nomes = {r for a, ident in self.aliases_busca.items() if ident == citado for r in self._raizes(a)}
         comuns = ({r for r in self._raizes(texto) if len(r) >= 5} &
                   {r for r in self._raizes(definicao["texto"]) if len(r) >= 5}) - nomes
         if len(comuns) < 2:
             return None
         return (citado, 0)
 
-    def buscar_fatos(self, texto, contexto=None):
-        """Localiza fatos cadastrados que contêm TODAS as pistas da pergunta.
+    def interpretar(self, texto):
+        """Quadro único da pergunta factual: o que se pede, sobre qual
+        conceito, com quais pistas e por que (se for o caso) não buscar.
 
-        Serve a perguntas de propriedade ("Europa tem oceano?"), quantidade
-        e tempo, e a formas cuja ordem de palavras os moldes não preveem.
-        O assunto é um nome inteiro cadastrado; as outras palavras de
-        conteúdo precisam aparecer no mesmo fato. Nenhum termo é descartado
-        para aproximar outro assunto e nenhuma conclusão sim/não é gerada.
+        A interpretação é feita uma vez e consumida pelo planejador da
+        busca e pelas decisões do Crivo (ficha versus resposta antiga).
         """
-        self.assunto_busca = None
-        self.busca_explicativa = False
-        if not isinstance(texto, str) or len(texto) > 320:
+        if not isinstance(texto, str):
             return None
         n = normalizar(texto)
+        vazio = QuadroFactual(texto, n, "geral", None, (), (), "", False)
+        if len(texto) > 320:
+            return vazio._replace(recusa="tamanho")
         if re.search(r"\b(nao|nunca|jamais|nem|sem|exceto|supondo|imaginando|imagine|"
                      r"fictici[oa]s?|inventad[oa]s?|hipotetic[oa]s?|magic[oa]s?|dose|dosagem|"
                      r"medicamento|remedio|diagnostico)\b|(?:^|\b(?:e|mas) )se\b", n):
-            return None
+            return vazio._replace(recusa="negacao_ou_qualificador")
         palavras = n.replace("-", " ").replace(",", " ").split()
         if not 2 <= len(palavras) <= 16:
-            return None
-        # Perguntas de causa/mecanismo: a moldura sai das pistas, mas a
-        # causa exige linguagem causal no próprio fato (coocorrência não
-        # prova causa).
+            return vazio._replace(recusa="tamanho")
+        # "Qual planeta é o maior?" escolhe um item entre vários; não é
+        # propriedade de um assunto e fica com as listas e relações.
+        if re.match(r"qual (?:e )?(?:o |a )?[a-z]+ (?:e |eh |tem )(?:o |a )?(?:mais|menos|maior|menor)\b", n):
+            return vazio._replace(recusa="superlativo")
+        # Causa/mecanismo: a moldura sai das pistas, mas a causa exige
+        # linguagem causal no próprio fato (coocorrência não prova causa).
         moldura = re.match(
             r"(?:por que|porque|pq|o que (?:deixa|faz|torna|causa|provoca|explica)|"
             r"qual (?:e )?(?:a |o )?(?:causa|razao|motivo)(?: (?:de|do|da|dos|das))?|"
             r"de que (?:maneira|modo|forma)|por qual mecanismo|"
             r"qual (?:e )?o mecanismo(?: (?:de|do|da|dos|das))?)(?= |$)", n)
         causal = bool(moldura) and not re.match(r"(?:de que|por qual|qual (?:e )?o mecanismo)", n)
-        mecanismo = bool(moldura) and not causal or n.startswith("como ")
         comparacao = bool(re.search(r"\b(?:mais|menos|maior|menor|superior|inferior)\b.* (?:que|do que) ", n))
-        if moldura:
-            self.busca_explicativa = True
-            n = " " * moldura.end() + n[moldura.end():]
+        # Grandezas pedem um valor: "qual a temperatura do Sol?".
+        quantidade = bool(re.search(r"\b(quant[oa]s?|quanto tempo)\b", n) or re.match(
+            r"qual (?:e )?(?:a |o )?(?:temperatura|distancia|massa|tamanho|diametro|velocidade|"
+            r"duracao|altura|pressao|raio)\b", n))
+        tempo = bool(re.search(r"\b(quando|idade|ha quanto tempo)\b", n))
+        intencao = ("comparacao" if comparacao else "causa" if causal else
+                    "mecanismo" if moldura or n.startswith("como ") else
+                    "quantidade" if quantidade else "tempo" if tempo else "propriedade")
+        pedido_nome = bool(re.match(
+            r"(?:o que (?:e|eh|foi|sao|era|eram|aconteceu com)|quem (?:e|foi)|onde (?:fica|esta)|"
+            r"(?:me )?(?:fale|fala|conte|conta) (?:sobre|do|da|de)) ", n))
+        busca = " " * moldura.end() + n[moldura.end():] if moldura else n
         # Assunto: alias inteiro de um conceito com fontes, o mais longo.
         candidatos = []
-        for alias, ids in self.aliases.items():
-            if len(ids) != 1 or next(iter(ids)) not in self.expandidos:
-                continue
-            for m in re.finditer(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", n):
-                candidatos.append((m.start(), m.end(), next(iter(ids))))
+        for alias, ident in self.aliases_busca.items():
+            for m in re.finditer(self._padrao_alias(alias, ident), busca):
+                candidatos.append((m.start(), m.end(), ident))
         candidatos.sort(key=lambda c: (-(c[1] - c[0]), c[0]))
         ocupados, assuntos = [], []
         for ini, fim, ident in candidatos:
@@ -577,20 +635,18 @@ class CompositorTextual:
             ocupados.append((ini, fim))
             assuntos.append((ini, ident))
         assuntos.sort()
-        assunto = assuntos[0][1] if assuntos else None
-        self.assunto_busca = assunto
         # "Urano tem estações": o segundo termo é uma propriedade do
         # primeiro, ligada só por posse; vira pista e não relação.
         if len({i for _, i in assuntos}) > 1:
             primeiro = min(ocupados)
             seguintes = sorted(o for o in ocupados if o != primeiro)
-            ponte = n[primeiro[1]:seguintes[0][0]].split()
+            ponte = busca[primeiro[1]:seguintes[0][0]].split()
             if ponte and set(ponte) <= {"tem", "possui", "possuem", "teve", "com", "e", "sao",
                                         "de", "do", "da", "dos", "das", "suas", "seus", "sua",
                                         "seu", "o", "a", "os", "as", "uma", "um"}:
                 ocupados = [primeiro]
                 assuntos = assuntos[:1]
-        resto = n
+        resto = busca
         for ini, fim in sorted(ocupados, reverse=True):
             resto = resto[:ini] + " " + resto[fim:]
         pistas = []
@@ -598,24 +654,85 @@ class CompositorTextual:
             if palavra in self._FORMA_PERGUNTA or len(palavra) < 2:
                 continue
             raiz = self._raiz(palavra)
-            if raiz not in pistas:
-                pistas.append(raiz)
-        quantidade = bool(re.search(r"\b(quant[oa]s?|quanto tempo)\b", n))
-        tempo = bool(re.search(r"\b(quando|idade|ha quanto tempo)\b", n))
-        # Dois conceitos na pergunta formam uma relação com direção
-        # ("a memória ajuda o sono" ≠ "o sono ajuda a memória"); um fato
-        # que apenas cita os dois não prova nenhum dos sentidos.
-        if len({i for _, i in assuntos}) > 1 and not comparacao:
+            if raiz not in (p for p, _ in pistas):
+                pistas.append((raiz, palavra))
+        quadro = QuadroFactual(texto, busca, intencao, assuntos[0][1] if assuntos else None,
+                               tuple(i for _, i in assuntos[1:]), tuple(pistas), "", pedido_nome)
+        # Dois conceitos formam uma relação com direção ("a memória ajuda o
+        # sono" ≠ "o sono ajuda a memória"); citar os dois não prova nenhuma.
+        # Exceção: em "quanto tempo X leva para … Y" o valor pedido é de X; o
+        # fato precisa ser da ficha de X e citar Y.
+        if quadro.outros and not comparacao and intencao not in ("quantidade", "tempo"):
+            return quadro._replace(recusa="relacao_entre_conceitos")
+        if len(pistas) > 6 or (not pistas and intencao not in ("quantidade", "tempo")):
+            return quadro._replace(recusa="sem_pistas")
+        return quadro
+
+    @property
+    def assunto_busca(self):
+        return self.ultimo_quadro.assunto if self.ultimo_quadro else None
+
+    @property
+    def busca_explicativa(self):
+        return bool(self.ultimo_quadro) and self.ultimo_quadro.intencao in ("causa", "mecanismo") \
+            and not self.ultimo_quadro.forma.startswith("como ")
+
+    def buscar_fatos(self, texto, contexto=None):
+        """Localiza fatos cadastrados que contêm TODAS as pistas da pergunta.
+
+        O assunto é um nome inteiro cadastrado; as outras palavras de
+        conteúdo precisam aparecer no mesmo fato. Nenhum termo é descartado
+        para aproximar outro assunto e nenhuma conclusão sim/não é gerada.
+        Com vetores de palavras disponíveis, no máximo UMA pista pode casar
+        por similaridade alta, e a resposta declara essa aproximação.
+        """
+        self.ultimo_quadro = quadro = self.interpretar(texto)
+        if quadro is None or quadro.recusa:
             return None
-        # Numa comparação, o fato precisa citar TODOS os conceitos.
-        mencoes = [i for _, i in assuntos[1:]] if comparacao else []
-        if len(pistas) > 6 or (not pistas and not quantidade and not tempo):
-            return None
+        resultado = self._planejar(quadro, aproximar=False)
+        if resultado is None and self.vetores.disponivel and len(quadro.pistas) >= 2:
+            resultado = self._planejar(quadro, aproximar=True)
+        return resultado
+
+    def _planejar(self, quadro, aproximar):
+        n = quadro.forma
+        assunto = quadro.assunto
+        quantidade = quadro.intencao == "quantidade" or (
+            quadro.intencao == "comparacao" and bool(re.search(r"\bquant", n)))
+        tempo = quadro.intencao == "tempo"
+        causal = quadro.intencao == "causa" or (
+            quadro.intencao == "comparacao" and bool(re.match(r"\s*(?:por que|porque|pq)\b", quadro.texto.casefold())))
+        mecanismo = quadro.intencao == "mecanismo"
+        comparacao = quadro.intencao == "comparacao"
+        pistas = [p for p, _ in quadro.pistas]
+        originais = dict(quadro.pistas)
+        mencoes = list(quadro.outros)
+        if mencoes and not comparacao:
+            # Quantidade/tempo com outro conceito citado: só a ficha do assunto.
+            fatos = self.itens[assunto]["fatos"]
+            escolhidos = [(assunto, i) for i, f in enumerate(fatos)
+                          if all(self._menciona_conceito(o, normalizar(f["texto"])) for o in mencoes)
+                          and re.search(r"\d", f["texto"])
+                          and all(self._pista_no_fato(p, self._raizes(f["texto"])) for p in pistas)]
+            if not escolhidos:
+                return None
+            _, resposta, ctx = self.compor((assunto,), "explicacao", selecionados=tuple(escolhidos[:2]),
+                                           origem="conhecimento")
+            return "escrita:explicacao", resposta, ctx
+        aproximacoes = {}
 
         def casa(fato_texto, exigir_assunto=None):
             raizes = self._raizes(fato_texto)
-            if not all(self._pista_no_fato(p, raizes) for p in pistas):
-                return False
+            faltam = [p for p in pistas if not self._pista_no_fato(p, raizes)]
+            if faltam:
+                if not aproximar or len(faltam) != 1 or len(originais[faltam[0]]) < 4:
+                    return False
+                palavras = [w for w in re.findall(r"[a-z]+", normalizar(fato_texto))
+                            if len(w) >= 4 and w not in self._FORMA_PERGUNTA]
+                par = self.vetores.mais_parecida(originais[faltam[0]], palavras, self.LIMIAR_VETOR)
+                if par is None:
+                    return False
+                aproximacoes[fato_texto] = (originais[faltam[0]], par)
             texto_fato = normalizar(fato_texto)
             for ident in mencoes + ([exigir_assunto] if exigir_assunto else []):
                 if not self._menciona_conceito(ident, texto_fato):
@@ -638,7 +755,7 @@ class CompositorTextual:
             if not escolhidos:
                 # O assunto pode estar documentado na ficha de outro
                 # conceito ("Mercúrio e Vênus não têm satélites...").
-                escolhidos = [(e, i) for e in sorted(self.expandidos) if e != assunto
+                escolhidos = [(e, i) for e in sorted(self.expandidos | self.fichas_busca) if e != assunto
                               for i, f in enumerate(self.itens[e]["fatos"])
                               if casa(f["texto"], assunto)]
                 if len(escolhidos) > 3:
@@ -646,9 +763,7 @@ class CompositorTextual:
         else:
             # Sem ficha própria, só um pedido sobre um NOME ("o que foi o
             # DART?") justifica procurar onde ele é citado.
-            if not pistas or not re.match(
-                    r"(?:o que (?:e|eh|foi|sao|era|eram|aconteceu com)|quem (?:e|foi)|onde (?:fica|esta)|"
-                    r"(?:me )?(?:fale|fala|conte|conta) (?:sobre|do|da|de)) ", n):
+            if not pistas or not quadro.pedido_nome or aproximar:
                 return None
             frequencia = {}
             for e in self.expandidos:
@@ -664,7 +779,7 @@ class CompositorTextual:
             genericos = {self._raiz(g) for g in self._NOMES_GENERICOS}
             if any(p not in genericos for p in raras):
                 pistas = [p for p in pistas if p not in genericos]
-            escolhidos = [(e, i) for e in sorted(self.expandidos)
+            escolhidos = [(e, i) for e in sorted(self.expandidos | self.fichas_busca)
                           for i, f in enumerate(self.itens[e]["fatos"]) if casa(f["texto"])]
             if not 1 <= len(escolhidos) <= 3:
                 return None
@@ -672,10 +787,26 @@ class CompositorTextual:
                        "nestes fatos cadastrados:\n\n")
         if not escolhidos:
             return None
+        if (quantidade or tempo) and assunto is not None and not any(
+                re.search(r"\d", self.itens[e]["fatos"][i]["texto"]) for e, i in escolhidos):
+            # O valor pode estar na ficha de outro conceito que cita o assunto.
+            outros = [(e, i) for e in sorted(self.expandidos | self.fichas_busca) if e != assunto
+                      for i, f in enumerate(self.itens[e]["fatos"])
+                      if re.search(r"\d", f["texto"]) and casa(f["texto"], assunto)]
+            if 1 <= len(outros) <= 2:
+                escolhidos = outros
         if quantidade or tempo:
             com_numero = [p for p in escolhidos
                           if re.search(r"\d", self.itens[p[0]]["fatos"][p[1]]["texto"])]
             if com_numero:
+                # Número junto da palavra pedida ("95 luas") vem antes de
+                # um número qualquer do mesmo fato ("em 1610").
+                def junto(par):
+                    palavras = normalizar(self.itens[par[0]]["fatos"][par[1]]["texto"]).split()
+                    return any(re.fullmatch(r"[\d.,]+", a) and any(
+                        self._pista_no_fato(p, [self._raiz(b)]) for p in pistas for b in palavras[k + 1:k + 3])
+                        for k, a in enumerate(palavras))
+                com_numero.sort(key=lambda par: not junto(par))
                 escolhidos = com_numero
             elif not prefixo:
                 prefixo = ("Não tenho esse valor numérico cadastrado. O que encontrei "
@@ -693,8 +824,16 @@ class CompositorTextual:
         ids = tuple(dict.fromkeys(e for e, _ in escolhidos))
         _, resposta, ctx = self.compor(ids, "explicacao", selecionados=escolhidos,
                                        origem="conhecimento")
+        aproximadas = [aproximacoes[self.itens[e]["fatos"][i]["texto"]] for e, i in escolhidos
+                       if self.itens[e]["fatos"][i]["texto"] in aproximacoes]
+        if aproximadas:
+            pergunta, fato = aproximadas[0]
+            prefixo = ("Entendi “" + pergunta + "” como próximo de “" + fato + "”, termo usado "
+                       "no fato cadastrado:\n\n") + prefixo
         resposta = prefixo + resposta
-        return "escrita:explicacao", resposta, ctx._replace(texto=resposta)
+        # Ficha que herdou uma intenção editorial mantém o ID público dela.
+        publico = self.itens[ids[0]].get("id_resposta") if len(ids) == 1 and not prefixo else None
+        return publico or "escrita:explicacao", resposta, ctx._replace(texto=resposta)
 
     def _referencia(self, n, contexto):
         m = re.fullmatch(

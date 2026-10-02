@@ -676,6 +676,13 @@ class Crivo:
         self.ultimos = []
         self.pos_ultimo = 0
 
+    def _quadro_registro(self):
+        quadro = self.compositor.ultimo_quadro
+        if quadro is None:
+            return None
+        return {"intencao": quadro.intencao, "assunto": quadro.assunto, "outros": list(quadro.outros),
+                "pistas": [p for _, p in quadro.pistas], "recusa": quadro.recusa}
+
     def _buscar_fatos(self, texto):
         """Busca factual, salvo relações com sujeito/objeto ("a Lua orbita o
         Sol"), que pertencem ao raciocinador e dependem da direção."""
@@ -685,7 +692,7 @@ class Crivo:
                 return None
         return self.compositor.buscar_fatos(texto)
 
-    def _base_cobre(self, texto, n, assunto=None):
+    def _base_cobre(self, texto, n, assunto=None, tolerancia=None):
         """A base anterior tem resposta confiável sobre o mesmo assunto?
 
         Com um assunto identificado, a entrada precisa mencioná-lo; sem
@@ -700,6 +707,16 @@ class Crivo:
             return False
         entrada = self.base[rank[0][1]]
         evidencia = set(tokens(" ".join(entrada["perguntas"]) + " " + entrada["resposta"]))
+        if tolerancia is not None:
+            # Assunto obrigatório na entrada; tolera uma palavra acessória.
+            # Radical do compositor: "fases" e "fase" coincidem.
+            def raizes(t):
+                return {self.compositor._raiz(w) for w in re.findall(r"[a-z0-9]+", normalizar(t))
+                        if w not in STOP and len(w) > 1}
+            evidencia = raizes(" ".join(entrada["perguntas"]) + " " + entrada["resposta"])
+            nome = raizes(self.compositor.itens[assunto]["nome"]) if assunto else set()
+            pergunta = raizes(texto)
+            return bool(pergunta) and nome <= evidencia and len(pergunta - evidencia) <= tolerancia
         exigidos = set(tokens(self.compositor.itens[assunto]["nome"] if assunto else texto))
         return bool(exigidos) and exigidos <= evidencia
 
@@ -1208,7 +1225,9 @@ class Crivo:
             # A recusa do compositor não oculta uma resposta cadastrada que
             # cobre TODAS as palavras da pergunta ("Por que Plutão não é
             # mais planeta?"). Sem essa cobertura, procurar o fato completo.
-            if self._base_cobre(texto, n):
+            assunto_ficha = self.compositor.assunto_mencionado(texto)
+            if (self._base_cobre(texto, n, assunto_ficha, tolerancia=1) if assunto_ficha
+                    else self._base_cobre(texto, n)):
                 composicao = None
             else:
                 composicao = self._buscar_fatos(texto) or composicao
@@ -1402,7 +1421,8 @@ class Crivo:
                     if busca is not None:
                         ident, resposta, self.contexto_textual = busca
                         self.historico.append({"pergunta": original, "id": ident,
-                                               "mecanismo": "busca_factual"})
+                                               "mecanismo": "busca_factual",
+                                   "quadro_factual": self._quadro_registro()})
                         self.historico = self.historico[-20:]
                         return ident, resposta
                 self.historico.append({"pergunta": original, "id": inferencia[0],
@@ -1474,15 +1494,27 @@ class Crivo:
         busca = self._buscar_fatos(texto)
         # "Por que/de que maneira": a resposta antiga precisa cobrir a
         # pergunta inteira, não só citar o assunto.
+        # A ficha tem prioridade: a resposta antiga só vence se cobrir TODAS as
+        # palavras da pergunta e mencionar o assunto.
         if busca is not None and not self._base_cobre(
-                texto, n, None if self.compositor.busca_explicativa else self.compositor.assunto_busca):
+                texto, n, self.compositor.assunto_busca, tolerancia=0):
             ident, resposta, self.contexto_textual = busca
             self.esclarecimento = None
             self.ultimo_assunto = None
             self.historico.append({"pergunta": original, "id": ident,
-                                   "mecanismo": "busca_factual"})
+                                   "mecanismo": "busca_factual",
+                                   "quadro_factual": self._quadro_registro()})
             self.historico = self.historico[-20:]
             return ident, resposta
+        # Assunto com ficha e sem o fato pedido: uma resposta antiga por
+        # semelhança só vale se cobrir a pergunta inteira; senão, admitir.
+        if busca is None:
+            assunto = self.compositor.assunto_mencionado(texto)
+            if assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1):
+                self.esclarecimento = None
+                self.ultimo_assunto = None
+                return ("fora", "Reconheci o assunto " + self.compositor.itens[assunto]["nome"] +
+                        ", mas não tenho evidência cadastrada para essa pergunta completa.")
         rank = self._ranking(texto)
         _, vocabulario = self._contexto_consulta(texto)
         toks = self._tokens_consulta(texto, vocabulario)
