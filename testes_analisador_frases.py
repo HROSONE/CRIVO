@@ -111,5 +111,19 @@ class TestesNotebookEOrigem(unittest.TestCase):
         self.assertIn(origem["commit"], origem["url_base"])
 
 
+
+@unittest.skipUnless(np is not None, "NumPy necessário")
+class TestesModeloDoRepositorio(unittest.TestCase):
+    def test_modelo_publicado_passa_no_controle_e_analisa_o_exemplo(self):
+        a = af.AnalisadorFrases()
+        self.assertTrue(a.disponivel, a.motivo)
+        palavras = {p.forma: p for p in a.analisar("A menina abriu o guarda-chuva porque começou a chover.")}
+        abriu = palavras["abriu"]
+        self.assertEqual((abriu.pai, abriu.lema), (0, "abrir"))
+        self.assertEqual(palavras["menina"].ligacao, "nsubj")
+        self.assertEqual(palavras["guarda-chuva"].ligacao, "obj")
+        self.assertEqual(palavras["porque"].ligacao, "mark")
+
+
 if __name__ == "__main__":
     unittest.main()

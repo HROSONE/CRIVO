@@ -579,10 +579,12 @@ def explicar(texto, analisador_=None):
     for p in palavras:
         if p.ligacao == "punct":
             continue
-        cab = "a frase" if p.pai == 0 else "“%s”" % palavras[p.pai - 1].forma
-        linhas.append("%s — %s (lema “%s”): %s de %s" % (
-            p.forma, NOMES_CLASSE.get(p.classe, p.classe), p.lema,
-            NOMES_LIGACAO.get(p.ligacao, p.ligacao), cab))
+        papel = NOMES_LIGACAO.get(p.ligacao, p.ligacao)
+        if p.pai == 0:
+            papel = "núcleo da frase"
+        else:
+            papel += " de “%s”" % palavras[p.pai - 1].forma
+        linhas.append("%s — %s (lema “%s”): %s" % (p.forma, NOMES_CLASSE.get(p.classe, p.classe), p.lema, papel))
     return "\n".join(linhas)
 
 

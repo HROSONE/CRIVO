@@ -27,6 +27,19 @@ Os pesos só são usados se a avaliação no **teste oficial** (frases que o
 treino não vê) passar do mínimo em `analisador_frases.MINIMO`; sem pesos
 aprovados ou sem NumPy, o analisador fica desligado.
 
+## Primeira versão no repositório (modelo de CPU)
+
+`artefatos/analisador_pt` traz o modelo de CPU (8 épocas do etiquetador, 10
+do parser, semente fixa). Teste oficial do Bosque, 1.167 frases, 27.604
+palavras, pontuação incluída:
+
+| classe (UPOS) | lema | UAS (ligação certa) | LAS (ligação e tipo certos) |
+|---|---|---|---|
+| 96,3% | 97,9% | 84,3% | 80,3% |
+
+Cerca de 1–3 ms por frase. O modelo biafim do Colab deve substituí-lo se
+tiver notas melhores no mesmo teste.
+
 ## Dados e licença
 
 UD Portuguese-Bosque, commit fixado e SHA-256 conferido
