@@ -126,3 +126,25 @@ Lacunas de conteúdo (recusadas corretamente, sem ficha cadastrada): Big Bang,
 idade do universo, temperatura do Sol, telescópio James Webb e número de luas
 de Júpiter. Preenchê-las exige novas fichas com fontes verificadas.
 Testes: `python -m unittest testes_busca_factual -v`.
+
+## Causa, mecanismo e conversa cotidiana (02/10/2026)
+
+A parte útil da proposta de consolidação (PR #47) foi incorporada à busca
+factual, sem o módulo novo que, na comparação, respondia "Como se define
+evolução estelar?" com a definição de API. Perguntas de causa e mecanismo
+em paráfrase ("O que deixa Marte com aparência vermelha?", "De que maneira
+o eixo inclinado de Urano afeta suas estações?") agora recuperam o fato do
+assunto citado. Uma pergunta causal exige linguagem causal no próprio fato
+("produz", "por causa", "ajudam a explicar"); comparação exige um fato que
+cite os dois termos; um único elo para a definição de outro conceito citado
+só é acrescentado quando há conteúdo em comum. "Descreva X …" e "Explique
+a origem de X" também foram atendidos. Na prova congelada: 32/58 → 34/58,
+14/14 controles, nenhum fato fora de escopo.
+
+`conversa_cotidiana.py` trata o bate-papo curto com o turno anterior:
+respostas ao "como você está?", reações ("legal", "haha", "sério?"),
+"sim/não" após uma oferta, "me fala mais", "pode repetir?", "qual é o meu
+nome?", curiosidades (fatos com fonte) e preferências pessoais sobre assuntos
+cadastrados. "Sim/não" que respondem a um esclarecimento pendente continuam
+no fluxo anterior. Relatos neutros ("eu moro no Brasil") não recebem mais
+perguntas de plano de ação. Testes: `testes_conversa_cotidiana.py`.

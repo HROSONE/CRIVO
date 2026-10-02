@@ -283,6 +283,14 @@ class DialogoAberto:
             conversa.assunto = assunto
             self.espera = "detalhe"
             resposta = "Vamos falar de “" + assunto + "”. O que aconteceu ou o que você quer explorar?"
+        elif not conversa.objetivo and not re.search(
+                r"\b(?:problema\w*|dificuldade\w*|nao consigo|nao sei como|tentei|tento|preciso|"
+                r"preocupad\w*|ansios\w*|cansad\w*|triste|estressad\w*|medo|decid\w*|"
+                r"travad\w*|atrasad\w*|sozinh\w*|frustrad\w*)\b", normalizar(texto)):
+            # Comentário neutro ("eu moro no Brasil") não pede plano de ação.
+            self.espera = "detalhe"
+            resposta = ("Você contou: “" + original + "”. Quer me contar mais sobre isso "
+                        "ou perguntar alguma coisa?")
         else:
             resposta = "Você contou: “" + original + "”."
             if conversa.objetivo:

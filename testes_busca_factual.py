@@ -63,6 +63,9 @@ class TestesBuscaFactual(unittest.TestCase):
         self.assertIn("Não tenho uma ficha própria", resposta)
         self.assertIn("Dimorphos", resposta)
         self.assertIn("jpl.nasa.gov", bot.responder("Qual é a fonte?")[1])
+        self.assertIn("cinturão de Kuiper", self.responder("Onde fica Plutão?")[1])
+        # Pedido vago não vira busca por palavra rara ("repetição").
+        self.assertNotEqual(self.responder("pode repetir?")[0], "escrita:explicacao")
 
     def test_resposta_cadastrada_completa_nao_e_ocultada(self):
         self.assertEqual(self.responder("Por que Plutão não é mais planeta?")[0], "plutao")
@@ -75,6 +78,36 @@ class TestesBuscaFactual(unittest.TestCase):
         bot = Crivo()
         bot.responder("Europa tem oceano?")
         self.assertIn("não é evidência de vida", bot.responder("Quais são os limites disso?")[1])
+
+    def test_causa_e_mecanismo_em_parafrase(self):
+        casos = {
+            "O que deixa Marte com aparência vermelha?": "Óxidos de ferro",
+            "De que maneira o eixo inclinado de Urano afeta suas estações?": "sazonal extrema",
+            "Por que Urano tem estações extremas?": "sazonal extrema",
+            "Por qual mecanismo as partículas dos anéis de Saturno continuam orbitando?":
+                "campo gravitacional",
+            "Por que Vênus tem temperatura maior que Mercúrio?": "por causa do efeito estufa",
+            "Como Vênus retém calor?": "efeito estufa",
+            "Explique a origem do Sistema Solar.": "nuvem molecular",
+            "Me descreva Vênus como um mundo do Sistema Solar.": "segundo planeta",
+        }
+        for pergunta, trecho in casos.items():
+            with self.subTest(pergunta=pergunta):
+                self.assertIn(trecho, self.responder(pergunta)[1])
+        bot = Crivo()
+        bot.responder("O que deixa Marte com aparência vermelha?")
+        self.assertIn("nasa", bot.responder("Fontes")[1].lower())
+
+    def test_causa_sem_linguagem_causal_ou_com_qualificador_e_recusada(self):
+        for pergunta in ("Como a atmosfera mágica de Vênus retém calor?",
+                         "Me descreva Vênus como um mundo mágico",
+                         "Por que Europa tem oceano?",
+                         "O que é a origem fictícia de Marte?"):
+            with self.subTest(pergunta=pergunta):
+                self.assertNotEqual(self.responder(pergunta)[0], "escrita:explicacao")
+        # Definição continua sendo do conceito pedido (sem saltar para outro tema).
+        self.assertEqual(self.responder("Como se define evolução estelar?")[0],
+                         "conhecimento:mundo_evolucao_estelar")
 
     def test_busca_nao_cria_relacao_causa_ou_qualificador(self):
         c = self.bot.compositor
