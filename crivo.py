@@ -1188,6 +1188,12 @@ class Crivo:
                 # Uma relacao analisada por inteiro pode retornar abstenção;
                 # o nome "orbita" nao deve mascarar o verbo "orbita".
                 composicao = None
+        if (composicao is not None and composicao[0] == "fora"
+                and self.compositor._menciona_mundo(n)):
+            consolidada = self.compositor._resposta_consolidada(
+                n, self._contexto_textual_anterior)
+            if consolidada is not None:
+                composicao = consolidada
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
             self.esclarecimento = None
@@ -1431,6 +1437,14 @@ class Crivo:
                 "quer informação sobre outro assunto, diga qual é o pedido.",
             ), original)
 
+        # Consolidacao factual tardia: especialistas, grafo, analisador e
+        # referencias ja tiveram prioridade; o ranking lexical ainda nao.
+        # Assim uma parafrase factual pode usar o conhecimento estruturado
+        # antes de cair numa resposta antiga apenas parecida.
+        consolidada = self._usar_consolidacao(n, original)
+        if consolidada is not None:
+            return consolidada
+
         if self.ultimo_assunto and re.search(r"\b(isso|disso|dele|dela)\b", n) and len(tokens(texto)) <= 3:
             texto = texto + " " + self.ultimo_assunto
         if "estacoes" in n and re.search(r"\b(o que faz existirem|o que causa|por que)\b", n):
@@ -1483,11 +1497,6 @@ class Crivo:
             self.ultimos = [(sc, i) for sc, i in rank[:4] if sc >= LIMIAR * 0.8]
             self.pos_ultimo = 0
             return self._registrar(rank[0][1], original)
-        # So depois de exatas, logica, analise gramatical, rede e ranking.
-        # Assim a consolidacao amplia cobertura sem roubar competencias.
-        consolidada = self._usar_consolidacao(n, original)
-        if consolidada is not None:
-            return consolidada
         if rank and rank[0][0] >= LIMIAR_DUVIDA and not desconhecidas:
             return self._pedir_esclarecimento([rank[0][1]], original)
         return "fora", ("Ainda não consegui entender esse pedido. Pode indicar o assunto "
