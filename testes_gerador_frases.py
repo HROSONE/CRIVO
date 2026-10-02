@@ -65,6 +65,18 @@ class TestesVerificador(unittest.TestCase):
         self.assertEqual(g.estrutura("Você passou na prova? Parabéns! Era difícil?"), ("E?", "A", "P"))
 
 
+class TestesNotebookPontuador(unittest.TestCase):
+    def test_notebook_valido_e_aponta_para_scripts_do_repositorio(self):
+        nb = json.loads((RAIZ / "notebooks" / "treinar_pontuador_colab.ipynb").read_text(encoding="utf-8"))
+        codigo = "".join("".join(c["source"]) for c in nb["cells"] if c["cell_type"] == "code")
+        for script in ("baixar_fontes_linguagem.py", "preparar_linguagem_profunda.py",
+                       "treinar_linguagem_profunda.py", "exportar_pontuador.py", "avaliar_fluencia.py"):
+            self.assertIn("scripts/" + script, codigo)
+            self.assertTrue((RAIZ / "scripts" / script).exists(), script)
+        self.assertIn("artefatos/pontuador_pt", codigo)
+        self.assertEqual(nb["metadata"]["accelerator"], "GPU")
+
+
 @unittest.skipUnless(numpy is not None, "NumPy necessário")
 class TestesPontuador(unittest.TestCase):
     def test_bpe_igual_ao_tokenizer_json(self):
@@ -84,9 +96,9 @@ class TestesPontuador(unittest.TestCase):
             from linguagem_profunda import carregar
         except ImportError:
             self.skipTest("PyTorch ausente")
-        from pontuador_frases import pontuador
+        from pontuador_frases import PASTA, pontuador
         p = pontuador()
-        modelo, _, _ = carregar(RAIZ / "artefatos" / "linguagem_profunda")
+        modelo, _, _ = carregar(PASTA)
         ids = p.prefixo("hoje perdi o ônibus") + p.bpe.codificar("Poxa, que chato.")
         with torch.no_grad():
             ref = modelo(torch.tensor([ids]))[0][0].numpy()
