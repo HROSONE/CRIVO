@@ -270,3 +270,26 @@ O acervo não será declarado completo por quantidade de documentos.
 ### Nova exigência
 
 Para farmacologia, futuras fichas devem separar **alvo molecular, PK, PD, efeito clínico e inferência etiológica**. Para psicoterapia, devem separar **eficácia, componente, mecanismo hipotético, mediação demonstrada e fatores comuns**. Resposta ao tratamento nunca será usada sozinha como prova da causa do transtorno.
+
+
+## Aprofundamento 6 — expansão transversal
+
+| Documento | Profundidade acrescentada |
+| --- | --- |
+| [Psicologia fundamental avançada](2026-10-02-psicologia-fundamental-aprendizagem-cognicao-emocao-social.md) | Aprendizagem associativa/RL, memória, atenção, SDT, Bayes, decisão, emoção, motivação, social, personalidade, desenvolvimento, apego, causalidade e replicabilidade |
+| [Métodos de neurociência](2026-10-02-neurociencia-metodos-imagem-genetica-computacional.md) | EEG/MEG, fMRI/PET/TMS, single-cell, genética/PGS/MR, epigenética, ML, computational psychiatry, EMA, redes, longitudinal e inferência causal |
+| [Psicopatologia avançada II](2026-10-02-psicopatologia-personalidade-alimentacao-substancias-neurocognicao.md) | Personalidade, alimentação, substâncias, delirium/demências, FND/somático, luto, perinatal e infância |
+
+### Auditoria de profundidade ainda necessária
+
+Apesar da expansão, **não declarar completude doutoral**. Os blocos agora cobrem o mapa conceitual de grande parte do campo, porém profundidade máxima exige dossiês monográficos por construto/transtorno/intervenção, com estudos primários, meta-análises, tamanho de efeito, heterogeneidade, replicações, críticas e atualização regulatória.
+
+Prioridades seguintes:
+1. estatística/psicometria/causalidade em nível de pós-graduação;
+2. neuroanatomia celular e molecular detalhada;
+3. monografias de psicoterapias;
+4. fichas quantitativas de psicofármacos;
+5. monografias de personalidade/alimentação/substâncias/neurocognição;
+6. epidemiologia, prevenção, saúde pública e determinantes sociais;
+7. ética, direitos, cultura e serviços;
+8. auditoria fonte–afirmação de todo o acervo.
