@@ -73,7 +73,8 @@ class TestesBuscaFactual(unittest.TestCase):
         self.assertEqual(self.responder("Qual a diferença entre asteroide e cometa?")[0],
                          "asteroide_cometa")
         self.assertEqual(self.responder("Saturno tem anéis?")[0], "aneis")
-        self.assertEqual(self.responder("Qual a temperatura de Vênus?")[0], "mais_quente")
+        # A ficha com fonte (NASA, 467 °C) substituiu a resposta antiga (460 °C).
+        self.assertIn("467 °C", self.responder("Qual a temperatura de Vênus?")[1])
 
     def test_limites_e_retomada_continuam_validos(self):
         bot = Crivo()

@@ -676,6 +676,13 @@ class Crivo:
         self.ultimos = []
         self.pos_ultimo = 0
 
+    def _quadro_registro(self):
+        quadro = self.compositor.ultimo_quadro
+        if quadro is None:
+            return None
+        return {"intencao": quadro.intencao, "assunto": quadro.assunto, "outros": list(quadro.outros),
+                "pistas": [p for _, p in quadro.pistas], "recusa": quadro.recusa}
+
     def _buscar_fatos(self, texto):
         """Busca factual, salvo relações com sujeito/objeto ("a Lua orbita o
         Sol"), que pertencem ao raciocinador e dependem da direção."""
@@ -1414,7 +1421,8 @@ class Crivo:
                     if busca is not None:
                         ident, resposta, self.contexto_textual = busca
                         self.historico.append({"pergunta": original, "id": ident,
-                                               "mecanismo": "busca_factual"})
+                                               "mecanismo": "busca_factual",
+                                   "quadro_factual": self._quadro_registro()})
                         self.historico = self.historico[-20:]
                         return ident, resposta
                 self.historico.append({"pergunta": original, "id": inferencia[0],
@@ -1494,7 +1502,8 @@ class Crivo:
             self.esclarecimento = None
             self.ultimo_assunto = None
             self.historico.append({"pergunta": original, "id": ident,
-                                   "mecanismo": "busca_factual"})
+                                   "mecanismo": "busca_factual",
+                                   "quadro_factual": self._quadro_registro()})
             self.historico = self.historico[-20:]
             return ident, resposta
         # Assunto com ficha e sem o fato pedido: uma resposta antiga por
