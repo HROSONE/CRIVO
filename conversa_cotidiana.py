@@ -81,6 +81,9 @@ _OUTRA_COISA = re.compile(r"(?:(?:valeu|obrigad[oa]|ok|certo|beleza),? )?(?:outr
 _QUIZ = re.compile(r"(?:me )?(?:faz|faca|faça|manda|mande|da|de) (?:umas?|algumas?|mais umas?) perguntas?(?: (?:para|pra) (?:eu )?(?:treinar|estudar|praticar))?(?: sobre (.+))?|"
                    r"(?:me )?(?:testa|teste)(?: sobre (.+))?|quero (?:treinar|praticar|ser testado)(?: sobre (.+))?")
 _TEMA = re.compile(r"(?:o )?(?:tema|assunto|conteudo|materia) (?:e|eh|vai ser|sera) (?:sobre )?(.+)")
+_O_QUE_CONTEI = re.compile(r"(?:(?:e )?(?:sobre )?o que (?:foi que )?eu (?:te )?(?:falei|contei|disse)(?: antes| hoje| ate agora)?|"
+                           r"(?:do que|sobre o que) (?:a gente|nos) (?:falou|falamos|conversamos)(?: ate agora)?|"
+                           r"(?:voce )?lembra o que eu (?:te )?(?:falei|contei|disse))")
 _MEU_NOME = re.compile(r"(?:qual (?:e )?(?:o )?meu nome|voce (?:sabe|lembra) (?:o )?meu nome|"
                        r"como (?:eu )?me chamo|quem sou eu|lembra (?:do|o) meu nome)")
 
@@ -304,6 +307,16 @@ def responder(texto, bot):
         else:
             return _corrigir_quiz(bot, texto)
 
+    if id_anterior.startswith("nocao:") and re.fullmatch(
+            r"(?:pois e|pois e ne|e mesmo|ne|aham|uhum|verdade|e|sim|e verdade|sei la|fazer o que|"
+            r"e assim mesmo|e a vida|ta|ta bom|ok)", n):
+        return "nocao:reacao", "Pois é. Quer me contar mais sobre isso?", None, ""
+
+    if _O_QUE_CONTEI.fullmatch(n) and conversa.relatos and not conversa.assunto:
+        contados = list(conversa.relatos)[-3:]
+        return ("conversa:memoria", "Você me contou: “" + "”; “".join(contados) + "”. "
+                "Quer continuar em algum desses assuntos?", None, "")
+
     estudando = oferta == "quiz" or (id_anterior or "").startswith("estudo:")
     if estudando and getattr(conversa, "quiz_acertou", None) is not None and \
             re.fullmatch(r"(?:e )?(?:eu )?(?:acertei|errei|ta certo|esta certo|certo)", n):
@@ -481,4 +494,48 @@ def responder(texto, bot):
                     "? É só dizer “sim”, ou pergunte outra coisa.", ctx, "")
         if anterior:
             return "social:reconhecimento", "Certo! " + _convite(bot), None, ""
-    return None
+    return _observacao(texto, bot, id_anterior)
+
+
+_NOCOES = []
+
+
+def nocoes():
+    if not _NOCOES:
+        from nocoes import NocoesPT
+        _NOCOES.append(NocoesPT())
+    return _NOCOES[0]
+
+
+def _observacao(texto, bot, id_anterior):
+    """Algo que a pessoa conta sobre o dia ("hoje choveu o dia todo"):
+    reagir com uma noção dita como noção e perguntar de volta, em vez de
+    dar uma explicação que ninguém pediu."""
+    conversa = bot.conversacao
+    base = nocoes()
+    # Uma conversa guiada em andamento ("quero conversar sobre meu
+    # desenho", objetivo, escolha entre opções) continua com o diálogo.
+    guiada = (conversa.assunto not in (None, "sua situação") or conversa.objetivo
+              or conversa.dialogo.espera in ("interesse", "preferencia", "obstaculo", "criterio",
+                                             "argumento", "tema"))
+    if not base.afirmacao(texto) or guiada or getattr(bot, "esclarecimento", None):
+        return None
+    # Relato que é exatamente o tema de uma resposta da base (ex.: folhas
+    # amarelas) fica com a base, que tem a orientação.
+    ranking = bot._ranking(texto)
+    if ranking and ranking[0][0] >= 1.4 and bot._base_cobre(texto, normalizar(texto), None, tolerancia=1):
+        return None
+    achadas = base.encontrar(texto)
+    if achadas:
+        principal, resposta = base.observar(texto, conversa.sorteio, achadas)
+        ident = "nocao:observacao"
+    elif (id_anterior.startswith("nocao:") and getattr(bot, "nocao_conversa", None)
+          and len(normalizar(texto).split()) >= 3):
+        principal = bot.nocao_conversa
+        resposta = base.continuar(texto, principal, conversa.sorteio)
+        ident = "nocao:continuacao"
+    else:
+        return None
+    bot.nocao_conversa = principal
+    conversa.relatos.append(texto.strip()[:600])
+    return ident, resposta, None, ""
