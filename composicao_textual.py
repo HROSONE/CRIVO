@@ -629,6 +629,12 @@ class CompositorTextual:
             if tamanho == "simples":
                 modo = "simples"
             return self.compor(ids, modo, limite=limite)
+        # Antes do pedido generico "explique X", dar chance aos aspectos
+        # tipados. "Explique a origem de X" deve recuperar formacao, nao
+        # simplesmente as primeiras frases sobre X.
+        consolidada = self._resposta_consolidada(n, contexto)
+        if consolidada is not None:
+            return consolidada
         m = re.fullmatch(r"(?:me )?(fale|falar|conte|explique|explicar|resuma|resumir)(?: sobre)? (.+)", n)
         if m:
             ids, faltam = self._temas(m.group(2))
