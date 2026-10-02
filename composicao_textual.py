@@ -470,8 +470,11 @@ class CompositorTextual:
         algum alguma alguns algumas mesmo realmente verdade certo sim
         seus suas tao muito deixa deixam torna tornam causa causam provoca provocam
         explica explicam afeta afetam influencia influenciam continua continuam
-        mecanismo maneira modo
+        mecanismo maneira modo so apenas somente gente
     """.split())
+    # Formas irregulares de "ver" que o radical não une ("vê" ≠ "vemos").
+    _FORMAS_VER = {"ve": "vemos", "veem": "vemos", "vejo": "vemos", "vi": "vemos",
+                   "enxerga": "vemos", "enxergamos": "vemos", "enxergam": "vemos"}
     # Nomes genéricos dispensáveis quando um nome próprio raro identifica
     # o assunto ("missão DART"): não são qualificadores do fato.
     _NOMES_GENERICOS = frozenset("missao sonda nave projeto experimento evento".split())
@@ -495,7 +498,7 @@ class CompositorTextual:
     # responder "por que" ou "o que causa".
     _CAUSAL = re.compile(
         r"\b(?:produz\w*|caus\w*|provoc\w*|resulta\w*|explic\w*|contribu\w*|"
-        r"gera|geram|eleva\w*|ret[eé]m|retendo|devido|por causa|leva a|levam a|"
+        r"gera|geram|eleva\w*|ret[eé]m|retendo|devido|por causa|porque|por isso|leva a|levam a|"
         r"faz com que|torna\w*|mant[eé]m|impulsion\w*|alimenta\w*)\b")
     _SUFIXOS = ("amento", "imento", "acoes", "acao", "icoes", "icao", "aram",
                 "eram", "iram", "ados", "adas", "idos", "idas", "ando", "endo",
@@ -644,6 +647,7 @@ class CompositorTextual:
             seguintes = sorted(o for o in ocupados if o != primeiro)
             ponte = busca[primeiro[1]:seguintes[0][0]].split()
             if ponte and set(ponte) <= {"tem", "possui", "possuem", "teve", "com", "e", "sao",
+                                        "esta", "estao", "fica", "ficam", "em", "na", "no",
                                         "de", "do", "da", "dos", "das", "suas", "seus", "sua",
                                         "seu", "o", "a", "os", "as", "uma", "um"}:
                 ocupados = [primeiro]
@@ -655,6 +659,7 @@ class CompositorTextual:
         for palavra in resto.replace("-", " ").replace(",", " ").split():
             if palavra in self._FORMA_PERGUNTA or len(palavra) < 2:
                 continue
+            palavra = self._FORMAS_VER.get(palavra, palavra)
             raiz = self._raiz(palavra)
             if raiz not in (p for p, _ in pistas):
                 pistas.append((raiz, palavra))
@@ -664,9 +669,15 @@ class CompositorTextual:
         # sono" ≠ "o sono ajuda a memória"); citar os dois não prova nenhuma.
         # Exceção: em "quanto tempo X leva para … Y" o valor pedido é de X; o
         # fato precisa ser da ficha de X e citar Y.
+        # "A Lua causa as marés?": pergunta direta de causa entre dois
+        # conceitos; vale só o fato que cita os dois com linguagem causal.
+        if (len(quadro.outros) == 1 and not pistas and not comparacao and re.fullmatch(
+                r"(?:(?:a|o|as|os) )?[a-z ]+? (?:causa|causam|provoca|provocam|produz|produzem|"
+                r"gera|geram) (?:(?:a|o|as|os) )?[a-z ]+", n.strip(" ?!."))):
+            return quadro._replace(intencao="causa")
         if quadro.outros and not comparacao and intencao not in ("quantidade", "tempo"):
             return quadro._replace(recusa="relacao_entre_conceitos")
-        if len(pistas) > 6 or (not pistas and intencao not in ("quantidade", "tempo")):
+        if len(pistas) > 6 or (not pistas and intencao not in ("quantidade", "tempo", "causa")):
             return quadro._replace(recusa="sem_pistas")
         return quadro
 
@@ -692,8 +703,10 @@ class CompositorTextual:
         if quadro is None or quadro.recusa:
             return None
         resultado = self._planejar(quadro, aproximar=False)
-        if (resultado is None and len(quadro.pistas) >= 2
-                and (self.lexico.sinonimos or self.vetores.disponivel)):
+        # Léxico curado vale até para pergunta de uma só pista ("é feito de
+        # quê?"); vetores, nunca sozinhos: exigem outra pista exata.
+        if (resultado is None and quadro.pistas
+                and (self.lexico.sinonimos or (self.vetores.disponivel and len(quadro.pistas) >= 2))):
             resultado = self._planejar(quadro, aproximar=True)
         return resultado
 
@@ -710,6 +723,18 @@ class CompositorTextual:
         pistas = [p for p, _ in quadro.pistas]
         originais = dict(quadro.pistas)
         mencoes = list(quadro.outros)
+        if mencoes and causal and not comparacao:
+            envolvidos = [assunto] + mencoes
+            escolhidos = [(e, i) for e in envolvidos for i, f in enumerate(self.itens[e]["fatos"])
+                          if self._CAUSAL.search(normalizar(f["texto"]))
+                          and all(self._menciona_conceito(o, normalizar(f["texto"]))
+                                  for o in envolvidos if o != e)]
+            if not escolhidos:
+                return None
+            e = escolhidos[0][0]
+            _, resposta, ctx = self.compor((e,), "explicacao", selecionados=(escolhidos[0],),
+                                           origem="conhecimento")
+            return "escrita:explicacao", resposta, ctx
         if mencoes and not comparacao:
             # Quantidade/tempo com outro conceito citado: só a ficha do assunto.
             fatos = self.itens[assunto]["fatos"]
@@ -736,7 +761,7 @@ class CompositorTextual:
                 # Primeiro o léxico curado; os vetores só entram se aprovados
                 # no controle de qualidade, e nunca para um antônimo listado.
                 par = next((w for w in palavras if self.lexico.sinonimo(palavra, w)), None)
-                if par is None and self.vetores.disponivel:
+                if par is None and self.vetores.disponivel and len(pistas) >= 2:
                     par = self.vetores.mais_parecida(
                         palavra, [w for w in palavras if not self.lexico.antonimo(palavra, w)],
                         self.LIMIAR_VETOR)
