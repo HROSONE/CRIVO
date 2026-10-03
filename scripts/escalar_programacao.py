@@ -3,6 +3,7 @@ import argparse
 import json
 PERFIS={
  'atual':dict(vocabulario=4096,dimensao=192,camadas=4,cabecas=6,contexto=256),
+ 'codigo6m':dict(vocabulario=4096,dimensao=256,camadas=6,cabecas=8,contexto=512),
  '10m':dict(vocabulario=4096,dimensao=384,camadas=5,cabecas=6,contexto=512),
  '30m':dict(vocabulario=4096,dimensao=512,camadas=8,cabecas=8,contexto=512),
 }

@@ -11,6 +11,7 @@ import math
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 import time
 
@@ -134,6 +135,9 @@ def estado_checkpoint(modelo, otimizador, rng, passo, assinatura, dados, histori
             'horizonte': horizonte, 'inicial': inicial}
 
 
+
+from scripts.selecao_programacao import pontuacao_validacao
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--corpus', required=True)
@@ -154,7 +158,10 @@ def main():
                    help='Fração de passos de SFT com pré-treino para reduzir esquecimento')
     p.add_argument('--selecionar-melhor', action='store_true', help='Salva melhor validação em melhor/ sem substituir checkpoint de retomada')
     p.add_argument('--paciencia-validacoes', type=int, default=0, help='Parar após N avaliações sem melhora; zero desativa')
+    p.add_argument('--validacao-funcional', action='store_true', help='Selecionar SFT por código correto na validação, compilação, término e CE')
+    p.add_argument('--tsc', help='Compilador TS para validação funcional')
     p.add_argument('--retomar', action='store_true')
+    p.add_argument('--max-segundos', type=int, help='Pausa com checkpoint após orçamento de tempo da etapa')
     p.add_argument('--parar-em', type=int, help='Pausa planejada sem mudar o horizonte do LR')
     p.add_argument('--ajustar-proprio', action='store_true', help='Permite novo corpus com o mesmo tokenizer/configuração; registra linhagem')
     p.add_argument('--inicial', help='Diretório do pré-treino próprio para iniciar SFT')
@@ -162,8 +169,11 @@ def main():
     args = p.parse_args()
     if min(args.passos, args.lote, args.threads, args.avaliar_a_cada, args.salvar_a_cada) < 1:
         p.error('Contagens devem ser positivas')
+    if args.validacao_funcional and (args.fase != 'dialogo' or not args.selecionar_melhor or not args.tsc):
+        p.error('Validação funcional requer SFT, --selecionar-melhor e --tsc')
     if args.paciencia_validacoes < 0 or args.paciencia_validacoes and not args.selecionar_melhor:
         p.error('Paciência não negativa exige --selecionar-melhor')
+    if args.max_segundos is not None and args.max_segundos < 1: p.error('Orçamento deve ser positivo')
     if not 0 <= args.repeticao_linguagem < 1 or args.lr <= 0:
         p.error('Taxa de aprendizado/repetição inválida')
     if args.ajustar_proprio and not (args.inicial or args.retomar): p.error('--ajustar-proprio requer --inicial ou --retomar')
@@ -179,7 +189,12 @@ def main():
     assinatura, dados = assinatura_execucao(config, corpus, args.fase, args.lote, args.lr,
                                             args.semente, args.repeticao_linguagem)
     if args.selecionar_melhor:
-        dados['selecao'] = dict(criterio='entropia_cruzada_validacao_' + args.fase, paciencia=args.paciencia_validacoes)
+        dados['selecao'] = dict(criterio='funcional_compilacao_termino_ce' if args.validacao_funcional else 'entropia_cruzada_validacao_' + args.fase, paciencia=args.paciencia_validacoes)
+        if args.validacao_funcional:
+            dados['selecao']['fontes_sha256'] = {n:sha(ROOT/'dados/programacao'/n) for n in ('tarefas.json','curriculo.json','algoritmos.json')}
+            dados['selecao']['codigo_avaliador'] = sha(ROOT/'scripts/avaliar_programacao.py')
+            dados['selecao']['codigo_verificador'] = sha(ROOT/'verificacao_codigo.py')
+            dados['selecao']['codigo_selecao'] = sha(ROOT/'scripts/selecao_programacao.py')
         assinatura = hashlib.sha256(json.dumps(dados, sort_keys=True).encode()).hexdigest()
     out = Path(args.saida); out.mkdir(parents=True, exist_ok=True)
     if (out / 'checkpoint.pt').exists() and not args.retomar:
@@ -238,14 +253,26 @@ def main():
         tmp = pasta / 'relatorio.json.tmp'
         tmp.write_text(json.dumps(relatorio, ensure_ascii=False, indent=2) + '\n')
         os.replace(tmp, pasta / 'relatorio.json')
-    melhor_valor = min(h['avaliacao'][args.fase]['entropia_cruzada'] for h in historico)
+    def medir_funcional():
+        salvar(out / 'validacao_modelo')
+        path = out / ('validacao_funcional_%06d.json' % passo)
+        subprocess.run([sys.executable, str(ROOT/'scripts/avaliar_programacao.py'),
+            '--modelo', str(out/'validacao_modelo'), '--saida', str(path), '--split','validacao',
+            '--curriculo-validacao', '--reparos','0', '--tsc',str(args.tsc)], check=True, timeout=600)
+        r = json.loads(path.read_text())
+        if r['particao'] != 'validacao' or r['pesos_sha256'] != sha(out/'validacao_modelo/pesos.pt'):
+            raise ValueError('Validação funcional não corresponde ao checkpoint')
+        return {k:r[k] for k in ('particao','linguagens','pesos_sha256','fontes_sha256','isolamento')}
+    if args.validacao_funcional and 'funcional' not in historico[-1]:
+        historico[-1]['funcional'] = medir_funcional()
+    melhor_pontuacao = max(pontuacao_validacao(h,args.fase,args.validacao_funcional) for h in historico)
     sem_melhora = 0
     if args.selecionar_melhor and args.retomar:
         melhor_salvo = out / 'melhor' / 'relatorio.json'
         if not melhor_salvo.exists():
             raise ValueError('Melhor checkpoint ausente na retomada')
         best = json.loads(melhor_salvo.read_text())
-        melhor_valor = best['historico'][-1]['avaliacao'][args.fase]['entropia_cruzada']
+        melhor_pontuacao = pontuacao_validacao(best['historico'][-1],args.fase,args.validacao_funcional)
         sem_melhora = sum(h['passo'] > best['passo'] for h in historico)
     elif args.selecionar_melhor:
         salvar(out / 'melhor')
@@ -276,21 +303,23 @@ def main():
                      'segundos': round(time.monotonic() - inicio, 2)}
             print(json.dumps(linha), flush=True)
             with open(out / 'progresso.jsonl', 'a') as f: f.write(json.dumps(linha) + '\n')
+        if args.max_segundos and time.monotonic()-inicio >= args.max_segundos: limite = passo
         if passo % args.avaliar_a_cada == 0 or passo == limite:
             resultado = avaliar(modelo, corpus, args.dispositivo)
             historico.append({'passo': passo, 'avaliacao': resultado})
+            if args.validacao_funcional: historico[-1]['funcional'] = medir_funcional()
             print(json.dumps({'passo': passo, 'avaliacao': resultado}), flush=True)
             if args.selecionar_melhor:
-                valor = resultado[args.fase]['entropia_cruzada']
-                if valor < melhor_valor:
-                    melhor_valor = valor; sem_melhora = 0
+                valor = pontuacao_validacao(historico[-1],args.fase,args.validacao_funcional)
+                if valor > melhor_pontuacao:
+                    melhor_pontuacao = valor; sem_melhora = 0
                     salvar(out / 'melhor')
                 else:
                     sem_melhora += 1
                 if args.paciencia_validacoes and sem_melhora >= args.paciencia_validacoes:
                     parou_validacao = True
                     salvar()
-                    print(json.dumps(dict(parada_validacao=True, passo=passo, melhor_entropia=melhor_valor)), flush=True)
+                    print(json.dumps(dict(parada_validacao=True, passo=passo, melhor_pontuacao=melhor_pontuacao)), flush=True)
                     break
         if passo % args.salvar_a_cada == 0 or passo == limite:
             salvar()
