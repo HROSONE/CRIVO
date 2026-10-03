@@ -58,7 +58,9 @@ def gate(relatorio):
     for lang in ('javascript','typescript'):
         m=relatorio.get('linguagens',{}).get(lang,{})
         if m.get('total',0)<50: motivos.append('amostra pequena: '+lang)
-        if m.get('pass_at_1',0)<.9: motivos.append('pass@1 abaixo de 90%: '+lang)
+        taxa=m.get('pass_at_1')
+        if not isinstance(taxa,(int,float)) or not .9 <= taxa <= 1:
+            motivos.append('pass@1 ausente ou abaixo de 90%: '+lang)
         if m.get('completas',0)!=m.get('total',0): motivos.append('gerações incompletas: '+lang)
     if not relatorio.get('regressao_geral_aprovada'): motivos.append('regressão geral não aprovada')
     if not relatorio.get('revisao_independente'): motivos.append('revisão independente ausente')

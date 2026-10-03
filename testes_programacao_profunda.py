@@ -121,6 +121,20 @@ class DadosEGates(unittest.TestCase):
             r=verificar('function resolver(','javascript',[])
         self.assertFalse(r['compila']);self.assertFalse(r['executado'])
 
+    def test_saida_zero_sem_protocolo_nao_certifica_testes(self):
+        if not shutil.which('node'): self.skipTest('Node ausente')
+        from verificacao_codigo import verificar
+        with patch('verificacao_codigo.sandbox_args',return_value=['sandbox']), patch(
+                'verificacao_codigo.comando',return_value=(True,'')):
+            r=verificar('function resolver(n) { return n*2; }','javascript',[dict(entrada=[2],saida=4)])
+        self.assertTrue(r['compila']);self.assertTrue(r['executado']);self.assertFalse(r['funcional'])
+
+    def test_comparacao_distingue_booleano_numero_e_mutacao(self):
+        from verificacao_codigo import iguais
+        self.assertFalse(iguais([True],[1]))
+        self.assertFalse(iguais([1,2],[2,1]))
+        self.assertTrue(iguais([4.0],[4]))
+
 
 @unittest.skipUnless(DEPENDENCIAS,'Laboratório opcional requer torch/tokenizers/numpy')
 class Laboratorio(unittest.TestCase):
