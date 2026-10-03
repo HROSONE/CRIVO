@@ -53,18 +53,38 @@ A entrada é descartada quando:
 - o pedido é para escrever algo que o CRIVO não conhece ("Escreva fatorial em JavaScript" × introdução ao
   JavaScript).
 
+Exceções que protegem respostas certas:
+- quando a pergunta cita o assunto do identificador da entrada ("mofo no guarda-roupa" × mofo), só outro ser
+  ou astro citado a desqualifica;
+- as partes de seres ("penas", "folha") não contam como assunto à parte ("vale a pena").
+
+Numa pergunta de classificação ("Morcego é ave?"), a entrada precisa falar do próprio sujeito.
+
 Além disso, três tipos de pergunta não usam mais a base de fatos de outro tema:
 - hipóteses ("Se todo A é B…");
 - contas ("3 maçãs… quantas sobram");
 - código (`==`, `=>`, `print(`), que só casa com programação.
 
 **Conferência:** a suíte inteira foi rodada registrando toda resposta aceita pela base (488 perguntas
-distintas). A regra rejeita só cinco delas, e as cinco eram respostas erradas:
+distintas). A regra rejeita só seis delas, e as seis eram respostas erradas ou vazias:
 - "Qual a distância da Lua até a Terra?" recebia o tempo da luz do Sol;
 - "Vênus é parecido com a Terra?" recebia "o planeta mais quente";
 - "O que gato e computador têm em comum?" recebia cuidados com gatos;
 - "Qual é o nome dessa coisa que você falou?" recebia as estações do ano;
-- "Meu nome é Pessoa N" também recebia as estações do ano.
+- "Meu nome é Pessoa N" também recebia as estações do ano;
+- "Um burro é um mamífero?" recebia a descrição de mamíferos (o CRIVO não tem "burro" cadastrado).
+
+Validação cruzada (`avaliar_definicoes.py`, cada pergunta retirada do índice), acertos/erradas:
+
+| | main | depois |
+|---|---|---|
+| coorte histórica sem grafo | 192/43 | 195/38 |
+| coorte histórica com grafo | 192/43 | 196/37 |
+| base atual sem grafo | 200/47 | 204/40 |
+| base atual com grafo | 200/47 | 205/39 |
+
+"o que é cadeia alimentar" aparece como perda do filtro de definição, mas já é "fora" na main com o filtro;
+só entrou na lista porque, sem o filtro, a branch passou a acertá-la (a main respondia fotossíntese).
 
 A base de perguntas não mudou. Alterá-la exige retreinar a rede classificadora.
 

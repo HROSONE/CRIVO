@@ -441,6 +441,9 @@ class Crivo:
             for nome in (getattr(grafo, "nomes", None) or {}):
                 if "_" not in nome:
                     extra |= set(tokens(nome))
+            # Partes de seres ("penas", "folha") não são assuntos à parte, e
+            # "pena" aparece em "vale a pena".
+            extra -= {"pena", "raiz", "folha", "caule", "celula"}
             self._entidades = extra - self._GENERICOS
             self._conceitos_cache = (self.conceitos | extra) - self._GENERICOS
         return self._conceitos_cache
@@ -455,15 +458,26 @@ class Crivo:
         resto = [t for t in toks if t not in self.termos[indice]]
         nucleo = self.nucleos[indice]
         conceitos = self._conceitos_com_entidades()
+        # "Morcego é ave?": classificação de X só com entrada que fale de X.
+        classe = re.fullmatch(r"(?:o |a |um |uma )?(\w+) (?:e|eh) (?:um |uma )?(\w+)", normalizar(texto).strip(" ?.!"))
+        if classe:
+            sujeito = [t for t in tokens(classe.group(1))]
+            if sujeito and not any(t in self.termos[indice] for t in sujeito):
+                return True
         if len(bate) == 1 and resto and bate[0] not in nucleo:
             return True
         outros = [t for t in resto if t in conceitos and t not in nucleo]
+        # Quando a pergunta cita o assunto do próprio identificador ("mofo no
+        # guarda-roupa" × mofo), só outro ser ou astro citado a desqualifica.
+        cita_assunto = bool(set(bate) & set(tokens(self.base[indice]["id"].replace("_", " "))))
+        if cita_assunto:
+            outros = [t for t in outros if t in self._entidades]
         if outros and (len(bate) <= 1 or not (set(bate) & nucleo) - self._GENERICOS):
             return True
         # "Golfinho respira debaixo d'água?" × peixes: outro ser citado e metade
         # ou mais do assunto da entrada ausente da pergunta.
         seres = [t for t in outros if t in self._entidades]
-        if seres and nucleo and len(nucleo - set(bate)) * 2 >= len(nucleo):
+        if seres and not cita_assunto and nucleo and len(nucleo - set(bate)) * 2 >= len(nucleo):
             return True
         # "Escreva fatorial em JavaScript": pedido de algo que não conheço não
         # vira a introdução da linguagem.
