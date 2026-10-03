@@ -1,6 +1,6 @@
 # Fichas avançadas: distribuidos
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## distribuidos_timeouts — Timeouts, retries e budgets
 
@@ -30,7 +30,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Invariantes:** Uma chave no escopo identifica um payload e um efeito lógico; colisão de payload é rejeitada.
 
-**Relações:** dados_transactions, distribuidos_outbox, distribuidos_timeouts
+**Relações:** dados_transactions; distribuidos_outbox; distribuidos_timeouts
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
@@ -48,7 +48,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Pré-requisitos:** dados_transactions
 
-**Relações:** distribuidos_queues, distribuidos_idempotencia
+**Relações:** distribuidos_queues; distribuidos_idempotencia
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
@@ -108,4 +108,99 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
 
+## distribuidos_queue-ordering — Ordenação por chave
+
+**Definição:** Ordem de entrega, processamento e commit de efeito são propriedades distintas.
+
+**Mecanismo:** Partition por entidade e processamento serial por chave podem conservar ordem local; retry/rebalance exigem fencing/sequência.
+
+**Falhas comuns:** Broker ordenado com consumers paralelos pode produzir efeitos fora de ordem.
+
+**Escolha:** Usar sequence/version no evento e estratégia para gap/duplicate.
+
+**Verificação proposta:** Entregar 2 antes de 1 e reiniciar consumer; validar regra de recuperação.
+
+**Relações:** distribuidos_queues
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
+
+## distribuidos_fencing — Fencing tokens e leases
+
+**Definição:** Lease limita ownership no tempo, mas processo pausado pode continuar depois da expiração.
+
+**Mecanismo:** Token monotônico permite recurso rejeitar owner antigo; recurso deve verificar token atomically com efeito.
+
+**Falhas comuns:** Lock distribuído com timeout sozinho não impede stale writer após GC pause/partição.
+
+**Escolha:** Fazer sistema autoritativo aplicar fencing e definir renovação/expiração.
+
+**Verificação proposta:** Pausar owner A, dar lease a B e impedir escrita tardia de A.
+
+**Relações:** distribuidos_consistency
+
+**Referências recomendadas:** [Jepsen consistency models](https://jepsen.io/consistency)
+
+## distribuidos_clock-order — Clocks e causalidade
+
+**Definição:** Clock de parede e ordem causal não são equivalentes.
+
+**Mecanismo:** Lamport clocks oferecem ordem consistente com happens-before, sem inferir causalidade completa pelo inverso; vector clocks rastreiam relações sob condições.
+
+**Falhas comuns:** Timestamp maior não prova evento causado pelo anterior; skew pode invalidar latest-write-wins.
+
+**Escolha:** Usar relógio monotônico para duration e modelo causal/versionado para merge.
+
+**Verificação proposta:** Simular skew, reorder e eventos concorrentes com mesmo wall clock.
+
+**Relações:** distribuidos_consistency
+
+**Referências recomendadas:** [Jepsen consistency models](https://jepsen.io/consistency)
+
+## distribuidos_quorum — Quóruns e interseção
+
+**Definição:** Conjuntos de leitura/escrita com interseção ajudam observar updates sob hipóteses do protocolo.
+
+**Mecanismo:** R+W>N é condição aritmética comum, mas versões, falhas, membership e protocolo influenciam garantia real.
+
+**Falhas comuns:** Só configurar quorum não prova linearizability; sloppy quorum e concorrência podem alterar semântica.
+
+**Escolha:** Ler garantia específica do sistema e testar falhas/concorrência.
+
+**Verificação proposta:** Testar escrita parcial, failover e leitura por réplica stale.
+
+**Relações:** distribuidos_consistency
+
+**Referências recomendadas:** [Jepsen consistency models](https://jepsen.io/consistency)
+
+## distribuidos_backpressure-global — Backpressure entre serviços
+
+**Definição:** Limitar concorrência local não protege dependência se muitas réplicas somam carga excessiva.
+
+**Mecanismo:** Orçamento global, quotas e feedback reduzem pressão; filas e retry precisam integrar admission.
+
+**Falhas comuns:** Autoscaling de frontend aumenta conexões/tráfego ao banco que não escalou.
+
+**Escolha:** Orçar por dependência e medir carga total; rejeitar cedo quando saturado.
+
+**Verificação proposta:** Aumentar réplicas sob carga e verificar conexões/budget de throughput.
+
+**Relações:** operacao_capacity
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
+
+## distribuidos_hedging — Hedged requests
+
+**Definição:** Requisição redundante atrasada pode reduzir cauda de latência em operações apropriadas.
+
+**Mecanismo:** Cancelar perdedor e limitar redundância; benefício exige distribuição de latência e independência suficiente.
+
+**Falhas comuns:** Hedge em write sem idempotência duplica efeito; dependência já saturada piora com duplicação.
+
+**Escolha:** Usar apenas se ganho medido supera custo, com budget e semântica segura.
+
+**Verificação proposta:** Simular cauda lenta e medir p99, tráfego extra e término do perdedor.
+
+**Relações:** distribuidos_timeouts
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
 

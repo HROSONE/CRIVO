@@ -1,6 +1,6 @@
 # Fichas avançadas: linguagens
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## linguagens_python — Python e modelo de execução
 
@@ -85,5 +85,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar exceção, cancellation, disposal e latência sem bloqueio síncrono.
 
 **Referências recomendadas:** [C# documentation](https://learn.microsoft.com/en-us/dotnet/csharp/)
-
 

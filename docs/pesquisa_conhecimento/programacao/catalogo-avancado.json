@@ -6,7 +6,7 @@
   "data_curadoria": "2026-10-03",
   "integrado_runtime": false,
   "treinamento_realizado": false,
-  "verificacao_editorial": "Revisão de fontes remotas pendente; URLs são referências recomendadas, não evidência de consulta nesta execução.",
+  "verificacao_editorial": "Revisão integral pendente; seis temas conferidos pontualmente em documentação oficial em conferencia-fontes-2.json. Isso não valida todas as fichas.",
   "licenciamento": "Conteúdo autoral criado para este repositório; não inclui transcrição de documentação externa. A publicação não altera a licença geral do projeto.",
   "fontes": {
     "ecma": {
@@ -528,7 +528,10 @@
         "distribuidos_timeouts",
         "fronteira_structured-concurrency"
       ],
-      "exemplo": "exemplos/padroes.mjs#abortableDelay"
+      "exemplo": "exemplos/padroes.mjs#abortableDelay",
+      "conferencia_parcial": [
+        "node-abort"
+      ]
     },
     {
       "id": "js_erros",
@@ -712,7 +715,10 @@
         "ts"
       ],
       "nivel": "avancado",
-      "status": "curadoria_autoral_nao_integrada"
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "ts-assertions"
+      ]
     },
     {
       "id": "ts_strict",
@@ -727,7 +733,10 @@
         "tsconfig"
       ],
       "nivel": "avancado",
-      "status": "curadoria_autoral_nao_integrada"
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "ts-optional"
+      ]
     },
     {
       "id": "ts_unknown-any",
@@ -772,7 +781,10 @@
         "ts"
       ],
       "nivel": "avancado",
-      "status": "curadoria_autoral_nao_integrada"
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "ts-assertions"
+      ]
     },
     {
       "id": "ts_structural",
@@ -893,6 +905,9 @@
       "relacoes": [
         "ts_infer",
         "ts_type-performance"
+      ],
+      "conferencia_parcial": [
+        "ts-distribution"
       ]
     },
     {
@@ -1033,7 +1048,10 @@
         "tsconfig"
       ],
       "nivel": "avancado",
-      "status": "curadoria_autoral_nao_integrada"
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "ts-optional"
+      ]
     },
     {
       "id": "ts_enum",
@@ -1193,6 +1211,9 @@
         "fronteira_streaming-parsers",
         "backend_shutdown",
         "operacao_capacity"
+      ],
+      "conferencia_parcial": [
+        "node-stream"
       ]
     },
     {
@@ -3360,7 +3381,1893 @@
       ],
       "nivel": "avancado",
       "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_promise-resolution",
+      "dominio": "javascript",
+      "conceito": "Resolução de Promise e thenables",
+      "definicao": "Resolver Promise com thenable assimila seu estado; resolver com valor não thenable produz fulfillment. Resolução e fulfillment não são sinônimos.",
+      "mecanismo": "Thenables podem chamar callbacks várias vezes ou lançar; algoritmo normativo controla settlement. Referência cíclica direta rejeita com TypeError.",
+      "falhas_comuns": "Implementar Promise caseira ou confiar em objeto com then benigno pode quebrar scheduling, erro e segurança da abstração.",
+      "criterio_de_escolha": "Aceitar valores PromiseLike só quando contrato pede; não implementar algoritmo de assimilação por intuição.",
+      "verificacao": "Testar then getter que lança, resolução duplicada e Promise resolvida com outra ainda pendente.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_promises"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_async-boundary",
+      "dominio": "javascript",
+      "conceito": "await e fronteira de erro",
+      "definicao": "await assimila valor awaitable e retoma continuação de forma assíncrona mesmo para valor já resolvido.",
+      "mecanismo": "return promessa em try não captura rejeição futura; return await promessa dentro de try permite catch/finally acompanhar settlement.",
+      "falhas_comuns": "Remover todo return await por regra de estilo pode alterar tratamento de erro e lifetime de recurso.",
+      "criterio_de_escolha": "Escolher pela semântica de erro/cleanup e medir performance na versão do engine.",
+      "verificacao": "Comparar return p e return await p em try/catch com p rejeitada.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_erros"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_floating-promises",
+      "dominio": "javascript",
+      "conceito": "Promises soltas",
+      "definicao": "Uma operação assíncrona chamada sem await/return/handler pode continuar fora do escopo responsável.",
+      "mecanismo": "Handlers de array forEach não aguardam callback async; execução fire-and-forget precisa dono, erro e deadline próprios.",
+      "falhas_comuns": "forEach(async...) seguido de resposta HTTP pode anunciar conclusão antes de persistir e perder rejeição.",
+      "criterio_de_escolha": "Usar for...of sequencial, map com combinador ou scheduler limitado; detached task só com contrato explícito.",
+      "verificacao": "Instrumentar término das tarefas e verificar que operação principal só conclui quando efeitos exigidos terminaram.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_combinadores"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_task-group",
+      "dominio": "javascript",
+      "conceito": "Grupos com cancelamento e join",
+      "definicao": "Falha em uma tarefa deve iniciar cancelamento de siblings quando o contrato exige término do grupo.",
+      "mecanismo": "Sinalizar abort não garante que filhos terminaram; grupo precisa aguardar settlements e decidir qual erro propaga.",
+      "falhas_comuns": "Rejeitar imediatamente e soltar recursos compartilhados pode fazê-los ser usados por tarefa ainda ativa.",
+      "criterio_de_escolha": "Definir erro primário, exceções de cleanup e política de tarefas que ignoram cancelamento.",
+      "verificacao": "Fazer uma task falhar e outra limpar recurso lentamente; grupo não retorna antes do cleanup.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "fronteira_structured-concurrency"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#runGroup"
+    },
+    {
+      "id": "js_async-context",
+      "dominio": "javascript",
+      "conceito": "Contexto assíncrono",
+      "definicao": "Contexto de request pode ser propagado entre callbacks sem global mutável compartilhado.",
+      "mecanismo": "AsyncLocalStorage no Node mantém storage conforme criação da cadeia assíncrona; integrações/custom async boundaries exigem revisão.",
+      "falhas_comuns": "Variável global requestId mistura requests; contexto não deve transportar secrets indiscriminadamente nem autorizar implicitamente.",
+      "criterio_de_escolha": "Usar contexto para correlation e principal validado, mantendo autorização explícita em fronteira de operação.",
+      "verificacao": "Executar requests intercalados e checar IDs corretos em logs após awaits e callbacks.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "operacao_observability"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_cleanup-disposal",
+      "dominio": "javascript",
+      "conceito": "Cleanup e gerenciamento explícito de recursos",
+      "definicao": "Recurso exige release em caminho normal, erro e cancelamento; GC não estabelece prazo para close.",
+      "mecanismo": "try/finally é base portátil; explicit resource management e símbolos de dispose dependem de versão/transpilação e host.",
+      "falhas_comuns": "Assumir suporte a using porque o editor aceita sintaxe pode quebrar runtime; cleanup que lança pode ocultar causa.",
+      "criterio_de_escolha": "Documentar owner, operação idempotente de close e suporte instalado antes de adotar sintaxe nova.",
+      "verificacao": "Testar aquisição parcial, erro de operação, erro de cleanup e duplo dispose.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_gc-retenção"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_semaphore",
+      "dominio": "javascript",
+      "conceito": "Semáforo assíncrono",
+      "definicao": "Permits limitam número de atividades; acquire deve respeitar fila, cancelamento e release único.",
+      "mecanismo": "Cancelamento em fila remove waiter; cancelamento depois de grant exige entregar permit ou devolvê-lo sem vazamento.",
+      "falhas_comuns": "Release em múltiplos caminhos aumenta capacidade ilegal; mutex local não protege processos diferentes.",
+      "criterio_de_escolha": "Usar release idempotente ou ownership único com finally, FIFO se fairness for requisito.",
+      "verificacao": "Testar abort antes do grant, abort na borda e active <= capacity em toda transição.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_cancelamento"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_async-queue",
+      "dominio": "javascript",
+      "conceito": "Fila assíncrona limitada",
+      "definicao": "Fila conecta producer/consumer sob capacidade e política de encerramento definida.",
+      "mecanismo": "push aguarda espaço; pop aguarda item; close pode drenar ou descartar por contrato. Abort deve remover apenas waiter correspondente.",
+      "falhas_comuns": "Waiter abandonado consome futuro item/slot; fechar fila sem resolver esperas deixa processo pendurado.",
+      "criterio_de_escolha": "Escolher semântica de fechamento e implementar invariantes sobre itens/permits/waiters.",
+      "verificacao": "Testar produtor rápido, consumidor lento, close com waiters e cancelamento seletivo.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "backend_node-streams"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#AsyncQueue",
+      "conferencia_parcial": [
+        "node-abort"
+      ]
+    },
+    {
+      "id": "js_circuit-breaker",
+      "dominio": "javascript",
+      "conceito": "Circuit breaker",
+      "definicao": "Breaker interrompe chamadas quando dependência tem falhas conforme política e permite probe após intervalo.",
+      "mecanismo": "Estados closed/open/half-open têm transições; probe deve ser limitado e métricas distinguem recusa local de falha remota.",
+      "falhas_comuns": "Breaker por request sem estado persistido no processo nunca aprende; rejeições de negócio não são falha técnica universal.",
+      "criterio_de_escolha": "Definir threshold/janela, classes de erro, clock e fallback; combinar com timeout/admission.",
+      "verificacao": "Testar falha repetida, tempo avançado, probes concorrentes e sucesso recuperando.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "distribuidos_timeouts"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#CircuitBreaker"
+    },
+    {
+      "id": "js_retry-jitter",
+      "dominio": "javascript",
+      "conceito": "Backoff com jitter",
+      "definicao": "Jitter distribui tentativas para evitar clientes sincronizados após falha comum.",
+      "mecanismo": "Full jitter sorteia atraso até limite exponencial; Retry-After e deadline podem reduzir próximas tentativas.",
+      "falhas_comuns": "Retry recursivo infinito retém estado; incluir erro permanente ou request não idempotente cria dano.",
+      "criterio_de_escolha": "Injetar clock/RNG, limitar attempts/elapsed e distinguir retry seguro de efeito desconhecido.",
+      "verificacao": "Usar RNG determinístico e checar teto, deadline e nenhuma espera depois de abort.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "distribuidos_timeouts"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_dedupe",
+      "dominio": "javascript",
+      "conceito": "Deduplicação e coalescing",
+      "definicao": "Dedupe de efeitos durável difere de compartilhar Promise em andamento dentro de processo.",
+      "mecanismo": "Single-flight reduz trabalho paralelo da mesma chave, mas não armazena resultado após conclusão nem impede duplicata após restart.",
+      "falhas_comuns": "Chave incompleta mistura tenants; cachear rejeição eternamente impede recuperação; tarefa reentrante pode esperar a si mesma.",
+      "criterio_de_escolha": "Definir chave, isolamento e scope; persistir dedupe quando há efeito de negócio.",
+      "verificacao": "Testar request concurrente, falha seguida de recuperação e chaves de usuários diferentes.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "distribuidos_idempotencia"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_textdecoder",
+      "dominio": "javascript",
+      "conceito": "Decoder incremental e texto",
+      "definicao": "Sequência UTF-8 pode atravessar chunks, exigindo estado do decoder.",
+      "mecanismo": "decode com stream true conserva bytes incompletos; flush final detecta EOF truncado se fatal habilitado.",
+      "falhas_comuns": "Buffer.toString em cada chunk pode substituir caractere dividido e corromper conteúdo silenciosamente.",
+      "criterio_de_escolha": "Usar decoder stateful, limite de bytes e política explícita para input inválido.",
+      "verificacao": "Fragmentar em cada byte de acento/emoji e comparar resultado; rejeitar prefixo incompleto.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "fronteira_streaming-parsers"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_framing",
+      "dominio": "javascript",
+      "conceito": "Framing binário length-prefixed",
+      "definicao": "Protocolo precisa distinguir sequência de bytes de fronteiras de mensagens.",
+      "mecanismo": "Header determina tamanho; parser mantém offset/estado e impõe maxFrame antes de alocar/aguardar payload grande.",
+      "falhas_comuns": "read pode trazer meia mensagem ou várias; comprimento hostil pode consumir memória ou prender espera.",
+      "criterio_de_escolha": "Especificar endian, tamanho máximo, zero-length, EOF parcial e política de erro permanente.",
+      "verificacao": "Dividir frame em todos pontos, concatenar frames e simular header acima do máximo.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "redes_tcp"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#FrameDecoder"
+    },
+    {
+      "id": "js_event-emitter",
+      "dominio": "javascript",
+      "conceito": "EventEmitter e eventos",
+      "definicao": "Node EventEmitter invoca listeners normalmente de forma síncrona na emissão; regras de error event são especiais.",
+      "mecanismo": "Callbacks async podem rejeitar fora da emissão; listener lifecycle e once/importação precisam contrato.",
+      "falhas_comuns": "Pensar que emit aguarda Promise dos listeners resulta em ordem/erros incorretos; listener leak cresce memória.",
+      "criterio_de_escolha": "Usar APIs/documentação do host e considerar canal explícito de erro/await para eventos assíncronos.",
+      "verificacao": "Testar listener que lança, async que rejeita, listener removido durante emit e cleanup.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_erros"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "node-events"
+      ]
+    },
+    {
+      "id": "js_reentrancy",
+      "dominio": "javascript",
+      "conceito": "Reentrância síncrona",
+      "definicao": "Callback externo pode reentrar na abstração antes que a primeira operação complete.",
+      "mecanismo": "Invocar callback enquanto invariant temporário está quebrado permite observar/modificar estado ilegal mesmo em uma thread.",
+      "falhas_comuns": "Registrar Promise depois de chamar factory síncrona abre janela de segunda execução; getters podem executar código.",
+      "criterio_de_escolha": "Restabelecer invariant antes de chamar código externo ou agendar callback após registro.",
+      "verificacao": "Factory chama mesma API novamente; verificar que estado permanece legal e não há duplicação imprevista.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_closures"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_esm-live",
+      "dominio": "javascript",
+      "conceito": "Bindings vivos e ciclos ESM",
+      "definicao": "Import observa binding exportado, não cópia congelada do valor; inicialização segue grafo de módulos.",
+      "mecanismo": "Ciclo pode acessar export lexical ainda na TDZ; side effects top-level dependem de ordem de avaliação.",
+      "falhas_comuns": "Refactor que cria ciclo pode lançar ReferenceError só em entrada específica; import dinâmico pode mover timing.",
+      "criterio_de_escolha": "Eliminar ciclo por módulo de contratos/dados ou inicialização explícita.",
+      "verificacao": "Executar cada entrypoint e alterar binding exportado para observar live update.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_modulos"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_package-exports",
+      "dominio": "javascript",
+      "conceito": "Export maps e encapsulamento de pacote",
+      "definicao": "package.json exports controla pontos públicos e condições de resolução conforme host.",
+      "mecanismo": "Ordem/condições e caminhos types/import/require precisam combinar com artefatos. Subpaths privados não são API prometida.",
+      "falhas_comuns": "Pacote pode funcionar por deep import local e quebrar após export map; types podem resolver arquivo diferente de JS.",
+      "criterio_de_escolha": "Testar consumidores reais e declarar apenas exports presentes no pacote.",
+      "verificacao": "Empacotar, instalar em diretório vazio e checar subpaths públicos/privados.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "ts_declarations"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_source-maps",
+      "dominio": "javascript",
+      "conceito": "Source maps e diagnóstico",
+      "definicao": "Source map relaciona código transformado ao fonte para stacks/debugging.",
+      "mecanismo": "Pipeline de transforms deve compor maps; paths/fontes embutidas podem revelar código ou detalhes de ambiente.",
+      "falhas_comuns": "Map incorreto aponta linha errada e gera falsa hipótese; publicar sourceContent pode expor informação sensível.",
+      "criterio_de_escolha": "Gerar e testar stack de erro conhecido; decidir acesso aos mapas por política operacional.",
+      "verificacao": "Provocar erro em função transformada e comparar localização; inspecionar artefato por secrets.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "engenharia_debugging"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_sort-comparator",
+      "dominio": "javascript",
+      "conceito": "Contratos de comparator",
+      "definicao": "Comparator define relação de ordenação e deve ser coerente com equivalência/ordem.",
+      "mecanismo": "Valores negativos/zero/positivos indicam precedência; NaN se comporta como zero no sort, podendo ocultar dado inválido.",
+      "falhas_comuns": "Comparator booleano como a>b não oferece sinais apropriados; comparar por locale muda regra de negócio.",
+      "criterio_de_escolha": "Normalizar dados e comparar múltiplas chaves com desempate estável explícito.",
+      "verificacao": "Gerar triplas e testar transitividade; testar undefined/NaN e empate.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "algoritmos_sort"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_dates-wire",
+      "dominio": "javascript",
+      "conceito": "Datas em wire contracts",
+      "definicao": "Instante, data civil, hora local e duração são conceitos diferentes e precisam schemas próprios.",
+      "mecanismo": "ISO com offset identifica instante; YYYY-MM-DD pode identificar data civil sem timezone; duração de calendário não é milissegundo fixo.",
+      "falhas_comuns": "Serializar aniversário como midnight UTC pode deslocar dia na UI; Date inválida pode lançar ao serializar.",
+      "criterio_de_escolha": "Nomear campos por semântica e validar faixa/offset; documentar timezone quando civil.",
+      "verificacao": "Trocar fuso do cliente e verificar que aniversário permanece no dia declarado.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_intl-datas"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_regexp-state",
+      "dominio": "javascript",
+      "conceito": "Estado e flags de regex",
+      "definicao": "Regex com g ou y mantém lastIndex entre chamadas de exec/test.",
+      "mecanismo": "Chamadas repetidas em mesmo objeto podem alternar match; y exige posição exata e g busca a partir do índice.",
+      "falhas_comuns": "Validador que reutiliza regex global pode rejeitar input válido conforme chamada anterior.",
+      "criterio_de_escolha": "Não usar flags stateful em validação independente ou resetar explicitamente.",
+      "verificacao": "Chamar test duas vezes com mesma entrada e verificar resultado esperado sem dependência histórica.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_regex"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_safe-object",
+      "dominio": "javascript",
+      "conceito": "Objetos de dados e accessors",
+      "definicao": "Objeto arbitrário pode executar código ao ler campo, refletir chaves ou acessar protótipo.",
+      "mecanismo": "Getter, Proxy e toJSON alteram observações; JSON.parse sem reviver produz estrutura mais previsível, ainda requer validação.",
+      "falhas_comuns": "Validar duas leituras de getter pode obter valores diferentes; spread pode disparar efeitos.",
+      "criterio_de_escolha": "Definir se boundary aceita apenas dados serializados ou objetos arbitrários; capturar valor uma vez quando apropriado.",
+      "verificacao": "Getter que alterna tipo, proxy ownKeys que lança e toJSON que muda conteúdo.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_descritores"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_url-parsing",
+      "dominio": "javascript",
+      "conceito": "URLs e canonicalização",
+      "definicao": "URL tem componentes e parsing definido por host/standard; string includes não verifica destino.",
+      "mecanismo": "Hostname, port, username, scheme e resolução relativa precisam análise; redirects podem mudar destino final.",
+      "falhas_comuns": "good.example.attacker.test não é domínio permitido; userinfo pode enganar visualmente; encoding não autentica alvo.",
+      "criterio_de_escolha": "Usar parser URL e allowlist de componentes com destino final/rede controlados.",
+      "verificacao": "Testar subdomínio falso, userinfo, porta inesperada, relativo e redirect.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "seguranca_ssrf"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_timer-budget",
+      "dominio": "javascript",
+      "conceito": "Timers e precisão de prazo",
+      "definicao": "Timer agenda execução não antes de atraso nominal sob regras do host, sem garantia de deadline exato.",
+      "mecanismo": "Loop ocupado, clamping e carga atrasam callback; timeouts grandes podem ser normalizados pelo runtime.",
+      "falhas_comuns": "Timeout passado a setTimeout não impõe CPU deadline se código bloqueia loop; wall clock pode mudar.",
+      "criterio_de_escolha": "Usar clock monotônico para elapsed e isolamento para CPU não cooperativa.",
+      "verificacao": "Bloquear loop e medir atraso; testar clock civil ajustado e valor fora da faixa do timer.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_event-loop"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_node-fetch",
+      "dominio": "javascript",
+      "conceito": "Fetch Node e consumo de body",
+      "definicao": "Fetch oferece resposta/status; HTTP erro não é necessariamente rejeição da Promise.",
+      "mecanismo": "Checar status, limites e content type; consumir/cancelar body conforme documentação evita retenção de conexão.",
+      "falhas_comuns": "response.json em body gigantesco estoura memória; 404 pode ser tratado erroneamente como sucesso.",
+      "criterio_de_escolha": "Definir status esperados, deadline e parsing limitado por contrato.",
+      "verificacao": "Testar 404, erro de decode, timeout durante body e corpo nunca terminado.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_cancelamento"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_unhandled",
+      "dominio": "javascript",
+      "conceito": "Rejeições não tratadas e processo",
+      "definicao": "Política de unhandled rejection depende de host/versão/configuração; diagnóstico não substitui tratamento local.",
+      "mecanismo": "Listener global pode registrar falha fatal, mas continuar após estado desconhecido exige estratégia definida.",
+      "falhas_comuns": "Engolir exceção global mantém serviço possivelmente corrompido; exit prematuro perde contexto.",
+      "criterio_de_escolha": "Tratar erros esperados na boundary; para defeito crítico registrar e encerrar com supervisão.",
+      "verificacao": "Criar rejeição solta em processo isolado e observar política/version flags.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "backend_shutdown"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_buffer-pool",
+      "dominio": "javascript",
+      "conceito": "Pooling de buffers e ownership",
+      "definicao": "Reusar buffer reduz allocations mas exige lifetime e exclusividade corretos.",
+      "mecanismo": "View pode compartilhar backing store; devolver buffer ao pool antes do consumidor terminar corrompe dados.",
+      "falhas_comuns": "Subarray enviado a callback e buffer reutilizado produz resultado que muda posteriormente.",
+      "criterio_de_escolha": "Definir ownership ou copiar na fronteira; medir benefício real antes de adicionar pool.",
+      "verificacao": "Consumidor atrasado verifica que conteúdo não muda depois do envio.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "js_buffers"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_constant-time",
+      "dominio": "javascript",
+      "conceito": "Timing e comparação de segredo",
+      "definicao": "Tempo de execução pode depender de dados e expor informação em contexto criptográfico.",
+      "mecanismo": "API de comparação timing-safe possui pré-condições como comprimentos e representação; entorno ainda pode vazar por branches.",
+      "falhas_comuns": "Comparação === de tokens não oferece garantia constant-time; tratar diferença de comprimento de modo ingênuo pode revelar.",
+      "criterio_de_escolha": "Usar primitives criptográficas revisadas e avaliar protocolo completo.",
+      "verificacao": "Testar tamanho inválido e falha sem retornar detalhes; não afirmar segurança a partir de microbenchmark.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "seguranca_crypto"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "js_resource-budget",
+      "dominio": "javascript",
+      "conceito": "Limites por bytes e custo",
+      "definicao": "Limite de número de itens não limita necessariamente memória/CPU total.",
+      "mecanismo": "Cada item pode ter tamanho variável; budget precisa medir payload, parsing, filas e estruturas derivadas.",
+      "falhas_comuns": "Fila de 100 itens com cada item de 100 MB continua perigosa; limite após parse grande é tarde.",
+      "criterio_de_escolha": "Aplicar limites por item, total e operação antes de trabalho caro; definir resposta de overload.",
+      "verificacao": "Gerar poucos itens enormes e muitos itens pequenos; verificar bound e limpeza após rejeição.",
+      "fontes": [
+        "node",
+        "ecma"
+      ],
+      "relacoes": [
+        "operacao_capacity"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_boundary-dto",
+      "dominio": "typescript",
+      "conceito": "DTO de entrada, domínio e saída",
+      "definicao": "DTO descreve contrato de transporte; entidade/value object representa invariantes internas; DTO de saída define informação autorizada.",
+      "mecanismo": "Transformação explícita permite omitir secrets e campos internos; tipo de entidade não deve ser serializado indiscriminadamente.",
+      "falhas_comuns": "Retornar objeto inteiro inclui senha hash, flags internas ou tenant indevido; Partial<Entity> aceita mudanças proibidas.",
+      "criterio_de_escolha": "Schemas por operação e mapper de saída com allowlist; distinguir leitura/escrita.",
+      "verificacao": "Adicionar secret à entidade e garantir que response schema/body não muda.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "seguranca_privacy"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_patch-model",
+      "dominio": "typescript",
+      "conceito": "Modelagem de PATCH",
+      "definicao": "Patch precisa separar manter, substituir e remover conforme significado do campo.",
+      "mecanismo": "União de operações ou schema com política explícita evita confundir missing, undefined e null.",
+      "falhas_comuns": "Partial permite combinações de negócio inválidas; merge genérico pode habilitar mass assignment.",
+      "criterio_de_escolha": "Definir patch por caso de uso e validar transição após aplicar.",
+      "verificacao": "Testar field ausente, remoção proibida, valor nulo permitido e chave desconhecida.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_null-option"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_opaque-constructor",
+      "dominio": "typescript",
+      "conceito": "Construtores de valores opacos",
+      "definicao": "Factory valida e produz tipo de domínio; construtor público cru pode invalidar invariant.",
+      "mecanismo": "Brand é barreira estática leve; encapsulamento e métodos podem adicionar checagens runtime.",
+      "falhas_comuns": "Exportar assertion genérica brand<T> permite criar qualquer valor sem prova.",
+      "criterio_de_escolha": "Exportar factories específicas, manter cast privado e preservar representação validada.",
+      "verificacao": "Testar entrada malformada e consumidor tentando montar valor sem factory.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_brands"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_async-result",
+      "dominio": "typescript",
+      "conceito": "Result em operações assíncronas",
+      "definicao": "Promise<Result<T,E>> separa falha esperada de rejeição por defeito/infra conforme contrato escolhido.",
+      "mecanismo": "Consumidor trata ok/tag depois de await; mapper de erro conserva causa e categorias.",
+      "falhas_comuns": "Marcar toda exceção como erro de negócio pode ocultar bug; Promise<Result> ainda pode rejeitar se implementação lança.",
+      "criterio_de_escolha": "Documentar se API nunca rejeita ou permite erro inesperado e testar ambos.",
+      "verificacao": "Simular validação, indisponibilidade e defeito de programação; verificar categoria correta.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_errors-result"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_contravariance",
+      "dominio": "typescript",
+      "conceito": "Contravariância de callback",
+      "definicao": "Callback que API chama com Base precisa aceitar todo Base prometido, não apenas subtipo restrito.",
+      "mecanismo": "strictFunctionTypes ajuda para propriedades de função; métodos possuem concessões de bivariance.",
+      "falhas_comuns": "Callback que exige Derived.foo quebra quando API entrega Base; método pode esconder a incompatibilidade.",
+      "criterio_de_escolha": "Preferir contratos de função explícitos e teste negativo de consumidores.",
+      "verificacao": "Compilar callback estreito em propriedade function e comparar com sintaxe de método.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_variance"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_function-this",
+      "dominio": "typescript",
+      "conceito": "Parâmetro this e bindings",
+      "definicao": "TypeScript pode declarar tipo do this de função ordinária e checar uso em contexto.",
+      "mecanismo": "Parâmetro this é apagado; noImplicitThis detecta algumas ambiguidades. Arrow possui captura lexical.",
+      "falhas_comuns": "Tipar this não faz bind no runtime; método extraído pode executar com undefined.",
+      "criterio_de_escolha": "Declarar this quando API depende de receptor e bind ao passar callback.",
+      "verificacao": "Compilar chamada sem receiver e executar extração em JS.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "js_this"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_satisfies-palette",
+      "dominio": "typescript",
+      "conceito": "Config autoral sem perder precisão",
+      "definicao": "satisfies verifica shape mantendo informação inferida útil, sujeito ao contexto da expressão.",
+      "mecanismo": "Catálogo pode conservar chaves e valores específicos; annotation explícita pode ampliar tipo observado.",
+      "falhas_comuns": "Confundir satisfies com assertion de dado externo ignora que nenhuma validação runtime ocorre.",
+      "criterio_de_escolha": "Usar em registry interno e schema runtime para entradas; testar tipo resultante.",
+      "verificacao": "Verificar typo em chave e acesso a membro específico do valor inferido.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_satisfies"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_freshness",
+      "dominio": "typescript",
+      "conceito": "Freshness e index signatures",
+      "definicao": "Excess-property checking é uma verificação contextual de certos literals, não uma regra de selamento estrutural.",
+      "mecanismo": "Objeto de variável com campos extras pode ser atribuído; index signature permite conjunto mais aberto.",
+      "falhas_comuns": "Exact<T> artificial por utility pode criar mensagens ruins e não validar runtime.",
+      "criterio_de_escolha": "Definir política de unknown keys no parser e tipos claros para registros abertos.",
+      "verificacao": "Comparar literal/variável e payload JSON com campo admin inesperado.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_structural"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_recursive-schema",
+      "dominio": "typescript",
+      "conceito": "Schemas recursivos",
+      "definicao": "Estrutura recursiva pode ser descrita por tipo, mas parser runtime precisa limites de profundidade/tamanho.",
+      "mecanismo": "Referência lazy resolve declaração de schema; parsing profundo ainda consome stack/tempo.",
+      "falhas_comuns": "Tipo recursivo aceito não impede ciclo de objeto runtime nem nesting hostil.",
+      "criterio_de_escolha": "Impor budget e usar traversal iterativo quando necessário; distinguir JSON acíclico de objetos gerais.",
+      "verificacao": "Testar nesting grande, ciclo e total de nós máximo.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_schemas"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_exact-errors",
+      "dominio": "typescript",
+      "conceito": "Códigos de erro estáveis",
+      "definicao": "Erro público deve ter código estável e payload permitido; mensagem humana não é protocolo confiável.",
+      "mecanismo": "União por code descreve campos específicos e permite handling exaustivo.",
+      "falhas_comuns": "Cliente que depende de texto traduzido quebra; stack/cause não deve ser enviado automaticamente.",
+      "criterio_de_escolha": "Separar internal Error de public error DTO e mapping auditável.",
+      "verificacao": "Adicionar código novo e verificar consumidor obrigatório; validar redaction.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_unioes"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_state-events",
+      "dominio": "typescript",
+      "conceito": "Eventos ligados a estado",
+      "definicao": "Tipos podem representar eventos/transições, mas objeto mutável complexo pode exigir máquina runtime.",
+      "mecanismo": "Reducer com discriminantes garante handling; guard runtime protege evento de origem externa.",
+      "falhas_comuns": "Assinar evento com as ignora estado atual; tipar dispatch não garante sequência legal.",
+      "criterio_de_escolha": "Tabela de transições e invariantes com efeito fora do reducer.",
+      "verificacao": "Gerar sequências incluindo eventos inválidos e exigir estado válido sempre.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "frontend_react-reducer"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#transition"
+    },
+    {
+      "id": "ts_index-totality",
+      "dominio": "typescript",
+      "conceito": "Acesso indexado e totalidade",
+      "definicao": "Array/record podem não conter chave solicitada; tipo de acesso deve refletir ausência.",
+      "mecanismo": "noUncheckedIndexedAccess amplia para undefined onde não há prova de presença; bounds check nem sempre estreita como esperado.",
+      "falhas_comuns": "Non-null assertion depois de check errado transforma exceção em promessa de segurança.",
+      "criterio_de_escolha": "Retornar Option/Result ou testar valor local capturado; preferir APIs totalizadas.",
+      "verificacao": "Testar array vazio, buracos, chave inexistente e valor undefined presente.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_keyof"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_awaited",
+      "dominio": "typescript",
+      "conceito": "Awaited e inferência assíncrona",
+      "definicao": "Awaited modela unwrap recursivo de awaitables segundo transformação estática definida.",
+      "mecanismo": "Retornos de combinadores inferem tuplas/uniões conforme tipos e versão; input unknown continua unknown.",
+      "falhas_comuns": "Criar PromiseValue que só unwrap uma camada diverge de nested thenables e unions.",
+      "criterio_de_escolha": "Usar utility documentada e fixtures do caso real.",
+      "verificacao": "Compilar Promise aninhada, union com valor direto, never e unknown.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_infer"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_utility-depth",
+      "dominio": "typescript",
+      "conceito": "Utilities superficiais e profundas",
+      "definicao": "Readonly/Partial/Required transformam camada de propriedades, não grafo inteiro.",
+      "mecanismo": "Deep utilities precisam política para Map/Set, funções, arrays, tuples e classes.",
+      "falhas_comuns": "DeepReadonly ingênuo pode quebrar métodos de classe e não corresponder a freeze runtime.",
+      "criterio_de_escolha": "Definir domínio de aplicação da utility e limitar complexidade de tipos.",
+      "verificacao": "Testar tuple, callback, classe, optional e nested array.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_mapped"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_union-correlation",
+      "dominio": "typescript",
+      "conceito": "Correlação em uniões",
+      "definicao": "Union de pares relacionados conserva vínculo; dois campos com unions independentes permitem combinações ilegais.",
+      "mecanismo": "Destructuring/narrowing preserva correlação em alguns padrões/versões, mas extrações genéricas podem perdê-la.",
+      "falhas_comuns": "Evento com kind numérico e payload string pode ser aceito em megaobjeto de tipos independentes.",
+      "criterio_de_escolha": "Modelar cada variante completa e dispatch após narrowing claro.",
+      "verificacao": "Compilar pares incompatíveis e validar runtime em entrada externa.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_unioes"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_literal-widening",
+      "dominio": "typescript",
+      "conceito": "Widening e inferência de literais",
+      "definicao": "Tipo literal pode ampliar para string/number conforme mutabilidade e contexto.",
+      "mecanismo": "const binding e as const afetam inferência de formas distintas; const type parameters dependem da versão TS.",
+      "falhas_comuns": "Generic que deveria preservar rota pode inferir string amplo; as const não congela runtime.",
+      "criterio_de_escolha": "Controlar contextual typing com intenção e verificar API pública inferida.",
+      "verificacao": "Comparar const object, as const, satisfies e generic com fixture de inferência.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_satisfies"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_distributive-never",
+      "dominio": "typescript",
+      "conceito": "never e distribuição",
+      "definicao": "never é união vazia; conditional distributivo sobre ele pode resultar em never sem avaliar branch intuitiva.",
+      "mecanismo": "Wrapper tuple muda teste para o conjunto inteiro; diferenças importam em utilities de detecção.",
+      "falhas_comuns": "IsNever<T> escrito T extends never pode não retornar true para never.",
+      "criterio_de_escolha": "Testar utilities com never/any/unknown e unions, sem assumir álgebra ideal em any.",
+      "verificacao": "Compilar tabela de resultados e checar constraints do domínio aceito.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_conditional"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "conferencia_parcial": [
+        "ts-distribution"
+      ]
+    },
+    {
+      "id": "ts_types-serialization",
+      "dominio": "typescript",
+      "conceito": "Serialização e tipo de saída",
+      "definicao": "Tipo TS não implica que valor é serializável para JSON ou boundary framework.",
+      "mecanismo": "Date vira string em JSON; BigInt pode lançar; funções/undefined podem ser omitidos; cycles falham.",
+      "falhas_comuns": "Retornar T depois de JSON roundtrip afirma equivalência falsa.",
+      "criterio_de_escolha": "Definir DTO serializável e decoder de retorno; testar transformações com tipos reais.",
+      "verificacao": "Roundtrip de Date/BigInt/undefined/ciclo e comparação por contrato.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "js_json"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_ambient-globals",
+      "dominio": "typescript",
+      "conceito": "Globals e declaração ambiente",
+      "definicao": "declare informa checker de símbolo supostamente existente, sem emitir implementação.",
+      "mecanismo": "Global augmentation e múltiplos @types podem alterar projeto inteiro e produzir conflitos.",
+      "falhas_comuns": "declare const window faz compilar em Node mas não cria window; ambient declaration incorreta esconde defeito.",
+      "criterio_de_escolha": "Isolar tipos por host e usar imports explícitos quando possível.",
+      "verificacao": "Executar artefato em host prometido e compilar sem tipos de outro ambiente.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_dom-types"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_declaration-merging",
+      "dominio": "typescript",
+      "conceito": "Declaration merging e augmentation",
+      "definicao": "Certas declarações compatíveis se fundem; module augmentation amplia tipos de módulo existente.",
+      "mecanismo": "Ampliação precisa estar no programa e corresponder a código/runtime que realmente adiciona comportamento.",
+      "falhas_comuns": "Adicionar método a interface sem implementar prototype/factory cria API inexistente.",
+      "criterio_de_escolha": "Usar augmentation pequena e empacotada com implementação comprovada.",
+      "verificacao": "Compilar consumidor e invocar membro no artefato publicado.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_declarations"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_compiler-api",
+      "dominio": "typescript",
+      "conceito": "Compiler API e transformações",
+      "definicao": "TypeScript Compiler API oferece AST, checker e emissão para tooling.",
+      "mecanismo": "SyntaxKind e node factories têm contratos versionados; checker fornece símbolos/tipos para refactor.",
+      "falhas_comuns": "Editar AST sem maps ou usar node/text offsets stale pode perder comments e alterar código errado.",
+      "criterio_de_escolha": "Fixar versão suportada e testar transform com golden fixtures e typecheck.",
+      "verificacao": "Testar aliases, overloads, comentários e transform idempotente.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "fronteira_incremental-types"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_project-references",
+      "dominio": "typescript",
+      "conceito": "Project references e build",
+      "definicao": "References organizam compilação de projetos dependentes com fronteiras e artefatos.",
+      "mecanismo": "composite/declaration e tsc -b suportam build incremental; configs devem refletir grafo verdadeiro.",
+      "falhas_comuns": "Ciclo entre projetos ou source import fora da boundary impede modularidade; cache stale pode mascarar.",
+      "criterio_de_escolha": "Separar configs por pacote/host e testar clean build junto de incremental.",
+      "verificacao": "Remover outputs/cache e reconstruir; comparar artefatos e ordem.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_resolution"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_ts-runtime-tests",
+      "dominio": "typescript",
+      "conceito": "Separar typecheck e execução",
+      "definicao": "Typecheck cobre certos usos de API; runtime testa semântica/efeitos de valores concretos.",
+      "mecanismo": "Transpilers rápidos podem não checar tipos; tsc --noEmit não executa programa.",
+      "falhas_comuns": "Testes runtime verdes com types errados quebram consumidor; tipos verdes com parser falso permitem entrada inválida.",
+      "criterio_de_escolha": "Executar ambos e manter fixtures de consumidores externos.",
+      "verificacao": "Introduzir typo de tipo e bug runtime separadamente; cada check deve detectar seu eixo.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_type-tests"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_const-enum-publish",
+      "dominio": "typescript",
+      "conceito": "const enum e publicação",
+      "definicao": "const enum pode ser inlined e não existir como objeto runtime; toolchains diferem.",
+      "mecanismo": "Consumidor pode inline versão antiga contra JS novo; isolatedModules e ambient const enums geram restrições.",
+      "falhas_comuns": "Assumir tree shaking resolve todos riscos de const enum público ignora compatibilidade.",
+      "criterio_de_escolha": "Preferir union/catalog as const para biblioteca quando runtime identity não é necessária.",
+      "verificacao": "Consumir versões divergentes e transpiler isolado; inspecionar output.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_enum"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_overload-inference",
+      "dominio": "typescript",
+      "conceito": "Inferência em overloads",
+      "definicao": "Utilities que inferem função sobreloaded geralmente consideram assinatura de forma específica, frequentemente última.",
+      "mecanismo": "Tipo de retorno extraído não equivale necessariamente ao retorno de cada call escolhido por overload resolution.",
+      "falhas_comuns": "ReturnType usado como prova de todos casos pode ampliar ou perder relação entrada/saída.",
+      "criterio_de_escolha": "Publicar tipos auxiliares claros e testar calls concretas.",
+      "verificacao": "Comparar ReturnType com chamadas específicas e argumentos union.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_overloads"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_nominal-runtime",
+      "dominio": "typescript",
+      "conceito": "Brand estática e nominalidade runtime",
+      "definicao": "Brand protege troca acidental no checker; não carrega autenticação nem necessariamente marcador real.",
+      "mecanismo": "unique symbol usado apenas em tipo é apagado; instance checks exigem representação runtime correspondente.",
+      "falhas_comuns": "Teste in brand pode falhar se brand nunca foi atribuído; forged cast passa checker.",
+      "criterio_de_escolha": "Escolher marca só estática ou objeto runtime e documentar invariantes separados.",
+      "verificacao": "Comparar valor serializado e reconstrução via factory; testar cast fora do escopo confiável.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_brands"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_type-erasure-security",
+      "dominio": "typescript",
+      "conceito": "Tipos não são controle de acesso",
+      "definicao": "Permissão expressa em tipo ajuda desenho interno, mas request direto ignora tipagem do cliente.",
+      "mecanismo": "Servidor valida principal e recurso a cada boundary; token de capability precisa integridade no runtime.",
+      "falhas_comuns": "AdminUser tipo em frontend não impede chamada por atacante; brand de Authorized não substitui verificação.",
+      "criterio_de_escolha": "Centralizar authorization e emitir resultado de política a partir de fonte confiável.",
+      "verificacao": "Executar request sem UI com papel inadequado e trocar IDs.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "seguranca_authn-authz"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_type-test-errors",
+      "dominio": "typescript",
+      "conceito": "Fixtures negativas específicas",
+      "definicao": "@ts-expect-error confirma existência de algum diagnóstico na linha, não necessariamente o erro pretendido.",
+      "mecanismo": "Cada fixture deve ter motivo isolado e linha válida no restante; ferramentas de assertion de tipo refinam evidência.",
+      "falhas_comuns": "Uma importação quebrada pode fazer expect-error passar pela razão errada.",
+      "criterio_de_escolha": "Usar fixtures mínimas e teste positivo vizinho; revisar diagnóstico de forma deliberada.",
+      "verificacao": "Remover proteção específica e verificar que expect-error se torna unused.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_type-tests"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_generic-defaults",
+      "dominio": "typescript",
+      "conceito": "Defaults e constraints genéricas",
+      "definicao": "Default define tipo quando argumento não é informado/inferido; constraint limita formas aceitas.",
+      "mecanismo": "Default precisa satisfazer constraint; inferência pode substituir default conforme call.",
+      "falhas_comuns": "Default any enfraquece contrato; constraint ampla permite operações só da base, não das extensões.",
+      "criterio_de_escolha": "Escolher defaults seguros como unknown onde apropriado e manter relação explícita.",
+      "verificacao": "Compilar chamada sem tipo, inferida e explicitamente inválida.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_generics"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_builder-protocol",
+      "dominio": "typescript",
+      "conceito": "Builders e protocolo de construção",
+      "definicao": "Builder pode representar etapas obrigatórias e evitar build antes de configuração mínima.",
+      "mecanismo": "Tipo por estado ou retorno de interface especializada expressa protocolo; runtime ainda valida quando entrada arbitrária.",
+      "falhas_comuns": "API fluent com casts infinitos finge garantir passo obrigatório; reaproveitar builder mutável vaza estado.",
+      "criterio_de_escolha": "Usar builder só quando há etapas reais; preferir factory simples para construção pequena.",
+      "verificacao": "Compilar build prematuro e executar reuse/config inválida.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "corretude_design-by-contract"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "ts_type-budget",
+      "dominio": "typescript",
+      "conceito": "Orçamento de complexidade de tipos",
+      "definicao": "Abstração de tipos tem custo em compiler/editor e compreensão humana.",
+      "mecanismo": "Recursão, unions grandes e interfaces públicas instanciadas muitas vezes afetam check; medir extendedDiagnostics.",
+      "falhas_comuns": "Tornar todos invariantes type-level pode gerar sistema lento e pouco usável, sem garantia runtime.",
+      "criterio_de_escolha": "Distribuir provas entre tipos simples, validação runtime e testes; limitar recursão documentada.",
+      "verificacao": "Comparar clean/incremental e consumo de memória com projeto consumidor representativo.",
+      "fontes": [
+        "ts",
+        "tsconfig"
+      ],
+      "relacoes": [
+        "ts_type-performance"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_optimistic-lock",
+      "dominio": "dados",
+      "conceito": "Controle otimista de concorrência",
+      "definicao": "Version column permite update condicionado à versão lida, detectando conflito em vez de sobrescrever silenciosamente.",
+      "mecanismo": "UPDATE ... WHERE id=? AND version=? incrementa versão e exige row count esperado; conflito leva reload/retry de regra inteira.",
+      "falhas_comuns": "Retentar só write com dado stale mantém decisão inválida; versão sem tenant scope permite acesso cruzado.",
+      "criterio_de_escolha": "Usar para baixa contenção e conflito detectável; separar efeito externo da transação retentável.",
+      "verificacao": "Duas edições com mesma versão: uma vence, outra conflita; repetir mesma chave não duplica.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "dados_transactions"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada",
+      "exemplo": "exemplos/engenharia.mjs#VersionedCell"
+    },
+    {
+      "id": "dados_locking-reads",
+      "dominio": "dados",
+      "conceito": "Locks pessimistas e ordem",
+      "definicao": "Lock de linhas serializa operações que precisam ler e atualizar sob invariant comum.",
+      "mecanismo": "SELECT FOR UPDATE e granularidade dependem do SGBD; múltiplas linhas exigem ordem consistente e transação curta.",
+      "falhas_comuns": "Segurar lock durante HTTP externo aumenta contenção/deadlock; lock não protege linha inexistente em todo nível.",
+      "criterio_de_escolha": "Preferir update condicional simples; usar locks quando invariant requer leitura protegida.",
+      "verificacao": "Concorrer em duas linhas invertidas e observar deadlock/retry; checar isolamento.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "dados_transactions"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_write-skew",
+      "dominio": "dados",
+      "conceito": "Write skew e regras multi-row",
+      "definicao": "Duas transações podem ler conjunto válido e escrever linhas diferentes produzindo invariant inválido.",
+      "mecanismo": "Snapshot isolation não garante serializability geral; constraints ou serializable/locks apropriados são necessários.",
+      "falhas_comuns": "Cada row estar válida não implica regra global válida; SELECT antes de UPDATE não prova atomicidade.",
+      "criterio_de_escolha": "Formalizar invariant e escolher proteção do conjunto, considerando abort/retry.",
+      "verificacao": "Duas pessoas se removem do plantão ao ler duas disponíveis; exigir ao menos uma após commit.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "dados_transactions"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_unique-null",
+      "dominio": "dados",
+      "conceito": "Unicidade e NULL",
+      "definicao": "Semântica de NULL em UNIQUE e comparações depende do banco/opção definida.",
+      "mecanismo": "PostgreSQL possui comportamento e opções específicas para tratar nulls distinct/not distinct; índice parcial restringe subconjunto.",
+      "falhas_comuns": "Assumir que UNIQUE em coluna nullable impede todo duplicado lógico pode falhar.",
+      "criterio_de_escolha": "Definir identidade de ausência e criar constraint compatível com versão.",
+      "verificacao": "Inserir múltiplos nulls e duplicados por tenant; validar regra esperada.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "dados_sql-model"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_keyset-consistency",
+      "dominio": "dados",
+      "conceito": "Cursor e consistência entre páginas",
+      "definicao": "Keyset ordena por chave total, mas não cria snapshot por si só.",
+      "mecanismo": "Nova inserção/exclusão entre páginas muda conjunto; cutoff/snapshot/version podem definir semântica de navegação.",
+      "falhas_comuns": "Prometer exatamente todos itens sem duplicata em dataset mutável pode exigir contrato/estado adicional.",
+      "criterio_de_escolha": "Escolher feed fresco ou export snapshot e explicar garantia.",
+      "verificacao": "Inserir antes/depois do cursor, editar sort key e comparar página/replay.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "backend_pagination"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_partitioning",
+      "dominio": "dados",
+      "conceito": "Particionamento de dados",
+      "definicao": "Partição separa dados por chave/range/hash e influencia pruning, índices e operação.",
+      "mecanismo": "Partition pruning pode reduzir scan; hot partition ou key skew cria gargalo; constraints/uniqueness têm limites específicos.",
+      "falhas_comuns": "Particionar tabela pequena aumenta complexidade; escolher shard key ruim requer migração difícil.",
+      "criterio_de_escolha": "Medir consultas/volume e planejar crescimento/resharding antes de distribuir.",
+      "verificacao": "Carregar chave hot, testar pruning e consultas sem partition key.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "dados_sql-index"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_cdc",
+      "dominio": "dados",
+      "conceito": "Change data capture",
+      "definicao": "CDC observa mudanças persistidas para alimentar projeções/integrações.",
+      "mecanismo": "Offsets/checkpoints, schema changes e ordering precisam tratamento; snapshot inicial deve alinhar com log.",
+      "falhas_comuns": "Reiniciar sem checkpoint duplica/perde eventos; CDC técnico não contém sempre semântica de negócio.",
+      "criterio_de_escolha": "Escolher outbox para evento de domínio ou CDC com contrato próprio; idempotência no consumidor.",
+      "verificacao": "Testar restart, schema evolution e snapshot simultâneo à escrita.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "distribuidos_outbox"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_wal-recovery",
+      "dominio": "dados",
+      "conceito": "WAL e recuperação",
+      "definicao": "Write-ahead log registra informação necessária antes de tornar mudanças duráveis conforme protocolo do banco.",
+      "mecanismo": "Replay e checkpoints recuperam estado; configuração de fsync/synchronous commit influencia perda tolerável.",
+      "falhas_comuns": "Commit reconhecido com durabilidade relaxada pode perder após falha; réplica atrasada não garante mesmo estado.",
+      "criterio_de_escolha": "Declarar RPO e configuração, testar restore/PITR e impacto de performance.",
+      "verificacao": "Interromper serviço em pontos distintos e verificar dados recuperados.",
+      "fontes": [
+        "postgres"
+      ],
+      "relacoes": [
+        "operacao_recovery"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_queue-ordering",
+      "dominio": "distribuidos",
+      "conceito": "Ordenação por chave",
+      "definicao": "Ordem de entrega, processamento e commit de efeito são propriedades distintas.",
+      "mecanismo": "Partition por entidade e processamento serial por chave podem conservar ordem local; retry/rebalance exigem fencing/sequência.",
+      "falhas_comuns": "Broker ordenado com consumers paralelos pode produzir efeitos fora de ordem.",
+      "criterio_de_escolha": "Usar sequence/version no evento e estratégia para gap/duplicate.",
+      "verificacao": "Entregar 2 antes de 1 e reiniciar consumer; validar regra de recuperação.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "distribuidos_queues"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_fencing",
+      "dominio": "distribuidos",
+      "conceito": "Fencing tokens e leases",
+      "definicao": "Lease limita ownership no tempo, mas processo pausado pode continuar depois da expiração.",
+      "mecanismo": "Token monotônico permite recurso rejeitar owner antigo; recurso deve verificar token atomically com efeito.",
+      "falhas_comuns": "Lock distribuído com timeout sozinho não impede stale writer após GC pause/partição.",
+      "criterio_de_escolha": "Fazer sistema autoritativo aplicar fencing e definir renovação/expiração.",
+      "verificacao": "Pausar owner A, dar lease a B e impedir escrita tardia de A.",
+      "fontes": [
+        "jepsen"
+      ],
+      "relacoes": [
+        "distribuidos_consistency"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_clock-order",
+      "dominio": "distribuidos",
+      "conceito": "Clocks e causalidade",
+      "definicao": "Clock de parede e ordem causal não são equivalentes.",
+      "mecanismo": "Lamport clocks oferecem ordem consistente com happens-before, sem inferir causalidade completa pelo inverso; vector clocks rastreiam relações sob condições.",
+      "falhas_comuns": "Timestamp maior não prova evento causado pelo anterior; skew pode invalidar latest-write-wins.",
+      "criterio_de_escolha": "Usar relógio monotônico para duration e modelo causal/versionado para merge.",
+      "verificacao": "Simular skew, reorder e eventos concorrentes com mesmo wall clock.",
+      "fontes": [
+        "jepsen"
+      ],
+      "relacoes": [
+        "distribuidos_consistency"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_quorum",
+      "dominio": "distribuidos",
+      "conceito": "Quóruns e interseção",
+      "definicao": "Conjuntos de leitura/escrita com interseção ajudam observar updates sob hipóteses do protocolo.",
+      "mecanismo": "R+W>N é condição aritmética comum, mas versões, falhas, membership e protocolo influenciam garantia real.",
+      "falhas_comuns": "Só configurar quorum não prova linearizability; sloppy quorum e concorrência podem alterar semântica.",
+      "criterio_de_escolha": "Ler garantia específica do sistema e testar falhas/concorrência.",
+      "verificacao": "Testar escrita parcial, failover e leitura por réplica stale.",
+      "fontes": [
+        "jepsen"
+      ],
+      "relacoes": [
+        "distribuidos_consistency"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_backpressure-global",
+      "dominio": "distribuidos",
+      "conceito": "Backpressure entre serviços",
+      "definicao": "Limitar concorrência local não protege dependência se muitas réplicas somam carga excessiva.",
+      "mecanismo": "Orçamento global, quotas e feedback reduzem pressão; filas e retry precisam integrar admission.",
+      "falhas_comuns": "Autoscaling de frontend aumenta conexões/tráfego ao banco que não escalou.",
+      "criterio_de_escolha": "Orçar por dependência e medir carga total; rejeitar cedo quando saturado.",
+      "verificacao": "Aumentar réplicas sob carga e verificar conexões/budget de throughput.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "operacao_capacity"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "operacao_load-shedding",
+      "dominio": "operacao",
+      "conceito": "Load shedding",
+      "definicao": "Descartar/rejeitar trabalho de menor prioridade mantém serviço útil sob overload.",
+      "mecanismo": "Admission usa sinais de saturação/queue depth; prioridade e fairness evitam que trabalho barato desloque crítico.",
+      "falhas_comuns": "Aceitar tudo e esperar leva timeout em massa; shed tardio após custo caro desperdiça capacidade.",
+      "criterio_de_escolha": "Definir prioridade/budget e resposta retentável somente onde seguro.",
+      "verificacao": "Overload sustentado: verificar goodput e recuperação sem retry storm.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "operacao_capacity"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "distribuidos_hedging",
+      "dominio": "distribuidos",
+      "conceito": "Hedged requests",
+      "definicao": "Requisição redundante atrasada pode reduzir cauda de latência em operações apropriadas.",
+      "mecanismo": "Cancelar perdedor e limitar redundância; benefício exige distribuição de latência e independência suficiente.",
+      "falhas_comuns": "Hedge em write sem idempotência duplica efeito; dependência já saturada piora com duplicação.",
+      "criterio_de_escolha": "Usar apenas se ganho medido supera custo, com budget e semântica segura.",
+      "verificacao": "Simular cauda lenta e medir p99, tráfego extra e término do perdedor.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "distribuidos_timeouts"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "arquitetura_bulkheads",
+      "dominio": "arquitetura",
+      "conceito": "Bulkheads e isolamento de capacidade",
+      "definicao": "Separar pools/quotas impede workload de uma classe consumir todos recursos de outra.",
+      "mecanismo": "Pools por dependência/prioridade isolam falhas, mas orçamento total continua finito.",
+      "falhas_comuns": "Pool único permite task lenta bloquear toda aplicação; pools demais fragmentam recursos.",
+      "criterio_de_escolha": "Isolar caminhos críticos e medir underutilization versus proteção.",
+      "verificacao": "Saturar workload secundário e exigir SLO do crítico.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "operacao_capacity"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "arquitetura_schema-event",
+      "dominio": "arquitetura",
+      "conceito": "Evolução de eventos",
+      "definicao": "Produtores e consumidores podem operar versões diferentes por tempo prolongado.",
+      "mecanismo": "Campos obrigatórios, defaults, enum variants e semântica exigem compatibilidade; replay traz versões antigas.",
+      "falhas_comuns": "Remover campo usado por consumer silencioso quebra pipeline; transformar fato antigo altera significado histórico.",
+      "criterio_de_escolha": "Versionar schema/protocolo e validar consumidores antigos/novos em rollout.",
+      "verificacao": "Reprocessar evento antigo e enviar variante nova a consumidor anterior.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "arquitetura_event-driven"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "dados_schema-registry",
+      "dominio": "dados",
+      "conceito": "Contratos de serialização",
+      "definicao": "Schemas descrevem tipos/encoding de mensagens; compatibilidade depende do formato e política.",
+      "mecanismo": "JSON, Protobuf e Avro têm regras diferentes de campos desconhecidos, defaults e IDs.",
+      "falhas_comuns": "Reutilizar número de field removido em protocolo pode reinterpretar dado antigo; schema não prova autorização.",
+      "criterio_de_escolha": "Documentar formato e compatibilidade por direção, testar artefato cross-language.",
+      "verificacao": "Consumir mensagem antiga/nova e verificar roundtrip/campos não reconhecidos.",
+      "fontes": [
+        "http"
+      ],
+      "relacoes": [
+        "engenharia_api-evolution"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_csrf-token",
+      "dominio": "seguranca",
+      "conceito": "Vinculação de token CSRF",
+      "definicao": "Token deve estar ligado a sessão/contexto confiável e ser verificado em operação protegida.",
+      "mecanismo": "Synchronizer token e double-submit possuem pressupostos distintos; padrão signed pode proteger integridade.",
+      "falhas_comuns": "Token que qualquer sessão reutiliza ou cookie controlável por subdomínio pode quebrar defesa.",
+      "criterio_de_escolha": "Usar implementação revisada e avaliar cookie scope/subdomínios.",
+      "verificacao": "Token de sessão A com credencial B, ausência e origin suspeita.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "seguranca_csrf"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_path-traversal",
+      "dominio": "seguranca",
+      "conceito": "Paths e traversal",
+      "definicao": "Path de usuário pode escapar diretório permitido por segmentos, links e resolução do filesystem.",
+      "mecanismo": "Canonicalização, root bounds e operações seguras precisam considerar symlink/TOCTOU e plataforma.",
+      "falhas_comuns": "String startsWith('/safe') aceita '/safe-evil'; basename sozinho não resolve toda política.",
+      "criterio_de_escolha": "Usar IDs mapeados para arquivos e APIs de abertura seguras; evitar path arbitrário.",
+      "verificacao": "Testar ../, absolute path, symlink trocado e separadores do SO alvo.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "seguranca_threat-model"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_archive-bombs",
+      "dominio": "seguranca",
+      "conceito": "Arquivos compactados e expansão",
+      "definicao": "Tamanho compactado não limita tamanho expandido nem número/profundidade de entries.",
+      "mecanismo": "Budget de bytes totais, ratio, quantidade e path bounds precisa ser aplicado durante extração.",
+      "falhas_comuns": "Validar extensão/tamanho original não bloqueia zip bomb ou traversal em entry.",
+      "criterio_de_escolha": "Processar em isolamento com limites e interromper antes de consumir orçamento.",
+      "verificacao": "Arquivo pequeno com alta expansão, entries infinitas e paths fora da raiz.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "js_resource-budget"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_mass-assignment",
+      "dominio": "seguranca",
+      "conceito": "Mass assignment",
+      "definicao": "Binding automático de payload à entidade pode permitir alterar propriedades não autorizadas.",
+      "mecanismo": "Allowlist de DTO/campos por operação e política do servidor impedem escrita arbitrária.",
+      "falhas_comuns": "Spread req.body sobre User permite role/admin/tenant vindos do atacante.",
+      "criterio_de_escolha": "Mapear input explicitamente e não confiar em campos de autorização enviados.",
+      "verificacao": "Enviar admin:true, tenantId diferente e campo interno em update.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "ts_boundary-dto"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_logging-redaction",
+      "dominio": "seguranca",
+      "conceito": "Redaction em telemetria",
+      "definicao": "Log/traces precisam remover informação sensível antes da exportação.",
+      "mecanismo": "Estrutura conhecida facilita allowlist e masking; nested objects, query strings e Error cause podem carregar secrets.",
+      "falhas_comuns": "Redact no frontend não cobre logs do servidor; regex parcial pode deixar token em outra representação.",
+      "criterio_de_escolha": "Registrar mínimo e testar snapshots de eventos de erro com valores sentinela.",
+      "verificacao": "Provocar falha com token/senha fictícios e procurar sentinela em toda saída.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "operacao_observability"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "seguranca_capability",
+      "dominio": "seguranca",
+      "conceito": "Capabilities e menor privilégio",
+      "definicao": "Capability concede ação sobre recurso específico; autoridade deve ser limitada por escopo e lifetime.",
+      "mecanismo": "URL/token assinado pode carregar permissão delimitada; verificação de integridade e contexto é obrigatória.",
+      "falhas_comuns": "Capability copiada pode ser usada por terceiro se bearer; token amplo vira credencial excessiva.",
+      "criterio_de_escolha": "Conceder menor autoridade e decidir expiração/revogação/audience.",
+      "verificacao": "Testar recurso/ação diferente, expiração, token adulterado e logging.",
+      "fontes": [
+        "owasp"
+      ],
+      "relacoes": [
+        "seguranca_authn-authz"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "web_semantic-tokens",
+      "dominio": "web",
+      "conceito": "Design tokens e semântica visual",
+      "definicao": "Tokens de cor/spacing/tipografia precisam refletir função e tema, com contraste observado.",
+      "mecanismo": "Tokens como texto/surface/focus permitem temas consistentes; CSS variables fornecem mecanismo.",
+      "falhas_comuns": "Trocar cor sem verificar contraste/estados torna UI inacessível; token raw não diz função.",
+      "criterio_de_escolha": "Separar palette de tokens semânticos e testar temas/estados reais.",
+      "verificacao": "Medir contraste normal/hover/disabled/focus e preferências de alto contraste.",
+      "fontes": [
+        "w3c"
+      ],
+      "relacoes": [
+        "web_a11y"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "frontend_focus-races",
+      "dominio": "frontend",
+      "conceito": "Foco sob renderização assíncrona",
+      "definicao": "Foco representa posição de interação; atualização de DOM pode remover alvo ou deslocar usuário.",
+      "mecanismo": "Ref/commit e lifecycle coordenam foco após resultado; evitar roubar foco quando usuário mudou de contexto.",
+      "falhas_comuns": "Autofocus a cada refetch impede digitação/navegação; erro invisível não orienta correção.",
+      "criterio_de_escolha": "Definir intenção de foco por transição de usuário, não por toda renderização.",
+      "verificacao": "Teclar durante resposta tardia e abrir/fechar modal; foco deve permanecer previsível.",
+      "fontes": [
+        "w3c"
+      ],
+      "relacoes": [
+        "web_dialogs"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "frontend_external-store",
+      "dominio": "frontend",
+      "conceito": "Stores externas e snapshots",
+      "definicao": "UI precisa snapshot coerente ao ler estado externo sob renderizações concorrentes.",
+      "mecanismo": "APIs como useSyncExternalStore fornecem protocolo de subscribe/getSnapshot com requisitos de identidade.",
+      "falhas_comuns": "getSnapshot que cria objeto novo sempre pode causar loops; mutação silenciosa impede updates.",
+      "criterio_de_escolha": "Usar contrato documentado e snapshots estáveis até mudança real.",
+      "verificacao": "Testar subscribe cleanup, atualização e SSR snapshot compatível.",
+      "fontes": [
+        "react"
+      ],
+      "relacoes": [
+        "frontend_react-context"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "frontend_suspense-errors",
+      "dominio": "frontend",
+      "conceito": "Suspense e boundaries de erro",
+      "definicao": "Suspense coordena suspensão em integrações suportadas; error boundary tem escopo próprio.",
+      "mecanismo": "Não captura automaticamente erro de handler/async arbitrário; reset/remount precisa política do framework.",
+      "falhas_comuns": "Envolver fetch de useEffect com Suspense não torna integração suspensível automaticamente.",
+      "criterio_de_escolha": "Usar data API suportada e testar fallback/error/reset por boundary.",
+      "verificacao": "Erro no render, evento, request e navegação: verificar quem trata cada caso.",
+      "fontes": [
+        "react"
+      ],
+      "relacoes": [
+        "frontend_react-render"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "frontend_cache-boundaries",
+      "dominio": "frontend",
+      "conceito": "Cache de servidor e invalidação",
+      "definicao": "Framework pode cachear dados/render por regras versionadas e explícitas.",
+      "mecanismo": "Scope, tags, dynamic APIs e revalidation variam; cache key precisa distinguir contexto privado.",
+      "falhas_comuns": "Aplicar receita de versão antiga pode cachear dado sensível ou nunca atualizar.",
+      "criterio_de_escolha": "Consultar documentação da versão instalada e testar usuário A/B + mudança.",
+      "verificacao": "Inspecionar headers/resultados e confirmar invalidação entre réplicas/requests.",
+      "fontes": [
+        "next"
+      ],
+      "relacoes": [
+        "frontend_rsc"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_sort-property",
+      "dominio": "testes",
+      "conceito": "Leis de ordenação como oráculo",
+      "definicao": "Teste de sort pode verificar ordem e preservação do multiset sem copiar algoritmo.",
+      "mecanismo": "Geradores com duplicatas/boundaries e comparator coerente cobrem famílias de entrada.",
+      "falhas_comuns": "Comparar só primeiro/último elemento permite perda/duplicação do meio passar.",
+      "criterio_de_escolha": "Verificar cardinalidade, multiset, monotonicidade e estabilidade se prometida.",
+      "verificacao": "Gerar todos arrays pequenos sobre alfabeto limitado e mutar implementação.",
+      "fontes": [
+        "fastcheck"
+      ],
+      "relacoes": [
+        "testes_property"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_linearizability-test",
+      "dominio": "testes",
+      "conceito": "Histórias concorrentes",
+      "definicao": "História registra invocações/respostas para verificar existência de ordem sequencial legal.",
+      "mecanismo": "Checking precisa respeitar real-time order e modelo do objeto; espaço cresce e requer limites.",
+      "falhas_comuns": "Ordenar por timestamp final não prova linearizability; teste de stress sem oráculo só observa crash.",
+      "criterio_de_escolha": "Definir modelo pequeno e explorar interleavings controlados.",
+      "verificacao": "Contador/fila com operações sobrepostas deve corresponder a ordem legal.",
+      "fontes": [
+        "jepsen"
+      ],
+      "relacoes": [
+        "distribuidos_consistency"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_model-based",
+      "dominio": "testes",
+      "conceito": "Model based testing",
+      "definicao": "Modelo simples de estado serve de referência para sequências de comandos.",
+      "mecanismo": "Gerador escolhe operações válidas/inválidas e compara observações; shrinking reduz sequência de falha.",
+      "falhas_comuns": "Modelo que copia implementação herda bug; assert só no fim pode perder transição ilegal transitória.",
+      "criterio_de_escolha": "Especificar modelo independente e invariant depois de cada comando.",
+      "verificacao": "Fila/LRU: comparar estado e outputs por sequência; reproduzir seed/caso mínimo.",
+      "fontes": [
+        "fastcheck"
+      ],
+      "relacoes": [
+        "testes_property"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_time-travel",
+      "dominio": "testes",
+      "conceito": "Relógio virtual e deadlines",
+      "definicao": "Clock injetado permite testar política temporal sem atraso real.",
+      "mecanismo": "Deadline inclui espera e execução; clock monotônico não sofre ajuste civil; scheduler fake deve modelar callbacks necessários.",
+      "falhas_comuns": "Sleep de 10ms deixa teste dependente de carga; fake clock não simula I/O real.",
+      "criterio_de_escolha": "Isolar lógica de tempo e manter testes reais só para integração do host.",
+      "verificacao": "Avançar relógio até antes/na/depois da borda e verificar transições.",
+      "fontes": [
+        "test"
+      ],
+      "relacoes": [
+        "testes_determinism"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_fault-injection",
+      "dominio": "testes",
+      "conceito": "Injeção de falhas por etapa",
+      "definicao": "Falha controlada revela comportamento em janelas raras de efeito/commit/cleanup.",
+      "mecanismo": "Criar hooks de teste/adapters permite parar antes/depois de write, publish, ack e response.",
+      "falhas_comuns": "Testar só exceção antes do efeito não cobre efeito cometido com confirmação perdida.",
+      "criterio_de_escolha": "Enumerar pontos de falha e resultado legal antes de testar.",
+      "verificacao": "Crash após commit, antes de resposta; reexecutar com chave e verificar efeito único.",
+      "fontes": [
+        "sre"
+      ],
+      "relacoes": [
+        "distribuidos_idempotencia"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "testes_parser-equivalence",
+      "dominio": "testes",
+      "conceito": "Equivalência entre fragmentações",
+      "definicao": "Parser incremental correto deve observar mesma mensagem independentemente de chunk boundaries.",
+      "mecanismo": "Oracle pode ser parser de referência ou resultado esperado fixo; tamanho total/EOF devem ser parte do contrato.",
+      "falhas_comuns": "Testar um chunk por mensagem não exercita incrementalidade real.",
+      "criterio_de_escolha": "Fragmentar cada posição e combinações pequenas; testar estado parcial/erro terminal.",
+      "verificacao": "Header/payload dividido byte a byte e múltiplos frames no chunk.",
+      "fontes": [
+        "test"
+      ],
+      "relacoes": [
+        "fronteira_streaming-parsers"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "estruturas_btrees-pages",
+      "dominio": "estruturas",
+      "conceito": "B-trees e páginas",
+      "definicao": "B-tree mantém árvore balanceada com alto branching factor para reduzir acessos a páginas.",
+      "mecanismo": "Splits/merges e preenchimento preservam ordem/altura; layout e cache influenciam custo.",
+      "falhas_comuns": "Confundir árvore de busca binária com B-tree ignora modelo de I/O; índice tem write amplification.",
+      "criterio_de_escolha": "Modelar page size/cardinalidade e medir acesso real, não só comparação CPU.",
+      "verificacao": "Inserção sorted/random e range scan devem preservar ordem e invariantes.",
+      "fontes": [
+        "algo"
+      ],
+      "relacoes": [
+        "dados_sql-index"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "algoritmos_max-flow",
+      "dominio": "algoritmos",
+      "conceito": "Fluxo máximo e grafo residual",
+      "definicao": "Rede capacitada busca fluxo que conserva balanço e respeita capacidade.",
+      "mecanismo": "Residual edges permitem desfazer decisão anterior; augmenting paths sustentam algoritmos clássicos.",
+      "falhas_comuns": "Não adicionar aresta reversa impede corrigir escolhas e pode produzir fluxo subótimo.",
+      "criterio_de_escolha": "Escolher algoritmo pelo volume e validar conservação/cut.",
+      "verificacao": "Grafo onde primeira augmentação exige cancelamento posterior; comparar cut/flow.",
+      "fontes": [
+        "algo"
+      ],
+      "relacoes": [
+        "algoritmos_graphs"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "algoritmos_rolling-hash",
+      "dominio": "algoritmos",
+      "conceito": "Rolling hash e colisão",
+      "definicao": "Hash incremental facilita comparação candidata de substrings, mas colisão impede prova de igualdade.",
+      "mecanismo": "Rabin-Karp verifica candidates ou aceita probabilidade explícita; base/modulus/overflow definem cálculo.",
+      "falhas_comuns": "Comparar só hash pode aceitar texto diferente; hostil pode explorar escolhas fracas.",
+      "criterio_de_escolha": "Usar verificação final quando correção exata é requisito.",
+      "verificacao": "Construir colisão em modulus pequeno e garantir comparação real detecta.",
+      "fontes": [
+        "algo"
+      ],
+      "relacoes": [
+        "estruturas_hash"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "compiladores_automata",
+      "dominio": "compiladores",
+      "conceito": "Autômatos e lexing",
+      "definicao": "Autômato finito reconhece linguagem regular e pode implementar tokenização previsível.",
+      "mecanismo": "Estados/transições e longest-match definem lexer; gramática com nesting geral exige parser mais expressivo.",
+      "falhas_comuns": "Regex backtracking e DFA têm custos distintos; lexer não valida estrutura completa.",
+      "criterio_de_escolha": "Separar tokenização de parsing, posições e limites de input.",
+      "verificacao": "Testar token ambíguo, prefixo, whitespace, Unicode policy e erro localizado.",
+      "fontes": [
+        "algo"
+      ],
+      "relacoes": [
+        "compiladores_compiler"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    },
+    {
+      "id": "corretude_abstract-interpretation",
+      "dominio": "corretude",
+      "conceito": "Interpretação abstrata",
+      "definicao": "Análise calcula aproximação de propriedades sobre domínio abstrato em vez de executar todos estados concretos.",
+      "mecanismo": "Soundness exige que abstração cubra comportamentos; widening pode garantir convergência sacrificando precisão.",
+      "falhas_comuns": "Warning falso não significa análise inútil; ausência de warning só garante propriedade sob premissas.",
+      "criterio_de_escolha": "Declarar propriedade, abstração e limites antes de tratar checker como prova.",
+      "verificacao": "Comparar pequeno programa com execução exaustiva e localizar perda de precisão.",
+      "fontes": [
+        "llvm"
+      ],
+      "relacoes": [
+        "corretude_formal"
+      ],
+      "nivel": "especialista",
+      "status": "curadoria_autoral_nao_integrada"
+    }
+  ],
+  "revisao": "2",
+  "historico": [
+    {
+      "revisao": "1",
+      "unidades": 200
+    },
+    {
+      "revisao": "2",
+      "unidades": 300,
+      "descricao": "100 fichas adicionais, padrões verificáveis e reconstrução determinística."
     }
   ]
 }
-

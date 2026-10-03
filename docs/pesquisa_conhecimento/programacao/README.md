@@ -43,33 +43,38 @@ Separar: (a) retrieval conceitual; (b) explicação; (c) leitura de código; (d)
 **Treinamento:** nenhum. **Integração:** nenhuma.
 ## Ampliação de 03/10/2026: acervo avançado
 
-200 fichas autorais em 22 domínios; 60 dedicadas diretamente a JavaScript/TypeScript.
+300 fichas autorais em 22 domínios; 120 dedicadas diretamente a JavaScript/TypeScript.
 Cada ficha traz definição, mecanismo, falhas, critério de escolha, verificação proposta e referência.
 Invariantes, complexidade, pré-requisitos, relações e exemplos locais foram adicionados onde
-há modelo específico. A lista de fontes é referência recomendada; sua conferência remota/editorial
-está pendente nesta execução. O conteúdo não é transcrição de documentação externa.
+há modelo específico. Seis temas tiveram conferência pontual em documentação oficial;
+a revisão editorial integral das 44 referências continua pendente. O conteúdo não é transcrição de documentação externa.
 
 ### Ler e consultar
-- [Catálogo estruturado](catalogo-avancado.json): fonte de verdade das 200 fichas.
+- [Catálogo estruturado](catalogo-avancado.json): fonte de verdade das 300 fichas.
 - [Semântica JavaScript](03-javascript-semantica-e-runtime.md).
 - [Modelagem TypeScript](04-typescript-modelagem-e-contratos.md).
 - [Backend, transações e falhas](05-backend-transacoes-e-falhas.md).
 - [Segurança web](06-seguranca-web-e-fronteiras.md).
 - [Roteiro para gerar projetos do zero](07-gerar-projetos-do-zero.md).
+- [Fila limitada](08-fila-limitada-cancelamento-e-invariantes.md), [circuit breaker](09-circuit-breaker-deadline-e-recuperacao.md), [parser incremental](10-parser-binario-streaming-e-oraculos.md).
+- [Controle otimista](11-concorrencia-otimista-e-invariantes-de-negocio.md), [grupos com cleanup](12-grupos-assincronos-e-cleanup-completo.md), [estados/eventos](13-estados-tipados-eventos-e-interface-robusta.md).
+- [Conferência pontual de fontes](conferencia-fontes-2.json).
 - [Fichas por domínio](fichas/): exportação Markdown do catálogo.
-- [Exemplos e limites](exemplos/README.md): 14 implementações, 27 testes Node e fixtures TS.
-- [40 desafios de projeto](desafios-projetos.json): material didático público, não holdout.
+- [Exemplos e limites](exemplos/README.md): implementações JavaScript/TypeScript e 66 testes Node, mais fixtures estáticas.
+- [60 desafios de projeto](desafios-projetos.json): material didático público, não holdout.
 - [Manifesto](manifesto.json): contagens, bytes e SHA-256 para reproduzir auditoria.
 - [Resultado da validação](VALIDACAO.md): checks efetivamente executados e pendências.
 
 ```sh
 python scripts/acervo_programacao.py --validar
+python scripts/test_acervo_programacao.py
 python scripts/acervo_programacao.py --buscar "typescript narrowing unknown" --limite 5
 node --test docs/pesquisa_conhecimento/programacao/exemplos/padroes.test.mjs
 tsc -p docs/pesquisa_conhecimento/programacao/exemplos/tsconfig.json
 ```
 
-A busca é lexical determinística, com normalização de acentos e peso de título; não
+A busca é lexical determinística, com normalização de acentos, aliases JS/TS, operadores
+preservados, filtro --dominio e peso de título; não
 é busca semântica nem integração ao chatbot. Retornar ficha não garante que ela responda
 completamente à consulta. Catálogo/Markdown são duas representações do mesmo conteúdo,
 e não devem ser contados como conhecimentos diferentes.
@@ -90,3 +95,26 @@ ao treino e depois chamá-los de avaliação externa.
 **Estado:** pesquisa expandida, sem treinamento, sem mudança no runtime e sem
 capacidade de geração/senioridade demonstrada. Quantidade de fichas não certifica competência.
 
+
+## Segunda ampliação: conteúdo ligado a execução
+
+100 fichas adicionais (59 JavaScript + 61 TypeScript no total), seis capítulos de engenharia,
+seis padrões executáveis, modelos TypeScript compilados e 20 novos desafios.
+**Verificação atual:** 66 testes Node, dez regressões Python e typecheck estrito TypeScript 5.9.3.
+Os resultados/limites estão em VALIDACAO.md. Não demonstram geração autônoma do CRIVO.
+
+A ferramenta agora reconstrói exportações e manifesto de forma determinística. Validar
+antes de reconstruir para detectar alteração inesperada; reconstruir só depois de revisar
+mudança autoral, pois a operação atualiza os hashes e não confere a veracidade do conteúdo.
+
+```sh
+python scripts/acervo_programacao.py --buscar "cancelamento" --dominio javascript
+python scripts/acervo_programacao.py --relacoes js_task-group --profundidade 2
+python scripts/acervo_programacao.py --jsonl --dominio typescript
+python scripts/acervo_programacao.py --reconstruir
+```
+
+JSONL contém uma unidade por linha, com referências resolvidas, para futura ingestão.
+Relações explícitas não são uma ontologia completa; resultado de busca não prova relevância
+ou correção. A validação detecta IDs/links/ciclos/paths/exports/hashes e permanece ativa com
+Python -O. Não reclassifica a aplicação nem altera modelos existentes.

@@ -1,6 +1,6 @@
 # Fichas avançadas: typescript
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## ts_apagamento — Apagamento de tipos
 
@@ -13,6 +13,8 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Escolha:** Tratar toda fronteira externa como unknown e validar antes de construir tipo de domínio.
 
 **Verificação proposta:** Enviar payload faltando campo e verificar rejeição real; inspecionar JS emitido.
+
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-assertions
 
 **Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
@@ -27,6 +29,8 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Escolha:** Adotar strict e opções adicionais conforme baseline; migrar por módulo sem silenciar diagnósticos globalmente.
 
 **Verificação proposta:** Compilar fixtures de null, índice fora de faixa, optional undefined e catch unknown.
+
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-optional
 
 **Referências recomendadas:** [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
 
@@ -70,6 +74,8 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Gerar objetos quase válidos, arrays no lugar de objetos e campos com tipos errados.
 
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-assertions
+
 **Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
 ## ts_structural — Tipagem estrutural e excesso de propriedades
@@ -100,7 +106,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Invariantes:** Variante possui campos obrigatórios específicos; exhaustiveness considera todas tags.
 
-**Pré-requisitos:** ts_narrowing, ts_unknown-any
+**Pré-requisitos:** ts_narrowing; ts_unknown-any
 
 **Exemplo local:** exemplos/contratos.ts#LoadState
 
@@ -174,9 +180,11 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Comparar distributivo/não distributivo e testar união com never.
 
-**Pré-requisitos:** ts_generics, ts_unioes
+**Pré-requisitos:** ts_generics; ts_unioes
 
-**Relações:** ts_infer, ts_type-performance
+**Relações:** ts_infer; ts_type-performance
+
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-distribution
 
 **Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
 
@@ -248,7 +256,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Impedir troca de UserId/OrderId no typecheck e rejeitar valor malformado na factory.
 
-**Relações:** ts_schemas, seguranca_authn-authz
+**Relações:** ts_schemas; seguranca_authn-authz
 
 **Exemplo local:** exemplos/contratos.ts#UserId
 
@@ -307,6 +315,8 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Escolha:** Definir política de ausência por API e persistência, incluindo patch versus remoção.
 
 **Verificação proposta:** Testar missing, undefined, null, 0, false e string vazia.
+
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-optional
 
 **Referências recomendadas:** [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
 
@@ -406,7 +416,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Testar valor boundary, chave extra, tipo errado e transformação não reversível.
 
-**Relações:** ts_apagamento, backend_validation
+**Relações:** ts_apagamento; backend_validation
 
 **Exemplo local:** exemplos/padroes.mjs#parseUser
 
@@ -440,4 +450,503 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
 
+## ts_boundary-dto — DTO de entrada, domínio e saída
+
+**Definição:** DTO descreve contrato de transporte; entidade/value object representa invariantes internas; DTO de saída define informação autorizada.
+
+**Mecanismo:** Transformação explícita permite omitir secrets e campos internos; tipo de entidade não deve ser serializado indiscriminadamente.
+
+**Falhas comuns:** Retornar objeto inteiro inclui senha hash, flags internas ou tenant indevido; Partial<Entity> aceita mudanças proibidas.
+
+**Escolha:** Schemas por operação e mapper de saída com allowlist; distinguir leitura/escrita.
+
+**Verificação proposta:** Adicionar secret à entidade e garantir que response schema/body não muda.
+
+**Relações:** seguranca_privacy
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_patch-model — Modelagem de PATCH
+
+**Definição:** Patch precisa separar manter, substituir e remover conforme significado do campo.
+
+**Mecanismo:** União de operações ou schema com política explícita evita confundir missing, undefined e null.
+
+**Falhas comuns:** Partial permite combinações de negócio inválidas; merge genérico pode habilitar mass assignment.
+
+**Escolha:** Definir patch por caso de uso e validar transição após aplicar.
+
+**Verificação proposta:** Testar field ausente, remoção proibida, valor nulo permitido e chave desconhecida.
+
+**Relações:** ts_null-option
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_opaque-constructor — Construtores de valores opacos
+
+**Definição:** Factory valida e produz tipo de domínio; construtor público cru pode invalidar invariant.
+
+**Mecanismo:** Brand é barreira estática leve; encapsulamento e métodos podem adicionar checagens runtime.
+
+**Falhas comuns:** Exportar assertion genérica brand<T> permite criar qualquer valor sem prova.
+
+**Escolha:** Exportar factories específicas, manter cast privado e preservar representação validada.
+
+**Verificação proposta:** Testar entrada malformada e consumidor tentando montar valor sem factory.
+
+**Relações:** ts_brands
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_async-result — Result em operações assíncronas
+
+**Definição:** Promise<Result<T,E>> separa falha esperada de rejeição por defeito/infra conforme contrato escolhido.
+
+**Mecanismo:** Consumidor trata ok/tag depois de await; mapper de erro conserva causa e categorias.
+
+**Falhas comuns:** Marcar toda exceção como erro de negócio pode ocultar bug; Promise<Result> ainda pode rejeitar se implementação lança.
+
+**Escolha:** Documentar se API nunca rejeita ou permite erro inesperado e testar ambos.
+
+**Verificação proposta:** Simular validação, indisponibilidade e defeito de programação; verificar categoria correta.
+
+**Relações:** ts_errors-result
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_contravariance — Contravariância de callback
+
+**Definição:** Callback que API chama com Base precisa aceitar todo Base prometido, não apenas subtipo restrito.
+
+**Mecanismo:** strictFunctionTypes ajuda para propriedades de função; métodos possuem concessões de bivariance.
+
+**Falhas comuns:** Callback que exige Derived.foo quebra quando API entrega Base; método pode esconder a incompatibilidade.
+
+**Escolha:** Preferir contratos de função explícitos e teste negativo de consumidores.
+
+**Verificação proposta:** Compilar callback estreito em propriedade function e comparar com sintaxe de método.
+
+**Relações:** ts_variance
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_function-this — Parâmetro this e bindings
+
+**Definição:** TypeScript pode declarar tipo do this de função ordinária e checar uso em contexto.
+
+**Mecanismo:** Parâmetro this é apagado; noImplicitThis detecta algumas ambiguidades. Arrow possui captura lexical.
+
+**Falhas comuns:** Tipar this não faz bind no runtime; método extraído pode executar com undefined.
+
+**Escolha:** Declarar this quando API depende de receptor e bind ao passar callback.
+
+**Verificação proposta:** Compilar chamada sem receiver e executar extração em JS.
+
+**Relações:** js_this
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_satisfies-palette — Config autoral sem perder precisão
+
+**Definição:** satisfies verifica shape mantendo informação inferida útil, sujeito ao contexto da expressão.
+
+**Mecanismo:** Catálogo pode conservar chaves e valores específicos; annotation explícita pode ampliar tipo observado.
+
+**Falhas comuns:** Confundir satisfies com assertion de dado externo ignora que nenhuma validação runtime ocorre.
+
+**Escolha:** Usar em registry interno e schema runtime para entradas; testar tipo resultante.
+
+**Verificação proposta:** Verificar typo em chave e acesso a membro específico do valor inferido.
+
+**Relações:** ts_satisfies
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_freshness — Freshness e index signatures
+
+**Definição:** Excess-property checking é uma verificação contextual de certos literals, não uma regra de selamento estrutural.
+
+**Mecanismo:** Objeto de variável com campos extras pode ser atribuído; index signature permite conjunto mais aberto.
+
+**Falhas comuns:** Exact<T> artificial por utility pode criar mensagens ruins e não validar runtime.
+
+**Escolha:** Definir política de unknown keys no parser e tipos claros para registros abertos.
+
+**Verificação proposta:** Comparar literal/variável e payload JSON com campo admin inesperado.
+
+**Relações:** ts_structural
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_recursive-schema — Schemas recursivos
+
+**Definição:** Estrutura recursiva pode ser descrita por tipo, mas parser runtime precisa limites de profundidade/tamanho.
+
+**Mecanismo:** Referência lazy resolve declaração de schema; parsing profundo ainda consome stack/tempo.
+
+**Falhas comuns:** Tipo recursivo aceito não impede ciclo de objeto runtime nem nesting hostil.
+
+**Escolha:** Impor budget e usar traversal iterativo quando necessário; distinguir JSON acíclico de objetos gerais.
+
+**Verificação proposta:** Testar nesting grande, ciclo e total de nós máximo.
+
+**Relações:** ts_schemas
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_exact-errors — Códigos de erro estáveis
+
+**Definição:** Erro público deve ter código estável e payload permitido; mensagem humana não é protocolo confiável.
+
+**Mecanismo:** União por code descreve campos específicos e permite handling exaustivo.
+
+**Falhas comuns:** Cliente que depende de texto traduzido quebra; stack/cause não deve ser enviado automaticamente.
+
+**Escolha:** Separar internal Error de public error DTO e mapping auditável.
+
+**Verificação proposta:** Adicionar código novo e verificar consumidor obrigatório; validar redaction.
+
+**Relações:** ts_unioes
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_state-events — Eventos ligados a estado
+
+**Definição:** Tipos podem representar eventos/transições, mas objeto mutável complexo pode exigir máquina runtime.
+
+**Mecanismo:** Reducer com discriminantes garante handling; guard runtime protege evento de origem externa.
+
+**Falhas comuns:** Assinar evento com as ignora estado atual; tipar dispatch não garante sequência legal.
+
+**Escolha:** Tabela de transições e invariantes com efeito fora do reducer.
+
+**Verificação proposta:** Gerar sequências incluindo eventos inválidos e exigir estado válido sempre.
+
+**Relações:** frontend_react-reducer
+
+**Exemplo local:** exemplos/engenharia.mjs#transition
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_index-totality — Acesso indexado e totalidade
+
+**Definição:** Array/record podem não conter chave solicitada; tipo de acesso deve refletir ausência.
+
+**Mecanismo:** noUncheckedIndexedAccess amplia para undefined onde não há prova de presença; bounds check nem sempre estreita como esperado.
+
+**Falhas comuns:** Non-null assertion depois de check errado transforma exceção em promessa de segurança.
+
+**Escolha:** Retornar Option/Result ou testar valor local capturado; preferir APIs totalizadas.
+
+**Verificação proposta:** Testar array vazio, buracos, chave inexistente e valor undefined presente.
+
+**Relações:** ts_keyof
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_awaited — Awaited e inferência assíncrona
+
+**Definição:** Awaited modela unwrap recursivo de awaitables segundo transformação estática definida.
+
+**Mecanismo:** Retornos de combinadores inferem tuplas/uniões conforme tipos e versão; input unknown continua unknown.
+
+**Falhas comuns:** Criar PromiseValue que só unwrap uma camada diverge de nested thenables e unions.
+
+**Escolha:** Usar utility documentada e fixtures do caso real.
+
+**Verificação proposta:** Compilar Promise aninhada, union com valor direto, never e unknown.
+
+**Relações:** ts_infer
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_utility-depth — Utilities superficiais e profundas
+
+**Definição:** Readonly/Partial/Required transformam camada de propriedades, não grafo inteiro.
+
+**Mecanismo:** Deep utilities precisam política para Map/Set, funções, arrays, tuples e classes.
+
+**Falhas comuns:** DeepReadonly ingênuo pode quebrar métodos de classe e não corresponder a freeze runtime.
+
+**Escolha:** Definir domínio de aplicação da utility e limitar complexidade de tipos.
+
+**Verificação proposta:** Testar tuple, callback, classe, optional e nested array.
+
+**Relações:** ts_mapped
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_union-correlation — Correlação em uniões
+
+**Definição:** Union de pares relacionados conserva vínculo; dois campos com unions independentes permitem combinações ilegais.
+
+**Mecanismo:** Destructuring/narrowing preserva correlação em alguns padrões/versões, mas extrações genéricas podem perdê-la.
+
+**Falhas comuns:** Evento com kind numérico e payload string pode ser aceito em megaobjeto de tipos independentes.
+
+**Escolha:** Modelar cada variante completa e dispatch após narrowing claro.
+
+**Verificação proposta:** Compilar pares incompatíveis e validar runtime em entrada externa.
+
+**Relações:** ts_unioes
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_literal-widening — Widening e inferência de literais
+
+**Definição:** Tipo literal pode ampliar para string/number conforme mutabilidade e contexto.
+
+**Mecanismo:** const binding e as const afetam inferência de formas distintas; const type parameters dependem da versão TS.
+
+**Falhas comuns:** Generic que deveria preservar rota pode inferir string amplo; as const não congela runtime.
+
+**Escolha:** Controlar contextual typing com intenção e verificar API pública inferida.
+
+**Verificação proposta:** Comparar const object, as const, satisfies e generic com fixture de inferência.
+
+**Relações:** ts_satisfies
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_distributive-never — never e distribuição
+
+**Definição:** never é união vazia; conditional distributivo sobre ele pode resultar em never sem avaliar branch intuitiva.
+
+**Mecanismo:** Wrapper tuple muda teste para o conjunto inteiro; diferenças importam em utilities de detecção.
+
+**Falhas comuns:** IsNever<T> escrito T extends never pode não retornar true para never.
+
+**Escolha:** Testar utilities com never/any/unknown e unions, sem assumir álgebra ideal em any.
+
+**Verificação proposta:** Compilar tabela de resultados e checar constraints do domínio aceito.
+
+**Relações:** ts_conditional
+
+**Conferência pontual (ver conferencia-fontes-2.json):** ts-distribution
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_types-serialization — Serialização e tipo de saída
+
+**Definição:** Tipo TS não implica que valor é serializável para JSON ou boundary framework.
+
+**Mecanismo:** Date vira string em JSON; BigInt pode lançar; funções/undefined podem ser omitidos; cycles falham.
+
+**Falhas comuns:** Retornar T depois de JSON roundtrip afirma equivalência falsa.
+
+**Escolha:** Definir DTO serializável e decoder de retorno; testar transformações com tipos reais.
+
+**Verificação proposta:** Roundtrip de Date/BigInt/undefined/ciclo e comparação por contrato.
+
+**Relações:** js_json
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_ambient-globals — Globals e declaração ambiente
+
+**Definição:** declare informa checker de símbolo supostamente existente, sem emitir implementação.
+
+**Mecanismo:** Global augmentation e múltiplos @types podem alterar projeto inteiro e produzir conflitos.
+
+**Falhas comuns:** declare const window faz compilar em Node mas não cria window; ambient declaration incorreta esconde defeito.
+
+**Escolha:** Isolar tipos por host e usar imports explícitos quando possível.
+
+**Verificação proposta:** Executar artefato em host prometido e compilar sem tipos de outro ambiente.
+
+**Relações:** ts_dom-types
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_declaration-merging — Declaration merging e augmentation
+
+**Definição:** Certas declarações compatíveis se fundem; module augmentation amplia tipos de módulo existente.
+
+**Mecanismo:** Ampliação precisa estar no programa e corresponder a código/runtime que realmente adiciona comportamento.
+
+**Falhas comuns:** Adicionar método a interface sem implementar prototype/factory cria API inexistente.
+
+**Escolha:** Usar augmentation pequena e empacotada com implementação comprovada.
+
+**Verificação proposta:** Compilar consumidor e invocar membro no artefato publicado.
+
+**Relações:** ts_declarations
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_compiler-api — Compiler API e transformações
+
+**Definição:** TypeScript Compiler API oferece AST, checker e emissão para tooling.
+
+**Mecanismo:** SyntaxKind e node factories têm contratos versionados; checker fornece símbolos/tipos para refactor.
+
+**Falhas comuns:** Editar AST sem maps ou usar node/text offsets stale pode perder comments e alterar código errado.
+
+**Escolha:** Fixar versão suportada e testar transform com golden fixtures e typecheck.
+
+**Verificação proposta:** Testar aliases, overloads, comentários e transform idempotente.
+
+**Relações:** fronteira_incremental-types
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_project-references — Project references e build
+
+**Definição:** References organizam compilação de projetos dependentes com fronteiras e artefatos.
+
+**Mecanismo:** composite/declaration e tsc -b suportam build incremental; configs devem refletir grafo verdadeiro.
+
+**Falhas comuns:** Ciclo entre projetos ou source import fora da boundary impede modularidade; cache stale pode mascarar.
+
+**Escolha:** Separar configs por pacote/host e testar clean build junto de incremental.
+
+**Verificação proposta:** Remover outputs/cache e reconstruir; comparar artefatos e ordem.
+
+**Relações:** ts_resolution
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_ts-runtime-tests — Separar typecheck e execução
+
+**Definição:** Typecheck cobre certos usos de API; runtime testa semântica/efeitos de valores concretos.
+
+**Mecanismo:** Transpilers rápidos podem não checar tipos; tsc --noEmit não executa programa.
+
+**Falhas comuns:** Testes runtime verdes com types errados quebram consumidor; tipos verdes com parser falso permitem entrada inválida.
+
+**Escolha:** Executar ambos e manter fixtures de consumidores externos.
+
+**Verificação proposta:** Introduzir typo de tipo e bug runtime separadamente; cada check deve detectar seu eixo.
+
+**Relações:** ts_type-tests
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_const-enum-publish — const enum e publicação
+
+**Definição:** const enum pode ser inlined e não existir como objeto runtime; toolchains diferem.
+
+**Mecanismo:** Consumidor pode inline versão antiga contra JS novo; isolatedModules e ambient const enums geram restrições.
+
+**Falhas comuns:** Assumir tree shaking resolve todos riscos de const enum público ignora compatibilidade.
+
+**Escolha:** Preferir union/catalog as const para biblioteca quando runtime identity não é necessária.
+
+**Verificação proposta:** Consumir versões divergentes e transpiler isolado; inspecionar output.
+
+**Relações:** ts_enum
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_overload-inference — Inferência em overloads
+
+**Definição:** Utilities que inferem função sobreloaded geralmente consideram assinatura de forma específica, frequentemente última.
+
+**Mecanismo:** Tipo de retorno extraído não equivale necessariamente ao retorno de cada call escolhido por overload resolution.
+
+**Falhas comuns:** ReturnType usado como prova de todos casos pode ampliar ou perder relação entrada/saída.
+
+**Escolha:** Publicar tipos auxiliares claros e testar calls concretas.
+
+**Verificação proposta:** Comparar ReturnType com chamadas específicas e argumentos union.
+
+**Relações:** ts_overloads
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_nominal-runtime — Brand estática e nominalidade runtime
+
+**Definição:** Brand protege troca acidental no checker; não carrega autenticação nem necessariamente marcador real.
+
+**Mecanismo:** unique symbol usado apenas em tipo é apagado; instance checks exigem representação runtime correspondente.
+
+**Falhas comuns:** Teste in brand pode falhar se brand nunca foi atribuído; forged cast passa checker.
+
+**Escolha:** Escolher marca só estática ou objeto runtime e documentar invariantes separados.
+
+**Verificação proposta:** Comparar valor serializado e reconstrução via factory; testar cast fora do escopo confiável.
+
+**Relações:** ts_brands
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_type-erasure-security — Tipos não são controle de acesso
+
+**Definição:** Permissão expressa em tipo ajuda desenho interno, mas request direto ignora tipagem do cliente.
+
+**Mecanismo:** Servidor valida principal e recurso a cada boundary; token de capability precisa integridade no runtime.
+
+**Falhas comuns:** AdminUser tipo em frontend não impede chamada por atacante; brand de Authorized não substitui verificação.
+
+**Escolha:** Centralizar authorization e emitir resultado de política a partir de fonte confiável.
+
+**Verificação proposta:** Executar request sem UI com papel inadequado e trocar IDs.
+
+**Relações:** seguranca_authn-authz
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_type-test-errors — Fixtures negativas específicas
+
+**Definição:** @ts-expect-error confirma existência de algum diagnóstico na linha, não necessariamente o erro pretendido.
+
+**Mecanismo:** Cada fixture deve ter motivo isolado e linha válida no restante; ferramentas de assertion de tipo refinam evidência.
+
+**Falhas comuns:** Uma importação quebrada pode fazer expect-error passar pela razão errada.
+
+**Escolha:** Usar fixtures mínimas e teste positivo vizinho; revisar diagnóstico de forma deliberada.
+
+**Verificação proposta:** Remover proteção específica e verificar que expect-error se torna unused.
+
+**Relações:** ts_type-tests
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_generic-defaults — Defaults e constraints genéricas
+
+**Definição:** Default define tipo quando argumento não é informado/inferido; constraint limita formas aceitas.
+
+**Mecanismo:** Default precisa satisfazer constraint; inferência pode substituir default conforme call.
+
+**Falhas comuns:** Default any enfraquece contrato; constraint ampla permite operações só da base, não das extensões.
+
+**Escolha:** Escolher defaults seguros como unknown onde apropriado e manter relação explícita.
+
+**Verificação proposta:** Compilar chamada sem tipo, inferida e explicitamente inválida.
+
+**Relações:** ts_generics
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_builder-protocol — Builders e protocolo de construção
+
+**Definição:** Builder pode representar etapas obrigatórias e evitar build antes de configuração mínima.
+
+**Mecanismo:** Tipo por estado ou retorno de interface especializada expressa protocolo; runtime ainda valida quando entrada arbitrária.
+
+**Falhas comuns:** API fluent com casts infinitos finge garantir passo obrigatório; reaproveitar builder mutável vaza estado.
+
+**Escolha:** Usar builder só quando há etapas reais; preferir factory simples para construção pequena.
+
+**Verificação proposta:** Compilar build prematuro e executar reuse/config inválida.
+
+**Relações:** corretude_design-by-contract
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
+
+## ts_type-budget — Orçamento de complexidade de tipos
+
+**Definição:** Abstração de tipos tem custo em compiler/editor e compreensão humana.
+
+**Mecanismo:** Recursão, unions grandes e interfaces públicas instanciadas muitas vezes afetam check; medir extendedDiagnostics.
+
+**Falhas comuns:** Tornar todos invariantes type-level pode gerar sistema lento e pouco usável, sem garantia runtime.
+
+**Escolha:** Distribuir provas entre tipos simples, validação runtime e testes; limitar recursão documentada.
+
+**Verificação proposta:** Comparar clean/incremental e consumo de memória com projeto consumidor representativo.
+
+**Relações:** ts_type-performance
+
+**Referências recomendadas:** [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html); [TypeScript TSConfig Reference](https://www.typescriptlang.org/tsconfig/)
 

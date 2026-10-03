@@ -1,6 +1,6 @@
 # Fichas avançadas: engenharia
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## engenharia_api-evolution — Compatibilidade e versionamento
 
@@ -113,5 +113,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Reavaliar com volume/latência diferente e verificar se premissas ainda valem.
 
 **Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
-
 

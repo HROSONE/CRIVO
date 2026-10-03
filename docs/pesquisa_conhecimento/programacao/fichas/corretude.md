@@ -1,6 +1,6 @@
 # Fichas avançadas: corretude
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## corretude_formal — Contratos e verificação formal
 
@@ -30,4 +30,19 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 
+## corretude_abstract-interpretation — Interpretação abstrata
+
+**Definição:** Análise calcula aproximação de propriedades sobre domínio abstrato em vez de executar todos estados concretos.
+
+**Mecanismo:** Soundness exige que abstração cubra comportamentos; widening pode garantir convergência sacrificando precisão.
+
+**Falhas comuns:** Warning falso não significa análise inútil; ausência de warning só garante propriedade sob premissas.
+
+**Escolha:** Declarar propriedade, abstração e limites antes de tratar checker como prova.
+
+**Verificação proposta:** Comparar pequeno programa com execução exaustiva e localizar perda de precisão.
+
+**Relações:** corretude_formal
+
+**Referências recomendadas:** [LLVM Language Reference](https://llvm.org/docs/LangRef.html)
 

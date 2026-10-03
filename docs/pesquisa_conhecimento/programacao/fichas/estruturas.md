@@ -1,6 +1,6 @@
 # Fichas avançadas: estruturas
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## estruturas_hash — Hash tables e colisões
 
@@ -16,7 +16,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Complexidade:** O(1) esperado sob hipóteses adequadas de hash/load factor; pior caso depende da estrutura.
 
-**Pré-requisitos:** algoritmos_complexidade, algoritmos_amortizado
+**Pré-requisitos:** algoritmos_complexidade; algoritmos_amortizado
 
 **Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 
@@ -96,4 +96,19 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 
+## estruturas_btrees-pages — B-trees e páginas
+
+**Definição:** B-tree mantém árvore balanceada com alto branching factor para reduzir acessos a páginas.
+
+**Mecanismo:** Splits/merges e preenchimento preservam ordem/altura; layout e cache influenciam custo.
+
+**Falhas comuns:** Confundir árvore de busca binária com B-tree ignora modelo de I/O; índice tem write amplification.
+
+**Escolha:** Modelar page size/cardinalidade e medir acesso real, não só comparação CPU.
+
+**Verificação proposta:** Inserção sorted/random e range scan devem preservar ordem e invariantes.
+
+**Relações:** dados_sql-index
+
+**Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 

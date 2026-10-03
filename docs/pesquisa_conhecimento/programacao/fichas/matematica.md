@@ -1,6 +1,6 @@
 # Fichas avançadas: matematica
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## matematica_floating — Estabilidade numérica
 
@@ -15,5 +15,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar valores extremos, soma compensada e comparação com referência de maior precisão.
 
 **Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
-
 

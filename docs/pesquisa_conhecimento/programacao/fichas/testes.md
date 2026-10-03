@@ -1,6 +1,6 @@
 # Fichas avançadas: testes
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## testes_unit-integration — Unidade, integração e E2E
 
@@ -86,4 +86,99 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [Node.js test runner](https://nodejs.org/api/test.html)
 
+## testes_sort-property — Leis de ordenação como oráculo
+
+**Definição:** Teste de sort pode verificar ordem e preservação do multiset sem copiar algoritmo.
+
+**Mecanismo:** Geradores com duplicatas/boundaries e comparator coerente cobrem famílias de entrada.
+
+**Falhas comuns:** Comparar só primeiro/último elemento permite perda/duplicação do meio passar.
+
+**Escolha:** Verificar cardinalidade, multiset, monotonicidade e estabilidade se prometida.
+
+**Verificação proposta:** Gerar todos arrays pequenos sobre alfabeto limitado e mutar implementação.
+
+**Relações:** testes_property
+
+**Referências recomendadas:** [fast-check documentation](https://fast-check.dev/docs/)
+
+## testes_linearizability-test — Histórias concorrentes
+
+**Definição:** História registra invocações/respostas para verificar existência de ordem sequencial legal.
+
+**Mecanismo:** Checking precisa respeitar real-time order e modelo do objeto; espaço cresce e requer limites.
+
+**Falhas comuns:** Ordenar por timestamp final não prova linearizability; teste de stress sem oráculo só observa crash.
+
+**Escolha:** Definir modelo pequeno e explorar interleavings controlados.
+
+**Verificação proposta:** Contador/fila com operações sobrepostas deve corresponder a ordem legal.
+
+**Relações:** distribuidos_consistency
+
+**Referências recomendadas:** [Jepsen consistency models](https://jepsen.io/consistency)
+
+## testes_model-based — Model based testing
+
+**Definição:** Modelo simples de estado serve de referência para sequências de comandos.
+
+**Mecanismo:** Gerador escolhe operações válidas/inválidas e compara observações; shrinking reduz sequência de falha.
+
+**Falhas comuns:** Modelo que copia implementação herda bug; assert só no fim pode perder transição ilegal transitória.
+
+**Escolha:** Especificar modelo independente e invariant depois de cada comando.
+
+**Verificação proposta:** Fila/LRU: comparar estado e outputs por sequência; reproduzir seed/caso mínimo.
+
+**Relações:** testes_property
+
+**Referências recomendadas:** [fast-check documentation](https://fast-check.dev/docs/)
+
+## testes_time-travel — Relógio virtual e deadlines
+
+**Definição:** Clock injetado permite testar política temporal sem atraso real.
+
+**Mecanismo:** Deadline inclui espera e execução; clock monotônico não sofre ajuste civil; scheduler fake deve modelar callbacks necessários.
+
+**Falhas comuns:** Sleep de 10ms deixa teste dependente de carga; fake clock não simula I/O real.
+
+**Escolha:** Isolar lógica de tempo e manter testes reais só para integração do host.
+
+**Verificação proposta:** Avançar relógio até antes/na/depois da borda e verificar transições.
+
+**Relações:** testes_determinism
+
+**Referências recomendadas:** [Node.js test runner](https://nodejs.org/api/test.html)
+
+## testes_fault-injection — Injeção de falhas por etapa
+
+**Definição:** Falha controlada revela comportamento em janelas raras de efeito/commit/cleanup.
+
+**Mecanismo:** Criar hooks de teste/adapters permite parar antes/depois de write, publish, ack e response.
+
+**Falhas comuns:** Testar só exceção antes do efeito não cobre efeito cometido com confirmação perdida.
+
+**Escolha:** Enumerar pontos de falha e resultado legal antes de testar.
+
+**Verificação proposta:** Crash após commit, antes de resposta; reexecutar com chave e verificar efeito único.
+
+**Relações:** distribuidos_idempotencia
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
+
+## testes_parser-equivalence — Equivalência entre fragmentações
+
+**Definição:** Parser incremental correto deve observar mesma mensagem independentemente de chunk boundaries.
+
+**Mecanismo:** Oracle pode ser parser de referência ou resultado esperado fixo; tamanho total/EOF devem ser parte do contrato.
+
+**Falhas comuns:** Testar um chunk por mensagem não exercita incrementalidade real.
+
+**Escolha:** Fragmentar cada posição e combinações pequenas; testar estado parcial/erro terminal.
+
+**Verificação proposta:** Header/payload dividido byte a byte e múltiplos frames no chunk.
+
+**Relações:** fronteira_streaming-parsers
+
+**Referências recomendadas:** [Node.js test runner](https://nodejs.org/api/test.html)
 

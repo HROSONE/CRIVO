@@ -1,6 +1,6 @@
 # Fichas avançadas: algoritmos
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## algoritmos_correcao — Prova por invariante
 
@@ -62,7 +62,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Modelo formal:** lower_bound = min({i | a[i] >= x} ∪ {n})
 
-**Pré-requisitos:** algoritmos_correcao, algoritmos_complexidade
+**Pré-requisitos:** algoritmos_correcao; algoritmos_complexidade
 
 **Exemplo local:** exemplos/padroes.mjs#lowerBound
 
@@ -188,4 +188,35 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 
+## algoritmos_max-flow — Fluxo máximo e grafo residual
+
+**Definição:** Rede capacitada busca fluxo que conserva balanço e respeita capacidade.
+
+**Mecanismo:** Residual edges permitem desfazer decisão anterior; augmenting paths sustentam algoritmos clássicos.
+
+**Falhas comuns:** Não adicionar aresta reversa impede corrigir escolhas e pode produzir fluxo subótimo.
+
+**Escolha:** Escolher algoritmo pelo volume e validar conservação/cut.
+
+**Verificação proposta:** Grafo onde primeira augmentação exige cancelamento posterior; comparar cut/flow.
+
+**Relações:** algoritmos_graphs
+
+**Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
+
+## algoritmos_rolling-hash — Rolling hash e colisão
+
+**Definição:** Hash incremental facilita comparação candidata de substrings, mas colisão impede prova de igualdade.
+
+**Mecanismo:** Rabin-Karp verifica candidates ou aceita probabilidade explícita; base/modulus/overflow definem cálculo.
+
+**Falhas comuns:** Comparar só hash pode aceitar texto diferente; hostil pode explorar escolhas fracas.
+
+**Escolha:** Usar verificação final quando correção exata é requisito.
+
+**Verificação proposta:** Construir colisão em modulus pequeno e garantir comparação real detecta.
+
+**Relações:** estruturas_hash
+
+**Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 

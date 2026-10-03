@@ -1,6 +1,6 @@
 # Fichas avançadas: frontend
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## frontend_react-render — Renderização React
 
@@ -56,7 +56,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Responder busca A depois de B e confirmar que B permanece na tela.
 
-**Relações:** js_cancelamento, frontend_react-effects, frontend_react-state
+**Relações:** js_cancelamento; frontend_react-effects; frontend_react-state
 
 **Referências recomendadas:** [React documentation](https://react.dev/learn)
 
@@ -186,4 +186,67 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [React documentation](https://react.dev/learn)
 
+## frontend_focus-races — Foco sob renderização assíncrona
+
+**Definição:** Foco representa posição de interação; atualização de DOM pode remover alvo ou deslocar usuário.
+
+**Mecanismo:** Ref/commit e lifecycle coordenam foco após resultado; evitar roubar foco quando usuário mudou de contexto.
+
+**Falhas comuns:** Autofocus a cada refetch impede digitação/navegação; erro invisível não orienta correção.
+
+**Escolha:** Definir intenção de foco por transição de usuário, não por toda renderização.
+
+**Verificação proposta:** Teclar durante resposta tardia e abrir/fechar modal; foco deve permanecer previsível.
+
+**Relações:** web_dialogs
+
+**Referências recomendadas:** [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+
+## frontend_external-store — Stores externas e snapshots
+
+**Definição:** UI precisa snapshot coerente ao ler estado externo sob renderizações concorrentes.
+
+**Mecanismo:** APIs como useSyncExternalStore fornecem protocolo de subscribe/getSnapshot com requisitos de identidade.
+
+**Falhas comuns:** getSnapshot que cria objeto novo sempre pode causar loops; mutação silenciosa impede updates.
+
+**Escolha:** Usar contrato documentado e snapshots estáveis até mudança real.
+
+**Verificação proposta:** Testar subscribe cleanup, atualização e SSR snapshot compatível.
+
+**Relações:** frontend_react-context
+
+**Referências recomendadas:** [React documentation](https://react.dev/learn)
+
+## frontend_suspense-errors — Suspense e boundaries de erro
+
+**Definição:** Suspense coordena suspensão em integrações suportadas; error boundary tem escopo próprio.
+
+**Mecanismo:** Não captura automaticamente erro de handler/async arbitrário; reset/remount precisa política do framework.
+
+**Falhas comuns:** Envolver fetch de useEffect com Suspense não torna integração suspensível automaticamente.
+
+**Escolha:** Usar data API suportada e testar fallback/error/reset por boundary.
+
+**Verificação proposta:** Erro no render, evento, request e navegação: verificar quem trata cada caso.
+
+**Relações:** frontend_react-render
+
+**Referências recomendadas:** [React documentation](https://react.dev/learn)
+
+## frontend_cache-boundaries — Cache de servidor e invalidação
+
+**Definição:** Framework pode cachear dados/render por regras versionadas e explícitas.
+
+**Mecanismo:** Scope, tags, dynamic APIs e revalidation variam; cache key precisa distinguir contexto privado.
+
+**Falhas comuns:** Aplicar receita de versão antiga pode cachear dado sensível ou nunca atualizar.
+
+**Escolha:** Consultar documentação da versão instalada e testar usuário A/B + mudança.
+
+**Verificação proposta:** Inspecionar headers/resultados e confirmar invalidação entre réplicas/requests.
+
+**Relações:** frontend_rsc
+
+**Referências recomendadas:** [Next.js documentation](https://nextjs.org/docs)
 

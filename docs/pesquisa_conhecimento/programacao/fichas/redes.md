@@ -1,6 +1,6 @@
 # Fichas avançadas: redes
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## redes_http-semantica — Métodos e status HTTP
 
@@ -99,5 +99,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar certificado errado, expiração, mudança de IP e falha de resolução.
 
 **Referências recomendadas:** [TLS 1.3 RFC 8446](https://www.rfc-editor.org/rfc/rfc8446)
-
 

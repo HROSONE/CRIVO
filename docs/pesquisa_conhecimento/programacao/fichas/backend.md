@@ -1,6 +1,6 @@
 # Fichas avançadas: backend
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## backend_node-streams — Streams e backpressure
 
@@ -14,7 +14,9 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Testar consumidor lento, erro no meio, cancelamento e memória com arquivo grande.
 
-**Relações:** fronteira_streaming-parsers, backend_shutdown, operacao_capacity
+**Relações:** fronteira_streaming-parsers; backend_shutdown; operacao_capacity
+
+**Conferência pontual (ver conferencia-fontes-2.json):** node-stream
 
 **Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/)
 
@@ -87,5 +89,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar borda de janela, bursts, múltiplas réplicas e indisponibilidade do limiter.
 
 **Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
-
 

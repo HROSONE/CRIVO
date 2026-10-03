@@ -1,6 +1,6 @@
 # Fichas avançadas: dados
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## dados_sql-model — Modelo relacional e constraints
 
@@ -44,7 +44,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Invariantes:** Toda escrita preserva regras de domínio e constraints; falha não anuncia commit inexistente.
 
-**Relações:** dados_sql-model, dados_db-pool, distribuidos_idempotencia
+**Relações:** dados_sql-model; dados_db-pool; distribuidos_idempotencia
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
@@ -118,4 +118,149 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
+## dados_optimistic-lock — Controle otimista de concorrência
+
+**Definição:** Version column permite update condicionado à versão lida, detectando conflito em vez de sobrescrever silenciosamente.
+
+**Mecanismo:** UPDATE ... WHERE id=? AND version=? incrementa versão e exige row count esperado; conflito leva reload/retry de regra inteira.
+
+**Falhas comuns:** Retentar só write com dado stale mantém decisão inválida; versão sem tenant scope permite acesso cruzado.
+
+**Escolha:** Usar para baixa contenção e conflito detectável; separar efeito externo da transação retentável.
+
+**Verificação proposta:** Duas edições com mesma versão: uma vence, outra conflita; repetir mesma chave não duplica.
+
+**Relações:** dados_transactions
+
+**Exemplo local:** exemplos/engenharia.mjs#VersionedCell
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_locking-reads — Locks pessimistas e ordem
+
+**Definição:** Lock de linhas serializa operações que precisam ler e atualizar sob invariant comum.
+
+**Mecanismo:** SELECT FOR UPDATE e granularidade dependem do SGBD; múltiplas linhas exigem ordem consistente e transação curta.
+
+**Falhas comuns:** Segurar lock durante HTTP externo aumenta contenção/deadlock; lock não protege linha inexistente em todo nível.
+
+**Escolha:** Preferir update condicional simples; usar locks quando invariant requer leitura protegida.
+
+**Verificação proposta:** Concorrer em duas linhas invertidas e observar deadlock/retry; checar isolamento.
+
+**Relações:** dados_transactions
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_write-skew — Write skew e regras multi-row
+
+**Definição:** Duas transações podem ler conjunto válido e escrever linhas diferentes produzindo invariant inválido.
+
+**Mecanismo:** Snapshot isolation não garante serializability geral; constraints ou serializable/locks apropriados são necessários.
+
+**Falhas comuns:** Cada row estar válida não implica regra global válida; SELECT antes de UPDATE não prova atomicidade.
+
+**Escolha:** Formalizar invariant e escolher proteção do conjunto, considerando abort/retry.
+
+**Verificação proposta:** Duas pessoas se removem do plantão ao ler duas disponíveis; exigir ao menos uma após commit.
+
+**Relações:** dados_transactions
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_unique-null — Unicidade e NULL
+
+**Definição:** Semântica de NULL em UNIQUE e comparações depende do banco/opção definida.
+
+**Mecanismo:** PostgreSQL possui comportamento e opções específicas para tratar nulls distinct/not distinct; índice parcial restringe subconjunto.
+
+**Falhas comuns:** Assumir que UNIQUE em coluna nullable impede todo duplicado lógico pode falhar.
+
+**Escolha:** Definir identidade de ausência e criar constraint compatível com versão.
+
+**Verificação proposta:** Inserir múltiplos nulls e duplicados por tenant; validar regra esperada.
+
+**Relações:** dados_sql-model
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_keyset-consistency — Cursor e consistência entre páginas
+
+**Definição:** Keyset ordena por chave total, mas não cria snapshot por si só.
+
+**Mecanismo:** Nova inserção/exclusão entre páginas muda conjunto; cutoff/snapshot/version podem definir semântica de navegação.
+
+**Falhas comuns:** Prometer exatamente todos itens sem duplicata em dataset mutável pode exigir contrato/estado adicional.
+
+**Escolha:** Escolher feed fresco ou export snapshot e explicar garantia.
+
+**Verificação proposta:** Inserir antes/depois do cursor, editar sort key e comparar página/replay.
+
+**Relações:** backend_pagination
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_partitioning — Particionamento de dados
+
+**Definição:** Partição separa dados por chave/range/hash e influencia pruning, índices e operação.
+
+**Mecanismo:** Partition pruning pode reduzir scan; hot partition ou key skew cria gargalo; constraints/uniqueness têm limites específicos.
+
+**Falhas comuns:** Particionar tabela pequena aumenta complexidade; escolher shard key ruim requer migração difícil.
+
+**Escolha:** Medir consultas/volume e planejar crescimento/resharding antes de distribuir.
+
+**Verificação proposta:** Carregar chave hot, testar pruning e consultas sem partition key.
+
+**Relações:** dados_sql-index
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_cdc — Change data capture
+
+**Definição:** CDC observa mudanças persistidas para alimentar projeções/integrações.
+
+**Mecanismo:** Offsets/checkpoints, schema changes e ordering precisam tratamento; snapshot inicial deve alinhar com log.
+
+**Falhas comuns:** Reiniciar sem checkpoint duplica/perde eventos; CDC técnico não contém sempre semântica de negócio.
+
+**Escolha:** Escolher outbox para evento de domínio ou CDC com contrato próprio; idempotência no consumidor.
+
+**Verificação proposta:** Testar restart, schema evolution e snapshot simultâneo à escrita.
+
+**Relações:** distribuidos_outbox
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_wal-recovery — WAL e recuperação
+
+**Definição:** Write-ahead log registra informação necessária antes de tornar mudanças duráveis conforme protocolo do banco.
+
+**Mecanismo:** Replay e checkpoints recuperam estado; configuração de fsync/synchronous commit influencia perda tolerável.
+
+**Falhas comuns:** Commit reconhecido com durabilidade relaxada pode perder após falha; réplica atrasada não garante mesmo estado.
+
+**Escolha:** Declarar RPO e configuração, testar restore/PITR e impacto de performance.
+
+**Verificação proposta:** Interromper serviço em pontos distintos e verificar dados recuperados.
+
+**Relações:** operacao_recovery
+
+**Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
+
+## dados_schema-registry — Contratos de serialização
+
+**Definição:** Schemas descrevem tipos/encoding de mensagens; compatibilidade depende do formato e política.
+
+**Mecanismo:** JSON, Protobuf e Avro têm regras diferentes de campos desconhecidos, defaults e IDs.
+
+**Falhas comuns:** Reutilizar número de field removido em protocolo pode reinterpretar dado antigo; schema não prova autorização.
+
+**Escolha:** Documentar formato e compatibilidade por direção, testar artefato cross-language.
+
+**Verificação proposta:** Consumir mensagem antiga/nova e verificar roundtrip/campos não reconhecidos.
+
+**Relações:** engenharia_api-evolution
+
+**Referências recomendadas:** [HTTP Semantics RFC 9110](https://www.rfc-editor.org/rfc/rfc9110)
 

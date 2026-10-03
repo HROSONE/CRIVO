@@ -1,6 +1,6 @@
 # Fichas avançadas: seguranca
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## seguranca_authn-authz — Autenticação e autorização
 
@@ -14,7 +14,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Trocar IDs entre usuários/tenants e testar cada papel em cada operação.
 
-**Relações:** seguranca_session, seguranca_oauth, seguranca_threat-model
+**Relações:** seguranca_session; seguranca_oauth; seguranca_threat-model
 
 **Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
@@ -158,4 +158,99 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
+## seguranca_csrf-token — Vinculação de token CSRF
+
+**Definição:** Token deve estar ligado a sessão/contexto confiável e ser verificado em operação protegida.
+
+**Mecanismo:** Synchronizer token e double-submit possuem pressupostos distintos; padrão signed pode proteger integridade.
+
+**Falhas comuns:** Token que qualquer sessão reutiliza ou cookie controlável por subdomínio pode quebrar defesa.
+
+**Escolha:** Usar implementação revisada e avaliar cookie scope/subdomínios.
+
+**Verificação proposta:** Token de sessão A com credencial B, ausência e origin suspeita.
+
+**Relações:** seguranca_csrf
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+
+## seguranca_path-traversal — Paths e traversal
+
+**Definição:** Path de usuário pode escapar diretório permitido por segmentos, links e resolução do filesystem.
+
+**Mecanismo:** Canonicalização, root bounds e operações seguras precisam considerar symlink/TOCTOU e plataforma.
+
+**Falhas comuns:** String startsWith('/safe') aceita '/safe-evil'; basename sozinho não resolve toda política.
+
+**Escolha:** Usar IDs mapeados para arquivos e APIs de abertura seguras; evitar path arbitrário.
+
+**Verificação proposta:** Testar ../, absolute path, symlink trocado e separadores do SO alvo.
+
+**Relações:** seguranca_threat-model
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+
+## seguranca_archive-bombs — Arquivos compactados e expansão
+
+**Definição:** Tamanho compactado não limita tamanho expandido nem número/profundidade de entries.
+
+**Mecanismo:** Budget de bytes totais, ratio, quantidade e path bounds precisa ser aplicado durante extração.
+
+**Falhas comuns:** Validar extensão/tamanho original não bloqueia zip bomb ou traversal em entry.
+
+**Escolha:** Processar em isolamento com limites e interromper antes de consumir orçamento.
+
+**Verificação proposta:** Arquivo pequeno com alta expansão, entries infinitas e paths fora da raiz.
+
+**Relações:** js_resource-budget
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+
+## seguranca_mass-assignment — Mass assignment
+
+**Definição:** Binding automático de payload à entidade pode permitir alterar propriedades não autorizadas.
+
+**Mecanismo:** Allowlist de DTO/campos por operação e política do servidor impedem escrita arbitrária.
+
+**Falhas comuns:** Spread req.body sobre User permite role/admin/tenant vindos do atacante.
+
+**Escolha:** Mapear input explicitamente e não confiar em campos de autorização enviados.
+
+**Verificação proposta:** Enviar admin:true, tenantId diferente e campo interno em update.
+
+**Relações:** ts_boundary-dto
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+
+## seguranca_logging-redaction — Redaction em telemetria
+
+**Definição:** Log/traces precisam remover informação sensível antes da exportação.
+
+**Mecanismo:** Estrutura conhecida facilita allowlist e masking; nested objects, query strings e Error cause podem carregar secrets.
+
+**Falhas comuns:** Redact no frontend não cobre logs do servidor; regex parcial pode deixar token em outra representação.
+
+**Escolha:** Registrar mínimo e testar snapshots de eventos de erro com valores sentinela.
+
+**Verificação proposta:** Provocar falha com token/senha fictícios e procurar sentinela em toda saída.
+
+**Relações:** operacao_observability
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
+
+## seguranca_capability — Capabilities e menor privilégio
+
+**Definição:** Capability concede ação sobre recurso específico; autoridade deve ser limitada por escopo e lifetime.
+
+**Mecanismo:** URL/token assinado pode carregar permissão delimitada; verificação de integridade e contexto é obrigatória.
+
+**Falhas comuns:** Capability copiada pode ser usada por terceiro se bearer; token amplo vira credencial excessiva.
+
+**Escolha:** Conceder menor autoridade e decidir expiração/revogação/audience.
+
+**Verificação proposta:** Testar recurso/ação diferente, expiração, token adulterado e logging.
+
+**Relações:** seguranca_authn-authz
+
+**Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 

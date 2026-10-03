@@ -1,6 +1,6 @@
 # Fichas avançadas: compiladores
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## compiladores_compiler — Pipeline de compilação
 
@@ -44,4 +44,19 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [WebAssembly specifications](https://webassembly.github.io/spec/)
 
+## compiladores_automata — Autômatos e lexing
+
+**Definição:** Autômato finito reconhece linguagem regular e pode implementar tokenização previsível.
+
+**Mecanismo:** Estados/transições e longest-match definem lexer; gramática com nesting geral exige parser mais expressivo.
+
+**Falhas comuns:** Regex backtracking e DFA têm custos distintos; lexer não valida estrutura completa.
+
+**Escolha:** Separar tokenização de parsing, posições e limites de input.
+
+**Verificação proposta:** Testar token ambíguo, prefixo, whitespace, Unicode policy e erro localizado.
+
+**Relações:** compiladores_compiler
+
+**Referências recomendadas:** [MIT 6.006 Introduction to Algorithms](https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/)
 

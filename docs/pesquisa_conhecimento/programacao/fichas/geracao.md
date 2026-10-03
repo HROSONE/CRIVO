@@ -1,6 +1,6 @@
 # Fichas avançadas: geracao
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## geracao_codegen — Geração de código com verificação
 
@@ -14,7 +14,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Gerar módulo do zero e avaliar hidden tests, edges e explicação de limites.
 
-**Relações:** geracao_eval-leakage, geracao_sandbox, geracao_reproducibility, engenharia_requirements
+**Relações:** geracao_eval-leakage; geracao_sandbox; geracao_reproducibility; engenharia_requirements
 
 **Referências recomendadas:** [Node.js test runner](https://nodejs.org/api/test.html)
 
@@ -59,5 +59,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar loop infinito, subprocess, filesystem e rede bloqueada.
 
 **Referências recomendadas:** [Linux kernel documentation](https://docs.kernel.org/)
-
 

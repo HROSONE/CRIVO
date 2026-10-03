@@ -1,6 +1,6 @@
 # Fichas avançadas: sistemas
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## sistemas_processes — Processos, threads e isolamento
 
@@ -99,5 +99,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Testar erro, callback após dispose, tamanho incorreto e execução concorrente.
 
 **Referências recomendadas:** [The Rust Programming Language](https://doc.rust-lang.org/book/)
-
 

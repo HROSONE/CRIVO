@@ -1,6 +1,6 @@
 # Fichas avançadas: fronteira
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## fronteira_gpu — GPU e paralelismo de dados
 
@@ -44,7 +44,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Pré-requisitos:** distribuidos_consistency
 
-**Relações:** web_browser-storage, fronteira_incremental
+**Relações:** web_browser-storage; fronteira_incremental
 
 **Referências recomendadas:** [Jepsen consistency models](https://jepsen.io/consistency)
 
@@ -145,5 +145,4 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 **Verificação proposta:** Dividir a mesma entrada em todas posições possíveis e comparar parse com leitura completa; testar EOF e tamanho declarado hostil.
 
 **Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [Unicode Standard](https://www.unicode.org/versions/latest/)
-
 

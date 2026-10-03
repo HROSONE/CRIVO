@@ -1,6 +1,6 @@
 # Fichas avançadas: javascript
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## js_valores-tipos — Valores e tipos ECMAScript
 
@@ -228,7 +228,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Prever logs antes/depois do executor, cadeia com throw e retorno de thenable.
 
-**Relações:** js_event-loop, js_combinadores, js_erros
+**Relações:** js_event-loop; js_combinadores; js_erros
 
 **Referências recomendadas:** [ECMAScript Language Specification](https://tc39.es/ecma262/)
 
@@ -272,9 +272,11 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Testar abort antes, durante e após resposta, e listener count após término.
 
-**Relações:** distribuidos_timeouts, fronteira_structured-concurrency
+**Relações:** distribuidos_timeouts; fronteira_structured-concurrency
 
 **Exemplo local:** exemplos/padroes.mjs#abortableDelay
+
+**Conferência pontual (ver conferencia-fontes-2.json):** node-abort
 
 **Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/)
 
@@ -360,7 +362,7 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Testar UTF-8 dividido entre chunks, alias de views e buffer destacado após transferência.
 
-**Relações:** js_workers, fronteira_streaming-parsers
+**Relações:** js_workers; fronteira_streaming-parsers
 
 **Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/)
 
@@ -434,4 +436,479 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)
 
+## js_promise-resolution — Resolução de Promise e thenables
+
+**Definição:** Resolver Promise com thenable assimila seu estado; resolver com valor não thenable produz fulfillment. Resolução e fulfillment não são sinônimos.
+
+**Mecanismo:** Thenables podem chamar callbacks várias vezes ou lançar; algoritmo normativo controla settlement. Referência cíclica direta rejeita com TypeError.
+
+**Falhas comuns:** Implementar Promise caseira ou confiar em objeto com then benigno pode quebrar scheduling, erro e segurança da abstração.
+
+**Escolha:** Aceitar valores PromiseLike só quando contrato pede; não implementar algoritmo de assimilação por intuição.
+
+**Verificação proposta:** Testar then getter que lança, resolução duplicada e Promise resolvida com outra ainda pendente.
+
+**Relações:** js_promises
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_async-boundary — await e fronteira de erro
+
+**Definição:** await assimila valor awaitable e retoma continuação de forma assíncrona mesmo para valor já resolvido.
+
+**Mecanismo:** return promessa em try não captura rejeição futura; return await promessa dentro de try permite catch/finally acompanhar settlement.
+
+**Falhas comuns:** Remover todo return await por regra de estilo pode alterar tratamento de erro e lifetime de recurso.
+
+**Escolha:** Escolher pela semântica de erro/cleanup e medir performance na versão do engine.
+
+**Verificação proposta:** Comparar return p e return await p em try/catch com p rejeitada.
+
+**Relações:** js_erros
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_floating-promises — Promises soltas
+
+**Definição:** Uma operação assíncrona chamada sem await/return/handler pode continuar fora do escopo responsável.
+
+**Mecanismo:** Handlers de array forEach não aguardam callback async; execução fire-and-forget precisa dono, erro e deadline próprios.
+
+**Falhas comuns:** forEach(async...) seguido de resposta HTTP pode anunciar conclusão antes de persistir e perder rejeição.
+
+**Escolha:** Usar for...of sequencial, map com combinador ou scheduler limitado; detached task só com contrato explícito.
+
+**Verificação proposta:** Instrumentar término das tarefas e verificar que operação principal só conclui quando efeitos exigidos terminaram.
+
+**Relações:** js_combinadores
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_task-group — Grupos com cancelamento e join
+
+**Definição:** Falha em uma tarefa deve iniciar cancelamento de siblings quando o contrato exige término do grupo.
+
+**Mecanismo:** Sinalizar abort não garante que filhos terminaram; grupo precisa aguardar settlements e decidir qual erro propaga.
+
+**Falhas comuns:** Rejeitar imediatamente e soltar recursos compartilhados pode fazê-los ser usados por tarefa ainda ativa.
+
+**Escolha:** Definir erro primário, exceções de cleanup e política de tarefas que ignoram cancelamento.
+
+**Verificação proposta:** Fazer uma task falhar e outra limpar recurso lentamente; grupo não retorna antes do cleanup.
+
+**Relações:** fronteira_structured-concurrency
+
+**Exemplo local:** exemplos/engenharia.mjs#runGroup
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_async-context — Contexto assíncrono
+
+**Definição:** Contexto de request pode ser propagado entre callbacks sem global mutável compartilhado.
+
+**Mecanismo:** AsyncLocalStorage no Node mantém storage conforme criação da cadeia assíncrona; integrações/custom async boundaries exigem revisão.
+
+**Falhas comuns:** Variável global requestId mistura requests; contexto não deve transportar secrets indiscriminadamente nem autorizar implicitamente.
+
+**Escolha:** Usar contexto para correlation e principal validado, mantendo autorização explícita em fronteira de operação.
+
+**Verificação proposta:** Executar requests intercalados e checar IDs corretos em logs após awaits e callbacks.
+
+**Relações:** operacao_observability
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_cleanup-disposal — Cleanup e gerenciamento explícito de recursos
+
+**Definição:** Recurso exige release em caminho normal, erro e cancelamento; GC não estabelece prazo para close.
+
+**Mecanismo:** try/finally é base portátil; explicit resource management e símbolos de dispose dependem de versão/transpilação e host.
+
+**Falhas comuns:** Assumir suporte a using porque o editor aceita sintaxe pode quebrar runtime; cleanup que lança pode ocultar causa.
+
+**Escolha:** Documentar owner, operação idempotente de close e suporte instalado antes de adotar sintaxe nova.
+
+**Verificação proposta:** Testar aquisição parcial, erro de operação, erro de cleanup e duplo dispose.
+
+**Relações:** js_gc-retenção
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_semaphore — Semáforo assíncrono
+
+**Definição:** Permits limitam número de atividades; acquire deve respeitar fila, cancelamento e release único.
+
+**Mecanismo:** Cancelamento em fila remove waiter; cancelamento depois de grant exige entregar permit ou devolvê-lo sem vazamento.
+
+**Falhas comuns:** Release em múltiplos caminhos aumenta capacidade ilegal; mutex local não protege processos diferentes.
+
+**Escolha:** Usar release idempotente ou ownership único com finally, FIFO se fairness for requisito.
+
+**Verificação proposta:** Testar abort antes do grant, abort na borda e active <= capacity em toda transição.
+
+**Relações:** js_cancelamento
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_async-queue — Fila assíncrona limitada
+
+**Definição:** Fila conecta producer/consumer sob capacidade e política de encerramento definida.
+
+**Mecanismo:** push aguarda espaço; pop aguarda item; close pode drenar ou descartar por contrato. Abort deve remover apenas waiter correspondente.
+
+**Falhas comuns:** Waiter abandonado consome futuro item/slot; fechar fila sem resolver esperas deixa processo pendurado.
+
+**Escolha:** Escolher semântica de fechamento e implementar invariantes sobre itens/permits/waiters.
+
+**Verificação proposta:** Testar produtor rápido, consumidor lento, close com waiters e cancelamento seletivo.
+
+**Relações:** backend_node-streams
+
+**Exemplo local:** exemplos/engenharia.mjs#AsyncQueue
+
+**Conferência pontual (ver conferencia-fontes-2.json):** node-abort
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_circuit-breaker — Circuit breaker
+
+**Definição:** Breaker interrompe chamadas quando dependência tem falhas conforme política e permite probe após intervalo.
+
+**Mecanismo:** Estados closed/open/half-open têm transições; probe deve ser limitado e métricas distinguem recusa local de falha remota.
+
+**Falhas comuns:** Breaker por request sem estado persistido no processo nunca aprende; rejeições de negócio não são falha técnica universal.
+
+**Escolha:** Definir threshold/janela, classes de erro, clock e fallback; combinar com timeout/admission.
+
+**Verificação proposta:** Testar falha repetida, tempo avançado, probes concorrentes e sucesso recuperando.
+
+**Relações:** distribuidos_timeouts
+
+**Exemplo local:** exemplos/engenharia.mjs#CircuitBreaker
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_retry-jitter — Backoff com jitter
+
+**Definição:** Jitter distribui tentativas para evitar clientes sincronizados após falha comum.
+
+**Mecanismo:** Full jitter sorteia atraso até limite exponencial; Retry-After e deadline podem reduzir próximas tentativas.
+
+**Falhas comuns:** Retry recursivo infinito retém estado; incluir erro permanente ou request não idempotente cria dano.
+
+**Escolha:** Injetar clock/RNG, limitar attempts/elapsed e distinguir retry seguro de efeito desconhecido.
+
+**Verificação proposta:** Usar RNG determinístico e checar teto, deadline e nenhuma espera depois de abort.
+
+**Relações:** distribuidos_timeouts
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_dedupe — Deduplicação e coalescing
+
+**Definição:** Dedupe de efeitos durável difere de compartilhar Promise em andamento dentro de processo.
+
+**Mecanismo:** Single-flight reduz trabalho paralelo da mesma chave, mas não armazena resultado após conclusão nem impede duplicata após restart.
+
+**Falhas comuns:** Chave incompleta mistura tenants; cachear rejeição eternamente impede recuperação; tarefa reentrante pode esperar a si mesma.
+
+**Escolha:** Definir chave, isolamento e scope; persistir dedupe quando há efeito de negócio.
+
+**Verificação proposta:** Testar request concurrente, falha seguida de recuperação e chaves de usuários diferentes.
+
+**Relações:** distribuidos_idempotencia
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_textdecoder — Decoder incremental e texto
+
+**Definição:** Sequência UTF-8 pode atravessar chunks, exigindo estado do decoder.
+
+**Mecanismo:** decode com stream true conserva bytes incompletos; flush final detecta EOF truncado se fatal habilitado.
+
+**Falhas comuns:** Buffer.toString em cada chunk pode substituir caractere dividido e corromper conteúdo silenciosamente.
+
+**Escolha:** Usar decoder stateful, limite de bytes e política explícita para input inválido.
+
+**Verificação proposta:** Fragmentar em cada byte de acento/emoji e comparar resultado; rejeitar prefixo incompleto.
+
+**Relações:** fronteira_streaming-parsers
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_framing — Framing binário length-prefixed
+
+**Definição:** Protocolo precisa distinguir sequência de bytes de fronteiras de mensagens.
+
+**Mecanismo:** Header determina tamanho; parser mantém offset/estado e impõe maxFrame antes de alocar/aguardar payload grande.
+
+**Falhas comuns:** read pode trazer meia mensagem ou várias; comprimento hostil pode consumir memória ou prender espera.
+
+**Escolha:** Especificar endian, tamanho máximo, zero-length, EOF parcial e política de erro permanente.
+
+**Verificação proposta:** Dividir frame em todos pontos, concatenar frames e simular header acima do máximo.
+
+**Relações:** redes_tcp
+
+**Exemplo local:** exemplos/engenharia.mjs#FrameDecoder
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_event-emitter — EventEmitter e eventos
+
+**Definição:** Node EventEmitter invoca listeners normalmente de forma síncrona na emissão; regras de error event são especiais.
+
+**Mecanismo:** Callbacks async podem rejeitar fora da emissão; listener lifecycle e once/importação precisam contrato.
+
+**Falhas comuns:** Pensar que emit aguarda Promise dos listeners resulta em ordem/erros incorretos; listener leak cresce memória.
+
+**Escolha:** Usar APIs/documentação do host e considerar canal explícito de erro/await para eventos assíncronos.
+
+**Verificação proposta:** Testar listener que lança, async que rejeita, listener removido durante emit e cleanup.
+
+**Relações:** js_erros
+
+**Conferência pontual (ver conferencia-fontes-2.json):** node-events
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_reentrancy — Reentrância síncrona
+
+**Definição:** Callback externo pode reentrar na abstração antes que a primeira operação complete.
+
+**Mecanismo:** Invocar callback enquanto invariant temporário está quebrado permite observar/modificar estado ilegal mesmo em uma thread.
+
+**Falhas comuns:** Registrar Promise depois de chamar factory síncrona abre janela de segunda execução; getters podem executar código.
+
+**Escolha:** Restabelecer invariant antes de chamar código externo ou agendar callback após registro.
+
+**Verificação proposta:** Factory chama mesma API novamente; verificar que estado permanece legal e não há duplicação imprevista.
+
+**Relações:** js_closures
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_esm-live — Bindings vivos e ciclos ESM
+
+**Definição:** Import observa binding exportado, não cópia congelada do valor; inicialização segue grafo de módulos.
+
+**Mecanismo:** Ciclo pode acessar export lexical ainda na TDZ; side effects top-level dependem de ordem de avaliação.
+
+**Falhas comuns:** Refactor que cria ciclo pode lançar ReferenceError só em entrada específica; import dinâmico pode mover timing.
+
+**Escolha:** Eliminar ciclo por módulo de contratos/dados ou inicialização explícita.
+
+**Verificação proposta:** Executar cada entrypoint e alterar binding exportado para observar live update.
+
+**Relações:** js_modulos
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_package-exports — Export maps e encapsulamento de pacote
+
+**Definição:** package.json exports controla pontos públicos e condições de resolução conforme host.
+
+**Mecanismo:** Ordem/condições e caminhos types/import/require precisam combinar com artefatos. Subpaths privados não são API prometida.
+
+**Falhas comuns:** Pacote pode funcionar por deep import local e quebrar após export map; types podem resolver arquivo diferente de JS.
+
+**Escolha:** Testar consumidores reais e declarar apenas exports presentes no pacote.
+
+**Verificação proposta:** Empacotar, instalar em diretório vazio e checar subpaths públicos/privados.
+
+**Relações:** ts_declarations
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_source-maps — Source maps e diagnóstico
+
+**Definição:** Source map relaciona código transformado ao fonte para stacks/debugging.
+
+**Mecanismo:** Pipeline de transforms deve compor maps; paths/fontes embutidas podem revelar código ou detalhes de ambiente.
+
+**Falhas comuns:** Map incorreto aponta linha errada e gera falsa hipótese; publicar sourceContent pode expor informação sensível.
+
+**Escolha:** Gerar e testar stack de erro conhecido; decidir acesso aos mapas por política operacional.
+
+**Verificação proposta:** Provocar erro em função transformada e comparar localização; inspecionar artefato por secrets.
+
+**Relações:** engenharia_debugging
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_sort-comparator — Contratos de comparator
+
+**Definição:** Comparator define relação de ordenação e deve ser coerente com equivalência/ordem.
+
+**Mecanismo:** Valores negativos/zero/positivos indicam precedência; NaN se comporta como zero no sort, podendo ocultar dado inválido.
+
+**Falhas comuns:** Comparator booleano como a>b não oferece sinais apropriados; comparar por locale muda regra de negócio.
+
+**Escolha:** Normalizar dados e comparar múltiplas chaves com desempate estável explícito.
+
+**Verificação proposta:** Gerar triplas e testar transitividade; testar undefined/NaN e empate.
+
+**Relações:** algoritmos_sort
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_dates-wire — Datas em wire contracts
+
+**Definição:** Instante, data civil, hora local e duração são conceitos diferentes e precisam schemas próprios.
+
+**Mecanismo:** ISO com offset identifica instante; YYYY-MM-DD pode identificar data civil sem timezone; duração de calendário não é milissegundo fixo.
+
+**Falhas comuns:** Serializar aniversário como midnight UTC pode deslocar dia na UI; Date inválida pode lançar ao serializar.
+
+**Escolha:** Nomear campos por semântica e validar faixa/offset; documentar timezone quando civil.
+
+**Verificação proposta:** Trocar fuso do cliente e verificar que aniversário permanece no dia declarado.
+
+**Relações:** js_intl-datas
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_regexp-state — Estado e flags de regex
+
+**Definição:** Regex com g ou y mantém lastIndex entre chamadas de exec/test.
+
+**Mecanismo:** Chamadas repetidas em mesmo objeto podem alternar match; y exige posição exata e g busca a partir do índice.
+
+**Falhas comuns:** Validador que reutiliza regex global pode rejeitar input válido conforme chamada anterior.
+
+**Escolha:** Não usar flags stateful em validação independente ou resetar explicitamente.
+
+**Verificação proposta:** Chamar test duas vezes com mesma entrada e verificar resultado esperado sem dependência histórica.
+
+**Relações:** js_regex
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_safe-object — Objetos de dados e accessors
+
+**Definição:** Objeto arbitrário pode executar código ao ler campo, refletir chaves ou acessar protótipo.
+
+**Mecanismo:** Getter, Proxy e toJSON alteram observações; JSON.parse sem reviver produz estrutura mais previsível, ainda requer validação.
+
+**Falhas comuns:** Validar duas leituras de getter pode obter valores diferentes; spread pode disparar efeitos.
+
+**Escolha:** Definir se boundary aceita apenas dados serializados ou objetos arbitrários; capturar valor uma vez quando apropriado.
+
+**Verificação proposta:** Getter que alterna tipo, proxy ownKeys que lança e toJSON que muda conteúdo.
+
+**Relações:** js_descritores
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_url-parsing — URLs e canonicalização
+
+**Definição:** URL tem componentes e parsing definido por host/standard; string includes não verifica destino.
+
+**Mecanismo:** Hostname, port, username, scheme e resolução relativa precisam análise; redirects podem mudar destino final.
+
+**Falhas comuns:** good.example.attacker.test não é domínio permitido; userinfo pode enganar visualmente; encoding não autentica alvo.
+
+**Escolha:** Usar parser URL e allowlist de componentes com destino final/rede controlados.
+
+**Verificação proposta:** Testar subdomínio falso, userinfo, porta inesperada, relativo e redirect.
+
+**Relações:** seguranca_ssrf
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_timer-budget — Timers e precisão de prazo
+
+**Definição:** Timer agenda execução não antes de atraso nominal sob regras do host, sem garantia de deadline exato.
+
+**Mecanismo:** Loop ocupado, clamping e carga atrasam callback; timeouts grandes podem ser normalizados pelo runtime.
+
+**Falhas comuns:** Timeout passado a setTimeout não impõe CPU deadline se código bloqueia loop; wall clock pode mudar.
+
+**Escolha:** Usar clock monotônico para elapsed e isolamento para CPU não cooperativa.
+
+**Verificação proposta:** Bloquear loop e medir atraso; testar clock civil ajustado e valor fora da faixa do timer.
+
+**Relações:** js_event-loop
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_node-fetch — Fetch Node e consumo de body
+
+**Definição:** Fetch oferece resposta/status; HTTP erro não é necessariamente rejeição da Promise.
+
+**Mecanismo:** Checar status, limites e content type; consumir/cancelar body conforme documentação evita retenção de conexão.
+
+**Falhas comuns:** response.json em body gigantesco estoura memória; 404 pode ser tratado erroneamente como sucesso.
+
+**Escolha:** Definir status esperados, deadline e parsing limitado por contrato.
+
+**Verificação proposta:** Testar 404, erro de decode, timeout durante body e corpo nunca terminado.
+
+**Relações:** js_cancelamento
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_unhandled — Rejeições não tratadas e processo
+
+**Definição:** Política de unhandled rejection depende de host/versão/configuração; diagnóstico não substitui tratamento local.
+
+**Mecanismo:** Listener global pode registrar falha fatal, mas continuar após estado desconhecido exige estratégia definida.
+
+**Falhas comuns:** Engolir exceção global mantém serviço possivelmente corrompido; exit prematuro perde contexto.
+
+**Escolha:** Tratar erros esperados na boundary; para defeito crítico registrar e encerrar com supervisão.
+
+**Verificação proposta:** Criar rejeição solta em processo isolado e observar política/version flags.
+
+**Relações:** backend_shutdown
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_buffer-pool — Pooling de buffers e ownership
+
+**Definição:** Reusar buffer reduz allocations mas exige lifetime e exclusividade corretos.
+
+**Mecanismo:** View pode compartilhar backing store; devolver buffer ao pool antes do consumidor terminar corrompe dados.
+
+**Falhas comuns:** Subarray enviado a callback e buffer reutilizado produz resultado que muda posteriormente.
+
+**Escolha:** Definir ownership ou copiar na fronteira; medir benefício real antes de adicionar pool.
+
+**Verificação proposta:** Consumidor atrasado verifica que conteúdo não muda depois do envio.
+
+**Relações:** js_buffers
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_constant-time — Timing e comparação de segredo
+
+**Definição:** Tempo de execução pode depender de dados e expor informação em contexto criptográfico.
+
+**Mecanismo:** API de comparação timing-safe possui pré-condições como comprimentos e representação; entorno ainda pode vazar por branches.
+
+**Falhas comuns:** Comparação === de tokens não oferece garantia constant-time; tratar diferença de comprimento de modo ingênuo pode revelar.
+
+**Escolha:** Usar primitives criptográficas revisadas e avaliar protocolo completo.
+
+**Verificação proposta:** Testar tamanho inválido e falha sem retornar detalhes; não afirmar segurança a partir de microbenchmark.
+
+**Relações:** seguranca_crypto
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
+
+## js_resource-budget — Limites por bytes e custo
+
+**Definição:** Limite de número de itens não limita necessariamente memória/CPU total.
+
+**Mecanismo:** Cada item pode ter tamanho variável; budget precisa medir payload, parsing, filas e estruturas derivadas.
+
+**Falhas comuns:** Fila de 100 itens com cada item de 100 MB continua perigosa; limite após parse grande é tarde.
+
+**Escolha:** Aplicar limites por item, total e operação antes de trabalho caro; definir resposta de overload.
+
+**Verificação proposta:** Gerar poucos itens enormes e muitos itens pequenos; verificar bound e limpeza após rejeição.
+
+**Relações:** operacao_capacity
+
+**Referências recomendadas:** [Node.js API documentation](https://nodejs.org/api/); [ECMAScript Language Specification](https://tc39.es/ecma262/)
 

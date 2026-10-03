@@ -1,6 +1,6 @@
 # Fichas avançadas: web
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## web_dom — DOM e ownership
 
@@ -142,4 +142,19 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [MDN JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide)
 
+## web_semantic-tokens — Design tokens e semântica visual
+
+**Definição:** Tokens de cor/spacing/tipografia precisam refletir função e tema, com contraste observado.
+
+**Mecanismo:** Tokens como texto/surface/focus permitem temas consistentes; CSS variables fornecem mecanismo.
+
+**Falhas comuns:** Trocar cor sem verificar contraste/estados torna UI inacessível; token raw não diz função.
+
+**Escolha:** Separar palette de tokens semânticos e testar temas/estados reais.
+
+**Verificação proposta:** Medir contraste normal/hover/disabled/focus e preferências de alto contraste.
+
+**Relações:** web_a11y
+
+**Referências recomendadas:** [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
 

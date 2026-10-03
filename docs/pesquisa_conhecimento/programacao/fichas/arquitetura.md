@@ -1,6 +1,6 @@
 # Fichas avançadas: arquitetura
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## arquitetura_rest-rpc — REST, RPC e contratos
 
@@ -86,4 +86,35 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
+## arquitetura_bulkheads — Bulkheads e isolamento de capacidade
+
+**Definição:** Separar pools/quotas impede workload de uma classe consumir todos recursos de outra.
+
+**Mecanismo:** Pools por dependência/prioridade isolam falhas, mas orçamento total continua finito.
+
+**Falhas comuns:** Pool único permite task lenta bloquear toda aplicação; pools demais fragmentam recursos.
+
+**Escolha:** Isolar caminhos críticos e medir underutilization versus proteção.
+
+**Verificação proposta:** Saturar workload secundário e exigir SLO do crítico.
+
+**Relações:** operacao_capacity
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
+
+## arquitetura_schema-event — Evolução de eventos
+
+**Definição:** Produtores e consumidores podem operar versões diferentes por tempo prolongado.
+
+**Mecanismo:** Campos obrigatórios, defaults, enum variants e semântica exigem compatibilidade; replay traz versões antigas.
+
+**Falhas comuns:** Remover campo usado por consumer silencioso quebra pipeline; transformar fato antigo altera significado histórico.
+
+**Escolha:** Versionar schema/protocolo e validar consumidores antigos/novos em rollout.
+
+**Verificação proposta:** Reprocessar evento antigo e enviar variante nova a consumidor anterior.
+
+**Relações:** arquitetura_event-driven
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
 

@@ -1,6 +1,6 @@
 # Fichas avançadas: operacao
 
-Exportação legível de `catalogo-avancado.json`. Síntese autoral; referências remotas ainda precisam de conferência editorial. Acervo não integrado ao runtime.
+Exportação determinística de `catalogo-avancado.json`. Síntese autoral; referências remotas precisam de conferência editorial. Acervo não integrado ao runtime.
 
 ## operacao_observability — Logs, métricas e traces
 
@@ -98,8 +98,23 @@ Exportação legível de `catalogo-avancado.json`. Síntese autoral; referência
 
 **Verificação proposta:** Restaurar ambiente vazio, validar integridade e medir tempo/perda.
 
-**Relações:** operacao_slo, dados_migrations
+**Relações:** operacao_slo; dados_migrations
 
 **Referências recomendadas:** [PostgreSQL documentation](https://www.postgresql.org/docs/current/)
 
+## operacao_load-shedding — Load shedding
+
+**Definição:** Descartar/rejeitar trabalho de menor prioridade mantém serviço útil sob overload.
+
+**Mecanismo:** Admission usa sinais de saturação/queue depth; prioridade e fairness evitam que trabalho barato desloque crítico.
+
+**Falhas comuns:** Aceitar tudo e esperar leva timeout em massa; shed tardio após custo caro desperdiça capacidade.
+
+**Escolha:** Definir prioridade/budget e resposta retentável somente onde seguro.
+
+**Verificação proposta:** Overload sustentado: verificar goodput e recuperação sem retry storm.
+
+**Relações:** operacao_capacity
+
+**Referências recomendadas:** [Google Site Reliability Engineering](https://sre.google/books/)
 
