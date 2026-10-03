@@ -9,17 +9,28 @@ from programacao_neural import GeradorProgramacao,digest,gate
 from verificacao_codigo import verificar,sandbox_disponivel
 
 
-def avaliar(modelo,saida,split='teste',tsc=None,reparos=1):
+def avaliar(modelo,saida,split='teste',tsc=None,reparos=1,curriculo_validacao=False):
     if reparos not in (0,1,2): raise ValueError('Reparos deve estar entre 0 e 2')
     tarefas_path=ROOT/'dados/programacao/tarefas.json'
     tarefas=[t for t in json.loads(tarefas_path.read_text())['tarefas'] if t['split']==split]
+    fontes = [tarefas_path]
+    if curriculo_validacao:
+        if split != 'validacao': raise ValueError('Seleção funcional só usa validação')
+        for nome in ('curriculo.json', 'algoritmos.json'):
+            path = ROOT/'dados/programacao'/nome; fontes.append(path)
+            tarefas += [t for t in json.loads(path.read_text())['tarefas'] if t['split']=='validacao']
+        # Variantes não contam como problemas independentes.
+        unicos = {}
+        for t in tarefas: unicos.setdefault((t['familia'],t['linguagem']),t)
+        tarefas = list(unicos.values())
     gerador=GeradorProgramacao(modelo)  # Sem recuperação do catálogo reservado.
     r=dict(particao=split,familias=len({t['familia'] for t in tarefas}),
         pesos_sha256=digest(Path(modelo)/'pesos.pt'),tokenizer_sha256=digest(Path(modelo)/'tokenizer.json'),
         tarefas_sha256=digest(tarefas_path),isolamento=sandbox_disponivel(),
         regressao_geral_aprovada=False,revisao_independente=False,
         benchmark='sintético autoral pequeno; não demonstra nível sênior nem avalia projetos reais',
-        recuperacao=False,runtimes={},linguagens={},resultados=[])
+        recuperacao=False,runtimes={},linguagens={},resultados=[],
+        fontes_sha256={p.name:digest(p) for p in fontes})
     for t in tarefas:
         tentativas=[]; anterior=None; diagnostico=None
         for tentativa in range(reparos+1):
@@ -56,5 +67,6 @@ if __name__=='__main__':
     p.add_argument('--modelo',required=True);p.add_argument('--saida',required=True)
     p.add_argument('--split',choices=('validacao','teste'),default='teste');p.add_argument('--tsc')
     p.add_argument('--reparos',type=int,default=1)
-    a=p.parse_args();r=avaliar(a.modelo,a.saida,a.split,a.tsc,a.reparos)
+    p.add_argument('--curriculo-validacao',action='store_true')
+    a=p.parse_args();r=avaliar(a.modelo,a.saida,a.split,a.tsc,a.reparos,a.curriculo_validacao)
     print(json.dumps({k:v for k,v in r.items() if k!='resultados'},ensure_ascii=False,indent=2))
