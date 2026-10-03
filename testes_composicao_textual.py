@@ -14,7 +14,7 @@ from web_core import responder_web
 
 
 class TestesComposicaoTextual(unittest.TestCase):
-    def test_sonda_de_32_casos(self):
+    def test_sonda_de_desenvolvimento(self):
         for caso in CASOS:
             with self.subTest(pergunta=caso[1], historico=caso[0]):
                 r = executar(caso)
