@@ -19,6 +19,34 @@ COMPLETO = CODIGO+'\n'+EXEMPLOS
 
 
 class MotorChatTestes(unittest.TestCase):
+    def test_mencionar_codigo_em_um_texto_nao_aciona_programacao(self):
+        from programacao_chat import extrair
+        for mensagem in ('Escreva um texto sobre HTML, CSS e JavaScript',
+                         'Escreva um texto sobre clorofila e código genético',
+                         'Analise o código genético', 'Crie um poema sobre JavaScript'):
+            with self.subTest(mensagem=mensagem):
+                self.assertIsNone(extrair(mensagem))
+                m = MotorCodigoChat()
+                m.responder(CODIGO)
+                self.assertIsNone(m.responder(mensagem))
+                self.assertIsNone(m.pendente)
+        for mensagem in ('Escreva código', 'Corrija meu código', 'Gere JavaScript',
+                         'Crie uma função TypeScript', 'Interprete este código JS'):
+            with self.subTest(mensagem=mensagem):
+                self.assertIsNotNone(extrair(mensagem))
+
+    def test_empacotamento_respeita_limite_vercel_e_inclui_pesos(self):
+        import fnmatch
+        root = Path(__file__).resolve().parent
+        pattern = json.loads((root/'vercel.json').read_text())['functions']['api/chat.py']['includeFiles']
+        self.assertLessEqual(len(pattern), 256)
+        patterns = pattern.strip('{}').split(',')
+        for path in ('frutas.py', 'frutas.json', 'artefatos/efeitos_programacao/rede.npz',
+                     'artefatos/efeitos_programacao/config.json',
+                     'artefatos/efeitos_programacao/proveniencia.json',
+                     'artefatos/linguagem_profunda/tokenizer.json'):
+            self.assertTrue(any(fnmatch.fnmatchcase(path, p) for p in patterns), path)
+
     def test_crivo_usa_motor_preservando_fonte_e_conversa_normal(self):
         b = Crivo(usar_linguagem_neural=False)
         ident, resposta = b.responder(COMPLETO)

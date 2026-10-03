@@ -100,8 +100,17 @@ def extrair(texto, pendente=None):
                 raise ValueError('Envie somente codigo, desenvolvimento, entrada, acao ou tipo; não envie referências ou reservados')
             r.update(objeto)
             modo = objeto.get('acao', modo)
+    # Sem fonte explícita, o objeto do verbo deve ser programação. Menções
+    # dentro de pedidos de texto (inclusive "código genético") são conversa.
+    alvo = n[comando.end():].strip() if comando else ''
+    alvo = re.sub(r'^(?:(?:um|uma|o|a|este|esta|esse|essa|meu|minha|novo|nova|simples|pequeno|pequena)\s+)+', '', alvo)
+    linguagem = r'(?:javascript|typescript|js|ts)'
+    pedido_codigo = bool(re.match(linguagem+r'\b', alvo) or
+                         re.match(r'(?:codigo|script|funcao|programa|algoritmo)\b', alvo) and
+                         re.search(r'\b'+linguagem+r'\b', alvo) or
+                         re.fullmatch(r'(?:codigo|script)(?: (?:abaixo|a seguir|com exemplos))?', alvo))
     reconhecido = bool(r or cercas and (comando or not n or n in ('codigo','meu codigo','o codigo')) or
-                       comando and re.search(r'\b(?:codigo|javascript|typescript|js|ts)\b', n) or
+                       comando and pedido_codigo or
                        pendente and re.match(r'^(?:exemplos?|entrada|saida|corrija|diagnostique|rode|execute|interprete)\b', n))
     if not reconhecido:
         return None
