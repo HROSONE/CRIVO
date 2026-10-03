@@ -1,0 +1,1246 @@
+{
+  "versao": 1,
+  "protocolo": "Congelado antes de treino V2; n\u00e3o alimentar programas ou contratos na rede; contraexemplos de desenvolvimento separados dos reservados",
+  "sementes": [
+    7,
+    19,
+    41
+  ],
+  "programas": [
+    {
+      "id": "afim",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "let x = entrada * 3; x -= 2; return x;",
+      "casos": [
+        {
+          "entrada": -4,
+          "saida": -14
+        },
+        {
+          "entrada": -1,
+          "saida": -5
+        },
+        {
+          "entrada": 0,
+          "saida": -2
+        },
+        {
+          "entrada": 1,
+          "saida": 1
+        },
+        {
+          "entrada": 4,
+          "saida": 10
+        },
+        {
+          "entrada": 8,
+          "saida": 22
+        },
+        {
+          "entrada": 12,
+          "saida": 34
+        },
+        {
+          "entrada": 16,
+          "saida": 46
+        }
+      ]
+    },
+    {
+      "id": "limite_inclusivo",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "if (entrada <= 2) { return 0; } else { return entrada; }",
+      "casos": [
+        {
+          "entrada": -8,
+          "saida": 0
+        },
+        {
+          "entrada": -1,
+          "saida": 0
+        },
+        {
+          "entrada": 0,
+          "saida": 0
+        },
+        {
+          "entrada": 1,
+          "saida": 0
+        },
+        {
+          "entrada": 2,
+          "saida": 0
+        },
+        {
+          "entrada": 3,
+          "saida": 3
+        },
+        {
+          "entrada": 8,
+          "saida": 8
+        },
+        {
+          "entrada": 16,
+          "saida": 16
+        }
+      ]
+    },
+    {
+      "id": "intervalo",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "return entrada >= 0 && entrada < 5;",
+      "casos": [
+        {
+          "entrada": -8,
+          "saida": false
+        },
+        {
+          "entrada": -1,
+          "saida": false
+        },
+        {
+          "entrada": 0,
+          "saida": true
+        },
+        {
+          "entrada": 1,
+          "saida": true
+        },
+        {
+          "entrada": 4,
+          "saida": true
+        },
+        {
+          "entrada": 5,
+          "saida": false
+        },
+        {
+          "entrada": 8,
+          "saida": false
+        },
+        {
+          "entrada": 16,
+          "saida": false
+        }
+      ]
+    },
+    {
+      "id": "igualdade_negada",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "return !(entrada === 3);",
+      "casos": [
+        {
+          "entrada": -8,
+          "saida": true
+        },
+        {
+          "entrada": -1,
+          "saida": true
+        },
+        {
+          "entrada": 0,
+          "saida": true
+        },
+        {
+          "entrada": 2,
+          "saida": true
+        },
+        {
+          "entrada": 3,
+          "saida": false
+        },
+        {
+          "entrada": 4,
+          "saida": true
+        },
+        {
+          "entrada": 8,
+          "saida": true
+        },
+        {
+          "entrada": 16,
+          "saida": true
+        }
+      ]
+    },
+    {
+      "id": "laco_duplo",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "let x = entrada; while (x < 6) { x += 2; } return x;",
+      "casos": [
+        {
+          "entrada": -4,
+          "saida": 6
+        },
+        {
+          "entrada": -1,
+          "saida": 7
+        },
+        {
+          "entrada": 0,
+          "saida": 6
+        },
+        {
+          "entrada": 1,
+          "saida": 7
+        },
+        {
+          "entrada": 2,
+          "saida": 6
+        },
+        {
+          "entrada": 4,
+          "saida": 6
+        },
+        {
+          "entrada": 6,
+          "saida": 6
+        },
+        {
+          "entrada": 8,
+          "saida": 8
+        }
+      ]
+    },
+    {
+      "id": "produto_negativo",
+      "tipo": "numero",
+      "tipo_ts": "number",
+      "corpo": "return entrada * -3;",
+      "casos": [
+        {
+          "entrada": -16,
+          "saida": 48
+        },
+        {
+          "entrada": -8,
+          "saida": 24
+        },
+        {
+          "entrada": -1,
+          "saida": 3
+        },
+        {
+          "entrada": 0,
+          "saida": 0
+        },
+        {
+          "entrada": 1,
+          "saida": -3
+        },
+        {
+          "entrada": 4,
+          "saida": -12
+        },
+        {
+          "entrada": 8,
+          "saida": -24
+        },
+        {
+          "entrada": 16,
+          "saida": -48
+        }
+      ]
+    },
+    {
+      "id": "soma_array",
+      "tipo": "array",
+      "tipo_ts": "number[]",
+      "corpo": "let total = 0; let i = 0; while (i < entrada.length) { total += entrada[i]; i += 1; } return total;",
+      "casos": [
+        {
+          "entrada": [],
+          "saida": 0
+        },
+        {
+          "entrada": [
+            0
+          ],
+          "saida": 0
+        },
+        {
+          "entrada": [
+            1,
+            2,
+            3
+          ],
+          "saida": 6
+        },
+        {
+          "entrada": [
+            -2,
+            4
+          ],
+          "saida": 2
+        },
+        {
+          "entrada": [
+            4,
+            -4,
+            7
+          ],
+          "saida": 7
+        },
+        {
+          "entrada": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "saida": 16
+        }
+      ]
+    },
+    {
+      "id": "mapear_quadrados",
+      "tipo": "array",
+      "tipo_ts": "number[]",
+      "corpo": "let out = []; let i = 0; while (i < entrada.length) { out.push(entrada[i] * entrada[i]); i += 1; } return out;",
+      "casos": [
+        {
+          "entrada": [],
+          "saida": []
+        },
+        {
+          "entrada": [
+            0
+          ],
+          "saida": [
+            0
+          ]
+        },
+        {
+          "entrada": [
+            -2,
+            3
+          ],
+          "saida": [
+            4,
+            9
+          ]
+        },
+        {
+          "entrada": [
+            1,
+            2,
+            4
+          ],
+          "saida": [
+            1,
+            4,
+            16
+          ]
+        },
+        {
+          "entrada": [
+            4,
+            -4
+          ],
+          "saida": [
+            16,
+            16
+          ]
+        },
+        {
+          "entrada": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "saida": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "filtrar_limite",
+      "tipo": "array",
+      "tipo_ts": "number[]",
+      "corpo": "let out = []; let i = 0; while (i < entrada.length) { if (entrada[i] >= 2) { out.push(entrada[i]); } i += 1; } return out;",
+      "casos": [
+        {
+          "entrada": [],
+          "saida": []
+        },
+        {
+          "entrada": [
+            0
+          ],
+          "saida": []
+        },
+        {
+          "entrada": [
+            1,
+            2,
+            3
+          ],
+          "saida": [
+            2,
+            3
+          ]
+        },
+        {
+          "entrada": [
+            -2,
+            4
+          ],
+          "saida": [
+            4
+          ]
+        },
+        {
+          "entrada": [
+            2,
+            2,
+            1
+          ],
+          "saida": [
+            2,
+            2
+          ]
+        },
+        {
+          "entrada": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "saida": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "indice",
+      "tipo": "array",
+      "tipo_ts": "number[]",
+      "corpo": "return entrada[1];",
+      "casos": [
+        {
+          "entrada": [
+            0,
+            1
+          ],
+          "saida": 1
+        },
+        {
+          "entrada": [
+            4,
+            -3,
+            8
+          ],
+          "saida": -3
+        },
+        {
+          "entrada": [
+            16,
+            0
+          ],
+          "saida": 0
+        },
+        {
+          "entrada": [
+            -2,
+            16,
+            4
+          ],
+          "saida": 16
+        },
+        {
+          "entrada": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "saida": 0
+        }
+      ]
+    },
+    {
+      "id": "comprimento_texto",
+      "tipo": "string",
+      "tipo_ts": "string",
+      "corpo": "return entrada.length;",
+      "casos": [
+        {
+          "entrada": "",
+          "saida": 0
+        },
+        {
+          "entrada": "a",
+          "saida": 1
+        },
+        {
+          "entrada": "a\u00e7\u00e3o",
+          "saida": 4
+        },
+        {
+          "entrada": "\ud83d\udcbb",
+          "saida": 2
+        },
+        {
+          "entrada": "a\ud83d\udcbb\u00e9",
+          "saida": 4
+        },
+        {
+          "entrada": "1234567890123456",
+          "saida": 16
+        }
+      ]
+    },
+    {
+      "id": "texto_slice",
+      "tipo": "string",
+      "tipo_ts": "string",
+      "corpo": "return entrada.slice(1);",
+      "casos": [
+        {
+          "entrada": "",
+          "saida": ""
+        },
+        {
+          "entrada": "a",
+          "saida": ""
+        },
+        {
+          "entrada": "Ol\u00e1",
+          "saida": "l\u00e1"
+        },
+        {
+          "entrada": "\u00e9abc",
+          "saida": "abc"
+        },
+        {
+          "entrada": "a\ud83d\udcbbb",
+          "saida": "\ud83d\udcbbb"
+        },
+        {
+          "entrada": "123456",
+          "saida": "23456"
+        }
+      ]
+    },
+    {
+      "id": "texto_trim",
+      "tipo": "string",
+      "tipo_ts": "string",
+      "corpo": "return entrada.trim();",
+      "casos": [
+        {
+          "entrada": "",
+          "saida": ""
+        },
+        {
+          "entrada": " abc ",
+          "saida": "abc"
+        },
+        {
+          "entrada": "\t\u00e1\n",
+          "saida": "\u00e1"
+        },
+        {
+          "entrada": "\u00a0Ol\u00e1\ufeff",
+          "saida": "Ol\u00e1"
+        },
+        {
+          "entrada": "\u0085x\u0085",
+          "saida": "\u0085x\u0085"
+        }
+      ]
+    },
+    {
+      "id": "texto_minusculas",
+      "tipo": "string",
+      "tipo_ts": "string",
+      "corpo": "return entrada.toLowerCase();",
+      "casos": [
+        {
+          "entrada": "",
+          "saida": ""
+        },
+        {
+          "entrada": "ABC",
+          "saida": "abc"
+        },
+        {
+          "entrada": "Ol\u00e1",
+          "saida": "ol\u00e1"
+        },
+        {
+          "entrada": "A\u00c7\u00c3O",
+          "saida": "a\u00e7\u00e3o"
+        },
+        {
+          "entrada": "JS 2026",
+          "saida": "js 2026"
+        }
+      ]
+    },
+    {
+      "id": "objeto_resultado",
+      "tipo": "objeto",
+      "tipo_ts": "{a:number;b:number;ativo:boolean}",
+      "corpo": "let out = {valor: entrada.a + entrada.b, ativo: entrada.ativo}; out.valor = out.valor * 2; return out;",
+      "casos": [
+        {
+          "entrada": {
+            "a": 0,
+            "b": 0,
+            "ativo": false
+          },
+          "saida": {
+            "valor": 0,
+            "ativo": false
+          }
+        },
+        {
+          "entrada": {
+            "a": 1,
+            "b": 2,
+            "ativo": true
+          },
+          "saida": {
+            "valor": 6,
+            "ativo": true
+          }
+        },
+        {
+          "entrada": {
+            "a": -4,
+            "b": 3,
+            "ativo": true
+          },
+          "saida": {
+            "valor": -2,
+            "ativo": true
+          }
+        },
+        {
+          "entrada": {
+            "a": 8,
+            "b": 8,
+            "ativo": false
+          },
+          "saida": {
+            "valor": 32,
+            "ativo": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "objeto_logica",
+      "tipo": "objeto",
+      "tipo_ts": "{a:boolean;b:boolean}",
+      "corpo": "return entrada.a || entrada.b;",
+      "casos": [
+        {
+          "entrada": {
+            "a": false,
+            "b": false
+          },
+          "saida": false
+        },
+        {
+          "entrada": {
+            "a": false,
+            "b": true
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "a": true,
+            "b": false
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "a": true,
+            "b": true
+          },
+          "saida": true
+        }
+      ]
+    }
+  ],
+  "contratos": [
+    {
+      "id": "limiar_inclusivo",
+      "tipo": "numero",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": 0,
+          "saida": true
+        },
+        {
+          "entrada": 3,
+          "saida": false
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": 2,
+          "saida": true
+        },
+        {
+          "entrada": 1,
+          "saida": true
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": -3,
+          "saida": true
+        },
+        {
+          "entrada": 4,
+          "saida": false
+        },
+        {
+          "entrada": 16,
+          "saida": false
+        }
+      ]
+    },
+    {
+      "id": "multiplicar",
+      "tipo": "numero",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": -1,
+          "saida": -3
+        },
+        {
+          "entrada": 0,
+          "saida": 0
+        },
+        {
+          "entrada": 2,
+          "saida": 6
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": 1,
+          "saida": 3
+        },
+        {
+          "entrada": 3,
+          "saida": 9
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": -4,
+          "saida": -12
+        },
+        {
+          "entrada": 4,
+          "saida": 12
+        },
+        {
+          "entrada": 8,
+          "saida": 24
+        }
+      ]
+    },
+    {
+      "id": "soma_lista",
+      "tipo": "array",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": [],
+          "saida": 0
+        },
+        {
+          "entrada": [
+            1,
+            2
+          ],
+          "saida": 3
+        },
+        {
+          "entrada": [
+            2,
+            -1
+          ],
+          "saida": 1
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": [
+            3
+          ],
+          "saida": 3
+        },
+        {
+          "entrada": [
+            0,
+            4
+          ],
+          "saida": 4
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            4,
+            -4,
+            8
+          ],
+          "saida": 8
+        },
+        {
+          "entrada": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "saida": 16
+        },
+        {
+          "entrada": [
+            -2,
+            4
+          ],
+          "saida": 2
+        }
+      ]
+    },
+    {
+      "id": "filtrar_maior_igual",
+      "tipo": "array",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": [],
+          "saida": []
+        },
+        {
+          "entrada": [
+            0,
+            3
+          ],
+          "saida": [
+            3
+          ]
+        },
+        {
+          "entrada": [
+            1,
+            4
+          ],
+          "saida": [
+            4
+          ]
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": [
+            2
+          ],
+          "saida": [
+            2
+          ]
+        },
+        {
+          "entrada": [
+            2,
+            2,
+            -1
+          ],
+          "saida": [
+            2,
+            2
+          ]
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            1,
+            2,
+            3
+          ],
+          "saida": [
+            2,
+            3
+          ]
+        },
+        {
+          "entrada": [
+            -4,
+            4
+          ],
+          "saida": [
+            4
+          ]
+        },
+        {
+          "entrada": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "saida": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quadrados",
+      "tipo": "array",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": [],
+          "saida": []
+        },
+        {
+          "entrada": [
+            1,
+            2
+          ],
+          "saida": [
+            1,
+            4
+          ]
+        },
+        {
+          "entrada": [
+            -1,
+            3
+          ],
+          "saida": [
+            1,
+            9
+          ]
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": [
+            0
+          ],
+          "saida": [
+            0
+          ]
+        },
+        {
+          "entrada": [
+            -2,
+            4
+          ],
+          "saida": [
+            4,
+            16
+          ]
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            3,
+            -3
+          ],
+          "saida": [
+            9,
+            9
+          ]
+        },
+        {
+          "entrada": [
+            4,
+            -4
+          ],
+          "saida": [
+            16,
+            16
+          ]
+        },
+        {
+          "entrada": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "saida": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aparar_texto",
+      "tipo": "string",
+      "campos": [],
+      "desenvolvimento": [
+        {
+          "entrada": "",
+          "saida": ""
+        },
+        {
+          "entrada": " abc ",
+          "saida": "abc"
+        },
+        {
+          "entrada": " x",
+          "saida": "x"
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": "  \u00e1  ",
+          "saida": "\u00e1"
+        },
+        {
+          "entrada": "\tA\n",
+          "saida": "A"
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": "Ol\u00e1 ",
+          "saida": "Ol\u00e1"
+        },
+        {
+          "entrada": " \tJS\n",
+          "saida": "JS"
+        },
+        {
+          "entrada": " \u00e9 ",
+          "saida": "\u00e9"
+        }
+      ]
+    },
+    {
+      "id": "objeto_somar",
+      "tipo": "objeto",
+      "campos": [
+        "a",
+        "b"
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "a": 0,
+            "b": 0
+          },
+          "saida": 0
+        },
+        {
+          "entrada": {
+            "a": 2,
+            "b": 3
+          },
+          "saida": 5
+        }
+      ],
+      "contraexemplos_desenvolvimento": [
+        {
+          "entrada": {
+            "a": 1,
+            "b": 0
+          },
+          "saida": 1
+        },
+        {
+          "entrada": {
+            "a": 0,
+            "b": 2
+          },
+          "saida": 2
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "a": -3,
+            "b": 2
+          },
+          "saida": -1
+        },
+        {
+          "entrada": {
+            "a": 8,
+            "b": 8
+          },
+          "saida": 16
+        },
+        {
+          "entrada": {
+            "a": 16,
+            "b": -16
+          },
+          "saida": 0
+        }
+      ]
+    }
+  ]
+}
