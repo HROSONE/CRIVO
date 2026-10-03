@@ -319,8 +319,25 @@
       sendQuestion();
     }
   });
+  // Barra de assuntos: no celular abre como gaveta.
+  const topicsButton = document.getElementById("topics-button");
+  const backdrop = document.getElementById("sidebar-backdrop");
+  function setSidebar(open) {
+    document.body.classList.toggle("sidebar-open", open);
+    backdrop.hidden = !open;
+    topicsButton.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+  topicsButton.addEventListener("click", function () {
+    setSidebar(!document.body.classList.contains("sidebar-open"));
+  });
+  document.getElementById("sidebar-close").addEventListener("click", function () { setSidebar(false); });
+  backdrop.addEventListener("click", function () { setSidebar(false); });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && document.body.classList.contains("sidebar-open")) setSidebar(false);
+  });
   document.querySelectorAll("[data-prompt]").forEach(function (button) {
     button.addEventListener("click", function () {
+      setSidebar(false);
       sendQuestion(button.getAttribute("data-prompt"));
     });
   });
