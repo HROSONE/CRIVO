@@ -1,0 +1,41 @@
+name: Motor de programação no chat
+on:
+  pull_request:
+    paths:
+      - 'programacao_chat.py'
+      - 'modelo_efeitos_chat.py'
+      - 'artefatos/efeitos_programacao/**'
+      - 'crivo.py'
+      - 'web_core.py'
+      - 'api/chat.py'
+      - 'testes_motor_programacao_chat.py'
+      - 'public/app.js'
+      - 'public/index.html'
+      - 'vercel.json'
+      - '.github/workflows/motor-programacao-chat.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Conversa, HTTP, replay, integridade dos pesos e regressões
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_motor_programacao_chat testes_diagnostico_estados testes_web testes_programacao_profunda -v
+      - name: Motor sem dependências opcionais
+        run: python -S -m unittest testes_motor_programacao_chat -v
+      - name: Sintaxe da interface e empacotamento dos pesos
+        run: |
+          node --check public/app.js
+          python -c "from modelo_efeitos_chat import status_modelo; s=status_modelo(); assert s['active'] and s['parameters']==1679; print(s)"

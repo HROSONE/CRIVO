@@ -229,6 +229,8 @@
       if (extra.has_proof) {
         tag.classList.add("proof");
         tag.textContent = "◈ Prova lógica";
+      } else if (extra.id && /^programacao:motor_/.test(extra.id)) {
+        tag.textContent = "◇ Análise de código";
       } else if (extra.id === "fora" || extra.id === "duvida") {
         tag.textContent = "◇ Limite de conhecimento";
       } else if (extra.id && /^memoria:/.test(extra.id)) {

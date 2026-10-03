@@ -23,7 +23,7 @@ class handler(BaseHTTPRequestHandler):
     """Compatível com o runtime Python /api do Vercel e servidor local."""
 
     def _json(self, status, data):
-        body = json.dumps(data, ensure_ascii=False).encode("utf-8")
+        body = json.dumps(data, ensure_ascii=True).encode("utf-8")
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
@@ -42,7 +42,10 @@ class handler(BaseHTTPRequestHandler):
                 RAIZ / "relacoes.json").is_file():
             return self._json(503, {"status": "unavailable",
                                     "error": "Arquivos de conhecimento ausentes."})
+        from modelo_efeitos_chat import status_modelo
         return self._json(200, {"status": "ok", "name": "CRIVO",
+                                "programming_active": True,
+                                "programming_effects_model": status_modelo(),
                                 "engine": "python-local", "external_ai": False,
                                 "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)
                                 or bool(getattr(self.server, "modelo_linguagem", None)),
