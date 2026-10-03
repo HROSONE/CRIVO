@@ -535,3 +535,18 @@ Pesquisa sem commit confirmado não conta como concluída. Após bloqueio de esc
 - **Saúde sexual:** deixou de ser lacuna praticamente aberta; agora há arquitetura biopsicossocial, medicamentosa, causal, diagnóstica e de mensuração. Ainda faltam ledgers quantitativos molecule/domain-specific e validação de instrumentos.
 
 **Critério doutoral: NÃO ATINGIDO.** Persistem source→claim retrospectivo, tratamentos com números absolutos por intervenção, special populations restantes, code-level ICD-11 e auditorias de currentness/contradição/adversarial.
+
+## Aprofundamento 22 — tratamentos quantitativos por intervenção (lote 4)
+
+| Documento | Escopo |
+| --- | --- |
+| [Efeitos absolutos, IC, NNT/NNH por intervenção — lote 4](2026-10-03-tratamentos-quantitativos-absolutos-por-intervencao-04.md) | depressão aguda (antidepressivos, IPD FDA, psicoterapia, TMS, ECT, psilocibina), recaída/retirada (Geddes, ANTLER, escetamina), esquizofrenia (resposta, clozapina, DT, mortalidade em demência), lítio (inclusive contradição Katz 2022), valproato, TAG, TOC, PTSD, TDAH, álcool, opioides, tabaco, CBT-I |
+
+### Método
+Cada número ligado a fonte identificável e marcado VERIFIED-ABS (conferido no resumo indexado), PARTIAL, UNVERIFIED ou DERIVED (NNT/NNH calculado aqui a partir de taxas conferidas). O acesso direto a PubMed/PMC/WHO/NICE estava bloqueado nesta sessão; textos integrais não foram lidos. Cada claim traz o que a fonte demonstra e o que **não** permite concluir.
+
+### Mudança de cobertura
+- lacuna E (tratamentos quantitativos): 28 claims com taxas absolutas, IC e NNT/NNH contextualizados; 9 pendências explícitas (UNVERIFIED) em vez de números de memória;
+- correções de citação registradas: incidência de discinesia tardia 6,5% vs 2,6% pertence a Carbon 2018 (*World Psychiatry*), não ao artigo de prevalência de 2017; discrepância 0,7% vs 0,9% na neutropenia grave por clozapina.
+
+**Critério doutoral: NÃO ATINGIDO.** Pendências: eficácia por modalidade em PTSD, valores de ISRS/clomipramina no TOC, CBT-I, lítio por polo, danos com denominador (disfunção sexual, quedas, cardiovascular).
