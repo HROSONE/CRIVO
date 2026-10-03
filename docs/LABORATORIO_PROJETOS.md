@@ -35,4 +35,4 @@ Avaliar candidato já treinado:
 python scripts/avaliar_projetos.py --modelo /caminho/candidato/melhor --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --reparos 2 --saida /tmp/laboratorio/candidato.json
 ```
 
-O workflow **Laboratório de projetos JS e TS** valida referências em PRs. Via `workflow_dispatch`, `run_candidato` identifica um treino concluído com artefato `crivo-codigo-real-ID`. O workflow baixa esse artefato, avalia `candidato/melhor` em CPU e preserva relatórios por 30 dias. Campo vazio apenas verifica as referências. Não inicia novo treino.
+O workflow **Laboratório de projetos JS e TS** valida referências em PRs. Via `workflow_dispatch`, `run_candidato` identifica um treino concluído com artefato `crivo-codigo-real-ID`. O workflow baixa esse artefato, avalia `candidato/melhor` em CPU e preserva relatórios por 30 dias. Campo vazio apenas verifica as referências. Quando um treino nativo da `main` termina com sucesso, a avaliação desse candidato é disparada automaticamente. Não inicia novo treino nem ativa pesos.
