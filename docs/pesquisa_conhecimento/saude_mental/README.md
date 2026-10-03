@@ -713,3 +713,25 @@ As 15 foram ancoradas ou reclassificadas:
 - bupropiona e convulsões (bula).
 
 **Critério doutoral: NÃO ATINGIDO** até a auditoria adversarial 02.
+
+## Aprofundamento 34 — intervenções digitais e conversacionais, adversidade na infância, saúde global
+
+| Documento | Escopo |
+| --- | --- |
+| [Digital, adversidade, saúde global](2026-10-03-digital-conversacional-adversidade-saude-global.md) | **Digital:** agentes conversacionais (Li 2023: depressão g = 0,64 com IC 0,17–1,12); Woebot 2017; Therabot 2025 (comparador lista de espera); iCBT (Karyotaki 2021). **Incidentes de dano:** Tessa/NEDA 2023, ação contra a Character.AI 2024, séries de casos de 2025–26. **Adversidade:** ACE (Hughes 2017); medidas objetivas vs subjetivas (Danese & Widom 2020). **Saúde global:** Friendship Bench (14% vs 50%), compartilhamento de tarefas (OR de resposta 2,11), HAP |
+
+## Aprofundamento 35 — auditoria adversarial 02 e estado final
+
+[Auditoria adversarial 02](2026-10-03-auditoria-adversarial-02.md):
+- confirma a correção de AD-01…AD-05;
+- encontra AD2-01 (digital/conversacional) e AD2-02 (adversidade e saúde global), corrigidos no mesmo ciclo (Aprof. 34);
+- **não restam déficits materiais** de cobertura, profundidade, atualidade, fonte→afirmação ou contradições.
+
+### Estado da base
+
+**CONCLUÍDA para a fase documental — com ressalva explícita.**
+- O selo vale para "afirmações verificadas por resumo indexado (VERIFIED-ABS)". O acesso a PubMed/PMC/WHO/NICE seguiu bloqueado pela política de rede do ambiente (CONNECT 403, reconferido em 2026-10-03), então o texto integral não foi lido.
+- Itens PARTIAL/UNVERIFIED e as listas de pendências (RL-P, IB-P, SU-P, BR-P, VI/LG/RF/ID-P, DG-P, AC-P, GL-P, RR-P, TQ4/PED/DI) continuam abertos e declarados. Não foram preenchidos de memória.
+- **Próxima etapa recomendada**, quando o acesso for liberado: ler o texto integral das fontes-chave (TQ4, SU, IB, B-01…66), converter VERIFIED-ABS em VERIFIED e fechar os itens PARTIAL.
+
+**Integração ao CRIVO:** nenhuma. **Treinamento:** nenhum.
