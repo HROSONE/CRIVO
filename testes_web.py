@@ -156,5 +156,38 @@ class TestesWebHTTP(unittest.TestCase):
         self.assertIn("generation !== state.generation", app)
 
 
+class TestesCorpoServerless(unittest.TestCase):
+    def pedido(self, corpo, tamanho=None, seekable=True):
+        import io
+        from types import SimpleNamespace
+        from email.message import Message
+        from unittest.mock import Mock
+        from api.chat import handler
+        h=object.__new__(handler)
+        h.path='/api/chat';h.headers=Message();h.headers['Content-Type']='application/json'
+        if tamanho is not None:h.headers['Content-Length']=tamanho
+        h.rfile=io.BytesIO(corpo)
+        if not seekable:
+            h.rfile.seekable=lambda:False
+            h.rfile.read=Mock(side_effect=AssertionError('não esperar pelo socket'))
+        h.server=SimpleNamespace();h._json=Mock()
+        h.do_POST()
+        return h._json.call_args.args
+
+    def test_corpo_ja_recebido_sem_length_preserva_conversa(self):
+        corpo=json.dumps(dict(message='Péssimo',history=['Oi'])).encode()
+        status,r=self.pedido(corpo)
+        self.assertEqual(status,200);self.assertEqual(r['id'],'social:acolhimento')
+
+    def test_sem_length_socket_nao_e_lido_e_cabecalho_invalido_nao_e_ignorado(self):
+        self.assertEqual(self.pedido(b'{}',seekable=False)[0],411)
+        self.assertEqual(self.pedido(b'{}',tamanho='invalido')[0],411)
+
+    def test_limite_vazio_e_json_invalido_mesmo_sem_length(self):
+        self.assertEqual(self.pedido(b'x'*16385)[0],413)
+        self.assertEqual(self.pedido(b'')[0],413)
+        self.assertEqual(self.pedido(b'{')[0],400)
+
+
 if __name__ == "__main__":
     unittest.main()
