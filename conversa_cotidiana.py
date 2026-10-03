@@ -145,7 +145,7 @@ def _atos_pessoais(texto, bot, n, id_anterior):
     nome = _apresentacao(texto)
     if nome:
         conversa.dialogo._guardar("nome", nome)
-        return "conversa:apresentacao", "Prazer, " + nome + ". Vou te chamar assim nesta conversa.", None, ""
+        return "conversa:relato", "Prazer, " + nome + ". Vou te chamar assim nesta conversa.", None, ""
     criador = re.fullmatch(r"(?:eu )?sou (?:o |a )?seu criador(?:a)?(?: eu (?:quem|que) (?:inventei|criei) voce)?|"
                           r"(?:eu )?(?:(?:que|quem) )?(?:inventei|criei|desenvolvi) voce", n)
     if criador and "?" not in texto:

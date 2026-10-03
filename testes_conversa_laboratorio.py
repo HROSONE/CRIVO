@@ -18,7 +18,7 @@ class ConversaLaboratorio(unittest.TestCase):
                 self.assertEqual(respostas[1][0],'social:acolhimento')
                 self.assertEqual(respostas[5][0],'social:elogio')
                 for i in (6,7):
-                    self.assertEqual(respostas[i][0],'conversa:apresentacao')
+                    self.assertEqual(respostas[i][0],'conversa:relato')
                     self.assertIn('Henrique',respostas[i][1])
                 self.assertEqual(respostas[8][0],'conversa:criacao')
                 self.assertIn('Você está me dizendo que criou o Crivo',respostas[8][1])
