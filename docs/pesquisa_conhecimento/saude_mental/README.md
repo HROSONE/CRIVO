@@ -565,3 +565,18 @@ Mesmo esquema do lote 4: VERIFIED-ABS / PARTIAL / UNVERIFIED / DERIVED; cada cla
 - distinção explícita entre suicidalidade (ideação/comportamento em ensaios) e suicídio consumado, e entre prescrição observada e indicação.
 
 **Critério doutoral: NÃO ATINGIDO.** Pendências: taxa de placebo do TADS, magnitude da supressão de altura no MTA, STOMP (dados de redução), psicoterapias em DI, idosos.
+
+## Aprofundamento 24 — ICD-11 por código, release e mudanças entre versões
+
+| Documento | Escopo |
+| --- | --- |
+| [Matriz ICD-11 código/release/mudanças](2026-10-03-icd11-matriz-codigo-release-mudancas.md) | releases do MMS 2018→2026-01 e adoção (WHO, EUA, Brasil); 45 códigos do capítulo 06 e relacionados (caps. 07, 17, 21, 23, 24) com equivalente ICD-10 aproximado, mudança e status; 7 mudanças estruturais; contradições C-ICD-1 (níveis de DI por QI vs DP/adaptativo), C-ICD-2 (crítica aos critérios de humor), C-ICD-3 (localização da demência) |
+
+### Método
+Navegador oficial icd.who.int bloqueado nesta sessão. Códigos conferidos em espelhos secundários do MMS e em revisões indexadas (rótulo VERIFIED-SEC). Códigos não confirmados ficaram UNVERIFIED, em vez de preenchidos de memória. A coluna de estabilidade entre releases é inferência declarada.
+
+### Mudança de cobertura
+- fecha a pendência "matriz code/release-level" da parte 2 da arquitetura ICD-11;
+- adiciona a regra de citar release e status em todo código, e de declarar o sistema (ICD-10/ICD-11/DSM) em comparações epidemiológicas.
+
+**Critério doutoral: NÃO ATINGIDO.** Pendências RL-P1…P6: notas de versão oficiais, tabela WHO de mapeamento 10→11, dupla filiação da demência, bridge-coding de suicídio, códigos UNVERIFIED, ICD-11-PHC e tradução pt-BR.
