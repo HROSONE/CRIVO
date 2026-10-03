@@ -70,6 +70,36 @@ def pergunta_para(nocao, texto):
     return nocao["pergunta"]
 
 
+# Cena observada com outra pessoa ("vi uma menina abrindo o guarda-chuva"):
+# o bicho, a pessoa ou o objeto da cena não são da pessoa que conta.
+_CENA = re.compile(r"(?:vi|ouvi|reparei|notei|vimos|percebi)\b.*\b(?:menin[oa]|homem|mulher|moc[oa]|senhor[a]?|"
+                   r"crianca|garot[oa]|cara|pessoa|gente|rapaz|moca|velhinh[oa])\b")
+_ANIMAL = re.compile(r"(?:(?:meu|minha|o|a) )?(?:cachorro|cachorra|gato|gata|passarinho|peixe|cavalo|"
+                     r"coelho|hamster|papagaio|calopsita|tartaruga|cachorrinho|gatinho)\b")
+
+
+def pertinencia(nocao, texto, tom="neutro"):
+    """(o "costuma" combina, a pergunta combina) com o que aconteceu.
+
+    "Gato costuma derrubar coisas" serve para "meu gato derrubou um copo",
+    não para "meu gato sumiu". A noção diz em "eventos" com que
+    acontecimentos combina; sem esse campo, combina com qualquer relato que
+    a cite (chuva, pizza, trânsito…)."""
+    n = normalizar(texto)
+    if _CENA.match(n):
+        # Cena vista de fora: nada ali aconteceu com quem conta.
+        return False, False
+    if nocao.get("tipo") == "saude" and _ANIMAL.match(n):
+        # "Meu cachorro está doente": a noção de doença fala de gente.
+        return False, False
+    raizes = nocao.get("eventos")
+    if not raizes:
+        return True, True
+    combina = bool(re.search(r"\b(?:%s)" % "|".join(re.escape(r) for r in raizes), n))
+    livre = nocao.get("pergunta_livre")
+    return combina, combina or livre is True or (isinstance(livre, list) and tom in livre)
+
+
 class NocoesPT:
     def __init__(self, caminho=CAMINHO):
         try:
@@ -147,10 +177,13 @@ class NocoesPT:
         principal = next((x for x in nocoes if x["tipo"] != "pessoa" and not x.get("generica")),
                          next((x for x in nocoes if x["tipo"] != "pessoa"), nocoes[0]))
         tom = self.valencia(texto, nocoes)
-        partes = [sorteio.choice(self._ABERTURA[tom]), principal["costuma"]]
+        costuma, pergunta = pertinencia(principal, texto, tom)
+        partes = [sorteio.choice(self._ABERTURA[tom])]
+        if costuma:
+            partes.append(principal["costuma"])
         if tom == "saude" and principal["tipo"] != "saude":
             partes.append("Espero que melhore logo.")
-        partes.append(pergunta_para(principal, texto))
+        partes.append(pergunta_para(principal, texto) if pergunta else "Me conta mais.")
         return principal, " ".join(partes)
 
     def continuar(self, texto, anterior, sorteio):

@@ -138,6 +138,11 @@ def _juntar_consigo(palavras):
 def _verbo_primeira(p, anterior):
     if p.classe in ("VERB", "AUX") and _primeira_pessoa(p):
         return True
+    # No começo da fala, "comi"/"bebi"/"fiz" são o verbo, mesmo quando o
+    # etiquetador os lê como substantivo ("comi pizza ontem").
+    if anterior is None and p.forma.lower() in IRREGULARES and \
+            p.forma.lower() not in ("estava", "era", "ia", "tinha", "sai", "sou"):
+        return True
     return p.forma.lower() in PRESENTES and (anterior is None or normalizar(anterior.forma) in _ANTES_DO_VERBO)
 
 

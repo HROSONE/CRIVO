@@ -13,7 +13,9 @@
   "valencia": "pos, neg, saude ou neutro (padrão)",
   "generica": "lugar ou momento genérico que cede para uma noção mais específica na mesma frase",
   "para": "para que a coisa costuma servir; base de palpites marcados como prováveis",
-  "pergunta_geral": "pergunta aberta, sem supor que algo aconteceu; usada quando a fala é gosto, plano ou fragmento, não relato"
+  "pergunta_geral": "pergunta aberta, sem supor que algo aconteceu; usada quando a fala é gosto, plano ou fragmento, não relato",
+  "eventos": "raízes (sem acento) dos acontecimentos com que o \"costuma\" e a pergunta combinam; sem o campo, a noção vale para qualquer relato que a cite",
+  "pergunta_livre": "a pergunta vale mesmo quando o acontecimento não está em \"eventos\": true, ou a lista de tons (saude, neg…) em que vale"
  },
  "nocoes": [
   {
@@ -462,7 +464,19 @@
    "tipo": "pessoa",
    "e": "Chefe é quem coordena o trabalho de uma equipe.",
    "costuma": "Chefe costuma fazer muita diferença no humor do dia de trabalho.",
-   "pergunta": "Vocês costumam se dar bem?"
+   "pergunta": "Vocês costumam se dar bem?",
+   "eventos": [
+    "ped",
+    "cobr",
+    "reuni",
+    "brig",
+    "elogi",
+    "demit",
+    "promov",
+    "grit",
+    "reclam",
+    "relat"
+   ]
   },
   {
    "nome": "escola",
@@ -663,7 +677,22 @@
    "costuma": "Carro costuma dar trabalho com manutenção e combustível.",
    "pergunta": "Foi algum problema com o carro?",
    "para": "se locomover",
-   "pergunta_geral": "Você usa muito o carro?"
+   "pergunta_geral": "Você usa muito o carro?",
+   "eventos": [
+    "quebr",
+    "estrag",
+    "pifou",
+    "problema",
+    "oficina",
+    "mecanic",
+    "manuten",
+    "gasolina",
+    "combust",
+    "pneu",
+    "bateu",
+    "batida",
+    "enguic"
+   ]
   },
   {
    "nome": "bicicleta",
@@ -680,7 +709,16 @@
    "costuma": "Andar de bicicleta costuma ser bom para a saúde e para fugir do trânsito.",
    "pergunta": "Você vai usar mais para passear ou para ir a algum lugar?",
    "valencia": "pos",
-   "para": "se locomover"
+   "para": "se locomover",
+   "eventos": [
+    "compr",
+    "ganh",
+    "andar",
+    "andei",
+    "anda",
+    "pedal",
+    "passe"
+   ]
   },
   {
    "nome": "moto",
@@ -692,7 +730,13 @@
    "tipo": "transporte",
    "e": "Moto é um veículo de duas rodas com motor.",
    "costuma": "Moto costuma ser rápida no trânsito, mas exige cuidado.",
-   "pergunta": "Você anda de moto?"
+   "pergunta": "Você anda de moto?",
+   "eventos": [
+    "compr",
+    "ganh",
+    "anda",
+    "pilot"
+   ]
   },
   {
    "nome": "avião",
@@ -720,7 +764,13 @@
    "tipo": "animal",
    "e": "Cachorro é um animal de estimação muito comum, conhecido por ser fiel e brincalhão.",
    "costuma": "Cachorro costuma latir quando ouve barulho, vê outro animal ou estranha alguém.",
-   "pergunta": "Qual o nome dele?"
+   "pergunta": "Qual o nome dele?",
+   "eventos": [
+    "lat",
+    "uiv",
+    "barulh"
+   ],
+   "pergunta_livre": true
   },
   {
    "nome": "gato",
@@ -735,7 +785,19 @@
    "tipo": "animal",
    "e": "Gato é um animal de estimação independente e curioso.",
    "costuma": "Gato costuma derrubar coisas da mesa só para ver o que acontece.",
-   "pergunta": "Ele é bagunceiro assim sempre?"
+   "pergunta": "Ele é bagunceiro assim sempre?",
+   "eventos": [
+    "derrub",
+    "quebr",
+    "arranh",
+    "bagun",
+    "miou",
+    "miand",
+    "apront",
+    "destru",
+    "rasg",
+    "pul"
+   ]
   },
   {
    "nome": "passarinho",
@@ -749,7 +811,14 @@
    "e": "Passarinho é uma ave pequena.",
    "costuma": "Passarinho costuma cantar bem cedo, logo de manhã.",
    "pergunta": "Você sabe qual era?",
-   "pergunta_geral": "Você gosta de observar passarinhos?"
+   "pergunta_geral": "Você gosta de observar passarinhos?",
+   "eventos": [
+    "cant",
+    "acord",
+    "piou",
+    "pian",
+    "ninho"
+   ]
   },
   {
    "nome": "peixe",
@@ -761,7 +830,13 @@
    "tipo": "animal",
    "e": "Peixe é um animal que vive na água.",
    "costuma": "Peixe de aquário costuma precisar de água limpa e comida na medida.",
-   "pergunta": "Você tem aquário?"
+   "pergunta": "Você tem aquário?",
+   "eventos": [
+    "aquario",
+    "compr",
+    "ganh",
+    "aliment"
+   ]
   },
   {
    "nome": "mosquito",
@@ -776,7 +851,14 @@
    "costuma": "Mosquito costuma aparecer mais no calor e atrapalhar o sono.",
    "pergunta": "Te picaram muito?",
    "valencia": "neg",
-   "pergunta_geral": "Aí tem muito mosquito?"
+   "pergunta_geral": "Aí tem muito mosquito?",
+   "eventos": [
+    "pic",
+    "zumb",
+    "zunid",
+    "dorm",
+    "noite"
+   ]
   },
   {
    "nome": "barata",
@@ -789,7 +871,16 @@
    "costuma": "Barata costuma assustar muita gente, principalmente quando voa.",
    "pergunta": "Conseguiu se livrar dela?",
    "valencia": "neg",
-   "pergunta_geral": "Você tem medo de barata?"
+   "pergunta_geral": "Você tem medo de barata?",
+   "eventos": [
+    "apare",
+    "voou",
+    "vo",
+    "mat",
+    "entrou",
+    "subiu",
+    "vi "
+   ]
   },
   {
    "nome": "bolo",
@@ -1097,7 +1188,19 @@
    "tipo": "pessoa",
    "e": "Mãe é quem cria e cuida da gente desde pequeno.",
    "costuma": "Mãe costuma se preocupar mesmo quando diz que está tudo bem.",
-   "pergunta": "Como ela está?"
+   "pergunta": "Como ela está?",
+   "eventos": [
+    "preocup",
+    "lig",
+    "brig",
+    "cobr",
+    "conselh",
+    "reclam"
+   ],
+   "pergunta_livre": [
+    "saude",
+    "neg"
+   ]
   },
   {
    "nome": "pai",
@@ -1109,7 +1212,23 @@
    "tipo": "pessoa",
    "e": "Pai é quem cria e cuida da gente junto com a família.",
    "costuma": "Conversa com pai costuma render histórias antigas.",
-   "pergunta": "Como ele está?"
+   "pergunta": "Como ele está?",
+   "eventos": [
+    "convers",
+    "falou",
+    "falamos",
+    "visit",
+    "lig",
+    "almoc",
+    "jant",
+    "encontr",
+    "histori",
+    "contou"
+   ],
+   "pergunta_livre": [
+    "saude",
+    "neg"
+   ]
   },
   {
    "nome": "filho",
@@ -1125,7 +1244,17 @@
    "tipo": "pessoa",
    "e": "Filho é a pessoa que alguém criou ou cria.",
    "costuma": "Criança costuma crescer rápido e surpreender todo dia.",
-   "pergunta": "Quantos anos ele tem?"
+   "pergunta": "Quantos anos ele tem?",
+   "eventos": [
+    "cresc",
+    "aprend",
+    "primeir",
+    "anivers",
+    "nasc",
+    "falou",
+    "andou",
+    "dente"
+   ]
   },
   {
    "nome": "irmão",
@@ -1138,7 +1267,15 @@
    "tipo": "pessoa",
    "e": "Irmão é quem tem os mesmos pais que a gente.",
    "costuma": "Irmão costuma ser companhia para a vida toda, mesmo com briga.",
-   "pergunta": "Vocês são próximos?"
+   "pergunta": "Vocês são próximos?",
+   "eventos": [
+    "brig",
+    "convers",
+    "encontr",
+    "visit",
+    "saimos",
+    "junt"
+   ]
   },
   {
    "nome": "amigo",
@@ -1155,7 +1292,17 @@
    "e": "Amigo é alguém com quem a gente tem confiança e carinho.",
    "costuma": "Encontrar amigos costuma melhorar qualquer semana.",
    "pergunta": "Faz tempo que vocês se conhecem?",
-   "valencia": "pos"
+   "valencia": "pos",
+   "eventos": [
+    "encontr",
+    "sai",
+    "visit",
+    "convers",
+    "reencontr",
+    "festa",
+    "junt",
+    "bar"
+   ]
   },
   {
    "nome": "vizinho",
@@ -1168,7 +1315,18 @@
    "tipo": "pessoa",
    "e": "Vizinho é quem mora perto da gente.",
    "costuma": "Vizinho barulhento costuma ser motivo de reclamação em todo prédio.",
-   "pergunta": "Já conversou com ele?"
+   "pergunta": "Já conversou com ele?",
+   "eventos": [
+    "barulh",
+    "obra",
+    "som",
+    "festa",
+    "grit",
+    "reclam",
+    "brig",
+    "music",
+    "lat"
+   ]
   },
   {
    "nome": "namoro",
@@ -1186,7 +1344,19 @@
    "tipo": "pessoa",
    "e": "Namoro é a relação de duas pessoas que estão juntas.",
    "costuma": "Relacionamento costuma pedir conversa e paciência dos dois lados.",
-   "pergunta": "Vocês estão juntos há quanto tempo?"
+   "pergunta": "Vocês estão juntos há quanto tempo?",
+   "eventos": [
+    "brig",
+    "discut",
+    "jant",
+    "sai",
+    "viaj",
+    "anivers",
+    "convers",
+    "junt",
+    "namor",
+    "termin"
+   ]
   },
   {
    "nome": "casamento",
@@ -1500,7 +1670,14 @@
    "costuma": "Guarda-chuva costuma ficar esquecido em ônibus e restaurantes.",
    "pergunta": "Pegou chuva por causa disso?",
    "para": "se proteger da chuva",
-   "pergunta_geral": "Você costuma andar com guarda-chuva?"
+   "pergunta_geral": "Você costuma andar com guarda-chuva?",
+   "eventos": [
+    "esquec",
+    "perd",
+    "deix",
+    "sum",
+    "roub"
+   ]
   },
   {
    "nome": "mochila",
@@ -1514,7 +1691,15 @@
    "costuma": "Mochila costuma ficar pesada mais rápido do que parece.",
    "pergunta": "Perdeu alguma coisa importante?",
    "para": "carregar as coisas",
-   "pergunta_geral": "Você carrega muita coisa na mochila?"
+   "pergunta_geral": "Você carrega muita coisa na mochila?",
+   "eventos": [
+    "pesad",
+    "perd",
+    "esquec",
+    "rasg",
+    "roub",
+    "carreg"
+   ]
   },
   {
    "nome": "copo",
@@ -1529,7 +1714,14 @@
    "e": "Copo é o recipiente em que a gente bebe.",
    "costuma": "Copo de vidro costuma quebrar fácil quando cai.",
    "pergunta": "Quebrou?",
-   "pergunta_geral": "Aí em casa quebra muita coisa?"
+   "pergunta_geral": "Aí em casa quebra muita coisa?",
+   "eventos": [
+    "quebr",
+    "cai",
+    "caiu",
+    "derrub",
+    "rach"
+   ]
   },
   {
    "nome": "sofá",
@@ -1878,7 +2070,14 @@
    "e": "Cavalo é um animal grande, usado para montaria e trabalho no campo.",
    "costuma": "Cavalo costuma ser mais tranquilo do que parece quando a gente se aproxima com calma.",
    "pergunta": "Era a primeira vez que você andava a cavalo?",
-   "pergunta_geral": "Você gosta de cavalos?"
+   "pergunta_geral": "Você gosta de cavalos?",
+   "eventos": [
+    "anda",
+    "andei",
+    "andou",
+    "mont",
+    "cavalg"
+   ]
   },
   {
    "nome": "galinha",
@@ -1891,7 +2090,13 @@
    "tipo": "animal",
    "e": "Galinha é uma ave criada em quintal e fazenda.",
    "costuma": "Galo costuma cantar bem cedo, antes de todo mundo acordar.",
-   "pergunta": "Vocês têm galinhas em casa?"
+   "pergunta": "Vocês têm galinhas em casa?",
+   "eventos": [
+    "cant",
+    "ovo",
+    "bot",
+    "cria"
+   ]
   },
   {
    "nome": "chuveiro",
@@ -2065,7 +2270,14 @@
    "e": "Roupa e calçado novos são coisas que a gente compra para vestir.",
    "costuma": "Tênis novo costuma apertar um pouco nos primeiros dias.",
    "pergunta": "Já estreou?",
-   "pergunta_geral": "Você gosta de comprar roupa?"
+   "pergunta_geral": "Você gosta de comprar roupa?",
+   "eventos": [
+    "compr",
+    "ganh",
+    "estre",
+    "apert",
+    "nov"
+   ]
   },
   {
    "nome": "presente",
@@ -2204,7 +2416,17 @@
    "tipo": "pessoa",
    "e": "Professor é quem ensina numa escola, faculdade ou curso.",
    "costuma": "Lição de casa costuma se acumular quando a semana aperta.",
-   "pergunta": "É de qual matéria?"
+   "pergunta": "É de qual matéria?",
+   "eventos": [
+    "licao",
+    "prova",
+    "dever",
+    "aula",
+    "nota",
+    "tarefa",
+    "trabalho",
+    "passou"
+   ]
   },
   {
    "nome": "aula",
@@ -2304,7 +2526,15 @@
    "tipo": "pessoa",
    "e": "Avós são os pais do pai ou da mãe.",
    "costuma": "Avós costumam ter comida boa e muita história para contar.",
-   "pergunta": "Vocês se veem sempre?"
+   "pergunta": "Vocês se veem sempre?",
+   "eventos": [
+    "visit",
+    "almoc",
+    "encontr",
+    "comida",
+    "histori",
+    "casa d"
+   ]
   },
   {
    "nome": "tios",
@@ -2323,7 +2553,15 @@
    "tipo": "pessoa",
    "e": "Tios, primos e sobrinhos fazem parte da família mais ampla.",
    "costuma": "Encontro de família grande costuma ser barulhento e divertido.",
-   "pergunta": "Vocês são próximos?"
+   "pergunta": "Vocês são próximos?",
+   "eventos": [
+    "festa",
+    "almoc",
+    "encontr",
+    "reuni",
+    "visit",
+    "churras"
+   ]
   },
   {
    "nome": "irmã",
@@ -2331,7 +2569,15 @@
    "tipo": "pessoa",
    "e": "Irmã é a filha dos mesmos pais.",
    "costuma": "Irmã costuma ser a primeira amiga e às vezes a primeira briga.",
-   "pergunta": "Vocês se dão bem?"
+   "pergunta": "Vocês se dão bem?",
+   "eventos": [
+    "brig",
+    "convers",
+    "encontr",
+    "visit",
+    "saimos",
+    "junt"
+   ]
   },
   {
    "nome": "esposa",
@@ -2341,7 +2587,18 @@
    "tipo": "pessoa",
    "e": "Esposa, marido, namorado e namorada são a pessoa com quem alguém tem um relacionamento.",
    "costuma": "Relacionamento costuma ficar melhor quando sobra um tempo só para os dois.",
-   "pergunta": "Faz tempo que vocês estão juntos?"
+   "pergunta": "Faz tempo que vocês estão juntos?",
+   "eventos": [
+    "brig",
+    "discut",
+    "jant",
+    "sai",
+    "viaj",
+    "anivers",
+    "convers",
+    "junt",
+    "casa"
+   ]
   },
   {
    "nome": "chá",
@@ -2745,7 +3002,12 @@
    "internada",
    "passando mal",
    "gripado",
-   "gripada"
+   "gripada",
+   "cirurgia",
+   "operar",
+   "operacao",
+   "operado",
+   "operada"
   ]
  }
 }
