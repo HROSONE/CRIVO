@@ -14,7 +14,7 @@ class PedidoInvalido(ValueError):
     """Entrada inválida: o endpoint pode responder HTTP 400."""
 
 
-TONS = ("pos", "neg", "saude", "neutro")
+TONS = ("pos", "neg", "saude", "luto", "neutro")
 
 
 def _texto_curto(valor, limite):

@@ -477,7 +477,7 @@ def responder(texto, bot):
         from presenca import ACOLHER_CURTO, CONTINUAR
         tom = perfil.temas[-1][2] if perfil.temas else "neutro"
         if incerto:
-            tom = "neg" if tom in ("neg", "saude") else "neutro"
+            tom = tom if tom == "luto" else "neg" if tom in ("neg", "saude") else "neutro"
         seguir = _seguir(bot, presenca) if conversa.objetivo else presenca.escolher(CONTINUAR[tom])
         ident = "social:incerteza" if id_anterior.startswith("conversa:") and incerto and n != "nada" else "nocao:reacao"
         return ident, presenca.escolher(ACOLHER_CURTO[tom]) + " " + seguir, None, ""
@@ -808,8 +808,8 @@ def _refletir(texto, bot, base, achadas):
         principal = next((x for x in ordem if pertinencia(x, texto, tom)[0]), ordem[0])
     # O tom continua entre falas seguidas: depois de "dormi mal", o cachorro
     # latindo a noite toda não é neutro.
-    if tom == "neutro" and perfil.temas and perfil.recente(1) and perfil.temas[-1][2] in ("neg", "saude"):
-        tom = "neg"
+    if tom == "neutro" and perfil.temas and perfil.recente(1) and perfil.temas[-1][2] in ("neg", "saude", "luto"):
+        tom = "luto" if perfil.temas[-1][2] == "luto" else "neg"
     if not principal:
         principal = bot.nocao_conversa
         if tom == "neutro" and perfil.temas:
@@ -857,15 +857,19 @@ def _refletir(texto, bot, base, achadas):
     elif eco and tom == "saude":
         lista = _SAUDE
     else:
-        lista = _CONQUISTA if conquista else ABERTURAS[tom]
+        # "Terminei com minha namorada" não é conquista.
+        lista = _CONQUISTA if conquista and tom not in ("neg", "luto") else ABERTURAS[tom]
     livres = [a for a in lista if a not in v.usadas[-12:]] or list(lista)
     aberturas = tuple(v.sorteio.sample(livres, min(2, len(livres))))
     nome_nocao = principal["nome"]
     combina_costuma, combina_pergunta = pertinencia(principal, texto, tom) if achadas else (False, False)
     usar_nocao = bool(achadas and combina_costuma and nome_nocao not in perfil.nocoes_usadas
-                      and not (causa and eco))
+                      and not (causa and eco) and tom != "luto")
     from nocoes import pergunta_para
     pergunta = pergunta_para(principal, texto) if principal.get("pergunta") and combina_pergunta else None
+    # Diante de uma perda, nenhuma curiosidade sobre o assunto: só acolher.
+    if tom == "luto":
+        pergunta, eco = None, ""
     # "Meu avô plantou uma mangueira": a pergunta é sobre ele, não "O que você plantou?".
     if pergunta and outra_pessoa and re.search(r"\bvoce\b", normalizar(pergunta)):
         pergunta = None
@@ -931,7 +935,9 @@ def relato_com_presenca(texto, bot, resposta):
     if not re.search(r"\bvoce\b|\bseu\b|\bsua\b", normalizar(eco)) and agente == "você":
         eco = "você " + eco
     abertura = v.escolher(ABERTURAS[tom])
-    if tom == "saude":
+    if tom == "luto":
+        partes = [abertura]
+    elif tom == "saude":
         partes = [eco[0].upper() + eco[1:] + "? " + v.escolher(("Sinto muito.", "Espero que melhore logo."))]
     else:
         partes = [abertura.rstrip(".!") + ", " + eco + ("!" if tom == "pos" else ".")]

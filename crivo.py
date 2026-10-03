@@ -283,6 +283,14 @@ class Crivo:
         self.idf_raro = max(self.idf.values(), default=1.0)
         self.exemplos = [[set(tokens(p)) for p in dict.fromkeys(e["perguntas"])]
                          for e in self.base]
+        # Núcleo de cada entrada: o assunto dela (palavras da maioria dos
+        # exemplos e do identificador). "Conceitos" são os núcleos de todas.
+        self.nucleos = []
+        for i, e in enumerate(self.base):
+            freq = Counter(t for ex in self.exemplos[i] for t in ex)
+            nucleo = {t for t, f in freq.items() if f * 2 >= len(self.exemplos[i])}
+            self.nucleos.append(nucleo | set(tokens(e["id"].replace("_", " "))))
+        self.conceitos = set().union(*self.nucleos) - self._GENERICOS if self.nucleos else set()
         # Um currículo novo não deve alterar o peso das palavras de outro domínio.
         self.grupos = ["mundo" if e.get("origem_curriculo") == "mundo" else
                        "programacao" if e["topico"] == "programacao" else "geral"
@@ -408,6 +416,60 @@ class Crivo:
         indices = self._indices_consulta(texto)
         idf = self.idf_grupos[self.grupos[indices[0]]] if indices else {}
         return indices, idf
+
+    _GENERICOS = {"tempo", "dura", "vida", "tipo", "diferenca", "entre", "usar", "serve", "fazer", "casa",
+                  "dia", "ano", "coisa", "nome", "agua", "forma", "ideal", "precisa", "bom", "boa", "nao",
+                  "melhor", "maior", "menor", "quanto", "quando", "porque"}
+    # Símbolos de código: a pergunta é de programação.
+    _CODIGO = re.compile(r"===?|!==?|=>|&&|\|\||\+\+|\w\(\)|\bdef \w|\bfunction\b|\bconsole\.|\bprint\(")
+    # "Se todo A é B…": hipótese, nunca um fato cadastrado.
+    _HIPOTESE = re.compile(r"^\s*se (?:todo|toda|todos|todas|nenhum|nenhuma|algum|alguma|um|uma|eu|o|a|x)\b.*\?")
+    # Conta: números com operação, ou "quantos sobram/ficaram".
+    _CONTA = re.compile(r"\d+\s*(?:[-+*/x^]|mais|menos|vezes|dividido|elevado)\s*(?:a |por )?\d+|"
+                        r"\bquant[oa]s? (?:sobra|sobram|ficam|ficaram|resta|restam|sobrou|ficou)\b")
+
+    _GERAR = re.compile(r"\s*(?:me )?(?:escreva|escreve|crie|cria|faca|faz|implemente|implementa|gere|programe)\b")
+
+    def _conceitos_com_entidades(self):
+        """Núcleos da base mais os seres e astros do grafo de relações
+        ("golfinho", "morcego"), uma vez por instância."""
+        if getattr(self, "_conceitos_cache", None) is None:
+            extra = set()
+            grafo = getattr(self, "raciocinio", None)
+            for nome in (getattr(grafo, "nomes", None) or {}):
+                if "_" not in nome:
+                    extra |= set(tokens(nome))
+            self._entidades = extra - self._GENERICOS
+            self._conceitos_cache = (self.conceitos | extra) - self._GENERICOS
+        return self._conceitos_cache
+
+    def _fora_do_assunto(self, texto, indice):
+        """A entrada só coincide com a pergunta numa palavra lateral ("Por que
+        o céu é azul?" × cores da reciclagem) ou deixa de fora outro assunto
+        que a pergunta cita ("Plantas respiram?" × peixes)."""
+        _, vocabulario = self._contexto_consulta(texto)
+        toks = list(dict.fromkeys(self._tokens_consulta(texto, vocabulario)))
+        bate = [t for t in toks if t in self.termos[indice]]
+        resto = [t for t in toks if t not in self.termos[indice]]
+        nucleo = self.nucleos[indice]
+        conceitos = self._conceitos_com_entidades()
+        if len(bate) == 1 and resto and bate[0] not in nucleo:
+            return True
+        outros = [t for t in resto if t in conceitos and t not in nucleo]
+        if outros and (len(bate) <= 1 or not (set(bate) & nucleo) - self._GENERICOS):
+            return True
+        # "Golfinho respira debaixo d'água?" × peixes: outro ser citado e metade
+        # ou mais do assunto da entrada ausente da pergunta.
+        seres = [t for t in outros if t in self._entidades]
+        if seres and nucleo and len(nucleo - set(bate)) * 2 >= len(nucleo):
+            return True
+        # "Escreva fatorial em JavaScript": pedido de algo que não conheço não
+        # vira a introdução da linguagem.
+        verbos = {"faca", "faz", "descreva", "escreva", "escreve", "crie", "cria", "implemente", "implementa",
+                  "gere", "programe"}
+        if self._GERAR.match(normalizar(texto)) and any(t not in vocabulario and t not in verbos for t in toks):
+            return True
+        return False
 
     def _ranking(self, texto):
         indices, idf = self._contexto_consulta(texto)
@@ -1139,6 +1201,16 @@ class Crivo:
             return None
         if not self._PERGUNTA_MEMORIA.match(normalizar(texto)):
             return None
+        # "O que eu faço?" depois de um relato pede ajuda para pensar, não
+        # que o Crivo repita o que ouviu.
+        if re.fullmatch(r"\s*(?:e )?(?:o )?que (?:eu )?(?:faco|devo fazer|eu faco|posso fazer|faco agora)\s*[?!.]*",
+                        normalizar(texto)):
+            perfil = getattr(self, "perfil", None)
+            reflexao = perfil.temas[-1][3] if perfil is not None and perfil.temas else ""
+            contexto = ("Pelo que você contou, %s. " % reflexao) if reflexao else ""
+            return ("conversa:conselho",
+                    "Não tenho uma resposta certa para isso, mas posso pensar junto com você. " + contexto +
+                    "Qual seria um primeiro passo pequeno que você conseguiria dar?")
         try:
             achado = memoria.responder(texto)
         except Exception:
@@ -1842,6 +1914,16 @@ class Crivo:
             self.ultimo_assunto = None
             return referencia
 
+        # "Como você acha que ele tá?": a pergunta é sobre alguém que a pessoa
+        # contou (o cachorro doente), não sobre o Crivo.
+        terceiro = re.search(r"\b(?:voce|vc) acha que (ele|ela)\b.*\b(?:esta|ta|vai|fica|melhora)\b", n)
+        if terceiro and getattr(self, "perfil", None) is not None and self.perfil.temas:
+            pron = terceiro.group(1)
+            return self._registrar_social((
+                "conversa:opiniao_terceiro",
+                "Daqui eu não consigo saber como %s está, mas torço para que %s fique bem. "
+                "E você, como está com isso?" % (pron, pron),
+            ), original)
         if conversa_assistente.pergunta_pessoal(texto):
             return self._registrar_social((
                 "social:nao_entendido",
@@ -1885,6 +1967,16 @@ class Crivo:
                 return ("fora", "Reconheci o assunto " + self.compositor.itens[assunto]["nome"] +
                         ", mas não tenho evidência cadastrada para essa pergunta completa.")
         rank = self._ranking(texto)
+        # Hipótese e conta não são fatos cadastrados; código só casa com
+        # programação; e a entrada precisa tratar do assunto perguntado.
+        nq = normalizar(original)
+        if self._HIPOTESE.match(nq) or self._CONTA.search(nq):
+            rank = []
+        elif rank:
+            codigo = bool(self._CODIGO.search(original))
+            rank = [(s, i) for s, i in rank
+                    if not (codigo and self.base[i]["topico"] != "programacao")
+                    and not self._fora_do_assunto(texto, i)]
         _, vocabulario = self._contexto_consulta(texto)
         toks = self._tokens_consulta(texto, vocabulario)
         desconhecidas = [t for t in toks if t not in vocabulario]
