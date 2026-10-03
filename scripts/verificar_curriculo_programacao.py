@@ -20,7 +20,9 @@ def validar(tsc=None):
     compilador = tsc or shutil.which('tsc')
     if not node or not compilador:
         raise RuntimeError('Node e TypeScript são obrigatórios para validar referências')
-    tarefas = json.loads((ROOT / 'dados/programacao/curriculo.json').read_text())['tarefas']
+    tarefas = []
+    for nome in ('curriculo.json', 'algoritmos.json'):
+        tarefas += json.loads((ROOT / 'dados/programacao' / nome).read_text())['tarefas']
     contagem = {}
     with tempfile.TemporaryDirectory() as d:
         pasta = Path(d)

@@ -152,6 +152,8 @@ def main():
     p.add_argument('--salvar-a-cada', type=int, default=100)
     p.add_argument('--repeticao-linguagem', type=float, default=.2,
                    help='Fração de passos de SFT com pré-treino para reduzir esquecimento')
+    p.add_argument('--selecionar-melhor', action='store_true', help='Salva melhor validação em melhor/ sem substituir checkpoint de retomada')
+    p.add_argument('--paciencia-validacoes', type=int, default=0, help='Parar após N avaliações sem melhora; zero desativa')
     p.add_argument('--retomar', action='store_true')
     p.add_argument('--parar-em', type=int, help='Pausa planejada sem mudar o horizonte do LR')
     p.add_argument('--ajustar-proprio', action='store_true', help='Permite novo corpus com o mesmo tokenizer/configuração; registra linhagem')
@@ -160,6 +162,8 @@ def main():
     args = p.parse_args()
     if min(args.passos, args.lote, args.threads, args.avaliar_a_cada, args.salvar_a_cada) < 1:
         p.error('Contagens devem ser positivas')
+    if args.paciencia_validacoes < 0 or args.paciencia_validacoes and not args.selecionar_melhor:
+        p.error('Paciência não negativa exige --selecionar-melhor')
     if not 0 <= args.repeticao_linguagem < 1 or args.lr <= 0:
         p.error('Taxa de aprendizado/repetição inválida')
     if args.ajustar_proprio and not (args.inicial or args.retomar): p.error('--ajustar-proprio requer --inicial ou --retomar')
@@ -174,6 +178,9 @@ def main():
               camadas=args.camadas, cabecas=args.cabecas, contexto=args.contexto)
     assinatura, dados = assinatura_execucao(config, corpus, args.fase, args.lote, args.lr,
                                             args.semente, args.repeticao_linguagem)
+    if args.selecionar_melhor:
+        dados['selecao'] = dict(criterio='entropia_cruzada_validacao_' + args.fase, paciencia=args.paciencia_validacoes)
+        assinatura = hashlib.sha256(json.dumps(dados, sort_keys=True).encode()).hexdigest()
     out = Path(args.saida); out.mkdir(parents=True, exist_ok=True)
     if (out / 'checkpoint.pt').exists() and not args.retomar:
         p.error('Checkpoint existente; use --retomar ou outro diretório')
@@ -213,21 +220,36 @@ def main():
         resultado = avaliar(modelo, corpus, args.dispositivo)
         historico.append({'passo': passo, 'avaliacao': resultado})
         print(json.dumps({'baseline': resultado, 'parametros': parametros}), flush=True)
-    def salvar():
+    def salvar(pasta=out):
+        pasta.mkdir(parents=True, exist_ok=True)
+        if pasta != out:
+            shutil.copyfile(corpus.caminho / 'tokenizer.json', pasta / 'tokenizer.json')
         estado = estado_checkpoint(modelo, otimizador, rng, passo, assinatura, dados,
                     historico, tokens_entrada, tokens_alvo, horizonte, inicial)
-        salvar_atomico(estado, out / 'checkpoint.pt')
+        salvar_atomico(estado, pasta / 'checkpoint.pt')
         campos = ('versao', 'config', 'modelo', 'passo', 'execucao', 'tokens_entrada', 'tokens_alvo', 'inicial')
-        salvar_atomico({k: estado[k] for k in campos}, out / 'pesos.pt')
+        salvar_atomico({k: estado[k] for k in campos}, pasta / 'pesos.pt')
         relatorio = {k: v for k, v in estado.items() if k not in
                      ('modelo', 'otimizador', 'rng_numpy', 'rng_torch', 'rng_cuda')}
-        relatorio.update(parametros=parametros, pesos_sha256=sha(out / 'pesos.pt'),
+        relatorio.update(parametros=parametros, pesos_sha256=sha(pasta / 'pesos.pt'),
             segundos_esta_execucao=round(time.monotonic() - inicio, 2),
             passos_esta_execucao=passo - passo_inicio, inicializacao='aleatoria_do_zero' if not inicial else 'pretreino_proprio',
             versao_torch=torch.__version__, dispositivo=args.dispositivo)
-        tmp = out / 'relatorio.json.tmp'
+        tmp = pasta / 'relatorio.json.tmp'
         tmp.write_text(json.dumps(relatorio, ensure_ascii=False, indent=2) + '\n')
-        os.replace(tmp, out / 'relatorio.json')
+        os.replace(tmp, pasta / 'relatorio.json')
+    melhor_valor = min(h['avaliacao'][args.fase]['entropia_cruzada'] for h in historico)
+    sem_melhora = 0
+    if args.selecionar_melhor and args.retomar:
+        melhor_salvo = out / 'melhor' / 'relatorio.json'
+        if not melhor_salvo.exists():
+            raise ValueError('Melhor checkpoint ausente na retomada')
+        best = json.loads(melhor_salvo.read_text())
+        melhor_valor = best['historico'][-1]['avaliacao'][args.fase]['entropia_cruzada']
+        sem_melhora = sum(h['passo'] > best['passo'] for h in historico)
+    elif args.selecionar_melhor:
+        salvar(out / 'melhor')
+    parou_validacao = False
     limite = min(args.passos, args.parar_em) if args.parar_em is not None else args.passos
     if limite < passo: p.error('Pausa anterior ao checkpoint atual')
     while passo < limite:
@@ -258,10 +280,22 @@ def main():
             resultado = avaliar(modelo, corpus, args.dispositivo)
             historico.append({'passo': passo, 'avaliacao': resultado})
             print(json.dumps({'passo': passo, 'avaliacao': resultado}), flush=True)
+            if args.selecionar_melhor:
+                valor = resultado[args.fase]['entropia_cruzada']
+                if valor < melhor_valor:
+                    melhor_valor = valor; sem_melhora = 0
+                    salvar(out / 'melhor')
+                else:
+                    sem_melhora += 1
+                if args.paciencia_validacoes and sem_melhora >= args.paciencia_validacoes:
+                    parou_validacao = True
+                    salvar()
+                    print(json.dumps(dict(parada_validacao=True, passo=passo, melhor_entropia=melhor_valor)), flush=True)
+                    break
         if passo % args.salvar_a_cada == 0 or passo == limite:
             salvar()
     salvar()
-    print(json.dumps({'concluido': passo >= args.passos, 'pausado': passo < args.passos,
+    print(json.dumps({'concluido': passo >= args.passos, 'pausado': passo < args.passos, 'parada_validacao': parou_validacao,
                       'passo': passo, 'tokens_alvo': tokens_alvo,
                       'saida': str(out)}), flush=True)
 

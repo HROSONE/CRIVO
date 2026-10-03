@@ -15,7 +15,14 @@ def sha(path):
 
 def exemplos():
     tarefas = json.loads((ROOT / 'dados/programacao/tarefas.json').read_text())['tarefas']
-    tarefas += json.loads((ROOT / 'dados/programacao/curriculo.json').read_text())['tarefas']
+    # Limitar variantes por família/linguagem evita que padrões simples dominem.
+    contagem = {}
+    for t in json.loads((ROOT / 'dados/programacao/curriculo.json').read_text())['tarefas']:
+        chave = (t['familia'], t['linguagem'])
+        n = contagem.get(chave, 0)
+        if n < 4:
+            tarefas.append(t); contagem[chave] = n + 1
+    tarefas += json.loads((ROOT / 'dados/programacao/algoritmos.json').read_text())['tarefas']
     resultado = []
     for t in tarefas:
         resultado.append(dict(mensagem=t['mensagem'], resposta=t['resposta'],
@@ -69,7 +76,7 @@ def preparar(saida, contexto=256, tokenizer_existente=None, vocabulario=4096):
     m = dict(versao=1, contexto=contexto, vocabulario=tok.get_vocab_size(),
              natureza='curriculo_sintetico_autoral; não comprova capacidade de programador sênior',
              tokenizer_origem='proprio_preservado' if tokenizer_existente else 'somente_treino',
-             fontes={str(p.relative_to(ROOT)): sha(p) for p in [ROOT / 'dados/programacao/tarefas.json', ROOT / 'dados/programacao/curriculo.json',
+             fontes={str(p.relative_to(ROOT)): sha(p) for p in [ROOT / 'dados/programacao/tarefas.json', ROOT / 'dados/programacao/curriculo.json', ROOT / 'dados/programacao/algoritmos.json',
                  ROOT / 'docs/pesquisa_conhecimento/programacao/catalogo-avancado.json']},
              familias={}, particoes={})
     for split in ('treino', 'validacao', 'teste'):

@@ -212,6 +212,31 @@ class TestesMatematicaLinguagem(unittest.TestCase):
             self.assertEqual(a['rng_numpy'],b['rng_numpy'])
             self.assertEqual(a['tokens_alvo'],b['tokens_alvo'])
 
+    def test_melhor_checkpoint_e_parada_preservam_ultimo_estado(self):
+        from scripts import treinar_linguagem_profunda as treinador
+        from contextlib import redirect_stdout
+        import io
+        with tempfile.TemporaryDirectory() as td:
+            pasta=Path(td);corpus=pasta/'corpus';corpus.mkdir();self.fixture_corpus(corpus)
+            def medicao(ce):
+                return {f:dict(entropia_cruzada=ce,perplexidade=2.,tokens_avaliados=8,particao='validacao')
+                        for f in ('linguagem','dialogo')}
+            args=['treinador','--corpus',str(corpus),'--saida',str(pasta/'treino'),
+                  '--passos','10','--lote','2','--dimensao','24','--camadas','1',
+                  '--cabecas','3','--contexto','16','--threads','1','--fase','linguagem',
+                  '--avaliar-a-cada','1','--salvar-a-cada','1','--selecionar-melhor',
+                  '--paciencia-validacoes','1','--dispositivo','cpu']
+            with patch.object(sys,'argv',args), patch.object(treinador,'avaliar',
+                    side_effect=[medicao(3.),medicao(2.),medicao(2.5)]), redirect_stdout(io.StringIO()):
+                treinador.main()
+            ultimo=json.loads((pasta/'treino/relatorio.json').read_text())
+            melhor=json.loads((pasta/'treino/melhor/relatorio.json').read_text())
+            self.assertEqual(ultimo['passo'],2);self.assertEqual(melhor['passo'],1)
+            self.assertEqual(melhor['historico'][-1]['avaliacao']['linguagem']['entropia_cruzada'],2.)
+            self.assertTrue((pasta/'treino/checkpoint.pt').is_file())
+            self.assertEqual(melhor['pesos_sha256'],treinador.sha(pasta/'treino/melhor/pesos.pt'))
+            self.assertEqual(melhor['execucao']['selecao']['paciencia'],1)
+
     def test_checkpoint_recusa_tokenizer_alterado(self):
         import torch
         from dataclasses import asdict
