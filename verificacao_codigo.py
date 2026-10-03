@@ -25,6 +25,25 @@ def iguais(a, b):
     return a == b
 
 
+
+def tipo_saida(valores):
+    """Tipo de contrato por estrutura JSON, sem inserir valores esperados no candidato."""
+    tipos=set()
+    for valor in valores:
+        if valor is None:tipos.add('null')
+        elif isinstance(valor,bool):tipos.add('boolean')
+        elif isinstance(valor,(int,float)):tipos.add('number')
+        elif isinstance(valor,str):tipos.add('string')
+        elif isinstance(valor,list):
+            itens=[x for v in valores if isinstance(v,list) for x in v]
+            tipo=tipo_saida(itens) if itens else 'unknown'
+            tipos.add('('+tipo+')[]')
+        elif isinstance(valor,dict):
+            itens=[x for v in valores if isinstance(v,dict) for x in v.values()]
+            tipos.add('Record<string, '+(tipo_saida(itens) if itens else 'unknown')+'>')
+        else:raise ValueError('Contrato não JSON')
+    return ' | '.join(sorted(tipos)) or 'unknown'
+
 def limites(memoria=False, cpu=4):
     resource.setrlimit(resource.RLIMIT_CPU, (cpu, cpu))
     resource.setrlimit(resource.RLIMIT_FSIZE, (131072, 131072))
@@ -110,13 +129,17 @@ def verificar(codigo, linguagem, casos, tsc=None):
             if not compilador:
                 return dict(compila=False, funcional=False, executado=False, diagnostico='TypeScript indisponível')
             cmd = ([node, compilador] if str(compilador).endswith('.js') else [compilador])
-            ok, log = comando(cmd + [str(origem), '--strict', '--noEmitOnError', '--target',
+            contrato=pasta/'contrato.ts'
+            tipo=tipo_saida([c['saida'] for c in casos])
+            chamadas=['const resultado_'+str(i)+': '+tipo+' = resolver('+', '.join(json.dumps(x,ensure_ascii=True) for x in c['entrada'])+');' for i,c in enumerate(casos)]
+            contrato.write_text('namespace crivoContrato {\n'+'\n'.join(chamadas)+'\n}')
+            ok, log = comando(cmd + [str(origem), str(contrato), '--strict', '--noEmitOnError', '--target',
                                       'ES2022', '--module', 'commonjs', '--outDir', d], d, timeout=30, cpu=20)
             compilado = pasta / 'codigo.js'
         else:
             ok, log = comando([node, '--check', str(origem)], d)
             compilado = origem
-        r = dict(compila=ok, funcional=False, executado=False, diagnostico=log)
+        r = dict(compila=ok, funcional=False, executado=False, diagnostico=log,casos_total=len(casos),casos_corretos=0)
         if not ok:
             return r
         args = sandbox_args(node, pasta)
@@ -148,9 +171,18 @@ console.log('CRIVO_RESULTADO:' + resultado);
                       if l.startswith('CRIVO_RESULTADO:')]
             try:
                 medido = json.loads(linhas[0]) if len(linhas) == 1 else None
-                funcional = (isinstance(medido, dict) and
-                             iguais(medido.get('saidas'), [c['saida'] for c in casos]) and
-                             iguais(medido.get('entradas'), [c['entrada'] for c in casos]))
+                protocolo = (isinstance(medido,dict) and isinstance(medido.get('saidas'),list) and
+                    isinstance(medido.get('entradas'),list) and len(medido['saidas'])==len(casos) and
+                    len(medido['entradas'])==len(casos))
+                comparacoes = [dict(indice=i,correto=iguais(medido['saidas'][i],c['saida']) and
+                    iguais(medido['entradas'][i],c['entrada'])) for i,c in enumerate(casos)] if protocolo else []
+                r['casos_corretos'] = sum(x['correto'] for x in comparacoes)
+                r['casos'] = comparacoes
+                funcional = protocolo and r['casos_corretos']==len(casos)
+                if protocolo and not funcional:
+                    r['contraexemplos'] = [dict(entrada=c['entrada'],esperado=c['saida'],obtido=medido['saidas'][i],
+                        entrada_alterada=not iguais(medido['entradas'][i],c['entrada']))
+                        for i,c in enumerate(casos) if not comparacoes[i]['correto']][:3]
             except (ValueError, TypeError):
                 funcional = False
             if not funcional:

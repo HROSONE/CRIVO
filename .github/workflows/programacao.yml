@@ -48,7 +48,7 @@ jobs:
           CRIVO_TSC: /tmp/ts/node_modules/typescript/lib/tsc.js
           OMP_NUM_THREADS: '2'
           OPENBLAS_NUM_THREADS: '1'
-        run: python -m unittest testes_programacao_profunda testes_programacao testes_linguagem_profunda testes_conversa_laboratorio testes_codigo_real -v
+        run: python -m unittest testes_programacao_profunda testes_programacao testes_linguagem_profunda testes_conversa_laboratorio testes_codigo_real testes_logica_programacao -v
       - name: Validar currículo autoral JS e TS
         run: python scripts/verificar_curriculo_programacao.py --tsc /tmp/ts/node_modules/typescript/lib/tsc.js
       - name: Compilar referências e verificar isolamento disponível

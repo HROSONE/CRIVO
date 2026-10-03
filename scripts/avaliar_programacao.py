@@ -9,20 +9,27 @@ from programacao_neural import GeradorProgramacao,digest,gate
 from verificacao_codigo import verificar,sandbox_disponivel
 
 
-def avaliar(modelo,saida,split='teste',tsc=None,reparos=1,curriculo_validacao=False):
+def avaliar(modelo,saida,split='teste',tsc=None,reparos=1,curriculo_validacao=False,benchmark_logica=False):
     if reparos not in (0,1,2): raise ValueError('Reparos deve estar entre 0 e 2')
-    tarefas_path=ROOT/'dados/programacao/tarefas.json'
+    if benchmark_logica and curriculo_validacao:raise ValueError('Escolha somente um benchmark')
+    tarefas_path=ROOT/'dados/programacao'/('logica.json' if benchmark_logica else 'tarefas.json')
     tarefas=[t for t in json.loads(tarefas_path.read_text())['tarefas'] if t['split']==split]
+    if benchmark_logica:tarefas=[t for t in tarefas if t['tipo']=='contrato' and not ' Exemplos:' in t['mensagem']]
     fontes = [tarefas_path]
     if curriculo_validacao:
         if split != 'validacao': raise ValueError('Seleção funcional só usa validação')
-        for nome in ('curriculo.json', 'algoritmos.json'):
+        for nome in ('curriculo.json', 'algoritmos.json', 'logica.json'):
             path = ROOT/'dados/programacao'/nome; fontes.append(path)
-            tarefas += [t for t in json.loads(path.read_text())['tarefas'] if t['split']=='validacao']
+            tarefas += [t for t in json.loads(path.read_text())['tarefas'] if t['split']=='validacao'
+                and t.get('tipo','contrato')=='contrato' and not ' Exemplos:' in t['mensagem']]
         # Variantes não contam como problemas independentes.
         unicos = {}
         for t in tarefas: unicos.setdefault((t['familia'],t['linguagem']),t)
         tarefas = list(unicos.values())
+    if benchmark_logica:
+        unicos={}
+        for t in tarefas:unicos.setdefault((t['familia'],t['linguagem']),t)
+        tarefas=list(unicos.values())
     gerador=GeradorProgramacao(modelo)  # Sem recuperação do catálogo reservado.
     r=dict(particao=split,familias=len({t['familia'] for t in tarefas}),
         pesos_sha256=digest(Path(modelo)/'pesos.pt'),tokenizer_sha256=digest(Path(modelo)/'tokenizer.json'),
@@ -44,7 +51,9 @@ def avaliar(modelo,saida,split='teste',tsc=None,reparos=1,curriculo_validacao=Fa
                 tentativas.append(dict(erro=str(e)));break
         primeiro=tentativas[0];v=primeiro.get('verificacao',{});g=primeiro.get('geracao',{})
         r['resultados'].append(dict(id=t['id'],familia=t['familia'],linguagem=t['linguagem'],tentativas=tentativas))
-        m=r['linguagens'].setdefault(t['linguagem'],dict(total=0,compilam=0,completas=0,executadas=0,corretas=0,reparadas=0,nao_avaliadas=0))
+        m=r['linguagens'].setdefault(t['linguagem'],dict(total=0,compilam=0,completas=0,executadas=0,corretas=0,reparadas=0,nao_avaliadas=0,casos_total=0,casos_corretos=0,acerto_parcial_soma=0.))
+        m['casos_total']+=len(t['casos']);m['casos_corretos']+=v.get('casos_corretos',0) if g.get('completa') else 0
+        m['acerto_parcial_soma']+=v.get('casos_corretos',0)/len(t['casos']) if t['casos'] and g.get('completa') else 0
         m['total']+=1;m['compilam']+=int(v.get('compila',False));m['completas']+=int(g.get('completa',False))
         
         if v.get('runtime'):
@@ -55,6 +64,7 @@ def avaliar(modelo,saida,split='teste',tsc=None,reparos=1,curriculo_validacao=Fa
         print(json.dumps(dict(tarefa=t['id'],compila=v.get('compila'),completa=g.get('completa'))),flush=True)
     for m in r['linguagens'].values():
         m['pass_at_1']=None if m['nao_avaliadas'] else m['corretas']/m['total']
+        m['taxa_acerto_casos_por_tarefa']=m['acerto_parcial_soma']/m['total']
         m['taxa_compilacao']=m['compilam']/m['total']
     r['gate']=gate(r)
     Path(saida).parent.mkdir(parents=True,exist_ok=True)
@@ -67,6 +77,6 @@ if __name__=='__main__':
     p.add_argument('--modelo',required=True);p.add_argument('--saida',required=True)
     p.add_argument('--split',choices=('validacao','teste'),default='teste');p.add_argument('--tsc')
     p.add_argument('--reparos',type=int,default=1)
-    p.add_argument('--curriculo-validacao',action='store_true')
-    a=p.parse_args();r=avaliar(a.modelo,a.saida,a.split,a.tsc,a.reparos,a.curriculo_validacao)
+    p.add_argument('--curriculo-validacao',action='store_true');p.add_argument('--benchmark-logica',action='store_true')
+    a=p.parse_args();r=avaliar(a.modelo,a.saida,a.split,a.tsc,a.reparos,a.curriculo_validacao,a.benchmark_logica)
     print(json.dumps({k:v for k,v in r.items() if k!='resultados'},ensure_ascii=False,indent=2))

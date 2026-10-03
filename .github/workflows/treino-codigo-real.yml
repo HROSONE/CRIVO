@@ -2,6 +2,15 @@ name: Treino nativo JS e TS com código real
 on:
   workflow_dispatch:
     inputs:
+      modo:
+        description: "Treinar ou inspecionar o artefato anterior sem repetir o treino"
+        type: choice
+        options: [treino, diagnostico]
+        default: treino
+      aproveitar_anterior:
+        description: "Ajustar o candidato próprio anterior, preservando tokenizer e pulando novo pré-treino"
+        type: boolean
+        default: true
       pretreino_passos:
         description: 'Passos máximos de pré-treino de código, com pausa por orçamento'
         type: number
@@ -12,8 +21,36 @@ on:
         default: 8000
 permissions:
   contents: read
+  actions: read
 jobs:
+  diagnostico:
+    if: inputs.modo == 'diagnostico'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: crivo-codigo-real-37115525535
+          run-id: 37115525535
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/ciclo-anterior
+      - run: python scripts/diagnosticar_programacao.py --ciclo /tmp/ciclo-anterior --saida /tmp/diagnostico
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-logica-programacao
+          path: /tmp/diagnostico
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pesos-programacao-anterior
+          path: |
+            /tmp/ciclo-anterior/candidato/melhor/pesos.pt
+            /tmp/ciclo-anterior/candidato/melhor/tokenizer.json
+            /tmp/ciclo-anterior/candidato/melhor/relatorio.json
+          retention-days: 30
   treino:
+    if: inputs.modo != 'diagnostico'
     runs-on: ubuntu-latest
     timeout-minutes: 210
     steps:
@@ -33,16 +70,29 @@ jobs:
           OMP_NUM_THREADS: '2'
           OPENBLAS_NUM_THREADS: '1'
         run: |
-          python -m unittest testes_codigo_real testes_linguagem_profunda testes_programacao_profunda -v
+          python -m unittest testes_codigo_real testes_logica_programacao testes_linguagem_profunda testes_programacao_profunda -v
           python scripts/verificar_ambiente_programacao.py --tsc /tmp/ts/node_modules/typescript/lib/tsc.js
           python scripts/verificar_curriculo_programacao.py --tsc /tmp/ts/node_modules/typescript/lib/tsc.js
+      - name: Recuperar candidato anterior para novo ajuste
+        if: inputs.aproveitar_anterior
+        uses: actions/download-artifact@v4
+        with:
+          name: pesos-programacao-anterior
+          run-id: 37129435890
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/modelo-anterior
       - name: Pré-treino de código, instruções e avaliação reservada
         env:
           PRETREINO: ${{ inputs.pretreino_passos }}
           SFT: ${{ inputs.sft_passos }}
           OPENBLAS_NUM_THREADS: '1'
+          APROVEITAR: ${{ inputs.aproveitar_anterior }}
         run: |
-          python scripts/treinar_codigo_real.py --saida /tmp/ciclo-real --cache /tmp/fontes-codigo --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --perfil codigo6m --pretreino-passos "$PRETREINO" --sft-passos "$SFT" --threads 2 --max-segundos 9600
+          args=()
+          if [ "$APROVEITAR" = "true" ]; then
+            args+=(--inicial /tmp/modelo-anterior --inicial-sha256 bbcba4725f62e136967f81581bb4fa66f247a41cd5a64c6e213868d117aa1349)
+          fi
+          python scripts/treinar_codigo_real.py --saida /tmp/ciclo-real --cache /tmp/fontes-codigo --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --perfil codigo6m --pretreino-passos "$PRETREINO" --sft-passos "$SFT" --threads 2 --max-segundos 9600 "${args[@]}"
       - name: Resumo de acertos e limitações
         run: python scripts/relatorio_treino_codigo.py --ciclo /tmp/ciclo-real --saida "$GITHUB_STEP_SUMMARY"
       - name: Preservar pesos, checkpoints, licenças e relatórios

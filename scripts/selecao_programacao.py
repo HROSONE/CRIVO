@@ -7,5 +7,6 @@ def pontuacao_validacao(registro, fase, funcional=False):
     # Primeiro código correto, depois sintaxe e término; CE apenas desempata.
     # Usar somente a primeira tentativa, sem soluções recuperadas ou teste final.
     return (sum(x['corretas'] for x in m.values()),
+            sum(x.get('taxa_acerto_casos_por_tarefa',0.) for x in m.values()),
             sum(x['compilam'] for x in m.values()),
             sum(x['completas'] for x in m.values()), -ce)

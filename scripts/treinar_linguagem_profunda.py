@@ -38,7 +38,7 @@ def salvar_atomico(estado, caminho):
 
 
 class Corpus:
-    def __init__(self, caminho, contexto, conferir=True):
+    def __init__(self, caminho, contexto, conferir=True,equilibrar_familias=False,podar_padding=False):
         self.caminho = Path(caminho)
         self.manifesto = json.loads((self.caminho / 'manifesto.json').read_text())
         self.assinatura = sha(self.caminho / 'manifesto.json')
@@ -58,6 +58,17 @@ class Corpus:
             self.humanos[split] = np.flatnonzero(origem == 1)
             self.sinteticos[split] = np.flatnonzero(origem == 0)
         self.contexto = contexto
+        self.podar_padding = podar_padding
+        self.grupos = {}
+        if equilibrar_familias:
+            for split in ('treino','validacao','teste'):
+                path=self.caminho/('dialogo_'+split+'_familia.npy')
+                if not path.exists() or path.name not in self.manifesto['arquivos']:
+                    raise ValueError('Equilíbrio exige grupos de família com hash no manifesto')
+                ids=np.load(path)
+                if len(ids)!=len(self.x[split]):raise ValueError('Grupos incompatíveis com as janelas')
+                self.grupos[split]=[np.flatnonzero(ids==i) for i in np.unique(ids)]
+
 
     def lote(self, split, fase, tamanho, rng, dispositivo):
         if fase == 'linguagem':
@@ -70,7 +81,10 @@ class Corpus:
         else:
             n = len(self.x[split])
             if not n: raise ValueError('Partição sem diálogos')
-            if split == 'treino' and len(self.humanos[split]) and len(self.sinteticos[split]):
+            if split == 'treino' and self.grupos:
+                gs=self.grupos[split]
+                indices=np.asarray([rng.choice(gs[i]) for i in rng.integers(0,len(gs),size=tamanho)])
+            elif split == 'treino' and len(self.humanos[split]) and len(self.sinteticos[split]):
                 # Metade do lote humano; contar janelas sintéticas como humanos
                 # ou deixar 10 mil padrões dominarem centenas de árvores é errado.
                 indices = np.concatenate([rng.choice(self.humanos[split], tamanho // 2),
@@ -80,6 +94,10 @@ class Corpus:
                 indices = rng.integers(0, n, size=tamanho)
             x = np.asarray(self.x[split][indices], dtype=np.int64)
             y = np.asarray(self.y[split][indices], dtype=np.int64)
+        if fase=='dialogo' and self.podar_padding:
+            posicoes=np.flatnonzero(np.any(y!=-100,axis=0))
+            if not len(posicoes):raise ValueError('Lote sem alvos supervisionados')
+            ultimo=int(posicoes[-1])+1;x=x[:,:ultimo];y=y[:,:ultimo]
         return torch.from_numpy(x).to(dispositivo), torch.from_numpy(y).to(dispositivo)
 
 
@@ -158,6 +176,9 @@ def main():
                    help='Fração de passos de SFT com pré-treino para reduzir esquecimento')
     p.add_argument('--selecionar-melhor', action='store_true', help='Salva melhor validação em melhor/ sem substituir checkpoint de retomada')
     p.add_argument('--paciencia-validacoes', type=int, default=0, help='Parar após N avaliações sem melhora; zero desativa')
+    p.add_argument('--equilibrar-familias',action='store_true')
+    p.add_argument('--podar-padding',action='store_true')
+    p.add_argument('--peso-tokens-logicos',type=float,default=1.)
     p.add_argument('--validacao-funcional', action='store_true', help='Selecionar SFT por código correto na validação, compilação, término e CE')
     p.add_argument('--tsc', help='Compilador TS para validação funcional')
     p.add_argument('--retomar', action='store_true')
@@ -173,6 +194,8 @@ def main():
         p.error('Validação funcional requer SFT, --selecionar-melhor e --tsc')
     if args.paciencia_validacoes < 0 or args.paciencia_validacoes and not args.selecionar_melhor:
         p.error('Paciência não negativa exige --selecionar-melhor')
+    if not math.isfinite(args.peso_tokens_logicos) or not 1<=args.peso_tokens_logicos<=16:p.error('Peso lógico deve estar entre 1 e 16')
+    if args.peso_tokens_logicos!=1 and args.fase!='dialogo':p.error('Peso lógico é exclusivo do SFT')
     if args.max_segundos is not None and args.max_segundos < 1: p.error('Orçamento deve ser positivo')
     if not 0 <= args.repeticao_linguagem < 1 or args.lr <= 0:
         p.error('Taxa de aprendizado/repetição inválida')
@@ -183,15 +206,19 @@ def main():
     torch.set_num_threads(args.threads)
     torch.manual_seed(args.semente)
     rng = np.random.default_rng(args.semente)
-    corpus = Corpus(args.corpus, args.contexto)
+    corpus = Corpus(args.corpus,args.contexto,equilibrar_familias=args.equilibrar_familias,podar_padding=args.podar_padding)
     config = Configuracao(vocabulario=corpus.manifesto['vocabulario'], dimensao=args.dimensao,
               camadas=args.camadas, cabecas=args.cabecas, contexto=args.contexto)
     assinatura, dados = assinatura_execucao(config, corpus, args.fase, args.lote, args.lr,
                                             args.semente, args.repeticao_linguagem)
+    if args.equilibrar_familias or args.podar_padding or args.peso_tokens_logicos!=1:
+        dados['politica_sft']=dict(equilibrar_familias=args.equilibrar_familias,podar_padding=args.podar_padding,peso_tokens_logicos=args.peso_tokens_logicos,
+            codigo_perda=sha(ROOT/'scripts/perda_programacao.py'))
+        assinatura=hashlib.sha256(json.dumps(dados,sort_keys=True).encode()).hexdigest()
     if args.selecionar_melhor:
         dados['selecao'] = dict(criterio='funcional_compilacao_termino_ce' if args.validacao_funcional else 'entropia_cruzada_validacao_' + args.fase, paciencia=args.paciencia_validacoes)
         if args.validacao_funcional:
-            dados['selecao']['fontes_sha256'] = {n:sha(ROOT/'dados/programacao'/n) for n in ('tarefas.json','curriculo.json','algoritmos.json')}
+            dados['selecao']['fontes_sha256'] = {n:sha(ROOT/'dados/programacao'/n) for n in ('tarefas.json','curriculo.json','algoritmos.json','logica.json')}
             dados['selecao']['codigo_avaliador'] = sha(ROOT/'scripts/avaliar_programacao.py')
             dados['selecao']['codigo_verificador'] = sha(ROOT/'verificacao_codigo.py')
             dados['selecao']['codigo_selecao'] = sha(ROOT/'scripts/selecao_programacao.py')
@@ -276,6 +303,11 @@ def main():
         sem_melhora = sum(h['passo'] > best['passo'] for h in historico)
     elif args.selecionar_melhor:
         salvar(out / 'melhor')
+    pesos_logicos=None
+    if args.peso_tokens_logicos!=1:
+        from tokenizers import Tokenizer
+        from scripts.perda_programacao import pesos_vocabulario,perda_ponderada
+        pesos_logicos=pesos_vocabulario(Tokenizer.from_file(str(out/'tokenizer.json')),args.peso_tokens_logicos).to(args.dispositivo)
     parou_validacao = False
     limite = min(args.passos, args.parar_em) if args.parar_em is not None else args.passos
     if limite < passo: p.error('Pausa anterior ao checkpoint atual')
@@ -292,7 +324,7 @@ def main():
             escala = .2 + .8 * .5 * (1 + math.cos(math.pi * progresso))
         for grupo in otimizador.param_groups: grupo['lr'] = args.lr * escala
         otimizador.zero_grad(set_to_none=True)
-        perda = modelo(x, y)[1]
+        perda = perda_ponderada(modelo(x)[0],y,pesos_logicos) if pesos_logicos is not None and fase=='dialogo' else modelo(x,y)[1]
         if not torch.isfinite(perda): raise FloatingPointError('Perda não finita; preservar último checkpoint')
         perda.backward(); torch.nn.utils.clip_grad_norm_(modelo.parameters(), 1.)
         otimizador.step()

@@ -21,8 +21,13 @@ def validar(tsc=None):
     if not node or not compilador:
         raise RuntimeError('Node e TypeScript são obrigatórios para validar referências')
     tarefas = []
-    for nome in ('curriculo.json', 'algoritmos.json'):
+    for nome in ('curriculo.json', 'algoritmos.json', 'logica.json'):
         tarefas += json.loads((ROOT / 'dados/programacao' / nome).read_text())['tarefas']
+    reparos = [dict(t,resposta=t['codigo_incorreto'],casos=[dict(entrada=t['contraprova']['entrada'],saida=t['contraprova']['obtido'])])
+               for t in tarefas if t.get('tipo')=='reparo']
+    if any(t['contraprova']['esperado']==t['contraprova']['obtido'] for t in reparos):
+        raise AssertionError('Contraexemplo não diferencia o erro')
+    tarefas += reparos
     contagem = {}
     with tempfile.TemporaryDirectory() as d:
         pasta = Path(d)
