@@ -145,7 +145,10 @@ class PlanejadorConversa:
         if m and self.ultima_operacao:
             return Plano((Etapa(self.ultima_operacao, m.group(1)),), texto)
         etapa = analisar_etapa(n)
-        if etapa and etapa.alvo and (re.search(r"\b(primeir[oa]|segund[oa]|terceir[oa]|ultimo|ultima)\b", etapa.alvo)
+        # Só o ordinal sozinho ("a segunda") retoma uma opção; "segunda lei da
+        # termodinâmica" é um conceito.
+        if etapa and etapa.alvo and (re.fullmatch(r"(?:primeir[oa]|segund[oa]|terceir[oa]|ultim[oa])"
+                                                  r"(?: (?:assunto|tema|conceito|coisa))?", tema(etapa.alvo))
                                      or len(self.opcoes) > 1 and tema(etapa.alvo) in REFERENCIAS):
             return Plano((etapa,), texto)
         return None

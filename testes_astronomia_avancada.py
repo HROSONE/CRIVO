@@ -110,7 +110,9 @@ class TestesAstronomiaAvancada(unittest.TestCase):
         b = Crivo()
         self.assertIsNotNone(b.rede, b.erro_rede)
         self.assertEqual(assinatura_base(b.base), b.rede.assinatura_base)
-        self.assertEqual(len(b.base), 241)
+        # 241 entradas até 2026-10-03; o conteúdo de física, biologia, sociologia
+        # e filosofia acrescentou 206 conceitos e a rede foi retreinada.
+        self.assertEqual(len(b.base), 447)
         self.assertTrue(set(b.rede.rotulos).isdisjoint(
             i for i in b.compositor.itens if i.startswith("astro_")))
 
