@@ -279,7 +279,30 @@ class CompositorTextual:
         if any(item["nome"][0].isupper() and frase.startswith(item["nome"] + " ")
                for item in self.itens.values()):
             return frase
+        # Nomes próprios ("Durkheim usou…", "Sartre resumiu…"): palavras que o
+        # próprio currículo escreve com maiúscula no meio de frases.
+        palavras = frase.split()
+        if primeira in self._nomes_proprios() or (
+                len(palavras) > 1 and primeira[:1].isupper() and palavras[1][:1].isupper()
+                and primeira.lower() not in self._minusculas):
+            return frase
         return frase[0].lower() + frase[1:]
+
+    def _nomes_proprios(self):
+        if getattr(self, "_proprios", None) is None:
+            proprios, minusculas = set(), set()
+            for item in self.itens.values():
+                for fato in item.get("fatos", ()):
+                    texto = fato.get("texto", "") if isinstance(fato, dict) else str(fato)
+                    palavras = [w.strip(",:;.()'\"") for w in texto.split()]
+                    minusculas |= {w for w in palavras if w[:1].islower()}
+                    for anterior, palavra in zip(texto.split(), palavras[1:]):
+                        if palavra[:1].isupper() and not anterior.endswith((".", ":", "?", "!")):
+                            proprios.add(palavra)
+            # "A", "O": maiúscula por acaso, mas a palavra existe em minúscula.
+            self._proprios = {w for w in proprios if w.lower() not in minusculas}
+            self._minusculas = minusculas
+        return self._proprios
 
     def _ligar(self, frases):
         if len(frases) < 2:

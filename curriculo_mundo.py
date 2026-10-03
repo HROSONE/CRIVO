@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao"))
+NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao", "filosofico", "social"))
 REUTILIZACOES = frozenset(("dominio_publico", "CC-BY-4.0", "permissao_institucional",
                          "somente_referencia"))
 
@@ -29,7 +29,9 @@ def ler_curriculo(caminho):
     # arquivo principal. Eles passam pela mesma validação de fontes, fatos e IDs.
     # O carregamento é determinístico e local; nenhum conteúdo remoto é baixado.
     if caminho.name == "conhecimento_mundo.json":
-        for extra_nome in ("conhecimento_astronomia_luas.json",):
+        for extra_nome in ("conhecimento_astronomia_luas.json", "conhecimento_fisica.json",
+                           "conhecimento_biologia.json", "conhecimento_sociologia.json",
+                           "conhecimento_filosofia.json"):
             extra_path = caminho.with_name(extra_nome)
             if not extra_path.is_file():
                 continue
