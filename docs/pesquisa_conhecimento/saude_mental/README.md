@@ -671,3 +671,16 @@ Itens estruturais: verificação só pelo resumo, por causa do bloqueio de rede.
 - nova contradição C-SU-1 (DBT: frequência vs proporção que repete).
 
 **Critério doutoral: NÃO ATINGIDO.** Restam AD-02…AD-05 e as pendências SU-P1…P5.
+
+## Aprofundamento 31 — Brasil: epidemiologia, rede, crise e instrumentos (corrige AD-02)
+
+| Documento | Escopo |
+| --- | --- |
+| [Brasil — quantitativo](2026-10-03-brasil-epidemiologia-servicos-instrumentos.md) | 14 claims (BR-001…014). São Paulo Megacity (29,6%); PNS 2019 (depressão diagnosticada 10,2%); suicídio 2010–2021 e métodos; Lei 10.216/2001; RAPS (Portaria 3.088/2011); leitos SUS 2013–2023; avaliações quase-experimentais dos CAPS; CVV 188 e SAMU 192; PHQ-9 (Santos 2013) e SRQ-20 (Mari & Williams 1986) |
+
+### Mudança de cobertura
+- AD-02 deixa de ser déficit material: a base passa a ter dados nacionais e locais com denominador e limites;
+- nova contradição C-BR-1: redução de internações vs mortalidade inconclusiva na reforma psiquiátrica;
+- distinção explícita entre diagnóstico autorrelatado e prevalência.
+
+**Critério doutoral: NÃO ATINGIDO.** Restam AD-03…AD-05 e as pendências BR-P1…P7.
