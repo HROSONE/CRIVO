@@ -3,6 +3,7 @@
 Reutiliza o CRIVO em Python; não usa provedores externos de IA.
 """
 import json
+import io
 import logging
 import sys
 from http.server import BaseHTTPRequestHandler
@@ -53,9 +54,18 @@ class handler(BaseHTTPRequestHandler):
         if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
             return self._json(415, {"error": "Envie application/json."})
         tamanho = self.headers.get("Content-Length", "")
-        if not tamanho.isascii() or not tamanho.isdecimal():
+        if not tamanho and self.rfile.seekable():
+            # O adaptador serverless pode remover Content-Length após receber
+            # o corpo. Uma entrada seekable permite medir sem esperar por EOF
+            # de um socket; conexões HTTP normais continuam exigindo o cabeçalho.
+            inicio = self.rfile.tell()
+            self.rfile.seek(0, io.SEEK_END)
+            tamanho = self.rfile.tell() - inicio
+            self.rfile.seek(inicio)
+        elif not tamanho.isascii() or not tamanho.isdecimal():
             return self._json(411, {"error": "Content-Length obrigatório."})
-        tamanho = int(tamanho)
+        else:
+            tamanho = int(tamanho)
         if not 0 < tamanho <= LIMITE_BODY:
             return self._json(413, {"error": "Pedido maior que o permitido."})
         try:
