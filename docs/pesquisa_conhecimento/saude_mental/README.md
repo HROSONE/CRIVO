@@ -628,3 +628,18 @@ Seção 6 adicionada ao [documento de rastreabilidade retrospectiva](2026-10-03-
 Novas contradições: C-RT-3 (polifarmácia) e C-RT-4 (razão teta/beta). Rebaixamentos: TCC para psicose S4 → S3; SAINT S2 até replicação.
 
 **Critério doutoral: NÃO ATINGIDO.** Cerca de 62% dos claims empíricos críticos dos ledgers originais estão ancorados; restam ~75 em S2-provisório.
+
+## Aprofundamento 28 — rastreabilidade retrospectiva, rodada 3 (fechamento dos ledgers)
+
+Seções 7–8 do [documento de rastreabilidade retrospectiva](2026-10-03-rastreabilidade-retrospectiva-ledgers-existentes.md): âncoras B-41…B-66.
+- **Neurociência:** complemento e micróglia (Stevens 2007, Schafer 2012); curvas de crescimento cerebral (Bethlehem 2022); HPA e DST; dopamina no TDAH (Volkow 2009); erro de predição (Schultz 1997); extinção (Bouton 2004); aprendizagem inibitória (Craske 2014); BDNF sangue × cérebro (Klein 2011); DA autossômica dominante (Bateman 2012).
+- **Psicoterapia:** ativação comportamental (Ekers 2014, COBRA); psicodinâmica breve (Driessen 2015); intervenção familiar (Pharoah 2010); eventos adversos (Jonsson 2014); preferência (Swift 2018); alegiância (Munder 2013); vídeo (Fernandez 2021); TCC-E (Fairburn 2015); adaptação cultural (Hall 2016); terapia do esquema (Giesen-Bloo 2006, Bamelis 2014).
+- **Manutenção antipsicótica:** Leucht 2012.
+
+**Contagem exata** dos 144 claims genéricos S3/S4: 57 CONCEPTUAL, 81 ancorados, 6 ainda S2-provisório. Ou seja, 93% dos claims empíricos estão ancorados. Contradição nova: C-RT-5 (BDNF periférico).
+
+**Critério doutoral: NÃO ATINGIDO.** Os ledgers passam o critério de ≥90% de ancoragem. Pendências de nível doutoral que restam:
+- frases narrativas dos 40 dossiês sem PMID/DOI (RR-P3);
+- âncoras só de resumo (texto integral não lido);
+- pendências RL-P, IB-P e TQ4/PED/DI;
+- auditoria adversarial final (SM-6).

@@ -123,7 +123,7 @@ Total: ~95 claims empíricos permanecem S2-provisório.
 - **RR-P2:** CM para estimulantes fora de TUO;
 - **RR-P3:** dossiês narrativos. Converter as frases empíricas críticas de cada um em linhas de ledger com âncora; as listas institucionais sem versão não bastam.
 
-## 5. Efeito sobre o critério do protocolo
+## 5. Efeito sobre o critério do protocolo (rodada 1; estimativas **substituídas** pela contagem exata da seção 8)
 
 | Medida | Antes | Depois desta rodada |
 | --- | --- | --- |
@@ -162,7 +162,7 @@ Total: ~95 claims empíricos permanecem S2-provisório.
 - **C-RT-3:** polifarmácia antipsicótica. A diretriz desaconselha como padrão; dados observacionais intraindivíduo finlandeses favorecem combinações específicas (clozapina + aripiprazol). Status CONTESTED, sem ECR decisivo.
 - **C-RT-4:** razão teta/beta no TDAH. Liberação FDA 2013 vs meta-análise de 2013 que nega confiabilidade diagnóstica.
 
-### Contagem atualizada
+### Contagem atualizada (estimativa da rodada 2; **substituída** pela seção 8)
 
 | Medida | Rodada 1 | Rodada 2 |
 | --- | --- | --- |
@@ -175,6 +175,86 @@ Total: ~95 claims empíricos permanecem S2-provisório.
 - psicoterapia: PT-001/008–010/012–016/018–020/022/026/029/030/032–034/038/039;
 - intervenções: TX-022/023/025/029;
 - farmacologia: PF-005/008/011.
+
+## 7. Rodada 3 de ancoragem e reclassificação final
+
+### 7.1 Reclassificados como CONCEPTUAL (definição ou regra de inferência)
+
+PT-001 (definição APA de prática baseada em evidência), PT-008, PT-009, PT-016, PT-018, PT-039, NB-033, NB-041, NB-044, PF-011, TX-022, TX-023, TX-029.
+
+Motivo: afirmam uma distinção lógica do tipo "X não prova Y", ou uma definição. Não afirmam magnitude empírica.
+
+### 7.2 Novas âncoras
+
+| Âncora | ID original | Fonte específica verificada | Número-chave / achado | O que **não** permite concluir | Status novo |
+| --- | --- | --- | --- | --- | --- |
+| B-41 | NB-003 | Stevens et al. 2007, *Cell*; Schafer et al. 2012, *Neuron* (PMID 22632727) | Camundongos deficientes em C1q/C3 mantêm defeitos de eliminação sináptica retinogeniculada; micróglia engloba terminais pré-sinápticos de forma dependente de atividade e de CR3/C3 | Sistema visual de roedor no desenvolvimento ≠ córtex humano adolescente; a ponte para esquizofrenia é NB-004 (ainda sem âncora) | VERIFIED-ABS |
+| B-42 | NB-006 | Bethlehem et al. 2022, *Nature* (123.984 RM, 101.457 pessoas, da 15ª semana fetal aos 100 anos) | Pico da substância cinzenta ~6 anos; branca ~29 anos; cinzenta subcortical ~14,5 anos | Volume ≠ maturidade funcional; dados transversais predominam; amostras majoritariamente de países de alta renda. **Refuta** "o cérebro termina aos 25" como marco único: diferentes medidas têm picos diferentes | VERIFIED-ABS |
+| B-43 | NB-012 | Stetler & Miller 2011, *Psychosom Med* 73:114–126 | Ativação do eixo HPA em média elevada na depressão, com heterogeneidade grande (detalhes **não** conferidos) | Média de grupo; depende de subtipo, hora, ensaio e internação | PARTIAL |
+| B-44 | NB-013/014 | Arana, Baldessarini & Ornsteen 1985, *Arch Gen Psychiatry* (DST) | Literatura correlata: sensibilidade ~45% e especificidade ~95% na depressão (número de estudo relacionado, PARTIAL) | Sensibilidade baixa e não especificidade frente a outras condições: o DST não serve como teste diagnóstico (confirma NB-014) | PARTIAL |
+| B-45 | NB-021/023 | Jansen 2015 (B-33); Ashton 2024 (B-17) | ver B-17/B-33 | ver B-17/B-33 | ancoragem por referência cruzada |
+| B-46 | NB-031 | Volkow et al. 2009, *JAMA* (PET; 53 adultos com TDAH sem medicação vs 44 controles) | Menor ligação de DAT e de D2/D3 na via de recompensa esquerda; accumbens DAT 0,63 vs 0,71; D2/D3 2,68 vs 2,85 (p = 0,004) | **Refinamento:** existe redução **média** de marcadores dopaminérgicos num estudo, mas a sobreposição entre grupos é grande, a amostra é de adultos de um único centro e há achados divergentes de DAT na literatura. A regra NB-031 permanece: "TDAH = baixa dopamina" é fórmula inválida, mesmo com evidência parcial de diferença de grupo | VERIFIED-ABS |
+| B-47 | NB-035 | Schultz, Dayan & Montague 1997, *Science* 275:1593–1599 | Neurônios dopaminérgicos de primatas sinalizam erro de predição de recompensa (aumento à recompensa inesperada; deslocamento para o estímulo preditor) | Paradigmas específicos com primatas; dopamina também codifica saliência e movimento etc. (NB-036) | VERIFIED-ABS |
+| B-48 | NB-038/039, PT-013 | Bouton 2004, *Learn Mem* 11:485–494 | Extinção não apaga a aprendizagem original: gera aprendizagem nova dependente de contexto; renovação, restabelecimento e recuperação espontânea demonstram isso | Base majoritariamente animal; a magnitude clínica do retorno do medo varia | VERIFIED-ABS |
+| B-49 | NB-040, PT-012 | Craske et al. 2014, *Behav Res Ther* 58:10–23 | Modelo de aprendizagem inibitória: a redução do medo dentro da sessão não é necessária para o desfecho; 8 estratégias (violação de expectativa, extinção aprofundada, variabilidade etc.) | É revisão e proposta teórica com base experimental; a superioridade clínica das estratégias de otimização **não** está estabelecida por ECR grandes | VERIFIED-ABS (como revisão) |
+| B-50 | NB-043 | Klein et al. 2011, *Int J Neuropsychopharmacol* | Rato: BDNF no sangue total × hipocampo r² = 0,44; porco: plasma × hipocampo r² = 0,41; indetectável no sangue de camundongo | **Refinamento:** existe correlação moderada em animais, ou seja, o BDNF periférico não é "leitura direta", mas também não é independente. Não há validação equivalente em humanos vivos. Plaquetas armazenam BDNF, então soro ≠ plasma | VERIFIED-ABS; NB-043 refinado |
+| B-51 | PT-010 | Ekers et al. 2014, *PLoS One* (PMID 24936656; 26 ECR, 1.524); Richards et al. 2016, *Lancet* (COBRA) | Ativação comportamental vs controle SMD −0,74 (−0,91 a −0,56); vs medicação SMD −0,42 (4 ECR). COBRA: não inferior à TCC, ~21% mais barata, aplicada por profissionais júnior | Comparações com medicação em poucos ECR; viés de publicação não descartado (ver IB-006) | VERIFIED-ABS, S4 mantido |
+| B-52 | PT-014 | Skapinakis 2016 (TQ4): TCC/ERP vs controle no TOC; Carpenter 2018 (B-38): TOC entre os maiores efeitos vs placebo | ver TQ4 e B-38 | ver TQ4 | ancoragem por referência cruzada |
+| B-53 | PT-019 | Storebø 2020 Cochrane (B-03) | MBT entre as terapias avaliadas; certeza baixa | Número específico da MBT não conferido | PARTIAL |
+| B-54 | PT-022 | Driessen et al. 2015, *Clin Psychol Rev* 42 (54 estudos, 33 ECR, 3.946 pessoas); Leichsenring et al. 2023, *World Psychiatry* (revisão guarda-chuva pré-registrada) | Psicoterapia psicodinâmica breve vs controles no pós-tratamento: d = 0,49–0,69 (depressão, psicopatologia geral, qualidade de vida) | Controles heterogêneos. Efeito de alegiância possível (B-58). A eficácia não valida a teoria psicodinâmica geral (como o próprio PT-022 afirma) | VERIFIED-ABS |
+| B-55 | PT-026 | Pharoah et al. 2010, Cochrane CD000088 | Intervenção familiar na esquizofrenia: recaída RR 0,55 (0,5–0,6), NNT 7 (32 ECR, 2.981); internação RR 0,78, NNT 8; adesão RR 0,60, NNT 6 | Os próprios autores alertam que estudos pequenos negativos podem ter sido perdidos (viés de publicação). Heterogeneidade de "intervenção familiar" | VERIFIED-ABS |
+| B-56 | PT-029/030 | Cuijpers 2018/2021 (deterioração 5% vs 12–13%, TQ4); Jonsson et al. 2014 (132 ECR) | Só **21%** (28/132) dos ECR de intervenções psicológicas relataram eventos adversos, quase sempre com definição incompleta | Ausência de relato ≠ ausência de dano | VERIFIED-ABS |
+| B-57 | PT-032 | Swift et al. 2018, *J Clin Psychol* (53 estudos, >16.000) | Acomodar a preferência: menos abandono (OR 1,79) e desfecho um pouco melhor (d = 0,28) | Grande parte dos estudos não randomiza a preferência; confundimento possível | VERIFIED-ABS |
+| B-58 | PT-038 | Munder et al. 2013, *Clin Psychol Rev* 33:501–511 (meta-meta-análise) | Associação alegiância do pesquisador × desfecho r = 0,262 (I² = 29%) | Alegiância pode refletir em parte verdadeira superioridade, debatido em Munder 2012; associação ≠ viés comprovado em cada estudo | VERIFIED-ABS |
+| B-59 | PT-034 | Fernandez et al. 2021, *Clin Psychol Psychother* (meta-análise; 47 estudos entre grupos, 3.564) | Vídeo vs presencial: diferença desprezível; vídeo vs lista de espera g = 0,77; mais forte com TCC em ansiedade, depressão e TEPT | "Não diferença" ≠ equivalência formal (PT-007); amostras selecionadas com acesso a tecnologia | VERIFIED-ABS |
+| B-60 | TX-025 | Fairburn et al. 2015, *Behav Res Ther* (PMC4461007, TCC-E vs IPT); Atwood & Friedman 2019/2020 (revisão, 20 estudos) | Remissão pós-tratamento TCC-E 65,5% vs IPT 33,3%; no seguimento 69,4% vs 49,0% | Ensaio sem anorexia de baixo peso (amostra de bulimia/outros). Grupo do desenvolvedor (alegiância, B-58). A eficácia na anorexia adulta é mais fraca | VERIFIED-ABS (TX-025 ganha a ressalva diagnóstica) |
+| B-61 | PF-005 | B-07 (FDA, comitê conjunto 19 nov 2024) | ver B-07 | — | referência cruzada |
+| B-62 | PF-008 | Bula FDA Abilify Maintena (accessdata, revisão 2026) | Meia-vida terminal aparente 29,9 dias (300 mg) e 46,5 dias (400 mg) após doses gluteais repetidas; sobreposição oral de 14 dias no início | A versão citada é a revisão de 2026; outras formulações LAI (Aristada, 2 meses) têm PK própria | VERIFIED-ABS |
+| B-63 | TQ-003 | Leucht et al. 2012, *Lancet* 379:2063–71 (65 ECR, 6.493 pacientes) | Recaída em 7–12 meses: droga 27% vs placebo 64%; RR 0,40 (0,33–0,49); NNT 3 (2–3). Reinternação 10% vs 26%, NNT 5 | Desenho de **retirada**: parte da "recaída com placebo" pode ser efeito de descontinuação abrupta. Horizonte de ~1 ano; não responde sobre manutenção indefinida nem sobre redução gradual (ver a controvérsia Wunderink/redução de dose, não ancorada aqui) | VERIFIED-ABS |
+| B-64 | PT-033 | Hall et al. 2016, *Behav Ther* (78 estudos, 13.998 participantes, 95% de amostras não euro-americanas) | Intervenções culturalmente adaptadas vs outras condições: g = 0,67; vs versão **não adaptada** da mesma intervenção: g = 0,52 | Heterogeneidade grande no que conta como "adaptação". Poucos ECR comparam diretamente adaptado vs não adaptado; o resultado depende de quem adapta e de como | VERIFIED-ABS |
+| B-65 | PT-020 | Giesen-Bloo et al. 2006, *Arch Gen Psychiatry* (terapia do esquema vs TFP no TPB); Bamelis et al. 2014, *Am J Psychiatry* (323 pacientes, cluster C e outros) | TPB: recuperação completa 46% (esquema) vs 24% (TFP); abandono 25% vs 50%. Bamelis: maior recuperação com terapia do esquema que com TAU e com terapia de clarificação (% exatos não conferidos) | Ensaios do grupo desenvolvedor (alegiância, B-58). Giesen-Bloo compara duas psicoterapias ativas sem controle inativo. "Modo esquemático" segue construto teórico (PT-020) | VERIFIED-ABS (com % de Bamelis PARTIAL) |
+| B-66 | NB-027 | Bateman et al. 2012, *NEJM* (DIAN, 128 participantes); revisões sobre DA autossômica dominante (PMC6052673) | Variantes em APP/PSEN1/PSEN2: penetrância quase completa; <1% de todos os casos de Alzheimer. Na DA dominante, Aβ42 no LCR cai ~25 anos antes do início esperado, amiloide no PET aparece ~15 anos antes e hipometabolismo e memória ~10 anos antes | A sequência temporal é estimada por **anos até o início esperado** (desenho transversal ancorado na idade parental). A generalização para a DA esporádica de início tardio é inferência (como o NB-027 já alerta) | VERIFIED-ABS |
+
+### Contradição nova
+- **C-RT-5 (BDNF periférico):** o ledger dizia "não é leitura direta"; Klein 2011 mostra r² ≈ 0,4 em duas espécies. A formulação correta é intermediária: correlação moderada em animais e não validada em humanos. Isso **não** autoriza usar BDNF sérico como marcador cerebral individual.
+
+
+### 7.3 Classificação dos casos residuais
+
+- **CONCEPTUAL** (inferência proibida, sem magnitude empírica): NB-005, NB-010, NB-011, TX-012, PF-031, PF-050, PF-055, TQ-011.
+- **Referência cruzada a fonte já ancorada na base:**
+  - TQ-007: síntese de CBT-I vs higiene do sono, 42 ensaios, 4.245 adultos (lote 1);
+  - TQ-010: B-26 (CORE);
+  - PF-045: NICE CG185, atualização de 2 set 2025, já citada com versão no dossiê de humor;
+  - NB-014: B-44;
+  - NB-023/025: B-17;
+  - NB-029: B-18;
+  - NB-039: B-48;
+  - NB-002: B-14;
+  - PF-002: B-23.
+- **Ainda sem âncora (S2-provisório):**
+  - NB-004: evidência posterior complica "mais C4 = mais poda";
+  - NB-007: puberdade/hormônios × cérebro;
+  - NB-008: inferências no ABCD;
+  - NB-032: autismo sem biomarcador de imagem;
+  - NB-034: variabilidade de conectividade no autismo;
+  - PT-015: tranquilização como neutralização no TOC.
+
+## 8. Contagem final (exata, por conjunto de IDs)
+
+| Conjunto | n |
+| --- | --- |
+| Linhas genéricas com S3/S4 nos ledgers originais | 144 |
+| Reclassificadas CONCEPTUAL | 57 |
+| Ancoradas em fonte específica verificada, diretamente ou por referência cruzada | 81 |
+| Ainda sem âncora (S2-provisório) | 6 |
+
+- **Empíricas:** 81 + 6 = 87. Ancoradas: 81/87 = **93%**.
+- **Qualidade das âncoras:** cerca de 15% são PARTIAL, por número não confirmado ou fonte secundária. O critério "≥90% VERIFIED/PARTIAL com contexto" do protocolo é **atingido para os 144 claims auditados**.
+- **Ressalvas que permanecem:**
+  1. As âncoras são **VERIFIED-ABS** (resumo indexado), não leitura do texto integral, porque o acesso direto estava bloqueado.
+  2. As **frases narrativas** dos 40 dossiês sem PMID/DOI **não** foram convertidas uma a uma (pendência RR-P3). O que vale como fonte desses dossiês é o ledger, não o texto corrido.
+  3. Os 6 claims restantes ficam explicitamente rebaixados.
 
 ## Apêndice — classificador usado na seção 1
 
