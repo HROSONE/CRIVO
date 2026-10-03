@@ -119,6 +119,64 @@ _MEU_NOME = re.compile(r"(?:qual (?:e )?(?:o )?meu nome|voce (?:sabe|lembra) (?:
                        r"como (?:eu )?me chamo|quem sou eu|lembra (?:do|o) meu nome)")
 
 
+def _apresentacao(texto):
+    """Nome declarado, preservando grafia; não interpreta profissão ou citação."""
+    if any(c in texto for c in ('?', '`', '"', '“', '”')):
+        return None
+    literal = re.sub(r"^(?:(?:k{2,}|(?:ha){2,}|rs+)[, ]+)", "", texto.strip(), flags=re.I).rstrip(".! ")
+    m = re.fullmatch(r"(?:(?:na verdade|corrigindo)[,:]?\s*)?"
+                     r"(?:meu nome [eé]|me chamo|pode me chamar de)\s+(.+)", literal, re.I)
+    explicito = m is not None
+    if not m:
+        m = re.fullmatch(r"eu sou (?:o |a )?(.+)", literal, re.I)
+    if not m:
+        return None
+    nome = m.group(1)
+    if not 1 <= len(nome) <= 40 or not re.fullmatch(r"[^\W\d_]+(?:[ '\-][^\W\d_]+){0,4}", nome):
+        return None
+    if not explicito and (not all(w[:1].isupper() for w in nome.split() if w.lower() not in ('de','da','do','dos','das'))
+            or re.search(r"\b(?:criador|criadora|programador|programadora|professor|professora|triste|feliz|seu|sua|estudante)\b", normalizar(nome))):
+        return None
+    return nome
+
+
+def _atos_pessoais(texto, bot, n, id_anterior):
+    conversa = bot.conversacao
+    nome = _apresentacao(texto)
+    if nome:
+        conversa.dialogo._guardar("nome", nome)
+        return "conversa:apresentacao", "Prazer, " + nome + ". Vou te chamar assim nesta conversa.", None, ""
+    criador = re.fullmatch(r"(?:eu )?sou (?:o |a )?seu criador(?:a)?(?: eu (?:quem|que) (?:inventei|criei) voce)?|"
+                          r"(?:eu )?(?:(?:que|quem) )?(?:inventei|criei|desenvolvi) voce", n)
+    if criador and "?" not in texto:
+        conversa.dialogo._guardar("criacao_declarada", "Você me disse que criou o Crivo")
+        return ("conversa:criacao", "Você está me dizendo que criou o Crivo. "
+                "O que você quer melhorar em mim?", None, "")
+    if "?" not in texto and re.fullmatch(r"(?:(?:meu deus|nossa|uau|caramba|kkk+) )?voce (?:e|eh|ta|esta) "
+                    r"(?:(?:muito|bem|cada vez mais) )?(?:inteligente|bom|boa|incrivel|esperto|esperta)", n):
+        return ("social:elogio", "Obrigado! Ainda posso interpretar mal uma mensagem. "
+                "Se acontecer, pode me corrigir.", None, "")
+    negativo = re.fullmatch(r"(?:(?:eu )?(?:estou|to|me sinto) )?(?:pessim[oa]|mal|triste|chatead[oa]|"
+                            r"cansad[oa]|horrivel)(?: (?:hoje|demais|mesmo))?", n)
+    if negativo and (n.startswith(('estou ', 'to ', 'eu ', 'me sinto ')) or
+                      id_anterior in ('social:oi','social:tudobem','social:acolhimento','social:estado')):
+        conversa.relatos.append(texto.strip())
+        return "social:acolhimento", "Sinto muito que você esteja assim. Quer me contar o que aconteceu?", None, ""
+    capacidade = re.fullmatch(r"voce (?:entende|sabe|conhece)(?: (?:alguma coisa|algo|um pouco|muito))? "
+                              r"(?:de|sobre) (.+)", n)
+    if capacidade and len(capacidade.group(1).split()) <= 4 and not re.search(r'\b(?:porque|quando|se|que)\b', capacidade.group(1)):
+        assunto = capacidade.group(1)
+        c = bot.compositor
+        ident = c.resolver(assunto) or c.aliases_busca.get(assunto)
+        conhecido = ident in c.itens or any(normalizar(i.get('area','')) == assunto for i in c.itens.values())
+        if assunto in ('programacao','javascript','typescript') and bot.programacao is not None:
+            conhecido = True
+        abertura = ("Tenho informações cadastradas sobre " if conhecido else "Meu conhecimento sobre ") + assunto
+        abertura += "." if conhecido else " é limitado."
+        return "social:capacidade", abertura + " Qual aspecto você quer conversar ou entender?", None, ""
+    return None
+
+
 def _limpar(texto):
     n = normalizar(texto)
     n = re.sub(r"^(?:crivo|ei crivo)\s+|\s+(?:crivo)$", "", n)
@@ -366,6 +424,10 @@ def responder(texto, bot):
         else:
             return _corrigir_quiz(bot, texto)
 
+
+    pessoal = _atos_pessoais(texto, bot, n, id_anterior)
+    if pessoal is not None:
+        return pessoal
 
     if _O_QUE_CONTEI.fullmatch(n) and conversa.relatos and not conversa.assunto:
         contados = list(conversa.relatos)[-3:]

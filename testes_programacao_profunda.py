@@ -99,6 +99,16 @@ class DadosEGates(unittest.TestCase):
         self.assertTrue(all(len(s)==1 for s in grupos.values()))
         self.assertEqual(sum(s=={'treino'} for s in grupos.values()),24)
 
+    def test_algoritmos_reproduziveis_e_curriculo_nao_domina_por_variantes(self):
+        from scripts.gerar_algoritmos_programacao import gerar
+        tarefas=json.loads((ROOT/'dados/programacao/algoritmos.json').read_text())
+        self.assertEqual(gerar(),tarefas)
+        self.assertEqual(len({t['familia'] for t in tarefas['tarefas']}),30)
+        es=exemplos()
+        simples=[e for e in es if e['grupo'].startswith('codigo:curriculo_')]
+        self.assertEqual(len(simples),240)
+        self.assertTrue(any(e['grupo']=='codigo:alg_mdc_euclides' for e in es))
+
     def test_benchmark_reservado_nunca_entra_no_treino(self):
         ts=json.loads((ROOT/'dados/programacao/tarefas.json').read_text())['tarefas']
         treino={e['grupo'] for e in exemplos() if e['split']=='treino'}
