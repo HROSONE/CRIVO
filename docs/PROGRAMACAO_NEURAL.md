@@ -153,3 +153,21 @@ fixa, escolhidos antes de observar respostas. Para catálogos maiores que 300
 conceitos, a cobertura cresce linearmente. A matriz factual e as sondas reservadas
 continuam completas. O workflow de regressões tem limite de 20 minutos e cancela
 execuções anteriores da mesma referência quando entra uma atualização.
+
+## Notebook pronto para Google Colab
+
+[Abra o notebook de programação com GPU T4](https://colab.research.google.com/github/HROSONE/CRIVO/blob/codex/programacao-transformer-ciclo/notebooks/treinar_programacao_colab.ipynb).
+
+Execute as células em ordem e autorize a montagem do seu Google Drive quando
+solicitado pelo Colab. O padrão é o perfil atual com 2.000 passos; o código do
+treinador fica fixado na revisão `ab17e971042afa6081e922000cbdec615f44438a`.
+Os perfis maiores iniciam pré-treino do zero e não substituem a necessidade
+de ampliar o corpus de código.
+
+Para retomar após uma desconexão, informe o `EXECUCAO_ID` exibido e mantenha
+os mesmos parâmetros e versões de ambiente. A leitura do corpus usa disco
+local; checkpoints, estado de Adam/RNG, logs e uma cópia do corpus permanecem
+no Drive. O notebook verifica a configuração antes de retomar, mostra progresso
+e permite exportar um ZIP de pesos de inferência e relatórios. A GPU e o acesso
+ao Drive precisam ser habilitados na conta do usuário; criar o notebook não
+inicia um treinamento no Colab.
