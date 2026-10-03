@@ -696,3 +696,20 @@ Itens estruturais: verificação só pelo resumo, por causa do bloqueio de rede.
 - nova contradição aparente C-VI-1 (risco relativo vs fração atribuível e vitimização), resolvida pela distinção de medidas.
 
 **Critério doutoral: NÃO ATINGIDO.** Resta AD-05 (frases narrativas) e a nova auditoria adversarial (02).
+
+## Aprofundamento 33 — rastreabilidade das frases narrativas (corrige AD-05)
+
+[Rastreabilidade das frases narrativas](2026-10-03-rastreabilidade-frases-narrativas.md): 455 frases empíricas candidatas extraídas dos 45 dossiês narrativos.
+- 174 cobertas por tópicos já ancorados;
+- 281 revisadas manualmente: ~266 conceituais e **15 afirmações empíricas** sem âncora.
+
+As 15 foram ancoradas ou reclassificadas:
+- cannabis e psicose (Di Forti 2019);
+- mortalidade prematura (Walker 2015);
+- SOCE (Blosnich 2020 vs Sullins 2022, C-NA-1);
+- pobreza (Ridley 2020);
+- **fisioterapia na FND superada pelo Physio4FMD 2024 (C-NA-2)**;
+- depressão e demência (Livingston 2024);
+- bupropiona e convulsões (bula).
+
+**Critério doutoral: NÃO ATINGIDO** até a auditoria adversarial 02.
