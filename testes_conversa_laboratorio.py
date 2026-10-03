@@ -60,7 +60,7 @@ class ConversaLaboratorio(unittest.TestCase):
         from conversa_cotidiana import _atos_pessoais
         b=Crivo(usar_linguagem_neural=False)
         self.assertIsNone(_atos_pessoais('Péssimo',b,'pessimo','conhecimento:marte'))
-        self.assertIsNotNone(_atos_pessoais('Estou mal',b,'estou mal','conhecimento:marte'))
+        self.assertIsNone(_atos_pessoais('Estou mal',b,'estou mal','conhecimento:marte'))
 
 
 if __name__=='__main__':unittest.main()

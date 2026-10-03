@@ -158,8 +158,8 @@ def _atos_pessoais(texto, bot, n, id_anterior):
                 "Se acontecer, pode me corrigir.", None, "")
     negativo = re.fullmatch(r"(?:(?:eu )?(?:estou|to|me sinto) )?(?:pessim[oa]|mal|triste|chatead[oa]|"
                             r"cansad[oa]|horrivel)(?: (?:hoje|demais|mesmo))?", n)
-    if negativo and (n.startswith(('estou ', 'to ', 'eu ', 'me sinto ')) or
-                      id_anterior in ('social:oi','social:tudobem','social:acolhimento','social:estado')):
+    if negativo and not n.startswith(('estou ', 'to ', 'eu ', 'me sinto ')) and \
+            id_anterior in ('social:oi','social:tudobem','social:acolhimento','social:estado'):
         conversa.relatos.append(texto.strip())
         return "social:acolhimento", "Sinto muito que você esteja assim. Quer me contar o que aconteceu?", None, ""
     capacidade = re.fullmatch(r"voce (?:entende|sabe|conhece)(?: (?:alguma coisa|algo|um pouco|muito))? "
