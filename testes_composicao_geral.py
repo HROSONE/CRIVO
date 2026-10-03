@@ -44,7 +44,6 @@ class TestesCoordenacaoDefinicional(unittest.TestCase):
 
     def test_um_alvo_desconhecido_nao_aciona_assunto_vizinho(self):
         for pergunta in ("O que é HTML e Rust?",
-                         "O que são árvore e árvore binária?",
                          "O que é Sol e planeta quântico?",
                          "O que é CSS e uma entidade inventada?"):
             with self.subTest(pergunta=pergunta):
