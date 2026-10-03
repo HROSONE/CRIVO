@@ -658,3 +658,16 @@ Seções 7–8 do [documento de rastreabilidade retrospectiva](2026-10-03-rastre
 Itens estruturais: verificação só pelo resumo, por causa do bloqueio de rede. Plano de correção em blocos.
 
 **Critério doutoral: NÃO ATINGIDO.**
+
+## Aprofundamento 30 — suicídio e autolesão quantitativo (corrige AD-01)
+
+| Documento | Escopo |
+| --- | --- |
+| [Suicídio e autolesão — quantitativo](2026-10-03-suicidio-autolesao-quantitativo.md) | 20 claims (SU-001…020). Epidemiologia: WHO 2021 (727 mil) e Brasil 2010–2021. Predição: Franklin 2017, Large 2016, Chung 2017 (pós-alta), PHQ-9 item 9 (Simon 2013), C-SSRS. Intervenções: plano de segurança (Stanley 2018), contato breve (Milner 2015), cartas (Motto 2001), TCC e DBT para autolesão (Cochrane 2021), InterSePT, cetamina IPD. Restrição de meios: pesticidas no Sri Lanka, paracetamol no Reino Unido, armas de fogo. Mídia: Werther (Niederkrotenthaler 2020) e Papageno |
+
+### Mudança de cobertura
+- AD-01 deixa de ser déficit material: o tema passa de parágrafos gerais para claims com denominador, IC e desenho;
+- separa explicitamente ideação, comportamento e morte;
+- nova contradição C-SU-1 (DBT: frequência vs proporção que repete).
+
+**Critério doutoral: NÃO ATINGIDO.** Restam AD-02…AD-05 e as pendências SU-P1…P5.
