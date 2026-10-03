@@ -1,0 +1,398 @@
+{
+  "versao": 1,
+  "sementes": [
+    7,
+    19,
+    41
+  ],
+  "familias": [
+    {
+      "familia": "deslocamento",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "deslocamento-a",
+          "corpo": "return entrada - 2;",
+          "referencia": "return entrada + 2;",
+          "desenvolvimento": [
+            -3,
+            0,
+            4
+          ],
+          "reservados": [
+            -7,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "limiar",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "limiar-a",
+          "corpo": "return entrada < 3;",
+          "referencia": "return entrada <= 3;",
+          "desenvolvimento": [
+            2,
+            3,
+            4
+          ],
+          "reservados": [
+            -5,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "indice_fixo",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "indice_fixo-a",
+          "corpo": "return entrada[0];",
+          "referencia": "return entrada[1];",
+          "desenvolvimento": [
+            [
+              1,
+              3
+            ],
+            [
+              4,
+              2
+            ],
+            [
+              -2,
+              0
+            ]
+          ],
+          "reservados": [
+            [
+              9,
+              8
+            ],
+            [
+              0,
+              -7
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "acumulador",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "acumulador-a",
+          "corpo": "let total = 0; let i = 0; while (i < entrada.length) { total -= entrada[i]; i += 1; } return total;",
+          "referencia": "let total = 0; let i = 0; while (i < entrada.length) { total += entrada[i]; i += 1; } return total;",
+          "desenvolvimento": [
+            [
+              1,
+              2
+            ],
+            [
+              -2,
+              4
+            ],
+            []
+          ],
+          "reservados": [
+            [
+              3,
+              -1,
+              2
+            ],
+            [
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "logica",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "logica-a",
+          "corpo": "return entrada.a || entrada.b;",
+          "referencia": "return entrada.a && entrada.b;",
+          "desenvolvimento": [
+            {
+              "a": true,
+              "b": false
+            },
+            {
+              "a": false,
+              "b": true
+            },
+            {
+              "a": true,
+              "b": true
+            }
+          ],
+          "reservados": [
+            {
+              "a": false,
+              "b": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "texto_caixa",
+      "split": "treino",
+      "variantes": [
+        {
+          "id": "texto_caixa-a",
+          "corpo": "return entrada.toUpperCase();",
+          "referencia": "return entrada.toLowerCase();",
+          "desenvolvimento": [
+            "AbC",
+            "TESTE",
+            ""
+          ],
+          "reservados": [
+            "Ol\u00e1",
+            "JS9"
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "texto_bordas",
+      "split": "validacao",
+      "variantes": [
+        {
+          "id": "texto_bordas-a",
+          "corpo": "return entrada.toLowerCase();",
+          "referencia": "return entrada.trim();",
+          "desenvolvimento": [
+            " AbC ",
+            "\tTESTE\n",
+            ""
+          ],
+          "reservados": [
+            " Ol\u00e1 ",
+            " xY\u00a0"
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "contagem",
+      "split": "validacao",
+      "variantes": [
+        {
+          "id": "contagem-a",
+          "corpo": "let total = 0; let i = 0; while (i <= entrada) { total += 1; i += 1; } return total;",
+          "referencia": "let total = 0; let i = 0; while (i < entrada) { total += 1; i += 1; } return total;",
+          "desenvolvimento": [
+            0,
+            2,
+            4
+          ],
+          "reservados": [
+            1,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "escala",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "escala-a",
+          "corpo": "return entrada + 3;",
+          "referencia": "return entrada * 3;",
+          "desenvolvimento": [
+            -2,
+            0,
+            4
+          ],
+          "reservados": [
+            -5,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "campo_trocado",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "campo_trocado-a",
+          "corpo": "return entrada.base + entrada.base;",
+          "referencia": "return entrada.base + entrada.taxa;",
+          "desenvolvimento": [
+            {
+              "base": 2,
+              "taxa": 5
+            },
+            {
+              "base": 0,
+              "taxa": 3
+            },
+            {
+              "base": -3,
+              "taxa": 2
+            }
+          ],
+          "reservados": [
+            {
+              "base": 7,
+              "taxa": -1
+            },
+            {
+              "base": 1,
+              "taxa": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "copia_array",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "copia_array-a",
+          "corpo": "let out = []; let i = 0; while (i < entrada.length) { out.push(i); i += 1; } return out;",
+          "referencia": "let out = []; let i = 0; while (i < entrada.length) { out.push(entrada[i]); i += 1; } return out;",
+          "desenvolvimento": [
+            [
+              4,
+              2
+            ],
+            [
+              -1
+            ],
+            []
+          ],
+          "reservados": [
+            [
+              7,
+              3,
+              -2
+            ],
+            [
+              5,
+              5,
+              5
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "incremento_ausente",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "incremento_ausente-a",
+          "corpo": "let total = 0; let i = 0; while (i < entrada.length) { total += entrada[i]; } return total;",
+          "referencia": "let total = 0; let i = 0; while (i < entrada.length) { total += entrada[i]; i += 1; } return total;",
+          "desenvolvimento": [
+            [
+              1,
+              2
+            ],
+            [
+              3
+            ],
+            []
+          ],
+          "reservados": [
+            [
+              0,
+              2,
+              1
+            ],
+            [
+              -3,
+              2
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "atribuicao_extra",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "atribuicao_extra-a",
+          "corpo": "let total = entrada.a + entrada.b; total = 0; return total;",
+          "referencia": "let total = entrada.a + entrada.b; return total;",
+          "desenvolvimento": [
+            {
+              "a": 2,
+              "b": 3
+            },
+            {
+              "a": -1,
+              "b": 4
+            },
+            {
+              "a": 0,
+              "b": 0
+            }
+          ],
+          "reservados": [
+            {
+              "a": 7,
+              "b": 2
+            },
+            {
+              "a": -3,
+              "b": -4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "familia": "limiar_aninhado",
+      "split": "teste",
+      "variantes": [
+        {
+          "id": "limiar_aninhado-a",
+          "corpo": "if (entrada.ativo) { return entrada.valor > 4; } else { return false; }",
+          "referencia": "if (entrada.ativo) { return entrada.valor >= 4; } else { return false; }",
+          "desenvolvimento": [
+            {
+              "ativo": true,
+              "valor": 4
+            },
+            {
+              "ativo": true,
+              "valor": 3
+            },
+            {
+              "ativo": false,
+              "valor": 8
+            }
+          ],
+          "reservados": [
+            {
+              "ativo": true,
+              "valor": 9
+            },
+            {
+              "ativo": false,
+              "valor": 4
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
