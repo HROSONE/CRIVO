@@ -136,6 +136,46 @@ Total: ~95 claims empíricos permanecem S2-provisório.
 - a rodada **reduz** o déficit e, sobretudo, **impede leitura enganosa**: S4 sem fonte deixa de valer como S4;
 - não atinge o critério. O déficit de ancoragem dos ledgers de neurociência e psicoterapia continua **material**.
 
+## 6. Rodada 2 de ancoragem (claims da seção 4)
+
+| Âncora | ID original | Fonte específica verificada | Número-chave | O que **não** permite concluir | Status novo |
+| --- | --- | --- | --- | --- | --- |
+| B-24 | TX-001 | UK ECT Review Group 2003, *Lancet* 361:799–808 | ECT real vs simulada: SES −0,91 (−1,27 a −0,54; 6 ECR, 256). ECT vs farmacoterapia: SES −0,80 (18 ECR, 1.144). Bilateral vs unilateral: SES −0,32 (22 ECR, 1.408) | Ensaios com simulação antigos e pequenos. A comparação com farmacoterapia usa esquemas farmacológicos frequentemente subótimos. Efeito de **curto prazo**. | VERIFIED-ABS, S4 mantido |
+| B-25 | TX-002, TX-003 | Semkovska & McLoughlin 2010, *Biol Psychiatry* | Prejuízo executivo, de velocidade e de memória anterógrada nos dias 0–3; desempenho volta ao basal ou acima após ~15 dias | Testes padronizados de grupo **não** captam bem a memória autobiográfica retrógrada, que é a queixa típica (TX-002 mantém a ressalva). Média de grupo ≠ ausência de dano individual. | VERIFIED-ABS; TX-002 → PARTIAL (memória autobiográfica sem âncora quantitativa) |
+| B-26 | TX-004 | Kellner et al. 2006, *Arch Gen Psychiatry* 63:1337–44 (CORE) | ECT de continuação vs lítio + nortriptilina por 6 meses após remissão com ECT; recaída alta e semelhante nos dois braços (valores ~37% vs ~32% **não conferidos**) | Ambas as estratégias deixam recaída substancial. Não define a superioridade de uma. | PARTIAL |
+| B-27 | TX-008 + TQ4 | Blumberger 2018, *Lancet* (THREE-D, já no TQ4); Cole et al. 2022, *Am J Psychiatry* (SAINT) | THREE-D: iTBS de 3 min não inferior a 10 Hz de 37,5 min. SAINT: remissão ~79% vs ~13% (sham); dispositivo liberado pela FDA em 6 set 2022 | SAINT: amostra **muito pequena** (n ≈ 29, PARTIAL), desfecho imediato, durabilidade incerta, sem replicação independente em grande escala. Liberação 510(k)/De Novo ≠ evidência de eficácia equivalente à de aprovação de fármaco. | VERIFIED-ABS (direção); SAINT **S2** até replicação |
+| B-28 | TX-018 | Sachs et al. 2007, *NEJM* (STEP-BD), 366 pacientes | Antidepressivo adjunto a estabilizador: recuperação durável 23,5% vs 27,3% (placebo); resposta 32,4% vs 38%; **sem** aumento de virada maníaca | Não mostra benefício do antidepressivo adjunto, mas também não mostra dano de virada **nesta** combinação (com estabilizador). Não se aplica a monoterapia antidepressiva no bipolar I, que é a preocupação de TX-018. | VERIFIED-ABS; TX-018 refinado |
+| B-29 | TX-016 | Tiihonen et al. 2019, *JAMA Psychiatry* (Finlândia, 62.250 pacientes, 1972–2014, análise intraindivíduo) | Clozapina + aripiprazol associada ao **menor** risco de reinternação: 14–23% menor que clozapina isolada, a melhor monoterapia. Polifarmácia associada a menos reinternações que monoterapia | **Contradição C-RT-3** com "polifarmácia não é default" (NICE/APA). O estudo é observacional; o desenho intraindivíduo reduz, mas não elimina, confundimento por tempo/gravidade. Não há ECR confirmando. A regra do ledger continua como **recomendação de diretriz**, agora com evidência observacional contrária registrada. | VERIFIED-ABS; TX-016 → CONTESTED |
+| B-30 | EPQ-009 | GBD 2019 Mental Disorders Collaborators, *Lancet Psychiatry* 2022 | 970,1 milhões de casos (2019); DALYs 80,8 M (1990) → 125,3 M (2019); de 3,1% para 4,9% dos DALYs globais; 7ª causa de DALYs; carga quase toda em YLD | **Atribuição:** suicídio é contabilizado em "autolesão" (lesões), não em transtornos mentais. A carga mental fica **subestimada** em YLL por convenção do modelo, e não por ausência de mortalidade. | VERIFIED-ABS |
+| B-31 | EPQ-006 | Staines et al. 2023, *Schizophr Bull* (meta-análise, população geral) | Incidência ~2/100 por ano; **persistência anual 31%**, maior em adolescentes. Conversão anual a desfecho psicótico clínico 0,56% vs 0,16% sem experiências psicóticas (~3,5×), com dose-resposta | Risco absoluto de conversão baixo: >99% por ano **não** convertem. Experiência psicótica ≠ esquizofrenia (EPQ-005). | VERIFIED-ABS (o "31%" do ledger agora tem fonte) |
+| B-32 | NB-030 | FDA De Novo NEBA (jul. 2013); Arns et al. 2013, *J Atten Disord* (9 estudos, 1.253 com TDAH, 517 sem) | NEBA (razão teta/beta) liberado como **auxílio**, não teste isolado. Meta-análise: efeito 0,62–0,75, com heterogeneidade significativa e efeito **decrescente** ao longo dos anos (a razão subiu nos controles) | **Contradição C-RT-4:** liberação regulatória vs meta-análise que conclui que a razão teta/beta "não pode ser considerada medida diagnóstica confiável". Confirma NB-030 (TDAH sem biomarcador diagnóstico rotineiro). | VERIFIED-ABS |
+| B-33 | NB-022 | Jansen et al. 2015, *JAMA* (55 estudos; 2.914 cognição normal, 697 queixa subjetiva, 3.972 CCL) | Amiloide positivo em cognição normal: 10% (8–13%) aos 50 anos → 44% (37–51%) aos 90 | Positividade amiloide **não** equivale a demência nem a destino (NB-022). O intervalo estimado de 20–30 anos entre positividade e demência é modelagem. | VERIFIED-ABS |
+| B-34 | PF-009 | Bula FDA Zyprexa (olanzapina) | Fumantes: depuração maior e meia-vida ~21% menor (indução de CYP1A2). O "~40%" de depuração do ledger fica **PARTIAL**: não confirmado literalmente | Média populacional. Ao **parar de fumar**, a exposição sobe: fontes clínicas sugerem redução de dose de 30–50% (não é texto de bula). | PARTIAL |
+| B-35 | PF-010 | Bula FDA Zyprexa | Fluvoxamina (inibidor de CYP1A2): Cmax +54% (mulheres não fumantes) e +77% (homens fumantes); AUC +52% e +108% | Valores de estudo de interação em voluntários; a magnitude individual varia. | VERIFIED-ABS (texto de bula via espelhos) |
+| B-36 | PF-006 | Bula FDA Abilify (aripiprazol); anotação PharmGKB | Metabolizador lento de CYP2D6: **metade** da dose; lento + inibidor forte de CYP3A4: **um quarto**; inibidor forte de 2D6 ou 3A4: metade; ambos: um quarto | A fração de AUC do deidro-aripiprazol (~40%) **não foi conferida**. A versão da bula não foi registrada (pendência: data da revisão). | VERIFIED-ABS (regras de dose) |
+| B-37 | PT-027 | Jauhar et al. 2014, *Br J Psychiatry* | TCC para psicose: sintomas globais −0,33 (−0,47 a −0,19; 34 estudos); positivos −0,25; negativos −0,13. Com **avaliação cega**: global −0,15 (−0,27 a −0,03); positivos −0,08 (n.s.) | Efeito pequeno, que encolhe muito com cegamento. "Pode reduzir alguns sintomas/sofrimento" está correto, mas com magnitude pequena e sensível a viés. | VERIFIED-ABS; S4 → **S3** |
+| B-38 | PT-011 | Carpenter et al. 2018, *Depress Anxiety* (41 ECR **controlados por placebo**, 2.843) | TCC vs placebo psicológico ou de pílula: sintomas-alvo g = 0,56; resposta OR 2,97; efeitos maiores em TOC, TAG e estresse agudo; menores em TEPT, ansiedade social e pânico | Comparação com placebo (mais conservadora que lista de espera). Não isola a exposição como componente ativo. | VERIFIED-ABS |
+| B-39 | PT-028 | de Jong et al. 2021, *Clin Psychol Rev* (58 estudos, 21.699 pacientes) | Feedback de progresso: efeito pequeno, mas robusto, em sintomas (d = 0,15; 0,17 em casos com evolução fora do esperado) | Inclui estudos não randomizados. Efeito pequeno. Depende de implementação (PT-028 já ressalvava). | VERIFIED-ABS |
+| B-40 | PT-021 | Cuijpers et al. 2016, *Am J Psychiatry* (90 estudos, 11.434) | IPT na depressão aguda vs controle: g = 0,60 (0,45–0,75); vs outras terapias: diferença g = 0,06 (n.s.); vs farmacoterapia: g = −0,13 (n.s.); combinado > IPT isolada (g = 0,24) | "Sem diferença" ≠ equivalência (PT-007). Controles heterogêneos. Viés de publicação não corrigido no número citado. | VERIFIED-ABS |
+
+### Contradições novas
+- **C-RT-3:** polifarmácia antipsicótica. A diretriz desaconselha como padrão; dados observacionais intraindivíduo finlandeses favorecem combinações específicas (clozapina + aripiprazol). Status CONTESTED, sem ECR decisivo.
+- **C-RT-4:** razão teta/beta no TDAH. Liberação FDA 2013 vs meta-análise de 2013 que nega confiabilidade diagnóstica.
+
+### Contagem atualizada
+
+| Medida | Rodada 1 | Rodada 2 |
+| --- | --- | --- |
+| Âncoras verificadas | 23 (≈35 IDs) | 40 (≈55 IDs) |
+| Empíricos ainda S2-provisório | ~95 | ~75 |
+| Fração de empíricos críticos ancorados | ≈50% | ≈62% |
+
+**Critério ≥90%: ainda NÃO atingido.** Grupos pendentes:
+- neurociência: NB-003/004/006/007/008/012–014/021/023/027/031–035/038–041/043/044;
+- psicoterapia: PT-001/008–010/012–016/018–020/022/026/029/030/032–034/038/039;
+- intervenções: TX-022/023/025/029;
+- farmacologia: PF-005/008/011.
+
 ## Apêndice — classificador usado na seção 1
 
 ```python

@@ -615,3 +615,16 @@ Classificador heurístico reproduzível (apêndice do documento), seguido de rev
 - **TQ4-027 (Trauer 2015):** passou a VERIFIED-ABS, com as magnitudes atualizadas no lote 4.
 
 **Critério doutoral: NÃO ATINGIDO.** Cerca de metade dos claims empíricos críticos dos ledgers originais tem âncora específica; o protocolo exige ≥90%. Pendências RR-P1…P3.
+
+## Aprofundamento 27 — rastreabilidade retrospectiva, rodada 2
+
+Seção 6 adicionada ao [documento de rastreabilidade retrospectiva](2026-10-03-rastreabilidade-retrospectiva-ledgers-existentes.md): âncoras B-24…B-40.
+- **Intervenções:** ECT (UK ECT Review Group 2003; Semkovska & McLoughlin 2010; CORE 2006); TMS (THREE-D, SAINT); STEP-BD 2007; polifarmácia antipsicótica (Tiihonen 2019).
+- **Epidemiologia:** GBD 2019 de transtornos mentais; persistência de experiências psicóticas (Staines 2023).
+- **Biomarcadores:** NEBA/teta-beta (Arns 2013); amiloide em cognição normal (Jansen 2015).
+- **Bulas FDA:** olanzapina (tabagismo, fluvoxamina) e aripiprazol (CYP2D6/3A4).
+- **Psicoterapias:** TCC para psicose (Jauhar 2014), TCC vs placebo na ansiedade (Carpenter 2018), feedback de progresso (de Jong 2021), IPT (Cuijpers 2016).
+
+Novas contradições: C-RT-3 (polifarmácia) e C-RT-4 (razão teta/beta). Rebaixamentos: TCC para psicose S4 → S3; SAINT S2 até replicação.
+
+**Critério doutoral: NÃO ATINGIDO.** Cerca de 62% dos claims empíricos críticos dos ledgers originais estão ancorados; restam ~75 em S2-provisório.
