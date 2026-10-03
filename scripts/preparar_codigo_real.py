@@ -6,6 +6,7 @@ import json
 from pathlib import Path, PurePosixPath
 import re
 import subprocess
+import shutil
 import sys
 import tarfile
 import urllib.request
@@ -99,7 +100,7 @@ fs.writeFileSync(process.argv[4], JSON.stringify(result));
     return aprovados
 
 
-def preparar(saida, cache, tsc, contexto=512, vocabulario=4096):
+def preparar(saida, cache, tsc, contexto=512, vocabulario=4096, tokenizer_existente=None):
     import numpy as np
     from tokenizers import Tokenizer, models, pre_tokenizers, decoders, trainers
     from linguagem_profunda import ESPECIAIS, codificar_texto
@@ -115,18 +116,32 @@ def preparar(saida, cache, tsc, contexto=512, vocabulario=4096):
     for id_, texto in licencas.items(): (out / ('LICENSE-' + id_ + '.txt')).write_text(texto)
     # Ajuste por instrução exclusivamente de código; conceitos não competem pelo alvo.
     es = [e for e in exemplos() if e['grupo'].startswith('codigo:')]
+    logica_path = ROOT/'dados/programacao/logica.json'
+    es += [dict(mensagem=t['mensagem'],resposta=t['resposta'],grupo='codigo:'+t['familia'],
+        split=t['split'],origem='logica_autoral',historico=[],linguagem=t['linguagem'],tipo=t['tipo'])
+        for t in json.loads(logica_path.read_text())['tarefas']]
+    alvos = {}
+    for e in es:alvos.setdefault(e['resposta'].strip(),set()).add(e['split'])
+    es = [e for e in es if len(alvos[e['resposta'].strip()])==1]
     tok = Tokenizer(models.BPE()); tok.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
     tok.decoder = decoders.ByteLevel()
-    tok.train_from_iterator([d['texto'] for d in docs if d['split'] == 'treino'] +
-        [texto for e in es if e['split'] == 'treino' for texto in (e['mensagem'], e['resposta'])],
-        trainers.BpeTrainer(vocab_size=vocabulario, min_frequency=2, special_tokens=ESPECIAIS,
-                           initial_alphabet=pre_tokenizers.ByteLevel.alphabet()))
-    tok.save(str(out / 'tokenizer.json')); tok.encode_special_tokens = True
+    if tokenizer_existente:
+        tok = Tokenizer.from_file(str(tokenizer_existente))
+        if tok.get_vocab_size()!=vocabulario:raise ValueError('Vocabulário do tokenizer inicial incompatível')
+    else:
+        tok.train_from_iterator([d['texto'] for d in docs if d['split'] == 'treino'] +
+            [texto for e in es if e['split'] == 'treino' for texto in (e['mensagem'], e['resposta'])],
+            trainers.BpeTrainer(vocab_size=vocabulario, min_frequency=2, special_tokens=ESPECIAIS,
+                               initial_alphabet=pre_tokenizers.ByteLevel.alphabet()))
+    if any(tok.token_to_id(t) is None for t in ESPECIAIS):raise ValueError('Tokenizer sem marcadores próprios')
+    if tokenizer_existente:shutil.copyfile(tokenizer_existente,out/'tokenizer.json')
+    else:tok.save(str(out/'tokenizer.json'))
+    tok.encode_special_tokens = True
     manifesto = dict(versao=1, contexto=contexto, vocabulario=tok.get_vocab_size(),
         natureza='Código MIT/Apache-2.0 real + instruções autorais; pequeno modelo experimental, sem garantia de nível sênior',
         fontes=fontes, fontes_manifesto_sha256=sha(fontes_path),
         instrucao_fontes_sha256={p:sha(ROOT/p) for p in ('dados/programacao/tarefas.json',
-            'dados/programacao/curriculo.json','dados/programacao/algoritmos.json')},
+            'dados/programacao/curriculo.json','dados/programacao/algoritmos.json','dados/programacao/logica.json')},
         validacao_fontes=dict(candidatos=antes, aprovados=len(docs), criterio='sintaxe; não é verificação funcional ou de tipos externos'),
         limitacoes='Partições por nome de utilitário + deduplicação exata; sem prova de independência semântica. Benchmark de teste já observado.',
         particoes={})
@@ -139,27 +154,33 @@ def preparar(saida, cache, tsc, contexto=512, vocabulario=4096):
         for e in instrucoes:
             ids += [tok.token_to_id('<documento>')] + codificar_texto(tok, e['resposta']) + [tok.token_to_id('<fim>')]
         np.asarray(ids, dtype='<u2').tofile(out / ('linguagem_' + split + '.bin'))
-        xs, ys = [], []
+        xs, ys, familias = [], [], []
+        mapa_familias = {}
         for e in instrucoes:
+            lang = e.get('linguagem') or ('typescript' if 'typescript' in e['mensagem'].lower() else 'javascript')
+            chave = e['grupo']+':'+lang
+            familia_id = mapa_familias.setdefault(chave,len(mapa_familias))
             for x,y in janelas_dialogo(tok,e,contexto):
+                familias.append(familia_id)
                 xs.append(x + [0]*(contexto-len(x))); ys.append(y + [-100]*(contexto-len(y)))
         for nome,arr in [('x',xs),('y',ys)]:
             np.save(out/('dialogo_'+split+'_'+nome+'.npy'), np.asarray(arr,dtype=np.int32).reshape(-1,contexto))
+        np.save(out/('dialogo_'+split+'_familia.npy'),np.asarray(familias,dtype=np.int32))
         np.save(out/('dialogo_'+split+'_origem.npy'),np.zeros(len(xs),dtype=np.int8))
         for nome,registros in [('fontes',ds),('dialogos',instrucoes)]:
             (out/(nome+'_'+split+'.jsonl')).write_text(''.join(json.dumps(d,ensure_ascii=False)+'\n' for d in registros))
         manifesto['particoes'][split]=dict(arquivos_reais=len(ds),bytes_codigo=sum(len(d['texto'].encode()) for d in ds),
             grupos_fontes=sorted({d['grupo'] for d in ds}), familias_instrucao=sorted({e['grupo'] for e in instrucoes}),
-            instrucoes=len(instrucoes),janelas=len(xs),tokens_linguagem=len(ids))
+            grupos_amostragem=mapa_familias, instrucoes=len(instrucoes),janelas=len(xs),tokens_linguagem=len(ids))
         if len(ids) <= contexto or not xs: raise ValueError('Partição insuficiente: '+split)
     manifesto['arquivos']={p.name:sha(p) for p in sorted(out.iterdir())}
     (out/'manifesto.json').write_text(json.dumps(manifesto,ensure_ascii=False,indent=2)+'\n')
-    print(json.dumps({k:dict((n,v) for n,v in x.items() if not isinstance(v,list)) for k,x in manifesto['particoes'].items()},ensure_ascii=False),flush=True)
+    print(json.dumps({k:dict((n,v) for n,v in x.items() if isinstance(v,(int,float))) for k,x in manifesto['particoes'].items()},ensure_ascii=False),flush=True)
     return manifesto
 
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--saida',required=True);p.add_argument('--cache',required=True);p.add_argument('--tsc',required=True)
-    p.add_argument('--contexto',type=int,default=512);p.add_argument('--vocabulario',type=int,default=4096)
-    a=p.parse_args();preparar(a.saida,a.cache,a.tsc,a.contexto,a.vocabulario)
+    p.add_argument('--tokenizer');p.add_argument('--contexto',type=int,default=512);p.add_argument('--vocabulario',type=int,default=4096)
+    a=p.parse_args();preparar(a.saida,a.cache,a.tsc,a.contexto,a.vocabulario,a.tokenizer)
