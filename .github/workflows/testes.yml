@@ -43,7 +43,10 @@ jobs:
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # 20 min até 2026-10-03; o currículo passou de 241 para 447 conceitos e
+    # testes que crescem com o acervo (treino com todas as classes, matriz de
+    # pares de conceitos) levam o job de 3.8/3.11 para além disso.
+    timeout-minutes: 35
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']

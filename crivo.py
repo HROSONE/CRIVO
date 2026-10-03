@@ -1521,6 +1521,11 @@ class Crivo:
         texto = conversa_assistente.preparar_pedido(texto)
         # "Não é mais X" relata mudança de estado, não nega uma propriedade:
         # equivale a "deixou de ser X" e não deve cair no filtro de negações.
+        # "O que diz o princípio da incerteza?", "Quais são as leis de Newton?":
+        # pedidos de explicação do conceito, como "O que é…".
+        texto = re.sub(r"^\s*o que (?:diz|afirma|estabelece)\s+", "O que é ", texto, flags=re.IGNORECASE)
+        texto = re.sub(r"^\s*quais s[aã]o\s+((?:as |os )?(?:leis|princ[ií]pios|postulados)\b)", r"O que são \1",
+                       texto, flags=re.IGNORECASE)
         texto = re.sub(r"\bn[aã]o (?:é|e|eh) mais\b", "deixou de ser", texto, flags=re.IGNORECASE)
         texto = re.sub(r"\bn[aã]o s[aã]o mais\b", "deixaram de ser", texto, flags=re.IGNORECASE)
         n = normalizar(texto).strip().strip("?.,;! ")

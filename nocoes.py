@@ -93,6 +93,14 @@ _PERDA_DIRETA = re.compile(r"\b(?:velorio|enterro|falecimento|luto)\b|\bperd(?:i
                            r"(?:meu |minha |meus |minhas |nosso |nossa )?" + _SER + r"\b")
 
 
+def _ocorrencias(texto, alvo):
+    """Posições das ocorrências literais, sem sobreposição (como re.finditer)."""
+    i = texto.find(alvo)
+    while i != -1:
+        yield i
+        i = texto.find(alvo, i + max(1, len(alvo)))
+
+
 def perda(texto):
     """A fala conta a morte de alguém próximo (pessoa ou animal)."""
     n = normalizar(texto)
@@ -156,8 +164,8 @@ class NocoesPT:
         achadas, ocupado = [], []
         for forma, nocao in self._formas:
             alvo = " " + forma.replace("-", " ") + " "
-            for m in re.finditer(re.escape(alvo), n):
-                ini, fim = m.start(), m.end()
+            for ini in _ocorrencias(n, alvo):
+                fim = ini + len(alvo)
                 if any(ini < f - 1 and i < fim - 1 for i, f in ocupado):
                     continue
                 ocupado.append((ini, fim))

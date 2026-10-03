@@ -32,7 +32,9 @@ class TestesConhecimentoMundo(unittest.TestCase):
             with self.subTest(conceito=item['nome']):
                 self.assertEqual(item['fatos'][0]['papel'], 'definicao')
                 for fato in item['fatos']:
-                    self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao'))
+                    # Filosofia e sociologia não são ciência natural: têm natureza própria.
+                    proprias = {'filosofia': ('filosofico',), 'sociologia': ('social',)}.get(item['area'], ())
+                    self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao') + proprias)
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
                         metadata = self.curriculo['fontes'][fonte]

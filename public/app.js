@@ -129,6 +129,80 @@
     });
   }
 
+  // Voz: leitura em voz alta pelo próprio navegador. Só vozes locais
+  // (localService), para o texto não sair do aparelho; sem voz em português
+  // instalada, o botão avisa em vez de usar uma voz online.
+  const voz = { sintese: ("speechSynthesis" in window) ? window.speechSynthesis : null, botao: null };
+  function vozLocalPt() {
+    if (!voz.sintese) return null;
+    const vozes = voz.sintese.getVoices().filter(function (v) {
+      return v.localService && /^pt([-_]|$)/i.test(v.lang);
+    });
+    return vozes.find(function (v) { return /^pt[-_]BR/i.test(v.lang); }) || vozes[0] || null;
+  }
+  if (voz.sintese) {
+    voz.sintese.getVoices();
+    if (typeof voz.sintese.addEventListener === "function") {
+      voz.sintese.addEventListener("voiceschanged", function () { voz.sintese.getVoices(); });
+    }
+  }
+  function textoParaFala(text) {
+    return String(text)
+      .replace(/\x60{3}[\s\S]*?\x60{3}/g, " Segue um trecho de código, que não vou ler em voz alta. ")
+      .replace(/[\x60*_#>|]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+  function partesDaFala(texto) {
+    // Frases curtas: alguns navegadores cortam falas longas no meio.
+    const frases = texto.match(/[^.!?]+[.!?]*/g) || [];
+    const partes = [];
+    frases.forEach(function (frase) {
+      let resto = frase.trim();
+      while (resto.length > 180) {
+        let corte = resto.lastIndexOf(" ", 180);
+        if (corte < 40) corte = 180;
+        partes.push(resto.slice(0, corte));
+        resto = resto.slice(corte).trim();
+      }
+      if (resto) partes.push(resto);
+    });
+    return partes;
+  }
+  function pararVoz() {
+    if (voz.sintese) voz.sintese.cancel();
+    if (voz.botao) {
+      voz.botao.textContent = "🔊 Ouvir";
+      voz.botao.setAttribute("aria-pressed", "false");
+    }
+    voz.botao = null;
+  }
+  function ouvir(text, botao) {
+    if (voz.botao === botao) { pararVoz(); return; }
+    pararVoz();
+    const escolhida = vozLocalPt();
+    if (!escolhida) {
+      botao.textContent = "Sem voz em português neste aparelho";
+      setTimeout(function () { botao.textContent = "🔊 Ouvir"; }, 2600);
+      return;
+    }
+    const partes = partesDaFala(textoParaFala(text));
+    if (!partes.length) return;
+    voz.botao = botao;
+    botao.textContent = "⏹ Parar";
+    botao.setAttribute("aria-pressed", "true");
+    partes.forEach(function (parte, i) {
+      const fala = new SpeechSynthesisUtterance(parte);
+      fala.voice = escolhida;
+      fala.lang = escolhida.lang;
+      if (i === partes.length - 1) {
+        fala.onend = function () { if (voz.botao === botao) pararVoz(); };
+      }
+      fala.onerror = function () { if (voz.botao === botao) pararVoz(); };
+      voz.sintese.speak(fala);
+    });
+  }
+
   function createMessage(role, text, extra) {
     if (!ui.welcome.hidden) ui.welcome.hidden = true;
     const outer = document.createElement("div");
@@ -196,6 +270,16 @@
       copy.textContent = "Copiar resposta";
       copy.addEventListener("click", function () { copyText(text, copy); });
       row.appendChild(copy);
+      if (voz.sintese) {
+        const ouvirBotao = document.createElement("button");
+        ouvirBotao.className = "listen-button";
+        ouvirBotao.type = "button";
+        ouvirBotao.textContent = "🔊 Ouvir";
+        ouvirBotao.title = "Ouvir a resposta (voz do próprio aparelho)";
+        ouvirBotao.setAttribute("aria-pressed", "false");
+        ouvirBotao.addEventListener("click", function () { ouvir(text, ouvirBotao); });
+        row.appendChild(ouvirBotao);
+      }
       main.appendChild(row);
     }
     outer.appendChild(avatar);
@@ -342,6 +426,7 @@
     });
   });
   ui.clear.addEventListener("click", function () {
+    pararVoz();
     state.generation += 1;
     if (state.controller) state.controller.abort();
     state.history = [];

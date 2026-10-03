@@ -15,7 +15,15 @@ import re
 import unicodedata
 from collections import Counter
 from pathlib import Path
+from functools import lru_cache
 from typing import NamedTuple
+
+
+@lru_cache(maxsize=None)
+def _padrao_propriedade(nome):
+    """"a atmosfera de venus": propriedade curta + preposição + alias."""
+    return re.compile(r"^([a-z0-9]+(?: [a-z0-9]+){0,3}) "
+                      r"(?:de|do|da|dos|das|em|no|na) " + re.escape(nome) + r"(?:$| )")
 
 
 def normalizar(texto):
@@ -166,7 +174,9 @@ class CortexAssociativo:
             if len(ids) != 1 or not alias:
                 continue
             nome = normalizar(alias)
-            if re.match(re.escape(nome) + r"(?:$| )", restante):
+            # Comparação literal: um padrão por alias a cada pergunta estourava
+            # o cache do módulo re quando o acervo cresceu.
+            if restante.startswith(nome) and restante[len(nome):len(nome) + 1] in ("", " "):
                 encontrados.append((len(nome.split()), len(nome),
                                     next(iter(ids)), nome))
         if not encontrados:
@@ -179,10 +189,7 @@ class CortexAssociativo:
                 if len(ids) != 1 or not alias:
                     continue
                 nome = normalizar(alias)
-                propriedade = re.match(
-                    r"^([a-z0-9]+(?: [a-z0-9]+){0,3}) "
-                    r"(?:de|do|da|dos|das|em|no|na) " + re.escape(nome) + r"(?:$| )",
-                    restante)
+                propriedade = _padrao_propriedade(nome).match(restante)
                 if propriedade is None:
                     continue
                 parte = propriedade.group(1)

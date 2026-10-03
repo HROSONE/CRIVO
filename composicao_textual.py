@@ -11,6 +11,18 @@ from pathlib import Path
 from typing import NamedTuple, Tuple
 
 
+_PADROES = {}
+
+
+def _compilado(padrao):
+    """Padrões por nome de conceito passam do cache do módulo re (512) quando
+    o acervo cresce; compilados uma vez, não são refeitos a cada pergunta."""
+    feito = _PADROES.get(padrao)
+    if feito is None:
+        feito = _PADROES[padrao] = re.compile(padrao)
+    return feito
+
+
 def normalizar(texto):
     n = unicodedata.normalize("NFD", texto.lower())
     n = "".join(c for c in n if unicodedata.category(c) != "Mn")
@@ -279,7 +291,30 @@ class CompositorTextual:
         if any(item["nome"][0].isupper() and frase.startswith(item["nome"] + " ")
                for item in self.itens.values()):
             return frase
+        # Nomes próprios ("Durkheim usou…", "Sartre resumiu…"): palavras que o
+        # próprio currículo escreve com maiúscula no meio de frases.
+        palavras = frase.split()
+        if primeira in self._nomes_proprios() or (
+                len(palavras) > 1 and primeira[:1].isupper() and palavras[1][:1].isupper()
+                and primeira.lower() not in self._minusculas):
+            return frase
         return frase[0].lower() + frase[1:]
+
+    def _nomes_proprios(self):
+        if getattr(self, "_proprios", None) is None:
+            proprios, minusculas = set(), set()
+            for item in self.itens.values():
+                for fato in item.get("fatos", ()):
+                    texto = fato.get("texto", "") if isinstance(fato, dict) else str(fato)
+                    palavras = [w.strip(",:;.()'\"") for w in texto.split()]
+                    minusculas |= {w for w in palavras if w[:1].islower()}
+                    for anterior, palavra in zip(texto.split(), palavras[1:]):
+                        if palavra[:1].isupper() and not anterior.endswith((".", ":", "?", "!")):
+                            proprios.add(palavra)
+            # "A", "O": maiúscula por acaso, mas a palavra existe em minúscula.
+            self._proprios = {w for w in proprios if w.lower() not in minusculas}
+            self._minusculas = minusculas
+        return self._proprios
 
     def _ligar(self, frases):
         if len(frases) < 2:
@@ -360,8 +395,8 @@ class CompositorTextual:
         return "escrita:fontes", texto, contexto
 
     def _menciona_mundo(self, texto):
-        return any(ids & self.mundo_ids and re.search(
-            r"(?<!\w)" + re.escape(alias) + r"(?!\w)", texto)
+        return any(ids & self.mundo_ids and re.search(_compilado(
+            r"(?<!\w)" + re.escape(alias) + r"(?!\w)"), texto)
             for alias, ids in self.aliases.items())
 
     def _consulta_mundo(self, n, contexto):
@@ -525,7 +560,7 @@ class CompositorTextual:
         """Nome próprio ("Lua", "Marte") não aceita plural: "luas" é
         substantivo comum. Conceitos comuns aceitam o plural simples."""
         plural = "s?" if not self.itens[ident]["nome"][:1].isupper() else ""
-        return r"(?<![a-z0-9])" + re.escape(alias) + plural + r"(?![a-z0-9])"
+        return _compilado(r"(?<![a-z0-9])" + re.escape(alias) + plural + r"(?![a-z0-9])")
 
     def _menciona_conceito(self, ident, texto_normalizado):
         return any(destino == ident and re.search(self._padrao_alias(alias, ident), texto_normalizado)
@@ -552,7 +587,7 @@ class CompositorTextual:
         resto = " ".join(palavras[fim:])
         for alias, ids in self.aliases.items():
             if len(ids) == 1 and next(iter(ids)) in self.expandidos and len(alias) >= 4:
-                resto = re.sub(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])", " ", resto)
+                resto = _compilado(r"(?<![a-z0-9])" + re.escape(alias) + r"s?(?![a-z0-9])").sub(" ", resto)
         raizes = [r for f in self.itens[ident]["fatos"] for r in self._raizes(f["texto"])]
         for palavra in resto.split():
             if palavra in self._FORMA_PERGUNTA or palavra in ("como", "sendo", "enquanto"):
