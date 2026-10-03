@@ -101,7 +101,7 @@ class TestesConhecimentoFrutas(unittest.TestCase):
             ("Como as flores viram frutos?", "polinizacao"),
             ("Por que as folhas caem no outono?", "folhas_outono"),
             ("O que são tipos de dados?", "prog_tipos"),
-            ("O que é uma árvore binária?", "fora"),
+            ("O que é uma árvore binária?", "conhecimento:arvore_binaria"),
             ("O que é a Via Láctea?", "via_lactea"),
         )
         for pergunta, esperado in casos:

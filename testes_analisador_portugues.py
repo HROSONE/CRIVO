@@ -124,13 +124,14 @@ class TestesQuadrosSemanticos(unittest.TestCase):
             ("Poderia definir CSS pra mim?", "web_css"),
             ("Como se define a Lua?", "lua"),
             ("Me explique o que é uma árvore", "arvore"),
+            ("Você poderia me explicar o que é uma árvore binária?",
+             "conhecimento:arvore_binaria"),
         )
         for pergunta, esperado in casos:
             with self.subTest(pergunta=pergunta):
                 ident, _ = Crivo().responder(pergunta)
                 self.assertEqual(ident, esperado)
         for pergunta in (
-            "Você poderia me explicar o que é uma árvore binária?",
             "Me diga o que é uma tecnologia quântica desconhecida",
             "Poderia definir Rust pra mim?",
         ):

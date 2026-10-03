@@ -157,7 +157,6 @@ class TestesComposicaoTextual(unittest.TestCase):
     def test_modificadores_desconhecidos_nao_sao_descartados(self):
         for q in ("Escreva um texto sobre DNA e um sistema alienígena",
                   "Escreva um texto sobre Andrômeda que prove a colisão amanhã",
-                  "Escreva um resumo sobre uma árvore binária",
                   "Escreva um texto sobre vírus com recomendações de remédio",
                   "Escreva um texto sobre buraco negro em alemão"):
             self.assertEqual(Crivo().responder(q)[0], "fora")

@@ -1262,7 +1262,20 @@ class Crivo:
         self._referencia_turno_anterior = anterior
         self._pedido_turno = None
         try:
-            resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+            # A preparação neural/social pode classificar uma citação como
+            # relato antes que o motor comum veja o verbo "interprete".
+            # Leitura textual explícita tem precedência, mas ainda passa por
+            # todo o registro de turno abaixo.
+            from compreensao_textual import responder as compreender_texto
+            resultado = compreender_texto(texto, self._contexto_textual_anterior)
+            if resultado is not None:
+                origem = None
+                preparacao = None
+                self.historico.append({"pergunta": texto, "id": resultado[0],
+                                       "mecanismo": "compreensao_textual"})
+                self.historico = self.historico[-20:]
+            else:
+                resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
             if (preparacao is None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
                     and self._pedido_turno is None):
                 ato_neural = self.conversacao._analisar_neural(texto)
@@ -1391,6 +1404,20 @@ class Crivo:
         esclarecida = self._resolver_esclarecimento(n, original)
         if esclarecida:
             return esclarecida
+
+        # Pedidos sobre o sentido da própria mensagem precisam ser lidos
+        # como um todo antes dos recuperadores por assunto. Isso evita que
+        # "interprete este poema" vire relato pessoal e que uma descrição
+        # do Crivo seja ecoada como se falasse sobre o usuário.
+        from compreensao_textual import responder as compreender_texto
+        compreensao = compreender_texto(texto, self._contexto_textual_anterior)
+        if compreensao is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": compreensao[0],
+                                   "mecanismo": "compreensao_textual"})
+            self.historico = self.historico[-20:]
+            return compreensao
 
         # Uma interpretação comum vem ANTES dos motores de assunto.
         # 'Você conhece' é um operador do pedido, não uma propriedade
