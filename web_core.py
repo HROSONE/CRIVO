@@ -78,8 +78,12 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem, gerador_programacao=gerador_programacao)
     if memoria:
         bot.carregar_memoria(memoria)
-    for anterior in historico:
-        bot.responder(anterior)
+    bot.motor_codigo.reconstruindo = True
+    try:
+        for anterior in historico:
+            bot.responder(anterior)
+    finally:
+        bot.motor_codigo.reconstruindo = False
     identificador, resposta = bot.responder(mensagem)
     mecanismo = "recuperador"
     if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
@@ -105,6 +109,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
     return {
         **extra,
+        **({"code_analysis": bot.motor_codigo.ultimo} if bot.motor_codigo.ultimo is not None else {}),
         "id": identificador,
         "response": resposta,
         "mechanism": mecanismo,
@@ -112,6 +117,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         "plan": bot.planejador.ultimo,
         "experimental_dialogue": usar_dialogo_contextual or bool(modelo_linguagem),
         "experimental_programming": bool(gerador_programacao),
+        "programming_active": True,
+        "programming_effects_model": bot.motor_codigo.status()["modelo_efeitos"],
         # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
         "has_proof": (identificador in provas_efetivas or origem in provas_efetivas or
                       prova_editorial and "Relações verificadas:" in resposta or prova_planejada),

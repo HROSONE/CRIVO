@@ -1,5 +1,7 @@
 # Diagnóstico e reparo local por contratos
 
+Para a integração ativa na conversa, consulte [Motor de programação no chat](MOTOR_PROGRAMACAO_CHAT.md).
+
 O laboratório agora recebe código e exemplos de entrada/saída, reproduz a falha,
 mostra estados e efeitos da execução e testa edições locais na árvore sintática.
 Por exemplo, uma soma de array sem incrementar `i` esgota o orçamento; inserir
