@@ -1,0 +1,45 @@
+name: Precisão própria de igualdade e índices
+on:
+  pull_request:
+    paths:
+      - 'rede_precisa.py'
+      - 'scripts/experimento_precisao.py'
+      - 'scripts/interpretar_preciso.py'
+      - 'testes_rede_precisa.py'
+      - 'dados/estados/benchmark-precisao.json'
+      - 'dados/estados/v2-congelada.json'
+      - '.github/workflows/precisao-estados.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  experimento:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq bubblewrap
+      - run: python -m pip install 'numpy>=1.24,<3' 'quickjs==1.19.4'
+      - run: npm install --prefix /tmp/ts typescript@5.9.3
+      - name: Gradientes, dados reservados, baseline e dependência dos pesos
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_rede_precisa testes_estados_estruturas testes_interpretacao_estados -v
+      - name: Treinar e comparar em três sementes
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/experimento_precisao.py --saida /tmp/precisao --tsc /tmp/ts/node_modules/typescript/lib/tsc.js
+      - name: Resumo e limites
+        run: cat /tmp/precisao/resumo.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: precisao-estados-${{ github.run_id }}
+          path: /tmp/precisao
+          retention-days: 30
