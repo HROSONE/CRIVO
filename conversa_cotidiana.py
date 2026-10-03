@@ -677,6 +677,23 @@ _ACIDENTE = re.compile(r"\b(?:caiu|cai|caimos|machuc\w*|torc\w*|fratur\w*|atrope
 _FUTURO_SAUDE = re.compile(r"\b(?:vai|vou|amanha|semana que vem|depois de amanha)\b")
 
 
+# Sem o analisador: "meu gato sumiu" → "seu gato sumiu". Só quando a fala é
+# sobre outra pessoa ou coisa e não tem outra marca de primeira pessoa.
+_PRIMEIRA_RESTO = re.compile(r"\b(?:eu|me|mim|comigo|nos|nosso|nossa|a gente|to|tou|estou|"
+                             r"\w{2,}ei|fui|fiz|tive|vi|comi|bebi|dormi|perdi|li)\b")
+_POSSESSIVO = {"meu": "seu", "minha": "sua", "meus": "seus", "minhas": "suas"}
+
+
+def _eco_simples(texto):
+    palavras = texto.strip().rstrip(".!").split()
+    if not 2 <= len(palavras) <= 12 or palavras[0].lower() not in _POSSESSIVO:
+        return None
+    resto = [_POSSESSIVO.get(w.lower(), w) for w in palavras]
+    if _PRIMEIRA_RESTO.search(normalizar(" ".join(resto))) or "?" in texto:
+        return None
+    return " ".join(resto)
+
+
 _LEITOR = []
 
 
@@ -754,6 +771,8 @@ def _refletir(texto, bot, base, achadas):
                 causa = para_voce(ev.relacoes["causa"].palavras)
     if eco:
         eco = _limpar_eco(eco, leitor)
+    elif leitor is None:
+        eco = _eco_simples(texto)
     n = normalizar(texto)
     if agente:
         outra_pessoa = agente != "você" and bool(_PESSOA.search(normalizar(agente)))
@@ -788,9 +807,13 @@ def _refletir(texto, bot, base, achadas):
     # "Meu avô plantou uma mangueira": a pergunta é sobre ele, não "O que você plantou?".
     if pergunta and outra_pessoa and re.search(r"\bvoce\b", normalizar(pergunta)):
         pergunta = None
+    # A pergunta da noção caiu por não combinar: a de volta continua sendo pergunta.
+    trocou = bool(achadas and principal.get("pergunta") and not pergunta)
     if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas \
             or not tempo_compativel(texto, pergunta):
         opcoes = [p for p in CONTINUAR[tom] if p not in v.usadas[-12:]] or list(CONTINUAR[tom])
+        if trocou:
+            opcoes = [p for p in opcoes if p.endswith("?")] or opcoes
         perguntas = tuple(v.sorteio.sample(opcoes, min(2, len(opcoes))))
     else:
         perguntas = (pergunta,)

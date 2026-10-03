@@ -52,14 +52,17 @@ correção. Cada caso é uma fala isolada, com marcas do erro (`nao_contem`) e r
   - pergunta sobre "você" não vai para fato de outra pessoa;
   - queda, machucado ou cirurgia de alguém passam a ter tom de saúde, com abertura de futuro ("Espero
     que dê tudo certo") quando o fato ainda vai acontecer;
-  - sem o analisador (sem NumPy), quem viveu o fato é lido pelo começo da fala.
+  - sem o analisador (sem NumPy), quem viveu o fato é lido pelo começo da fala, e o eco é uma troca segura de
+    possessivo ("meu gato sumiu" → "seu gato sumiu");
+  - quando a pergunta da noção cai por não combinar, a pergunta de volta continua sendo pergunta.
 - **`presenca`:** "comi", "bebi", "fiz" no começo da fala são lidos como verbo, mesmo quando o
   etiquetador erra a classe ("Que bom, você comeu pizza ontem!").
 
 ## Sem regressão
 
 Todas as outras baterias ficaram iguais às da `main` (presença, diálogo único, conversa cotidiana, memória
-de relatos, suposição, crise, bateria de fatos, fluência), com uma melhora: presença (retido) 15/19 → 16/19.
+de relatos, suposição, crise, bateria de fatos, fluência), com e sem NumPy, exceto duas melhoras: com NumPy,
+presença (retido) 15/19 → 16/19; sem NumPy, presença (dev) deixa de ter 3 respostas seguidas com a mesma estrutura.
 `testes_pertinencia.py` trava os limiares (catraca) e cobre os casos principais com e sem NumPy.
 
 ## Limites
