@@ -1,0 +1,909 @@
+{
+  "versao": 1,
+  "licenca": "autoral; mesma licença do repositório",
+  "natureza": "miniprojetos; não certifica nível sênior; teste reservado do treino, disponível no repositório",
+  "projetos": [
+    {
+      "id": "pedido-js",
+      "familia": "pedido",
+      "split": "treino",
+      "linguagem": "javascript",
+      "requisitos": "Validar pedido: quantidade inteira positiva e preço finito não negativo; inválido retorna null; válido retorna quantidade*preco.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_pedido(x: {quantidade:number,preco:number}): number | null",
+          "referencia": "export function executar_pedido(x) { if (!Number.isInteger(x.quantidade)||x.quantidade<=0||!Number.isFinite(x.preco)||x.preco<0) return null; return x.quantidade*x.preco; }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_pedido de ./core.js e exportar resolver(x: {quantidade:number,preco:number}): number | null",
+          "referencia": "import { executar_pedido } from \"./core.js\";\nexport function resolver(x) { return executar_pedido(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "quantidade": 2,
+            "preco": 3
+          },
+          "saida": 6
+        },
+        {
+          "entrada": {
+            "quantidade": 0,
+            "preco": 3
+          },
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "quantidade": 1.5,
+            "preco": 4
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "quantidade": 3,
+            "preco": 0
+          },
+          "saida": 0
+        }
+      ]
+    },
+    {
+      "id": "pedido-ts",
+      "familia": "pedido",
+      "split": "treino",
+      "linguagem": "typescript",
+      "requisitos": "Validar pedido: quantidade inteira positiva e preço finito não negativo; inválido retorna null; válido retorna quantidade*preco.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_pedido(x: {quantidade:number,preco:number}): number | null",
+          "referencia": "export function executar_pedido(x: {quantidade:number,preco:number}): number | null { if (!Number.isInteger(x.quantidade)||x.quantidade<=0||!Number.isFinite(x.preco)||x.preco<0) return null; return x.quantidade*x.preco; }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_pedido de ./core.js e exportar resolver(x: {quantidade:number,preco:number}): number | null",
+          "referencia": "import { executar_pedido } from \"./core.js\";\nexport function resolver(x: {quantidade:number,preco:number}): number | null { return executar_pedido(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "quantidade": 2,
+            "preco": 3
+          },
+          "saida": 6
+        },
+        {
+          "entrada": {
+            "quantidade": 0,
+            "preco": 3
+          },
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "quantidade": 1.5,
+            "preco": 4
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "quantidade": 3,
+            "preco": 0
+          },
+          "saida": 0
+        }
+      ]
+    },
+    {
+      "id": "linhas-js",
+      "familia": "linhas",
+      "split": "treino",
+      "linguagem": "javascript",
+      "requisitos": "Ler linhas separadas por LF ou CRLF, aparar espaços e remover linhas vazias; preservar ordem e duplicatas.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_linhas(x: string): string[]",
+          "referencia": "export function executar_linhas(x) { return x.split(/\\r?\\n/).map(s=>s.trim()).filter(s=>s.length>0); }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_linhas de ./core.js e exportar resolver(x: string): string[]",
+          "referencia": "import { executar_linhas } from \"./core.js\";\nexport function resolver(x) { return executar_linhas(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": " a\r\n\r\nb ",
+          "saida": [
+            "a",
+            "b"
+          ]
+        },
+        {
+          "entrada": "",
+          "saida": []
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": "á\ná",
+          "saida": [
+            "á",
+            "á"
+          ]
+        },
+        {
+          "entrada": " \n z \n",
+          "saida": [
+            "z"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "linhas-ts",
+      "familia": "linhas",
+      "split": "treino",
+      "linguagem": "typescript",
+      "requisitos": "Ler linhas separadas por LF ou CRLF, aparar espaços e remover linhas vazias; preservar ordem e duplicatas.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_linhas(x: string): string[]",
+          "referencia": "export function executar_linhas(x: string): string[] { return x.split(/\\r?\\n/).map(s=>s.trim()).filter(s=>s.length>0); }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_linhas de ./core.js e exportar resolver(x: string): string[]",
+          "referencia": "import { executar_linhas } from \"./core.js\";\nexport function resolver(x: string): string[] { return executar_linhas(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": " a\r\n\r\nb ",
+          "saida": [
+            "a",
+            "b"
+          ]
+        },
+        {
+          "entrada": "",
+          "saida": []
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": "á\ná",
+          "saida": [
+            "á",
+            "á"
+          ]
+        },
+        {
+          "entrada": " \n z \n",
+          "saida": [
+            "z"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tentativas-js",
+      "familia": "tentativas",
+      "split": "treino",
+      "linguagem": "javascript",
+      "requisitos": "Operação assíncrona: x é lista de resultados booleanos; true indica sucesso. Percorrer até primeiro sucesso; devolver índice+1 de tentativas; se nenhum sucesso devolver null.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar async executar_tentativas(x: boolean[]): Promise<number | null>",
+          "referencia": "export async function executar_tentativas(x) { for(let i=0;i<x.length;i++){const ok=await Promise.resolve(x[i]);if(ok)return i+1;}return null; }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_tentativas de ./core.js e exportar async resolver(x: boolean[]): Promise<number | null>",
+          "referencia": "import { executar_tentativas } from \"./core.js\";\nexport async function resolver(x) { return executar_tentativas(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": [
+            false,
+            true
+          ],
+          "saida": 2
+        },
+        {
+          "entrada": [],
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            false,
+            false
+          ],
+          "saida": null
+        },
+        {
+          "entrada": [
+            true,
+            false
+          ],
+          "saida": 1
+        }
+      ]
+    },
+    {
+      "id": "tentativas-ts",
+      "familia": "tentativas",
+      "split": "treino",
+      "linguagem": "typescript",
+      "requisitos": "Operação assíncrona: x é lista de resultados booleanos; true indica sucesso. Percorrer até primeiro sucesso; devolver índice+1 de tentativas; se nenhum sucesso devolver null.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar async executar_tentativas(x: boolean[]): Promise<number | null>",
+          "referencia": "export async function executar_tentativas(x: boolean[]): Promise<number | null> { for(let i=0;i<x.length;i++){const ok=await Promise.resolve(x[i]);if(ok)return i+1;}return null; }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_tentativas de ./core.js e exportar async resolver(x: boolean[]): Promise<number | null>",
+          "referencia": "import { executar_tentativas } from \"./core.js\";\nexport async function resolver(x: boolean[]): Promise<number | null> { return executar_tentativas(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": [
+            false,
+            true
+          ],
+          "saida": 2
+        },
+        {
+          "entrada": [],
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            false,
+            false
+          ],
+          "saida": null
+        },
+        {
+          "entrada": [
+            true,
+            false
+          ],
+          "saida": 1
+        }
+      ]
+    },
+    {
+      "id": "carrinho-js",
+      "familia": "carrinho",
+      "split": "validacao",
+      "linguagem": "javascript",
+      "requisitos": "Receber preços e desconto entre 0 e 1. Retornar null se preço negativo/não finito ou desconto fora da faixa; senão total com desconto arredondado a centavos.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_carrinho(x: {precos:number[],desconto:number}): number | null",
+          "referencia": "export function executar_carrinho(x) { if(x.desconto<0||x.desconto>1||!Number.isFinite(x.desconto)||x.precos.some(p=>p<0||!Number.isFinite(p)))return null;return Math.round(x.precos.reduce((a,b)=>a+b,0)*(1-x.desconto)*100)/100; }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_carrinho de ./core.js e exportar resolver(x: {precos:number[],desconto:number}): number | null",
+          "referencia": "import { executar_carrinho } from \"./core.js\";\nexport function resolver(x) { return executar_carrinho(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "precos": [
+              10,
+              5
+            ],
+            "desconto": 0.1
+          },
+          "saida": 13.5
+        },
+        {
+          "entrada": {
+            "precos": [],
+            "desconto": 0
+          },
+          "saida": 0
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "precos": [
+              -1
+            ],
+            "desconto": 0
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "precos": [
+              0.1,
+              0.2
+            ],
+            "desconto": 0
+          },
+          "saida": 0.3
+        }
+      ]
+    },
+    {
+      "id": "carrinho-ts",
+      "familia": "carrinho",
+      "split": "validacao",
+      "linguagem": "typescript",
+      "requisitos": "Receber preços e desconto entre 0 e 1. Retornar null se preço negativo/não finito ou desconto fora da faixa; senão total com desconto arredondado a centavos.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_carrinho(x: {precos:number[],desconto:number}): number | null",
+          "referencia": "export function executar_carrinho(x: {precos:number[],desconto:number}): number | null { if(x.desconto<0||x.desconto>1||!Number.isFinite(x.desconto)||x.precos.some(p=>p<0||!Number.isFinite(p)))return null;return Math.round(x.precos.reduce((a,b)=>a+b,0)*(1-x.desconto)*100)/100; }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_carrinho de ./core.js e exportar resolver(x: {precos:number[],desconto:number}): number | null",
+          "referencia": "import { executar_carrinho } from \"./core.js\";\nexport function resolver(x: {precos:number[],desconto:number}): number | null { return executar_carrinho(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "precos": [
+              10,
+              5
+            ],
+            "desconto": 0.1
+          },
+          "saida": 13.5
+        },
+        {
+          "entrada": {
+            "precos": [],
+            "desconto": 0
+          },
+          "saida": 0
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "precos": [
+              -1
+            ],
+            "desconto": 0
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "precos": [
+              0.1,
+              0.2
+            ],
+            "desconto": 0
+          },
+          "saida": 0.3
+        }
+      ]
+    },
+    {
+      "id": "consulta-js",
+      "familia": "consulta",
+      "split": "teste",
+      "linguagem": "javascript",
+      "requisitos": "Codificar pares chave/valor em query string. Ordenar pela chave em ordem lexical JS, preservar ordem relativa das chaves iguais; encodeURIComponent em ambas; juntar com & sem prefixo ?. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_consulta(x: [string,string][]): string",
+          "referencia": "export function executar_consulta(x) { return x.map((p,i)=>({p,i})).sort((a,b)=>a.p[0]<b.p[0]?-1:a.p[0]>b.p[0]?1:a.i-b.i).map(({p})=>encodeURIComponent(p[0])+\"=\"+encodeURIComponent(p[1])).join(\"&\"); }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_consulta de ./core.js e exportar resolver(x: [string,string][]): string",
+          "referencia": "import { executar_consulta } from \"./core.js\";\nexport function resolver(x) { return executar_consulta(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": [
+            [
+              "b",
+              "2"
+            ],
+            [
+              "a",
+              "1"
+            ]
+          ],
+          "saida": "a=1&b=2"
+        },
+        {
+          "entrada": [],
+          "saida": ""
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            [
+              "q",
+              "á &"
+            ],
+            [
+              "q",
+              "+"
+            ]
+          ],
+          "saida": "q=%C3%A1%20%26&q=%2B"
+        },
+        {
+          "entrada": [
+            [
+              "",
+              ""
+            ]
+          ],
+          "saida": "="
+        }
+      ]
+    },
+    {
+      "id": "consulta-ts",
+      "familia": "consulta",
+      "split": "teste",
+      "linguagem": "typescript",
+      "requisitos": "Codificar pares chave/valor em query string. Ordenar pela chave em ordem lexical JS, preservar ordem relativa das chaves iguais; encodeURIComponent em ambas; juntar com & sem prefixo ?. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_consulta(x: [string,string][]): string",
+          "referencia": "export function executar_consulta(x: [string,string][]): string { return x.map((p,i)=>({p,i})).sort((a,b)=>a.p[0]<b.p[0]?-1:a.p[0]>b.p[0]?1:a.i-b.i).map(({p})=>encodeURIComponent(p[0])+\"=\"+encodeURIComponent(p[1])).join(\"&\"); }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_consulta de ./core.js e exportar resolver(x: [string,string][]): string",
+          "referencia": "import { executar_consulta } from \"./core.js\";\nexport function resolver(x: [string,string][]): string { return executar_consulta(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": [
+            [
+              "b",
+              "2"
+            ],
+            [
+              "a",
+              "1"
+            ]
+          ],
+          "saida": "a=1&b=2"
+        },
+        {
+          "entrada": [],
+          "saida": ""
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": [
+            [
+              "q",
+              "á &"
+            ],
+            [
+              "q",
+              "+"
+            ]
+          ],
+          "saida": "q=%C3%A1%20%26&q=%2B"
+        },
+        {
+          "entrada": [
+            [
+              "",
+              ""
+            ]
+          ],
+          "saida": "="
+        }
+      ]
+    },
+    {
+      "id": "permissoes-js",
+      "familia": "permissoes",
+      "split": "teste",
+      "linguagem": "javascript",
+      "requisitos": "Autorizar se todas as permissões exigidas aparecem nas concedidas; lista exigida vazia autoriza. Comparação exata sensível a maiúsculas; duplicatas irrelevantes. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_permissoes(x: {concedidas:string[],exigidas:string[]}): boolean",
+          "referencia": "export function executar_permissoes(x) { return x.exigidas.every(p=>x.concedidas.includes(p)); }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_permissoes de ./core.js e exportar resolver(x: {concedidas:string[],exigidas:string[]}): boolean",
+          "referencia": "import { executar_permissoes } from \"./core.js\";\nexport function resolver(x) { return executar_permissoes(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "concedidas": [
+              "ler"
+            ],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "concedidas": [],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": false
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "concedidas": [],
+            "exigidas": []
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "concedidas": [
+              "Ler"
+            ],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": false
+        },
+        {
+          "entrada": {
+            "concedidas": [
+              "a"
+            ],
+            "exigidas": [
+              "a",
+              "a"
+            ]
+          },
+          "saida": true
+        }
+      ]
+    },
+    {
+      "id": "permissoes-ts",
+      "familia": "permissoes",
+      "split": "teste",
+      "linguagem": "typescript",
+      "requisitos": "Autorizar se todas as permissões exigidas aparecem nas concedidas; lista exigida vazia autoriza. Comparação exata sensível a maiúsculas; duplicatas irrelevantes. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_permissoes(x: {concedidas:string[],exigidas:string[]}): boolean",
+          "referencia": "export function executar_permissoes(x: {concedidas:string[],exigidas:string[]}): boolean { return x.exigidas.every(p=>x.concedidas.includes(p)); }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_permissoes de ./core.js e exportar resolver(x: {concedidas:string[],exigidas:string[]}): boolean",
+          "referencia": "import { executar_permissoes } from \"./core.js\";\nexport function resolver(x: {concedidas:string[],exigidas:string[]}): boolean { return executar_permissoes(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "concedidas": [
+              "ler"
+            ],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "concedidas": [],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": false
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "concedidas": [],
+            "exigidas": []
+          },
+          "saida": true
+        },
+        {
+          "entrada": {
+            "concedidas": [
+              "Ler"
+            ],
+            "exigidas": [
+              "ler"
+            ]
+          },
+          "saida": false
+        },
+        {
+          "entrada": {
+            "concedidas": [
+              "a"
+            ],
+            "exigidas": [
+              "a",
+              "a"
+            ]
+          },
+          "saida": true
+        }
+      ]
+    },
+    {
+      "id": "estoque-js",
+      "familia": "estoque",
+      "split": "teste",
+      "linguagem": "javascript",
+      "requisitos": "Aplicar transação de estoque: saldo inicial e deltas inteiros. Rejeitar com null se saldo ou delta não inteiro, ou saldo intermediário negativo. Senão devolver saldo final. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_estoque(x: {saldo:number,deltas:number[]}): number | null",
+          "referencia": "export function executar_estoque(x) { if(!Number.isInteger(x.saldo)||x.saldo<0)return null;let s=x.saldo;for(const d of x.deltas){if(!Number.isInteger(d)||s+d<0)return null;s+=d;}return s; }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_estoque de ./core.js e exportar resolver(x: {saldo:number,deltas:number[]}): number | null",
+          "referencia": "import { executar_estoque } from \"./core.js\";\nexport function resolver(x) { return executar_estoque(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "saldo": 2,
+            "deltas": [
+              -1,
+              3
+            ]
+          },
+          "saida": 4
+        },
+        {
+          "entrada": {
+            "saldo": 0,
+            "deltas": [
+              -1,
+              1
+            ]
+          },
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "saldo": 4,
+            "deltas": []
+          },
+          "saida": 4
+        },
+        {
+          "entrada": {
+            "saldo": 3,
+            "deltas": [
+              0.5
+            ]
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "saldo": -1,
+            "deltas": [
+              2
+            ]
+          },
+          "saida": null
+        }
+      ]
+    },
+    {
+      "id": "estoque-ts",
+      "familia": "estoque",
+      "split": "teste",
+      "linguagem": "typescript",
+      "requisitos": "Aplicar transação de estoque: saldo inicial e deltas inteiros. Rejeitar com null se saldo ou delta não inteiro, ou saldo intermediário negativo. Senão devolver saldo final. Não modificar entrada.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_estoque(x: {saldo:number,deltas:number[]}): number | null",
+          "referencia": "export function executar_estoque(x: {saldo:number,deltas:number[]}): number | null { if(!Number.isInteger(x.saldo)||x.saldo<0)return null;let s=x.saldo;for(const d of x.deltas){if(!Number.isInteger(d)||s+d<0)return null;s+=d;}return s; }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_estoque de ./core.js e exportar resolver(x: {saldo:number,deltas:number[]}): number | null",
+          "referencia": "import { executar_estoque } from \"./core.js\";\nexport function resolver(x: {saldo:number,deltas:number[]}): number | null { return executar_estoque(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": {
+            "saldo": 2,
+            "deltas": [
+              -1,
+              3
+            ]
+          },
+          "saida": 4
+        },
+        {
+          "entrada": {
+            "saldo": 0,
+            "deltas": [
+              -1,
+              1
+            ]
+          },
+          "saida": null
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": {
+            "saldo": 4,
+            "deltas": []
+          },
+          "saida": 4
+        },
+        {
+          "entrada": {
+            "saldo": 3,
+            "deltas": [
+              0.5
+            ]
+          },
+          "saida": null
+        },
+        {
+          "entrada": {
+            "saldo": -1,
+            "deltas": [
+              2
+            ]
+          },
+          "saida": null
+        }
+      ]
+    },
+    {
+      "id": "slug-js",
+      "familia": "slug",
+      "split": "teste",
+      "linguagem": "javascript",
+      "requisitos": "Criar slug: normalizar Unicode NFD, remover marcas U+0300..U+036F, minúsculas, substituir sequências fora de a-z0-9 por hífen, remover hífens das extremidades.",
+      "arquivos": [
+        {
+          "caminho": "core.js",
+          "contrato": "Exportar executar_slug(x: string): string",
+          "referencia": "export function executar_slug(x) { return x.normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\").toLowerCase().replace(/[^a-z0-9]+/g,\"-\").replace(/^-+|-+$/g,\"\"); }\n"
+        },
+        {
+          "caminho": "index.js",
+          "contrato": "Importar executar_slug de ./core.js e exportar resolver(x: string): string",
+          "referencia": "import { executar_slug } from \"./core.js\";\nexport function resolver(x) { return executar_slug(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": "Olá Mundo",
+          "saida": "ola-mundo"
+        },
+        {
+          "entrada": "",
+          "saida": ""
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": "  ação & café! ",
+          "saida": "acao-cafe"
+        },
+        {
+          "entrada": "💻 JS 2026",
+          "saida": "js-2026"
+        },
+        {
+          "entrada": "---",
+          "saida": ""
+        }
+      ]
+    },
+    {
+      "id": "slug-ts",
+      "familia": "slug",
+      "split": "teste",
+      "linguagem": "typescript",
+      "requisitos": "Criar slug: normalizar Unicode NFD, remover marcas U+0300..U+036F, minúsculas, substituir sequências fora de a-z0-9 por hífen, remover hífens das extremidades.",
+      "arquivos": [
+        {
+          "caminho": "core.ts",
+          "contrato": "Exportar executar_slug(x: string): string",
+          "referencia": "export function executar_slug(x: string): string { return x.normalize(\"NFD\").replace(/[\\u0300-\\u036f]/g,\"\").toLowerCase().replace(/[^a-z0-9]+/g,\"-\").replace(/^-+|-+$/g,\"\"); }\n"
+        },
+        {
+          "caminho": "index.ts",
+          "contrato": "Importar executar_slug de ./core.js e exportar resolver(x: string): string",
+          "referencia": "import { executar_slug } from \"./core.js\";\nexport function resolver(x: string): string { return executar_slug(x); }\n"
+        }
+      ],
+      "desenvolvimento": [
+        {
+          "entrada": "Olá Mundo",
+          "saida": "ola-mundo"
+        },
+        {
+          "entrada": "",
+          "saida": ""
+        }
+      ],
+      "reservados": [
+        {
+          "entrada": "  ação & café! ",
+          "saida": "acao-cafe"
+        },
+        {
+          "entrada": "💻 JS 2026",
+          "saida": "js-2026"
+        },
+        {
+          "entrada": "---",
+          "saida": ""
+        }
+      ]
+    }
+  ]
+}

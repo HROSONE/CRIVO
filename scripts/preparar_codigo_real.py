@@ -13,6 +13,7 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.preparar_programacao import exemplos, sha
+from laboratorio_projetos import exemplos_projetos
 
 # Excluir fontes que implementam diretamente famílias do pequeno benchmark de teste.
 # Isto não demonstra independência semântica: o benchmark anterior já foi observado.
@@ -120,6 +121,7 @@ def preparar(saida, cache, tsc, contexto=512, vocabulario=4096, tokenizer_existe
     es += [dict(mensagem=t['mensagem'],resposta=t['resposta'],grupo='codigo:'+t['familia'],
         split=t['split'],origem='logica_autoral',historico=[],linguagem=t['linguagem'],tipo=t['tipo'])
         for t in json.loads(logica_path.read_text())['tarefas']]
+    es += exemplos_projetos()
     alvos = {}
     for e in es:alvos.setdefault(e['resposta'].strip(),set()).add(e['split'])
     es = [e for e in es if len(alvos[e['resposta'].strip()])==1]
@@ -141,7 +143,7 @@ def preparar(saida, cache, tsc, contexto=512, vocabulario=4096, tokenizer_existe
         natureza='Código MIT/Apache-2.0 real + instruções autorais; pequeno modelo experimental, sem garantia de nível sênior',
         fontes=fontes, fontes_manifesto_sha256=sha(fontes_path),
         instrucao_fontes_sha256={p:sha(ROOT/p) for p in ('dados/programacao/tarefas.json',
-            'dados/programacao/curriculo.json','dados/programacao/algoritmos.json','dados/programacao/logica.json')},
+            'dados/programacao/curriculo.json','dados/programacao/algoritmos.json','dados/programacao/logica.json','dados/programacao/projetos.json')},
         validacao_fontes=dict(candidatos=antes, aprovados=len(docs), criterio='sintaxe; não é verificação funcional ou de tipos externos'),
         limitacoes='Partições por nome de utilitário + deduplicação exata; sem prova de independência semântica. Benchmark de teste já observado.',
         particoes={})
