@@ -167,7 +167,7 @@ console.log('CRIVO_RESULTADO:' + resultado);
             r['diagnostico'] = 'Execução bloqueada: isolamento indisponível: ' + diagnostico
             return r
         if funcional:
-            linhas = [l[len('CRIVO_RESULTADO:'):] for l in diagnostico.splitlines()
+            linhas = [l[len('CRIVO_RESULTADO:'):] for l in diagnostico.split('\n')
                       if l.startswith('CRIVO_RESULTADO:')]
             try:
                 medido = json.loads(linhas[0]) if len(linhas) == 1 else None

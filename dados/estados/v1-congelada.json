@@ -1,0 +1,224 @@
+{
+  "versao": 1,
+  "commit": "21545b9a9270d3d4e474ce34616112a770ddb6df",
+  "fontes_sha256": {
+    "interpretacao_estados.py": "e895f82b67cacd6f4653e395550a0fa11210d13e0cb7e95fc8527fb777749839",
+    "rede_efeitos.py": "3811707a7f7f3d3585fedc92486dc89a7bdb75af113b8f443841d25f54e5c5a4",
+    "scripts/treinar_efeitos.py": "af92205a60844bd1d2c7c260264050bcf919d6c9dbd34de92e9109d48aa6630c"
+  },
+  "programas": [
+    [
+      "composicao",
+      "let x = entrada + 2; x -= 1; return x;",
+      [
+        -4,
+        -3,
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    [
+      "ramificacao",
+      "if (entrada < 0) { return 0 - entrada; } else { return entrada; }",
+      [
+        -4,
+        -3,
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    [
+      "laco",
+      "let x = entrada; while (x < 3) { x += 1; } return x;",
+      [
+        -3,
+        -2,
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    [
+      "acumulacao",
+      "let total = 0; let i = 0; while (i < entrada) { total += i; i += 1; } return total;",
+      [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    ]
+  ],
+  "contratos": [
+    {
+      "id": "somar_constante",
+      "dev": [
+        {
+          "entrada": -2,
+          "saida": 0
+        },
+        {
+          "entrada": 0,
+          "saida": 2
+        },
+        {
+          "entrada": 3,
+          "saida": 5
+        }
+      ],
+      "teste": [
+        {
+          "entrada": -4,
+          "saida": -2
+        },
+        {
+          "entrada": 1,
+          "saida": 3
+        },
+        {
+          "entrada": 4,
+          "saida": 6
+        }
+      ]
+    },
+    {
+      "id": "subtrair_constante",
+      "dev": [
+        {
+          "entrada": -2,
+          "saida": -3
+        },
+        {
+          "entrada": 0,
+          "saida": -1
+        },
+        {
+          "entrada": 3,
+          "saida": 2
+        }
+      ],
+      "teste": [
+        {
+          "entrada": -4,
+          "saida": -5
+        },
+        {
+          "entrada": 1,
+          "saida": 0
+        },
+        {
+          "entrada": 4,
+          "saida": 3
+        }
+      ]
+    },
+    {
+      "id": "limiar",
+      "dev": [
+        {
+          "entrada": 0,
+          "saida": true
+        },
+        {
+          "entrada": 2,
+          "saida": false
+        },
+        {
+          "entrada": 3,
+          "saida": false
+        }
+      ],
+      "teste": [
+        {
+          "entrada": -4,
+          "saida": true
+        },
+        {
+          "entrada": 1,
+          "saida": true
+        },
+        {
+          "entrada": 4,
+          "saida": false
+        }
+      ]
+    },
+    {
+      "id": "contagem",
+      "dev": [
+        {
+          "entrada": 0,
+          "saida": 0
+        },
+        {
+          "entrada": 2,
+          "saida": 2
+        },
+        {
+          "entrada": 3,
+          "saida": 3
+        }
+      ],
+      "teste": [
+        {
+          "entrada": 1,
+          "saida": 1
+        },
+        {
+          "entrada": 4,
+          "saida": 4
+        },
+        {
+          "entrada": 5,
+          "saida": 5
+        }
+      ]
+    },
+    {
+      "id": "acumulacao",
+      "dev": [
+        {
+          "entrada": 0,
+          "saida": 0
+        },
+        {
+          "entrada": 2,
+          "saida": 1
+        },
+        {
+          "entrada": 3,
+          "saida": 3
+        }
+      ],
+      "teste": [
+        {
+          "entrada": 1,
+          "saida": 0
+        },
+        {
+          "entrada": 4,
+          "saida": 6
+        },
+        {
+          "entrada": 5,
+          "saida": 10
+        }
+      ]
+    }
+  ],
+  "nota": "Avaliação antiga já observada; apenas baseline, não teste novo independente"
+}

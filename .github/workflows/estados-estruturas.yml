@@ -1,0 +1,47 @@
+name: Estados, estruturas e reparo próprios
+on:
+  pull_request:
+    paths:
+      - 'interpretacao_estruturas.py'
+      - 'rede_estruturas.py'
+      - 'busca_estados.py'
+      - 'testes_estados_estruturas.py'
+      - 'verificacao_codigo.py'
+      - 'scripts/experimento_estados_v2.py'
+      - 'scripts/interpretar_estruturas.py'
+      - 'dados/estados/**'
+      - '.github/workflows/estados-estruturas.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  experimento:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq bubblewrap
+      - run: python -m pip install 'numpy>=1.24,<3' 'quickjs==1.19.4'
+      - run: npm install --prefix /tmp/ts typescript@5.9.3
+      - name: Conferir gradientes, baseline congelada, Unicode, limites e reparos
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_interpretacao_estados testes_estados_estruturas testes_logica_programacao -v
+      - name: Paridade JS/TS, treino próprio em três sementes e busca comparativa
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/experimento_estados_v2.py --saida /tmp/estados-v2 --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --passos 5000
+      - name: Resumo do experimento
+        run: cat /tmp/estados-v2/resumo.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: estados-estruturas-${{ github.run_id }}
+          path: /tmp/estados-v2
+          retention-days: 30
