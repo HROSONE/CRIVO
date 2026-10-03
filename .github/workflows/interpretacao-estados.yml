@@ -1,0 +1,45 @@
+name: Interpretação própria por estados e efeitos
+on:
+  pull_request:
+    paths:
+      - 'interpretacao_estados.py'
+      - 'rede_efeitos.py'
+      - 'testes_interpretacao_estados.py'
+      - 'scripts/*efeitos.py'
+      - 'scripts/interpretar_codigo.py'
+      - 'scripts/verificar_estados_js.py'
+      - '.github/workflows/interpretacao-estados.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  experimento:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq bubblewrap
+      - run: python -m pip install 'numpy>=1.24,<3' 'quickjs==1.19.4'
+      - run: npm install --prefix /tmp/ts typescript@5.9.3
+      - name: Gradientes, partições, limites e ausência de fallback neural
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_interpretacao_estados -v
+      - name: Confirmar semântica em JS e TS isolados
+        run: python scripts/verificar_estados_js.py --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --saida /tmp/efeitos/paridade-js.json
+      - name: Treinar rede própria do zero e comparar com busca simbólica
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/treinar_efeitos.py --saida /tmp/efeitos/modelo --passos 4000
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: interpretacao-estados-${{ github.run_id }}
+          path: /tmp/efeitos
+          retention-days: 30
