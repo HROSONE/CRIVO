@@ -580,3 +580,20 @@ Navegador oficial icd.who.int bloqueado nesta sessão. Códigos conferidos em es
 - adiciona a regra de citar release e status em todo código, e de declarar o sistema (ICD-10/ICD-11/DSM) em comparações epidemiológicas.
 
 **Critério doutoral: NÃO ATINGIDO.** Pendências RL-P1…P6: notas de versão oficiais, tabela WHO de mapeamento 10→11, dupla filiação da demência, bridge-coding de suicídio, códigos UNVERIFIED, ICD-11-PHC e tradução pt-BR.
+
+## Aprofundamento 25 — integridade da evidência: viés, replicabilidade, COI, retratações, diretrizes
+
+| Documento | Escopo |
+| --- | --- |
+| [Integridade da evidência](2026-10-03-integridade-evidencia-vies-retratacoes-coi-diretrizes.md) | 17 casos documentados (IB-001…017): Turner 2008, reboxetina/Eyding 2010, Study 329/RIAT 2015, esketamina FDA 2019, de Vries 2018, Driessen 2015, Cuijpers 2010, OSC 2015, 5-HTTLPR (Culverhouse 2018, Border 2019), Moncrieff 2022 vs Jauhar 2023, Wakefield (retratado) + Taylor 2014, MDMA 2024 (FDA CRL + 3 retratações), Lundh 2017, Cosgrove 2012, retirada de antidepressivos (CG90 → Davies & Read → Henssler 2024), NICE NG222, black box pediátrico (Gibbons 2007, Lu 2014 e críticas) |
+
+### Método
+Casos concretos com números conferidos no resumo indexado (VERIFIED-ABS); valores não confirmados ficaram PARTIAL/UNVERIFIED. Cada caso traz o que demonstra e o que não permite concluir. O bloco deriva 8 regras de leitura de evidência para a base.
+
+### Mudança de cobertura
+- a teoria de viés que já existia agora tem casos com magnitude;
+- novas contradições: C-INT-1 (hipótese serotoninérgica), C-INT-2 (incidência de sintomas de retirada);
+- C-PED-1 recebe o lado B (estudos ecológicos e quase-experimentais) e permanece CONTESTED;
+- statuses aplicados: 5-HTTLPR → SUPERSEDED; Wakefield → RETRACTED; Keller 2001 → CONTESTED/SUPERSEDED; frase CG90 sobre retirada → SUPERSEDED.
+
+**Critério doutoral: NÃO ATINGIDO.** Pendências IB-P1…P7: Turner 2022, RR de Lundh, COI ICD-11 vs DSM-5-TR, levantamento sistemático de retratações (Retraction Watch), outras diretrizes superadas, cegamento em psicodélicos.
