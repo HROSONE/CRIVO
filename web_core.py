@@ -51,7 +51,7 @@ def _validar_memoria(memoria):
     return limpa
 
 
-def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None):
+def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -75,7 +75,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None)
                    "\x00" in p for p in historico)):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
-    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem)
+    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem, gerador_programacao=gerador_programacao)
     if memoria:
         bot.carregar_memoria(memoria)
     for anterior in historico:
@@ -111,6 +111,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None)
         "neural_active": bot.rede is not None,
         "plan": bot.planejador.ultimo,
         "experimental_dialogue": usar_dialogo_contextual or bool(modelo_linguagem),
+        "experimental_programming": bool(gerador_programacao),
         # Uma resposta "não encontrei relação" NÃO é uma prova lógica.
         "has_proof": (identificador in provas_efetivas or origem in provas_efetivas or
                       prova_editorial and "Relações verificadas:" in resposta or prova_planejada),

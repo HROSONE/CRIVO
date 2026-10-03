@@ -1924,3 +1924,11 @@ python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 
 ```
 
 A medicao de **138/278 (49,64%)** para a rede com essas configuracoes foi obtida em uma validacao cruzada de desenvolvimento em que cada pergunta foi deixada de fora do treino da respectiva dobra. Esse numero **nao** mede o checkpoint treinado sobre todos os dados em perguntas inteiramente externas, nem demonstra compreensao geral ou efeito nas respostas reais. As regras de sinonimos foram desenvolvidas usando a mesma base e isso limita o grau de independencia da avaliacao.
+
+### Programação avançada e laboratório próprio
+
+O acervo de 300 fichas pode responder consultas avançadas com fontes. O ciclo de
+programação inclui corpus separado por família, geração experimental, compilação,
+execução isolada condicionada ao host e perfis de 2,61M, 10,63M e 27,56M parâmetros.
+O piloto atual não passou na geração de código e permanece experimental. Consulte
+[implementação, comandos e resultados](docs/PROGRAMACAO_NEURAL.md).

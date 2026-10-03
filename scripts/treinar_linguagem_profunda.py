@@ -154,6 +154,7 @@ def main():
                    help='Fração de passos de SFT com pré-treino para reduzir esquecimento')
     p.add_argument('--retomar', action='store_true')
     p.add_argument('--parar-em', type=int, help='Pausa planejada sem mudar o horizonte do LR')
+    p.add_argument('--ajustar-proprio', action='store_true', help='Permite novo corpus com o mesmo tokenizer/configuração; registra linhagem')
     p.add_argument('--inicial', help='Diretório do pré-treino próprio para iniciar SFT')
     p.add_argument('--dispositivo', default='cuda' if torch.cuda.is_available() else 'cpu')
     args = p.parse_args()
@@ -161,6 +162,7 @@ def main():
         p.error('Contagens devem ser positivas')
     if not 0 <= args.repeticao_linguagem < 1 or args.lr <= 0:
         p.error('Taxa de aprendizado/repetição inválida')
+    if args.ajustar_proprio and not (args.inicial or args.retomar): p.error('--ajustar-proprio requer --inicial ou --retomar')
     if args.retomar and args.inicial: p.error('Escolha retomada ou inicialização de uma etapa')
     if args.fase == 'dialogo' and not args.retomar and not args.inicial:
         p.error('SFT requer --inicial com pré-treino próprio')
@@ -193,12 +195,17 @@ def main():
     elif args.inicial:
         pasta = Path(args.inicial)
         anterior = torch.load(pasta / 'pesos.pt', map_location=args.dispositivo, weights_only=True)
-        if anterior['config'] != asdict(config) or anterior['execucao']['corpus'] != corpus.assinatura:
+        if anterior['versao'] != VERSAO or anterior['config'] != asdict(config):
+            raise ValueError('Inicialização incompatível com arquitetura própria')
+        if sha(pasta / 'tokenizer.json') != corpus.manifesto['arquivos']['tokenizer.json'] or anterior['execucao']['tokenizer_sha256'] != corpus.manifesto['arquivos']['tokenizer.json']:
+            raise ValueError('Inicialização com tokenizer diferente ou alterado')
+        if not args.ajustar_proprio and anterior['execucao']['corpus'] != corpus.assinatura:
             raise ValueError('Inicialização incompatível com corpus/configuração próprios')
-        if anterior['execucao']['fase'] != 'linguagem': raise ValueError('Esperava etapa de pré-treino')
+        if not args.ajustar_proprio and anterior['execucao']['fase'] != 'linguagem': raise ValueError('Esperava etapa de pré-treino')
         modelo.load_state_dict(anterior['modelo'])
         inicial = {'pesos_sha256': sha(pasta / 'pesos.pt'), 'passo': anterior['passo'],
-                   'tokens_alvo': anterior['tokens_alvo']}
+                   'tokens_alvo': anterior['tokens_alvo'], 'corpus_anterior': anterior['execucao']['corpus'],
+                   'ajuste_programacao': args.ajustar_proprio}
     shutil.copyfile(corpus.caminho / 'tokenizer.json', out / 'tokenizer.json')
     inicio = time.monotonic(); passo_inicio = passo
     parametros = sum(p.numel() for p in modelo.parameters())
