@@ -289,7 +289,9 @@ class Crivo:
         for i, e in enumerate(self.base):
             freq = Counter(t for ex in self.exemplos[i] for t in ex)
             nucleo = {t for t, f in freq.items() if f * 2 >= len(self.exemplos[i])}
-            self.nucleos.append(nucleo | set(tokens(e["id"].replace("_", " "))))
+            # Um exemplo de uma palavra só ("o que é uma galáxia") também é assunto.
+            sozinhas = {t for ex in self.exemplos[i] if len(ex) == 1 for t in ex}
+            self.nucleos.append(nucleo | sozinhas | set(tokens(e["id"].replace("_", " "))))
         self.conceitos = set().union(*self.nucleos) - self._GENERICOS if self.nucleos else set()
         # Um currículo novo não deve alterar o peso das palavras de outro domínio.
         self.grupos = ["mundo" if e.get("origem_curriculo") == "mundo" else
