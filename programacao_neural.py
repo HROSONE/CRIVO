@@ -55,6 +55,8 @@ def gate(relatorio):
     if relatorio.get('particao') != 'teste': motivos.append('exige partição teste')
     if relatorio.get('familias',0)<50: motivos.append('cobertura inferior a 50 famílias reservadas')
     if not relatorio.get('isolamento'): motivos.append('execução isolada indisponível')
+    if relatorio.get('runtimes',{}).get('quickjs_sem_apis_host'):
+        motivos.append('avaliação QuickJS exige confirmação no runtime Node para promoção')
     for lang in ('javascript','typescript'):
         m=relatorio.get('linguagens',{}).get(lang,{})
         if m.get('total',0)<50: motivos.append('amostra pequena: '+lang)

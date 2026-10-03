@@ -1,5 +1,7 @@
 """Compilação e testes de código gerado. Execução exige isolamento bubblewrap."""
 import json
+import importlib.util
+import sys
 import os
 from pathlib import Path
 import resource
@@ -23,8 +25,8 @@ def iguais(a, b):
     return a == b
 
 
-def limites(memoria=False):
-    resource.setrlimit(resource.RLIMIT_CPU, (4, 4))
+def limites(memoria=False, cpu=4):
+    resource.setrlimit(resource.RLIMIT_CPU, (cpu, cpu))
     resource.setrlimit(resource.RLIMIT_FSIZE, (131072, 131072))
     resource.setrlimit(resource.RLIMIT_NOFILE, (64, 64))
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
@@ -33,11 +35,11 @@ def limites(memoria=False):
         resource.setrlimit(resource.RLIMIT_NPROC, (64, 64))
 
 
-def comando(args, pasta, timeout=12, memoria=False):
+def comando(args, pasta, timeout=12, memoria=False, cpu=4):
     with tempfile.TemporaryFile() as log:
         try:
             p = subprocess.run(args, cwd=pasta, stdin=subprocess.DEVNULL, stdout=log,
-                               stderr=log, timeout=timeout, preexec_fn=lambda: limites(memoria),
+                               stderr=log, timeout=timeout, preexec_fn=lambda: limites(memoria, cpu),
                                env={'PATH': os.environ.get('PATH', ''), 'LANG': 'C.UTF-8'})
             log.seek(0)
             return p.returncode == 0, log.read(8000).decode('utf-8', errors='replace')
@@ -53,13 +55,33 @@ def sandbox_args(node, job):
         return None
     args = [bwrap, '--unshare-all', '--new-session', '--die-with-parent', '--cap-drop', 'ALL']
     # Não monta home, workspace, credenciais nem a raiz do host.
+    # Node não exige procfs: diretório vazio evita mount proc proibido no Colab.
     for path in ('/usr', '/lib', '/lib64', '/etc/ld.so.cache'):
         if Path(path).exists():
             args += ['--ro-bind', path, path]
     args += ['--ro-bind', str(Path(node).resolve()), '/node', '--ro-bind', str(job), '/job',
-             '--tmpfs', '/tmp', '--proc', '/proc', '--dev', '/dev', '--chdir', '/job',
+             '--tmpfs', '/tmp', '--dir', '/proc', '--dev', '/dev', '--chdir', '/job',
              '/node', '--jitless', '--max-old-space-size=128']
     return args
+
+
+def quickjs_disponivel():
+    return importlib.util.find_spec('quickjs') is not None
+
+
+def executar_quickjs(job, pasta):
+    # VM sem add_callable, módulos, bindings de SO ou acesso ao processo Python.
+    # O subprocesso impõe limites adicionais; QuickJS limita heap, pilha e tempo.
+    runner = """import quickjs, sys
+from pathlib import Path
+ctx = quickjs.Context()
+ctx.set_memory_limit(64 * 1024 * 1024)
+ctx.set_max_stack_size(1024 * 1024)
+ctx.set_time_limit(2)
+resultado = ctx.eval('const console = {log: x => x};\\n' + Path(sys.argv[1]).read_text())
+print(resultado)
+"""
+    return comando([sys.executable, '-I', '-c', runner, str(job)], pasta, memoria=True)
 
 
 def sandbox_disponivel():
@@ -68,7 +90,7 @@ def sandbox_disponivel():
         return False
     with tempfile.TemporaryDirectory() as d:
         args = sandbox_args(node, d)
-        return bool(args and comando(args + ['-e', 'console.log("isolado")'], d, memoria=True)[0])
+        return bool(args and comando(args + ['-e', 'console.log("isolado")'], d, memoria=True)[0]) or quickjs_disponivel()
 
 
 def verificar(codigo, linguagem, casos, tsc=None):
@@ -89,7 +111,7 @@ def verificar(codigo, linguagem, casos, tsc=None):
                 return dict(compila=False, funcional=False, executado=False, diagnostico='TypeScript indisponível')
             cmd = ([node, compilador] if str(compilador).endswith('.js') else [compilador])
             ok, log = comando(cmd + [str(origem), '--strict', '--noEmitOnError', '--target',
-                                      'ES2022', '--module', 'commonjs', '--outDir', d], d)
+                                      'ES2022', '--module', 'commonjs', '--outDir', d], d, timeout=30, cpu=20)
             compilado = pasta / 'codigo.js'
         else:
             ok, log = comando([node, '--check', str(origem)], d)
@@ -98,9 +120,6 @@ def verificar(codigo, linguagem, casos, tsc=None):
         if not ok:
             return r
         args = sandbox_args(node, pasta)
-        if not args:
-            r['diagnostico'] = 'Execução bloqueada: bubblewrap indisponível'
-            return r
         # O processo candidato recebe entradas; o oráculo fica no processo pai.
         harness = '\nconst entradas = ' + json.dumps([c['entrada'] for c in casos], ensure_ascii=True) + ''';
 const saidas = entradas.map(args => resolver(...args));
@@ -113,11 +132,17 @@ console.log('CRIVO_RESULTADO:' + resultado);
 '''
         (pasta / 'teste.cjs').write_text(compilado.read_text() + harness, encoding='utf-8')
         # Preflight separado: indisponibilidade não conta como falha funcional do modelo.
-        pronto, diagnostico = comando(args + ['-e', 'console.log("isolado")'], d, memoria=True)
-        if not pronto:
+        pronto, diagnostico = (comando(args + ['-e', 'console.log("isolado")'], d, memoria=True)
+                               if args else (False, 'bubblewrap indisponível'))
+        if pronto:
+            r['runtime'] = 'node_bubblewrap'
+            funcional, diagnostico = comando(args + ['/job/teste.cjs'], d, memoria=True)
+        elif quickjs_disponivel():
+            r['runtime'] = 'quickjs_sem_apis_host'
+            funcional, diagnostico = executar_quickjs(pasta / 'teste.cjs', d)
+        else:
             r['diagnostico'] = 'Execução bloqueada: isolamento indisponível: ' + diagnostico
             return r
-        funcional, diagnostico = comando(args + ['/job/teste.cjs'], d, memoria=True)
         if funcional:
             linhas = [l[len('CRIVO_RESULTADO:'):] for l in diagnostico.splitlines()
                       if l.startswith('CRIVO_RESULTADO:')]

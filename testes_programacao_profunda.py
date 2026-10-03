@@ -88,6 +88,17 @@ class DadosEGates(unittest.TestCase):
         self.assertGreater(len(grupos),300)
         for s in ('treino','validacao','teste'): self.assertTrue(any(s in g for g in grupos.values()))
 
+    def test_curriculo_tem_codigo_testado_e_familias_separadas(self):
+        tarefas=json.loads((ROOT/'dados/programacao/curriculo.json').read_text())['tarefas']
+        self.assertEqual(len(tarefas),3600)
+        grupos={}
+        for t in tarefas:
+            self.assertEqual(len(t['casos']),4)
+            grupos.setdefault(t['familia'],set()).add(t['split'])
+        self.assertEqual(len(grupos),30)
+        self.assertTrue(all(len(s)==1 for s in grupos.values()))
+        self.assertEqual(sum(s=={'treino'} for s in grupos.values()),24)
+
     def test_benchmark_reservado_nunca_entra_no_treino(self):
         ts=json.loads((ROOT/'dados/programacao/tarefas.json').read_text())['tarefas']
         treino={e['grupo'] for e in exemplos() if e['split']=='treino'}
@@ -110,9 +121,26 @@ class DadosEGates(unittest.TestCase):
     def test_verificacao_bloqueia_execucao_sem_sandbox(self):
         if not shutil.which('node'): self.skipTest('Node ausente')
         from verificacao_codigo import verificar
-        with patch('verificacao_codigo.sandbox_args',return_value=None):
+        with patch('verificacao_codigo.sandbox_args',return_value=None), patch('verificacao_codigo.quickjs_disponivel',return_value=False):
             r=verificar('function resolver(n) { return n*2; }','javascript',[dict(entrada=[2],saida=4)])
         self.assertTrue(r['compila']);self.assertFalse(r['executado']);self.assertFalse(r['funcional'])
+
+    def test_quickjs_resultados_erros_sem_host_e_loop(self):
+        from verificacao_codigo import verificar, quickjs_disponivel
+        if not quickjs_disponivel() or not shutil.which('node'):
+            self.skipTest('QuickJS/Node ausente')
+        with patch('verificacao_codigo.sandbox_args', return_value=None):
+            casos = [dict(entrada=[2], saida=4)]
+            r = verificar('function resolver(n) { return n*2; }', 'javascript', casos)
+            self.assertTrue(r['funcional']); self.assertEqual(r['runtime'], 'quickjs_sem_apis_host')
+            for codigo in ['function resolver(n) { return n; }',
+                           'function resolver(n) { return process.env; }',
+                           'function resolver(n) { return require("fs"); }',
+                           'function resolver(n) { return fetch("https://example.com"); }',
+                           'function resolver(n) { while (true) {} }']:
+                with self.subTest(codigo=codigo):
+                    r = verificar(codigo, 'javascript', casos)
+                    self.assertTrue(r['executado']); self.assertFalse(r['funcional'])
 
     def test_sintaxe_invalida_nao_executa(self):
         if not shutil.which('node'): self.skipTest('Node ausente')
