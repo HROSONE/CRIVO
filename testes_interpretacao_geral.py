@@ -113,11 +113,12 @@ class TestesComposicaoGeral(unittest.TestCase):
                 self.assertEqual(obtido, esperado)
                 self.assertEqual(bot.historico[-1]["pergunta"], perguntas[-1])
 
-    def test_elipse_nao_inventa_definicao_de_termo_composto(self):
+    def test_elipse_resolve_termo_composto_cadastrado(self):
         bot = Crivo()
         bot.responder("O que é o Sol?")
         ident, resposta = bot.responder("E uma árvore binária?")
-        self.assertIn(ident, ("fora", "duvida"))
+        self.assertEqual(ident, "conhecimento:arvore_binaria")
+        self.assertIn("cada nó", resposta)
         self.assertNotIn("Uma árvore é uma planta", resposta)
         bot = Crivo()
         bot.responder("O que é HTML?")

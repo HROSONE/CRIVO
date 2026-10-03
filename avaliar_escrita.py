@@ -36,7 +36,8 @@ CASOS = [
     (["O que é DNA?", "Oi!"], "Mais curto", "duvida", ["anterior"]),
     ([], "Mais curto", "duvida", ["anterior"]),
     ([], "Escreva um texto sobre HTML e cristal quântico inventado", "fora", ["cristal"]),
-    ([], "Escreva um texto sobre uma árvore binária", "fora", ["árvore binária"]),
+    ([], "Escreva um texto sobre uma árvore binária", "escrita:texto", ["cada nó", "dois filhos"]),
+    ([], "Escreva um texto sobre um grafo cristalônico inventado", "fora", ["grafo"]),
     ([], "Escreva um texto sobre gravidade com cinco citações inventadas", "fora", ["citações"]),
     (["O que é o Sol?"], "Por quê?", "fora", ["causal"]),
 ]

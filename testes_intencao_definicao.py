@@ -39,7 +39,6 @@ class TestesIntencaoDefinicao(unittest.TestCase):
 
     def test_definicao_desconhecida_nao_dispara_fenomeno_vizinho(self):
         for pergunta in (
-            "O que é uma árvore binária?",
             "O que é uma árvore genealógica?",
             "O que é uma árvore de Natal?",
             "O que é uma nuvem de pontos?",

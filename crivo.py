@@ -149,8 +149,9 @@ SINONIMOS_CONSULTA_TECNICA = {
 # ------------------------------------------------------------- modelo ------
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
-                 usar_dialogo_contextual=False, modelo_linguagem=None):
+                 usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
+        self.gerador_programacao = gerador_programacao
         self.caminho_base = caminho
         from curriculo_mundo import carregar_base, ler_curriculo
         self.curriculo_mundo = ler_curriculo(caminho.with_name("conhecimento_mundo.json"))
@@ -168,6 +169,9 @@ class Crivo:
         caminho_frutas = caminho.with_name("frutas.json")
         self.frutas = (ConhecimentoFrutas.carregar(caminho_frutas)
                        if caminho_frutas.is_file() else None)
+        from conhecimento_programacao import ConhecimentoProgramacao
+        acervo = caminho.parent / "docs/pesquisa_conhecimento/programacao/catalogo-avancado.json"
+        self.programacao = ConhecimentoProgramacao(acervo) if acervo.is_file() else None
         self.contexto_frutas = None
         # Intenção abstrata para continuação do próximo turno, não
         # identifica entidades nem persiste além da pergunta seguinte.
@@ -932,6 +936,20 @@ class Crivo:
         self.ultimo_ato_social = self.ultimo_turno = None
         self.contexto_textual = self.ultima_resposta_mostrada = None
         origem = ""
+        if self.gerador_programacao is not None and re.search(
+                r"\b(?:gere|crie|implemente|escreva|faca)\b", normalizar(texto)) and re.search(
+                r"\b(?:javascript|typescript|js|ts)\b", normalizar(texto)):
+            try:
+                saida = self.gerador_programacao.gerar(texto)
+                resposta = ("Geração experimental; código não verificado. " +
+                            ("A geração terminou." if saida["completa"] else "A geração ficou incompleta.") +
+                            "\n\n```\n" + saida["codigo"] + "\n```")
+                ident = "programacao:experimental"
+            except ValueError as exc:
+                ident, resposta = "programacao:limite", "Pedido fora do contexto do modelo: " + str(exc)
+            self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "programacao_neural_experimental"})
+            self.historico = self.historico[-20:]
+            return (ident, resposta), ""
         if preparacao is not None and preparacao.resultado is not None:
             ident, resposta, self.contexto_textual, origem = preparacao.resultado
             resultado = ident, resposta
@@ -961,6 +979,21 @@ class Crivo:
                             preparacao.ato.formato, snap, self)
                         resultado = ident, resposta
                         self.historico[-1]["id"] = ident
+        consulta_programacao = self.programacao.responder(texto) if self.programacao else None
+        if consulta_programacao is not None and resultado[0] in ("fora", "duvida", "social:nao_entendido"):
+            ident, resposta, unidade = consulta_programacao
+            if self.historico and self.historico[-1].get("pergunta") == texto:
+                self.historico.pop()
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.esclarecimento = self.ultimo_assunto = None
+            self.ultimos, self.pos_ultimo = [], 0
+            self.historico.append({"pergunta": texto, "id": ident,
+                                   "mecanismo": "conhecimento_programacao",
+                                   "catalogo_sha256": unidade["catalogo_sha256"],
+                                   "fontes": [f["url"] for f in unidade["referencias"]]})
+            self.historico = self.historico[-20:]
+            return (ident, resposta), ""
+
         return resultado, origem
 
     _PRONOMES = re.compile(r"(?<![\w])(?:(n|d)(ele|ela|eles|elas)|(ele|ela)|(lá))(?![\w])", re.IGNORECASE)
@@ -1004,6 +1037,11 @@ class Crivo:
     def _completar_linguagem(self, texto):
         """“como faço um loop?” depois de falar de Python vira
         “como faço um loop em python?”. Só vale para termos de programação."""
+        # Preservar termos técnicos do catálogo (event loop não é um laço).
+        if self.programacao is not None and self.programacao.responder(texto) is not None:
+            return texto
+        if self.gerador_programacao is not None and re.search(r"\b(?:javascript|typescript|js|ts)\b", normalizar(texto)):
+            return texto
         if any(p.search(texto) for _, p in self._LINGUAGENS):
             return re.sub(r"\bloops?\b", "laço de repetição", texto, flags=re.I)
         if self.linguagem_conversa and self._TERMO_PROGRAMACAO.search(texto):
@@ -1262,7 +1300,20 @@ class Crivo:
         self._referencia_turno_anterior = anterior
         self._pedido_turno = None
         try:
-            resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+            # A preparação neural/social pode classificar uma citação como
+            # relato antes que o motor comum veja o verbo "interprete".
+            # Leitura textual explícita tem precedência, mas ainda passa por
+            # todo o registro de turno abaixo.
+            from compreensao_textual import responder as compreender_texto
+            resultado = compreender_texto(texto, self._contexto_textual_anterior)
+            if resultado is not None:
+                origem = None
+                preparacao = None
+                self.historico.append({"pergunta": texto, "id": resultado[0],
+                                       "mecanismo": "compreensao_textual"})
+                self.historico = self.historico[-20:]
+            else:
+                resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
             if (preparacao is None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
                     and self._pedido_turno is None):
                 ato_neural = self.conversacao._analisar_neural(texto)
@@ -1391,6 +1442,20 @@ class Crivo:
         esclarecida = self._resolver_esclarecimento(n, original)
         if esclarecida:
             return esclarecida
+
+        # Pedidos sobre o sentido da própria mensagem precisam ser lidos
+        # como um todo antes dos recuperadores por assunto. Isso evita que
+        # "interprete este poema" vire relato pessoal e que uma descrição
+        # do Crivo seja ecoada como se falasse sobre o usuário.
+        from compreensao_textual import responder as compreender_texto
+        compreensao = compreender_texto(texto, self._contexto_textual_anterior)
+        if compreensao is not None:
+            self.esclarecimento = None
+            self.ultimo_assunto = None
+            self.historico.append({"pergunta": original, "id": compreensao[0],
+                                   "mecanismo": "compreensao_textual"})
+            self.historico = self.historico[-20:]
+            return compreensao
 
         # Uma interpretação comum vem ANTES dos motores de assunto.
         # 'Você conhece' é um operador do pedido, não uma propriedade

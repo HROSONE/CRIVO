@@ -1,0 +1,621 @@
+{
+  "particao": "teste",
+  "familias": 8,
+  "pesos_sha256": "7fc955536a55e979df09e2f5007713fb3e73312b59d8629bc9285851aa9663da",
+  "tokenizer_sha256": "a928cda393528d7f00b0441a8187dc6fa7485fcf73edb14e908b763ed2a4ca66",
+  "tarefas_sha256": "e3997473962ed48962ef84fe5d35e5ef2c70dc4c14249544dce74d5ede8ac4ce",
+  "isolamento": false,
+  "regressao_geral_aprovada": false,
+  "revisao_independente": false,
+  "benchmark": "sintético autoral pequeno; não demonstra nível sênior nem avalia projetos reais",
+  "recuperacao": false,
+  "linguagens": {
+    "javascript": {
+      "total": 8,
+      "compilam": 0,
+      "completas": 8,
+      "executadas": 0,
+      "corretas": 0,
+      "reparadas": 0,
+      "pass_at_1": 0.0,
+      "taxa_compilacao": 0.0
+    },
+    "typescript": {
+      "total": 8,
+      "compilam": 0,
+      "completas": 8,
+      "executadas": 0,
+      "corretas": 0,
+      "reparadas": 0,
+      "pass_at_1": 0.0,
+      "taxa_compilacao": 0.0
+    }
+  },
+  "resultados": [
+    {
+      "id": "produto_javascript",
+      "familia": "produto",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpzspxjtpu/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar remove/ct.xt.ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.",
+            "completa": true,
+            "tokens": 58,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp2pxutd1f/codigo.mjs:1\nTestar remove/ct.xt.ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.\n       ^^^^^^\n\nSyntaxError: Unexpected identifier 'remove'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "produto_typescript",
+      "familia": "produto",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,8): error TS2304: Cannot find name 'e'.\ncodigo.ts(1,10): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,18): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "erro": "Reparo excede contexto; não corta silenciosamente contrato/código"
+        }
+      ]
+    },
+    {
+      "id": "unicos_javascript",
+      "familia": "unicos",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmppfqww5fa/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removedor de blow.",
+            "completa": true,
+            "tokens": 12,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp3qg44trq/codigo.mjs:1\nTestar removedor de blow.\n       ^^^^^^^^^\n\nSyntaxError: Unexpected identifier 'removedor'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "unicos_typescript",
+      "familia": "unicos",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar nut.",
+            "completa": true,
+            "tokens": 7,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'nut'.\ncodigo.ts(1,12): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.set.set.set.set()",
+            "completa": true,
+            "tokens": 21,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'removet'.\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intersecao_javascript",
+      "familia": "intersecao",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp1c_p_b48/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.",
+            "completa": true,
+            "tokens": 8,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp0yec9s57/codigo.mjs:1\nTestar removet.\n       ^^^^^^^\n\nSyntaxError: Unexpected identifier 'removet'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "intersecao_typescript",
+      "familia": "intersecao",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar nut.",
+            "completa": true,
+            "tokens": 7,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'nut'.\ncodigo.ts(1,12): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.set.set.set.",
+            "completa": true,
+            "tokens": 17,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,28): error TS1003: Identifier expected.\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "palindromo_javascript",
+      "familia": "palindromo",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp0jj5v12w/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar remove/ctionst.ctionst.xt.xt.ct.ct.xt.xt.xt.xt.xt.xt.xt.xt.",
+            "completa": true,
+            "tokens": 53,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpql76xcdl/codigo.mjs:1\nTestar remove/ctionst.ctionst.xt.xt.ct.ct.xt.xt.xt.xt.xt.xt.xt.xt.\n       ^^^^^^\n\nSyntaxError: Unexpected identifier 'remove'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "palindromo_typescript",
+      "familia": "palindromo",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,8): error TS2304: Cannot find name 'e'.\ncodigo.ts(1,10): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,18): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "erro": "Reparo excede contexto; não corta silenciosamente contrato/código"
+        }
+      ]
+    },
+    {
+      "id": "fatorial_javascript",
+      "familia": "fatorial",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpqqz8oxj9/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar return com </ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.",
+            "completa": true,
+            "tokens": 58,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpf23_nvjz/codigo.mjs:1\nTestar return com </ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.\n       ^^^^^^\n\nSyntaxError: Unexpected token 'return'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fatorial_typescript",
+      "familia": "fatorial",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e blow.",
+            "completa": true,
+            "tokens": 8,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,8): error TS2304: Cannot find name 'e'.\ncodigo.ts(1,10): error TS2304: Cannot find name 'blow'.\ncodigo.ts(1,15): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "erro": "Reparo excede contexto; não corta silenciosamente contrato/código"
+        }
+      ]
+    },
+    {
+      "id": "busca_binaria_javascript",
+      "familia": "busca_binaria",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpvstkf0j0/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar remove e bints.",
+            "completa": true,
+            "tokens": 11,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp69v6dp3s/codigo.mjs:1\nTestar remove e bints.\n       ^^^^^^\n\nSyntaxError: Unexpected identifier 'remove'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "busca_binaria_typescript",
+      "familia": "busca_binaria",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar nut.",
+            "completa": true,
+            "tokens": 7,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'nut'.\ncodigo.ts(1,12): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.",
+            "completa": true,
+            "tokens": 8,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,16): error TS1003: Identifier expected.\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rotacionar_javascript",
+      "familia": "rotacionar",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmp2h11vy7x/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.",
+            "completa": true,
+            "tokens": 47,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpbvp0dmyv/codigo.mjs:1\nTestar removet.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.\n       ^^^^^^^\n\nSyntaxError: Unexpected identifier 'removet'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rotacionar_typescript",
+      "familia": "rotacionar",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar nut.",
+            "completa": true,
+            "tokens": 7,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'nut'.\ncodigo.ts(1,12): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar removet.set.",
+            "completa": true,
+            "tokens": 11,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,20): error TS1003: Identifier expected.\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compactar_javascript",
+      "familia": "compactar",
+      "linguagem": "javascript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpx0ubau7r/codigo.mjs:1\nTestar e removet.\n       ^\n\nSyntaxError: Unexpected identifier 'e'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        },
+        {
+          "geracao": {
+            "codigo": "Testar remove/ct.xt.ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.",
+            "completa": true,
+            "tokens": 58,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "/tmp/tmpa25zlj7b/codigo.mjs:1\nTestar remove/ct.xt.ct.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.xt.\n       ^^^^^^\n\nSyntaxError: Unexpected identifier 'remove'\n    at checkSyntax (node:internal/main/check_syntax:72:5)\n\nNode.js v24.19.0\n"
+          }
+        }
+      ]
+    },
+    {
+      "id": "compactar_typescript",
+      "familia": "compactar",
+      "linguagem": "typescript",
+      "tentativas": [
+        {
+          "geracao": {
+            "codigo": "Testar e removet.",
+            "completa": true,
+            "tokens": 9,
+            "experimental": true,
+            "referencias": [],
+            "passo": 200
+          },
+          "verificacao": {
+            "compila": false,
+            "funcional": false,
+            "executado": false,
+            "diagnostico": "codigo.ts(1,1): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,1): error TS2304: Cannot find name 'Testar'.\ncodigo.ts(1,8): error TS1434: Unexpected keyword or identifier.\ncodigo.ts(1,8): error TS2304: Cannot find name 'e'.\ncodigo.ts(1,10): error TS2304: Cannot find name 'removet'.\ncodigo.ts(1,18): error TS1003: Identifier expected.\n"
+          }
+        },
+        {
+          "erro": "Reparo excede contexto; não corta silenciosamente contrato/código"
+        }
+      ]
+    }
+  ],
+  "gate": {
+    "aprovado": false,
+    "motivos": [
+      "cobertura inferior a 50 famílias reservadas",
+      "execução isolada indisponível",
+      "amostra pequena: javascript",
+      "pass@1 abaixo de 90%: javascript",
+      "amostra pequena: typescript",
+      "pass@1 abaixo de 90%: typescript",
+      "regressão geral não aprovada",
+      "revisão independente ausente"
+    ]
+  }
+}
