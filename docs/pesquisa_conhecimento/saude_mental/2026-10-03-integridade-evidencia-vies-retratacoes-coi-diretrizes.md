@@ -291,5 +291,6 @@
 | IB-015 | Retirada: CG90 → Davies & Read → Henssler | VERIFIED-ABS; C-INT-2 CONTESTED | diretriz SUPERSEDED |
 | IB-016 | NICE NG222 | VERIFIED-ABS | controvérsia metodológica |
 | IB-017 | Black box: Gibbons/Lu vs críticas | VERIFIED-ABS; C-PED-1 CONTESTED | ecológico vs ensaio |
+| IB-018 | Hatzenbuehler 2014 (estigma estrutural e expectativa de vida ~12 anos): erro de codificação; correção em 2017, retratação em 2019 (detalhes em LG-003, `violencia-populacoes-especiais-ii`) | VERIFIED-ABS; RETRACTED | retratação por erro honesto; hipótese do estresse de minoria intacta |
 
 **Integração:** nenhuma. **Treinamento:** nenhum.

@@ -684,3 +684,15 @@ Itens estruturais: verificação só pelo resumo, por causa do bloqueio de rede.
 - distinção explícita entre diagnóstico autorrelatado e prevalência.
 
 **Critério doutoral: NÃO ATINGIDO.** Restam AD-03…AD-05 e as pendências BR-P1…P7.
+
+## Aprofundamento 32 — violência e populações especiais II (corrige AD-03 e AD-04)
+
+| Documento | Escopo |
+| --- | --- |
+| [Violência e populações especiais II](2026-10-03-violencia-populacoes-especiais-ii.md) | **Violência:** Fazel 2009 (mediação por substâncias); coorte sueca de Fazel 2014 (violência 7,4×, suicídio 20,7×); vitimização maior que perpetração (Desmarais 2014). **LGBTQ+:** King 2008 (tentativa RR 2,47); estresse de minoria (Meyer 2003); **retratação de Hatzenbuehler 2014** (IB-018). **Refugiados:** Blackmore 2020. **Idosos:** antidepressivos NNT ~8 (Tedeschini 2011); psicotrópicos e quedas (Woolcott 2009); prevenção de delirium OR 0,47 (Hshieh 2015) |
+
+### Mudança de cobertura
+- AD-03 e AD-04 deixam de ser déficits materiais. Pendências: pessoas trans, percentuais em refugiados, idosos no Brasil;
+- nova contradição aparente C-VI-1 (risco relativo vs fração atribuível e vitimização), resolvida pela distinção de medidas.
+
+**Critério doutoral: NÃO ATINGIDO.** Resta AD-05 (frases narrativas) e a nova auditoria adversarial (02).
