@@ -1,0 +1,32 @@
+{
+ "descricao": "Assunto errado (resposta sobre outro tema por uma palavra em comum) e tom errado em relatos. Cada caso começa numa conversa nova; 'historico' são falas anteriores do usuário. Controles devem continuar respondendo.",
+ "casos": [
+  {"tipo": "assunto", "fala": "Por que o céu é azul?", "nao_contem": ["papel", "plástico"]},
+  {"tipo": "assunto", "fala": "Respirar fundo ajuda?", "nao_contem": ["brânquias"]},
+  {"tipo": "assunto", "fala": "Plantas respiram?", "nao_contem": ["brânquias"]},
+  {"tipo": "assunto", "fala": "Golfinho respira debaixo d'água?", "nao_contem": ["brânquias"]},
+  {"tipo": "assunto", "fala": "Qual a diferença entre == e ===?", "nao_contem": ["atmosfera"]},
+  {"tipo": "assunto", "fala": "Se nenhum gato é cachorro e Rex é cachorro, Rex é gato?", "nao_contem": ["vivem", "anos"]},
+  {"tipo": "assunto", "fala": "Se eu tenho 3 maçãs e como uma, quantas sobram?", "nao_contem": ["geladeira"]},
+  {"tipo": "assunto", "fala": "Escreva fatorial em JavaScript", "nao_contem": ["HTML estrutura"]},
+  {"tipo": "assunto", "fala": "Morcego é ave?", "nao_contem": ["Aves voam graças"]},
+  {"tipo": "assunto", "historico": ["Como faço uma lista em Python?"], "fala": "Como ordeno uma lista?", "nao_contem": ["append acrescenta"]},
+  {"tipo": "assunto", "historico": ["O que é JavaScript?"], "fala": "Como uso map em um array?", "nao_contem": ["for...of"]},
+  {"tipo": "assunto", "fala": "Tem um bug: for i in range(10) print(i)", "nao_contem": ["for...of", "for...in"]},
+  {"tipo": "controle", "fala": "Quais as cores da reciclagem?", "contem_algum": ["papel"]},
+  {"tipo": "controle", "fala": "Como os peixes respiram?", "contem_algum": ["brânquias"]},
+  {"tipo": "controle", "fala": "Quantos planetas tem o sistema solar?", "contem_algum": ["Oito"]},
+  {"tipo": "controle", "fala": "Quanto tempo vive um gato?", "contem_algum": ["anos"]},
+  {"tipo": "controle", "fala": "Qual a diferença entre clima e tempo?", "contem_algum": ["atmosfera"]},
+  {"tipo": "tom", "fala": "Perdi minha avó semana passada", "nao_contem": ["que chato", "putz", "que legal", "que bom"], "contem_algum": ["sinto muito", "lamento", "meus sentimentos"]},
+  {"tipo": "tom", "fala": "Meu tio faleceu ontem", "nao_contem": ["que chato", "putz", "que legal", "que bom"], "contem_algum": ["sinto muito", "lamento", "meus sentimentos"]},
+  {"tipo": "tom", "fala": "Meu gato morreu", "nao_contem": ["que chato", "putz", "que legal", "que bom"], "contem_algum": ["sinto muito", "lamento", "meus sentimentos"]},
+  {"tipo": "tom", "fala": "Amanhã é feriado", "nao_contem": ["que chato", "poxa", "sinto muito", "putz"]},
+  {"tipo": "tom", "fala": "Consegui o emprego!", "nao_contem": ["que chato", "poxa", "sinto muito", "putz"], "contem_algum": ["que bom", "parabéns", "que ótimo", "que legal"]},
+  {"tipo": "tom", "fala": "Briguei com minha namorada", "nao_contem": ["briguei com sua", "briguei com a sua"]},
+  {"tipo": "tom", "fala": "Trabalhei muito e não almocei", "nao_contem": ["almoço caprichado"]},
+  {"tipo": "tom", "historico": ["Meu cachorro tá doente"], "fala": "Ele não quer comer", "nao_contem": ["sua comida preferida", "comida feita em casa"]},
+  {"tipo": "tom", "historico": ["Meu cachorro tá doente", "Ele não quer comer", "Vou levar no veterinário amanhã", "O nome dele é Thor"], "fala": "Como você acha que ele tá?", "nao_contem": ["sou um programa"]},
+  {"tipo": "tom", "historico": ["Briguei com minha namorada", "Ela disse que eu não presto atenção nela", "Eu acho que ela tem razão"], "fala": "O que eu faço?", "nao_contem": ["você me contou que"]}
+ ]
+}
