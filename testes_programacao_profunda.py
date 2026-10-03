@@ -110,6 +110,7 @@ class DadosEGates(unittest.TestCase):
                revisao_independente=True,linguagens={l:dict(total=50,completas=50,pass_at_1=.94)
                    for l in ('javascript','typescript')})
         self.assertTrue(gate(r)['aprovado'])
+        self.assertFalse(gate(dict(r,runtimes={'quickjs_sem_apis_host':100}))['aprovado'])
         for campo,valor in [('isolamento',False),('familias',8),('particao','treino'),
                              ('regressao_geral_aprovada',False),('revisao_independente',False)]:
             self.assertFalse(gate(dict(r,**{campo:valor}))['aprovado'])

@@ -171,3 +171,7 @@ no Drive. O notebook verifica a configuração antes de retomar, mostra progress
 e permite exportar um ZIP de pesos de inferência e relatórios. A GPU e o acesso
 ao Drive precisam ser habilitados na conta do usuário; criar o notebook não
 inicia um treinamento no Colab.
+
+## Segunda rodada JS/TS
+
+Use [o notebook v2](https://colab.research.google.com/github/HROSONE/CRIVO/blob/codex/programacao-transformer-ciclo/notebooks/treinar_programacao_colab_v2.ipynb). Ele adiciona 3.600 exemplos de código com testes, preflight JS/TS e QuickJS sem APIs host quando bubblewrap é bloqueado. Consulte [a preparação e os limites](PROXIMO_TREINO_PROGRAMACAO.md). Crie uma execução nova; opcionalmente indique o candidato anterior em MODELO_INICIAL.

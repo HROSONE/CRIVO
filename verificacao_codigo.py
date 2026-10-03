@@ -1,4 +1,4 @@
-"""Compilação e testes de código gerado. Execução exige isolamento bubblewrap."""
+"""Compilação e testes de código gerado. Execução em bubblewrap ou VM QuickJS sem APIs host."""
 import json
 import importlib.util
 import sys
