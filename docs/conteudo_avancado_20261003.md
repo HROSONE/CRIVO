@@ -57,6 +57,20 @@ tratado, não uma conferência linha a linha. O campo `escopo_uso` de cada fonte
 - "gene" e "cadeia alimentar" já existiam. A ficha nova de gene foi retirada e "cadeia alimentar" não é sinônimo
   da teia alimentar, para não criar ambiguidade.
 
+- Nomes com " e " no meio ("solidariedade mecânica e orgânica", "status e papel social", "colisão elástica e
+  inelástica" e outros) confundiam o pedido "Escreva um texto sobre X e Y". Viraram "solidariedade social",
+  "papel social", "colisão mecânica", "genótipo", "dominância genética" e "ética protestante", e os nomes antigos
+  ficaram como sinônimos quando não tinham " e ".
+- `planejamento_conversa.py`: só o ordinal sozinho ("a segunda") retoma uma opção anterior. "Segunda lei da
+  termodinâmica" é um conceito, não "a segunda" opção.
+
+## Expectativas atualizadas
+
+- `avaliacoes/bateria_v1/dev.json`: "O que é uma onda gravitacional?" era uma recusa esperada, porque o assunto
+  não existia. Agora há ficha, e o caso exige o conteúdo certo ("ondulações do espaço-tempo"). O dev da bateria
+  fica com 101 acertos de fato (eram 100) e nenhuma invenção.
+- `testes_astronomia_avancada.py`: a base passa de 241 para 447 entradas, com a rede retreinada.
+
 ## Medição
 
 `avaliacoes/conteudo_avancado_v1/casos.json` tem 42 perguntas em formas variadas. Cada resposta precisa conter uma
