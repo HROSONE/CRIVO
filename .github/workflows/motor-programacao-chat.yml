@@ -9,6 +9,7 @@ on:
       - 'web_core.py'
       - 'api/chat.py'
       - 'testes_motor_programacao_chat.py'
+      - 'testes_http_chunked.py'
       - 'public/app.js'
       - 'public/index.html'
       - 'vercel.json'
@@ -32,7 +33,7 @@ jobs:
       - name: Conversa, HTTP, replay, integridade dos pesos e regressões
         env:
           OPENBLAS_NUM_THREADS: '1'
-        run: python -m unittest testes_motor_programacao_chat testes_diagnostico_estados testes_web testes_programacao_profunda -v
+        run: python -m unittest testes_motor_programacao_chat testes_http_chunked testes_diagnostico_estados testes_web testes_programacao_profunda -v
       - name: Motor sem dependências opcionais
         run: python -S -m unittest testes_motor_programacao_chat -v
       - name: Sintaxe da interface e empacotamento dos pesos

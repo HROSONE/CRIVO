@@ -19,6 +19,45 @@ from web_core import PedidoInvalido, responder_web  # noqa: E402
 LIMITE_BODY = 16 * 1024
 
 
+class CorpoHTTPInvalido(ValueError):
+    def __init__(self, status, mensagem):
+        super().__init__(mensagem)
+        self.status = status
+
+
+def ler_chunked(stream):
+    """Decodifica framing HTTP sem ler até EOF nem exceder o limite do chat."""
+    partes = []
+    total = 0
+    for _ in range(1024):
+        linha = stream.readline(129)
+        if len(linha) > 128 or not linha.endswith(b"\r\n"):
+            raise CorpoHTTPInvalido(400, "Corpo HTTP malformado.")
+        token = linha[:-2].split(b";", 1)[0]
+        if not token or any(c not in b"0123456789abcdefABCDEF" for c in token):
+            raise CorpoHTTPInvalido(400, "Corpo HTTP malformado.")
+        tamanho = int(token, 16)
+        if tamanho == 0:
+            trailers = 0
+            while True:
+                linha = stream.readline(129)
+                trailers += len(linha)
+                if trailers > 4096:
+                    raise CorpoHTTPInvalido(413, "Pedido maior que o permitido.")
+                if len(linha) > 128 or not linha.endswith(b"\r\n"):
+                    raise CorpoHTTPInvalido(400, "Corpo HTTP malformado.")
+                if linha == b"\r\n":
+                    return b"".join(partes)
+        total += tamanho
+        if total > LIMITE_BODY:
+            raise CorpoHTTPInvalido(413, "Pedido maior que o permitido.")
+        parte = stream.read(tamanho)
+        if len(parte) != tamanho or stream.read(2) != b"\r\n":
+            raise CorpoHTTPInvalido(400, "Corpo HTTP malformado.")
+        partes.append(parte)
+    raise CorpoHTTPInvalido(413, "Pedido com blocos demais.")
+
+
 class handler(BaseHTTPRequestHandler):
     """Compatível com o runtime Python /api do Vercel e servidor local."""
 
@@ -57,7 +96,21 @@ class handler(BaseHTTPRequestHandler):
         if self.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() != "application/json":
             return self._json(415, {"error": "Envie application/json."})
         tamanho = self.headers.get("Content-Length", "")
-        if not tamanho and self.rfile.seekable():
+        encoding = self.headers.get("Transfer-Encoding", "").strip().lower()
+        bruto = None
+        if encoding:
+            # O runtime da Vercel encaminha HTTP em chunked para handlers
+            # nativos; BaseHTTPRequestHandler não decodifica esses blocos.
+            if tamanho or encoding != "chunked":
+                self.close_connection = True
+                return self._json(400, {"error": "Enquadramento HTTP inválido."})
+            try:
+                bruto = ler_chunked(self.rfile)
+            except CorpoHTTPInvalido as exc:
+                self.close_connection = True
+                return self._json(exc.status, {"error": str(exc)})
+            tamanho = len(bruto)
+        elif not tamanho and self.rfile.seekable():
             # O adaptador serverless pode remover Content-Length após receber
             # o corpo. Uma entrada seekable permite medir sem esperar por EOF
             # de um socket; conexões HTTP normais continuam exigindo o cabeçalho.
@@ -72,7 +125,11 @@ class handler(BaseHTTPRequestHandler):
         if not 0 < tamanho <= LIMITE_BODY:
             return self._json(413, {"error": "Pedido maior que o permitido."})
         try:
-            bruto = self.rfile.read(tamanho)
+            if bruto is None:
+                bruto = self.rfile.read(tamanho)
+            if len(bruto) != tamanho:
+                self.close_connection = True
+                return self._json(400, {"error": "Corpo HTTP incompleto."})
             pedido = json.loads(bruto.decode("utf-8"))
             resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
                 self.server, "dialogo_contextual", False), modelo_linguagem=getattr(

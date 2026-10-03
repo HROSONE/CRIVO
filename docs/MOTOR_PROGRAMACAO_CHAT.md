@@ -89,6 +89,11 @@ V2 e V3 congelados.
 respostas do motor acrescentam `code_analysis` com método, orçamento, resultado
 ou hipótese e auditoria dos efeitos. A interface usa o selo **Análise de código**.
 
+O endpoint recebe corpos HTTP com `Content-Length` e com
+`Transfer-Encoding: chunked`, usado pelo encaminhamento da Vercel. Ambos mantêm
+o limite de 16 KB. O leitor de blocos rejeita framing ambíguo, excesso de dados,
+blocos/trailers sem limite e corpos truncados, sem esperar por EOF do socket.
+
 Os pesos têm integridade verificada antes de serem carregados. Sem NumPy ou pesos
 compatíveis, o executor/diagnóstico/síntese continuam funcionando e o status da
 rede informa `active: false`; nenhuma rede aleatória é criada para inferência.
