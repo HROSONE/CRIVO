@@ -2,6 +2,11 @@ name: Treino nativo JS e TS com código real
 on:
   workflow_dispatch:
     inputs:
+      modo:
+        description: "Treinar ou inspecionar o artefato anterior sem repetir o treino"
+        type: choice
+        options: [treino, diagnostico]
+        default: treino
       pretreino_passos:
         description: 'Passos máximos de pré-treino de código, com pausa por orçamento'
         type: number
@@ -12,8 +17,36 @@ on:
         default: 8000
 permissions:
   contents: read
+  actions: read
 jobs:
+  diagnostico:
+    if: inputs.modo == 'diagnostico'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: crivo-codigo-real-37115525535
+          run-id: 37115525535
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: /tmp/ciclo-anterior
+      - run: python scripts/diagnosticar_programacao.py --ciclo /tmp/ciclo-anterior --saida /tmp/diagnostico
+      - uses: actions/upload-artifact@v4
+        with:
+          name: diagnostico-logica-programacao
+          path: /tmp/diagnostico
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pesos-programacao-anterior
+          path: |
+            /tmp/ciclo-anterior/candidato/melhor/pesos.pt
+            /tmp/ciclo-anterior/candidato/melhor/tokenizer.json
+            /tmp/ciclo-anterior/candidato/melhor/relatorio.json
+          retention-days: 30
   treino:
+    if: inputs.modo != 'diagnostico'
     runs-on: ubuntu-latest
     timeout-minutes: 210
     steps:
