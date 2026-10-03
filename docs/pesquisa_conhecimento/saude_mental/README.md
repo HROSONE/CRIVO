@@ -550,3 +550,18 @@ Cada número ligado a fonte identificável e marcado VERIFIED-ABS (conferido no 
 - correções de citação registradas: incidência de discinesia tardia 6,5% vs 2,6% pertence a Carbon 2018 (*World Psychiatry*), não ao artigo de prevalência de 2017; discrepância 0,7% vs 0,9% na neutropenia grave por clozapina.
 
 **Critério doutoral: NÃO ATINGIDO.** Pendências: eficácia por modalidade em PTSD, valores de ISRS/clomipramina no TOC, CBT-I, lítio por polo, danos com denominador (disfunção sexual, quedas, cardiovascular).
+
+## Aprofundamento 23 — populações especiais quantitativas: pediatria e deficiência intelectual
+
+| Documento | Escopo |
+| --- | --- |
+| [Pediatria e deficiência intelectual — evidência quantitativa](2026-10-03-populacoes-especiais-pediatria-deficiencia-intelectual-quantitativa.md) | antidepressivos em <18 (Cipriani 2016, TADS, CAMS), suicidalidade (Hammad 2006, black box FDA 2004/2007), TDAH (MTA/Swanson 2017), ganho de peso com antipsicóticos (Correll 2009, RUPP 2002), prevalência de TEA (CDC 2025); DI: prevalência (Maulik 2011), antipsicóticos para comportamento desafiador (NACHBID 2008, Sheehan 2015), mortalidade (LeDeR 2024), ofuscamento diagnóstico |
+
+### Método
+Mesmo esquema do lote 4: VERIFIED-ABS / PARTIAL / UNVERIFIED / DERIVED; cada claim com "o que demonstra" e "o que não permite concluir"; contradições C-PED-1 (eficácia de ISRS pediátricos vs sinal de suicidalidade) e C-DI-1 (prescrição vs evidência) registradas.
+
+### Mudança de cobertura
+- lacuna de populações especiais: 15 claims (PED-001…010, DI-001…005) com taxas absolutas e denominadores;
+- distinção explícita entre suicidalidade (ideação/comportamento em ensaios) e suicídio consumado, e entre prescrição observada e indicação.
+
+**Critério doutoral: NÃO ATINGIDO.** Pendências: taxa de placebo do TADS, magnitude da supressão de altura no MTA, STOMP (dados de redução), psicoterapias em DI, idosos.
