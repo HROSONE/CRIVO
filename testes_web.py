@@ -154,6 +154,8 @@ class TestesWebHTTP(unittest.TestCase):
         self.assertIn("AbortController", app)
         self.assertIn("state.history", app)
         self.assertIn("generation !== state.generation", app)
+        # Voz: só vozes do próprio aparelho; o texto não vai para serviço de fala online.
+        self.assertIn("v.localService", app)
 
 
 class TestesAssuntosDaPagina(unittest.TestCase):
