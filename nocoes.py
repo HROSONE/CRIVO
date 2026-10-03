@@ -78,6 +78,31 @@ _ANIMAL = re.compile(r"(?:(?:meu|minha|o|a) )?(?:cachorro|cachorra|gato|gata|pas
                      r"coelho|hamster|papagaio|calopsita|tartaruga|cachorrinho|gatinho)\b")
 
 
+# Morte de alguém: pessoa ou bicho de estimação. "O celular morreu", "morri de
+# rir" e "perdi o ônibus" não são perda.
+_SER = (r"(?:pai|mae|avo|avoa|bisavo|bisavoa|vo|irmao|irma|filho|filha|tio|tia|primo|prima|sobrinho|"
+        r"sobrinha|marido|esposa|esposo|mulher|namorado|namorada|amigo|amiga|padrinho|madrinha|sogro|sogra|"
+        r"cunhado|cunhada|neto|neta|vizinho|vizinha|colega|professor|professora|chefe|"
+        r"cachorro|cachorra|cachorrinho|cachorrinha|gato|gata|gatinho|gatinha|cao|passarinho|"
+        r"calopsita|periquito|papagaio|peixinho|peixe|hamster|coelho|coelha|cavalo|egua|tartaruga|"
+        r"bebe|pet|bichinho|bichinha)")
+_MORTE = re.compile(r"\b(?:morreu|morreram|faleceu|faleceram|falecido|falecida|partiu|se foi|nos deixou|"
+                    r"descansou|foi pro ceu|foi para o ceu)\b")
+_NAO_MORTE = re.compile(r"\bmorr\w* de (?:rir|fome|sono|frio|calor|vontade|vergonha|medo|saudade|cansaco|tedio)\b")
+_PERDA_DIRETA = re.compile(r"\b(?:velorio|enterro|falecimento|luto)\b|\bperd(?:i|emos|eu) (?:o |a |os |as )?"
+                           r"(?:meu |minha |meus |minhas |nosso |nossa )?" + _SER + r"\b")
+
+
+def perda(texto):
+    """A fala conta a morte de alguém próximo (pessoa ou animal)."""
+    n = normalizar(texto)
+    if _NAO_MORTE.search(n):
+        return False
+    if _PERDA_DIRETA.search(n):
+        return True
+    return bool(_MORTE.search(n) and re.search(r"\b" + _SER + r"\b", n))
+
+
 def pertinencia(nocao, texto, tom="neutro"):
     """(o "costuma" combina, a pergunta combina) com o que aconteceu.
 
@@ -91,6 +116,15 @@ def pertinencia(nocao, texto, tom="neutro"):
         return False, False
     if nocao.get("tipo") == "saude" and _ANIMAL.match(n):
         # "Meu cachorro está doente": a noção de doença fala de gente.
+        return False, False
+    # Depois de um término, "Vocês estão juntos há quanto tempo?" não cabe.
+    if nocao.get("nome") == "namoro" and re.search(
+            r"\b(?:terminei|terminamos|terminou comigo|separamos|me separei|divorci\w*)\b", n):
+        return False, False
+    # "Não almocei", "ele não quer comer": o que não aconteceu não puxa
+    # comentário sobre isso.
+    formas = [normalizar(f) for f in nocao.get("formas", ())]
+    if formas and re.search(r"\b(?:nao|sem|nem)\b(?: \w+){0,2} (?:%s)\b" % "|".join(re.escape(f) for f in formas), n):
         return False, False
     raizes = nocao.get("eventos")
     if not raizes:
@@ -149,6 +183,8 @@ class NocoesPT:
         return bool(_RELATO.search(n) or _EXCLAMACAO.match(n))
 
     def valencia(self, texto, nocoes):
+        if perda(texto):
+            return "luto"
         n = " " + normalizar(texto) + " "
         for tipo in ("saude", "pos", "neg"):
             if any(" " + w + " " in n for w in self.eventos[tipo]):
@@ -162,6 +198,7 @@ class NocoesPT:
     _ABERTURA = {
         "neg": ("Poxa.", "Que chato.", "Puxa vida."),
         "saude": ("Sinto muito.", "Poxa, sinto muito."),
+        "luto": ("Sinto muito pela sua perda.", "Meus sentimentos."),
         "pos": ("Que bom!", "Que legal!", "Que ótimo!"),
         "neutro": ("Entendi.", "Ah, entendi.", "Hmm, entendi."),
     }
@@ -189,7 +226,7 @@ class NocoesPT:
     def continuar(self, texto, anterior, sorteio):
         """Continuação de um assunto já contado, sem noção nova."""
         tom = self.valencia(texto, [])
-        if tom in ("neg", "saude"):
+        if tom in ("neg", "saude", "luto"):
             return sorteio.choice(("Imagino.", "Entendo.")) + " E como você está lidando com isso?"
         if tom == "pos":
             return sorteio.choice(self._ABERTURA["pos"]) + " Me conta mais."

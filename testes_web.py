@@ -156,6 +156,22 @@ class TestesWebHTTP(unittest.TestCase):
         self.assertIn("generation !== state.generation", app)
 
 
+class TestesAssuntosDaPagina(unittest.TestCase):
+    def test_perguntas_do_menu_tem_resposta(self):
+        import html
+        import re
+        from web_core import responder_web
+        pagina = (Path(__file__).resolve().parent / "public" / "index.html").read_text(encoding="utf-8")
+        perguntas = sorted({html.unescape(q) for q in re.findall(r'data-prompt="([^"]+)"', pagina)})
+        self.assertGreaterEqual(len(perguntas), 20)
+        for area in ("Astronomia", "Saúde mental", "Programação"):
+            self.assertIn(area, pagina)
+        for pergunta in perguntas:
+            with self.subTest(pergunta=pergunta):
+                resposta = responder_web({"message": pergunta, "history": []})
+                self.assertNotIn(resposta["id"], ("fora", "duvida"))
+
+
 class TestesCorpoServerless(unittest.TestCase):
     def pedido(self, corpo, tamanho=None, seekable=True):
         import io

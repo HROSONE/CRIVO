@@ -90,6 +90,8 @@ def para_voce(palavras, nucleo_id=None):
             continue
         if verbo:
             v = verbo_para_voce(p.forma, p.lema)
+            if v is None or (p.forma.lower().endswith("i") and not p.lema.lower().endswith(("er", "ir"))):
+                v = verbo_para_voce(p.forma, _infinitivo_i(p.forma) or p.lema) or v
             if v is None:
                 return None
             saida.append(v)
@@ -135,6 +137,25 @@ def _juntar_consigo(palavras):
     return saida
 
 
+def _infinitivo_i(forma):
+    """"discuti" → "discutir", "comi" → "comer", pelo vocabulário dos vetores
+    de palavras; None se não houver exatamente um infinitivo conhecido."""
+    f = forma.lower()
+    if not f.endswith("i") or len(f) < 5:
+        return None
+    try:
+        from conversa_cotidiana import _leitor
+        leitor = _leitor()
+        vocab = getattr(getattr(leitor, "a", None), "_biafim", None)
+        vocab = vocab.vet_id if vocab is not None else None
+    except Exception:
+        vocab = None
+    if not vocab:
+        return None
+    achados = [f[:-1] + fim for fim in ("er", "ir") if f[:-1] + fim in vocab]
+    return achados[0] if len(achados) == 1 else None
+
+
 def _verbo_primeira(p, anterior):
     if p.classe in ("VERB", "AUX") and _primeira_pessoa(p):
         return True
@@ -142,6 +163,12 @@ def _verbo_primeira(p, anterior):
     # etiquetador os lê como substantivo ("comi pizza ontem").
     if anterior is None and p.forma.lower() in IRREGULARES and \
             p.forma.lower() not in ("estava", "era", "ia", "tinha", "sai", "sou"):
+        return True
+    # "Briguei com…", "Discuti com…": pretérito no começo da fala, mesmo lido
+    # como substantivo por causa da maiúscula.
+    if anterior is None and normalizar(p.forma).endswith("ei") and len(p.forma) > 4:
+        return True
+    if anterior is None and _infinitivo_i(p.forma):
         return True
     return p.forma.lower() in PRESENTES and (anterior is None or normalizar(anterior.forma) in _ANTES_DO_VERBO)
 
@@ -189,7 +216,7 @@ class Perfil:
         if not self.temas:
             return None
         recentes = self.temas[-6:]
-        for tom in ("saude", "neg", "pos"):
+        for tom in ("luto", "saude", "neg", "pos"):
             for t in reversed(recentes):
                 if t[2] == tom:
                     return t
@@ -199,6 +226,8 @@ class Perfil:
 ABERTURAS = {
     "neg": ("Poxa.", "Que chato.", "Puxa vida.", "Ah, que pena.", "Putz."),
     "saude": ("Sinto muito.", "Poxa, sinto muito.", "Ah, espero que melhore logo."),
+    # Morte de alguém (pessoa ou bicho): pêsames, nunca "que chato".
+    "luto": ("Sinto muito pela sua perda.", "Meus sentimentos.", "Sinto muito, de verdade."),
     "pos": ("Que bom!", "Que legal!", "Que ótimo!", "Olha só, que bom!", "Boa!"),
     "neutro": ("Entendi.", "Ah, entendi.", "Hum, sei.", "Saquei.", "Certo."),
 }
@@ -206,6 +235,7 @@ ABERTURAS = {
 ACOLHER_CURTO = {
     "neg": ("É, cansa mesmo.", "Imagino.", "Faz parte, mas pesa, né?", "Entendo.", "É chato mesmo."),
     "saude": ("Imagino a preocupação.", "Entendo.", "Força aí."),
+    "luto": ("Imagino a falta que faz.", "Entendo.", "Leva o tempo que precisar."),
     "pos": ("Pois é!", "Demais!", "Merecido!"),
     "neutro": ("Tranquilo.", "Sem pressa.", "Entendi.", "Faz sentido."),
 }
@@ -215,6 +245,8 @@ CONTINUAR = {
             "Se quiser contar mais, tô aqui.",
             "E você, como está agora?"),
     "saude": ("Como você está com isso?", "Se quiser, me conta como estão as coisas."),
+    "luto": ("Como você está com isso?", "Se quiser falar sobre isso, estou aqui.",
+             "Quer me contar um pouco mais?"),
     "pos": ("Me conta mais!", "E o que mais tem de novo?", "Que bom saber disso. O que mais aconteceu?"),
     "neutro": ("Me conta mais.", "E o que mais?", "Como foi isso?"),
 }
@@ -254,13 +286,15 @@ def despedida(bot, variacao, fala=""):
     vocativo = (", " + nome) if nome else ""
     if re.search(r"\b(?:descansar|dormir|deitar)\b", normalizar(fala)):
         extra = ""
-        if marcante is not None and marcante[2] in ("neg", "saude"):
+        if marcante is not None and marcante[2] in ("neg", "saude", "luto"):
             extra = " Depois de tudo isso, você merece."
         return "Descansa bem%s!%s Boa noite." % (vocativo, extra)
     if marcante is None:
         return variacao.escolher(("Até mais%s! Foi bom conversar." % vocativo,
                                   "Tchau%s! Volta quando quiser." % vocativo))
     _, tema, tom, _, agente = marcante
+    if tom == "luto":
+        return "Até mais%s. Se cuida, e quando quiser conversar, estou aqui." % vocativo
     if tom == "saude":
         quem = agente if agente and agente != "você" else "você"
         return "Até mais%s! Espero que %s melhore logo." % (vocativo, quem)
@@ -291,6 +325,8 @@ def retomada(bot, variacao):
             artigo = "a" if (t[4] or "").startswith(("sua", "minha")) else "o"
             return variacao.escolher(("Tudo ótimo por aqui! E %s %s, como está?" % (artigo, proprio_t),
                                       "Tudo certo! E como vai %s %s?" % (artigo, proprio_t)))
+    if tom == "luto":
+        return "Por aqui tudo bem. E você, como está se sentindo?"
     if tom == "saude":
         if agente and agente != "você":
             return variacao.escolher(("Tudo bem por aqui! E %s, já melhorou?" % agente,
@@ -336,6 +372,6 @@ def de_volta(bot, variacao):
     _, tema, tom, _, agente = marcante
     if tom == "saude" and agente and agente != "você":
         return oi + " E %s, já melhorou?" % agente
-    if tom in ("neg", "saude"):
+    if tom in ("neg", "saude", "luto"):
         return oi + " Da última vez você não estava num dia muito bom. Como estão as coisas agora?"
     return oi + " Da última vez você estava animado. Como estão as coisas?"

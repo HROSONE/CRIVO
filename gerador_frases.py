@@ -29,7 +29,7 @@ FUNCIONAIS = set("""a o as os um uma uns umas de do da dos das em no na nos nas 
 # Conectores que o gerador pode acrescentar sem mudar o conteúdo.
 CONECTORES = ("É,", "Pois é,", "E")
 _ABERTURA_INICIO = re.compile(
-    r"(?:poxa|que (?:chato|pena|bom|legal|otimo|demais|delicia)|puxa|putz|ah, que pena|sinto muito|"
+    r"(?:poxa|que (?:chato|pena|bom|legal|otimo|demais|delicia)|puxa|putz|ah, que pena|sinto muito|meus sentimentos|"
     r"espero que melhore|espero que de tudo certo|torco para que|olha so|boa!|entendi|ah, entendi|hum, sei|saquei|certo|parabens|"
     r"imagino|entendo|pois e!|demais!|merecido)")
 

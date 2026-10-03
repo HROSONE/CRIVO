@@ -14,7 +14,7 @@
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
   <div class="layout">
-    <aside class="sidebar" aria-label="Informações do CRIVO">
+    <aside class="sidebar" id="sidebar" aria-label="Assuntos do CRIVO">
       <div class="sidebar-top">
         <a class="brand" href="/" aria-label="CRIVO - início">
           <span class="brand-symbol" aria-hidden="true">
@@ -22,21 +22,94 @@
           </span>
           <span class="brand-name">CRIVO<span class="brand-dot">.</span></span>
         </a>
-        <span class="side-edition">LABORATÓRIO V1.0</span>
+        <button id="sidebar-close" class="icon-button sidebar-close" type="button" aria-label="Fechar assuntos">✕</button>
       </div>
+      <p class="sidebar-text">Um assistente feito do zero, com conhecimento próprio e raciocínio que dá para conferir.</p>
 
-      <div class="sidebar-body">
-        <div class="sidebar-overline">EXPERIMENTE O CÉREBRO</div>
-        <h1 class="sidebar-title">Ideias. Relações.<br><em>Descobertas.</em></h1>
-        <p class="sidebar-text">Um assistente construído do zero, com conhecimento próprio e raciocínio simbólico. Teste o que ele sabe — e onde ainda precisa evoluir.</p>
-
-        <div class="sidebar-divider"></div>
-        <div class="nav-caption">ÁREAS DE CONHECIMENTO</div>
-        <div class="topic-chip"><span class="topic-icon blue">✳</span> Natureza e animais</div>
-        <div class="topic-chip"><span class="topic-icon violet">◇</span> Sistema solar</div>
-        <div class="topic-chip"><span class="topic-icon coral">⌘</span> Programação</div>
-        <div class="topic-chip"><span class="topic-icon green">⇄</span> Relações e lógica</div>
-      </div>
+      <nav class="sidebar-body" aria-label="O que o CRIVO já domina">
+        <div class="nav-caption">O QUE O CRIVO JÁ DOMINA</div>
+        <details class="area area-astro" name="areas" open>
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><ellipse cx="12" cy="12" rx="10" ry="3.6" transform="rotate(-20 12 12)"/></svg></span>
+            <span class="area-text"><span class="area-name">Astronomia</span><span class="area-sum">Planetas, luas, estrelas, Big Bang</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="O que é um buraco negro?">O que é um buraco negro?</button>
+            <button class="ask" type="button" data-prompt="Quantas luas tem Júpiter?">Quantas luas tem Júpiter?</button>
+            <button class="ask" type="button" data-prompt="Qual a idade do universo?">Qual a idade do universo?</button>
+            <button class="ask" type="button" data-prompt="O que é o telescópio James Webb?">O que é o telescópio James Webb?</button>
+            <button class="ask" type="button" data-prompt="O que é matéria escura?">O que é matéria escura?</button>
+          </div>
+        </details>
+        <details class="area area-mente" name="areas">
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.3-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.7-7 10-7 10Z"/></svg></span>
+            <span class="area-text"><span class="area-name">Saúde mental</span><span class="area-sum">Ansiedade, luto, estresse, sono</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="O que é ansiedade?">O que é ansiedade?</button>
+            <button class="ask" type="button" data-prompt="O que é um ataque de pânico?">O que é um ataque de pânico?</button>
+            <button class="ask" type="button" data-prompt="O que é luto?">O que é luto?</button>
+            <button class="ask" type="button" data-prompt="O que é privação de sono?">O que é privação de sono?</button>
+            <button class="ask" type="button" data-prompt="O que é procrastinação?">O que é procrastinação?</button>
+            <p class="area-note">Informação geral, não substitui um profissional. Em crise, ligue 188 (CVV) ou 192 (SAMU).</p>
+          </div>
+        </details>
+        <details class="area area-code" name="areas">
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg></span>
+            <span class="area-text"><span class="area-name">Programação</span><span class="area-sum">Python, JavaScript e TypeScript</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="Como usar input em Python?">Como usar input em Python?</button>
+            <button class="ask" type="button" data-prompt="Como fazer um for em Python?">Como fazer um for em Python?</button>
+            <button class="ask" type="button" data-prompt="O que é uma função em Python?">O que é uma função em Python?</button>
+            <button class="ask" type="button" data-prompt="Diferença entre let e const?">Diferença entre let e const?</button>
+            <button class="ask" type="button" data-prompt="O que é uma árvore binária?">O que é uma árvore binária?</button>
+          </div>
+        </details>
+        <details class="area area-nature" name="areas">
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z"/><path d="M5 19 13 11"/></svg></span>
+            <span class="area-text"><span class="area-name">Natureza e ciência</span><span class="area-sum">Animais, plantas, corpo e células</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="O que é fotossíntese?">O que é fotossíntese?</button>
+            <button class="ask" type="button" data-prompt="O que é um vírus?">O que é um vírus?</button>
+            <button class="ask" type="button" data-prompt="Por que um pinguim é um ser vivo?">Por que um pinguim é um ser vivo?</button>
+            <button class="ask" type="button" data-prompt="Por que a aranha é um inseto?">Por que a aranha é um inseto?</button>
+            <button class="ask" type="button" data-prompt="O que é neuroplasticidade?">O que é neuroplasticidade?</button>
+          </div>
+        </details>
+        <details class="area area-logic" name="areas">
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M8 7l3 9M16 7l-3 9M8.2 6h7.6"/></svg></span>
+            <span class="area-text"><span class="area-name">Lógica e relações</span><span class="area-sum">Deduções com prova verificável</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="Uma abelha tem seis patas?">Uma abelha tem seis patas?</button>
+            <button class="ask" type="button" data-prompt="Se todo flumbo é blim, todo blim é taro, então flumbo é taro?">Se todo flumbo é blim, todo blim é taro, então flumbo é taro?</button>
+            <button class="ask" type="button" data-prompt="Se todo gato é felino e todo felino é mamífero, gato é mamífero?">Se todo gato é felino e todo felino é mamífero, gato é mamífero?</button>
+          </div>
+        </details>
+        <details class="area area-talk" name="areas">
+          <summary>
+            <span class="area-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a7.5 7.5 0 0 1-11 6.6L4 20l1.4-4.6A7.5 7.5 0 1 1 20 12Z"/></svg></span>
+            <span class="area-text"><span class="area-name">Conversa</span><span class="area-sum">Relatos do dia a dia e poemas</span></span>
+            <svg class="area-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m9 6 6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </summary>
+          <div class="area-body">
+            <button class="ask" type="button" data-prompt="Hoje estou triste">Hoje estou triste</button>
+            <button class="ask" type="button" data-prompt="Meu gato derrubou um copo">Meu gato derrubou um copo</button>
+            <button class="ask" type="button" data-prompt="Escreva um poema sobre o mar">Escreva um poema sobre o mar</button>
+          </div>
+        </details>
+      </nav>
 
       <div class="sidebar-bottom">
         <div class="engine-pill"><span class="engine-light"></span> MOTOR ORIGINAL · PYTHON</div>
@@ -46,14 +119,17 @@
         </a>
       </div>
     </aside>
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
 
     <main class="main">
       <header class="topbar">
         <div class="topbar-ident">
-          <span class="mobile-icon" aria-hidden="true"><span></span></span>
+          <button id="topics-button" class="icon-button topics-button" type="button" aria-label="Assuntos" aria-controls="sidebar" aria-expanded="false" title="Assuntos">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke-linecap="round"/></svg>
+          </button>
           <div>
             <div class="topbar-title">Converse com o CRIVO</div>
-            <div class="topbar-sub">Ambiente de testes · sem respostas pré-fabricadas no navegador</div>
+            <div class="topbar-sub">Astronomia · Saúde mental · Programação · Ciência · Lógica</div>
           </div>
         </div>
         <div class="top-actions">
@@ -91,15 +167,15 @@
           </div>
           <div class="welcome-eyebrow"><span class="eyebrow-line"></span> UM NOVO TIPO DE EXPERIMENTO <span class="eyebrow-line"></span></div>
           <h2>Olá, eu sou o <span>CRIVO.</span></h2>
-          <p>Tenho um cérebro em construção. Consigo recuperar conhecimentos, relacionar conceitos e explicar algumas deduções. Me faça uma pergunta para começar.</p>
+          <p>Tenho um cérebro em construção. Sei falar de astronomia, saúde mental, programação e ciência, e mostro como cheguei às deduções. Escolha um assunto no menu ou pergunte direto.</p>
           <div class="suggestions-label">EXPERIMENTE UMA PERGUNTA</div>
           <div class="suggestions" id="suggestions">
-            <button class="suggestion" type="button" data-prompt="Por que um pinguim é um ser vivo?"><span class="suggestion-emoji">🐧</span><span>Por que um pinguim é um ser vivo?</span><span class="suggestion-arrow">↗</span></button>
-            <button class="suggestion" type="button" data-prompt="Se todo flumbo é blim, todo blim é taro, então flumbo é taro?"><span class="suggestion-emoji">🧠</span><span>Teste uma dedução inédita</span><span class="suggestion-arrow">↗</span></button>
-            <button class="suggestion" type="button" data-prompt="Por que a aranha é um inseto?"><span class="suggestion-emoji">🕸️</span><span>Aranha é inseto?</span><span class="suggestion-arrow">↗</span></button>
-            <button class="suggestion" type="button" data-prompt="Como usar input em Python?"><span class="suggestion-emoji">⌘</span><span>Como usar input em Python?</span><span class="suggestion-arrow">↗</span></button>
-            <button class="suggestion" type="button" data-prompt="O que é uma árvore?"><span class="suggestion-emoji">🌳</span><span>O que é uma árvore?</span><span class="suggestion-arrow">↗</span></button>
-            <button class="suggestion" type="button" data-prompt="O que é uma árvore binária?"><span class="suggestion-emoji">🔍</span><span>E uma árvore binária?</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-astro" type="button" data-prompt="O que é um buraco negro?"><span class="suggestion-emoji">🪐</span><span>Buraco negro</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-mente" type="button" data-prompt="O que é ansiedade?"><span class="suggestion-emoji">🫶</span><span>O que é ansiedade?</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-code" type="button" data-prompt="Como usar input em Python?"><span class="suggestion-emoji">⌨️</span><span>input em Python</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-logic" type="button" data-prompt="Se todo flumbo é blim, todo blim é taro, então flumbo é taro?"><span class="suggestion-emoji">🧠</span><span>Teste uma dedução inédita</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-nature" type="button" data-prompt="Por que um pinguim é um ser vivo?"><span class="suggestion-emoji">🐧</span><span>Pinguim é ser vivo?</span><span class="suggestion-arrow">↗</span></button>
+            <button class="suggestion tone-talk" type="button" data-prompt="Escreva um poema sobre o mar"><span class="suggestion-emoji">✍️</span><span>Um poema sobre o mar</span><span class="suggestion-arrow">↗</span></button>
           </div>
         </div>
         <div class="messages" id="messages"></div>
