@@ -643,3 +643,18 @@ Seções 7–8 do [documento de rastreabilidade retrospectiva](2026-10-03-rastre
 - âncoras só de resumo (texto integral não lido);
 - pendências RL-P, IB-P e TQ4/PED/DI;
 - auditoria adversarial final (SM-6).
+
+## Aprofundamento 29 — auditoria adversarial 01
+
+[Auditoria adversarial 01](2026-10-03-auditoria-adversarial-01.md): cobertura, profundidade, atualidade, fonte→afirmação, contradições e contexto de uso.
+
+**Resultado: 5 déficits materiais.**
+- AD-01: suicídio e autolesão sem tratamento quantitativo;
+- AD-02: contexto brasileiro quase ausente;
+- AD-03: violência e contexto forense ausentes;
+- AD-04: populações especiais (LGBTQ+, refugiados, idosos) incompletas;
+- AD-05: frases narrativas sem âncora.
+
+Itens estruturais: verificação só pelo resumo, por causa do bloqueio de rede. Plano de correção em blocos.
+
+**Critério doutoral: NÃO ATINGIDO.**
