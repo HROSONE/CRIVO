@@ -144,3 +144,12 @@ a execução é bloqueada. Não há fallback que execute candidato no host.
 O sandbox precisa ser testado no host escolhido; o CI publica essa disponibilidade
 no relatório. Uma falha de infraestrutura não é certificação de segurança nem
 prova de incorreção funcional do código que chegou a compilar.
+
+## Tempo de regressão
+
+A regressão chamada “300 combinações” executava 13.695 pares para 166 conceitos.
+Agora garante participação de todos os conceitos e completa 300 pares com semente
+fixa, escolhidos antes de observar respostas. Para catálogos maiores que 300
+conceitos, a cobertura cresce linearmente. A matriz factual e as sondas reservadas
+continuam completas. O workflow de regressões tem limite de 20 minutos e cancela
+execuções anteriores da mesma referência quando entra uma atualização.

@@ -1,4 +1,7 @@
 name: Testes Crivo
+concurrency:
+  group: testes-crivo-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 on:
   push:
     branches: [main, melhorias-crivo-v02]
@@ -40,6 +43,7 @@ jobs:
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']
