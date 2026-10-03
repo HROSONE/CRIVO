@@ -597,3 +597,21 @@ Casos concretos com números conferidos no resumo indexado (VERIFIED-ABS); valor
 - statuses aplicados: 5-HTTLPR → SUPERSEDED; Wakefield → RETRACTED; Keller 2001 → CONTESTED/SUPERSEDED; frase CG90 sobre retirada → SUPERSEDED.
 
 **Critério doutoral: NÃO ATINGIDO.** Pendências IB-P1…P7: Turner 2022, RR de Lundh, COI ICD-11 vs DSM-5-TR, levantamento sistemático de retratações (Retraction Watch), outras diretrizes superadas, cegamento em psicodélicos.
+
+## Aprofundamento 26 — rastreabilidade retrospectiva dos ledgers existentes
+
+| Documento | Escopo |
+| --- | --- |
+| [Rastreabilidade retrospectiva fonte→afirmação](2026-10-03-rastreabilidade-retrospectiva-ledgers-existentes.md) | Auditoria de 281 linhas de ledger de 2026-10-02: 79% com fonte genérica, 144 delas rotuladas S3/S4. Regras metodológicas reclassificadas CONCEPTUAL (~45). 23 âncoras verificadas (B-01…B-23) para ~35 claims empíricos críticos. ~95 claims rebaixados a S2-provisório até ancoragem. Contradições C-RT-1 (EMDR) e C-RT-2 (neurogênese adulta) |
+
+### Método
+Classificador heurístico reproduzível (apêndice do documento), seguido de revisão manual. Âncoras conferidas por busca no resumo indexado (VERIFIED-ABS), PARTIAL quando a fonte é secundária. Os arquivos do outro agente não foram editados: o status novo é uma camada sobreposta.
+
+### Correções aplicadas
+- **REMS da clozapina:** exigência suspensa em 24 fev 2025; remoção formal efetiva em 13 jun 2025.
+- **Manejo de contingência:** a evidência de Bolívar 2021 é de pacientes em tratamento para TUO, não de transtorno por estimulantes em geral.
+- **DBT:** o número da Cochrane é de psicoterapias vs TAU, com certeza baixa; S4 → S3.
+- **EMDR:** a superioridade some em estudos de baixo risco de viés; S4 → S3.
+- **TQ4-027 (Trauer 2015):** passou a VERIFIED-ABS, com as magnitudes atualizadas no lote 4.
+
+**Critério doutoral: NÃO ATINGIDO.** Cerca de metade dos claims empíricos críticos dos ledgers originais tem âncora específica; o protocolo exige ≥90%. Pendências RR-P1…P3.

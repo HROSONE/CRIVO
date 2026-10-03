@@ -189,7 +189,12 @@ Já registrado no lote 3 (Ceraso 2020 Cochrane: 75 ensaios, ~9 145 participantes
 
 ## 9. Insônia — terapia cognitivo-comportamental (CBT-I)
 - **Fonte:** Trauer JM et al. *Ann Intern Med* 2015;163:191–204. PMID 26054060. Meta-análise de CBT-I em adultos com insônia crônica, desfechos de diário do sono.
-- **Status:** desenho VERIFIED-ABS; magnitudes frequentemente citadas (latência −19 min, despertares −26 min, eficiência +9,9 pontos) **UNVERIFIED** nesta sessão — não usar até leitura do resumo/texto.
+- **Status (atualizado no Aprofundamento 26):** VERIFIED-ABS. 20 ECR, 1.162 adultos com insônia crônica. Pós-tratamento:
+  - latência do sono −19,03 min;
+  - vigília após início do sono −26,00 min;
+  - tempo total de sono +7,61 min;
+  - eficiência do sono +9,91 pontos percentuais.
+- **O que não permite concluir:** o ganho de tempo total de sono é pequeno, logo o efeito principal está em consolidação e latência, não em "dormir muito mais". Desfecho de diário (autorrelato). Complemento: van Straten 2018, *Sleep Med Rev*, 87 ECR: ISI g = 0,98; eficiência g = 0,71; latência g = 0,57 vs controles não tratados.
 - O lote 1 do acervo já registra síntese de 2025 em atenção de rotina (32 estudos, 5 231 participantes; remissão ~45%, alto risco de viés) e superioridade de CBT-I sobre higiene do sono isolada (42 ensaios, 4 245 adultos).
 
 ## 10. Tabela-resumo (efeito relativo e absoluto)
@@ -224,7 +229,7 @@ Já registrado no lote 3 (Ceraso 2020 Cochrane: 75 ensaios, ~9 145 participantes
 | TQ4-024 | acamprosato / naltrexona | placebo | retorno a qualquer consumo | NNT 12 / 20 | reportado | VERIFIED-ABS |
 | TQ4-025 | metadona / buprenorfina (coortes) | fora do tratamento | mortalidade | 11,3 vs 36,1 / 4,3 vs 9,5 por 1 000 PA | não aplicável | VERIFIED-ABS |
 | TQ4-026 | vareniclina/bupropiona (EAGLES) | placebo, adesivo | eventos neuropsiquiátricos graves | sem aumento significativo; coorte psiquiátrica DR 2,7% / 2,2% no composto | — | VERIFIED-ABS |
-| TQ4-027 | CBT-I | controles | diário do sono | magnitudes | — | UNVERIFIED |
+| TQ4-027 | CBT-I | controles | diário do sono | SOL −19 min; WASO −26 min; TST +7,6 min; SE +9,9 pp | — | VERIFIED-ABS |
 
 ## 11. Lacunas que este lote não fecha
 - taxas absolutas de resposta/remissão por molécula antidepressiva e IC (Cipriani 2018 suplementos);
