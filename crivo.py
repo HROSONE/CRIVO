@@ -1171,6 +1171,19 @@ class Crivo:
         return texto
 
     def responder(self, texto):
+        """Protocolo de crise antes de tudo; depois, o turno comum."""
+        import crise
+        if isinstance(texto, str):
+            urgente = crise.responder(texto, self)
+            if urgente is not None:
+                self.ultimo_turno = {"pergunta": texto, "id": urgente[0]}
+                if getattr(self, "perfil", None) is not None:
+                    self.perfil.turno += 1
+                return urgente
+        ident, resposta = self._responder_comum(texto)
+        return crise.ajustar(ident, resposta, self)
+
+    def _responder_comum(self, texto):
         """Contexto implícito de um turno e retomada explícita da conversa."""
         original_usuario = texto
         texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
