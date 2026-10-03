@@ -30,7 +30,7 @@ FUNCIONAIS = set("""a o as os um uma uns umas de do da dos das em no na nos nas 
 CONECTORES = ("É,", "Pois é,", "E")
 _ABERTURA_INICIO = re.compile(
     r"(?:poxa|que (?:chato|pena|bom|legal|otimo|demais|delicia)|puxa|putz|ah, que pena|sinto muito|"
-    r"espero que melhore|olha so|boa!|entendi|ah, entendi|hum, sei|saquei|certo|parabens|"
+    r"espero que melhore|espero que de tudo certo|torco para que|olha so|boa!|entendi|ah, entendi|hum, sei|saquei|certo|parabens|"
     r"imagino|entendo|pois e!|demais!|merecido)")
 
 
@@ -44,7 +44,7 @@ def _vocabulario_conversa():
     textos = [t.replace("%s", "") for d in (ABERTURAS, ACOLHER_CURTO, CONTINUAR, REACAO_NOME)
               for v in d.values() for t in v]
     textos += [t.replace("%s", "") for t in INICIATIVA + SEGUIR_OBJETIVO]
-    textos += list(_CONQUISTA) + list(_SAUDE) + list(CONECTORES)
+    textos += list(_CONQUISTA) + list(_SAUDE) + list(_SAUDE_FUTURO) + list(CONECTORES)
     textos += ["E foi porque, né? Tudo isso porque. Ah, então foi porque."]
     raizes = set()
     for t in textos:
@@ -54,6 +54,8 @@ def _vocabulario_conversa():
 
 _CONQUISTA = ("Parabéns!", "Parabéns, que conquista!", "Que demais, parabéns!")
 _SAUDE = ("Sinto muito.", "Poxa, sinto muito.", "Espero que melhore logo.")
+# Cirurgia ou consulta que ainda vai acontecer: "melhore logo" não cabe.
+_SAUDE_FUTURO = ("Espero que dê tudo certo.", "Torço para que corra tudo bem.")
 _VOCABULARIO = []
 
 

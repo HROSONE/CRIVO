@@ -668,6 +668,15 @@ def _observacao(texto, bot, id_anterior, forcar=False):
     return ident, resposta, None, ""
 
 
+# Alguém (não uma coisa) é o agente: "meu avô", "sua prima", "o vizinho".
+_PESSOA = re.compile(r"\b(?:pai|mae|avo|avoa|avos|irma|irmao|filh[oa]|prim[oa]|ti[oa]|sobrinh[oa]|vizinh[oa]|"
+                     r"chefe|amig[oa]|namorad[oa]|marido|esposa|esposo|bebe|crianca|menin[oa]|net[oa]|"
+                     r"sogr[oa]|cunhad[oa]|colega|professor[a]?)\b")
+_ACIDENTE = re.compile(r"\b(?:caiu|cai|caimos|machuc\w*|torc\w*|fratur\w*|atropelad\w*|acidente|"
+                       r"quebr\w* (?:o|a) (?:braco|perna|pe|mao|dedo|nariz|tornozelo|pulso|costela))\b")
+_FUTURO_SAUDE = re.compile(r"\b(?:vai|vou|amanha|semana que vem|depois de amanha)\b")
+
+
 _LEITOR = []
 
 
@@ -708,13 +717,16 @@ def _refletir(texto, bot, base, achadas):
     perdeu o ônibus") + uma noção que ainda não foi dita + uma pergunta que
     ainda não foi feita. A causa contada é reconhecida, não perguntada."""
     from presenca import ABERTURAS, CONTINUAR, para_voce
+    from nocoes import pertinencia
     v = _presenca(bot)
     perfil = bot.perfil
     principal = None
-    if achadas:
-        principal = next((x for x in achadas if x["tipo"] != "pessoa" and not x.get("generica")),
-                         next((x for x in achadas if x["tipo"] != "pessoa"), achadas[0]))
     tom = base.valencia(texto, achadas)
+    if achadas:
+        ordem = sorted(achadas, key=lambda x: (x["tipo"] == "pessoa", bool(x.get("generica"))))
+        # A primeira noção que combina com o que aconteceu; se nenhuma
+        # combina, fica a de sempre como assunto, sem "costuma" nem pergunta.
+        principal = next((x for x in ordem if pertinencia(x, texto, tom)[0]), ordem[0])
     # O tom continua entre falas seguidas: depois de "dormi mal", o cachorro
     # latindo a noite toda não é neutro.
     if tom == "neutro" and perfil.temas and perfil.recente(1) and perfil.temas[-1][2] in ("neg", "saude"):
@@ -742,21 +754,40 @@ def _refletir(texto, bot, base, achadas):
                 causa = para_voce(ev.relacoes["causa"].palavras)
     if eco:
         eco = _limpar_eco(eco, leitor)
-    conquista = re.search(r"\b(?:passei|consegui|aprovad[oa]|ganhei|promovid[oa]|venci|me formei|terminei)\b",
+    n = normalizar(texto)
+    if agente:
+        outra_pessoa = agente != "você" and bool(_PESSOA.search(normalizar(agente)))
+    else:
+        # Sem o analisador (sem NumPy): o sujeito pelo começo da fala.
+        outra_pessoa = bool(re.match(r"(?:meu|minha|meus|minhas|o|a|os|as) ", n) and _PESSOA.match(n.split(" ", 1)[1]))
+        if not outra_pessoa and re.match(r"(?:eu )?(?:cai|me machuquei|torci|quebrei|fui operad[oa])\b", n):
+            agente = "você"
+    # Queda, machucado ou cirurgia de alguém: preocupação com a pessoa, não
+    # "que chato" (um celular que cai continua sendo só chato).
+    if tom in ("neg", "neutro") and (outra_pessoa or agente == "você") and _ACIDENTE.search(n):
+        tom = "saude"
+    conquista =re.search(r"\b(?:passei|consegui|aprovad[oa]|ganhei|promovid[oa]|venci|me formei|terminei)\b",
                           normalizar(texto))
     if causa:
         causa = _limpar_eco(re.sub(r"^(?:porque|pois)\s+", "", causa), leitor)
-    from gerador_frases import Plano, realizar, tempo_compativel, _CONQUISTA, _SAUDE
-    if eco and tom == "saude":
+    from gerador_frases import Plano, realizar, tempo_compativel, _CONQUISTA, _SAUDE, _SAUDE_FUTURO
+    if tom == "saude" and _FUTURO_SAUDE.search(n):
+        lista = _SAUDE_FUTURO
+    elif eco and tom == "saude":
         lista = _SAUDE
     else:
         lista = _CONQUISTA if conquista else ABERTURAS[tom]
     livres = [a for a in lista if a not in v.usadas[-12:]] or list(lista)
     aberturas = tuple(v.sorteio.sample(livres, min(2, len(livres))))
     nome_nocao = principal["nome"]
-    usar_nocao = bool(achadas and nome_nocao not in perfil.nocoes_usadas and not (causa and eco))
+    combina_costuma, combina_pergunta = pertinencia(principal, texto, tom) if achadas else (False, False)
+    usar_nocao = bool(achadas and combina_costuma and nome_nocao not in perfil.nocoes_usadas
+                      and not (causa and eco))
     from nocoes import pergunta_para
-    pergunta = pergunta_para(principal, texto) if principal.get("pergunta") else None
+    pergunta = pergunta_para(principal, texto) if principal.get("pergunta") and combina_pergunta else None
+    # "Meu avô plantou uma mangueira": a pergunta é sobre ele, não "O que você plantou?".
+    if pergunta and outra_pessoa and re.search(r"\bvoce\b", normalizar(pergunta)):
+        pergunta = None
     if not achadas or causa or not pergunta or pergunta in perfil.perguntas_usadas \
             or not tempo_compativel(texto, pergunta):
         opcoes = [p for p in CONTINUAR[tom] if p not in v.usadas[-12:]] or list(CONTINUAR[tom])
@@ -764,7 +795,8 @@ def _refletir(texto, bot, base, achadas):
     else:
         perguntas = (pergunta,)
     plano = Plano(tom=tom, aberturas=aberturas, eco=eco or "",
-                  eco_na_abertura=bool(eco and (tom != "neutro" or agente == "você" or causa)),
+                  # Sem noção que combine, o eco é o que mostra que a fala foi ouvida.
+                  eco_na_abertura=bool(eco and (tom != "neutro" or agente == "você" or causa or not usar_nocao)),
                   causa=causa or "", nocao=principal["costuma"] if usar_nocao else "",
                   perguntas=perguntas, fala=texto)
     feito = realizar(plano, v, getattr(perfil, "ultima_forma", None))
@@ -818,14 +850,19 @@ def relato_com_presenca(texto, bot, resposta):
         partes = [eco[0].upper() + eco[1:] + "? " + v.escolher(("Sinto muito.", "Espero que melhore logo."))]
     else:
         partes = [abertura.rstrip(".!") + ", " + eco + ("!" if tom == "pos" else ".")]
-    principal = next((x for x in achadas if x["tipo"] != "pessoa"), achadas[0] if achadas else None)
-    if principal and principal["nome"] not in perfil.nocoes_usadas:
+    from nocoes import pergunta_para, pertinencia
+    ordem = sorted((x for x in achadas), key=lambda x: x["tipo"] == "pessoa")
+    principal = next((x for x in ordem if pertinencia(x, texto, tom)[0]), ordem[0] if ordem else None)
+    combina_costuma, combina_pergunta = pertinencia(principal, texto, tom) if principal else (False, False)
+    if principal and combina_costuma and principal["nome"] not in perfil.nocoes_usadas:
         partes.append(principal["costuma"])
         perfil.nocoes_usadas.add(principal["nome"])
     resto = m.group(2).strip()
     if not resto or resto.startswith(("Quer me contar mais", "Quer falar do que aconteceu")):
-        from nocoes import pergunta_para
-        pergunta = pergunta_para(principal, texto) if principal and principal.get("pergunta") else None
+        pergunta = pergunta_para(principal, texto) if principal and principal.get("pergunta") \
+            and combina_pergunta else None
+        if pergunta and agente and agente != "você" and re.search(r"\bvoce\b", normalizar(pergunta)):
+            pergunta = None
         if not pergunta or pergunta in perfil.perguntas_usadas:
             pergunta = v.escolher(CONTINUAR[tom])
         perfil.perguntas_usadas.add(pergunta)
