@@ -41,3 +41,52 @@ Documentação oficial/specification/standard é fonte primária para comportame
 Separar: (a) retrieval conceitual; (b) explicação; (c) leitura de código; (d) previsão de execução; (e) debugging; (f) geração; (g) design; (h) revisão; (i) generalização para problema novo. Acerto em (a) não prova (f)-(i).
 
 **Treinamento:** nenhum. **Integração:** nenhuma.
+## Ampliação de 03/10/2026: acervo avançado
+
+200 fichas autorais em 22 domínios; 60 dedicadas diretamente a JavaScript/TypeScript.
+Cada ficha traz definição, mecanismo, falhas, critério de escolha, verificação proposta e referência.
+Invariantes, complexidade, pré-requisitos, relações e exemplos locais foram adicionados onde
+há modelo específico. A lista de fontes é referência recomendada; sua conferência remota/editorial
+está pendente nesta execução. O conteúdo não é transcrição de documentação externa.
+
+### Ler e consultar
+- [Catálogo estruturado](catalogo-avancado.json): fonte de verdade das 200 fichas.
+- [Semântica JavaScript](03-javascript-semantica-e-runtime.md).
+- [Modelagem TypeScript](04-typescript-modelagem-e-contratos.md).
+- [Backend, transações e falhas](05-backend-transacoes-e-falhas.md).
+- [Segurança web](06-seguranca-web-e-fronteiras.md).
+- [Roteiro para gerar projetos do zero](07-gerar-projetos-do-zero.md).
+- [Fichas por domínio](fichas/): exportação Markdown do catálogo.
+- [Exemplos e limites](exemplos/README.md): 14 implementações, 27 testes Node e fixtures TS.
+- [40 desafios de projeto](desafios-projetos.json): material didático público, não holdout.
+- [Manifesto](manifesto.json): contagens, bytes e SHA-256 para reproduzir auditoria.
+- [Resultado da validação](VALIDACAO.md): checks efetivamente executados e pendências.
+
+```sh
+python scripts/acervo_programacao.py --validar
+python scripts/acervo_programacao.py --buscar "typescript narrowing unknown" --limite 5
+node --test docs/pesquisa_conhecimento/programacao/exemplos/padroes.test.mjs
+tsc -p docs/pesquisa_conhecimento/programacao/exemplos/tsconfig.json
+```
+
+A busca é lexical determinística, com normalização de acentos e peso de título; não
+é busca semântica nem integração ao chatbot. Retornar ficha não garante que ela responda
+completamente à consulta. Catálogo/Markdown são duas representações do mesmo conteúdo,
+e não devem ser contados como conhecimentos diferentes.
+
+### Cobertura e plano de integração futuro
+JavaScript/TypeScript, web, React, redes, backend, dados, segurança, algoritmos,
+estruturas, sistemas, compiladores, arquitetura, testes, engenharia, operação,
+corretude, geração e fronteira; panorama comparativo de Python/Rust/Go/C++/Java/C#.
+Conteúdo de GPU, CRDTs, efeitos e concorrência estruturada tem limites de aplicação
+e suporte registrados. Este acervo é amplo, mas não cobre literalmente toda programação.
+
+Antes de integrar: conferir fontes por edição/runtime; revisar fichas; transformar
+unidades em formato do recuperador escolhido; medir precisão e recall com paráfrases
+novas; conservar IDs/proveniência; isolar treino e avaliação por famílias; só promover
+geração após testes executáveis independentes. Não acrescentar os desafios públicos
+ao treino e depois chamá-los de avaliação externa.
+
+**Estado:** pesquisa expandida, sem treinamento, sem mudança no runtime e sem
+capacidade de geração/senioridade demonstrada. Quantidade de fichas não certifica competência.
+
