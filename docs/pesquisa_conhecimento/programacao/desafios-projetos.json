@@ -1,0 +1,1566 @@
+{
+  "schema_versao": "1.0",
+  "aviso": "60 desafios didáticos públicos. Não são holdout independente nem medição de competência do CRIVO.",
+  "desafios": [
+    {
+      "id": "projeto_001",
+      "titulo": "CSV por streaming",
+      "requisito": "Implementar CLI Node que leia CSV com aspas e linhas internas segundo dialeto explicitado, valide colunas e produza resumo incremental.",
+      "cenarios_adversariais": "Arquivo grande, chunk dentro de aspas/UTF-8, EOF inválido, limite de linha e cancelamento.",
+      "conceitos": [
+        "backend_node-streams",
+        "fronteira_streaming-parsers"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_002",
+      "titulo": "Reserva de estoque",
+      "requisito": "Projetar API TS com autorização por tenant, decremento condicional e chave idempotente durável.",
+      "cenarios_adversariais": "Duas reservas do último item; mesma chave/payload distinto; resposta perdida após commit.",
+      "conceitos": [
+        "dados_transactions",
+        "distribuidos_idempotencia"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_003",
+      "titulo": "Pacote TS público",
+      "requisito": "Criar pacote ESM tipado com export map e consumidor instalado a partir de tarball.",
+      "cenarios_adversariais": "Paths locais inexistentes, declaração divergente e runtime mínimo.",
+      "conceitos": [
+        "ts_declarations",
+        "ts_resolution"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_004",
+      "titulo": "Busca acessível",
+      "requisito": "Criar UI de pesquisa com teclado, loading/empty/error, paginação e proteção contra respostas antigas.",
+      "cenarios_adversariais": "Busca A finaliza depois de B; unmount durante fetch; leitor de tela.",
+      "conceitos": [
+        "frontend_react-races",
+        "web_a11y"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_005",
+      "titulo": "Calendário civil",
+      "requisito": "Implementar agendamento com timezone explícito e política para horário inexistente/ambíguo.",
+      "cenarios_adversariais": "DST, leap day, data inválida e cliente em fuso diferente.",
+      "conceitos": [
+        "js_intl-datas",
+        "js_unicode-js"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_006",
+      "titulo": "LRU ponderado",
+      "requisito": "Implementar cache com limite por custo em bytes estimados, TTL e single-flight.",
+      "cenarios_adversariais": "Expiração simultânea, valor undefined, tarefa rejeitada e entry maior que budget.",
+      "conceitos": [
+        "dados_redis-cache",
+        "js_map-set"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_007",
+      "titulo": "Scheduler limitado",
+      "requisito": "Criar executor de tarefas com prioridades, concorrência e deadline, preservando justiça definida.",
+      "cenarios_adversariais": "Task nunca conclui, cancelamento enquanto em fila, overload e starvation.",
+      "conceitos": [
+        "estruturas_heap",
+        "fronteira_structured-concurrency"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_008",
+      "titulo": "Outbox worker",
+      "requisito": "Implementar publisher que lê eventos transacionais e consumidor idempotente.",
+      "cenarios_adversariais": "Crash depois do publish antes do mark, mensagem venenosa e reorder.",
+      "conceitos": [
+        "distribuidos_outbox",
+        "distribuidos_queues"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_009",
+      "titulo": "Parser de expressão",
+      "requisito": "Criar tokenizer/AST/avaliador para aritmética com precedência, posições e limites.",
+      "cenarios_adversariais": "Entrada inválida, nesting excessivo, divisão por zero e injection textual.",
+      "conceitos": [
+        "compiladores_compiler",
+        "testes_fuzz"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_010",
+      "titulo": "Grafo de dependências",
+      "requisito": "Criar CLI que ordene dependências e mostre ciclo com caminho.",
+      "cenarios_adversariais": "Nó isolado, self-loop, ciclo em componente separada e grafo profundo.",
+      "conceitos": [
+        "algoritmos_topological",
+        "algoritmos_scc"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_011",
+      "titulo": "Migração online",
+      "requisito": "Projetar expand/migrate/contract para dividir campo com compatibilidade de versões.",
+      "cenarios_adversariais": "Backfill interrompido, locks, deploy antigo e rollback de binário.",
+      "conceitos": [
+        "dados_migrations",
+        "operacao_deployment"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_012",
+      "titulo": "Webhook verificado",
+      "requisito": "Criar receiver com verificação de assinatura no body bruto, timestamp e dedupe.",
+      "cenarios_adversariais": "Body alterado, replay, secret rotation e duplicate delivery.",
+      "conceitos": [
+        "seguranca_crypto",
+        "distribuidos_idempotencia"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_013",
+      "titulo": "Upload defensivo",
+      "requisito": "Criar upload com limites, validação de conteúdo, storage isolado e metadata.",
+      "cenarios_adversariais": "Nome com path traversal, tipo declarado falso, stream longa e cancelamento.",
+      "conceitos": [
+        "seguranca_threat-model",
+        "backend_node-streams"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_014",
+      "titulo": "Cliente resiliente",
+      "requisito": "Criar client HTTP com deadline comum, retry limitado e idempotência por contrato.",
+      "cenarios_adversariais": "429 com Retry-After, timeout após efeito, falha permanente e abort antes.",
+      "conceitos": [
+        "distribuidos_timeouts",
+        "js_cancelamento"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_015",
+      "titulo": "Dashboard de métricas",
+      "requisito": "Criar painel acessível com filtros na URL, gráficos e export consistente.",
+      "cenarios_adversariais": "Back/forward, dataset vazio, series longas e dependência fora do ar.",
+      "conceitos": [
+        "frontend_routing",
+        "web_a11y"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_016",
+      "titulo": "Formulário de conta",
+      "requisito": "Criar formulário com schema no servidor, erros por campo e preservação de entrada.",
+      "cenarios_adversariais": "Double submit, sessão expirada, erro de validação e campo inesperado.",
+      "conceitos": [
+        "web_forms",
+        "ts_schemas"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_017",
+      "titulo": "Fluxo SSE",
+      "requisito": "Criar notificações com replay por event ID e resync em lacuna.",
+      "cenarios_adversariais": "Reconnect, retenção expirada, proxy buffering e usuário sem permissão.",
+      "conceitos": [
+        "redes_sse",
+        "seguranca_authn-authz"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_018",
+      "titulo": "Chat WebSocket",
+      "requisito": "Criar protocolo tipado com auth, limites, heartbeat e retomada.",
+      "cenarios_adversariais": "Token revogado, consumer lento, frame inválido e conexão half-open.",
+      "conceitos": [
+        "redes_websocket",
+        "ts_unioes"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_019",
+      "titulo": "Editor offline",
+      "requisito": "Projetar modelo de edição com conflitos explicitados e persistência versionada.",
+      "cenarios_adversariais": "Duas réplicas concorrentes, reorder, duplicate e storage eviction.",
+      "conceitos": [
+        "fronteira_crdt",
+        "web_browser-storage"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_020",
+      "titulo": "RBAC por recurso",
+      "requisito": "Implementar política de papel/tenant/recurso com deny default.",
+      "cenarios_adversariais": "Troca de ID, papel sem privilégio, usuário removido e cache stale.",
+      "conceitos": [
+        "seguranca_authn-authz",
+        "seguranca_threat-model"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_021",
+      "titulo": "Moeda inteira",
+      "requisito": "Criar módulo de valores monetários com currency, escala e limites.",
+      "cenarios_adversariais": "Moedas distintas, overflow, arredondamento e serialização.",
+      "conceitos": [
+        "js_number",
+        "ts_brands"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_022",
+      "titulo": "Biblioteca de tipos",
+      "requisito": "Criar API generic que preserve chave/valor sem any público.",
+      "cenarios_adversariais": "Chave ausente, union, readonly e custo de compile em escala.",
+      "conceitos": [
+        "ts_keyof",
+        "ts_type-performance"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_023",
+      "titulo": "Batch loader",
+      "requisito": "Implementar batching por request para evitar N+1 com dados autorizados.",
+      "cenarios_adversariais": "Tenant diferente, chave duplicada, ordem de retorno e item ausente.",
+      "conceitos": [
+        "dados_n-plus-one",
+        "dados_db-pool"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_024",
+      "titulo": "API cursor",
+      "requisito": "Criar paginação keyset com tie-breaker e cursor contextual.",
+      "cenarios_adversariais": "Valores iguais, inserção concorrente e cursor de outro filtro/tenant.",
+      "conceitos": [
+        "backend_pagination",
+        "dados_sql-index"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_025",
+      "titulo": "Serviço desligável",
+      "requisito": "Criar servidor com probes, drain e shutdown com deadline.",
+      "cenarios_adversariais": "SIGTERM durante request, socket aberto e pool indisponível.",
+      "conceitos": [
+        "backend_shutdown",
+        "operacao_kubernetes"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_026",
+      "titulo": "CI verificável",
+      "requisito": "Projetar workflow que constrói/testa pacote e promove mesmo artefato.",
+      "cenarios_adversariais": "Cache incorreto, permissões excessivas e script postinstall suspeito.",
+      "conceitos": [
+        "engenharia_ci",
+        "seguranca_supply-chain"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_027",
+      "titulo": "REST compatível",
+      "requisito": "Evoluir endpoint mantendo cliente anterior e erro documentado.",
+      "cenarios_adversariais": "Campo novo no cliente estrito, default mudado e status incorreto.",
+      "conceitos": [
+        "engenharia_api-evolution",
+        "redes_http-semantica"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_028",
+      "titulo": "Fila com DLQ",
+      "requisito": "Criar worker com lease, retry budget e recuperação de mensagens inválidas.",
+      "cenarios_adversariais": "Lease expira com efeito concluído e retry causa duplicação.",
+      "conceitos": [
+        "distribuidos_queues",
+        "operacao_capacity"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_029",
+      "titulo": "Clone e ownership",
+      "requisito": "Criar pipeline worker com transferência de buffers e ownership explícito.",
+      "cenarios_adversariais": "View com offset, buffer detached, worker crash e fila cheia.",
+      "conceitos": [
+        "js_buffers",
+        "js_workers"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_030",
+      "titulo": "Benchmark honesto",
+      "requisito": "Comparar duas estruturas com resultados equivalentes e cargas reais.",
+      "cenarios_adversariais": "Warmup, GC, dataset sorted, outliers e custo de output.",
+      "conceitos": [
+        "engenharia_profiling",
+        "sistemas_cache-locality"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_031",
+      "titulo": "Deduplicação textual",
+      "requisito": "Criar normalização e busca Unicode com política de equivalência documentada.",
+      "cenarios_adversariais": "Combining marks, emoji, RTL e identificadores que colidem.",
+      "conceitos": [
+        "js_unicode-js",
+        "js_intl-datas"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_032",
+      "titulo": "Motor de estados",
+      "requisito": "Implementar transições de workflow com union discriminada e efeitos separados.",
+      "cenarios_adversariais": "Evento inválido, resposta antiga e variante nova sem handler.",
+      "conceitos": [
+        "frontend_react-reducer",
+        "ts_unioes"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_033",
+      "titulo": "Cache HTTP privado",
+      "requisito": "Criar respostas com validators e políticas distintas por recurso.",
+      "cenarios_adversariais": "Usuário A/B, Vary, conteúdo atualizado e 304.",
+      "conceitos": [
+        "redes_http-cache",
+        "seguranca_privacy"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_034",
+      "titulo": "Proxy de URL",
+      "requisito": "Criar busca remota com destinos permitidos e proteção SSRF.",
+      "cenarios_adversariais": "Redirect privado, DNS rebinding, esquemas inesperados e body excessivo.",
+      "conceitos": [
+        "seguranca_ssrf",
+        "redes_dns-tls"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_035",
+      "titulo": "Harness de fuzz",
+      "requisito": "Criar harness isolado para parser com timeout e corpus reprodutível.",
+      "cenarios_adversariais": "Loop infinito, input profundo e erro sem crash.",
+      "conceitos": [
+        "testes_fuzz",
+        "geracao_sandbox"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_036",
+      "titulo": "Top-k e prioridade",
+      "requisito": "Implementar heap e top-k com comparação estável definida.",
+      "cenarios_adversariais": "Duplicatas, k zero/grande e comparator inconsistente.",
+      "conceitos": [
+        "estruturas_heap",
+        "algoritmos_sort"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_037",
+      "titulo": "Transação concorrente",
+      "requisito": "Demonstrar write skew e corrigir invariant em banco real.",
+      "cenarios_adversariais": "Duas conexões, abort serializable e retry sem repetir efeito externo.",
+      "conceitos": [
+        "dados_transactions",
+        "sistemas_memory-model"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_038",
+      "titulo": "Backup restaurável",
+      "requisito": "Criar procedimento de backup/restore com verificação de integridade e budgets.",
+      "cenarios_adversariais": "Backup corrompido, schema diferente e secrets ausentes.",
+      "conceitos": [
+        "operacao_recovery",
+        "operacao_slo"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_039",
+      "titulo": "Roteiro de incidente",
+      "requisito": "Criar diagnóstico para p99 alto com tráfego nominal, tracing e hipótese.",
+      "cenarios_adversariais": "Pool saturado, CPU alta, DNS lento e aumento de cardinalidade.",
+      "conceitos": [
+        "operacao_observability",
+        "engenharia_debugging"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_040",
+      "titulo": "Codemod semântico",
+      "requisito": "Criar transformação de imports preservando aliases, comentários e bindings.",
+      "cenarios_adversariais": "Shadowing, string com texto semelhante, source stale e idempotência.",
+      "conceitos": [
+        "fronteira_incremental-types",
+        "compiladores_compiler"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato de entradas/saídas/erros",
+        "código executável e configuração do host",
+        "testes por propriedades e cenários",
+        "comandos reproduzíveis e limitações"
+      ],
+      "criterios": [
+        "correção",
+        "invariantes",
+        "segurança",
+        "falhas e cleanup",
+        "tipos",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_041",
+      "titulo": "Fila com cancelamento",
+      "requisito": "Criar fila bounded com fechamento/drain e cancelamento individual, orçamento de itens e waiters.",
+      "cenarios_adversariais": "Cancelar reader/writer antes/depois do grant; close com waits; overload; undefined como item.",
+      "conceitos": [
+        "js_async-queue",
+        "js_resource-budget"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_042",
+      "titulo": "Breaker concorrente",
+      "requisito": "Criar breaker com clock injetado, classificação de falha e geração de estado.",
+      "cenarios_adversariais": "Sucesso antigo após open; múltiplos probes; negócio versus rede; cooldown na borda.",
+      "conceitos": [
+        "js_circuit-breaker",
+        "testes_time-travel"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_043",
+      "titulo": "Frames incrementais",
+      "requisito": "Implementar parser de uint32 big endian + payload sem assumir chunk boundary.",
+      "cenarios_adversariais": "Todos pontos de fragmentação, zero-size, maxFrame, EOF parcial e input mutado depois.",
+      "conceitos": [
+        "js_framing",
+        "testes_parser-equivalence"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_044",
+      "titulo": "CAS com snapshots",
+      "requisito": "Criar repositório com versão e operação condicional; comparar modelo local e banco.",
+      "cenarios_adversariais": "Dois leitores na mesma versão, clone failure e conflito durante retry de regra.",
+      "conceitos": [
+        "dados_optimistic-lock",
+        "dados_write-skew"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_045",
+      "titulo": "Grupo com join",
+      "requisito": "Implementar task group que cancela siblings e aguarda cleanup antes de erro.",
+      "cenarios_adversariais": "Throw síncrono, rejeição undefined, parent já abortado, sibling não cooperativo.",
+      "conceitos": [
+        "js_task-group",
+        "fronteira_structured-concurrency"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_046",
+      "titulo": "Reducer por geração",
+      "requisito": "Implementar estados tipados e reducer que impede resposta obsoleta.",
+      "cenarios_adversariais": "Start A/B, success A após B, reset durante request e ID reutilizado.",
+      "conceitos": [
+        "ts_state-events",
+        "frontend_react-races"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_047",
+      "titulo": "Patch de domínio",
+      "requisito": "Criar DTO de patch que separa manter/substituir/remover sem mass assignment.",
+      "cenarios_adversariais": "Campo ausente, null, remoção proibida, chave admin e combinação inválida.",
+      "conceitos": [
+        "ts_patch-model",
+        "seguranca_mass-assignment"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_048",
+      "titulo": "Moeda serializável",
+      "requisito": "Implementar Money com currency, BigInt minor e codec validado.",
+      "cenarios_adversariais": "Número além de 2^53, mistura de moedas, overflow de domínio e payload extra.",
+      "conceitos": [
+        "ts_types-serialization",
+        "ts_brands"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_049",
+      "titulo": "Lease com fencing",
+      "requisito": "Projetar lock/lease e recurso que rejeita token antigo atomically.",
+      "cenarios_adversariais": "Owner pausado, lease expirada, novo owner e escrita tardia.",
+      "conceitos": [
+        "distribuidos_fencing",
+        "distribuidos_consistency"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_050",
+      "titulo": "Projeção CDC",
+      "requisito": "Criar pipeline de snapshot+log com checkpoint e schema evolution.",
+      "cenarios_adversariais": "Restart na borda, duplicate, gap e alteração de schema durante snapshot.",
+      "conceitos": [
+        "dados_cdc",
+        "arquitetura_schema-event"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_051",
+      "titulo": "Fila por entidade",
+      "requisito": "Criar consumer com ordem por chave, concorrência entre chaves e resync.",
+      "cenarios_adversariais": "Mensagem 2 antes da 1, retry, rebalance e efeito tardio.",
+      "conceitos": [
+        "distribuidos_queue-ordering",
+        "distribuidos_queues"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_052",
+      "titulo": "Load shedding",
+      "requisito": "Criar política de admission com prioridade e orçamento por dependência.",
+      "cenarios_adversariais": "Overload sustentado, retry storm, autoscaling e trabalho secundário saturado.",
+      "conceitos": [
+        "operacao_load-shedding",
+        "arquitetura_bulkheads"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_053",
+      "titulo": "Extração defensiva",
+      "requisito": "Projetar unpacker isolado com budget expandido e path seguro.",
+      "cenarios_adversariais": "Zip bomb, milhares de entries, symlink/traversal e arquivo interrompido.",
+      "conceitos": [
+        "seguranca_archive-bombs",
+        "seguranca_path-traversal"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_054",
+      "titulo": "Redaction verificável",
+      "requisito": "Implementar logger que usa allowlist de fields e causa interna sem secrets.",
+      "cenarios_adversariais": "Erro com token em cause/URL/header e múltiplas camadas nested.",
+      "conceitos": [
+        "seguranca_logging-redaction",
+        "operacao_observability"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_055",
+      "titulo": "Store compatível SSR",
+      "requisito": "Criar external store com snapshot estável e subscribe cleanup.",
+      "cenarios_adversariais": "Snapshot novo a cada leitura, unmount, hydration e mudança simultânea.",
+      "conceitos": [
+        "frontend_external-store",
+        "frontend_hydration"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_056",
+      "titulo": "Protocolo tipado público",
+      "requisito": "Criar registry de mensagens com discriminantes e fixtures de consumer.",
+      "cenarios_adversariais": "Correlação kind/payload perdida, variante nova e erro de overload inference.",
+      "conceitos": [
+        "ts_union-correlation",
+        "ts_overload-inference"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_057",
+      "titulo": "Codemod com AST",
+      "requisito": "Transformar imports por símbolos sem alterar shadowing/comments.",
+      "cenarios_adversariais": "Alias, função com nome igual, string com nome, versão compiler e source stale.",
+      "conceitos": [
+        "ts_compiler-api",
+        "fronteira_incremental-types"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_058",
+      "titulo": "B-tree didática",
+      "requisito": "Implementar B-tree pequena com invariant, splits e busca/range.",
+      "cenarios_adversariais": "Insert sorted/random, duplicate policy e split root.",
+      "conceitos": [
+        "estruturas_btrees-pages",
+        "testes_model-based"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_059",
+      "titulo": "Fluxo e corte",
+      "requisito": "Implementar max-flow com grafo residual e demonstração de cut.",
+      "cenarios_adversariais": "Aresta reversa necessária, capacidade zero e rede desconexa.",
+      "conceitos": [
+        "algoritmos_max-flow",
+        "algoritmos_correcao"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    },
+    {
+      "id": "projeto_060",
+      "titulo": "Análise abstrata",
+      "requisito": "Construir analisador de intervalos pequeno com premissas explícitas.",
+      "cenarios_adversariais": "Loop, join, widening, false positive e comparação com execução exaustiva pequena.",
+      "conceitos": [
+        "corretude_abstract-interpretation",
+        "corretude_formal"
+      ],
+      "tipo": "desafio_didatico_publico",
+      "holdout": false,
+      "entregaveis": [
+        "contrato/invariantes e decisões",
+        "artefato executável configurado",
+        "testes independentes e casos de falha",
+        "comandos reproduzíveis/limites"
+      ],
+      "criterios": [
+        "correção nominal e boundaries",
+        "preservação de invariantes",
+        "cleanup e limite de recursos",
+        "segurança de fronteiras",
+        "tipos e runtime coerentes",
+        "evidência independente"
+      ]
+    }
+  ]
+}

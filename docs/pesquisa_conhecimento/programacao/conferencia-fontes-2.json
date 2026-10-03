@@ -1,0 +1,78 @@
+{
+  "natureza": "Consulta pontual a documentação oficial; não auditoria geral nem prova de geração.",
+  "consultas": [
+    {
+      "id": "ts-assertions",
+      "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
+      "http": 200,
+      "sha256_resposta": "bf17c66dac9ea63648c9515f6b8e6b1a10c4fbc1e01b155fdfaafd2cd73b1de9",
+      "bytes": 321570,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "Type assertions são removidas e não acrescentam checagem runtime.",
+      "status": "conferencia_pontual_revisada"
+    },
+    {
+      "id": "ts-distribution",
+      "url": "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+      "http": 200,
+      "sha256_resposta": "95daa5b8959976f491be2a45f52cb8f5b1492a63b68beee78e98c761a3db1730",
+      "bytes": 242895,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "Conditional types sobre parâmetro generic nu distribuem em unions; wrapper controla distribuição.",
+      "status": "conferencia_pontual_revisada"
+    },
+    {
+      "id": "ts-optional",
+      "url": "https://www.typescriptlang.org/tsconfig/exactOptionalPropertyTypes.html",
+      "http": 200,
+      "sha256_resposta": "dc215ca2cfa67ec6313b8846cd159777f13de3e46fc6f09d671ae95123bc78fd",
+      "bytes": 166048,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "exactOptionalPropertyTypes distingue propriedade ausente de valor undefined não explicitamente admitido.",
+      "status": "conferencia_pontual_revisada"
+    },
+    {
+      "id": "node-events",
+      "url": "https://nodejs.org/docs/latest-v24.x/api/events.html",
+      "http": 200,
+      "sha256_resposta": "54bc39e5a8f9c38ce834e6de9b30aa4937853d591195e1bf36e71ee29ecda746",
+      "bytes": 244622,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "EventEmitter chama listeners sincronamente e descarta seus valores de retorno.",
+      "status": "conferencia_pontual_revisada"
+    },
+    {
+      "id": "node-stream",
+      "url": "https://nodejs.org/docs/latest-v24.x/api/stream.html",
+      "http": 200,
+      "sha256_resposta": "6375816ce51a22dee01153201586a098f60965a084a0570f9a137507e8e61ebe",
+      "bytes": 428811,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "Após write retornar false, aguardar drain para continuar escrita evita crescimento de buffer.",
+      "status": "conferencia_pontual_revisada"
+    },
+    {
+      "id": "node-abort",
+      "url": "https://nodejs.org/docs/latest-v24.x/api/globals.html",
+      "http": 200,
+      "sha256_resposta": "20952b9e37f5da385680029b4f9e574a114d72fa453a3e732f03d364f30bfb88",
+      "bytes": 106990,
+      "tema_encontrado": true,
+      "data_consulta": "2026-10-03",
+      "escopo": "Conferência pontual do tema; não auditoria de todas as fichas.",
+      "afirmacao_conferida": "Listener de abort deve tratar sinal já abortado e ser removido ao terminar; once ajuda quando abort ocorre.",
+      "status": "conferencia_pontual_revisada"
+    }
+  ],
+  "limite": "Hashes registram resposta consultada; não reproduzem documento remoto mutável nem validam todas as afirmações da ficha."
+}
