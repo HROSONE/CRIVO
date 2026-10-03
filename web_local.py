@@ -45,13 +45,23 @@ class LocalHandler(CrivoAPI):
 
 
 def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False,
-                   modelo_linguagem=None):
+                   modelo_linguagem=None, modelo_programacao=None, programacao_experimental=False,
+                   relatorio_programacao=None):
     if modelo_linguagem:
         from dialogo_linguagem_profunda import carregar_modelo
         carregar_modelo(modelo_linguagem)  # Falhar no início se pesos/dependências não existem.
+    gerador = None
+    if modelo_programacao:
+        from programacao_neural import GeradorProgramacao, pode_ativar
+        if not programacao_experimental and not (relatorio_programacao and pode_ativar(modelo_programacao, relatorio_programacao)):
+            raise ValueError("Modelo não aprovado; use --programacao-experimental para o laboratório")
+        from conhecimento_programacao import ConhecimentoProgramacao
+        catalogo = ConhecimentoProgramacao(Path(__file__).resolve().parent / "docs/pesquisa_conhecimento/programacao/catalogo-avancado.json")
+        gerador = GeradorProgramacao(modelo_programacao, catalogo)
     server = ThreadingHTTPServer((host, port), LocalHandler)
     server.dialogo_contextual = usar_dialogo_contextual
     server.modelo_linguagem = modelo_linguagem
+    server.gerador_programacao = gerador
     return server
 
 
@@ -64,9 +74,13 @@ def main():
                         help="Usa os modelos contextuais candidatos; desativados por padrão.")
     parser.add_argument("--modelo-linguagem-profunda", metavar="DIRETORIO",
                         help="Usa explicitamente o candidato Transformer treinado do zero.")
+    parser.add_argument("--modelo-programacao", metavar="DIRETORIO")
+    parser.add_argument("--programacao-experimental", action="store_true")
+    parser.add_argument("--relatorio-programacao", metavar="JSON")
     args = parser.parse_args()
     server = criar_servidor(args.host, args.port, args.dialogo_experimental,
-                           args.modelo_linguagem_profunda)
+                           args.modelo_linguagem_profunda, args.modelo_programacao,
+                           args.programacao_experimental, args.relatorio_programacao)
     print("CRIVO web: http://%s:%s" % (args.host, server.server_address[1]))
     print("O endpoint não possui login; evite expor a porta na internet.")
     try:

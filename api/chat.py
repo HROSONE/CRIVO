@@ -44,7 +44,8 @@ class handler(BaseHTTPRequestHandler):
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "engine": "python-local", "external_ai": False,
                                 "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)
-                                or bool(getattr(self.server, "modelo_linguagem", None))})
+                                or bool(getattr(self.server, "modelo_linguagem", None)),
+                                "experimental_programming": bool(getattr(self.server, "gerador_programacao", None))})
 
     def do_POST(self):
         if self.path.split("?", 1)[0] != "/api/chat":
@@ -62,7 +63,8 @@ class handler(BaseHTTPRequestHandler):
             pedido = json.loads(bruto.decode("utf-8"))
             resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
                 self.server, "dialogo_contextual", False), modelo_linguagem=getattr(
-                self.server, "modelo_linguagem", None))
+                self.server, "modelo_linguagem", None), gerador_programacao=getattr(
+                self.server, "gerador_programacao", None))
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

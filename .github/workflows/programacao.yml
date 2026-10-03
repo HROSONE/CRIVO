@@ -1,0 +1,84 @@
+name: Programação - recuperação e laboratório
+on:
+  pull_request:
+    paths:
+      - '*programacao*.py'
+      - 'verificacao_codigo.py'
+      - 'crivo.py'
+      - 'web_core.py'
+      - 'scripts/*programacao*.py'
+      - 'scripts/treinar_linguagem_profunda.py'
+      - 'dados/programacao/**'
+      - 'docs/pesquisa_conhecimento/programacao/**'
+      - '.github/workflows/programacao.yml'
+  workflow_dispatch:
+    inputs:
+      perfil:
+        description: 'Capacidade; perfis maiores iniciam pré-treino próprio do zero'
+        type: choice
+        options: [atual, 10m, 30m]
+        default: atual
+      passos:
+        description: 'Passos por etapa; 200 é um piloto, não treino suficiente para produção'
+        type: number
+        default: 200
+permissions:
+  contents: read
+jobs:
+  verificacao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - run: npm install --prefix /tmp/ts typescript@5.9.3
+      - run: python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install 'tokenizers>=0.20,<1' 'numpy>=1.24,<3'
+      - name: Recuperação, separação dos dados, gates e paridade de arquitetura
+        env:
+          CRIVO_TSC: /tmp/ts/node_modules/typescript/lib/tsc.js
+          OMP_NUM_THREADS: '2'
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_programacao_profunda testes_programacao testes_linguagem_profunda -v
+      - name: Compilar referências e verificar isolamento disponível
+        run: python scripts/verificar_referencias_programacao.py --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --saida /tmp/referencias.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: referencias-programacao
+          path: /tmp/referencias.json
+  treino:
+    if: github.event_name == 'workflow_dispatch'
+    needs: verificacao
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: sudo apt-get update && sudo apt-get install -y bubblewrap
+      - run: npm install --prefix /tmp/ts typescript@5.9.3
+      - run: python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install 'tokenizers>=0.20,<1' 'numpy>=1.24,<3'
+      - name: Treinar candidato e medir famílias reservadas
+        env:
+          PERFIL: ${{ inputs.perfil }}
+          PASSOS: ${{ inputs.passos }}
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/treinar_programacao.py --perfil "$PERFIL" --passos "$PASSOS" --threads 2 --saida /tmp/ciclo --tsc /tmp/ts/node_modules/typescript/lib/tsc.js --timeout-segundos 2200
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidato-programacao-${{ inputs.perfil }}
+          path: /tmp/ciclo
+          retention-days: 30
