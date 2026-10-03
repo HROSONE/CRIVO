@@ -152,6 +152,8 @@ class Crivo:
                  usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
+        from programacao_chat import MotorCodigoChat
+        self.motor_codigo = MotorCodigoChat(caminho.parent / "artefatos/efeitos_programacao")
         self.caminho_base = caminho
         from curriculo_mundo import carregar_base, ler_curriculo
         self.curriculo_mundo = ler_curriculo(caminho.with_name("conhecimento_mundo.json"))
@@ -1311,6 +1313,20 @@ class Crivo:
 
     def _responder_comum(self, texto):
         """Contexto implícito de um turno e retomada explícita da conversa."""
+        # Código preserva grafia e símbolos antes das reformulações de linguagem.
+        resultado_codigo = self.motor_codigo.responder(
+            texto, gerador_experimental=self.gerador_programacao is not None)
+        if resultado_codigo is not None:
+            if getattr(self, "perfil", None) is not None:
+                self.perfil.turno += 1
+            resultado = self._registrar_social(resultado_codigo, texto)
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.contexto_textual = self.ultima_resposta_mostrada = None
+            self.assunto_conversa = None
+            self.planejador.ultimo = None
+            self.historico[-1]["mecanismo"] = "motor_programacao_proprio"
+            self.ultimo_turno = {"pergunta": texto, "id": resultado[0]}
+            return resultado
         original_usuario = texto
         texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:

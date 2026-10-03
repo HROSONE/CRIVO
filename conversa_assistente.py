@@ -219,6 +219,9 @@ def capacidades(bot, rotulos, completo=False):
         funcoes.append("mostrar as fontes dos fatos usados quando elas estão cadastradas")
     if bot.frutas is not None:
         funcoes.append("consultar propriedades e classificações de frutas cadastradas")
+    if getattr(bot, "motor_codigo", None) is not None:
+        funcoes.append("interpretar código JavaScript limitado, rastrear estados e testar correções com exemplos de entrada e saída")
+        funcoes.append("montar funções simples a partir desses exemplos")
     texto = "Posso " + "; ".join(funcoes) + ".\n\n"
     texto += "Assuntos desta instalação: " + assuntos(bot, rotulos, completo) + "."
     if completo:
