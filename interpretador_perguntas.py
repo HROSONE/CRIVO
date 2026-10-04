@@ -1,143 +1,175 @@
-"""Interpretador de perguntas sobre conceitos.
+"""Reconhece pedidos de conceitos do acervo ativo, sem produzir fatos.
 
-Separa duas coisas que antes vinham juntas numa regra por frase:
-
-1. O CONCEITO: o nome (ou sinônimo) de um conceito conhecido em qualquer
-   lugar da fala, com tolerância a um erro de digitação em nomes longos.
-2. O PEDIDO: o resto da fala precisa ser feito só de palavras de pedido
-   ("o que é", "explica", "fala um pouco", "tenho uma dúvida", "me ajuda",
-   "pra prova"...). Se sobrar outra palavra de conteúdo ("Morcego é ave?",
-   "estou com ansiedade hoje"), não é um pedido de explicação e o
-   interpretador não interfere.
-
-Quando reconhece o pedido, devolve a forma canônica "O que é <conceito>?",
-que o restante do CRIVO já responde. Não inventa conteúdo: só reescreve.
+Nome e pedido são analisados separadamente. Uma correção de digitação só é
+aceita quando o alvo é único e o restante tem sentido de pedido. Relações,
+causas, condições, negações e relatos pessoais ficam com os motores existentes.
+Não há pesos nem modelo externo neste módulo.
 """
 import re
+from typing import NamedTuple
 
 from linguagem_conversa import normalizar
 
-# Palavras que podem cercar o conceito num pedido de explicação. Lista geral
-# de palavras funcionais e de pedido do português, não de frases inteiras.
+_PALAVRA = re.compile(r"[a-z0-9_]+(?:\+\+|#)?(?:-[a-z0-9_]+)*")
 PEDIDO = set("""
-a o as os um uma uns umas de do da dos das d em no na nos nas num numa ao aos à às pra pro pras pros para por
-pelo pela e ou que q oq oque qual quais quale como cmo onde quando quem porque pq
-é e eh ser seria sera era sao são esta está isso isto esse essa este esta aquilo ai aí la lá ta tá
-me mim te pra-mim vc voce você voces vocês alguem alguém pf pfv pls favor por-favor obrigado obrigada valeu
-eu to tô tou estou ando
-explica explique explicar explicaria explicação explicacao explicacão expliquei
-fala fale falar fala-me conta conte contar diz diga dizer dizendo mostra mostre ensina ensine ensinar
-resume resuma resumir resumo resumao resumão define defina definir definição definicao conceito conceitos
-significa significado quer querem dizer sentido ideia idéia
-sabe sabes saberia saber sei entender entendo entendi entende compreender compreendo
-duvida dúvida duvidas dúvidas pergunta perguntinha questao questão
-ajuda ajude ajudar socorro help preciso precisava queria quero gostaria podia poderia pode pode-me
-estudando estudar estudo estudei prova provas trabalho escola faculdade aula
-simples simplificado facil fácil rapido rápido resumido detalhe detalhes direito melhor bem pouco mais
-exatamente afinal mesmo assim tipo jeito forma maneira palavras básico basico basicamente geral
-sobre acerca respeito tema assunto materia matéria coisa nada tudo
-funciona funcionam serve servem
+a o as os um uma uns umas de do da dos das em no na nos nas ao aos pra pro pras pros para
+pelo pela que q oq oque qual quais e eh ser seria sao isso isto esse essa este esta
+me mim te vc voce voces alguem pf pfv pls favor obrigado obrigada valeu eu
+explica explique explicar explicaria explicacao fala fale falar conta conte contar
+diz diga dizer mostra mostre ensina ensine ensinar resume resuma resumir resumo
+resumao define defina definir definicao conceito significa significado quer dizer sentido ideia
+sabe saber sei entender entendo entende compreender compreendo duvida duvidas pergunta questao
+ajuda ajude ajudar preciso queria quero gostaria podia poderia pode
+estudando estudar estudo prova provas trabalho escola faculdade aula
+simples simplificado facil rapido resumido detalhe detalhes direito melhor bem pouco mais
+exatamente afinal mesmo assim tipo jeito forma maneira palavras basico basicamente
+sobre acerca respeito tema assunto materia funciona funcionam serve servem como cmo to tou estou
 """.split())
+_EXPLICITO = set("""
+explica explique explicar explicaria explicacao fala fale falar conta conte contar diz diga
+mostra mostre ensina ensine ensinar resume resuma resumir resumo resumao define defina definir
+definicao conceito significa significado sentido ideia entender entende compreender duvida duvidas
+""".split())
+_EDUCACAO = {"estudando", "estudar", "estudo", "prova", "provas", "escola", "faculdade", "aula"}
+_RELATO = {"to", "tou", "estou", "tenho", "ando", "sinto", "senti", "fiquei", "tive"}
 
-# "como assim", "o que vem a ser" e parecidos usam só palavras de PEDIDO.
 
-_RELATO = re.compile(r"\b(?:estou|to|tô|tou|ando|fiquei|sinto|senti|tive|tenho)\b(?! (?:uma |umas )?d[uú]vidas?\b)")
-_PALAVRA = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
+class PerguntaConceito(NamedTuple):
+    conceito: str
+    nome: str
+    alias: str
+    consulta: str
+    distancia: int
+    intencao: str
+    formato: str
+    educacional: bool
 
 
 def _distancia(a, b, limite):
-    """Distância de edição com corte: devolve limite + 1 se passar dele."""
     if abs(len(a) - len(b)) > limite:
         return limite + 1
     anterior = list(range(len(b) + 1))
     for i, ca in enumerate(a, 1):
-        atual = [i] + [0] * len(b)
-        menor = atual[0]
+        atual = [i]
         for j, cb in enumerate(b, 1):
-            atual[j] = min(anterior[j] + 1, atual[j - 1] + 1, anterior[j - 1] + (ca != cb))
-            menor = min(menor, atual[j])
-        if menor > limite:
+            atual.append(min(anterior[j] + 1, atual[j - 1] + 1,
+                             anterior[j - 1] + (ca != cb)))
+        if min(atual) > limite:
             return limite + 1
         anterior = atual
     return anterior[-1]
 
 
 def _tolerancia(nome):
-    """Erros aceitos: nenhum em nomes curtos, um em médios, dois em longos."""
     n = len(nome.replace(" ", ""))
     return 0 if n < 6 else 1 if n < 11 else 2
 
 
 class InterpretadorPerguntas:
     def __init__(self, itens):
-        """itens: {id: {"nome":..., "aliases": [...]}} (o compositor)."""
         self.lexico = {}
+        self.nomes = {ident: item["nome"] for ident, item in itens.items()}
         for ident, item in itens.items():
             for nome in [item["nome"]] + list(item.get("aliases", [])):
                 chave = " ".join(_PALAVRA.findall(normalizar(nome)))
                 if chave:
                     self.lexico.setdefault(chave, set()).add(ident)
-        self.nomes = {ident: item["nome"] for ident, item in itens.items()}
         self.maior = max((len(k.split()) for k in self.lexico), default=1)
+        self.aproximados = {}
+        for alias, ids in self.lexico.items():
+            limite = _tolerancia(alias)
+            if limite:
+                self.aproximados.setdefault((len(alias.split()), len(alias)), []).append(
+                    (alias, tuple(sorted(ids)), limite))
 
-    def conceito(self, palavras):
-        """(id, inicio, fim) do conceito citado, ou None se ausente/ambíguo."""
-        exatos, aproximados = [], []
+    def _candidatos(self, palavras):
         for tamanho in range(min(self.maior, len(palavras)), 0, -1):
             for ini in range(len(palavras) - tamanho + 1):
                 trecho = " ".join(palavras[ini:ini + tamanho])
                 ids = self.lexico.get(trecho)
-                if ids:
-                    exatos.append((tamanho, ini, ids))
-            if exatos:
-                break
-        if exatos:
-            tamanho, ini, ids = max(exatos, key=lambda e: e[0])
-            if len({frozenset(e[2]) for e in exatos if e[0] == tamanho}) > 1 or len(ids) != 1:
-                return None
-            return next(iter(ids)), ini, ini + tamanho
-        # Sem nome exato: um erro de digitação ("entrpia"), só se for único.
-        for tamanho in range(min(self.maior, len(palavras)), 0, -1):
-            for ini in range(len(palavras) - tamanho + 1):
-                trecho = " ".join(palavras[ini:ini + tamanho])
-                if trecho in PEDIDO or len(trecho) < 6:
+                if ids is not None:
+                    # Alias ambíguo não pode ser corrigido para outro nome.
+                    for ident in ids:
+                        yield ident, ini, ini + tamanho, trecho, 0
                     continue
-                for chave, ids in self.lexico.items():
-                    if len(chave.split()) != tamanho or len(ids) != 1:
-                        continue
-                    limite = _tolerancia(chave)
-                    if limite and _distancia(trecho, chave, limite) <= limite:
-                        aproximados.append((next(iter(ids)), ini, ini + tamanho))
-            if aproximados:
-                break
-        if len({a[0] for a in aproximados}) == 1:
-            return aproximados[0]
-        return None
+                if trecho in PEDIDO or len(trecho.replace(" ", "")) < 5:
+                    continue
+                for comprimento in range(len(trecho) - 2, len(trecho) + 3):
+                    for alias, ids, limite in self.aproximados.get((tamanho, comprimento), ()):
+                        distancia = _distancia(trecho, alias, limite)
+                        if distancia <= limite:
+                            for ident in ids:
+                                yield ident, ini, ini + tamanho, alias, distancia
 
-    def reescrever(self, texto):
-        """"O que é <conceito>?" se a fala pede explicação de um conceito
-        conhecido; None caso contrário."""
+    def conceito(self, palavras):
+        """Compatibilidade: alvo único no maior trecho, ou None."""
+        candidatos = list(self._candidatos(palavras))
+        if not candidatos:
+            return None
+        maior = max(c[2] - c[1] for c in candidatos)
+        candidatos = [c for c in candidatos if c[2] - c[1] == maior]
+        menor = min(c[4] for c in candidatos)
+        candidatos = [c for c in candidatos if c[4] == menor]
+        if len({c[0] for c in candidatos}) != 1:
+            return None
+        return candidatos[0][:3]
+
+    def _pedido(self, palavras, ini, fim):
+        resto = palavras[:ini] + palavras[fim:]
+        duvida = "duvida" in resto or "duvidas" in resto
+        permitido = PEDIDO | ({"tenho"} if duvida else set())
+        if any(p not in permitido for p in resto):
+            return None
+        educacional = bool(set(resto) & _EDUCACAO or duvida)
+        if set(resto) & _RELATO and not educacional:
+            return None
+        explicito = bool(set(resto) & _EXPLICITO)
+        definicao = any(p in resto for p in ("oq", "oque", "q", "qual")) or (
+            "que" in resto and any(p in resto for p in ("e", "eh", "ser", "seria", "sao")))
+        mecanismo = "funciona" in resto or "funcionam" in resto
+        funcao = "serve" in resto or "servem" in resto
+        if "como" in resto or "cmo" in resto:
+            if not (mecanismo or funcao):
+                return None
+        ajuda_estudo = educacional and bool(set(resto) & {"ajuda", "ajude", "ajudar"})
+        if resto and not (explicito or definicao or mecanismo or funcao or
+                          ajuda_estudo or "saber" in resto):
+            return None
+        formato = "resumo" if set(resto) & {"resume", "resuma", "resumir", "resumo", "resumao", "resumido"} else ""
+        if set(resto) & {"simples", "simplificado", "basico"} and not formato:
+            formato = "simples"
+        return ("funcionamento" if mecanismo else "funcao" if funcao else "definir",
+                formato, educacional)
+
+    def analisar(self, texto):
         if not isinstance(texto, str) or len(texto) > 200:
             return None
-        n = normalizar(texto)
-        palavras = _PALAVRA.findall(n)
-        if not palavras or len(palavras) > 16:
+        if re.search(r"[;{}=<>`\n]", texto):
             return None
-        achado = self.conceito(palavras)
-        if achado is None:
+        palavras = _PALAVRA.findall(normalizar(texto))
+        if not palavras or len(palavras) > 20:
             return None
-        ident, ini, fim = achado
-        resto = palavras[:ini] + palavras[fim:]
-        # Qualquer outra palavra de conteúdo muda a pergunta: não interferir.
-        if any(p not in PEDIDO for p in resto):
+        candidatos = []
+        for ident, ini, fim, alias, distancia in self._candidatos(palavras):
+            pedido = self._pedido(palavras, ini, fim)
+            if pedido is not None:
+                candidatos.append((ident, ini, fim, alias, distancia, pedido))
+        if not candidatos:
             return None
-        pede = "?" in texto or not resto or any(p not in ("a", "o", "e", "de", "do", "da", "eu", "to", "tô", "estou")
-                                                for p in resto)
-        if not pede:
+        maior = max(c[2] - c[1] for c in candidatos)
+        candidatos = [c for c in candidatos if c[2] - c[1] == maior]
+        menor = min(c[4] for c in candidatos)
+        candidatos = [c for c in candidatos if c[4] == menor]
+        if len({c[0] for c in candidatos}) != 1:
             return None
-        # "Estou com ansiedade": relato, não pedido (sem "dúvida", "explica"...).
-        if _RELATO.search(n) and not re.search(
-                r"\b(?:explica\w*|duvida\w*|d[uú]vida\w*|ajud\w*|socorro|entend\w*|significa\w*|resum\w*|"
-                r"defin\w*|conceito|o que|oq|o q|qual|como)\b", n):
-            return None
-        return "O que é " + self.nomes[ident] + "?"
+        ident, ini, fim, alias, distancia, pedido = candidatos[0]
+        intencao, formato, educacional = pedido
+        prefixo = {"definir": "O que é ", "funcionamento": "Como funciona ",
+                   "funcao": "Para que serve "}[intencao]
+        return PerguntaConceito(ident, self.nomes[ident], alias,
+                               prefixo + self.nomes[ident] + "?", distancia,
+                               intencao, formato, educacional)
+
+    def reescrever(self, texto):
+        quadro = self.analisar(texto)
+        return quadro.consulta if quadro else None

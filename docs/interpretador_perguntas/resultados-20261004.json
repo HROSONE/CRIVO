@@ -1,0 +1,99 @@
+{
+  "data_utc": "2026-10-04",
+  "branch": "claude/interpretador-perguntas",
+  "branch_original": "e711b7a09e8fe2fa3d56853dc98bff2c765bfc6a",
+  "main_preservada": "e99da3230de897764d42050bb9d369ebb19ea7ae",
+  "metodologia": "Casos congelados, instâncias independentes; gerador inspecionado, retido não totalmente cego; implementação congelada antes do retido e não ajustada depois.",
+  "ativo": [
+    {
+      "conjunto": "dev",
+      "casos": 325,
+      "acertos": 294,
+      "por_tipo": {
+        "conceito:falha": 31,
+        "conceito:ok": 289,
+        "controle:ok": 5
+      },
+      "conceitos_com_alvo_correto": 300,
+      "controles_sem_definicao": 5,
+      "interpretador_ativo": true,
+      "dataset_sha256": "7e6a446878034ab4153d2d13e03f9415f3a30e053d3d4ad4ec2c7a2abcccfac6",
+      "codigo_sha256": {
+        "interpretador_perguntas.py": "ca6d8c42cb5fb695b3a55588fa3951889acb9b8e39913d4b70ca377a4fac19dd",
+        "crivo.py": "bfb9feab377851756ce88098a047bb788ee606e231975e82c66d40463a3cf673",
+        "linguagem_conversa.py": "8a08d71ef76c5a69eddde322fd670bf8863a3bf132d437de65699956b97bd934"
+      }
+    },
+    {
+      "conjunto": "retido",
+      "casos": 147,
+      "acertos": 99,
+      "por_tipo": {
+        "conceito:falha": 48,
+        "conceito:ok": 96,
+        "controle:ok": 3
+      },
+      "conceitos_com_alvo_correto": 108,
+      "controles_sem_definicao": 3,
+      "interpretador_ativo": true,
+      "dataset_sha256": "4bed5ffd30a29b58b98bdd5d2a8f003d974db93b60de27f777c9886e8586e62b",
+      "codigo_sha256": {
+        "interpretador_perguntas.py": "ca6d8c42cb5fb695b3a55588fa3951889acb9b8e39913d4b70ca377a4fac19dd",
+        "crivo.py": "bfb9feab377851756ce88098a047bb788ee606e231975e82c66d40463a3cf673",
+        "linguagem_conversa.py": "8a08d71ef76c5a69eddde322fd670bf8863a3bf132d437de65699956b97bd934"
+      }
+    }
+  ],
+  "sem_interpretador": [
+    {
+      "conjunto": "dev",
+      "casos": 325,
+      "acertos": 125,
+      "por_tipo": {
+        "conceito:falha": 200,
+        "conceito:ok": 120,
+        "controle:ok": 5
+      },
+      "conceitos_com_alvo_correto": 131,
+      "controles_sem_definicao": 5,
+      "interpretador_ativo": false,
+      "dataset_sha256": "7e6a446878034ab4153d2d13e03f9415f3a30e053d3d4ad4ec2c7a2abcccfac6",
+      "codigo_sha256": {
+        "interpretador_perguntas.py": "ca6d8c42cb5fb695b3a55588fa3951889acb9b8e39913d4b70ca377a4fac19dd",
+        "crivo.py": "bfb9feab377851756ce88098a047bb788ee606e231975e82c66d40463a3cf673",
+        "linguagem_conversa.py": "8a08d71ef76c5a69eddde322fd670bf8863a3bf132d437de65699956b97bd934"
+      }
+    },
+    {
+      "conjunto": "retido",
+      "casos": 147,
+      "acertos": 48,
+      "por_tipo": {
+        "conceito:falha": 99,
+        "conceito:ok": 45,
+        "controle:ok": 3
+      },
+      "conceitos_com_alvo_correto": 46,
+      "controles_sem_definicao": 3,
+      "interpretador_ativo": false,
+      "dataset_sha256": "4bed5ffd30a29b58b98bdd5d2a8f003d974db93b60de27f777c9886e8586e62b",
+      "codigo_sha256": {
+        "interpretador_perguntas.py": "ca6d8c42cb5fb695b3a55588fa3951889acb9b8e39913d4b70ca377a4fac19dd",
+        "crivo.py": "bfb9feab377851756ce88098a047bb788ee606e231975e82c66d40463a3cf673",
+        "linguagem_conversa.py": "8a08d71ef76c5a69eddde322fd670bf8863a3bf132d437de65699956b97bd934"
+      }
+    }
+  ],
+  "validacao_local": {
+    "testes_integracao": 123,
+    "testes_originais": 65,
+    "testes_sem_dependencias_opcionais": 12,
+    "resultado": "todos passaram"
+  },
+  "limites": [
+    "Métrica estrita de definição pode reprovar explicações válidas de funcionamento.",
+    "Aliases duplicados e lacunas do acervo limitam a cobertura.",
+    "Cobertura do alvo não certifica correção completa da resposta.",
+    "Nenhum treinamento ou parâmetro adicional; não certifica geração geral de código."
+  ]
+}

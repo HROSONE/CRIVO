@@ -344,7 +344,7 @@ class Conversacao:
         self.pendente = None
         return None
 
-    def preparar(self, texto, bot):
+    def preparar(self, texto, bot, pergunta_educacional=None):
         self.turno += 1
         bot.planejador.ultimo = None
         self.ultimo_quadro_neural = None
@@ -416,6 +416,12 @@ class Conversacao:
             self.ultimo_quadro_neural = None
             if responder_contato(texto, bot.ultimo_turno) is not None:
                 return None
+            if pergunta_educacional is not None:
+                # Pedido de estudo validado antes que _relato o guarde como
+                # acontecimento pessoal. Não avança o turno uma segunda vez.
+                return self.preparar_ato(Ato("conceito_educacional", "consulta",
+                    pergunta_educacional.nome, pergunta_educacional.consulta,
+                    pergunta_educacional.formato), bot)
             # Um pedido informativo conservado, inclusive negado ou
             # expresso como desconhecimento, passa pelos motores factuais.
             # Não vira relato só por começar com 'eu'. A execução normal
