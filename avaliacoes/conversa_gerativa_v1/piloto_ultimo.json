@@ -1,0 +1,301 @@
+{
+  "versao": 1,
+  "modelo_sha256": "778edba6fba408c6787a26402422ae19699b47fe166c77c9b6949bb3b01d2096",
+  "sonda_sha256": "7613929f71809e7032b4fa26a06a02c0a88116668b17ec5631c9e899a2566af2",
+  "corpus_sha256": "2874b7c12c37f6155f6e43fac273410a1aa80e582ac202808f4aca9e4ee42c64",
+  "passo": 1800,
+  "parametros": 2612352,
+  "temperatura": 0.0,
+  "respostas": [
+    {
+      "id": "funcao_mito",
+      "mensagem": "Qual é o papel da mitocôndria dentro de uma célula?",
+      "historico": [],
+      "exigir": [
+        [
+          "ATP",
+          "energia"
+        ],
+        [
+          "célula",
+          "celular"
+        ]
+      ],
+      "gerado": "A função de mitocôndria é produzir ATP durante a respiração celular. Com isso, ajuda a fornecer energia utilizável para atividades da célula.",
+      "completa": true,
+      "tokens": 43,
+      "triagem_lexical": true,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "funcao_indireta",
+      "mensagem": "Por que uma célula precisaria de mitocôndrias?",
+      "historico": [],
+      "exigir": [
+        [
+          "ATP",
+          "energia"
+        ]
+      ],
+      "gerado": "A função de mitocôndria é produzir ATP durante a respiração celular. Com isso, ajuda a fornecer energia utilizável para atividades da célula.",
+      "completa": true,
+      "tokens": 43,
+      "triagem_lexical": true,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "funcao_ribossomo",
+      "mensagem": "Em que os ribossomos ajudam uma célula?",
+      "historico": [],
+      "exigir": [
+        [
+          "proteína",
+          "proteínas"
+        ]
+      ],
+      "gerado": "A função de ribossomo é montar proteínas a partir de aminoácidos. Com isso, ajuda a produzir proteínas que atuam na estrutura e nas funções celulares.",
+      "completa": true,
+      "tokens": 45,
+      "triagem_lexical": true,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "social_ambiguo",
+      "mensagem": "Ela leu minha mensagem ontem e não respondeu. Será que me odeia?",
+      "historico": [],
+      "exigir": [
+        [
+          "não",
+          "sem"
+        ],
+        [
+          "saber",
+          "concluir",
+          "certeza",
+          "significa"
+        ]
+      ],
+      "gerado": "Não. Perder o silêncio sozinho não está confirmado.",
+      "completa": true,
+      "tokens": 12,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": false
+    },
+    {
+      "id": "social_vacuo",
+      "mensagem": "Minha amiga me deixou no vácuo",
+      "historico": [],
+      "exigir": [
+        [
+          "resposta",
+          "respondeu",
+          "silêncio",
+          "mensagem"
+        ]
+      ],
+      "proibir": [
+        "que bom",
+        "boa!"
+      ],
+      "gerado": "O componente Ramo10 tem a função de organizar pedidos.",
+      "completa": true,
+      "tokens": 17,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "aprendizado",
+      "mensagem": "O que faço para entender melhor o que estou estudando?",
+      "historico": [],
+      "exigir": [
+        [
+          "explicar",
+          "explique",
+          "palavras"
+        ],
+        [
+          "exemplo",
+          "exemplos",
+          "prática",
+          "exercício"
+        ]
+      ],
+      "gerado": "Aqui está uma parte pequena que tente lembrar a ideia principal. Se você descrever a situação e as suposições, podemos distinguir fatos de hipóteses.",
+      "completa": true,
+      "tokens": 41,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": false
+    },
+    {
+      "id": "contexto",
+      "mensagem": "Como posso testar se entendi isso?",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou estudando fotossíntese."
+        },
+        {
+          "papel": "assistente",
+          "texto": "A fotossíntese usa luz para produzir açúcares a partir de água e gás carbônico."
+        }
+      ],
+      "exigir": [
+        [
+          "fotossíntese",
+          "luz",
+          "açúcar",
+          "açúcares"
+        ]
+      ],
+      "gerado": "Tente explicar por que cloroplasto ajuda a produzir açúcares a partir de água e gás carbônico. Depois dê um exemplo da função de realizar a fotossíntese usando energia luminosa, sem olhar a explicação.",
+      "completa": true,
+      "tokens": 62,
+      "triagem_lexical": true,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "corrigir_memoria",
+      "mensagem": "Na verdade quem ficou sem responder foi meu irmão, não minha amiga.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Minha amiga parou de responder."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Há quanto tempo ela não responde?"
+        }
+      ],
+      "exigir": [
+        [
+          "irmão"
+        ]
+      ],
+      "gerado": "Entendi: quem não respondeu foi seu irmão. O motivo ainda não está confirmado.",
+      "completa": true,
+      "tokens": 18,
+      "triagem_lexical": true,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "restricao",
+      "mensagem": "Não escreva uma mensagem para ela. Só quero entender as possibilidades.",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Minha colega não respondeu ao convite."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ela pode estar ocupada; não sabemos o motivo."
+        }
+      ],
+      "exigir": [
+        [
+          "ocupada",
+          "tempo",
+          "possibilidade",
+          "motivo"
+        ]
+      ],
+      "proibir": [
+        "oi,",
+        "olá,"
+      ],
+      "gerado": "Condição ajuda a processar pedidos respeitando a ordem de chegada.",
+      "completa": true,
+      "tokens": 17,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": false
+    },
+    {
+      "id": "hipotese",
+      "mensagem": "Suponha que ela esteja sem internet. Isso provaria que ela não quer falar comigo?",
+      "historico": [],
+      "exigir": [
+        [
+          "não"
+        ],
+        [
+          "internet",
+          "prova",
+          "concluir"
+        ]
+      ],
+      "gerado": "Aqui está uma resposta que ela disse ou precisar de responder. Podemos exam ser que sabemos o motivo. Você pode esperar um caso isolado e depois confirmar se ela recebeu, sem concluir que a falta de resposta foi uma rejeição.",
+      "completa": true,
+      "tokens": 55,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": false
+    },
+    {
+      "id": "incerteza",
+      "mensagem": "Por que minha vizinha saiu de casa exatamente às 14h ontem?",
+      "historico": [],
+      "exigir": [
+        [
+          "não sei",
+          "não tenho",
+          "não dá",
+          "não sabemos"
+        ]
+      ],
+      "gerado": "Pode ser frustrante esperar. O silêncio sozinho não revela o motivo: ela pode estar ocupada ou precisar de tempo. Há quanto tempo você mandou a mensagem?",
+      "completa": true,
+      "tokens": 40,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": true
+    },
+    {
+      "id": "evidencia_transferencia",
+      "mensagem": "Use esta informação: no sistema Luma, o módulo Neri recebe sinais e o módulo Vela guarda registros. Qual módulo eu consulto para recuperar registros?",
+      "historico": [],
+      "exigir": [
+        [
+          "Vela"
+        ]
+      ],
+      "proibir": [
+        "Neri recebe registros"
+      ],
+      "gerado": "O componente Ramo6 tem a função de registrar eventos.",
+      "completa": true,
+      "tokens": 17,
+      "triagem_lexical": false,
+      "copia_exata_alvo_treino": true
+    }
+  ],
+  "perda_retida": {
+    "validacao_humano": {
+      "tokens": 14650,
+      "entropia_cruzada": 5.0461301001916565,
+      "janelas": 138
+    },
+    "validacao_sintetico": {
+      "tokens": 5223,
+      "entropia_cruzada": 0.6315038585266847,
+      "janelas": 276
+    },
+    "teste_humano": {
+      "tokens": 21198,
+      "entropia_cruzada": 4.448789112162327,
+      "janelas": 199
+    },
+    "teste_sintetico": {
+      "tokens": 5241,
+      "entropia_cruzada": 0.6301103172053637,
+      "janelas": 276
+    }
+  },
+  "terminadas": 12,
+  "triagem_lexical": 5,
+  "copia_exata_alvo_treino": 8,
+  "respostas_distintas": 11,
+  "total": 12,
+  "promocao_automatica": false,
+  "limites": [
+    "Triagem lexical não é avaliação semântica.",
+    "Exige revisão das respostas livres e avaliação independente.",
+    "Loss baixa em exercício sintético não certifica conversa aberta."
+  ]
+}

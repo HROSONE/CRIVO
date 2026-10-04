@@ -13,12 +13,19 @@ def _carregar(pasta, assinatura_pesos, assinatura_tokenizer):
 
 def carregar_modelo(pasta):
     pasta = Path(pasta).resolve()
+    if not (pasta / 'pesos.pt').exists() and (pasta / 'pesos_numpy.npz').exists():
+        from gerador_dialogo_numpy import carregar
+        modelo = carregar(pasta)
+        return modelo, None, {'passo': modelo.modelo.meta['passo']}
     arquivos = [pasta / 'pesos.pt', pasta / 'tokenizer.json']
     assinaturas = [(p.stat().st_mtime_ns, p.stat().st_size) for p in arquivos]
     return _carregar(str(pasta), *assinaturas)
 
 
 def responder(pasta, mensagem, historico):
+    if not (Path(pasta) / 'pesos.pt').exists() and (Path(pasta) / 'pesos_numpy.npz').exists():
+        from gerador_dialogo_numpy import carregar
+        return carregar(pasta).responder(mensagem, historico)
     from linguagem_profunda import ESPECIAIS, fonte_dialogo
     from geracao_incremental import gerar
     modelo, tokenizer, estado = carregar_modelo(pasta)

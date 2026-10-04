@@ -1,0 +1,95 @@
+{
+  "versao": 1,
+  "config": {
+    "vocabulario": 4096,
+    "dimensao": 192,
+    "camadas": 4,
+    "cabecas": 6,
+    "contexto": 256,
+    "dropout": 0.1
+  },
+  "passo": 200,
+  "assinatura": "07082bb30e62533407cc308f6503c17342d595dd77aa58cf3b6cfa8cd5e0303d",
+  "execucao": {
+    "config": {
+      "vocabulario": 4096,
+      "dimensao": 192,
+      "camadas": 4,
+      "cabecas": 6,
+      "contexto": 256,
+      "dropout": 0.1
+    },
+    "corpus": "2874b7c12c37f6155f6e43fac273410a1aa80e582ac202808f4aca9e4ee42c64",
+    "fase": "dialogo",
+    "tokenizer_sha256": "a928cda393528d7f00b0441a8187dc6fa7485fcf73edb14e908b763ed2a4ca66",
+    "lote": 12,
+    "lr": 0.0004,
+    "semente": 20261001,
+    "repeticao_linguagem": 0.05,
+    "codigo_modelo": "6654fc3e93c0d3d9adb1fa47e05fbdcd603a79beb4aac589e08b56c5c4b5c80c",
+    "codigo_treinador": "e077d14d57148acca7cf465b7926fada4c0aae72649bb1788d69afa1ddb79d0b",
+    "politica_sft": {
+      "equilibrar_familias": true,
+      "podar_padding": true,
+      "peso_tokens_logicos": 1.0,
+      "codigo_perda": "1a5f94afa776ec79c04392be682497e1f800be0fb61c6f038e04750a2da4e33f"
+    },
+    "selecao": {
+      "criterio": "entropia_cruzada_validacao_dialogo",
+      "paciencia": 0
+    }
+  },
+  "historico": [
+    {
+      "passo": 0,
+      "avaliacao": {
+        "linguagem": {
+          "entropia_cruzada": 4.684947490692139,
+          "perplexidade": 108.30458516006604,
+          "tokens_avaliados": 24576,
+          "particao": "validacao"
+        },
+        "dialogo": {
+          "entropia_cruzada": 4.65332821839566,
+          "perplexidade": 104.93364713908927,
+          "tokens_avaliados": 4589,
+          "particao": "validacao"
+        }
+      }
+    },
+    {
+      "passo": 200,
+      "avaliacao": {
+        "linguagem": {
+          "entropia_cruzada": 3.7241106430689492,
+          "perplexidade": 41.43436641264391,
+          "tokens_avaliados": 24576,
+          "particao": "validacao"
+        },
+        "dialogo": {
+          "entropia_cruzada": 3.7651101715763713,
+          "perplexidade": 43.16846153534195,
+          "tokens_avaliados": 4589,
+          "particao": "validacao"
+        }
+      }
+    }
+  ],
+  "tokens_entrada": 512340,
+  "tokens_alvo": 109711,
+  "horizonte": 1800,
+  "inicial": {
+    "pesos_sha256": "345008f7001ea17d3e3ab533d71cb7818820dcbfde246384c9a304a0b63f614d",
+    "passo": 2000,
+    "tokens_alvo": 2501548,
+    "corpus_anterior": "61236cb9849b9efa4e09ff2aac0048ee12b7b2254eafbdaf73f47e39c40d0ab1",
+    "ajuste_programacao": true
+  },
+  "parametros": 2612352,
+  "pesos_sha256": "7e10e4d9dba308f3bf168808f03d2cff67b9276ab188a08d2700d8df682c3f05",
+  "segundos_esta_execucao": 154.6,
+  "passos_esta_execucao": 200,
+  "inicializacao": "pretreino_proprio",
+  "versao_torch": "2.14.1+cpu",
+  "dispositivo": "cpu"
+}
