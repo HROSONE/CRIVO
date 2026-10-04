@@ -170,6 +170,10 @@ class Conversacao:
         self.quiz_acertou = None
         from raciocinio_dialogo import RaciocinioDialogo
         self.raciocinio_dialogo = RaciocinioDialogo()
+        from raciocinio_ativo import RaciocinioAtivo
+        from exploracao_conhecimento import ExploradorConhecimento
+        self.raciocinio_ativo = RaciocinioAtivo()
+        self.explorador = ExploradorConhecimento()
         from geracao_conversa import GeracaoConversa
         self.geracao = GeracaoConversa(usar_neural=usar_neural)
         from dialogo_contextual import DialogoContextual
@@ -350,6 +354,8 @@ class Conversacao:
         self.ultimo_quadro_neural = None
         self.dialogo.ultimo_quadro = None
         self.geracao.ultimo_quadro = None
+        self.raciocinio_ativo.ultimo = None
+        self.explorador.ultimo = None
         self.lembrancas = deque((l for l in self.lembrancas
                                 if self.turno - l.turno <= self.MAX_INTERVALO), maxlen=self.MAX_LEMBRANCAS)
         self.situacoes = deque((s for s in self.situacoes if self.turno - s[4] <= self.MAX_INTERVALO),
@@ -373,6 +379,26 @@ class Conversacao:
             return Preparacao(Ato("fontes_anteriores", "transformar", formato="fontes"),
                               ("duvida", "Não tenho uma fonte factual vinculada à resposta anterior. "
                                "Qual informação você quer verificar?", None, ""))
+        # Premissas explícitas têm escopo próprio. Uma pergunta sobre uma
+        # relação conhecida continua usando o grafo factual, quando não há
+        # hipótese ativa, sem transformar conhecimento em suposição.
+        n_ativo = normalizar(texto).strip(".?! ")
+        consulta_conhecida = re.fullmatch(r"(?:posso|pode|podemos) concluir que (.+)", n_ativo)
+        premissas_ativas = (bool(self.raciocinio_ativo.premissas) and
+                           self.turno - self.raciocinio_ativo.turno <= self.raciocinio_ativo.MAX_INTERVALO)
+        if (not premissas_ativas and consulta_conhecida and
+                bot.raciocinio.identificar_relacao(consulta_conhecida.group(1)) is not None):
+            return Preparacao(Ato("raciocinio_conhecimento", "consulta",
+                                  consulta=consulta_conhecida.group(1)))
+        if premissas_ativas or not n_ativo.startswith("e se "):
+            ativo = self.raciocinio_ativo.preparar(texto, self.turno)
+            if ativo is not None:
+                self.contextual.ultimo_quadro = None
+                return Preparacao(Ato("raciocinio_ativo", "dialogar"), ativo)
+        explorada = self.explorador.preparar(texto, bot, self.turno)
+        if explorada is not None:
+            self.contextual.ultimo_quadro = None
+            return Preparacao(Ato("exploracao_conhecimento", "dialogar"), explorada)
         contextual = self.contextual.preparar(texto, bot, self)
         if contextual is not None:
             return contextual
@@ -471,6 +497,8 @@ class Conversacao:
         if ato.operacao == "cancelar":
             self.dialogo.limpar()
             self.raciocinio_dialogo.limpar()
+            self.raciocinio_ativo.limpar()
+            self.explorador.limpar()
             self.geracao.limpar()
             self.lembrancas.clear()
             self.relatos.clear()

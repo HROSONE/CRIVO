@@ -5,6 +5,7 @@ Reutiliza o CRIVO em Python; não usa provedores externos de IA.
 import json
 import io
 import logging
+import os
 import sys
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
@@ -84,6 +85,10 @@ class handler(BaseHTTPRequestHandler):
         from modelo_efeitos_chat import status_modelo
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "programming_active": True,
+                                "question_interpretation_active": True,
+                                "reasoning_active": True,
+                                "knowledge_exploration_active": True,
+                                "build_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA"),
                                 "programming_effects_model": status_modelo(),
                                 "engine": "python-local", "external_ai": False,
                                 "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)

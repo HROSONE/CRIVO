@@ -1,5 +1,10 @@
 # Crivo v0.4 (em desenvolvimento)
 
+Atualização de 04/10/2026: o chat padrão ganhou [raciocínio ativo e exploração do conhecimento](docs/raciocinio_ativo/README.md),
+com revisão de premissas, contradições, hipóteses suficientes e ideias de investigação
+com fontes. Experimente `Considere estas premissas: chove; se chove, então a rua molha`
+e depois `O que falta para concluir que a rua molha?`, ou `Explore ideias sobre sono`.
+
 Estado integrado em 01/10/2026: 241 classes no classificador principal retreinado, laboratório de diálogo do zero com geração experimental desligada e catálogo lunar com fontes. [Treinos, integração das PRs e pendências](docs/integracao_20261001.md).
 
 
