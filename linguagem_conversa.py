@@ -368,8 +368,12 @@ class Conversacao:
         # de relatos ou correção de exercícios. “Desisto” num quiz conserva
         # seu sentido específico: revelar a resposta da pergunta pendente.
         contato = identificar_contato(texto, frustracao_recente(bot.historico))
+        # No fim de um diálogo, “boa noite” pode ser despedida; o módulo
+        # cotidiano já distingue esse uso de uma saudação de chegada.
+        despedida_noturna = contato == "saudacao" and re.fullmatch(
+            r"boa noite(?:[, ]+crivo)?", normalizar(texto))
         if contato in ("saudacao", "critica", "interromper", "desistencia") and not (
-                contato == "desistencia" and getattr(self, "quiz", None)):
+                despedida_noturna or contato == "desistencia" and getattr(self, "quiz", None)):
             self.contextual.ultimo_quadro = None
             if contato in ("interromper", "desistencia"):
                 self.quiz = None

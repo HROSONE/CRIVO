@@ -55,7 +55,7 @@ def frustracao_recente(historico):
     """
     for turno in reversed(list(historico)[-3:]):
         ident = turno.get("id", "")
-        if ident in ("social:oi", "social:tchau", "conversa:reinicio"):
+        if ident in ("social:oi", "social:tchau", "social:despedida", "conversa:reinicio"):
             return False
         if ident in ("social:critica", "social:interromper", "social:desistencia"):
             return True

@@ -97,6 +97,24 @@ class TestesContatoContextual(unittest.TestCase):
             with self.subTest(q=q):
                 self.assertNotIn(bot.responder(q)[0], ('social:critica', 'social:interromper', 'social:desistencia'))
 
+    def test_boa_noite_preserva_despedida_depois_de_conversa(self):
+        for q in ('Boa noite', 'Boa noite, Crivo!'):
+            with self.subTest(q=q):
+                self.assertEqual(Crivo().responder(q)[0], 'social:oi')
+                bot = Crivo()
+                for inicio in ('O que é DNA?', 'O que é RNA?', 'O que é HTML?', 'Sua resposta está ruim'):
+                    bot.responder(inicio)
+                self.assertEqual(bot.responder(q)[0], 'social:despedida')
+
+    def test_despedida_cotidiana_encerra_frustracao(self):
+        for q in ('Tchau', 'Boa noite, Crivo!'):
+            with self.subTest(q=q):
+                bot = Crivo()
+                for inicio in ('O que é DNA?', 'O que é RNA?', 'O que é HTML?', 'Sua resposta está ruim'):
+                    bot.responder(inicio)
+                self.assertEqual(bot.responder(q)[0], 'social:despedida')
+                self.assertNotEqual(bot.responder('Lixo')[0], 'social:critica')
+
     def test_citacoes_nao_sao_atos_dirigidos(self):
         for q in ('"Idiota"', '“Cala a boca”', '`Lixo`', "'Desisto'", 'Ela disse: idiota'):
             with self.subTest(q=q):
