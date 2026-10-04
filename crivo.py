@@ -196,7 +196,7 @@ class Crivo:
             self.curriculo_mundo)
         from interpretador_perguntas import InterpretadorPerguntas
         self.usar_interpretador_perguntas = usar_interpretador_perguntas
-        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens)
+        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens, self.compositor.aliases)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
@@ -758,7 +758,7 @@ class Crivo:
             self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao,
             self.curriculo_mundo)
         from interpretador_perguntas import InterpretadorPerguntas
-        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens)
+        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens, self.compositor.aliases)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
@@ -1475,6 +1475,13 @@ class Crivo:
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
             if interpretacao is not None and self.historico:
                 self.historico[-1]["interpretacao_pergunta"] = interpretacao._asdict()
+            if preparacao is not None and self.historico:
+                if preparacao.ato.nome == "raciocinio_ativo":
+                    self.historico[-1]["raciocinio_ativo"] = self.conversacao.raciocinio_ativo.ultimo
+                    self.historico[-1]["mecanismo"] = "raciocinio_ativo"
+                elif preparacao.ato.nome == "exploracao_conhecimento":
+                    self.historico[-1]["exploracao_conhecimento"] = self.conversacao.explorador.ultimo
+                    self.historico[-1]["mecanismo"] = "exploracao_conhecimento"
             if origem:
                 self.ultimo_turno["prova_origem"] = origem
                 self.historico[-1]["prova_origem"] = origem

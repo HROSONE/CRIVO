@@ -111,6 +111,10 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         interpretacao = bot.historico[-1].get("interpretacao_pergunta")
         if interpretacao is not None:
             extra["question_analysis"] = interpretacao
+        for campo, publico in (("raciocinio_ativo", "reasoning"),
+                               ("exploracao_conhecimento", "knowledge_exploration")):
+            if bot.historico[-1].get(campo) is not None:
+                extra[publico] = bot.historico[-1][campo]
     return {
         **extra,
         **({"code_analysis": bot.motor_codigo.ultimo} if bot.motor_codigo.ultimo is not None else {}),

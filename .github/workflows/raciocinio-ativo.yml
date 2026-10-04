@@ -1,0 +1,47 @@
+name: Compreensão e raciocínio ativo
+on:
+  pull_request:
+    paths:
+      - 'raciocinio_ativo.py'
+      - 'exploracao_conhecimento.py'
+      - 'crivo.py'
+      - 'linguagem_conversa.py'
+      - 'web_core.py'
+      - 'api/chat.py'
+      - 'public/**'
+      - 'testes*raciocinio_ativo.py'
+      - 'testes_exploracao_conhecimento.py'
+      - 'scripts/avaliar_raciocinio_ativo.py'
+      - 'avaliacoes/raciocinio_ativo_v1/**'
+      - '.github/workflows/raciocinio-ativo.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Oráculo independente, hipóteses, acervo, fontes, conversa e HTTP
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_raciocinio_ativo testes_integracao_raciocinio_ativo testes_exploracao_conhecimento testes_interpretador_perguntas testes_raciocinio testes_linguagem_neural testes_linguagem_conversa testes_integracao_evidencias testes_web testes_crise testes_motor_programacao_chat testes_http_chunked -v
+      - name: Sem dependências opcionais ou pesos externos
+        run: python -S -m unittest testes_raciocinio_ativo testes_integracao_raciocinio_ativo testes_exploracao_conhecimento -v
+      - name: Casos autorais congelados antes da implementação
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/avaliar_raciocinio_ativo.py --saida /tmp/raciocinio-ativo.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnostico-raciocinio-ativo
+          path: /tmp/raciocinio-ativo.json

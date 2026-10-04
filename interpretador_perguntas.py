@@ -66,14 +66,25 @@ def _tolerancia(nome):
 
 
 class InterpretadorPerguntas:
-    def __init__(self, itens):
+    def __init__(self, itens, aliases=None):
         self.lexico = {}
         self.nomes = {ident: item["nome"] for ident, item in itens.items()}
-        for ident, item in itens.items():
-            for nome in [item["nome"]] + list(item.get("aliases", [])):
-                chave = " ".join(_PALAVRA.findall(normalizar(nome)))
-                if chave:
-                    self.lexico.setdefault(chave, set()).add(ident)
+        ativos = set(itens)
+        if aliases is None:
+            aliases = {}
+            for ident, item in itens.items():
+                for nome in [item["nome"]] + list(item.get("aliases", [])):
+                    aliases.setdefault(nome, set()).add(ident)
+        # O catálogo ativo já resolve preferências editoriais. Reindexar
+        # aliases crus restauraria ambiguidades que ele eliminou.
+        for nome, ids in aliases.items():
+            if not isinstance(nome, str) or isinstance(ids, str):
+                raise ValueError("Aliases devem mapear nomes para conjuntos de IDs.")
+            if set(ids) - ativos:
+                raise ValueError("Alias aponta para um conceito fora do acervo ativo.")
+            chave = " ".join(_PALAVRA.findall(normalizar(nome)))
+            if chave:
+                self.lexico.setdefault(chave, set()).update(ids)
         self.maior = max((len(k.split()) for k in self.lexico), default=1)
         self.aproximados = {}
         for alias, ids in self.lexico.items():

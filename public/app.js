@@ -229,6 +229,10 @@
       if (extra.has_proof) {
         tag.classList.add("proof");
         tag.textContent = "◈ Prova lógica";
+      } else if (extra.mechanism === "raciocinio_ativo") {
+        tag.textContent = "◇ Raciocínio sob premissas";
+      } else if (extra.mechanism === "exploracao_conhecimento") {
+        tag.textContent = "◇ Exploração de ideias";
       } else if (extra.id && /^programacao:motor_/.test(extra.id)) {
         tag.textContent = "◇ Análise de código";
       } else if (extra.id === "fora" || extra.id === "duvida") {

@@ -1,0 +1,131 @@
+{
+  "versao": 1,
+  "natureza": "desenvolvimento autoral, não mede compreensão irrestrita",
+  "casos": [
+    {
+      "id": "cadeia",
+      "history": [
+        "Considere estas premissas: chove; se chove, então a rua molha; se a rua molha, então o chão fica escorregadio"
+      ],
+      "message": "Posso concluir que o chão fica escorregadio?",
+      "status": "sustentado"
+    },
+    {
+      "id": "condicao_conjunta",
+      "history": [
+        "Considere estas premissas: a bateria tem carga; se a bateria tem carga e o circuito está fechado, então a luz acende"
+      ],
+      "message": "Posso concluir que a luz acende?",
+      "status": "indeterminado"
+    },
+    {
+      "id": "conjuncao_completa",
+      "history": [
+        "Considere estas premissas: a bateria tem carga; o circuito está fechado; se a bateria tem carga e o circuito está fechado, então a luz acende"
+      ],
+      "message": "Posso concluir que a luz acende?",
+      "status": "sustentado"
+    },
+    {
+      "id": "contrapositiva",
+      "history": [
+        "Considere estas premissas: a luz não acende; se o circuito está fechado, então a luz acende"
+      ],
+      "message": "Posso concluir que o circuito não está fechado?",
+      "status": "sustentado"
+    },
+    {
+      "id": "inversao_indevida",
+      "history": [
+        "Considere estas premissas: a luz acende; se o circuito está fechado, então a luz acende"
+      ],
+      "message": "Posso concluir que o circuito está fechado?",
+      "status": "indeterminado"
+    },
+    {
+      "id": "negacao",
+      "history": [
+        "Considere estas premissas: o sensor não responde; se o sensor responde, então o painel liga"
+      ],
+      "message": "Posso concluir que o sensor responde?",
+      "status": "refutado"
+    },
+    {
+      "id": "conflito",
+      "history": [
+        "Considere estas premissas: chove; não chove"
+      ],
+      "message": "Posso concluir que chove?",
+      "status": "conflito"
+    },
+    {
+      "id": "sem_explosao",
+      "history": [
+        "Considere estas premissas: chove; não chove"
+      ],
+      "message": "Posso concluir que o painel liga?",
+      "status": "conflito"
+    },
+    {
+      "id": "revisao",
+      "history": [
+        "Considere estas premissas: o sensor responde; se o sensor responde, então o painel liga",
+        "Corrija a premissa: o sensor não responde"
+      ],
+      "message": "Posso concluir que o painel liga?",
+      "status": "indeterminado"
+    },
+    {
+      "id": "retracao",
+      "history": [
+        "Considere estas premissas: chove; se chove, então a rua molha",
+        "Retire a premissa: chove"
+      ],
+      "message": "Posso concluir que a rua molha?",
+      "status": "indeterminado"
+    },
+    {
+      "id": "abducao",
+      "history": [
+        "Considere estas premissas: a bateria tem carga; se a bateria tem carga e o circuito está fechado, então a luz acende"
+      ],
+      "message": "O que falta para concluir que a luz acende?",
+      "operation": "abducao",
+      "assumption": "o circuito está fechado"
+    },
+    {
+      "id": "contrafactual",
+      "history": [
+        "Considere estas premissas: chove; se chove, então a rua molha",
+        "Posso concluir que a rua molha?"
+      ],
+      "message": "E se não chove?",
+      "operation": "contrafactual",
+      "status": "indeterminado"
+    },
+    {
+      "id": "contrafactual_nao_persiste",
+      "history": [
+        "Considere estas premissas: chove; se chove, então a rua molha",
+        "Posso concluir que a rua molha?",
+        "E se não chove?"
+      ],
+      "message": "Posso concluir que a rua molha?",
+      "status": "sustentado"
+    },
+    {
+      "id": "ideias",
+      "history": [
+        "Considere estas premissas: se o sensor responde e o painel liga, então o alarme funciona"
+      ],
+      "message": "Que hipóteses você sugere?",
+      "operation": "explorar"
+    },
+    {
+      "id": "isolamento",
+      "history": [],
+      "message": "Posso concluir que a rua molha?",
+      "status": "sem_premissas"
+    }
+  ]
+}

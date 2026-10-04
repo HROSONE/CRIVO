@@ -75,6 +75,18 @@ class TestesInterpretadorPerguntas(unittest.TestCase):
             'c': {'nome': 'fulgrs', 'aliases': []}})
         self.assertIsNone(i.analisar('oq é fulgr?'))
 
+    def test_preferencias_do_catalogo_ativo_sem_recriar_ambiguidade(self):
+        itens = {'a': {'nome': 'luminar', 'aliases': ['fulgor']},
+                 'b': {'nome': 'cendal', 'aliases': ['fulgor']},
+                 'c': {'nome': 'C#', 'aliases': []}, 'd': {'nome': 'C++', 'aliases': []}}
+        i = InterpretadorPerguntas(itens, {'fulgor': {'b'}, 'comum': {'a', 'b'}, 'c#': {'c'}, 'c++': {'d'}})
+        self.assertEqual(i.analisar('oq é fulgor?').conceito, 'b')
+        self.assertIsNone(i.analisar('oq é comum?'))
+        self.assertEqual(i.analisar('oq é C#?').conceito, 'c')
+        self.assertEqual(i.analisar('oq é C++?').conceito, 'd')
+        with self.assertRaises(ValueError):
+            InterpretadorPerguntas(itens, {'fulgor': {'ausente'}})
+
 
 class TestesIntegracaoPerguntas(unittest.TestCase):
     def test_resposta_factual_historia_e_continuacao(self):
