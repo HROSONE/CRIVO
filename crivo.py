@@ -1435,19 +1435,6 @@ class Crivo:
                 self.historico = self.historico[-20:]
             else:
                 resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
-            if (pergunta is not None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
-                    and self._pedido_turno is None and interpretacao is None):
-                # Só recupera pedidos ainda sem resposta; mecanismos, relações
-                # e respostas válidas dos outros motores mantêm precedência.
-                from linguagem_conversa import Ato
-                for a, v in estado.items():
-                    setattr(self, a, v)
-                ato = Ato(pergunta.intencao, "consulta", pergunta.nome,
-                          pergunta.consulta, pergunta.formato)
-                preparacao = self.conversacao.preparar_ato(ato, self)
-                resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
-                self.conversacao.ultimo_quadro_neural = None
-                interpretacao = pergunta
             if (preparacao is None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
                     and self._pedido_turno is None):
                 ato_neural = self.conversacao._analisar_neural(texto)
@@ -1471,6 +1458,19 @@ class Crivo:
                     resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
                 else:
                     self.conversacao.ultimo_quadro_neural = None
+            if (pergunta is not None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
+                    and self._pedido_turno is None and interpretacao is None):
+                # Só recupera pedidos ainda sem resposta após o interpretador neural; relações
+                # e respostas válidas dos outros motores mantêm precedência.
+                from linguagem_conversa import Ato
+                for a, v in estado.items():
+                    setattr(self, a, v)
+                ato = Ato(pergunta.intencao, "consulta", pergunta.nome,
+                          pergunta.consulta, pergunta.formato)
+                preparacao = self.conversacao.preparar_ato(ato, self)
+                resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+                self.conversacao.ultimo_quadro_neural = None
+                interpretacao = pergunta
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
             if interpretacao is not None and self.historico:

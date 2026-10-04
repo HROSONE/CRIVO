@@ -100,3 +100,9 @@ A auditoria do GitHub detectou uma troca indevida de `planta` por `planeta`.
 A correção restringe nomes isolados e preserva definições do fluxo de noções.
 Esse ajuste veio de uma regressão existente, sem inspeção das falhas do
 conjunto reservado; a comparação agregada foi repetida para o código final.
+
+A bateria geral também encontrou a perda de `quadro_neural` num pedido
+interpretado pela rede própria. A recuperação lexical agora acontece depois
+da tentativa neural, conservando a proveniência do caminho realmente usado.
+Os 76 testes direcionados de linguagem, integração, compreensão e noções
+passaram; a comparação congelada foi repetida e manteve os mesmos agregados.
