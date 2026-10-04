@@ -84,3 +84,20 @@ python scripts/avaliar_integracao_conversa.py --modelo candidato_numpy --saida c
 
 As avaliações são registros de desenvolvimento, sem promoção automática. O
 resultado do ciclo maior ainda depende de seu término e avaliação dos pesos.
+
+O piloto local terminou 1.800 passos, com 1.062.518 tokens-alvo e 2.612.352
+parâmetros. O checkpoint selecionado por loss de validação foi o passo 200.
+Separar as métricas revelou que a loss caiu nos exercícios sintéticos, mas piorou
+nos diálogos humanos reservados (teste: 4,13 → 4,53 no selecionado). O último
+checkpoint também foi avaliado: 18/72 mensagens, abaixo dos 42/72 do motor atual.
+Os dois pesos e seus relatórios foram preservados; nenhum foi colocado no site.
+Isso evidencia aprendizado excessivo dos exercícios e reforça a necessidade de
+texto humano mais amplo e avaliação de conteúdo, além da loss agregada.
+
+Os relatórios `treino_piloto.json` e `treino_selecionado.json` registram os hashes
+dos pesos, a inicialização própria e a contagem real de tokens. O corpus completo,
+pesos e código do piloto estão preservados no workspace; o snapshot do preparador
+usado tem hash idêntico ao manifesto original. O preparador atual também permite
+Wikipedia para o ciclo maior. O arquivo de transferência dos pesos do piloto não
+inclui Adam/RNG; esses estados permanecem em `checkpoint.pt` no workspace. O
+artefato completo do GitHub inclui os estados para retomada.
