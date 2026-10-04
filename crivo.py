@@ -149,7 +149,8 @@ SINONIMOS_CONSULTA_TECNICA = {
 # ------------------------------------------------------------- modelo ------
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
-                 usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
+                 usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
+                 usar_interpretador_perguntas=True):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
         from programacao_chat import MotorCodigoChat
@@ -193,6 +194,9 @@ class Crivo:
         self.compositor = CompositorTextual(
             self.base, caminho.with_name("conhecimento_expandido.json"), self._alvo_definicao,
             self.curriculo_mundo)
+        from interpretador_perguntas import InterpretadorPerguntas
+        self.usar_interpretador_perguntas = usar_interpretador_perguntas
+        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
@@ -753,6 +757,8 @@ class Crivo:
         self.compositor = CompositorTextual(
             self.base, self.caminho_base.with_name("conhecimento_expandido.json"), self._alvo_definicao,
             self.curriculo_mundo)
+        from interpretador_perguntas import InterpretadorPerguntas
+        self.interpretador_perguntas = InterpretadorPerguntas(self.compositor.itens)
         from interpretacao_pedidos import InterpretadorPedidos
         self.interpretador_pedidos = InterpretadorPedidos(self.raciocinio, self.consultas_relacionais)
         from linguagem_conversa import Conversacao
@@ -1385,7 +1391,18 @@ class Crivo:
             self.assunto_conversa = mencionado
 
     def _responder_turno(self, texto):
-        preparacao = self.conversacao.preparar(texto, self)
+        pergunta = (self.interpretador_perguntas.analisar(texto)
+                    if self.usar_interpretador_perguntas else None)
+        if pergunta is not None and pergunta.distancia:
+            from conversa_cotidiana import nocoes
+            if nocoes().definir(texto) is not None:
+                # Um alvo já conhecido pelo fluxo de noções não é um erro
+                # de digitação de outro conceito ("planta" versus "planeta").
+                pergunta = None
+        preparacao = self.conversacao.preparar(
+            texto, self, pergunta_educacional=pergunta if pergunta and pergunta.educacional else None)
+        interpretacao = (pergunta if preparacao is not None and
+                        preparacao.ato.nome == "conceito_educacional" else None)
         registro_anterior = self.historico[-1] if self.historico else None
         anterior = self.ultima_resposta_mostrada
         atributos_estado = ("contexto_textual", "ultima_resposta_mostrada", "ultimo_turno",
@@ -1441,8 +1458,23 @@ class Crivo:
                     resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
                 else:
                     self.conversacao.ultimo_quadro_neural = None
+            if (pergunta is not None and resultado[0] in ("fora", "duvida", "social:nao_entendido")
+                    and self._pedido_turno is None and interpretacao is None):
+                # Só recupera pedidos ainda sem resposta após o interpretador neural; relações
+                # e respostas válidas dos outros motores mantêm precedência.
+                from linguagem_conversa import Ato
+                for a, v in estado.items():
+                    setattr(self, a, v)
+                ato = Ato(pergunta.intencao, "consulta", pergunta.nome,
+                          pergunta.consulta, pergunta.formato)
+                preparacao = self.conversacao.preparar_ato(ato, self)
+                resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)
+                self.conversacao.ultimo_quadro_neural = None
+                interpretacao = pergunta
             identificador = resultado[0]
             self.ultimo_turno = {"pergunta": texto, "id": identificador}
+            if interpretacao is not None and self.historico:
+                self.historico[-1]["interpretacao_pergunta"] = interpretacao._asdict()
             if origem:
                 self.ultimo_turno["prova_origem"] = origem
                 self.historico[-1]["prova_origem"] = origem

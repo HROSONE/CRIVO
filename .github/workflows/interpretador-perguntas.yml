@@ -1,0 +1,45 @@
+name: Interpretador de perguntas
+on:
+  pull_request:
+    paths:
+      - 'interpretador_perguntas.py'
+      - 'crivo.py'
+      - 'linguagem_conversa.py'
+      - 'web_core.py'
+      - 'testes_interpretador_perguntas.py'
+      - 'scripts/avaliar_interpretador.py'
+      - 'avaliacoes/interpretador_v1/**'
+      - '.github/workflows/interpretador-perguntas.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Alvos inéditos, ambiguidades, contexto, conversa e HTTP
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_interpretador_perguntas testes_linguagem_neural testes_linguagem_conversa testes_interpretacao_pedidos testes_interpretacao_geral testes_conversa_nocoes testes_web testes_crise testes_motor_programacao_chat testes_http_chunked testes_composicao_textual testes_conversa_estudo testes_intencao_definicao -v
+      - name: Interpretador sem dependências opcionais
+        run: python -S -m unittest testes_interpretador_perguntas -v
+      - name: Diagnóstico agregado dos conjuntos congelados
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: |
+          python scripts/avaliar_interpretador.py todos --saida /tmp/interpretador-ativo.json
+          python scripts/avaliar_interpretador.py todos --sem-interpretador --saida /tmp/interpretador-base.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnostico-interpretador
+          path: /tmp/interpretador-*.json

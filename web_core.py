@@ -107,6 +107,10 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     prova_planejada = any((i in provas_efetivas or i in ids_editoriais and "Relações verificadas:" in t)
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
+    if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
+        interpretacao = bot.historico[-1].get("interpretacao_pergunta")
+        if interpretacao is not None:
+            extra["question_analysis"] = interpretacao
     return {
         **extra,
         **({"code_analysis": bot.motor_codigo.ultimo} if bot.motor_codigo.ultimo is not None else {}),
