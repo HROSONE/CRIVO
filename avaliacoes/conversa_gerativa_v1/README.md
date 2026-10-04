@@ -59,3 +59,28 @@ comparam logits, tokenização, marcadores literais e rebase da janela ao PyTorc
 O adaptador escolhe NumPy para um diretório que contenha `pesos_numpy.npz` e
 `tokenizer.json`, sem `pesos.pt` (como `trabalho/numpy` no artefato do workflow).
 Isso torna a execução possível; não ativa nem aprova o candidato no site público.
+
+## Resultado do piloto
+
+O primeiro piloto SFT com maior peso nos exercícios autorais falhou na comparação
+com o contrato independente: o chat atual acertou 42/72 mensagens e o candidato
+30/72, com nenhum diálogo completo. O gerador foi usado em 31 turnos e acertou
+apenas 3 desses turnos. O relatório preserva todas as respostas. Uma pergunta
+funcional sobre mitocôndria foi respondida em algumas amostras, mas houve
+mistura de assuntos, invenções e repetição em outras. Isso não demonstra conversa
+confiável e o piloto não foi promovido.
+
+O ciclo mais amplo no GitHub já estava iniciado antes dessa avaliação. Ele reforça
+o português com Wikipedia antes de SFT e usa metade dos exemplos de treino
+humanos, em vez de balancear somente famílias de exercícios. Não foi ajustado
+para as respostas deste contrato. Execução:
+https://github.com/HROSONE/CRIVO/actions/runs/37175073275
+
+Para repetir a comparação de integração, use:
+
+```sh
+python scripts/avaliar_integracao_conversa.py --modelo candidato_numpy --saida contrato_72.json
+```
+
+As avaliações são registros de desenvolvimento, sem promoção automática. O
+resultado do ciclo maior ainda depende de seu término e avaliação dos pesos.
