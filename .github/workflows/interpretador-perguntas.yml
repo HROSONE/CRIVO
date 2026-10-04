@@ -29,7 +29,7 @@ jobs:
       - name: Alvos inéditos, ambiguidades, contexto, conversa e HTTP
         env:
           OPENBLAS_NUM_THREADS: '1'
-        run: python -m unittest testes_interpretador_perguntas testes_linguagem_conversa testes_interpretacao_pedidos testes_web testes_crise testes_motor_programacao_chat testes_http_chunked testes_composicao_textual testes_conversa_estudo testes_intencao_definicao -v
+        run: python -m unittest testes_interpretador_perguntas testes_linguagem_conversa testes_interpretacao_pedidos testes_interpretacao_geral testes_conversa_nocoes testes_web testes_crise testes_motor_programacao_chat testes_http_chunked testes_composicao_textual testes_conversa_estudo testes_intencao_definicao -v
       - name: Interpretador sem dependências opcionais
         run: python -S -m unittest testes_interpretador_perguntas -v
       - name: Diagnóstico agregado dos conjuntos congelados

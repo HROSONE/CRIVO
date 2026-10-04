@@ -50,6 +50,8 @@ class TestesInterpretadorPerguntas(unittest.TestCase):
         self.assertIsNone(self.interpretador.analisar('oq é DN?'))
         self.assertEqual(self.interpretador.analisar('oq é C++?').conceito, 'e')
         self.assertIsNone(self.interpretador.analisar('oq é C?'))
+        self.assertIsNone(self.interpretador.analisar('anmia?'))
+        self.assertEqual(self.interpretador.analisar('anomia?').conceito, 'f')
 
     def test_abstencao_ambiguidades_e_intencoes_distintas(self):
         for texto in ['fulgor?', 'o que é luminor?', 'o que é luminar e DNA?',
@@ -113,6 +115,13 @@ class TestesIntegracaoPerguntas(unittest.TestCase):
                 b.conversacao.sorteio.seed(23)
                 self.assertEqual(b.responder(texto), anterior)
                 self.assertTrue(all('interpretacao_pergunta' not in h for h in b.historico))
+
+    def test_nome_isolado_preserva_esclarecimento(self):
+        b = Crivo()
+        self.assertEqual(b.responder('planta')[0], 'duvida')
+        self.assertTrue(all('interpretacao_pergunta' not in h for h in b.historico))
+        self.assertEqual(b.responder('a segunda')[0], 'regar')
+        self.assertEqual(Crivo().responder('o que é planta?')[0], 'nocao:definicao')
 
     def test_base_personalizada_e_atualizacao_ao_ensinar(self):
         with tempfile.TemporaryDirectory() as pasta:

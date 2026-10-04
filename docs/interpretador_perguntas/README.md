@@ -14,10 +14,12 @@ como relato pessoal. A pergunta original permanece no histórico.
 2. Identifica o alvo inteiro e verifica as palavras que o cercam. Um conceito
    desconhecido, qualificador não reconhecido, condição, negação, relação ou
    segundo alvo impede a reformulação.
-3. Admite distância de edição de até um caractere em nomes com 6–10 letras,
+3. Em pedidos explícitos, admite distância de edição de até um caractere em nomes com 6–10 letras,
    ou dois em nomes maiores. Nomes curtos exigem coincidência exata. Aliases
    ambíguos participam tanto da busca exata quanto da aproximada: um empate
-   entre conceitos não autoriza escolher arbitrariamente.
+   entre conceitos não autoriza escolher arbitrariamente. Nomes isolados
+   exigem coincidência exata; alvos já respondidos como noção não são
+   substituídos por outro conceito por semelhança de grafia.
 4. Conserva a operação: definição, funcionamento ou função. Pedidos de resumo
    e de linguagem simples conservam o formato na realização textual.
 5. Recupera pedidos que os motores anteriores não responderam. Pedidos de
@@ -85,11 +87,16 @@ A cobertura do alvo no contexto factual passou de 131 para 300 dos 320 casos
 de conceito de desenvolvimento, e de 46 para 108 dos 144 casos reservados.
 Esses números medem o alvo, não a correção completa da explicação.
 
-Passaram 123 testes locais de integração/regressão, os 65 casos originais e
-12 testes do novo interpretador executados com `python -S`, sem NumPy.
+Passaram 182 testes locais de integração/regressão, os 65 casos originais e
+13 testes do novo interpretador executados com `python -S`, sem NumPy.
 O relatório [resultados-20261004.json](resultados-20261004.json) contém os
 agregados e os hashes necessários para reproduzir a comparação.
 
 A taxa de 67,3% no conjunto reservado continua insuficiente para afirmar
 compreensão geral. Os 48 casos reservados reprovados não foram usados para
 ajustar a implementação. A próxima avaliação deve trazer casos novos.
+
+A auditoria do GitHub detectou uma troca indevida de `planta` por `planeta`.
+A correção restringe nomes isolados e preserva definições do fluxo de noções.
+Esse ajuste veio de uma regressão existente, sem inspeção das falhas do
+conjunto reservado; a comparação agregada foi repetida para o código final.

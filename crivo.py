@@ -1393,6 +1393,12 @@ class Crivo:
     def _responder_turno(self, texto):
         pergunta = (self.interpretador_perguntas.analisar(texto)
                     if self.usar_interpretador_perguntas else None)
+        if pergunta is not None and pergunta.distancia:
+            from conversa_cotidiana import nocoes
+            if nocoes().definir(texto) is not None:
+                # Um alvo já conhecido pelo fluxo de noções não é um erro
+                # de digitação de outro conceito ("planta" versus "planeta").
+                pergunta = None
         preparacao = self.conversacao.preparar(
             texto, self, pergunta_educacional=pergunta if pergunta and pergunta.educacional else None)
         interpretacao = (pergunta if preparacao is not None and

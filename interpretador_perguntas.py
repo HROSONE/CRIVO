@@ -151,6 +151,10 @@ class InterpretadorPerguntas:
             return None
         candidatos = []
         for ident, ini, fim, alias, distancia in self._candidatos(palavras):
+            # Um nome isolado desconhecido exige esclarecimento. "planta"
+            # não autoriza trocar o tema para "planeta" por distância de edição.
+            if distancia and ini == 0 and fim == len(palavras):
+                continue
             pedido = self._pedido(palavras, ini, fim)
             if pedido is not None:
                 candidatos.append((ident, ini, fim, alias, distancia, pedido))
