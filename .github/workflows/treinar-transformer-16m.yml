@@ -1,0 +1,60 @@
+name: Transformer próprio 16M - experimento CPU
+on:
+  push:
+    branches: [codex/transformer-16m]
+    paths:
+      - '.github/workflows/treinar-transformer-16m.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: transformer-16m-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  aprender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 260
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar ferramentas sem pesos externos
+        run: |
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'tokenizers>=0.20,<1' 'numpy>=1.24,<3' 'pyarrow>=15,<26'
+      - name: Verificar capacidade, seleção humana e matemática
+        run: python -m unittest testes_transformer_16m testes_linguagem_profunda testes_conversa_gerativa -v
+      - name: Baixar e verificar dados humanos públicos
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from scripts.baixar_fontes_linguagem import baixar
+          p=Path('trabalho/fontes');p.mkdir(parents=True,exist_ok=True)
+          baixar('oasst2',p);baixar('wikipedia',p)
+          PY
+      - name: Preparar corpus sem misturar treino e reservados
+        run: python scripts/preparar_conversa_gerativa.py --oasst2 trabalho/fontes/oasst2.messages.jsonl.gz --wikipedia trabalho/fontes/wikipedia.pt.parquet --saida trabalho/corpus
+      - name: Pré-treino 16M aleatório com orçamento CPU
+        run: python -u scripts/experimento_transformer_16m.py --corpus trabalho/corpus --saida trabalho/16m --etapa pretreino --dispositivo cpu --max-segundos 6000
+      - name: Preservar pré-treino antes do ajuste de diálogo
+        uses: actions/upload-artifact@v4
+        with:
+          name: transformer-16m-pretreino-${{ github.run_id }}
+          path: trabalho/16m/pretreino/
+          retention-days: 30
+      - name: SFT com metade do lote humano e seleção humana
+        run: python -u scripts/experimento_transformer_16m.py --corpus trabalho/corpus --saida trabalho/16m --etapa dialogo --dispositivo cpu --max-segundos 4200
+      - name: Comparar geração livre e contrato reservado com a referência 2,6M
+        run: python -u scripts/experimento_transformer_16m.py --corpus trabalho/corpus --saida trabalho/16m --etapa avaliar --dispositivo cpu
+      - name: Guardar corpus, pesos, Adam, RNG e relatórios mesmo em falha
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transformer-16m-experimento-${{ github.run_id }}
+          path: trabalho/
+          retention-days: 30
+          if-no-files-found: warn
