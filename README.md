@@ -1,5 +1,7 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Treino de 30.000 passos concluído / Drive cheio:** [diagnóstico, correções e recuperação sem repetir o pré-treino](docs/recuperacao_dialogo_20261004.md). O piloto de diálogo melhorou a perda de validação, mas ainda não foi aprovado para conversar no site.
+
 Atualização de 04/10/2026: o chat padrão ganhou [raciocínio ativo e exploração do conhecimento](docs/raciocinio_ativo/README.md),
 com revisão de premissas, contradições, hipóteses suficientes e ideias de investigação
 com fontes. Experimente `Considere estas premissas: chove; se chove, então a rua molha`

@@ -37,6 +37,17 @@ def salvar_atomico(estado, caminho):
     os.replace(tmp, caminho)
 
 
+def perda_por_resposta(logits, alvos):
+    """Cada resposta contribui igualmente; respostas longas não dominam o lote."""
+    perdas = torch.nn.functional.cross_entropy(logits.transpose(1, 2), alvos,
+                                               ignore_index=-100, reduction='none')
+    contagens = (alvos != -100).sum(1)
+    validos = contagens > 0
+    if not validos.any():
+        raise ValueError('Lote sem respostas supervisionadas')
+    return (perdas.sum(1)[validos] / contagens[validos]).mean()
+
+
 class Corpus:
     def __init__(self, caminho, contexto, conferir=True,equilibrar_familias=False,podar_padding=False):
         self.caminho = Path(caminho)
@@ -249,6 +260,8 @@ def main():
     p.add_argument('--paciencia-validacoes', type=int, default=0, help='Parar após N avaliações sem melhora; zero desativa')
     p.add_argument('--equilibrar-familias',action='store_true')
     p.add_argument('--podar-padding',action='store_true')
+    p.add_argument('--perda-por-resposta', action='store_true',
+                   help='SFT: média por resposta, evitando domínio dos alvos longos')
     p.add_argument('--peso-tokens-logicos',type=float,default=1.)
     p.add_argument('--validacao-funcional', action='store_true', help='Selecionar SFT por código correto na validação, compilação, término e CE')
     p.add_argument('--tsc', help='Compilador TS para validação funcional')
@@ -269,6 +282,8 @@ def main():
         p.error('Paciência não negativa exige --selecionar-melhor')
     if not math.isfinite(args.peso_tokens_logicos) or not 1<=args.peso_tokens_logicos<=16:p.error('Peso lógico deve estar entre 1 e 16')
     if args.peso_tokens_logicos!=1 and args.fase!='dialogo':p.error('Peso lógico é exclusivo do SFT')
+    if args.perda_por_resposta and (args.fase != 'dialogo' or args.peso_tokens_logicos != 1):
+        p.error('Perda por resposta exige SFT sem peso lógico adicional')
     if args.max_segundos is not None and args.max_segundos < 1: p.error('Orçamento deve ser positivo')
     if not 0 <= args.repeticao_linguagem < 1 or args.lr <= 0:
         p.error('Taxa de aprendizado/repetição inválida')
@@ -288,11 +303,15 @@ def main():
         dados['politica_sft']=dict(equilibrar_familias=args.equilibrar_familias,podar_padding=args.podar_padding,peso_tokens_logicos=args.peso_tokens_logicos,
             codigo_perda=sha(ROOT/'scripts/perda_programacao.py'))
         assinatura=hashlib.sha256(json.dumps(dados,sort_keys=True).encode()).hexdigest()
+    if args.perda_por_resposta:
+        dados['perda_por_resposta'] = True
+        assinatura = hashlib.sha256(json.dumps(dados, sort_keys=True).encode()).hexdigest()
     if args.selecionar_melhor:
         criterio = ('entropia_cruzada_validacao_dialogo_humano_completa' if args.selecao_humana
                     else 'funcional_compilacao_termino_ce' if args.validacao_funcional
                     else 'entropia_cruzada_validacao_' + args.fase)
         dados['selecao'] = dict(criterio=criterio, paciencia=args.paciencia_validacoes,
+                               avaliar_a_cada=args.avaliar_a_cada,
                                codigo_selecao=sha(ROOT/'scripts/selecao_programacao.py'))
         if args.validacao_funcional:
             dados['selecao']['fontes_sha256'] = {n:sha(ROOT/'dados/programacao'/n) for n in ('tarefas.json','curriculo.json','algoritmos.json','logica.json')}
@@ -392,6 +411,7 @@ def main():
     parou_validacao = bool(args.paciencia_validacoes and sem_melhora >= args.paciencia_validacoes)
     limite = min(args.passos, args.parar_em) if args.parar_em is not None else args.passos
     if limite < passo: p.error('Pausa anterior ao checkpoint atual')
+    ultimo_salvo = None
     while passo < limite and not parou_validacao:
         modelo.train()
         fase = args.fase
@@ -405,7 +425,10 @@ def main():
             escala = .2 + .8 * .5 * (1 + math.cos(math.pi * progresso))
         for grupo in otimizador.param_groups: grupo['lr'] = args.lr * escala
         otimizador.zero_grad(set_to_none=True)
-        perda = perda_ponderada(modelo(x)[0],y,pesos_logicos) if pesos_logicos is not None and fase=='dialogo' else modelo(x,y)[1]
+        if fase == 'dialogo' and args.perda_por_resposta:
+            perda = perda_por_resposta(modelo(x)[0], y)
+        else:
+            perda = perda_ponderada(modelo(x)[0],y,pesos_logicos) if pesos_logicos is not None and fase=='dialogo' else modelo(x,y)[1]
         if not torch.isfinite(perda): raise FloatingPointError('Perda não finita; preservar último checkpoint')
         perda.backward(); torch.nn.utils.clip_grad_norm_(modelo.parameters(), 1.)
         otimizador.step()
@@ -417,7 +440,9 @@ def main():
             print(json.dumps(linha), flush=True)
             with open(out / 'progresso.jsonl', 'a') as f: f.write(json.dumps(linha) + '\n')
         if args.max_segundos and time.monotonic()-inicio >= args.max_segundos: limite = passo
-        if passo % args.avaliar_a_cada == 0 or passo == limite:
+        # Uma pausa operacional não é uma nova avaliação. A seleção e sua
+        # paciência têm de ser iguais em execução contínua ou em blocos.
+        if passo % args.avaliar_a_cada == 0 or passo == horizonte:
             resultado = avaliar(modelo, corpus, args.dispositivo, humanos=args.selecao_humana)
             historico.append({'passo': passo, 'avaliacao': resultado})
             if args.validacao_funcional: historico[-1]['funcional'] = medir_funcional()
@@ -432,12 +457,15 @@ def main():
                 if args.paciencia_validacoes and sem_melhora >= args.paciencia_validacoes:
                     parou_validacao = True
                     salvar()
+                    ultimo_salvo = passo
                     print(json.dumps(dict(parada_validacao=True, passo=passo, melhor_pontuacao=melhor_pontuacao)), flush=True)
                     break
         if passo % args.salvar_a_cada == 0 or passo == limite:
             salvar()
-    salvar()
-    print(json.dumps({'concluido': passo >= args.passos, 'pausado': passo < args.passos, 'parada_validacao': parou_validacao,
+            ultimo_salvo = passo
+    if ultimo_salvo != passo:
+        salvar()
+    print(json.dumps({'concluido': passo >= args.passos, 'pausado': passo < args.passos and not parou_validacao, 'parada_validacao': parou_validacao,
                       'passo': passo, 'tokens_alvo': tokens_alvo,
                       'saida': str(out)}), flush=True)
 

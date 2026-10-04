@@ -237,6 +237,49 @@ class TestesMatematicaLinguagem(unittest.TestCase):
             self.assertEqual(melhor['pesos_sha256'],treinador.sha(pasta/'treino/melhor/pesos.pt'))
             self.assertEqual(melhor['execucao']['selecao']['paciencia'],1)
 
+    def test_pausa_fora_da_avaliacao_nao_altera_selecao_ou_paciencia(self):
+        from scripts import treinar_linguagem_profunda as t
+        from contextlib import redirect_stdout
+        import io
+        import torch
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td); corpus=p/'corpus'; corpus.mkdir(); self.fixture_corpus(corpus)
+            base=['treinar','--corpus',str(corpus),'--passos','10','--lote','2',
+                  '--dimensao','24','--camadas','1','--cabecas','3','--contexto','16',
+                  '--threads','1','--avaliar-a-cada','2','--salvar-a-cada','2',
+                  '--selecionar-melhor','--paciencia-validacoes','2']
+            medicao={f:dict(entropia_cruzada=3.) for f in ('linguagem','dialogo')}
+            for destino,extras in [('inteiro',[]),('pausado',['--parar-em','1']),('pausado',['--retomar'])]:
+                with patch.object(sys,'argv',base+['--saida',str(p/destino)]+extras), \
+                     patch.object(t,'avaliar',return_value=medicao), redirect_stdout(io.StringIO()):
+                    t.main()
+            a=torch.load(p/'inteiro/checkpoint.pt',weights_only=True)
+            b=torch.load(p/'pausado/checkpoint.pt',weights_only=True)
+            self.assertEqual(a['passo'],4); self.assertEqual(b['passo'],4)
+            self.assertEqual(a['historico'],b['historico'])
+            self.assertEqual([h['passo'] for h in b['historico']],[0,2,4])
+            for n,v in a['modelo'].items(): self.assertTrue(torch.equal(v,b['modelo'][n]))
+            self.assertTrue(torch.equal(a['rng_torch'],b['rng_torch']))
+            self.assertEqual(a['rng_numpy'],b['rng_numpy'])
+            for key, estado in a['otimizador']['state'].items():
+                for n,v in estado.items(): self.assertTrue(torch.equal(v,b['otimizador']['state'][key][n]))
+            for destino in ('inteiro','pausado'):
+                r=json.loads((p/destino/'relatorio.json').read_text())
+                self.assertTrue(r['parada_validacao']); self.assertFalse(r['pausado'])
+                self.assertEqual(json.loads((p/destino/'melhor/relatorio.json').read_text())['passo'],0)
+
+    def test_perda_por_resposta_nao_da_mais_peso_a_resposta_longa(self):
+        import torch
+        from scripts.treinar_linguagem_profunda import perda_por_resposta
+        logits=torch.tensor([[[3.,0.]]*4,[[0.,3.]]*4],requires_grad=True)
+        alvos=torch.tensor([[0,-100,-100,-100],[0,0,0,0]])
+        esperado=torch.nn.functional.cross_entropy(logits[:,0,:],torch.tensor([0,0]))
+        perda=perda_por_resposta(logits,alvos)
+        self.assertTrue(torch.allclose(perda,esperado))
+        perda.backward(); self.assertTrue(torch.isfinite(logits.grad).all())
+        self.assertEqual(float(logits.grad[0,1:].abs().sum()),0.)
+        with self.assertRaises(ValueError): perda_por_resposta(logits,torch.full_like(alvos,-100))
+
     def test_checkpoint_recusa_tokenizer_alterado(self):
         import torch
         from dataclasses import asdict
