@@ -102,7 +102,7 @@ class Corpus:
 
 
 @torch.no_grad()
-def avaliar(modelo, corpus, dispositivo, split='validacao', lotes=12, tamanho=8):
+def avaliar(modelo, corpus, dispositivo, split='validacao', lotes=12, tamanho=8, humanos=False):
     modelo.eval()
     resultado = {}
     for fase in ('linguagem', 'dialogo'):
@@ -116,6 +116,27 @@ def avaliar(modelo, corpus, dispositivo, split='validacao', lotes=12, tamanho=8)
         ce = soma / tokens
         resultado[fase] = {'entropia_cruzada': ce, 'perplexidade': math.exp(min(ce, 30)),
                            'tokens_avaliados': tokens, 'particao': split}
+    if humanos:
+        indices = corpus.humanos[split]
+        if not len(indices):
+            raise ValueError('Seleção humana exige diálogos humanos na validação')
+        soma, tokens = 0., 0
+        # Todos os alvos humanos reservados, sem reposição nem sintéticos.
+        for inicio in range(0, len(indices), tamanho):
+            ix = indices[inicio:inicio + tamanho]
+            x = torch.tensor(np.asarray(corpus.x[split][ix], dtype=np.int64), device=dispositivo)
+            y = torch.tensor(np.asarray(corpus.y[split][ix], dtype=np.int64), device=dispositivo)
+            n = int((y != -100).sum())
+            if not n:
+                continue
+            soma += float(modelo(x, y)[1]) * n
+            tokens += n
+        if not tokens:
+            raise ValueError('Validação humana sem alvos supervisionados')
+        ce = soma / tokens
+        resultado['dialogo_humano'] = dict(entropia_cruzada=ce,
+            perplexidade=math.exp(min(ce, 30)), tokens_avaliados=tokens,
+            janelas=len(indices), particao=split, origem='humano_oasst2', completa=True)
     return resultado
 
 
@@ -175,6 +196,8 @@ def main():
     p.add_argument('--repeticao-linguagem', type=float, default=.2,
                    help='Fração de passos de SFT com pré-treino para reduzir esquecimento')
     p.add_argument('--selecionar-melhor', action='store_true', help='Salva melhor validação em melhor/ sem substituir checkpoint de retomada')
+    p.add_argument('--selecao-humana', action='store_true',
+                   help='SFT: selecionar pela CE de todos os alvos humanos de validação, sem sintéticos')
     p.add_argument('--paciencia-validacoes', type=int, default=0, help='Parar após N avaliações sem melhora; zero desativa')
     p.add_argument('--equilibrar-familias',action='store_true')
     p.add_argument('--podar-padding',action='store_true')
@@ -192,6 +215,8 @@ def main():
         p.error('Contagens devem ser positivas')
     if args.validacao_funcional and (args.fase != 'dialogo' or not args.selecionar_melhor or not args.tsc):
         p.error('Validação funcional requer SFT, --selecionar-melhor e --tsc')
+    if args.selecao_humana and (args.fase != 'dialogo' or not args.selecionar_melhor or args.validacao_funcional):
+        p.error('--selecao-humana requer SFT, --selecionar-melhor e ausência de validação funcional')
     if args.paciencia_validacoes < 0 or args.paciencia_validacoes and not args.selecionar_melhor:
         p.error('Paciência não negativa exige --selecionar-melhor')
     if not math.isfinite(args.peso_tokens_logicos) or not 1<=args.peso_tokens_logicos<=16:p.error('Peso lógico deve estar entre 1 e 16')
@@ -216,7 +241,11 @@ def main():
             codigo_perda=sha(ROOT/'scripts/perda_programacao.py'))
         assinatura=hashlib.sha256(json.dumps(dados,sort_keys=True).encode()).hexdigest()
     if args.selecionar_melhor:
-        dados['selecao'] = dict(criterio='funcional_compilacao_termino_ce' if args.validacao_funcional else 'entropia_cruzada_validacao_' + args.fase, paciencia=args.paciencia_validacoes)
+        criterio = ('entropia_cruzada_validacao_dialogo_humano_completa' if args.selecao_humana
+                    else 'funcional_compilacao_termino_ce' if args.validacao_funcional
+                    else 'entropia_cruzada_validacao_' + args.fase)
+        dados['selecao'] = dict(criterio=criterio, paciencia=args.paciencia_validacoes,
+                               codigo_selecao=sha(ROOT/'scripts/selecao_programacao.py'))
         if args.validacao_funcional:
             dados['selecao']['fontes_sha256'] = {n:sha(ROOT/'dados/programacao'/n) for n in ('tarefas.json','curriculo.json','algoritmos.json','logica.json')}
             dados['selecao']['codigo_avaliador'] = sha(ROOT/'scripts/avaliar_programacao.py')
@@ -259,7 +288,7 @@ def main():
     inicio = time.monotonic(); passo_inicio = passo
     parametros = sum(p.numel() for p in modelo.parameters())
     if not historico:
-        resultado = avaliar(modelo, corpus, args.dispositivo)
+        resultado = avaliar(modelo, corpus, args.dispositivo, humanos=args.selecao_humana)
         historico.append({'passo': passo, 'avaliacao': resultado})
         print(json.dumps({'baseline': resultado, 'parametros': parametros}), flush=True)
     def salvar(pasta=out):
@@ -292,14 +321,14 @@ def main():
         return {k:r[k] for k in ('particao','linguagens','pesos_sha256','fontes_sha256','isolamento')}
     if args.validacao_funcional and 'funcional' not in historico[-1]:
         historico[-1]['funcional'] = medir_funcional()
-    melhor_pontuacao = max(pontuacao_validacao(h,args.fase,args.validacao_funcional) for h in historico)
+    melhor_pontuacao = max(pontuacao_validacao(h,args.fase,args.validacao_funcional,args.selecao_humana) for h in historico)
     sem_melhora = 0
     if args.selecionar_melhor and args.retomar:
         melhor_salvo = out / 'melhor' / 'relatorio.json'
         if not melhor_salvo.exists():
             raise ValueError('Melhor checkpoint ausente na retomada')
         best = json.loads(melhor_salvo.read_text())
-        melhor_pontuacao = pontuacao_validacao(best['historico'][-1],args.fase,args.validacao_funcional)
+        melhor_pontuacao = pontuacao_validacao(best['historico'][-1],args.fase,args.validacao_funcional,args.selecao_humana)
         sem_melhora = sum(h['passo'] > best['passo'] for h in historico)
     elif args.selecionar_melhor:
         salvar(out / 'melhor')
@@ -337,12 +366,12 @@ def main():
             with open(out / 'progresso.jsonl', 'a') as f: f.write(json.dumps(linha) + '\n')
         if args.max_segundos and time.monotonic()-inicio >= args.max_segundos: limite = passo
         if passo % args.avaliar_a_cada == 0 or passo == limite:
-            resultado = avaliar(modelo, corpus, args.dispositivo)
+            resultado = avaliar(modelo, corpus, args.dispositivo, humanos=args.selecao_humana)
             historico.append({'passo': passo, 'avaliacao': resultado})
             if args.validacao_funcional: historico[-1]['funcional'] = medir_funcional()
             print(json.dumps({'passo': passo, 'avaliacao': resultado}), flush=True)
             if args.selecionar_melhor:
-                valor = pontuacao_validacao(historico[-1],args.fase,args.validacao_funcional)
+                valor = pontuacao_validacao(historico[-1],args.fase,args.validacao_funcional,args.selecao_humana)
                 if valor > melhor_pontuacao:
                     melhor_pontuacao = valor; sem_melhora = 0
                     salvar(out / 'melhor')
