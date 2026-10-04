@@ -1,0 +1,226 @@
+{
+  "versao": 1,
+  "casos": [
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "cresce",
+        "cache": "cresce",
+        "fila": "cresce"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "cresce",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        },
+        {
+          "campo": "cache",
+          "valor_informado": "cresce",
+          "pergunta": "A quantidade ou o tamanho dos itens no cache também cresce?"
+        },
+        {
+          "campo": "fila",
+          "valor_informado": "cresce",
+          "pergunta": "A quantidade de pedidos pendentes cresce porque entram mais pedidos do que o programa processa?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "retencao",
+        "cache",
+        "fila"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "cresce",
+        "cache": "cresce",
+        "fila": "estavel"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "cresce",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        },
+        {
+          "campo": "cache",
+          "valor_informado": "cresce",
+          "pergunta": "A quantidade ou o tamanho dos itens no cache também cresce?"
+        },
+        {
+          "campo": "fila",
+          "valor_informado": "estavel",
+          "pergunta": "A quantidade de pedidos pendentes cresce porque entram mais pedidos do que o programa processa?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "retencao",
+        "cache"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "cresce",
+        "cache": "estavel",
+        "fila": "cresce"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "cresce",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        },
+        {
+          "campo": "cache",
+          "valor_informado": "estavel",
+          "pergunta": "A quantidade ou o tamanho dos itens no cache também cresce?"
+        },
+        {
+          "campo": "fila",
+          "valor_informado": "cresce",
+          "pergunta": "A quantidade de pedidos pendentes cresce porque entram mais pedidos do que o programa processa?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "retencao",
+        "fila"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "cresce",
+        "cache": "estavel",
+        "fila": "estavel"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "cresce",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        },
+        {
+          "campo": "cache",
+          "valor_informado": "estavel",
+          "pergunta": "A quantidade ou o tamanho dos itens no cache também cresce?"
+        },
+        {
+          "campo": "fila",
+          "valor_informado": "estavel",
+          "pergunta": "A quantidade de pedidos pendentes cresce porque entram mais pedidos do que o programa processa?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "retencao"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "estavel",
+        "cache": "cresce",
+        "fila": "cresce"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "estavel",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "transitorio"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "estavel",
+        "cache": "cresce",
+        "fila": "estavel"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "estavel",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "transitorio"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "estavel",
+        "cache": "estavel",
+        "fila": "cresce"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "estavel",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "transitorio"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    },
+    {
+      "entradas_sinteticas": {
+        "pos_gc": "estavel",
+        "cache": "estavel",
+        "fila": "estavel"
+      },
+      "perguntas": [
+        {
+          "campo": "pos_gc",
+          "valor_informado": "estavel",
+          "pergunta": "Sob carga comparável, o heap após ciclos de coleta continua crescendo ou volta a uma base estável?"
+        }
+      ],
+      "perguntas_checklist": 3,
+      "hipoteses_compativeis": [
+        "transitorio"
+      ],
+      "acao_final": "investigar_fora_do_modelo",
+      "resposta": "As observações disponíveis não distinguem mais as hipóteses deste modelo. Para investigar retenção, compare snapshots e caminhos de referência sob carga comparável. Compatibilidade não comprova um vazamento; cache e filas também podem coexistir."
+    }
+  ],
+  "total_casos": 8,
+  "perguntas_controlador": 16,
+  "perguntas_checklist": 24,
+  "economia_perguntas_somente_neste_modelo": 0.33333333333333337,
+  "segundos": 0.0030251319985836744,
+  "codigo_sha256": {
+    "workspace_cognitivo.py": "696fe4a3e47200689ca48f0c57d45c08af5a9b8710255b01f7c89f400cd3d58c",
+    "investigacao_memoria.py": "16e09ea8fadff60e5effe2310227c3905bc8e4206359c4347febe5c19271c1e2",
+    "scripts/avaliar_workspace_cognitivo.py": "e3570edd164415ac9de700571eefe96c245c4f0e38cdeb173a64baec32b38a71"
+  },
+  "natureza": "Combinações sintéticas de categorias do modelo editorial; não são medições reais.",
+  "limites": [
+    "Não mede compreensão de texto, conversa, diagnóstico real ou cognição humana.",
+    "Economia depende do modelo, dos custos e das respostas informadas.",
+    "Perguntas editoriais; regras e controle procedurais, sem novo treino neural.",
+    "Nenhuma hipótese é promovida a fato ou ao chat público."
+  ]
+}
