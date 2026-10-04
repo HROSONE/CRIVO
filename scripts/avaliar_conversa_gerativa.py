@@ -14,6 +14,23 @@ sys.path.insert(0,str(ROOT))
 from scripts.treinar_linguagem_profunda import sha
 
 
+def janelas_retidas(corpus, tokenizer, contexto, split):
+    """Preserva todos os alvos ao comparar modelos com contextos diferentes."""
+    import numpy as np
+    if contexto == corpus.manifesto['contexto']:
+        return corpus.x[split], corpus.y[split], np.load(corpus.caminho/f'dialogo_{split}_origem.npy')
+    from scripts.preparar_linguagem_profunda import janelas_dialogo
+    xs,ys,origens=[],[],[]
+    for linha in (corpus.caminho/f'dialogos_{split}.jsonl').read_text().splitlines():
+        e=json.loads(linha)
+        for x,y in janelas_dialogo(tokenizer,e,contexto):
+            xs.append(x+[0]*(contexto-len(x)))
+            ys.append(y+[-100]*(contexto-len(y)))
+            origens.append(int(e['origem']=='humano_oasst2'))
+    return (np.asarray(xs,dtype=np.int32).reshape(-1,contexto),
+            np.asarray(ys,dtype=np.int32).reshape(-1,contexto),np.asarray(origens,dtype=np.int8))
+
+
 def avaliar(modelo_path,saida,sonda,corpus=None,temperatura=0.):
     import numpy as np
     import torch
@@ -38,14 +55,19 @@ def avaliar(modelo_path,saida,sonda,corpus=None,temperatura=0.):
     retido={}
     if corpus:
         from scripts.treinar_linguagem_profunda import Corpus
-        cp=Corpus(corpus,modelo.config.contexto)
+        manifesto=json.loads((Path(corpus)/'manifesto.json').read_text())
+        cp=Corpus(corpus,manifesto['contexto'])
+        if sha(Path(modelo_path)/'tokenizer.json')!=cp.manifesto['arquivos']['tokenizer.json']:
+            raise ValueError('Comparação retida exige o mesmo tokenizer verificado')
+        retido['contexto_modelo']=modelo.config.contexto
+        retido['contexto_corpus']=cp.manifesto['contexto']
+        retido['janelas_reconstruidas']=modelo.config.contexto!=cp.manifesto['contexto']
         if estado['execucao']['corpus']!=cp.assinatura:
             # Baseline pode ter corpus anterior: a análise não é seleção de pesos.
             retido['baseline_corpus_anterior']=True
         with torch.no_grad():
             for split in ('validacao','teste'):
-                x=cp.x[split];y=cp.y[split]
-                origens=np.load(Path(corpus)/f'dialogo_{split}_origem.npy')
+                x,y,origens=janelas_retidas(cp,tok,modelo.config.contexto,split)
                 for origem,nome in ((1,'humano'),(0,'sintetico')):
                     soma=0.;tokens=0
                     indices=np.flatnonzero(origens==origem)

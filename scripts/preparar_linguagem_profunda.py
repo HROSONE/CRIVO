@@ -70,7 +70,10 @@ def selecionar_wikipedia(caminho, limite):
 
 
 def selecionar_humanos(caminho):
-    mensagens = ler_mensagens(caminho)
+    return selecionar_humanos_mensagens(ler_mensagens(caminho))
+
+
+def selecionar_humanos_mensagens(mensagens):
     indice = {m['message_id']: m for m in mensagens}
     exemplos, vistos = [], set()
     recusas = collections.Counter()
