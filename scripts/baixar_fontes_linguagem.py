@@ -21,6 +21,13 @@ FONTES = {
         'destino':'oasst2.messages.jsonl.gz',
         'sha256':'a9f240c4c77aa1378364f70d37e753c07ba284e247b019d700e1947a0e5da751',
         'licenca':'Apache-2.0'},
+    'oasst2_completo': {
+        'dataset':'OpenAssistant/oasst2',
+        'revisao':'179dd21fc55192153d94adb0e0ce8f69e222bf75',
+        'arquivo':'2023-11-05_oasst2_all.messages.jsonl.gz',
+        'destino':'oasst2.all.messages.jsonl.gz',
+        'sha256':'820146830e78634170f5a33d79d0b3e5022a7f169ce054886ad1f16e1d53a764',
+        'licenca':'Apache-2.0'},
     'tucano': {
         'dataset':'TucanoBR/Tucano-SFT',
         'revisao':'0f5eb4d493e86d18abad5f9e085a74c49785ac76',
@@ -57,11 +64,14 @@ def baixar(nome, out):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--saida',required=True)
+    p.add_argument('--dialogos-amplos',action='store_true', help='Também baixa a exportação humana completa OASST2')
     p.add_argument('--dialogos-publicos',action='store_true',
                    help='Também baixa textos sintéticos públicos; nunca pesos de modelos')
     args = p.parse_args(); out = Path(args.saida);out.mkdir(parents=True,exist_ok=True)
     for nome in FONTES:
-        if nome != 'tucano' or args.dialogos_publicos: baixar(nome,out)
+        if nome == 'tucano' and not args.dialogos_publicos: continue
+        if nome == 'oasst2_completo' and not args.dialogos_amplos: continue
+        baixar(nome,out)
     # A mesma extração PT-BR usada no treino inicial, sem IDs privados novos.
     # O arquivo público já possui IDs de autores; os corpora selecionados não
     # distribuem esses campos, apenas IDs de mensagem/árvore para proveniência.

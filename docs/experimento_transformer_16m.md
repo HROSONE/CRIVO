@@ -1,5 +1,9 @@
 # Experimento CRIVO 16M
 
+Para a próxima rodada com mais diálogos e contexto 512, consulte
+[Diálogos ampliados para o Colab](dialogos_amplos_colab.md). Este documento
+preserva a configuração original para retomada e comparação.
+
 O candidato tem **15.855.360 parâmetros aprendíveis**: vocabulário próprio de
 4.096 tokens, oito blocos causais, dimensão 384, oito cabeças e contexto de
 256 tokens. A projeção de saída compartilha os pesos da entrada. A contagem

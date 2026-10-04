@@ -126,19 +126,32 @@ def exemplos_autorais():
     return itens
 
 
-def preparar(saida, oasst2, tokenizer_path, wikipedia=None, documentos=20000):
+def preparar(saida, oasst2, tokenizer_path, wikipedia=None, documentos=20000,
+             dialogos_amplos=False, oasst2_completo=None, contexto=256):
     import numpy as np
     from tokenizers import Tokenizer
     out=Path(saida);out.mkdir(parents=True,exist_ok=True)
     tokenizer=Tokenizer.from_file(str(tokenizer_path));tokenizer.encode_special_tokens=True
-    humanos,recusas=selecionar_humanos(oasst2)
+    if contexto < 16 or contexto > 2048:
+        raise ValueError('Contexto inválido')
+    if dialogos_amplos:
+        if oasst2_completo is None:
+            raise ValueError('Diálogos amplos exigem a exportação humana completa verificada')
+        from scripts.curar_oasst2_completo import selecionar_completo
+        from scripts.curriculo_dialogos_amplos import exemplos_amplos
+        humanos,recusas=selecionar_completo(oasst2,oasst2_completo)
+        autorais=list(exemplos_amplos())
+    else:
+        humanos,recusas=selecionar_humanos(oasst2)
+        autorais=exemplos_autorais()
     for e in humanos: e['familia']='humano'
-    exemplos=humanos+exemplos_autorais()
+    exemplos=humanos+autorais
+    antes_filtros=len(exemplos)
     # Reservas globais dos alvos: exclui targets sintéticos que atravessam split.
     splits={}
     for e in exemplos: splits.setdefault(normalizar(e['resposta']),set()).add(e['split'])
     exemplos=[e for e in exemplos if len(splits[normalizar(e['resposta'])])==1]
-    manifest=dict(versao=1,contexto=256,vocabulario=tokenizer.get_vocab_size(),
+    manifest=dict(versao=2 if dialogos_amplos else 1,contexto=contexto,vocabulario=tokenizer.get_vocab_size(),
         preparador_sha256=sha(Path(__file__)),peso_externo=False,
         tokenizer_reutilizado_proprio=True,particoes={},
         oasst2=dict(sha256=sha(oasst2),revisao='179dd21fc55192153d94adb0e0ce8f69e222bf75',licenca='Apache-2.0',recusas=recusas),
@@ -147,6 +160,42 @@ def preparar(saida, oasst2, tokenizer_path, wikipedia=None, documentos=20000):
         limites=['Currículo pequeno e em parte sistemático; não representa conversa aberta.',
                  'Métricas sintéticas devem ser separadas de métricas humanas.',
                  'A sonda não é lida pelo preparador e não seleciona checkpoints.'])
+    if dialogos_amplos:
+        from scripts.baixar_fontes_linguagem import FONTES
+        from linguagem_profunda import segmentos_dialogo
+        from scripts.curriculo_dialogos_amplos import ARQUIVO
+        from scripts.curar_oasst2_completo import RECUSAS_CONTEUDO
+        # Não supervisionar inferências autorais cujo contexto necessário não
+        # cabe no modelo. Humanos longos conservam as janelas mascaradas originais.
+        limpos=[]; contextos_recusados=0
+        for e in exemplos:
+            if e['origem'] != 'humano_oasst2':
+                seg,atual=segmentos_dialogo(tokenizer,e['mensagem'],e.get('historico',[]))
+                tamanho=sum(map(len,seg))+len(atual)+len(codificar_texto(tokenizer,e['resposta']))+1
+                if tamanho > contexto+1:
+                    contextos_recusados+=1
+                    continue
+            limpos.append(e)
+        exemplos=limpos
+        # A mesma entrada e contexto não podem aparecer em partições distintas.
+        fontes={}
+        def chave_fonte(e):
+            return tuple(normalizar(h['texto']) for h in e.get('historico',[]))+(normalizar(e['mensagem']),)
+        for e in exemplos: fontes.setdefault(chave_fonte(e),set()).add(e['split'])
+        exemplos=[e for e in exemplos if len(fontes[chave_fonte(e)])==1]
+        manifest.update(oasst2_completo=dict(FONTES['oasst2_completo']),
+            amostragem_dialogo=dict(fracao_humana=0.75,pares_uniformes=True,sinteticos_por_familia=True),
+            dependencias_sha256={str(p.relative_to(ROOT)):sha(p) for p in (
+                ARQUIVO, ROOT/'scripts/curriculo_dialogos_amplos.py',
+                ROOT/'scripts/curar_oasst2_completo.py', ROOT/'scripts/curar_dialogos_humanos.py',
+                ROOT/'scripts/preparar_linguagem_profunda.py')},
+            curadoria_adicional=RECUSAS_CONTEUDO,
+            filtros=dict(candidatos=antes_filtros,autorais_contexto_incompleto=contextos_recusados,
+                         pares_apos_filtros=len(exemplos)),
+            limites=['Humanos têm autoria/revisão conforme os rótulos públicos; não há verificação independente de todos os fatos.',
+                     'Exercícios calculados e conversas autorais são sintéticos, não novos interlocutores humanos.',
+                     'Contexto maior ainda é limitado; não cria memória persistente nem prova compreensão.',
+                     'A sonda não é lida pelo preparador e não seleciona checkpoints.'])
     docs=[]
     if wikipedia:
         from scripts.baixar_fontes_linguagem import FONTES
@@ -160,14 +209,20 @@ def preparar(saida, oasst2, tokenizer_path, wikipedia=None, documentos=20000):
     for split in ('treino','validacao','teste'):
         es=[e for e in exemplos if e['split']==split]
         escrever_jsonl(out/f'dialogos_{split}.jsonl',es)
-        xs,ys,origens,fs=[],[],[],[]
-        for e in es:
-            for x,y in janelas_dialogo(tokenizer,e,256):
-                xs.append(x+[0]*(256-len(x)));ys.append(y+[-100]*(256-len(y)))
+        xs,ys,origens,fs,pares=[],[],[],[],[]
+        descartados_janelas=0
+        for par,e in enumerate(es):
+            janelas=janelas_dialogo(tokenizer,e,contexto)
+            if not janelas: descartados_janelas+=1
+            for x,y in janelas:
+                xs.append(x+[0]*(contexto-len(x)));ys.append(y+[-100]*(contexto-len(y)))
+                pares.append(par)
                 origens.append(int(e['origem']=='humano_oasst2'));fs.append(familias[e['familia']])
-        x=np.asarray(xs,dtype=np.int32);y=np.asarray(ys,dtype=np.int32)
+        x=np.asarray(xs,dtype=np.int32).reshape(-1,contexto);y=np.asarray(ys,dtype=np.int32).reshape(-1,contexto)
         for nome,a in [('x',x),('y',y),('origem',np.asarray(origens,dtype=np.int8)),('familia',np.asarray(fs,dtype=np.int16))]:
             np.save(out/f'dialogo_{split}_{nome}.npy',a)
+        if dialogos_amplos:
+            np.save(out/f'dialogo_{split}_par.npy',np.asarray(pares,dtype=np.int32))
         # Replay somente desta partição: não reutiliza reservados como treino.
         ids=[]
         for e in es:
@@ -181,6 +236,11 @@ def preparar(saida, oasst2, tokenizer_path, wikipedia=None, documentos=20000):
                 np.asarray(seq,dtype='<u2').tofile(f)
         manifest['particoes'][split]=dict(pares=len(es),humanos=sum(e['origem']=='humano_oasst2' for e in es),
             grupos=len({e['grupo'] for e in es}),janelas=len(x),tokens_alvo=int((y!=-100).sum()),familias=familias,
+            sinteticos=sum(e['origem']!='humano_oasst2' for e in es),
+            com_historico=sum(bool(e.get('historico')) for e in es),
+            descartados_janelas=descartados_janelas,
+            familias_contagens={f:sum(e['familia']==f for e in es) for f in familias},
+            humanos_exportacao_completa=sum(e.get('fonte_exportacao')=='completa' for e in es),
             documentos=len(ds),tokens_linguagem=(out/f'linguagem_{split}.bin').stat().st_size//2)
     manifest['arquivos']={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file() and p.name!='manifesto.json'}
     (out/'manifesto.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
@@ -191,5 +251,9 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--saida',required=True);p.add_argument('--oasst2',required=True)
     p.add_argument('--tokenizer',default=str(ROOT/'artefatos/linguagem_profunda/tokenizer.json'))
+    p.add_argument('--dialogos-amplos',action='store_true')
+    p.add_argument('--oasst2-completo')
+    p.add_argument('--contexto',type=int,default=256)
     p.add_argument('--wikipedia');p.add_argument('--documentos',type=int,default=20000)
-    a=p.parse_args();preparar(a.saida,a.oasst2,a.tokenizer,a.wikipedia,a.documentos)
+    a=p.parse_args();preparar(a.saida,a.oasst2,a.tokenizer,a.wikipedia,a.documentos,
+                             a.dialogos_amplos,a.oasst2_completo,a.contexto)

@@ -57,6 +57,41 @@ class Corpus:
             origem = np.load(self.caminho / ('dialogo_' + split + '_origem.npy'))
             self.humanos[split] = np.flatnonzero(origem == 1)
             self.sinteticos[split] = np.flatnonzero(origem == 0)
+        self.pares_amplos = {}
+        politica = self.manifesto.get('amostragem_dialogo')
+        if politica is not None:
+            if (set(politica) != {'fracao_humana','pares_uniformes','sinteticos_por_familia'}
+                or politica['pares_uniformes'] is not True or politica['sinteticos_por_familia'] is not True
+                or isinstance(politica['fracao_humana'],bool)
+                or not isinstance(politica['fracao_humana'],(int,float))
+                or not 0 < politica['fracao_humana'] < 1):
+                raise ValueError('Política de diálogos amplos inválida')
+            if equilibrar_familias:
+                raise ValueError('Não combinar equilíbrio legado com amostragem por pares')
+            self.fracao_humana = politica['fracao_humana']
+            for split in ('treino','validacao','teste'):
+                arrays=[]
+                for sufixo in ('par','familia','origem'):
+                    path=self.caminho/f'dialogo_{split}_{sufixo}.npy'
+                    if path.name not in self.manifesto['arquivos']:
+                        raise ValueError('Amostragem exige índices com hash no manifesto')
+                    a=np.load(path)
+                    if a.ndim!=1 or a.dtype.kind not in 'iu' or len(a)!=len(self.x[split]):
+                        raise ValueError('Índices de pares incompatíveis')
+                    arrays.append(a)
+                pares,familias,origens=arrays
+                if not np.isin(origens,[0,1]).all() or (pares<0).any():
+                    raise ValueError('Origem ou par inválido')
+                hs=[];ss={}
+                for par in np.unique(pares):
+                    indices=np.flatnonzero(pares==par)
+                    if len(np.unique(origens[indices]))!=1 or len(np.unique(familias[indices]))!=1:
+                        raise ValueError('Par mistura origem ou família')
+                    if origens[indices[0]]==1: hs.append(indices)
+                    else: ss.setdefault(int(familias[indices[0]]),[]).append(indices)
+                if split=='treino' and (not hs or not ss):
+                    raise ValueError('Corpus amplo exige humanos e autorais no treino')
+                self.pares_amplos[split]=(hs,list(ss.values()))
         self.contexto = contexto
         self.podar_padding = podar_padding
         self.grupos = {}
@@ -81,7 +116,20 @@ class Corpus:
         else:
             n = len(self.x[split])
             if not n: raise ValueError('Partição sem diálogos')
-            if split == 'treino' and self.grupos:
+            if split == 'treino' and self.pares_amplos:
+                hs,fs=self.pares_amplos[split]
+                base=tamanho*self.fracao_humana
+                nh=int(base)+int(rng.random()<base-int(base))
+                indices=[]
+                for _ in range(nh):
+                    janelas=hs[rng.integers(len(hs))]
+                    indices.append(rng.choice(janelas))
+                for _ in range(tamanho-nh):
+                    familia=fs[rng.integers(len(fs))]
+                    janelas=familia[rng.integers(len(familia))]
+                    indices.append(rng.choice(janelas))
+                indices=np.asarray(indices);rng.shuffle(indices)
+            elif split == 'treino' and self.grupos:
                 gs=self.grupos[split]
                 indices=np.asarray([rng.choice(gs[i]) for i in rng.integers(0,len(gs),size=tamanho)])
             elif split == 'treino' and len(self.humanos[split]) and len(self.sinteticos[split]):
@@ -291,6 +339,7 @@ def main():
         resultado = avaliar(modelo, corpus, args.dispositivo, humanos=args.selecao_humana)
         historico.append({'passo': passo, 'avaliacao': resultado})
         print(json.dumps({'baseline': resultado, 'parametros': parametros}), flush=True)
+    parou_validacao = False
     def salvar(pasta=out):
         pasta.mkdir(parents=True, exist_ok=True)
         if pasta != out:
@@ -305,7 +354,10 @@ def main():
         relatorio.update(parametros=parametros, pesos_sha256=sha(pasta / 'pesos.pt'),
             segundos_esta_execucao=round(time.monotonic() - inicio, 2),
             passos_esta_execucao=passo - passo_inicio, inicializacao='aleatoria_do_zero' if not inicial else 'pretreino_proprio',
-            versao_torch=torch.__version__, dispositivo=args.dispositivo)
+            versao_torch=torch.__version__, dispositivo=args.dispositivo,
+            concluido=passo >= horizonte,
+            pausado=passo < horizonte and not parou_validacao,
+            parada_validacao=parou_validacao)
         tmp = pasta / 'relatorio.json.tmp'
         tmp.write_text(json.dumps(relatorio, ensure_ascii=False, indent=2) + '\n')
         os.replace(tmp, pasta / 'relatorio.json')
@@ -337,10 +389,10 @@ def main():
         from tokenizers import Tokenizer
         from scripts.perda_programacao import pesos_vocabulario,perda_ponderada
         pesos_logicos=pesos_vocabulario(Tokenizer.from_file(str(out/'tokenizer.json')),args.peso_tokens_logicos).to(args.dispositivo)
-    parou_validacao = False
+    parou_validacao = bool(args.paciencia_validacoes and sem_melhora >= args.paciencia_validacoes)
     limite = min(args.passos, args.parar_em) if args.parar_em is not None else args.passos
     if limite < passo: p.error('Pausa anterior ao checkpoint atual')
-    while passo < limite:
+    while passo < limite and not parou_validacao:
         modelo.train()
         fase = args.fase
         if fase == 'dialogo' and rng.random() < args.repeticao_linguagem:
