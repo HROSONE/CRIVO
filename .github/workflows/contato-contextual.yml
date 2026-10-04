@@ -1,0 +1,44 @@
+name: Diálogo cotidiano e contexto
+on:
+  pull_request:
+    paths:
+      - 'conversa_assistente.py'
+      - 'conversa_cotidiana.py'
+      - 'crivo.py'
+      - 'linguagem_conversa.py'
+      - 'conhecimento_expandido.json'
+      - 'testes_contato_contextual.py'
+      - 'scripts/avaliar_contato_contextual.py'
+      - 'avaliacoes/contato_contextual_v1/**'
+      - '.github/workflows/contato-contextual.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Intenção, conteúdo, contexto, fontes e prioridades
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_contato_contextual testes_conversa_informal testes_saudacoes_compostas testes_conversa_cotidiana testes_conversa_estudo testes_linguagem_conversa testes_interpretador_perguntas testes_crise testes_web testes_motor_programacao_chat -v
+      - name: Sem dependências opcionais
+        run: python -S -m unittest testes_contato_contextual -v
+      - name: Casos autorais de desenvolvimento
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python scripts/avaliar_contato_contextual.py --saida /tmp/contato-contextual.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: diagnostico-contato-contextual
+          path: /tmp/contato-contextual.json

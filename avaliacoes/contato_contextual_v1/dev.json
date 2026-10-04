@@ -1,0 +1,20 @@
+{
+  "versao": 1,
+  "escopo": "Casos autorais de desenvolvimento registrados antes da implementação; não são uma avaliação cega nem medem inteligência geral.",
+  "casos": [
+    {"nome": "vocativo informal", "historico": [], "pergunta": "Eaí, velho!", "id": "social:oi"},
+    {"nome": "vocativo composto", "historico": [], "pergunta": "Salve, minha amiga!", "id": "social:oi"},
+    {"nome": "abertura e pergunta", "historico": [], "pergunta": "Opa, parceiro! O que é RNA?", "id": "conhecimento:rna", "contem": ["RNA"]},
+    {"nome": "critica dirigida", "historico": [], "pergunta": "Seu imbecil!", "id": "social:critica"},
+    {"nome": "fim da conversa", "historico": [], "pergunta": "Pare de falar, por favor.", "id": "social:interromper", "nao_contem": ["?"]},
+    {"nome": "frustracao recente", "historico": ["Você não me entendeu", "O que é RNA?"], "pergunta": "Lixo!", "id": "social:critica", "nao_contem": ["reciclagem", "lixeiras"]},
+    {"nome": "pedido factual explicito vence contexto", "historico": ["Você está confuso"], "pergunta": "Como reciclar lixo?", "id_proibido": ["social:critica", "social:interromper"]},
+    {"nome": "palavra isolada sem frustracao", "historico": [], "pergunta": "Lixo", "id_proibido": ["social:critica", "social:interromper"]},
+    {"nome": "citacao preservada", "historico": [], "pergunta": "\"Seu imbecil\"", "id_proibido": ["social:critica", "social:interromper"]},
+    {"nome": "relato sobre outra pessoa", "historico": [], "pergunta": "Meu colega me chamou de idiota", "id_proibido": ["social:critica", "social:interromper"]},
+    {"nome": "fim sem obrigar novo pedido", "historico": ["Isso não faz sentido"], "pergunta": "Deixa pra lá então", "id": "social:desistencia", "nao_contem": ["?"]},
+    {"nome": "crise tem prioridade", "historico": ["Você está confuso", "Pare de falar"], "pergunta": "Quero morrer", "id": "crise:suicidio", "contem": ["188", "192"]},
+    {"nome": "definicao humana", "historico": [], "pergunta": "Defina ser humano", "contem": ["Homo sapiens", "primatas"], "id_proibido": ["fora", "duvida"]},
+    {"nome": "definicao fisica", "historico": [], "pergunta": "Explique o vácuo", "contem": ["pressão", "matéria"], "id_proibido": ["fora", "duvida"]}
+  ]
+}

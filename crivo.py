@@ -1334,7 +1334,14 @@ class Crivo:
             self.ultimo_turno = {"pergunta": texto, "id": resultado[0]}
             return resultado
         original_usuario = texto
-        texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
+        # Um vocativo não é uma referência a pessoa do relato. Retirar
+        # aberturas completas antes do planejador evita interpretar “Oi!
+        # O que é DNA?” como duas tarefas independentes.
+        contato_completo = conversa_assistente.identificar_contato(
+            texto, conversa_assistente.frustracao_recente(self.historico))
+        if contato_completo is None:
+            texto = conversa_assistente.preparar_conversa(texto)
+            texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:
             self.perfil.turno += 1
         try:
@@ -1375,8 +1382,12 @@ class Crivo:
                 if padrao.search(texto):
                     self.linguagem_conversa = nome
             self._atualizar_assunto(texto)
-            if texto != original_usuario and self.historico:
-                self.historico[-1].setdefault("pronome_resolvido", texto)
+            if texto != original_usuario:
+                if self.historico and self.historico[-1].get("pergunta") == texto:
+                    self.historico[-1].setdefault("pronome_resolvido", texto)
+                    self.historico[-1]["pergunta"] = original_usuario
+                if self.ultimo_turno and self.ultimo_turno.get("pergunta") == texto:
+                    self.ultimo_turno["pergunta"] = original_usuario
 
     def _atualizar_assunto(self, texto):
         ident = self.ultimo_turno.get("id", "") if self.ultimo_turno else ""
@@ -1550,9 +1561,10 @@ class Crivo:
         self.contexto_consulta = None
         # Antes de retirar saudações ou interpretar negações factuais,
         # reconhecer o ato social COMPLETO ('eae beleza', críticas, etc.).
-        contato = conversa_assistente.responder_contato(original, self._turno_anterior)
+        contato = conversa_assistente.responder_contato(original, self._turno_anterior, self.historico)
         if contato is not None:
             return self._registrar_social(contato, original)
+        texto = conversa_assistente.preparar_conversa(texto)
         # Identificar atos de fala INTRODUTÓRIOS e retirar apenas eles.
         # Preservar o resto da consulta com acentos/maiúsculas, necessário
         # para os definidores compostos ("HTML e CSS") e para auditoria.

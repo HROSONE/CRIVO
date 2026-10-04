@@ -13,7 +13,7 @@ def normalizar(texto):
 # Gramática de atos completos. Palavras como 'burro', 'beleza' e 'errado'
 # dentro de uma pergunta factual não bastam para classificar a mensagem.
 _SAUDACAO = r"(?:oi+|ola|opa|salve|hey|hello|e ?ai|e ?ae|bom dia|boa tarde|boa noite)"
-_VOCATIVO = r"(?:crivo|mano|cara|amigo|amiga|meu amigo)"
+_VOCATIVO = r"(?:crivo|mano|cara|vei|velho|parceiro|parceira|amigo|amiga|meu amigo|minha amiga)"
 _CONTATO = (
     r"(?:(?:tudo|td) (?:bem|bom|certo|beleza)|beleza|blz|tranquilo|de boa|"
     r"como (?:(?:voce|ce) )?(?:esta|ta|vai)|como (?:estao|vao) as coisas)"
@@ -31,18 +31,57 @@ _CRITICA = (
     r"(?:isso|essa resposta|sua resposta) nao faz sentido|"
     r"nao gostei (?:disso|da resposta)|que resposta (?:ruim|confusa|errada))"
 )
+_OFENSA = r"(?:idiota|otario|otaria|imbecil|desgracado|desgracada|inutil)"
+_OFENSAS_DIRIGIDAS = (
+    r"(?:(?:seu|sua|infeliz) )?(?:" + _OFENSA + r"|infeliz burro|infeliz burra)|"
+    r"(?:seu|sua) (?:burro|burra|lixo)|"
+    r"(?:voce|crivo) (?:e|eh|esta|ta) " + _INTENSIDADE +
+    r"(?:" + _OFENSA + r"|lixo)|vai (?:pro|para o) inferno"
+)
+_INTERROMPER = (
+    r"(?:(?:crivo|voce) )?(?:cala a boca|cale a boca|"
+    r"(?:pare|para) de (?:falar|responder)|fique quieto|fica quieto|"
+    r"nao (?:responda|responde)(?: mais)?)"
+    r"(?: (?:entao|agora|por favor))?"
+)
+_DESISTENCIA = r"(?:desisto|(?:deixa|deixe) (?:pra|para) la)(?: entao)?"
 
 
-def identificar_contato(texto):
+def frustracao_recente(historico):
+    """Só atos reconhecidos no diálogo abrem uma janela de três turnos.
+
+    Uma nova saudação, despedida ou reinício encerra a janela. Palavras
+    ambíguas isoladas não criam o contexto que as classifica como crítica.
+    """
+    for turno in reversed(list(historico)[-3:]):
+        ident = turno.get("id", "")
+        if ident in ("social:oi", "social:tchau", "social:despedida", "conversa:reinicio"):
+            return False
+        if ident in ("social:critica", "social:interromper", "social:desistencia"):
+            return True
+    return False
+
+
+def identificar_contato(texto, contexto_frustracao=False):
+    # Citações e código descrevem conteúdo, não um ato dirigido ao bot.
+    if any(c in texto for c in ('`', '"', '“', '”', "'", '‘', '’')):
+        return None
     n = normalizar(texto)
     if re.fullmatch(r"(?:meu deus|nossa(?: senhora)?|caramba|eita|poxa|vixe|aff+)", n):
         return "reacao"
     if re.fullmatch("(?:" + _SAUDACAO + r"(?: " + _VOCATIVO + r")? )?(?:" +
                     _VOCATIVO + r" )?" + _CONTATO + _FINAL_CONTATO, n):
         return "contato"
-    if re.fullmatch(_SAUDACAO + r"(?: crivo)?", n):
+    if re.fullmatch(_SAUDACAO + r"(?: " + _VOCATIVO + r")?", n):
         return "saudacao"
-    if re.fullmatch(_CRITICA + r"(?: (?:tambem|mesmo|demais|hein))?", n):
+    if re.fullmatch(_INTERROMPER, n):
+        return "interromper"
+    if re.fullmatch(_DESISTENCIA, n):
+        return "desistencia"
+    if re.fullmatch("(?:" + _CRITICA + "|" + _OFENSAS_DIRIGIDAS +
+                    r")(?: (?:tambem|mesmo|demais|hein))?", n):
+        return "critica"
+    if contexto_frustracao and re.fullmatch(r"(?:lixo|burro|burra)", n):
         return "critica"
     if re.fullmatch(
         r"(?:mandou bem|boa resposta|gostei(?: da resposta)?|muito bom|perfeito|"
@@ -69,10 +108,17 @@ def preparar_conversa(texto):
     texto = re.sub(r"^\s*(?:me (?:fala|diz|conta) uma coisa|"
                    r"(?:deixa|deixe) eu te perguntar(?: uma coisa)?)[,:;]\s*", "", texto, count=1, flags=re.I)
     for _ in range(4):
-        partes = re.match(r"^([^.!?;:,\n]+)[.!?;:,\n]+\s*(.+)$", texto, re.S)
-        if partes and identificar_contato(partes.group(1)) is not None:
-            texto = partes.group(2).strip()
-            if identificar_contato(partes.group(1)) == "critica":
+        # A vírgula pode separar um vocativo da saudação. Conservamos o
+        # maior ato completo: “Oi, velho!” antes de começar a consulta.
+        abertura = None
+        for separador in re.finditer(r"[.!?;:,\n]+\s*", texto):
+            prefixo = texto[:separador.start()]
+            tipo = identificar_contato(prefixo)
+            if tipo is not None and texto[separador.end():].strip():
+                abertura = (separador.end(), tipo)
+        if abertura is not None:
+            texto = texto[abertura[0]:].strip()
+            if abertura[1] == "critica":
                 texto = re.sub(r"^mas\s+", "", texto, count=1, flags=re.I)
             continue
         # 'beleza o que é DNA?' não exige vírgula para uma abertura social.
@@ -85,11 +131,21 @@ def preparar_conversa(texto):
             texto = texto[abertura.end():]
             continue
         break
+    # Vocativo sem vírgula também pode abrir uma consulta. Só removemos
+    # a abertura se o restante começar por um pedido explícito conhecido.
+    abertura = re.match(
+        r"^([^.!?;:,\n]+?)\s+(?=(?:o que|como|qual|quais|escreva|explique|defina)\b)",
+        texto, re.I,
+    )
+    if abertura and identificar_contato(abertura.group(1)) == "saudacao":
+        texto = texto[abertura.end():]
     return texto
 
 
-def responder_contato(texto, anterior=None):
-    tipo = identificar_contato(texto)
+def responder_contato(texto, anterior=None, historico=()):
+    if any(c in texto for c in ('`', '"', '“', '”', "'", '‘', '’')):
+        return None
+    tipo = identificar_contato(texto, frustracao_recente(historico))
     n = normalizar(texto)
     if (anterior and anterior["id"] in ("social:tudobem", "social:oi") and re.fullmatch(
             r"(?:sim|(?:estou|to|tou) (?:bem|de boa|tranquilo|tranquila)(?: tambem)?|"
@@ -97,6 +153,18 @@ def responder_contato(texto, anterior=None):
         return "social:acolhimento", "Certo! Sobre o que você quer conversar?"
     if tipo == "contato":
         return "social:tudobem", "Oi! Estou por aqui, pronto para conversar. E você, como está?"
+    if tipo == "saudacao":
+        periodo = re.match(r"bom dia|boa tarde|boa noite", n)
+        if periodo:
+            return "social:oi", periodo.group().capitalize() + "! Sou o Crivo. Sobre o que quer conversar?"
+        return "social:oi", ("Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia "
+                             "ou perguntar sobre astronomia, natureza, ciência ou programação.")
+    if tipo == "interromper":
+        return "social:interromper", "Tudo bem. Paro por aqui."
+    if tipo == "desistencia":
+        if frustracao_recente(historico):
+            return "social:desistencia", "Tudo bem, podemos encerrar. A conversa não resolveu o que você precisava."
+        return "social:desistencia", "Tudo bem, deixamos esse assunto por aqui."
     if tipo == "reacao":
         if anterior and anterior["id"] in ("fora", "duvida", "social:nao_entendido"):
             return "social:reacao", "Minha última resposta não resolveu seu pedido. O que você queria saber?"
@@ -107,8 +175,13 @@ def responder_contato(texto, anterior=None):
                      "que ainda não sei responder. Me faça uma pergunta concreta "
                      "para conferir o que consigo explicar.")
         elif anterior and anterior["id"] == "social:critica":
-            texto = ("Vamos ao ponto: mande a pergunta que ficou sem resposta "
-                     "ou o trecho que você quer corrigir.")
+            repeticoes = sum(t.get("id") == "social:critica" for t in historico)
+            opcoes = (
+                "Vamos ao ponto: mande a pergunta que ficou sem resposta ou o trecho que você quer corrigir.",
+                "Entendi que a conversa está ruim para você. Podemos encerrar ou conferir um pedido específico.",
+                "Se quiser retomar, indique o que precisava descobrir. Posso conferir os fatos que tenho e dizer quando faltar informação.",
+            )
+            texto = opcoes[max(0, repeticoes - 1) % len(opcoes)]
         elif anterior and (not anterior["id"].startswith("social:") or
                            anterior["id"] == "social:nao_entendido"):
             pedido = anterior["pergunta"][:160]
