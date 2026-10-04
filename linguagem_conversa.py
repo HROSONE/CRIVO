@@ -14,7 +14,7 @@ from string import Formatter
 from typing import NamedTuple
 
 from composicao_textual import ContextoTexto, normalizar
-from conversa_assistente import preparar_conversa, identificar_contato, responder_contato
+from conversa_assistente import preparar_conversa, identificar_contato, responder_contato, frustracao_recente
 
 
 class Ato(NamedTuple):
@@ -364,6 +364,17 @@ class Conversacao:
         if escolha is not None:
             self.contextual.ultimo_quadro = None
             return escolha
+        # Feedback e encerramento são atos completos, antes de classificadores
+        # de relatos ou correção de exercícios. “Desisto” num quiz conserva
+        # seu sentido específico: revelar a resposta da pergunta pendente.
+        contato = identificar_contato(texto, frustracao_recente(bot.historico))
+        if contato in ("saudacao", "critica", "interromper", "desistencia") and not (
+                contato == "desistencia" and getattr(self, "quiz", None)):
+            self.contextual.ultimo_quadro = None
+            if contato in ("interromper", "desistencia"):
+                self.quiz = None
+                self.oferta = None
+            return None
         from conversa_cotidiana import responder as responder_cotidiano
         cotidiano = responder_cotidiano(texto, bot)
         if cotidiano is not None:
@@ -440,7 +451,7 @@ class Conversacao:
                     self.tem_retomada(neural.alvo, bot)):
                 return self.preparar_ato(neural, bot)
             self.ultimo_quadro_neural = None
-            if responder_contato(texto, bot.ultimo_turno) is not None:
+            if responder_contato(texto, bot.ultimo_turno, bot.historico) is not None:
                 return None
             if pergunta_educacional is not None:
                 # Pedido de estudo validado antes que _relato o guarde como
