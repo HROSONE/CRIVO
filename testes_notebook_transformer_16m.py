@@ -1,4 +1,4 @@
-"""Executa a inicialização real do notebook com Git local, sem Google/treino."""
+"""Inicialização Git e retomada de blocos do notebook sem conexão ao Google."""
 import ast
 import json
 from pathlib import Path
@@ -6,6 +6,8 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import importlib.util
+from unittest.mock import patch
 
 
 @unittest.skipUnless(shutil.which('git'), 'Git necessário para a preparação do Colab')
@@ -75,6 +77,53 @@ class InicializacaoColab(unittest.TestCase):
             self.preparar(self.raiz, self.revisao)
         self.assertEqual(arquivo.read_text(), 'conteudo do usuario')
         self.assertFalse((self.raiz/'codigo.py').exists())
+
+
+@unittest.skipUnless(all(importlib.util.find_spec(n) for n in ('torch','numpy','tokenizers')),
+                     'Retomada requer as ferramentas opcionais de treino')
+class RetomadaBlocosColab(unittest.TestCase):
+    def test_dois_blocos_reproduzem_treino_continuo_sem_reiniciar_lr_adam_ou_rng(self):
+        import torch
+        from scripts import experimento_transformer_16m as experimento
+        from linguagem_profunda import Configuracao
+        from testes_linguagem_profunda import TestesMatematicaLinguagem
+        root=Path(__file__).parent
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);corpus=p/'corpus';corpus.mkdir()
+            TestesMatematicaLinguagem().fixture_corpus(corpus)
+            manifesto=json.loads((corpus/'manifesto.json').read_text())
+            config=Configuracao(vocabulario=manifesto['vocabulario'],dimensao=24,
+                                camadas=1,cabecas=3,contexto=16)
+            dados=dict(semente=20261004,pretreino=dict(passos=4,lote=2,lr=.0008,
+                        avaliar_a_cada=2,salvar_a_cada=1))
+            original=experimento.comando_treino
+            def cpu(dados,config,corpus,saida,etapa,dispositivo,threads,max_segundos):
+                return original(dados,config,corpus,saida,etapa,'cpu',1,max_segundos)
+            notebook=json.loads((root/'notebooks/treinar_transformer_16m_colab.ipynb').read_text())
+            arvore=ast.parse(''.join(notebook['cells'][1]['source']))
+            funcao=next(n for n in arvore.body if isinstance(n,ast.FunctionDef) and n.name=='treinar_bloco')
+            ambiente=dict(Path=Path,json=json,subprocess=subprocess,ROOT=root,SAIDA=p/'blocos',
+                CORPUS=corpus,PASSOS_POR_BLOCO=2,TEMPO_BLOCO_SEGUNDOS=900,SALVAR_A_CADA=1)
+            exec(compile(ast.Module(body=[funcao],type_ignores=[]),'bloco-colab','exec'),ambiente)
+            with patch.object(experimento,'carregar_config',return_value=(dados,config,1)), \
+                 patch.object(experimento,'comando_treino',side_effect=cpu):
+                a=ambiente['treinar_bloco']('pretreino')
+                self.assertEqual((a['passo'],a['horizonte']),(2,4))
+                b=ambiente['treinar_bloco']('pretreino')
+                self.assertEqual((b['passo'],b['horizonte']),(4,4))
+            subprocess.run(cpu(dados,config,corpus,p/'continuo','pretreino','cpu',1,900),
+                           cwd=root,check=True,capture_output=True,text=True,timeout=90)
+            a=torch.load(p/'blocos/pretreino/checkpoint.pt',weights_only=True)
+            b=torch.load(p/'continuo/pretreino/checkpoint.pt',weights_only=True)
+            self.assertEqual(a['tokens_alvo'],b['tokens_alvo'])
+            self.assertEqual(a['historico'],b['historico'])
+            self.assertEqual(a['rng_numpy'],b['rng_numpy'])
+            self.assertTrue(torch.equal(a['rng_torch'],b['rng_torch']))
+            for k,peso in a['modelo'].items():
+                self.assertTrue(torch.equal(peso,b['modelo'][k]),k)
+            for k,estado in a['otimizador']['state'].items():
+                for campo,valor in estado.items():
+                    self.assertTrue(torch.equal(valor,b['otimizador']['state'][k][campo]))
 
 
 if __name__ == '__main__':

@@ -43,6 +43,13 @@ com GPU. Ele fixa a revisão do código no primeiro experimento, recupera essa
 revisão nas próximas sessões e salva pesos, Adam, RNG, tokenizer e relatórios
 diretamente no Drive. Reexecutar a célula de pré-treino retoma o checkpoint.
 O notebook só inicia SFT depois de completar o horizonte de pré-treino.
+No celular, cada execução avança até 500 passos ou aproximadamente 15 minutos,
+com checkpoints a cada 50 passos. O horizonte original e Adam/RNG são
+preservados; não se começa um novo treino a cada bloco. Salva um checkpoint
+inicial antes das primeiras atualizações. Uma interrupção abrupta ainda pode
+perder os passos posteriores ao último checkpoint completo. Esses blocos
+não impedem o Colab de desconectar nem contornam limites de GPU. O piloto
+GitHub continua quando o celular troca de aplicativo ou apaga a tela.
 
 O workflow `treinar-transformer-16m.yml` executa um **piloto em CPU** no
 GitHub: até 6.000 segundos de pré-treino e 4.200 segundos de SFT. Isso
