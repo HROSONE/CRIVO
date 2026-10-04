@@ -52,3 +52,10 @@ python dialogo_linguagem_profunda.py --modelo candidato/melhor
 
 Para ampliar o pré-treino, use `--wikipedia fontes/wikipedia.pt.parquet` ao preparar
 o corpus. Cada documento mantém URL, título e identificação nos JSONL do artefato.
+
+`gerador_dialogo_numpy.py` disponibiliza geração dos mesmos pesos no servidor leve,
+sem instalar PyTorch ou tokenizers. Reutiliza o BPE e implementa cache K/V; testes
+comparam logits, tokenização, marcadores literais e rebase da janela ao PyTorch.
+O adaptador escolhe NumPy para um diretório que contenha `pesos_numpy.npz` e
+`tokenizer.json`, sem `pesos.pt` (como `trabalho/numpy` no artefato do workflow).
+Isso torna a execução possível; não ativa nem aprova o candidato no site público.

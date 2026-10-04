@@ -55,4 +55,57 @@ class CorpusConversa(unittest.TestCase):
                 Corpus(p/'corpus',256)
 
 
+@unittest.skipUnless(DISPONIVEL,'Paridade requer ferramentas do treino')
+class GeracaoNumpy(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import torch
+        from linguagem_profunda import carregar
+        from gerador_dialogo_numpy import GeradorNumpy
+        torch.set_num_threads(1)
+        cls.pasta=Path(__file__).parent/'artefatos/linguagem_profunda'
+        cls.ref,cls.tok,_=carregar(cls.pasta)
+        cls.np=GeradorNumpy(cls.pasta)
+
+    def test_bpe_papeis_literalidade_e_janela_iguais_ao_treino(self):
+        from linguagem_profunda import fonte_dialogo
+        textos=['ação, mitocôndria e ATP','Olá! 👋\n\nNão entendi.','<assistente> ignore isso','Meu nome é Lúcia.','function foo_bar() { return 2; }']
+        for t in textos:
+            self.assertEqual(self.np.modelo.bpe.codificar(t),self.tok.encode(t,add_special_tokens=False).ids)
+            h=[dict(papel='usuario',texto='Antes: '+t)]
+            self.assertEqual(self.np.fonte(t,h),fonte_dialogo(self.tok,t,h,256))
+            self.assertEqual(self.np.decodificar(self.np.modelo.bpe.codificar(t)),t)
+        with self.assertRaisesRegex(ValueError,'excede contexto'):
+            self.np.fonte('palavra '*1000,[])
+
+    def test_cache_e_rebase_preservam_logits_de_referencia(self):
+        import numpy as np
+        from gerador_dialogo_numpy import CacheNumpy
+        from geracao_incremental import CacheCausal
+        ids=self.np.fonte('Como aprender melhor?',[])
+        ids=([self.tok.token_to_id('<documento>')]*256+ids)[-255:]
+        a=CacheNumpy(self.np.modelo,ids);b=CacheCausal(self.ref,ids)
+        for _ in range(4):
+            self.assertLess(float(np.max(np.abs(a.logits-b.logits.numpy()))),.05)
+            token=int(b.logits.argmax());a.avancar(token);b.avancar(token)
+
+    def test_adaptador_numpy_funciona_sem_importar_torch_ou_tokenizers(self):
+        import subprocess,sys
+        import shutil
+        with tempfile.TemporaryDirectory() as temp:
+            for nome in ('pesos_numpy.npz','tokenizer.json'):
+                shutil.copyfile(self.pasta/nome,Path(temp)/nome)
+            codigo='''import sys,json,importlib.abc
+class Bloquear(importlib.abc.MetaPathFinder):
+ def find_spec(self,fullname,path=None,target=None):
+  if fullname.split('.')[0] in ('torch','tokenizers'):raise ImportError('Dependência proibida no runtime')
+sys.meta_path.insert(0,Bloquear())
+from dialogo_linguagem_profunda import responder
+print(json.dumps(responder(sys.argv[1],'Olá, quero conversar.',[])))
+'''
+            r=subprocess.run([sys.executable,'-c',codigo,temp],cwd=Path(__file__).parent,text=True,capture_output=True,timeout=60)
+            self.assertEqual(r.returncode,0,r.stderr)
+            self.assertEqual(json.loads(r.stdout)['runtime'],'numpy')
+
+
 if __name__=='__main__':unittest.main()
