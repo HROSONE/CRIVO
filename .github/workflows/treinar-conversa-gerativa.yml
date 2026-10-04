@@ -1,0 +1,70 @@
+name: Treino de conversa gerativa própria
+on:
+  push:
+    branches: [codex/treino-conversa-gerativa]
+    paths:
+      - '.github/workflows/treinar-conversa-gerativa.yml'
+  workflow_dispatch:
+    inputs:
+      passos:
+        description: Passos de SFT a partir dos pesos próprios
+        type: number
+        default: 6000
+      passos_portugues:
+        description: Continuação do pré-treino próprio em textos humanos
+        type: number
+        default: 6000
+permissions:
+  contents: read
+concurrency:
+  group: treino-conversa-gerativa-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  aprender:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar ferramentas do treino, sem pesos externos
+        run: |
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'tokenizers>=0.20,<1' 'numpy>=1.24,<3' 'pyarrow>=15,<26'
+      - name: Conferir matemática e isolamento do corpus
+        run: python -m unittest testes_linguagem_profunda testes_conversa_gerativa -v
+      - name: Baixar somente dados humanos públicos e verificar revisão
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from scripts.baixar_fontes_linguagem import baixar
+          p=Path('trabalho/fontes');p.mkdir(parents=True,exist_ok=True)
+          baixar('oasst2',p)
+          baixar('wikipedia',p)
+          PY
+      - name: Preparar contexto, papéis, função, dúvida e correção
+        run: python scripts/preparar_conversa_gerativa.py --oasst2 trabalho/fontes/oasst2.messages.jsonl.gz --wikipedia trabalho/fontes/wikipedia.pt.parquet --saida trabalho/corpus
+      - name: Registrar respostas do modelo anterior
+        run: python -u scripts/avaliar_conversa_gerativa.py --modelo artefatos/linguagem_profunda --corpus trabalho/corpus --saida trabalho/baseline.json
+      - name: Aprender português em textos humanos com os pesos próprios
+        run: |
+          python -u scripts/treinar_linguagem_profunda.py --corpus trabalho/corpus --saida trabalho/portugues --fase linguagem --inicial artefatos/linguagem_profunda --ajustar-proprio --passos '${{ inputs.passos_portugues || 6000 }}' --lote 12 --lr 0.0004 --threads 2 --avaliar-a-cada 300 --salvar-a-cada 100 --selecionar-melhor --max-segundos 7000
+      - name: Treinar geração com metade dos lotes humanos
+        run: |
+          python -u scripts/treinar_linguagem_profunda.py --corpus trabalho/corpus --saida trabalho/candidato --fase dialogo --inicial trabalho/portugues/melhor --ajustar-proprio --passos '${{ inputs.passos || 6000 }}' --lote 12 --lr 0.0003 --threads 2 --podar-padding --avaliar-a-cada 300 --salvar-a-cada 100 --selecionar-melhor --paciencia-validacoes 5 --repeticao-linguagem 0.15 --max-segundos 10000
+      - name: Avaliar respostas livres e humanos reservados
+        run: |
+          python -u scripts/avaliar_conversa_gerativa.py --modelo trabalho/candidato/melhor --corpus trabalho/corpus --saida trabalho/avaliacao.json
+          python scripts/exportar_pontuador.py --origem trabalho/candidato/melhor --destino trabalho/numpy
+      - name: Guardar pesos, Adam, RNG, corpus e respostas, inclusive em falha
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conversa-gerativa-${{ github.run_id }}
+          path: trabalho/
+          retention-days: 30
+          if-no-files-found: warn
