@@ -223,4 +223,75 @@ class DialogosAmpliados(unittest.TestCase):
         env['treinar_etapa']('dialogo');self.assertEqual(chamadas,['dialogo'])
 
 
+class SequenciaNotebookAmplo(unittest.TestCase):
+    @staticmethod
+    def notebook():
+        return json.loads((ROOT/'notebooks/treinar_dialogos_amplos_colab.ipynb').read_text())
+
+    def executar_celula(self,indice,ambiente):
+        import contextlib,io
+        stream=io.StringIO()
+        with contextlib.redirect_stdout(stream):
+            exec(compile(''.join(self.notebook()['cells'][indice]['source']),f'cell{indice}','exec'),ambiente)
+        return stream.getvalue()
+
+    def test_pre_treino_pausado_nao_inicia_sft_e_preserva_checkpoint(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);(p/'pretreino').mkdir()
+            (p/'pretreino/relatorio.json').write_text(json.dumps(dict(passo=500,horizonte=30000)))
+            checkpoint=p/'pretreino/checkpoint.pt';checkpoint.write_bytes(b'estado preservado')
+            treino=Mock()
+            texto=self.executar_celula(7,dict(SAIDA=p,json=json,treinar_etapa=treino))
+            treino.assert_not_called();self.assertIn('500 / 30000',texto)
+            self.assertEqual(checkpoint.read_bytes(),b'estado preservado')
+            self.assertFalse((p/'dialogo').exists())
+
+    def test_etapas_sem_relatorio_aguardam_sem_falhar(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);treino=Mock();processo=Mock()
+            self.assertIn('Primeiro execute',self.executar_celula(7,dict(SAIDA=p,json=json,treinar_etapa=treino)))
+            self.assertIn('aguardando',self.executar_celula(9,dict(SAIDA=p,json=json,subprocess=processo)))
+            treino.assert_not_called();processo.run.assert_not_called()
+
+    def test_pre_treino_completo_inicia_dialogo_e_erros_reais_aparecem(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);(p/'pretreino').mkdir();(p/'dialogo/melhor').mkdir(parents=True)
+            (p/'pretreino/relatorio.json').write_text(json.dumps(dict(passo=30000,horizonte=30000)))
+            (p/'dialogo/relatorio.json').write_text(json.dumps(dict(passo=500,concluido=False,pausado=True,parada_validacao=False)))
+            (p/'dialogo/melhor/relatorio.json').write_text(json.dumps(dict(passo=200)))
+            treino=Mock();self.executar_celula(7,dict(SAIDA=p,json=json,treinar_etapa=treino))
+            treino.assert_called_once_with('dialogo')
+            treino=Mock(side_effect=RuntimeError('falha real do treinador'))
+            with self.assertRaisesRegex(RuntimeError,'falha real'):
+                self.executar_celula(7,dict(SAIDA=p,json=json,treinar_etapa=treino))
+
+    def test_avaliacao_aguarda_sft_pausado_e_aceita_conclusao_ou_parada_validacao(self):
+        from unittest.mock import Mock
+        with tempfile.TemporaryDirectory() as tmp:
+            p=Path(tmp);(p/'dialogo').mkdir()
+            for nome in ('baseline_2m6.json','candidato_16m.json','contrato_72.json'):(p/nome).write_text('{}')
+            for concluido,parada in ((False,False),(True,False),(False,True)):
+                (p/'dialogo/relatorio.json').write_text(json.dumps(dict(passo=500,horizonte=6000,concluido=concluido,parada_validacao=parada)))
+                processo=Mock()
+                texto=self.executar_celula(9,dict(SAIDA=p,json=json,subprocess=processo,sys=sys,CORPUS='corpus',ROOT=ROOT))
+                if concluido or parada:processo.run.assert_called_once()
+                else:
+                    processo.run.assert_not_called();self.assertIn('Diálogo em andamento',texto)
+
+    def test_continuacao_de_varios_blocos_termina_no_horizonte(self):
+        fonte=''.join(self.notebook()['cells'][1]['source']);arvore=ast.parse(fonte)
+        funcao=next(x for x in arvore.body if isinstance(x,ast.FunctionDef) and x.name=='treinar_etapa')
+        passos=[1000];chamadas=[]
+        def bloco(etapa):
+            chamadas.append(etapa);passos[0]=min(30000,passos[0]+500)
+            return dict(passo=passos[0],horizonte=30000,parada_validacao=False)
+        env=dict(BLOCOS_POR_EXECUCAO=60,treinar_bloco=bloco)
+        exec(compile(ast.Module(body=[funcao],type_ignores=[]),'etapa-colab','exec'),env)
+        r=env['treinar_etapa']('pretreino')
+        self.assertEqual(r['passo'],30000);self.assertEqual(len(chamadas),58)
+
+
 if __name__=='__main__':unittest.main()

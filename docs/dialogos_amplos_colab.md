@@ -90,8 +90,9 @@ Os resultados ficam em `MyDrive/CRIVO/dialogos-amplos-v2`, separados do experime
 antigo. O ponteiro guarda a revisão exata do código. Retomada mantém Adam, RNG e
 horizonte; mudança de corpus ou política exige uma nova rodada.
 
-No celular, use `BLOCOS_POR_EXECUCAO = 1`. Com uma sessão estável pode aumentar
-esse número para continuar por vários blocos. Cada bloco avança até 500 passos
+O padrão `BLOCOS_POR_EXECUCAO = 60` continua por vários blocos na mesma
+execução, encerrando antes ao completar a etapa. Para um bloco por vez, use
+`BLOCOS_POR_EXECUCAO = 1`. Cada bloco avança até 500 passos
 ou aproximadamente 900 segundos e salva a cada 50 passos. Escrita e validação
 podem ultrapassar o orçamento; uma queda pode perder trabalho desde o último
 checkpoint completo. O notebook não mantém a sessão ativa nem contorna cotas.
@@ -100,6 +101,20 @@ O pré-treino precisa completar os 30.000 passos antes do SFT. Uma etapa que já
 parou por validação não volta a treinar ao reexecutar a célula. O teste final só
 é liberado após concluir o SFT ou encerrá-lo pela validação. Os relatórios
 registram separadamente conclusão, pausa e parada por validação.
+Se o pré-treino ou diálogo estiver pausado, as células seguintes mostram
+o progresso e aguardam, sem traceback e sem começar a etapa seguinte.
+
+Para continuar na sessão original sem recarregar o notebook, adicione uma
+célula com:
+
+```python
+BLOCOS_POR_EXECUCAO = 60
+treinar_etapa('pretreino')
+```
+
+Isso usa as mesmas funções e o checkpoint existente. A mudança do notebook
+não altera modelo, corpus, treinador, horizonte, Adam ou taxa de aprendizado;
+a revisão original permanece fixada no ponteiro do Drive.
 
 A comparação com o modelo anterior reconstrói as janelas no contexto menor
 sem perder os tokens supervisionados. Exige o mesmo tokenizer verificado e
