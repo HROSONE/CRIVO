@@ -51,6 +51,11 @@ logits conferidos: o cache não explica as frases incoerentes.
 
 Foram listadas 101 revisões de um checkpoint de cerca de 182 MiB. A soma dos
 tamanhos históricos listados não é uma medição da quota faturada pelo Drive.
+Todas as revisões listadas estavam com `keepForever: false`. Segundo a
+[documentação da API](https://developers.google.com/workspace/drive/api/reference/rest/v3/files#File.FIELDS.quota_bytes_used),
+`quotaBytesUsed` inclui a revisão atual e anteriores fixadas. Portanto, as 101
+versões **não provam a causa da quota cheia**. O notebook mede os campos reais
+de armazenamento antes de qualquer limpeza e salva `diagnostico_armazenamento.json`.
 A limpeza real precisa da API de revisões autenticada no Colab: o conector desta
 sessão permite listar revisões, mas não excluí-las. Não foi afirmado que o espaço
 já foi liberado.
@@ -76,7 +81,9 @@ e não apenas aumentar o número de passos no mesmo conjunto pequeno.
 
 Abra [Recuperar diálogo no Colab](https://colab.research.google.com/github/HROSONE/CRIVO/blob/codex/dialogos-colab-amplos/notebooks/recuperar_dialogo_colab.ipynb).
 Com o treino antigo parado, execute as células na conta com acesso aos arquivos.
-O padrão confere os relatórios e limpa versões antigas usando CPU. Deixe
+O padrão confere os relatórios e diagnostica a quota usando CPU, sem apagar arquivos.
+A limpeza de revisões é opcional (`LIMPAR_REVISOES = False` inicialmente) e
+não garante recuperar espaço; versões normais não fixadas não entram nessa quota. Deixe
 `TREINAR_PILOTO = False` para não gastar GPU. O pré-treino e o melhor SFT original
 permanecem preservados. A limpeza de versões é permanente; os arquivos atuais
 não são excluídos.
