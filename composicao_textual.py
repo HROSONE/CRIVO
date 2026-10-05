@@ -399,6 +399,111 @@ class CompositorTextual:
             r"(?<!\w)" + re.escape(alias) + r"(?!\w)"), texto)
             for alias, ids in self.aliases.items())
 
+    _VERBO_FUNCAO = re.compile(
+        r"\b(?:armazen\w*|produz\w*|producao|transport\w*|regul\w*|control\w*|"
+        r"protege\w*|proteg\w*|conserv\w*|recuper\w*|monta\w*|sintetiz\w*|"
+        r"absorv\w*|converte\w*|convert\w*|permite\w*|permit\w*|favorec\w*|"
+        r"consolid\w*|transmit\w*|recebe\w*|receb\w*|filtra\w*)\b")
+
+    def _fatos_funcao(self, ident):
+        """Unidades de função já presentes, inclusive em uma definição.
+
+        Uma definição pode explicar o que uma estrutura faz sem ter recebido
+        a etiqueta 'funcao'. Selecionar a sentença não altera sua proposição.
+        Nunca usar esse reconhecimento verbal como regra causal ou contrapositiva.
+        """
+        fatos = self.itens[ident]['fatos']
+        marcados = [i for i, f in enumerate(fatos) if f.get('aspecto') == 'funcao']
+        if marcados:
+            return marcados
+        return [i for i, f in enumerate(fatos)
+                if f.get('papel') != 'limite' and
+                f.get('aspecto') in (None, 'funcao', 'funcionamento') and
+                self._VERBO_FUNCAO.search(normalizar(f['texto']))]
+
+    def _funcao_em_contexto(self, n, contexto):
+        """Separa pedido, sujeito e contexto com nomes completos do catálogo.
+
+        'Função de X na Y' não procura um conceito chamado 'X na Y'. O contexto
+        Y também deve ser conhecido e aparecer na evidência; não é descartado.
+        """
+        m = re.fullmatch(
+            r'(?:qual (?:e )?(?:a|o) (?:funcao|papel|utilidade) (?:de|do|da|dos|das)|'
+            r'para que (?:serve|servem)) (.+)', n)
+        if m:
+            alvo = m.group(1)
+        else:
+            m = re.fullmatch(r'o que (.+?) (?:faz|fazem)', n)
+            if m:
+                alvo = m.group(1)
+            else:
+                m = re.fullmatch(r'o que (.+?) (?:faz|fazem) (.+)', n)
+                if not m:
+                    return None
+                alvo = m.group(1) + ' ' + m.group(2)
+        if alvo in ('ele', 'ela', 'isso', 'dele', 'dela', 'disso'):
+            ident = contexto.temas[0] if contexto and len(contexto.temas) == 1 else None
+        else:
+            ident = self.resolver(alvo)
+        local = None
+        if ident is None:
+            candidatos = []
+            for ponte in re.finditer(r' (?:dentro (?:de|do|da)|em|no|na|nos|nas|num|numa|para) ', alvo):
+                sujeito = self.resolver(alvo[:ponte.start()])
+                complemento = self.resolver(alvo[ponte.end():])
+                if sujeito is not None and complemento is not None:
+                    candidatos.append((sujeito, complemento))
+            if len(set(candidatos)) != 1:
+                return None
+            ident, local = candidatos[0]
+        if ident is None:
+            return None
+        indices = self._fatos_funcao(ident)
+        if local is not None:
+            palavras = [p for p in normalizar(self.itens[local]['nome']).split()
+                        if p not in self._FORMA_PERGUNTA]
+            raizes = [self._raiz(p) for p in palavras]
+            # Uma palavra curta (Sol) exige igualdade, não 'solidificação'.
+            def presente(f):
+                fs = self._raizes(f['texto'])
+                return bool(raizes) and all(any(r == t or len(r) >= 4 and t.startswith(r)
+                                               for t in fs) for r in raizes)
+            indices = [i for i in indices if presente(self.itens[ident]['fatos'][i])]
+        if not indices:
+            return None
+        pares = tuple((ident, i) for i in indices[:2])
+        _, texto, ctx = self.compor((ident,), 'funcao', selecionados=pares, origem='conhecimento')
+        # Conservar o ID público das explicações; o contexto carrega a
+        # intenção de função que o próximo turno pode herdar.
+        return 'escrita:explicacao', texto, ctx
+
+    def _comparar_conceitos(self, a, b):
+        """Compara unidades do mesmo aspecto, sem inventar equivalência/causa."""
+        if a == b or a not in self.itens or b not in self.itens:
+            return None
+        fichas = self.expandidos | self.fichas_busca
+        if a not in fichas or b not in fichas:
+            # Respostas legadas podem reunir vários assuntos numa entrada.
+            # Seu primeiro trecho não define necessariamente cada alias.
+            return None
+        funcoes = [self._fatos_funcao(i) for i in (a, b)]
+        indices = [fs[0] for fs in funcoes] if all(funcoes) else [0, 0]
+        pares = []
+        partes = []
+        for e, i in zip((a, b), indices):
+            fato = self.itens[e]['fatos'][i]['texto']
+            # Uma função pode depender do antecedente da definição. Incluí-lo
+            # mantém o texto e suas fontes, sem reescrever pronomes por palpite.
+            unidades = [0, i] if i and re.match(
+                r'^(?:ele|ela|eles|elas|seu|sua|seus|suas)\b', normalizar(fato)) else [i]
+            pares.extend((e, j) for j in unidades)
+            partes.append(self.itens[e]['nome'] + ': ' + ' '.join(
+                self.itens[e]['fatos'][j]['texto'] for j in unidades))
+        pares = tuple(pares)
+        _, texto, ctx = self.compor((a, b), 'comparacao', selecionados=pares, origem='conhecimento')
+        texto = '\n\n'.join(partes)
+        return 'escrita:comparacao', texto, ctx._replace(texto=texto)
+
     def _consulta_mundo(self, n, contexto):
         """Seleciona evidências de funções, diferenças e relações completas.
 
@@ -429,6 +534,9 @@ class CompositorTextual:
                     if {a, b} == {ref["origem"], ref["destino"]}:
                         return self.compor((ref["origem"],), "comparacao", selecionados=(
                             (ref["origem"], ref["indice_fato"]),), origem="conhecimento")
+                composta = self._comparar_conceitos(a, b)
+                if composta is not None:
+                    return composta
                 return falta
         # Uma ligacao positiva comprovada nao serve como prova de sua
         # negacao. Reconhecer sujeito, verbo e objeto INTEIROS antes de
@@ -928,6 +1036,14 @@ class CompositorTextual:
         n = normalizar(texto)
         n = re.sub(r"^(?:voce )?(?:pode|poderia|consegue) (?:me )?"
                    r"(?=(?:escrever|criar|fazer|produzir|montar|resumir|explicar|falar)\b)", "", n)
+        funcional = self._funcao_em_contexto(n, contexto)
+        if funcional is not None:
+            return funcional
+        seguinte = re.fullmatch(r'e (.+)', n)
+        if seguinte and contexto and contexto.formato == 'funcao' and len(contexto.temas) == 1:
+            funcional = self._funcao_em_contexto('para que serve ' + seguinte.group(1), contexto)
+            if funcional is not None:
+                return funcional
         origem = re.fullmatch(r"(?:(?:me )?(?:explique|explica|conte|conta|fale|fala|descreva)|"
                               r"o que (?:e|eh|foi)) "
                               r"(?:a |sobre a )?(?:origem|formacao) (?:de|do|da|dos|das) (.+)", n)

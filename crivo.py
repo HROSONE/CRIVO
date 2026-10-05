@@ -1695,6 +1695,13 @@ class Crivo:
             indice_antigo = self.indices_exatos[chave_pergunta(n)][0]
             if self.base[indice_antigo].get("origem_curriculo") != "mundo":
                 composicao = None
+        # Uma comparação calculada a partir das fichas individuais complementa
+        # o acervo; a explicação específica já cadastrada para o par tem prioridade.
+        if composicao is not None and composicao[0] == "escrita:comparacao":
+            rank_comparacao = self._ranking(texto)
+            if (rank_comparacao and self._base_cobre(texto, n) and
+                    self.base[rank_comparacao[0][1]].get("origem_curriculo") != "mundo"):
+                composicao = None
         # Novas palavras como "planeta" nao podem ocultar respostas ja
         # cadastradas para a pergunta completa na base anterior.
         if (composicao is not None and composicao[0] == "fora" and
