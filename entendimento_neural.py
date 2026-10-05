@@ -63,6 +63,48 @@ def caracteristicas(texto, dimensao):
     return sorted({_hash(f, dimensao) for f in feats})
 
 
+# Palavras de pergunta e de conversa que não mudam o assunto pedido.
+GENERICAS = frozenset("""
+a o as os um uma uns umas de do da dos das em no na nos nas por para com sem e ou que qual quais
+quem como onde quando quanto quantos quantas porque por que se me te voce voces eu ele ela isso isto
+esse essa este esta aquele aquela meu minha seu sua nosso nossa ja so mais menos muito pouco bem mal
+sim nao tambem entao ai la aqui agora hoje oi ola ei olha bom boa dia tarde noite obrigado obrigada
+valeu favor por favor licenca crivo duvida duvidas pergunta perguntas queria quero gostaria preciso
+precisava pode poderia consegue sabe saber sei conhece conhecer entender entendo compreender explica
+explicar explique explicacao fala falar fale conta contar conte diz dizer diga mostra mostrar ensina
+ensinar aprender estudar estudando estudo escola prova trabalho resumo resumir informacao informacoes
+sobre respeito acerca tema assunto coisa coisas ideia significa significado conceito definicao define
+definir vem ser foi era sao e esta estao tem ter tinha existe existem acontece aconteceu rolou houve
+funciona funcionamento serve servir importancia importante quer dizer tal tipo essa ajuda ajudar
+ajude rapidinho direitinho exatamente afinal mesmo verdade principal basico basicamente geral
+""".split())
+
+
+def _raiz(p):
+    return p[:5]
+
+
+def guarda_vocabulario(texto, rotulo, nomes, vocabulario):
+    """Se o nome do assunto aparece na pergunta, o restante precisa caber no
+    vocabulário desse assunto ou em palavras genéricas de pergunta. “Qual o
+    signo de Isaac Newton?” cita Newton, mas pede algo que a ficha não trata."""
+    palavras = normalizar(texto)
+    restantes = list(palavras)
+    ancorado = False
+    for nome in sorted(nomes.get(rotulo, ()), key=len, reverse=True):
+        n = len(nome)
+        for i in range(len(restantes) - n + 1):
+            if restantes[i:i + n] == nome:
+                del restantes[i:i + n]
+                ancorado = True
+                break
+    if not ancorado:
+        return True
+    raizes = vocabulario.get(rotulo, ())
+    extras = [p for p in restantes if len(p) >= 3 and p not in GENERICAS and _raiz(p) not in raizes]
+    return not extras
+
+
 class EntendimentoNeural:
     """Carrega pesos aprovados e prevê (rótulo, probabilidade, margem)."""
 
@@ -88,6 +130,8 @@ class EntendimentoNeural:
         self.rotulos = meta["rotulos"]
         self.canonicas = meta["canonicas"]
         self.dimensao = meta["dimensao"]
+        self.nomes = {r: [n for n in ns] for r, ns in meta.get("nomes", {}).items()}
+        self.vocabulario = {r: frozenset(v) for r, v in meta.get("vocabulario", {}).items()}
         self.limiar = meta["controle"]["limiar"]
         self.margem = meta["controle"]["margem"]
         self.w1 = pesos["w1"].astype(np.float32)
@@ -125,6 +169,8 @@ class EntendimentoNeural:
             return None
         rotulo, prob, margem = previsto
         if rotulo == FORA or prob < self.limiar or margem < self.margem:
+            return None
+        if not guarda_vocabulario(texto, rotulo, self.nomes, self.vocabulario):
             return None
         return rotulo, self.canonicas[rotulo], prob
 

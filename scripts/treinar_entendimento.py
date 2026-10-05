@@ -22,7 +22,8 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
-from entendimento_neural import FORA, PASTA, VERSAO, caracteristicas, normalizar  # noqa: E402
+from entendimento_neural import (FORA, PASTA, VERSAO, caracteristicas, guarda_vocabulario,  # noqa: E402
+                                 normalizar)
 
 # ------------------------------------------------------------ modelos ------
 CONCEITO_TREINO = (
@@ -49,6 +50,8 @@ AREA_VALIDACAO = {
 PREFIXOS = ("", "", "", "ei ", "oi, ", "me diz ", "vc sabe ", "queria saber ", "uma dúvida: ",
             "crivo, ", "por favor ", "olha, ", "então, ")
 SUFIXOS = ("", "", "?", "?", " por favor", " pra mim", " aí", "??")
+ENVOLTORIOS = ("tenho uma pergunta: {q}", "me ajuda: {q}", "{q}, sabe me dizer?", "{q}? queria entender",
+               "minha dúvida é {q}", "alguém me explica {q}", "preciso saber {q}", "{q}, me explica")
 PREFIXOS_VAL = ("me tira uma dúvida, ", "boa tarde! ", "com licença, ")
 SUFIXOS_VAL = (" obrigado", " valeu", " me ajuda")
 
@@ -72,6 +75,15 @@ FORA_TREINO = {
     "quanto custa {conceito}": "conceito", "qual o telefone de {pessoa}": "pessoa",
     "qual a cor favorita de {pessoa}": "pessoa", "onde comprar {conceito} barato": "conceito",
     "{conceito} está em promoção?": "conceito", "quantos seguidores tem {pessoa}": "pessoa",
+    "qual o endereço de {pessoa}": "pessoa", "qual o email de {pessoa}": "pessoa",
+    "qual a altura de {pessoa}": "pessoa", "qual o salário de {pessoa}": "pessoa",
+    "qual o instagram de {pessoa}": "pessoa", "{pessoa} tem namorada?": "pessoa",
+    "qual o prato preferido de {pessoa}": "pessoa", "onde mora {pessoa} hoje": "pessoa",
+    "tem cupom de desconto pra {conceito}": "conceito", "qual a entrega mais rápida de {conceito}": "conceito",
+    "{conceito} aceita cartão?": "conceito", "qual o horário de {conceito}": "conceito",
+    "quanto pesa {conceito} em gramas na balança da farmácia": "conceito",
+    "{conceito} faz parte do meu plano de saúde?": "conceito", "qual a nota de {conceito} no app": "conceito",
+    "me empresta {conceito}": "conceito", "baixar {conceito} grátis": "conceito",
 }
 FORA_VALIDACAO = {
     "tem {produto} em estoque?": "produto", "parcela {produto} em quantas vezes": "produto",
@@ -176,6 +188,8 @@ def gerar(bot, canonicas, editoriais, semente=20261005):
                 treino.append((q, classe))
                 for _ in range(12):
                     treino.append((variar(q, rng), classe))
+                for envoltorio in rng.sample(ENVOLTORIOS, 3):
+                    treino.append((envoltorio.format(q=q.rstrip("?")), classe))
             if retida:
                 validacao.append((retida, classe))
                 validacao.append((variar(retida, rng, PREFIXOS_VAL, SUFIXOS_VAL), classe))
@@ -201,7 +215,7 @@ def gerar(bot, canonicas, editoriais, semente=20261005):
         return modelo.format(**{slot: rng.choice(valores)})
 
     for modelo, slot in FORA_TREINO.items():
-        for _ in range(60):
+        for _ in range(45):
             treino.append((variar(preencher(modelo, slot, PREENCHE_TREINO), rng), FORA))
     for modelo, slot in FORA_VALIDACAO.items():
         for _ in range(8):
@@ -215,7 +229,7 @@ def gerar(bot, canonicas, editoriais, semente=20261005):
 
 
 # -------------------------------------------------------------- treino -----
-def treinar(treino, rotulos, dimensao, ocultos, epocas, semente):
+def treinar(treino, rotulos, dimensao, ocultos, epocas, semente, queda=0.25, suavizacao=0.05):
     import numpy as np
     rng = np.random.default_rng(semente)
     indice = {r: i for i, r in enumerate(rotulos)}
@@ -239,8 +253,13 @@ def treinar(treino, rotulos, dimensao, ocultos, epocas, semente):
         for inicio in range(0, len(ordem), lote):
             ids = ordem[inicio:inicio + lote]
             H = np.zeros((len(ids), ocultos), np.float32)
+            usadas = []
             for k, i in enumerate(ids):
-                H[k] = w1[X[i]].sum(axis=0) / np.sqrt(len(X[i]))
+                linhas = X[i]
+                if len(linhas) > 4:
+                    linhas = linhas[rng.random(len(linhas)) >= queda]
+                usadas.append(linhas)
+                H[k] = w1[linhas].sum(axis=0) / np.sqrt(max(1, len(linhas)))
             H += b1
             A = np.maximum(H, 0)
             Z = A @ w2 + b2
@@ -249,8 +268,8 @@ def treinar(treino, rotulos, dimensao, ocultos, epocas, semente):
             P /= P.sum(axis=1, keepdims=True)
             alvo = y[ids]
             perda += -np.log(P[np.arange(len(ids)), alvo] + 1e-9).sum()
-            dZ = P
-            dZ[np.arange(len(ids)), alvo] -= 1
+            dZ = P - suavizacao / C
+            dZ[np.arange(len(ids)), alvo] -= 1 - suavizacao
             dZ /= len(ids)
             dw2 = A.T @ dZ
             db2 = dZ.sum(axis=0)
@@ -260,8 +279,9 @@ def treinar(treino, rotulos, dimensao, ocultos, epocas, semente):
             g2 += dw2 ** 2; w2 -= lr * dw2 / np.sqrt(g2)
             gb2 += db2 ** 2; b2 -= lr * db2 / np.sqrt(gb2)
             gb1 += db1 ** 2; b1 -= lr * db1 / np.sqrt(gb1)
-            for k, i in enumerate(ids):
-                linhas = X[i]
+            for k, linhas in enumerate(usadas):
+                if not len(linhas):
+                    continue
                 grad = dH[k] / np.sqrt(len(linhas))
                 g1[linhas] += grad ** 2
                 w1[linhas] -= lr * grad / np.sqrt(g1[linhas])
@@ -283,17 +303,37 @@ def prever_lote(textos, w1, b1, w2, b2, dimensao):
     return saidas
 
 
-def escolher_limiar(validacao, previsoes, rotulos, erro_max=0.03, fora_max=0.02):
-    positivos = [(c, p) for (t, c), p in zip(validacao, previsoes) if c != FORA]
-    negativos = [p for (t, c), p in zip(validacao, previsoes) if c == FORA]
+def nomes_e_vocabulario(bot, canonicas, editoriais):
+    """Nomes que ancoram cada assunto e raízes do vocabulário dos seus textos."""
+    nomes, vocabulario = {}, {}
+    for classe in canonicas:
+        textos, ns = [], []
+        if classe in bot.compositor.itens:
+            item = bot.compositor.itens[classe]
+            ns = [normalizar(n) for n in [item["nome"]] + item.get("aliases", [])]
+            textos += [f["texto"] for f in item.get("fatos", [])]
+        if classe in editoriais:
+            textos += editoriais[classe]["perguntas"] + [editoriais[classe].get("resposta", "")]
+        entrada = next((e for e in bot.base if e["id"] == classe), None)
+        if entrada:
+            textos += entrada.get("perguntas", [])[:8] + [entrada.get("resposta", "")]
+        nomes[classe] = [n for n in ns if n]
+        vocabulario[classe] = sorted({p[:5] for t in textos for p in normalizar(t)})
+    return nomes, vocabulario
+
+
+def escolher_limiar(validacao, previsoes, rotulos, nomes=None, vocabulario=None, erro_max=0.03, fora_max=0.02):
+    positivos = [(t, c, p) for (t, c), p in zip(validacao, previsoes) if c != FORA]
+    negativos = [(t, p) for (t, c), p in zip(validacao, previsoes) if c == FORA]
     melhor = None
     for limiar in [x / 100 for x in range(30, 96, 5)]:
         for margem in (0.0, 0.1, 0.2, 0.3):
-            def aceita(p):
-                return rotulos[p[0]] != FORA and p[1] >= limiar and p[2] >= margem
-            certos = sum(aceita(p) and rotulos[p[0]] == c for c, p in positivos)
-            errados = sum(aceita(p) and rotulos[p[0]] != c for c, p in positivos)
-            falsos = sum(aceita(p) for p in negativos)
+            def aceita(t, p):
+                return (rotulos[p[0]] != FORA and p[1] >= limiar and p[2] >= margem and
+                        (nomes is None or guarda_vocabulario(t, rotulos[p[0]], nomes, vocabulario)))
+            certos = sum(aceita(t, p) and rotulos[p[0]] == c for t, c, p in positivos)
+            errados = sum(aceita(t, p) and rotulos[p[0]] != c for t, c, p in positivos)
+            falsos = sum(aceita(t, p) for t, p in negativos)
             aceitos = certos + errados + falsos
             if not aceitos:
                 continue
@@ -308,18 +348,29 @@ def escolher_limiar(validacao, previsoes, rotulos, erro_max=0.03, fora_max=0.02)
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--epocas", type=int, default=12)
+    parser.add_argument("--epocas", type=int, default=6)
     parser.add_argument("--ocultos", type=int, default=128)
     parser.add_argument("--dimensao", type=int, default=2 ** 15)
     parser.add_argument("--semente", type=int, default=20261005)
     parser.add_argument("--saida", default=str(PASTA))
+    parser.add_argument("--cache-rotas", help="arquivo para reaproveitar a conferência das perguntas canônicas")
     args = parser.parse_args()
     import numpy as np
     from crivo import Crivo
     inicio = time.time()
     bot = Crivo()
     canonicas, editoriais = classes_e_canonicas(bot)
-    validas = {c: q for c, q in canonicas.items() if roteia(c, q)}
+    cache = Path(args.cache_rotas) if args.cache_rotas else None
+    conferidas = json.loads(cache.read_text(encoding="utf-8")) if cache and cache.is_file() else {}
+    validas = {}
+    for c, q in canonicas.items():
+        chave = c + "\t" + q
+        if chave not in conferidas:
+            conferidas[chave] = roteia(c, q)
+        if conferidas[chave]:
+            validas[c] = q
+    if cache:
+        cache.write_text(json.dumps(conferidas, ensure_ascii=False), encoding="utf-8")
     print("classes: %d de %d com pergunta canônica que cai no próprio assunto" % (len(validas), len(canonicas)),
           flush=True)
     treino, validacao = gerar(bot, validas, editoriais, args.semente)
@@ -330,7 +381,8 @@ def main():
     w1, b1, w2, b2 = treinar(treino, rotulos, args.dimensao, args.ocultos, args.epocas, args.semente)
     previsoes = prever_lote([t for t, _ in validacao], w1, b1, w2, b2, args.dimensao)
     acerto_top1 = sum(rotulos[p[0]] == c for (t, c), p in zip(validacao, previsoes)) / len(validacao)
-    controle = escolher_limiar(validacao, previsoes, rotulos)
+    nomes, vocabulario = nomes_e_vocabulario(bot, validas, editoriais)
+    controle = escolher_limiar(validacao, previsoes, rotulos, nomes, vocabulario)
     aprovado = bool(controle and controle["certos"] >= 0.5 * controle["positivos"])
     controle = dict(controle or {}, aprovado=aprovado, acerto_top1_validacao=round(acerto_top1, 4))
     print("controle:", json.dumps(controle, ensure_ascii=False), flush=True)
@@ -339,6 +391,8 @@ def main():
     np.savez_compressed(pasta / "modelo.npz", w1=w1.astype(np.float16), b1=b1, w2=w2.astype(np.float16), b2=b2)
     meta = dict(versao=VERSAO, dimensao=args.dimensao, ocultos=args.ocultos, epocas=args.epocas,
                 semente=args.semente, rotulos=rotulos, canonicas={c: validas[c] for c in rotulos if c != FORA},
+                nomes={c: nomes.get(c, []) for c in rotulos if c != FORA},
+                vocabulario={c: vocabulario.get(c, []) for c in rotulos if c != FORA},
                 exemplos_treino=len(treino), exemplos_validacao=len(validacao), controle=controle,
                 segundos=round(time.time() - inicio, 1),
                 limite="Aponta assuntos do acervo; não gera texto nem verifica fatos. Validação sintética "
