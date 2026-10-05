@@ -423,6 +423,88 @@ class CompositorTextual:
         # Perguntar pelas fontes não autoriza usar a lista de URLs como fatos.
         return "escrita:fontes", texto, contexto
 
+    _RELACAO_PAR = (
+        r"(?:qual (?:e )?(?:a )?(?:relacao|ligacao|conexao) entre|como se (?:relacionam|ligam)) (.+?) e (.+)",
+        r"o que (.+?) tem a ver com (.+)",
+        r"(.+?) e (.+?) (?:estao|sao) (?:ligad|relacionad|conectad)\w*",
+    )
+    _TEIA = (
+        (r"(?:com o que|com que) (.+?) se (?:relaciona|relacionam|liga|ligam|conecta|conectam)", "ambas"),
+        r"(?:quais|que) (?:sao )?as (?:relacoes|ligacoes|conexoes) (?:de|do|da|dos|das) (.+)",
+        (r"o que (?:equilibra|regula|sustenta|influencia|afeta|ajuda) (.+)", "entrada"),
+    )
+
+    def _relacao_entre(self, n):
+        """Ligações diretas cadastradas, como numa teia ecológica.
+
+        “Qual a relação entre X e Y?” usa só uma ligação editorial direta,
+        em qualquer sentido; sem ela, o CRIVO diz que não tem, em vez de
+        deduzir uma cadeia de causas. “Com o que X se relaciona?” lista as
+        ligações diretas de X, e “O que regula X?” as que chegam a X.
+        """
+        for padrao in self._RELACAO_PAR:
+            m = re.fullmatch(padrao, n)
+            if not m:
+                continue
+            a, b = (self.resolver(x) for x in m.groups())
+            if a not in self.mundo_ids or b not in self.mundo_ids or a == b:
+                return None
+            refs = [r for r in self.ligacoes_mundo if {r["origem"], r["destino"]} == {a, b}]
+            if not refs:
+                return ("fora", "Conheço " + self.itens[a]["nome"] + " e " + self.itens[b]["nome"] +
+                        ", mas não tenho uma ligação direta cadastrada entre eles. Não vou supor uma.", None)
+            unicas = list({(r["origem"], r["indice_fato"]): r for r in refs}.values())
+            pares = tuple((r["origem"], r["indice_fato"]) for r in unicas)
+            ident, _, ctx = self.compor((refs[0]["origem"],), "relacao", selecionados=pares, origem="conhecimento")
+            resposta = " ".join(self._linhas_ligacao(unicas))
+            return ident, resposta, ctx._replace(texto=resposta)
+        for item in self._TEIA:
+            padrao, sentido = item if isinstance(item, tuple) else (item, "ambas")
+            m = re.fullmatch(padrao, n)
+            if not m:
+                continue
+            alvo = self.resolver(m.group(1))
+            if alvo not in self.mundo_ids:
+                return None
+            refs = [r for r in self.ligacoes_mundo
+                    if r["destino"] == alvo or sentido == "ambas" and r["origem"] == alvo]
+            nome = self.itens[alvo]["nome"]
+            if not refs:
+                return ("fora", "Não tenho ligações diretas cadastradas para " + nome +
+                        (" com outros assuntos." if sentido == "ambas" else " vindas de outros assuntos."), None)
+            unicas = list({(r["origem"], r["indice_fato"], r["destino"]): r for r in refs}.values())[:6]
+            pares = tuple(dict.fromkeys((r["origem"], r["indice_fato"]) for r in unicas))
+            ids = tuple(dict.fromkeys(e for e, _ in pares))
+            _, _, ctx = self.compor(ids, "topicos", selecionados=pares, origem="conhecimento")
+            texto = "\n".join("- " + linha for linha in self._linhas_ligacao(unicas))
+            outros = sorted({self.itens[r["destino"] if r["origem"] == alvo else r["origem"]]["nome"] for r in refs})
+            resposta = ("Ligações diretas de " + nome + " no acervo (" + ", ".join(outros) + "):\n" + texto +
+                        "\n\nSão só as ligações cadastradas com fonte; não deduzo cadeias de causa a partir delas.")
+            return "escrita:ligacoes", resposta, ctx._replace(texto=resposta)
+        return None
+
+    def _linhas_ligacao(self, refs):
+        """Uma linha por fato; ligações que usam o mesmo fato dividem a linha."""
+        grupos = {}
+        for r in refs:
+            grupos.setdefault((r["origem"], r["indice_fato"]), []).append(r["destino"])
+        return [self._fato_com_sujeito(o, i, destinos) for (o, i), destinos in grupos.items()]
+
+    def _fato_com_sujeito(self, ident, indice, destinos):
+        """O fato de uma ligação com o sujeito explícito. Fora da ficha,
+        “Ele…” ou “Abriga nascentes…” não teriam a quem se referir; nesse
+        caso a linha diz de onde para onde vai a ligação."""
+        from curriculo_mundo import texto_fato
+        frase = texto_fato(self.itens[ident]["fatos"][indice])
+        nome = self.itens[ident]["nome"]
+        m = re.match(r"(?:Ele|Ela|Eles|Elas) ", frase)
+        if m:
+            return nome[:1].upper() + nome[1:] + " " + frase[m.end():]
+        if normalizar(nome) in normalizar(frase):
+            return frase
+        alvos = ", ".join(self.itens[d]["nome"] for d in destinos)
+        return nome[:1].upper() + nome[1:] + " → " + alvos + ": " + frase
+
     def _menciona_mundo(self, texto):
         return any(ids & self.mundo_ids and re.search(_compilado(
             r"(?<!\w)" + re.escape(alias) + r"(?!\w)"), texto)
@@ -567,6 +649,9 @@ class CompositorTextual:
                 if composta is not None:
                     return composta
                 return falta
+        relacao = self._relacao_entre(n)
+        if relacao is not None:
+            return relacao
         # Uma ligacao positiva comprovada nao serve como prova de sua
         # negacao. Reconhecer sujeito, verbo e objeto INTEIROS antes de
         # chegar ao filtro generico de negacoes. A resposta e abstenção,

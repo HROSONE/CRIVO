@@ -93,12 +93,11 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             bot.responder(anterior)
     finally:
         bot.motor_codigo.reconstruindo = False
+    sinais_antes = bot.total_sinais
     identificador, resposta = bot.responder(mensagem)
-    mecanismo = "recuperador"
-    if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
-        mecanismo = bot.historico[-1].get("mecanismo", "recuperador")
-    if identificador.startswith("logica:") and mecanismo == "recuperador":
-        mecanismo = "raciocinio_relacional"
+    novos_sinais = bot.total_sinais - sinais_antes
+    from ecossistema import descrever, mecanismo_do_turno
+    mecanismo = mecanismo_do_turno(bot, mensagem, identificador)
     provas_efetivas = {
         "logica:fatos",
         "logica:tipo_de", "logica:parte_de", "logica:orbita",
@@ -125,6 +124,13 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                                ("reinterpretacao", "neural_understanding")):
             if bot.historico[-1].get(campo) is not None:
                 extra[publico] = bot.historico[-1][campo]
+    papel = descrever(mecanismo)
+    if papel is not None:
+        extra["ecosystem"] = papel
+    if novos_sinais:
+        # O retorno da pessoa nesta fala, para a espécie que ela confirmou,
+        # rejeitou ou contestou.
+        extra["ecosystem_feedback"] = bot.sinais[-novos_sinais:]
     return {
         **extra,
         **({"code_analysis": bot.motor_codigo.ultimo} if bot.motor_codigo.ultimo is not None else {}),

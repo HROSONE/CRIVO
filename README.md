@@ -1,5 +1,12 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Ecossistema (05/10/2026):** cada mecanismo do CRIVO é uma espécie com papel, nicho e contrapeso
+(`ecossistema.py`); um teste impede que um mecanismo responda sem estar no mapa ou sem regulador. A
+reação da pessoa ("sim", "não", "não era isso") volta como sinal para a espécie que respondeu, um
+painel mostra quem decide e quem acerta, e o CRIVO passa a responder "qual a relação entre X e Y?"
+com ligações diretas e fontes, incluindo ligações ecológicas (ciclo do carbono, oceanos, florestas,
+ciclo da água). [Detalhes e retrato atual](docs/ecossistema_20261005.md).
+
 **Compreensão neural própria (05/10/2026):** quando as regras não entendem uma pergunta, uma rede
 treinada do zero (com classe "fora do acervo") tenta reconhecer o assunto e **pergunta se entendeu**
 ("Você quis perguntar algo como ...?"); um "sim" leva à resposta com as fontes de sempre. Ela não

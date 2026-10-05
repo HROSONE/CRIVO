@@ -27,6 +27,7 @@ _CRITICA = (
     r"(?:isso|essa resposta|sua resposta|a resposta) (?:e|eh|esta|ta|ficou) " + _INTENSIDADE +
     r"(?:errado|errada|ruim|confuso|confusa|sem sentido)|"
     r"(?:nao foi|nao e|nao era) (?:isso|o que) (?:que )?eu (?:perguntei|pedi|quis dizer)|"
+    r"(?:nao foi|nao era) (?:bem |exatamente )?isso|"
     r"(?:voce )?nao (?:me )?entendeu(?: (?:minha pergunta|meu pedido|o que eu (?:pedi|perguntei)))?|"
     r"(?:isso|essa resposta|sua resposta) nao faz sentido|"
     r"nao gostei (?:disso|da resposta)|que resposta (?:ruim|confusa|errada))"

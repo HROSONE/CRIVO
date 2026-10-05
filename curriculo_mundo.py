@@ -33,7 +33,8 @@ def ler_curriculo(caminho):
                            "conhecimento_biologia.json", "conhecimento_sociologia.json",
                            "conhecimento_filosofia.json", "conhecimento_historia.json",
                            "conhecimento_geografia.json", "conhecimento_pessoas.json",
-                           "conhecimento_literatura.json", "conhecimento_ciencias.json"):
+                           "conhecimento_literatura.json", "conhecimento_ciencias.json",
+                           "conhecimento_ecologia.json"):
             extra_path = caminho.with_name(extra_nome)
             if not extra_path.is_file():
                 continue
