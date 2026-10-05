@@ -37,10 +37,29 @@ def estilo(texto, padrao="neutro"):
     return padrao
 
 
+_PERSONAGEM=re.compile(
+    r"(?P<antes>.*?)(?:^|[,;]?\s+)(?:(?:e|com|onde|em que|cuja?|tendo)\s+)?"
+    r"(?:(?:uma?|o|a)\s+[\wÀ-ÿ]+\s+|personagem\s+|protagonista\s+)?"
+    r"chamad[ao]\s+(?P<nome>[A-ZÀ-Ý][\wÀ-ÿ'-]*)(?P<depois>.*)", re.S)
+
+
 def _temas(assunto):
+    """Separa o personagem nomeado do cenário: em “um farol abandonado, com uma
+    personagem chamada Lia”, a instrução “uma personagem chamada” não é nome."""
+    m=_PERSONAGEM.fullmatch(assunto.strip())
+    if m:
+        depois=m.group("depois").strip(" ,;.")
+        # “chamado Zeca que aprende a cozinhar” descreve o personagem; não é cenário.
+        if re.match(r"(?:que|quem|cujo|cuja)\b",depois,re.I): depois=""
+        cenario=(m.group("antes").strip(" ,;.")+" "+depois).strip(" ,;.")
+        cenario=re.sub(r"^(?:(?:sobre|com|de|e)\s+)+","",cenario,flags=re.I)
+        slots={"tema1":m.group("nome")}
+        if cenario: slots["tema2"]=cenario
+        return slots if all(len(x)<=400 for x in slots.values()) else None
+    assunto=assunto.strip(" ,;")
     partes=re.split(r"\s+(?:e|com)\s+",assunto,maxsplit=1,flags=re.I)
-    slots={"tema1":partes[0].strip()}
-    if len(partes)==2: slots["tema2"]=partes[1].strip()
+    slots={"tema1":partes[0].strip(" ,;")}
+    if len(partes)==2: slots["tema2"]=partes[1].strip(" ,;")
     return slots if all(slots.values()) and all(len(x)<=400 for x in slots.values()) else None
 
 

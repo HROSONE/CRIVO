@@ -175,6 +175,13 @@ class Crivo:
         from conhecimento_programacao import ConhecimentoProgramacao
         acervo = caminho.parent / "docs/pesquisa_conhecimento/programacao/catalogo-avancado.json"
         self.programacao = ConhecimentoProgramacao(acervo) if acervo.is_file() else None
+        # Intenção e contexto da conversa antes das respostas cadastradas.
+        from compreensao_intencao import ConsultaPratica, EstadoConversa, Inferencia, InvestigacaoChat
+        self.estado_conversa = EstadoConversa()
+        self.inferencia = Inferencia()
+        self.investigacao = InvestigacaoChat()
+        self.consulta_pratica = ConsultaPratica(self.programacao)
+        self._ids_editoriais = None
         self.contexto_frutas = None
         # Intenção abstrata para continuação do próximo turno, não
         # identifica entidades nem persiste além da pergunta seguinte.
@@ -1150,6 +1157,7 @@ class Crivo:
                 self._memoria().guardar(relato, antigo=True)
             except Exception:
                 pass
+        self.estado_conversa.carregar(memoria)
         self.memoria_anterior = bool(memoria.get("nome") or memoria.get("temas") or memoria.get("nomes"))
 
     def exportar_memoria(self):
@@ -1169,6 +1177,9 @@ class Crivo:
                 temas.pop(t[1], None)
                 temas[t[1]] = [t[1], t[2], (t[4] or "")[:60]]
         saida["temas"] = list(temas.values())[-6:]
+        for campo, itens in self.estado_conversa.exportar().items():
+            if itens:
+                saida[campo] = itens
         return saida
 
     def _nao_entendi_com_presenca(self, texto, resposta):
@@ -1315,7 +1326,65 @@ class Crivo:
                     self.perfil.turno += 1
                 return urgente
         ident, resposta = self._responder_comum(texto)
+        if self._ids_editoriais is None:
+            self._ids_editoriais = frozenset(e["id"] for e in self.base)
+        resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
         return crise.ajustar(ident, resposta, self)
+
+    def _confirmar_declaracao(self, texto):
+        achado = self.estado_conversa.interpretar(texto)
+        if achado is None or not achado[2] or achado[0] == "objetivo":
+            return None
+        self.estado_conversa.observar(texto)
+        return "contexto:%s_registrado" % achado[0], self.estado_conversa.confirmar(achado[0], achado[1])
+
+    def _recordar_contexto(self, texto):
+        resultado = self.estado_conversa.responder(texto)
+        if resultado is None or not resultado[0].endswith("_desconhecida") and \
+                not resultado[0].endswith("_desconhecido"):
+            return resultado
+        # O diálogo antigo também acompanha objetivos e gostos; sem nada
+        # guardado aqui, ele responde. Só sem nenhum dos dois a camada nova
+        # admite que não sabe (em vez de cair numa ficha como a do tempo).
+        anterior = self.conversacao.dialogo.dados
+        if resultado[0] == "contexto:objetivo_desconhecido" and not (
+                self.conversacao.objetivo or anterior.get("objetivo")):
+            return resultado
+        return None
+
+    def _responder_intencao(self, texto):
+        """Intenções que não podem cair numa resposta cadastrada qualquer: o
+        que o próprio usuário disse antes, contas, premissas em linguagem
+        comum e a investigação guiada de memória."""
+        if not isinstance(texto, str):
+            return None
+        from compreensao_intencao import calcular
+        tentativas = (
+            (self.investigacao.continuar, "investigacao_guiada"),
+            (self._recordar_contexto, "estado_conversa"),
+            (calcular, "calculo"),
+            (self.inferencia.responder, "inferencia_linguagem_comum"),
+            (self._confirmar_declaracao, "estado_conversa"),
+            (self.investigacao.iniciar, "investigacao_guiada"),
+        )
+        for funcao, mecanismo in tentativas:
+            try:
+                resultado = funcao(texto)
+            except Exception:  # uma camada nova nunca derruba a conversa
+                resultado = None
+            if resultado is not None:
+                break
+        else:
+            return None
+        if getattr(self, "perfil", None) is not None:
+            self.perfil.turno += 1
+        self._registrar_social(resultado, texto)
+        self.historico[-1]["mecanismo"] = mecanismo
+        self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+        self.contexto_textual = self.ultima_resposta_mostrada = None
+        self.planejador.ultimo = None
+        self.ultimo_turno = {"pergunta": texto, "id": resultado[0]}
+        return resultado
 
     def _responder_comum(self, texto):
         """Contexto implícito de um turno e retomada explícita da conversa."""
@@ -1333,13 +1402,23 @@ class Crivo:
             self.historico[-1]["mecanismo"] = "motor_programacao_proprio"
             self.ultimo_turno = {"pergunta": texto, "id": resultado[0]}
             return resultado
+        intencao = self._responder_intencao(texto)
+        if intencao is not None:
+            return intencao
         original_usuario = texto
         # Um vocativo não é uma referência a pessoa do relato. Retirar
         # aberturas completas antes do planejador evita interpretar “Oi!
         # O que é DNA?” como duas tarefas independentes.
         contato_completo = conversa_assistente.identificar_contato(
             texto, conversa_assistente.frustracao_recente(self.historico))
-        if contato_completo is None:
+        from compreensao_intencao import reformular_finalidade
+        # “Pra que a célula precisa da mitocôndria?” tem a mesma intenção de
+        # “Para que serve a mitocôndria?”; só reformula alvos com ficha.
+        finalidade = reformular_finalidade(
+            texto, lambda alvo: self.compositor.resolver(alvo) is not None)
+        if finalidade is not None:
+            texto = finalidade
+        elif contato_completo is None:
             texto = conversa_assistente.preparar_conversa(texto)
             texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:
@@ -1353,6 +1432,17 @@ class Crivo:
                 return limite
             ident, resposta = self._responder_turno(texto)
             if ident in ("fora", "duvida", "social:nao_entendido"):
+                pratica = self.consulta_pratica.responder(original_usuario)
+                if pratica is not None:
+                    if self.historico and self.historico[-1].get("pergunta") == texto:
+                        self.historico[-1].update(id=pratica[0], mecanismo="consulta_pratica")
+                    else:
+                        self.historico.append({"pergunta": texto, "id": pratica[0],
+                                               "mecanismo": "consulta_pratica"})
+                        self.historico = self.historico[-20:]
+                    self.ultimo_turno = {"pergunta": texto, "id": pratica[0]}
+                    self.contexto_textual = None
+                    return pratica
                 nocao = self._nocao_definicao(texto) or self._nocao_limite(texto, depois_de_fora=True)
                 if nocao is not None:
                     return nocao
@@ -1378,6 +1468,7 @@ class Crivo:
             return ident, resposta
         finally:
             self._memoria_guardar(original_usuario)
+            self.estado_conversa.observar(original_usuario)
             for nome, padrao in self._LINGUAGENS:
                 if padrao.search(texto):
                     self.linguagem_conversa = nome

@@ -1,5 +1,11 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Intenção e contexto (05/10/2026):** o chat passa a guardar objetivos, preferências e restrições,
+faz contas em português, tira conclusões de premissas em linguagem comum, reconhece paráfrases
+de finalidade, conduz a investigação de memória e relaciona perguntas práticas ao acervo de
+programação. [Antes/depois, medição em frases inéditas e limites](docs/intencao_contexto_20261005.md).
+Experimente `Hoje quero terminar o relatório` e depois `O que eu quero fazer hoje?`.
+
 **Treino de 30.000 passos concluído / Drive cheio:** [diagnóstico, correções e recuperação sem repetir o pré-treino](docs/recuperacao_dialogo_20261004.md). O piloto de diálogo melhorou a perda de validação, mas ainda não foi aprovado para conversar no site.
 
 Atualização de 04/10/2026: o chat padrão ganhou [raciocínio ativo e exploração do conhecimento](docs/raciocinio_ativo/README.md),
