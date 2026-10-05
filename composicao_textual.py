@@ -253,7 +253,8 @@ class CompositorTextual:
             return (inteiro,), []
         partes = re.split(r"\s*,\s*|\s+e\s+", texto, flags=re.I)
         if not 1 <= len(partes) <= 3:
-            return (), [texto]
+            agrupado = self._temas_agrupados(texto)
+            return (agrupado, []) if agrupado else ((), [texto])
         ids, faltam = [], []
         for parte in partes:
             ident = self.resolver(parte)
@@ -261,7 +262,35 @@ class CompositorTextual:
                 faltam.append(parte)
             elif ident not in ids:
                 ids.append(ident)
+        if faltam:
+            agrupado = self._temas_agrupados(texto)
+            if agrupado:
+                return agrupado, []
         return tuple(ids), faltam
+
+    def _temas_agrupados(self, texto):
+        """“Mil e Uma Noites e mito”: nomes com “e” ou vírgula no meio. Reagrupa
+        partes vizinhas, com os separadores originais, até que cada grupo seja
+        um conceito com ficha; prefere menos grupos. Até três conceitos."""
+        pedacos = re.split(r"(\s*,\s*|\s+e\s+)", texto, flags=re.I)
+        partes, separadores = pedacos[0::2], pedacos[1::2]
+        if len(partes) > 8:
+            return None
+        melhor = {0: ()}
+        for fim in range(1, len(partes) + 1):
+            for inicio in range(fim):
+                if inicio not in melhor:
+                    continue
+                trecho = partes[inicio] + "".join(
+                    separadores[i] + partes[i + 1] for i in range(inicio, fim - 1))
+                ident = self.resolver(trecho)
+                if ident is None:
+                    continue
+                candidato = melhor[inicio] + (ident,)
+                if fim not in melhor or len(candidato) < len(melhor[fim]):
+                    melhor[fim] = candidato
+        ids = tuple(dict.fromkeys(melhor.get(len(partes), ())))
+        return ids if 1 <= len(ids) <= 3 else None
 
     def contexto_editorial(self, identificador, resposta):
         if identificador not in self.itens:
