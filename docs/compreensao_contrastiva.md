@@ -25,8 +25,8 @@ A perda combina três termos:
 
 1. Probabilidade da resposta correta, com média por resposta.
 2. Penalidade `softplus(0,2 - score_correto + score_incorreto)` para a conclusão
-   incompatível com o contexto. O score é o log da probabilidade média dos
-   tokens-alvo, incluindo fim; pedido e histórico não recebem supervisão.
+   incompatível com o contexto. O score é a média dos logaritmos de probabilidade
+   dos tokens-alvo, incluindo fim; pedido e histórico não recebem supervisão.
 3. Replay de dois diálogos por passo do corpus próprio com contexto inteiro.
 
 O objetivo é contrastivo e supervisionado. Não isola o efeito de cada termo nem
