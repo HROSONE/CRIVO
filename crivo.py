@@ -241,6 +241,11 @@ class Crivo:
         self._referencia_turno_anterior = None
         self.ultimo_assunto = None
         self.esclarecimento = None
+        # Ciclo de retorno do ecossistema: confirmações, rejeições e
+        # contestações da pessoa, por espécie. Só registro; nada é treinado
+        # sozinho a partir disso.
+        self.sinais = []
+        self.total_sinais = 0
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -884,8 +889,14 @@ class Crivo:
         return ("Encontrei duas possibilidades próximas. Qual delas você quer?\n" +
                 opcoes + "\nResponda com o número, o nome da opção ou 'nenhuma'.")
 
-    def _pedir_esclarecimento(self, indices, pergunta):
-        self.esclarecimento = {"indices": list(indices), "pergunta": pergunta}
+    def _sinal(self, especie, tipo, pergunta, assunto=None):
+        self.total_sinais += 1
+        self.sinais.append({"especie": especie, "tipo": tipo, "pergunta": pergunta[:200],
+                            "assunto": assunto})
+        self.sinais = self.sinais[-50:]
+
+    def _pedir_esclarecimento(self, indices, pergunta, origem="recuperador"):
+        self.esclarecimento = {"indices": list(indices), "pergunta": pergunta, "origem": origem}
         self.ultimo_assunto = None
         return "duvida", self._texto_esclarecimento()
 
@@ -901,6 +912,9 @@ class Crivo:
         afirmacao = n in ("sim", "isso", "isso mesmo", "exatamente", "certo", "correto")
         if re.fullmatch(r"nao|nenhum[ao](?: del[ae]s| das (?:duas|opcoes)| dos dois)?|"
                         r"outra coisa|cancelar?|deixa pra la", n):
+            self._sinal(self.esclarecimento.get("origem", "recuperador"), "rejeitado",
+                        self.esclarecimento["pergunta"],
+                        [self.base[i]["id"] for i in indices])
             self.esclarecimento = None
             self.ultimo_assunto = None
             self.ultimos = []
@@ -934,6 +948,8 @@ class Crivo:
 
         pergunta_contexto = self.esclarecimento["pergunta"]
         indice = indices[posicao]
+        self._sinal(self.esclarecimento.get("origem", "recuperador"), "confirmado",
+                    pergunta_contexto, self.base[indice]["id"])
         self.ultimos = [(1.0, indice)]
         self.pos_ultimo = 0
         resposta = self._registrar(indice, original)
@@ -1020,6 +1036,14 @@ class Crivo:
         return None
 
     def _registrar_social(self, resultado, original):
+        if resultado[0] == "social:critica" and self.historico:
+            # Contestar uma resposta é um sinal para a espécie que a deu;
+            # recusas e falas sociais não têm o que contestar.
+            anterior = self.historico[-1]
+            if not anterior["id"].startswith("social:") and anterior["id"] not in (
+                    "fora", "duvida", "vazio"):
+                self._sinal(anterior.get("mecanismo", "recuperador"), "contestado",
+                            anterior.get("pergunta_contexto") or anterior["pergunta"], anterior["id"])
         self.esclarecimento = None
         self.ultimo_assunto = None
         self.ultimos = []
@@ -1393,7 +1417,7 @@ class Crivo:
         # congelados, as respostas diretas dela trocavam de assunto quando
         # erravam ("Golfinho respira debaixo d'água?" → peixes); uma pergunta
         # de confirmação erra sem afirmar nada, e um "sim" leva à resposta.
-        novo_ident, nova_resposta = self._pedir_esclarecimento([indice], texto)
+        novo_ident, nova_resposta = self._pedir_esclarecimento([indice], texto, origem="compreensao_neural")
         registro = {"pergunta": texto, "id": novo_ident, "mecanismo": "compreensao_neural",
                     "reinterpretacao": {"assunto": rotulo, "pergunta_canonica": canonica,
                                         "confianca": round(prob, 3)}}
