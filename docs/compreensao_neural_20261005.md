@@ -42,10 +42,22 @@ de 42/72 para 33/72 com o Transformer.
   "Qual o signo de Isaac Newton?" cita Newton, mas "signo" não aparece em nada
   sobre ele, então a rede não decide.
 - **Integração:** a rede só é consultada quando o CRIVO responderia "não entendi"
-  (`fora`, `social:nao_entendido`, `conversa:esclarecer`), nunca em perguntas com
-  negação, e só decide acima do limiar validado. Ela não escreve a resposta:
-  aponta o assunto, e o CRIVO responde pela pergunta canônica dele, com as fontes
-  e verificações de sempre. A API informa `mechanism: "compreensao_neural"` e
+  (`fora`, `social:nao_entendido`, `conversa:esclarecer`). Antes dela, várias
+  travas:
+  - nada com negação, e nada sem palavra de conteúdo ("Por quê?" depende do
+    contexto, não da rede);
+  - se a pergunta cita um conceito conhecido, só um pedido geral ("o que foi",
+    "fala sobre") passa; aspectos ("como funciona", "quando", "por que") foram
+    recusados de propósito pelas regras;
+  - alvo desconhecido: nome próprio, código ou **qualquer palavra de conteúdo que
+    o acervo nunca usa** ("Golfinho respira debaixo d'água?" não é sobre peixes
+    só porque "respira" e "água" estão na ficha deles);
+  - só intenções da base editorial; nos conceitos do currículo, um vizinho de uma
+    entidade não cadastrada viraria invenção.
+- **Ela pergunta, não responde.** Passadas as travas, o CRIVO diz "Não tenho
+  certeza se entendi. Você quis perguntar algo como "<pergunta canônica>"?". Um
+  "sim" leva à resposta, com as fontes e verificações de sempre; um "não" pede
+  outras palavras. A API informa `mechanism: "compreensao_neural"` e
   `neural_understanding` (assunto, pergunta canônica e confiança).
 - **Sem NumPy ou sem pesos aprovados**, a rede fica desligada e o CRIVO segue
   como antes.
@@ -55,7 +67,7 @@ de 42/72 para 33/72 com o Transformer.
 **Validação**, gerada com modelos e preenchimentos próprios e usada para escolher
 o limiar:
 
-- 1232 de 1514 perguntas conhecidas certas (81%) e 23 assuntos errados (1,8% das
+- 1230 de 1514 perguntas conhecidas certas (81%) e 20 assuntos errados (1,6% das
   aceitas);
 - **0 de 96** perguntas fora do acervo aceitas.
 
@@ -65,31 +77,45 @@ de Newton" passava com 100% de confiança. A guarda de vocabulário e os
 quase-acertos corrigiram isso.
 
 **Teste congelado** (`avaliacoes/entendimento_v1/teste.json`), escrito à mão antes
-do treino e nunca usado nele:
+do treino e nunca usado nele.
+
+A primeira integração respondia direto e marcou **53/75** (contra 45/75 sem a
+rede). Mas a suíte completa reprovou: com a rede, a bateria de medição passou a
+inventar respostas no conjunto retido, e o teste de troca de assunto caiu de 12
+para 11 no retido. Cada trava acima veio de uma dessas falhas, sempre por
+princípio e só com números agregados do retido. Com as travas, as respostas
+diretas da rede caíram para quase nenhuma, e a que sobrava no retido de troca de
+assunto estava errada.
+
+Por isso a rede passou a **confirmar** em vez de responder. Resultado atual:
 
 | | CRIVO sem a rede | Com a compreensão neural |
 |---|---|---|
-| Perguntas conhecidas em formulações novas | 45/75 | **53/75** |
+| Respostas diretas certas (perguntas conhecidas) | 45/75 | 45/75 |
+| Confirmações certas / erradas | — | 1 / 0 |
 | Perguntas fora do acervo recusadas | 49/55 | 49/55 |
+| Sugestões em perguntas fora do acervo | — | 0 |
+| Troca de assunto, dev / retido | 25/27 · 12/14 | 25/27 · 12/14 |
 
-- A rede decidiu 9 vezes e acertou 8. O erro: "como faço uma condição se senão
-  em python" foi para `while` em vez de `if`.
-- Ela não aceitou nenhuma pergunta fora do acervo. As 6 falhas de recusa são do
-  recuperador antigo ("onde fica a farmácia mais perto" → planeta mais quente) e
-  já existiam.
-- As 467 perguntas de exemplo da base vão para o mesmo destino de antes.
-- Depois dessa medição, testei deixar a rede agir também em pedidos de
-  esclarecimento (`duvida`, `contexto:sem_referencia`). Não mudou nada (53/75), e
-  a mudança foi desfeita.
+- A confirmação certa: "moro num ap pequeno, que planta da pra ter" → "Você quis
+  perguntar algo como "que plantas ter em apartamento?"".
+- A sugestão errada que existia ("como faço uma condição se senão em python" →
+  `while`) foi barrada pela trava de palavra desconhecida.
+- As 6 falhas de recusa são do recuperador antigo e já existiam.
 
-`testes_entendimento_neural.py` inclui uma catraca no teste congelado: os números
-só podem melhorar.
+`testes_entendimento_neural.py` inclui uma catraca no teste congelado: respostas
+diretas ≥ 45, recusas ≥ 49, confirmações certas ≥ 1, nenhuma confirmação errada
+e nenhuma sugestão em pergunta fora do acervo.
 
 ## Limites
 
 - A rede reconhece **qual assunto** foi pedido; não compreende a frase como um
   modelo de linguagem grande nem escreve respostas. A conversa livre continua
   dependendo do gerador, que segue desligado até passar nos critérios dele.
+- O ganho medido é pequeno: hoje ela quase nunca passa pelas travas. Ela é um
+  primeiro passo seguro, não a compreensão que o CRIVO precisa. Para ganhar
+  mais, ela precisa de dados melhores (formulações reais) e de características
+  de significado, não só de forma.
 - Ela só ajuda quando as regras dizem "não entendi". Quando as regras respondem
   errado ("sujei a camisa de molho de tomate" → regar plantas), ela não é
   consultada.

@@ -70,7 +70,7 @@ quem como onde quando quanto quantos quantas porque por que se me te voce voces 
 esse essa este esta aquele aquela meu minha seu sua nosso nossa ja so mais menos muito pouco bem mal
 sim nao tambem entao ai la aqui agora hoje oi ola ei olha bom boa dia tarde noite obrigado obrigada
 valeu favor por favor licenca crivo duvida duvidas pergunta perguntas queria quero gostaria preciso
-tenho temos tenha
+tenho temos tenha faco faz fazer moro mora morar
 precisava pode poderia consegue sabe saber sei conhece conhecer entender entendo compreender explica
 explicar explique explicacao fala falar fale conta contar conte diz dizer diga mostra mostrar ensina
 ensinar aprender estudar estudando estudo escola prova trabalho resumo resumir informacao informacoes
@@ -86,9 +86,9 @@ def _raiz(p):
 
 
 def guarda_vocabulario(texto, rotulo, nomes, vocabulario):
-    """Se o nome do assunto aparece na pergunta, o restante precisa caber no
-    vocabulário desse assunto ou em palavras genéricas de pergunta. “Qual o
-    signo de Isaac Newton?” cita Newton, mas pede algo que a ficha não trata."""
+    """Alguma palavra de conteúdo precisa existir no vocabulário do assunto.
+    Se o nome do assunto aparece na pergunta, o restante precisa ser só palavras
+    genéricas: “Qual o signo de Isaac Newton?” cita Newton, mas pede outra coisa."""
     palavras = normalizar(texto)
     restantes = list(palavras)
     ancorado = False
@@ -99,13 +99,42 @@ def guarda_vocabulario(texto, rotulo, nomes, vocabulario):
                 del restantes[i:i + n]
                 ancorado = True
                 break
-    if not ancorado:
-        return True
     raizes = set(vocabulario.get(rotulo, ()))
     # Palavras de qualquer nome ou apelido do próprio assunto também cabem.
     raizes.update(_raiz(p) for nome in nomes.get(rotulo, ()) for p in nome)
-    extras = [p for p in restantes if len(p) >= 3 and p not in GENERICAS and _raiz(p) not in raizes]
+    conteudo = [p for p in palavras if len(p) >= 3 and p not in GENERICAS]
+    # Toda decisão precisa de apoio no vocabulário do assunto: “O que é Ceres?”
+    # lembra “cérebro” nas letras, mas nenhuma palavra dela trata do cérebro.
+    if not any(_raiz(p) in raizes for p in conteudo):
+        return False
+    if not ancorado:
+        return True
+    # Com o nome do assunto presente, só um pedido puro sobre ele equivale a
+    # “O que é X?”: qualquer outra palavra de conteúdo restringe a pergunta.
+    extras = [p for p in restantes if len(p) >= 3 and p not in GENERICAS]
     return not extras
+
+
+def alvo_desconhecido(texto, vocabulario_global):
+    """Entidade fora do acervo: nome próprio ou código desconhecido (“Betelgeuse”,
+    “Kepler-22b”), o núcleo de “o que é X” ou qualquer palavra de conteúdo que
+    não aparece em lugar nenhum do acervo. Sem esse conhecimento, apontar um assunto vizinho seria inventar."""
+    originais = re.findall(r"[^\W_][\w-]*", texto)
+    for i, palavra in enumerate(originais):
+        codigo = re.search(r"\d", palavra) and re.search(r"[^\W\d_]", palavra)
+        proprio = i > 0 and palavra[:1].isupper()
+        if codigo or proprio:
+            partes = normalizar(palavra)
+            if partes and all(_raiz(p) not in vocabulario_global for p in partes if len(p) >= 3):
+                return True
+    palavras = normalizar(texto)
+    m = re.search(r"\b(?:o que|quem) (?:e|sao|foi|era|eram) (?:(?:o|a|os|as|um|uma) )?(\w+)", " ".join(palavras))
+    if m and len(m.group(1)) >= 3 and m.group(1) not in GENERICAS and _raiz(m.group(1)) not in vocabulario_global:
+        return True
+    # Qualquer palavra de conteúdo que o acervo nunca usa pode ser o próprio
+    # sujeito: “Golfinho respira debaixo d'água?” não é sobre peixes só porque
+    # “respira” e “água” aparecem na ficha deles.
+    return any(len(p) >= 3 and p not in GENERICAS and _raiz(p) not in vocabulario_global for p in palavras)
 
 
 class EntendimentoNeural:
@@ -135,6 +164,8 @@ class EntendimentoNeural:
         self.dimensao = meta["dimensao"]
         self.nomes = {r: [n for n in ns] for r, ns in meta.get("nomes", {}).items()}
         self.vocabulario = {r: frozenset(v) for r, v in meta.get("vocabulario", {}).items()}
+        self.vocabulario_global = frozenset().union(*self.vocabulario.values()) | frozenset(
+            _raiz(p) for ns in self.nomes.values() for n in ns for p in n)
         self.limiar = meta["controle"]["limiar"]
         self.margem = meta["controle"]["margem"]
         self.w1 = pesos["w1"].astype(np.float32)
@@ -172,6 +203,8 @@ class EntendimentoNeural:
             return None
         rotulo, prob, margem = previsto
         if rotulo == FORA or prob < self.limiar or margem < self.margem:
+            return None
+        if alvo_desconhecido(texto, self.vocabulario_global):
             return None
         if not guarda_vocabulario(texto, rotulo, self.nomes, self.vocabulario):
             return None
