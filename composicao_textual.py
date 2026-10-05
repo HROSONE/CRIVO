@@ -478,6 +478,11 @@ class CompositorTextual:
         """Compara unidades do mesmo aspecto, sem inventar equivalência/causa."""
         if a == b or a not in self.itens or b not in self.itens:
             return None
+        fichas = self.expandidos | self.fichas_busca
+        if a not in fichas or b not in fichas:
+            # Respostas legadas podem reunir vários assuntos numa entrada.
+            # Seu primeiro trecho não define necessariamente cada alias.
+            return None
         funcoes = [self._fatos_funcao(i) for i in (a, b)]
         indices = [fs[0] for fs in funcoes] if all(funcoes) else [0, 0]
         pares = []

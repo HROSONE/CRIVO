@@ -76,6 +76,13 @@ class TestesFuncoesContextuais(unittest.TestCase):
         proteina = b.compositor.resolver('proteína')
         self.assertIn((proteina, 0), b.contexto_textual.exibidos)
 
+    def test_comparacao_nao_trata_alias_legado_como_ficha_individual(self):
+        # A entrada antiga reúne asteroide, cometa e meteoro. Seu primeiro
+        # trecho descreve asteroides, não todos os nomes que apontam para ela.
+        ident, texto = Crivo().responder('Compare asteroide com cometa.')
+        self.assertNotEqual(ident, 'escrita:comparacao')
+        self.assertNotIn('meteoro: Asteroides', texto)
+
     def test_api_reconstroi_funcao_e_troca_sujeito(self):
         r = responder_web({'message': 'E o ribossomo?',
                            'history': ['Qual é a função da mitocôndria?']})

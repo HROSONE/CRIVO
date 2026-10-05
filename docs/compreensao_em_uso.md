@@ -12,10 +12,12 @@ termos do contexto precisam aparecer na evidência selecionada. Uma definição
 que descreve uma função pode responder ao pedido mesmo sem a etiqueta `funcao`.
 Isso é seleção de evidência textual, não prova formal de uma relação nova.
 
-Quando não existe uma comparação explícita, duas fichas conhecidas podem ser
+Quando não existe uma comparação explícita, duas fichas validadas podem ser
 apresentadas lado a lado, usando funções de ambas ou definições de ambas.
 Uma explicação específica já cadastrada para o par tem prioridade. Pronomes
 nas unidades de função conservam o antecedente da definição e suas fontes.
+Entradas antigas que reúnem vários assuntos não são tratadas como fichas
+individuais de cada alias.
 O turno “E o ribossomo?” conserva o pedido de função e troca o sujeito; a API
 reconstrói esse contexto a partir do histórico e preserva as fontes utilizadas.
 
