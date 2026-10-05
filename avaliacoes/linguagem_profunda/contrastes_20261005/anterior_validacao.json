@@ -1,0 +1,295 @@
+{
+  "split": "validacao",
+  "passo": 50,
+  "pesos_sha256": "dec8f523ccc861bddd405aae82878cded428afe6e8f6029be0de909dad02db33",
+  "ranking": {
+    "familias": {
+      "condicao": {
+        "casos": 24,
+        "acertos": 11,
+        "pares": 12,
+        "pares_corretos": 0,
+        "margem_soma": -0.5309038162231445
+      },
+      "negacao": {
+        "casos": 24,
+        "acertos": 12,
+        "pares": 12,
+        "pares_corretos": 0,
+        "margem_soma": -0.07816529273986816
+      },
+      "atualizacao": {
+        "casos": 24,
+        "acertos": 15,
+        "pares": 12,
+        "pares_corretos": 3,
+        "margem_soma": 1.2339500188827515
+      },
+      "referencia": {
+        "casos": 24,
+        "acertos": 12,
+        "pares": 12,
+        "pares_corretos": 0,
+        "margem_soma": 0.3565272092819214
+      },
+      "evidencia": {
+        "casos": 24,
+        "acertos": 21,
+        "pares": 12,
+        "pares_corretos": 9,
+        "margem_soma": 2.0029077529907227
+      }
+    },
+    "casos": 120,
+    "acertos": 71,
+    "pares_corretos": 12,
+    "pares": 60,
+    "corpus_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+    "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral."
+  },
+  "geracao": {
+    "respostas": [
+      {
+        "id": "validacao:atualizacao:1:2",
+        "familia": "atualizacao",
+        "mensagem": "O estojo foi transferido para a cômoda. Em que lugar ficou?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O estojo está na prateleira."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "O estojo foi transferido para a cômoda.",
+        "referencia": "Na cômoda.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:atualizacao:1:2",
+        "familia": "atualizacao",
+        "mensagem": "O cartaz foi transferido para a cômoda, sem mover o estojo. Em que lugar ficou o estojo?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O estojo está na prateleira."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "O estojo é uma forma de estojo.",
+        "referencia": "Na prateleira.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:atualizacao:0:2",
+        "familia": "atualizacao",
+        "mensagem": "O carimbo foi transferido para a bolsa. Em que lugar ficou?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O carimbo está na prateleira."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "O carimbo foi transferido para a bolsa.",
+        "referencia": "Na bolsa.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:atualizacao:0:2",
+        "familia": "atualizacao",
+        "mensagem": "O cartaz foi transferido para a bolsa, sem mover o carimbo. Em que lugar ficou o carimbo?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O carimbo está na prateleira."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "O carimbo é um carimbo.",
+        "referencia": "Na prateleira.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:condicao:2:3",
+        "familia": "condicao",
+        "mensagem": "A entrada exige chave junto com autorização. Iara possui ambas. Essa pessoa pode entrar?",
+        "historico": [],
+        "resposta": "Iara é uma pessoa que não pode entrar em nenhuma.",
+        "referencia": "Pode entrar.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:condicao:2:3",
+        "familia": "condicao",
+        "mensagem": "A entrada exige chave junto com autorização. Iara possui apenas autorização. Essa pessoa pode entrar?",
+        "historico": [],
+        "resposta": "Iara é uma lista de chave da família Atlastidae. Essa lista não inclui chave da família Atlastidae.",
+        "referencia": "Não pode entrar.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:condicao:1:2",
+        "familia": "condicao",
+        "mensagem": "A entrada exige chave junto com autorização. Hugo possui ambas. Essa pessoa pode entrar?",
+        "historico": [],
+        "resposta": "Sim, por exemplo, chaveamento de chaveamento de chaveamento de chaveamento de chaveamento de chaveamento de chave",
+        "referencia": "Pode entrar.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:condicao:1:2",
+        "familia": "condicao",
+        "mensagem": "A entrada exige chave junto com autorização. Hugo possui apenas autorização. Essa pessoa pode entrar?",
+        "historico": [],
+        "resposta": "Sim, por exemplo, chaveamento de chaveamento de chaveamento de chaveamento de chaveamento de chaveamento de chave",
+        "referencia": "Não pode entrar.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:evidencia:2:3",
+        "familia": "evidencia",
+        "mensagem": "Conferi: o cartaz estava na prateleira. A presença dele foi verificada?",
+        "historico": [],
+        "resposta": "Claro, o cartaz era uma das duas fases.",
+        "referencia": "Está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:evidencia:2:3",
+        "familia": "evidencia",
+        "mensagem": "Suponho que o cartaz esteja na prateleira, mas não verifiquei. A presença dele foi verificada?",
+        "historico": [],
+        "resposta": "Suponho que o cartaz esteja na prateleira, é uma prateleira, que é uma prateleira, que é uma",
+        "referencia": "Não está confirmado.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:evidencia:0:1",
+        "familia": "evidencia",
+        "mensagem": "Conferi: o carimbo estava na bolsa. A presença dele foi verificada?",
+        "historico": [],
+        "resposta": "Claro, o carimbo era de apenas uma bolsa.",
+        "referencia": "Está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:evidencia:0:1",
+        "familia": "evidencia",
+        "mensagem": "Suponho que o carimbo esteja na bolsa, mas não verifiquei. A presença dele foi verificada?",
+        "historico": [],
+        "resposta": "Suponho que o carimbo esteja na bolsa.",
+        "referencia": "Não está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:negacao:1:2",
+        "familia": "negacao",
+        "mensagem": "A regra permite o estojo. Seu uso está autorizado?",
+        "historico": [],
+        "resposta": "Sim, a regra é usada para regra, mas não regra informada.",
+        "referencia": "Pode usar o estojo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:negacao:1:2",
+        "familia": "negacao",
+        "mensagem": "A regra não permite o estojo. Seu uso está autorizado?",
+        "historico": [],
+        "resposta": "Sim, o termo não é usado para regravar a regra.",
+        "referencia": "Não pode usar o estojo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:negacao:3:1",
+        "familia": "negacao",
+        "mensagem": "A regra permite o recibo. Seu uso está autorizado?",
+        "historico": [],
+        "resposta": "Sim, o recibo é uma regra informada.",
+        "referencia": "Pode usar o recibo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:negacao:3:1",
+        "familia": "negacao",
+        "mensagem": "A regra não permite o recibo. Seu uso está autorizado?",
+        "historico": [],
+        "resposta": "Sim, o recibo é uma regra informada.",
+        "referencia": "Não pode usar o recibo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:referencia:0:2",
+        "familia": "referencia",
+        "mensagem": "O carimbo ficou com Gabi e o cartaz com Iara. Quem ficou com o carimbo?",
+        "historico": [],
+        "resposta": "O carimbo era um carimbo.",
+        "referencia": "Gabi.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:referencia:0:2",
+        "familia": "referencia",
+        "mensagem": "O cartaz ficou com Gabi e o carimbo com Iara. Quem ficou com o carimbo?",
+        "historico": [],
+        "resposta": "Claro, o carimbo era um carimbo.",
+        "referencia": "Iara.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:referencia:2:1",
+        "familia": "referencia",
+        "mensagem": "O cartaz ficou com Iara e o estojo com Hugo. Quem ficou com o cartaz?",
+        "historico": [],
+        "resposta": "O cartaz era uma cartaz de 3,5 kg, que foi construído para ser construído.",
+        "referencia": "Iara.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "validacao:referencia:2:1",
+        "familia": "referencia",
+        "mensagem": "O estojo ficou com Iara e o cartaz com Hugo. Quem ficou com o cartaz?",
+        "historico": [],
+        "resposta": "O estojo era um estojo.",
+        "referencia": "Hugo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      }
+    ],
+    "casos": 20,
+    "exatas": 0,
+    "criterio": "Correspondência integral normalizada; não equivale a julgamento semântico."
+  },
+  "painel_livre_sha256": "947608aa72c79b27308c9a69201b1aa35c407f37f19950b24e3229fcaf0a70be",
+  "limite": "Cenários sintéticos controlados, não certificação de conversa geral; teste só após congelar o candidato."
+}

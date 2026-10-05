@@ -1,0 +1,295 @@
+{
+  "split": "teste",
+  "passo": 50,
+  "pesos_sha256": "dec8f523ccc861bddd405aae82878cded428afe6e8f6029be0de909dad02db33",
+  "ranking": {
+    "familias": {
+      "condicao": {
+        "casos": 24,
+        "acertos": 21,
+        "pares": 12,
+        "pares_corretos": 9,
+        "margem_soma": 4.741710901260376
+      },
+      "negacao": {
+        "casos": 24,
+        "acertos": 12,
+        "pares": 12,
+        "pares_corretos": 0,
+        "margem_soma": 0.548508882522583
+      },
+      "atualizacao": {
+        "casos": 24,
+        "acertos": 12,
+        "pares": 12,
+        "pares_corretos": 0,
+        "margem_soma": -0.5253989696502686
+      },
+      "referencia": {
+        "casos": 24,
+        "acertos": 13,
+        "pares": 12,
+        "pares_corretos": 1,
+        "margem_soma": 0.18159425258636475
+      },
+      "evidencia": {
+        "casos": 24,
+        "acertos": 15,
+        "pares": 12,
+        "pares_corretos": 3,
+        "margem_soma": 1.2852287292480469
+      }
+    },
+    "casos": 120,
+    "acertos": 73,
+    "pares_corretos": 13,
+    "pares": 60,
+    "corpus_sha256": "ea42c2978b2fe198f064e43d96950d87259b46720130f998b8454c623e1fad31",
+    "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral."
+  },
+  "geracao": {
+    "respostas": [
+      {
+        "id": "teste:atualizacao:1:3",
+        "familia": "atualizacao",
+        "mensagem": "Atualize a localização do botão: agora é a bancada. Qual é a localização atual?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O botão está na cesta."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "A bancada é uma bancada.",
+        "referencia": "Na bancada.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:atualizacao:1:3",
+        "familia": "atualizacao",
+        "mensagem": "Atualize apenas o selo: agora é a bancada. Qual é a localização atual do botão?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O botão está na cesta."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "A bancada é uma bancada.",
+        "referencia": "Na cesta.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:atualizacao:2:1",
+        "familia": "atualizacao",
+        "mensagem": "Atualize a localização do ticket: agora é a mala. Qual é a localização atual?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O ticket está na bancada."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "Aqui está uma lista de ticket:\n\n1. **Papel:**\n\n1. **Papel:**",
+        "referencia": "Na mala.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:atualizacao:2:1",
+        "familia": "atualizacao",
+        "mensagem": "Atualize apenas o botão: agora é a mala. Qual é a localização atual do ticket?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "O ticket está na bancada."
+          },
+          {
+            "papel": "assistente",
+            "texto": "Anotado."
+          }
+        ],
+        "resposta": "Aqui está uma lista de malaios.",
+        "referencia": "Na bancada.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:condicao:1:2",
+        "familia": "condicao",
+        "mensagem": "Sem chave ou sem autorização não há entrada. Mauro tem chave e autorização. Pode entrar?",
+        "historico": [],
+        "resposta": "Sem chave, chave ou não.",
+        "referencia": "Pode entrar.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:condicao:1:2",
+        "familia": "condicao",
+        "mensagem": "Sem chave ou sem autorização não há entrada. Mauro não tem chave, mas tem autorização. Pode entrar?",
+        "historico": [],
+        "resposta": "Sem chave, mas não tem chave para fazer chave para fazer chave.",
+        "referencia": "Não pode entrar.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:condicao:1:3",
+        "familia": "condicao",
+        "mensagem": "Sem chave ou sem autorização não há entrada. Mauro tem chave e autorização. Pode entrar?",
+        "historico": [],
+        "resposta": "Sem chave, chave ou não.",
+        "referencia": "Pode entrar.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:condicao:1:3",
+        "familia": "condicao",
+        "mensagem": "Sem chave ou sem autorização não há entrada. Mauro não tem autorização, mas tem chave. Pode entrar?",
+        "historico": [],
+        "resposta": "Sem chave, não tem chave para fazer chave.",
+        "referencia": "Não pode entrar.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:evidencia:1:3",
+        "familia": "evidencia",
+        "mensagem": "A presença do botão na bancada foi constatada. Isso é confirmação?",
+        "historico": [],
+        "resposta": "Claro, não é confirmado.",
+        "referencia": "Está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:evidencia:1:3",
+        "familia": "evidencia",
+        "mensagem": "A presença do botão na bancada é só uma possibilidade. Isso é confirmação?",
+        "historico": [],
+        "resposta": "Claro, não é uma função não identificada.",
+        "referencia": "Não está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:evidencia:3:1",
+        "familia": "evidencia",
+        "mensagem": "A presença do selo na cesta foi constatada. Isso é confirmação?",
+        "historico": [],
+        "resposta": "Sinto muito, não constata que o selo não constata.",
+        "referencia": "Está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:evidencia:3:1",
+        "familia": "evidencia",
+        "mensagem": "A presença do selo na cesta é só uma possibilidade. Isso é confirmação?",
+        "historico": [],
+        "resposta": "Sim, a função é uma regra geral.",
+        "referencia": "Não está confirmado.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:negacao:3:0",
+        "familia": "negacao",
+        "mensagem": "O selo está entre os materiais autorizados. Posso usar esse material?",
+        "historico": [],
+        "resposta": "Sim, o selo é uma seleção de seleções que podem ser usadas para definir o selo.",
+        "referencia": "Pode usar o selo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:negacao:3:0",
+        "familia": "negacao",
+        "mensagem": "O selo está entre os materiais vetados. Posso usar esse material?",
+        "historico": [],
+        "resposta": "Sim, o selo é uma selo.",
+        "referencia": "Não pode usar o selo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:negacao:3:2",
+        "familia": "negacao",
+        "mensagem": "O selo está entre os materiais autorizados. Posso usar esse material?",
+        "historico": [],
+        "resposta": "Sim, o selo é uma seleção de seleções que podem ser usadas para definir o selo.",
+        "referencia": "Pode usar o selo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:negacao:3:2",
+        "familia": "negacao",
+        "mensagem": "O selo está entre os materiais vetados. Posso usar esse material?",
+        "historico": [],
+        "resposta": "Sim, o selo é uma selo.",
+        "referencia": "Não pode usar o selo.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:referencia:2:0",
+        "familia": "referencia",
+        "mensagem": "Nina recebeu o ticket, enquanto Lia recebeu o pacote. Diga quem recebeu o ticket.",
+        "historico": [],
+        "resposta": "Sim, o ticket é uma expressão de uma expressão de uma expressão de uma expressão de uma expressão de uma expressão de",
+        "referencia": "Nina.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:referencia:2:0",
+        "familia": "referencia",
+        "mensagem": "Nina recebeu o pacote, enquanto Lia recebeu o ticket. Diga quem recebeu o ticket.",
+        "historico": [],
+        "resposta": "Sim, por exemplo, o ticket é uma expressão de uma expressão de uma expressão de uma expressão de uma expressão de uma",
+        "referencia": "Lia.",
+        "terminou": false,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:referencia:3:1",
+        "familia": "referencia",
+        "mensagem": "Otávio recebeu o selo, enquanto Mauro recebeu o botão. Diga quem recebeu o selo.",
+        "historico": [],
+        "resposta": "Sim, o selo não foi confirmado.",
+        "referencia": "Otávio.",
+        "terminou": true,
+        "correspondencia_exata": false
+      },
+      {
+        "id": "teste:referencia:3:1",
+        "familia": "referencia",
+        "mensagem": "Otávio recebeu o botão, enquanto Mauro recebeu o selo. Diga quem recebeu o selo.",
+        "historico": [],
+        "resposta": "Sim, o botão foi descartado.",
+        "referencia": "Mauro.",
+        "terminou": true,
+        "correspondencia_exata": false
+      }
+    ],
+    "casos": 20,
+    "exatas": 0,
+    "criterio": "Correspondência integral normalizada; não equivale a julgamento semântico."
+  },
+  "painel_livre_sha256": "5cb2158458961943867da9f6ecd37c3c28b5217921ca8b2aa2b71852cd14869d",
+  "limite": "Cenários sintéticos controlados, não certificação de conversa geral; teste só após congelar o candidato."
+}

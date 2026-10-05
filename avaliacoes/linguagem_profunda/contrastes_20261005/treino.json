@@ -1,0 +1,251 @@
+{
+  "versao": 1,
+  "config": {
+    "vocabulario": 4096,
+    "dimensao": 384,
+    "camadas": 8,
+    "cabecas": 8,
+    "contexto": 512,
+    "dropout": 0.1
+  },
+  "passo": 60,
+  "execucao": {
+    "config": {
+      "vocabulario": 4096,
+      "dimensao": 384,
+      "camadas": 8,
+      "cabecas": 8,
+      "contexto": 512,
+      "dropout": 0.1
+    },
+    "corpus": "e059fa66cb2db3d21ded8ae75b0746b5a816d124aff43a18bfd1013d377336fc",
+    "tokenizer_sha256": "a928cda393528d7f00b0441a8187dc6fa7485fcf73edb14e908b763ed2a4ca66",
+    "fase": "dialogo_contrastivo",
+    "inicial_sha256": "dec8f523ccc861bddd405aae82878cded428afe6e8f6029be0de909dad02db33",
+    "treino_sha256": "b72a1b2e5046abd608106a112e0a6ee62d309d511ce327c1f599374d541bb67a",
+    "validacao_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+    "lote": 2,
+    "lr": 8e-05,
+    "semente": 20261005,
+    "horizonte": 60,
+    "peso_contraste": 1.0,
+    "peso_replay": 0.5,
+    "avaliar_a_cada": 20,
+    "codigo_sha256": {
+      "linguagem_profunda.py": "6654fc3e93c0d3d9adb1fa47e05fbdcd603a79beb4aac589e08b56c5c4b5c80c",
+      "scripts/compreensao_contrastiva.py": "211a86e9920494281ecf60c891e4b3be199f0efaf6319fed1d76d3d07a9e0dbf",
+      "scripts/treinar_compreensao_contrastiva.py": "5918bdae20fa65b4fd58b6d152557fbec133d92dec67a344c1915e15fdf318f1",
+      "scripts/treinar_linguagem_profunda.py": "2803b49db610f7c4306e701095e98cb5a01dab48c59e4c0399e4beb6a4ca0b30"
+    }
+  },
+  "tokens_entrada": 0,
+  "tokens_alvo": 21297,
+  "inicial": {
+    "passo": 50,
+    "pesos_sha256": "dec8f523ccc861bddd405aae82878cded428afe6e8f6029be0de909dad02db33"
+  },
+  "assinatura": "95c90cdbb64242438dd5121176e2576d1c54b55e9acc3f983a6fea86cf6d3d4c",
+  "historico": [
+    {
+      "familias": {
+        "condicao": {
+          "casos": 24,
+          "acertos": 11,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": -0.5309038162231445
+        },
+        "negacao": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": -0.07816529273986816
+        },
+        "atualizacao": {
+          "casos": 24,
+          "acertos": 15,
+          "pares": 12,
+          "pares_corretos": 3,
+          "margem_soma": 1.2339500188827515
+        },
+        "referencia": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 0.3565272092819214
+        },
+        "evidencia": {
+          "casos": 24,
+          "acertos": 21,
+          "pares": 12,
+          "pares_corretos": 9,
+          "margem_soma": 2.0029077529907227
+        }
+      },
+      "casos": 120,
+      "acertos": 71,
+      "pares_corretos": 12,
+      "pares": 60,
+      "corpus_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+      "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral.",
+      "ce_replay_fixo": 2.4577221870422363,
+      "passo": 0
+    },
+    {
+      "familias": {
+        "condicao": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 0.2798951417207718
+        },
+        "negacao": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 1.351572185754776
+        },
+        "atualizacao": {
+          "casos": 24,
+          "acertos": 13,
+          "pares": 12,
+          "pares_corretos": 1,
+          "margem_soma": 1.0696335136890411
+        },
+        "referencia": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": -0.4834707975387573
+        },
+        "evidencia": {
+          "casos": 24,
+          "acertos": 24,
+          "pares": 12,
+          "pares_corretos": 12,
+          "margem_soma": 3.8311657905578613
+        }
+      },
+      "casos": 120,
+      "acertos": 73,
+      "pares_corretos": 13,
+      "pares": 60,
+      "corpus_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+      "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral.",
+      "ce_replay_fixo": 2.59981107711792,
+      "passo": 20
+    },
+    {
+      "familias": {
+        "condicao": {
+          "casos": 24,
+          "acertos": 15,
+          "pares": 12,
+          "pares_corretos": 3,
+          "margem_soma": 1.3254851698875427
+        },
+        "negacao": {
+          "casos": 24,
+          "acertos": 15,
+          "pares": 12,
+          "pares_corretos": 3,
+          "margem_soma": 2.1019830107688904
+        },
+        "atualizacao": {
+          "casos": 24,
+          "acertos": 19,
+          "pares": 12,
+          "pares_corretos": 7,
+          "margem_soma": 3.6286696046590805
+        },
+        "referencia": {
+          "casos": 24,
+          "acertos": 11,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": -0.9226410388946533
+        },
+        "evidencia": {
+          "casos": 24,
+          "acertos": 24,
+          "pares": 12,
+          "pares_corretos": 12,
+          "margem_soma": 10.525166809558868
+        }
+      },
+      "casos": 120,
+      "acertos": 84,
+      "pares_corretos": 25,
+      "pares": 60,
+      "corpus_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+      "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral.",
+      "ce_replay_fixo": 2.5218656063079834,
+      "passo": 40
+    },
+    {
+      "familias": {
+        "condicao": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 11.358094215393066
+        },
+        "negacao": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 1.2123463153839111
+        },
+        "atualizacao": {
+          "casos": 24,
+          "acertos": 19,
+          "pares": 12,
+          "pares_corretos": 7,
+          "margem_soma": 5.584622219204903
+        },
+        "referencia": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": -0.5321917533874512
+        },
+        "evidencia": {
+          "casos": 24,
+          "acertos": 12,
+          "pares": 12,
+          "pares_corretos": 0,
+          "margem_soma": 12.146863460540771
+        }
+      },
+      "casos": 120,
+      "acertos": 67,
+      "pares_corretos": 7,
+      "pares": 60,
+      "corpus_sha256": "0d8f455688276af289db5873e4a26ca4a486b3cff2ae9e8f5d178fdab5d7e3fc",
+      "limite": "Escolha entre dois alvos fornecidos, não geração livre ou conversa geral.",
+      "ce_replay_fixo": 2.5184483528137207,
+      "passo": 60
+    }
+  ],
+  "melhor": {
+    "passo": 40,
+    "pares": 25
+  },
+  "pesos_sha256": "046e6a13c01d360312a0ffa910595d7a0d7d56206a57cad88242d0eb91b19c6f",
+  "parametros": 15953664,
+  "passos_esta_execucao": 60,
+  "segundos": 102.4,
+  "dispositivo": "cpu",
+  "concluido": true,
+  "pausado": false,
+  "decisao": "experimental_nao_ativado",
+  "limite": "Ranking de alvos fornecidos; requer geração livre e revisão antes de promoção."
+}
