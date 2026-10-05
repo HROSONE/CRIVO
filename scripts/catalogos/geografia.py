@@ -113,11 +113,13 @@ ITENS = [
              "As bacias são separadas por divisores de água, geralmente terrenos mais altos.",
              "No Brasil, as maiores são a Amazônica, a do Tocantins-Araguaia, a do Paraná e a do São Francisco.",
              aliases=["bacias hidrográficas"]),
-    conceito("mundo_clima", "clima", A, NASA, C,
-             "Clima é o padrão médio do tempo atmosférico de um lugar ao longo de muitos anos, em geral três décadas ou mais.",
-             "Depende de latitude, altitude, distância do mar, correntes oceânicas e massas de ar.",
-             "A classificação de Köppen é uma das mais usadas para agrupar climas em tipos como tropical, árido, temperado e polar.",
-             aliases=["tipo de clima"]),
+    # “clima” fica com a resposta editorial antiga (diferença entre clima e
+    # tempo); esta ficha trata da classificação dos climas.
+    conceito("mundo_tipos_de_clima", "tipos de clima", A, NASA, C,
+             "Tipos de clima são categorias que agrupam regiões com padrões semelhantes de temperatura e chuva ao longo de muitos anos, em geral três décadas ou mais.",
+             "Dependem de latitude, altitude, distância do mar, correntes oceânicas e massas de ar.",
+             "A classificação de Köppen é uma das mais usadas e distingue grandes grupos, como tropical, árido, temperado, continental e polar.",
+             aliases=["classificação climática", "classificação de Köppen"]),
     conceito("mundo_latitude_longitude", "latitude e longitude", A, NOAA, C,
              "Latitude e longitude são as coordenadas que localizam qualquer ponto da superfície da Terra.",
              "A latitude mede a distância angular ao norte ou ao sul da linha do Equador, de 0° a 90°.",
