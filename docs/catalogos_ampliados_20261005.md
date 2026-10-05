@@ -2,7 +2,7 @@
 
 Cinco catálogos temáticos novos entram no currículo do mundo pelo mesmo
 carregador e pelo mesmo validador de fontes e fatos (`curriculo_mundo.py`).
-Nenhum peso foi treinado. O conteúdo é síntese própria em português, e cada fato
+A rede de classificação foi retreinada para a nova base (ver abaixo). O conteúdo é síntese própria em português, e cada fato
 aponta uma fonte com URL, crédito e condições de reutilização.
 
 | Arquivo | Conceitos | Conteúdo |
@@ -25,6 +25,45 @@ automático ficaram de fora.
 **Geradores:** `scripts/catalogos/*.py` produzem os JSON de forma determinística. O
 teste `test_geradores_reproduzem_os_arquivos` garante que arquivo e gerador não
 divergem.
+
+## Rede de classificação retreinada
+
+A rede original (`rede_crivo.json`) é amarrada à lista de conceitos da base.
+Com 164 conceitos novos, os pesos antigos ficavam incompatíveis, e o CRIVO
+desligaria a classificação neural. Ela foi retreinada com os mesmos
+hiperparâmetros do workflow `treinar-rede.yml`:
+
+```bash
+python rede_neural.py --base conhecimento.json --saida rede_crivo.json --epocas 60 \
+    --ocultos 48 --dimensao 512 --modo portugues --semente 42 --numpy
+```
+
+Ela passou de 447 para 611 intenções. O treino levou 65 segundos com `--numpy` (o
+caminho acelerado coberto por `testes_treino_numpy`). Sem numpy, o treino em
+Python puro passou de uma hora neste ambiente e foi interrompido. O workflow
+oficial usa o caminho em Python puro; os dois partem dos mesmos dados e
+hiperparâmetros, mas os pesos não são idênticos bit a bit.
+
+**Regressão na base editorial:** as 467 perguntas de exemplo de
+`conhecimento.json` foram respondidas pela main e pela branch. **Nenhuma mudou
+de destino.**
+
+## Palavra comum não é conceito
+
+Nomes como "economia" e "história" também são palavras comuns. Em "Qual a
+economia da lâmpada LED?", o conceito "economia" aparecia na pergunta, e o
+CRIVO recusava ("Reconheci o assunto economia…") em vez de usar a resposta
+sobre lâmpadas. Agora, quando o nome comum de um conceito vem seguido de
+"de/da/do + outra coisa", a recusa não bloqueia o caminho antigo
+(`CompositorTextual.nome_comum_qualificado`). Nomes próprios ficam fora dessa
+regra.
+
+## Bateria de medição
+
+No conjunto `dev`, "Quem foi Galileu Galilei?" esperava recusa, porque não havia
+ficha. Agora há, com fonte, e o item virou caso de fato, com nota, como já tinha
+sido feito com "onda gravitacional" em 03/10. O conjunto `retido` não foi
+inspecionado nem alterado.
 
 ## Compreensão de perguntas sobre pessoas e eventos
 

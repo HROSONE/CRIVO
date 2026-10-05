@@ -79,6 +79,13 @@ class PerguntasReais(unittest.TestCase):
         self.assertEqual(perguntar("O que é a teoria das formas?")["id"], "conhecimento:mundo_teoria_formas")
 
 
+class PalavraComumNaoEConceito(unittest.TestCase):
+    def test_nome_comum_seguido_de_outro_assunto(self):
+        self.assertEqual(perguntar("Qual a economia da lâmpada LED?")["id"], "lampada")
+        self.assertEqual(perguntar("O que é economia?")["id"], "conhecimento:mundo_economia")
+        self.assertEqual(perguntar("O que é história?")["id"], "conhecimento:mundo_historia")
+
+
 class SemFichaNaoReformula(unittest.TestCase):
     def test_alvos_sem_ficha_ou_genericos(self):
         conhecidos = {"marie curie", "dom casmurro"}

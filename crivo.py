@@ -2150,7 +2150,8 @@ class Crivo:
         # semelhança só vale se cobrir a pergunta inteira; senão, admitir.
         if busca is None:
             assunto = self.compositor.assunto_mencionado(texto)
-            if assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1):
+            if (assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1)
+                    and not self.compositor.nome_comum_qualificado(assunto, texto)):
                 self.esclarecimento = None
                 self.ultimo_assunto = None
                 return ("fora", "Reconheci o assunto " + self.compositor.itens[assunto]["nome"] +

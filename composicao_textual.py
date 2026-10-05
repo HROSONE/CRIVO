@@ -674,6 +674,21 @@ class CompositorTextual:
         return any(destino == ident and re.search(self._padrao_alias(alias, ident), texto_normalizado)
                    for alias, destino in self.aliases_busca.items())
 
+    def nome_comum_qualificado(self, ident, texto):
+        """“economia da lâmpada”, “história do meu bairro”: o nome do conceito
+        seguido de “de/da/do + outra coisa” é palavra comum sobre outro
+        assunto, não uma pergunta sobre o conceito. Nomes próprios ficam fora."""
+        if self.itens[ident]["nome"][:1].isupper():
+            return False
+        n = normalizar(texto)
+        for alias, destino in self.aliases_busca.items():
+            if destino != ident:
+                continue
+            for m in self._padrao_alias(alias, ident).finditer(n):
+                if re.match(r"\s+d(?:e|a|o|as|os)\s+[a-z]", n[m.end():]):
+                    return True
+        return False
+
     def assunto_mencionado(self, texto):
         """Único conceito com ficha citado por nome inteiro no texto."""
         n = normalizar(texto)
