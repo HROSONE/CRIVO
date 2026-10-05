@@ -1330,10 +1330,46 @@ class Crivo:
                     self.perfil.turno += 1
                 return urgente
         ident, resposta = self._responder_comum(texto)
+        ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
         return crise.ajustar(ident, resposta, self)
+
+    _RECUSAS_NEURAIS = frozenset(("fora", "social:nao_entendido", "conversa:esclarecer"))
+
+    def _reinterpretar_neural(self, texto, ident, resposta):
+        """Quando as regras não entenderam, a compreensão neural pode apontar o
+        assunto; o CRIVO responde pela pergunta canônica dele, com as fontes
+        de sempre. Abaixo do limiar validado, ou com negação, nada muda."""
+        if (ident not in self._RECUSAS_NEURAIS or getattr(self, "_reinterpretando", False)
+                or not isinstance(texto, str) or re.search(r"\bn(?:ã|a)o\b", texto, re.I)):
+            return ident, resposta
+        from entendimento_neural import entendimento
+        motor = entendimento()
+        if not motor.ativo:
+            return ident, resposta
+        decisao = motor.decidir(texto)
+        if decisao is None:
+            return ident, resposta
+        rotulo, canonica, prob = decisao
+        registro_recusa = self.historico.pop() if self.historico and self.historico[-1].get("pergunta") == texto else None
+        self._reinterpretando = True
+        try:
+            novo_ident, nova_resposta = self._responder_comum(canonica)
+        finally:
+            self._reinterpretando = False
+        if novo_ident in self._RECUSAS_NEURAIS or novo_ident.startswith("duvida"):
+            if registro_recusa is not None:
+                self.historico.append(registro_recusa)
+            return ident, resposta
+        if self.historico:
+            self.historico[-1].update(pergunta=texto, mecanismo="compreensao_neural",
+                                      reinterpretacao={"assunto": rotulo, "pergunta_canonica": canonica,
+                                                       "confianca": round(prob, 3)})
+        if self.ultimo_turno:
+            self.ultimo_turno["pergunta"] = texto
+        return novo_ident, nova_resposta
 
     def _confirmar_declaracao(self, texto):
         achado = self.estado_conversa.interpretar(texto)
