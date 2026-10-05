@@ -15,11 +15,13 @@ S = "social"
 A = "historia"
 
 ITENS = [
-    conceito("mundo_historia", "história", A, H1, S,
-             "História é o estudo do passado humano a partir de fontes como documentos, objetos, construções e relatos.",
+    # “história” fica livre para o sentido de narrativa, usado pela escrita
+    # (“continue a história”); a disciplina responde por historiografia.
+    conceito("mundo_historia", "historiografia", A, H1, S,
+             "Historiografia, ou história como disciplina, é o estudo do passado humano a partir de fontes como documentos, objetos, construções e relatos.",
              "Historiadores comparam fontes, avaliam quem as produziu e com que propósito, e constroem interpretações que podem ser revistas com novas evidências.",
              "A divisão em Pré-História, Antiguidade, Idade Média, Idade Moderna e Idade Contemporânea é uma convenção de origem europeia, não uma fronteira natural.",
-             aliases=["ciência histórica"]),
+             aliases=["ciência histórica", "estudo da história"]),
     conceito("mundo_pre_historia", "Pré-História", A, H1, S,
              "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita.",
              "É conhecida sobretudo por vestígios arqueológicos: ferramentas de pedra, ossos, pinturas rupestres e restos de acampamentos.",

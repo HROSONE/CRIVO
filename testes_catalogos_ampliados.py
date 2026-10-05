@@ -83,7 +83,10 @@ class PalavraComumNaoEConceito(unittest.TestCase):
     def test_nome_comum_seguido_de_outro_assunto(self):
         self.assertEqual(perguntar("Qual a economia da lâmpada LED?")["id"], "lampada")
         self.assertEqual(perguntar("O que é economia?")["id"], "conhecimento:mundo_economia")
-        self.assertEqual(perguntar("O que é história?")["id"], "conhecimento:mundo_historia")
+        self.assertEqual(perguntar("O que é historiografia?")["id"], "conhecimento:mundo_historia")
+        # “história” continua sendo a narrativa da escrita, não a disciplina.
+        self.assertNotEqual(perguntar("Me faça uma pergunta sobre a história",
+                                      ["Crie uma história sobre um lago e um robô"])["id"], "estudo:pergunta")
 
 
 class SemFichaNaoReformula(unittest.TestCase):

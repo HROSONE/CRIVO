@@ -58,6 +58,14 @@ sobre lâmpadas. Agora, quando o nome comum de um conceito vem seguido de
 (`CompositorTextual.nome_comum_qualificado`). Nomes próprios ficam fora dessa
 regra.
 
+Pelo mesmo motivo, duas palavras comuns ficaram com o sentido que o CRIVO já
+usava:
+
+- "história" continua sendo a narrativa das funções de escrita ("continue a
+  história"); a disciplina responde por **historiografia**.
+- "clima" continua com a resposta editorial antiga; a ficha nova trata de
+  **tipos de clima**.
+
 ## Bateria de medição
 
 No conjunto `dev`, "Quem foi Galileu Galilei?" esperava recusa, porque não havia
