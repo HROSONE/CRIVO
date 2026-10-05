@@ -13,7 +13,7 @@ sem alguém que corrija o excesso dela.
 
 ## 1. Mapa das espécies (`ecossistema.py`)
 
-São 26 espécies em 6 reinos (conhecimento, raciocínio, linguagem, conversa,
+São 27 espécies em 6 reinos (26 na criação; a leitura da ficha entrou depois, veja `docs/estado_interno_20261005.md`) (conhecimento, raciocínio, linguagem, conversa,
 neural e programação). Cada uma declara:
 
 | Campo | O que é | Exemplo (`compreensao_neural`) |

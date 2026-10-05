@@ -174,6 +174,15 @@ _LISTA = (
             ("artefatos/entendimento_pt", "entendimento_neural.py"),
             ("pessoa", "recusa", "catracas"),
             ("testes_entendimento_neural.py",)),
+    Especie("leitura_ficha", "neural",
+            "Lê a ficha do conceito citado e propõe o fato que responde, com a probabilidade "
+            "de um modelo treinado com perguntas do tutor; o árbitro do estado interno decide.",
+            "Quando a espécie que respondeu recusou, a pergunta cita um único conceito com ficha "
+            "e não há negação, relação entre conceitos nem pedido de escrita.",
+            ("leitura_ficha.py", "estado_interno.py", "artefatos/leitura_ficha",
+             "dados/relacoes_pergunta_fato.json"),
+            ("fontes", "recusa", "catracas"),
+            ("testes_leitura_ficha.py", "testes_bateria.py")),
     Especie("geracao_neural", "neural",
             "Escreve respostas com o gerador próprio (desligado por padrão).",
             "Só em modo experimental, quando ligado explicitamente.",

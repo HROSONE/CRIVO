@@ -122,9 +122,12 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         for campo, publico in (("raciocinio_ativo", "reasoning"),
                                ("exploracao_conhecimento", "knowledge_exploration"),
                                ("reinterpretacao", "neural_understanding"),
+                               ("leitura", "card_reading"),
                                ("voz", "voice")):
             if bot.historico[-1].get(campo) is not None:
                 extra[publico] = bot.historico[-1][campo]
+    if bot.estado_interno is not None:
+        extra["internal_state"] = bot.estado_interno.para_dict()
     papel = descrever(mecanismo)
     if papel is not None:
         extra["ecosystem"] = papel

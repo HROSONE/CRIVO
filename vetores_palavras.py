@@ -22,7 +22,7 @@ class VetoresPalavras:
     MARGEM_MINIMA = 0.35
     MARGEM_ANTONIMOS = 0.15
 
-    def __init__(self, pasta=PASTA):
+    def __init__(self, pasta=PASTA, exigir_controle=True):
         self.indice = {}
         self.vetores = None
         try:
@@ -32,6 +32,10 @@ class VetoresPalavras:
         except (ImportError, OSError, ValueError):
             return
         if len(vocab) != len(vetores):
+            return
+        if not exigir_controle:
+            self.indice = {p: i for i, p in enumerate(vocab)}
+            self.vetores = vetores
             return
         # Controle de qualidade do treino: pares equivalentes precisam ficar
         # claramente mais próximos que pares aleatórios. Sem isso, desligado.

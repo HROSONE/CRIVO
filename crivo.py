@@ -249,6 +249,10 @@ class Crivo:
         # Voz própria (voz.py): só age com pesos aprovados no controle.
         self.usar_voz = True
         self.oferta_pendente = None
+        # Leitura da ficha e estado interno do turno (estado_interno.py).
+        self.usar_leitura_ficha = True
+        self._leitura_ficha = None
+        self.estado_interno = None
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -1357,16 +1361,29 @@ class Crivo:
                 if getattr(self, "perfil", None) is not None:
                     self.perfil.turno += 1
                 return urgente
+        import estado_interno
+        # Estado comum do turno: compreensão, memória e conhecimento que as
+        # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
+        self.estado_interno = estado_interno.construir(self, texto)
         oferta, self.oferta_pendente = self.oferta_pendente, None
         if oferta and isinstance(texto, str) and self._ACEITA_OFERTA.fullmatch(normalizar(texto).strip(" !.?")):
             ident, resposta = self._cumprir_oferta(oferta, texto)
         else:
             ident, resposta = self._responder_comum(texto)
+        ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
         ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
         return crise.ajustar(ident, resposta, self)
+
+    @property
+    def leitura_ficha(self):
+        """Espécie que lê as fichas (leitura_ficha.py), criada no primeiro uso."""
+        if self._leitura_ficha is None:
+            from leitura_ficha import LeituraFicha
+            self._leitura_ficha = LeituraFicha(self.compositor)
+        return self._leitura_ficha
 
     _RECUSAS_NEURAIS = frozenset(("fora", "social:nao_entendido", "conversa:esclarecer"))
     _PEDIDO_GERAL = re.compile(
