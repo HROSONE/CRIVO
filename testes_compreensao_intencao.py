@@ -159,6 +159,11 @@ class ControlesNegativos(unittest.TestCase):
         self.assertIsNone(EstadoConversa().interpretar("Não sei o que fazer da vida"))
         self.assertFalse(conversar("Não sei o que fazer da vida")["id"].startswith("contexto:"))
 
+    def test_gosto_pessoal_nao_e_preferencia_de_resposta(self):
+        for texto in ("prefiro praia a montanha", "Prefiro café sem açúcar"):
+            self.assertIsNone(EstadoConversa().interpretar(texto), texto)
+            self.assertFalse(conversar(texto)["id"].startswith("contexto:"), texto)
+
     def test_pedido_ao_assistente_nao_e_objetivo(self):
         self.assertIsNone(EstadoConversa().interpretar("Quero saber o que é DNA"))
         self.assertIn("DNA", conversar("Quero saber o que é DNA")["response"])

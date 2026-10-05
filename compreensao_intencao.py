@@ -54,6 +54,12 @@ def segunda_pessoa(texto):
     return re.sub(r"\b(?:minhas?|meus?|comigo|eu|mim)\b", troca, texto, flags=re.I)
 
 
+_SOBRE_RESPOSTAS = re.compile(
+    r"\b(?:explicac\w*|respost\w*|exemplos?|textos?|resumos?|codigos?|linguagem|termos?|jargao|"
+    r"analogias?|passo a passo|topicos|listas?|curt[ao]s?|breves?|diret[ao]s?|detalhad[ao]s?|"
+    r"objetiv[ao]s?|formal|informal|simples|que (?:voce|vc))\b")
+
+
 class EstadoConversa:
     """Objetivos, preferências e restrições da conversa (até seis de cada)."""
     LIMITE = 6
@@ -113,7 +119,9 @@ class EstadoConversa:
             if len(x.split()) <= 12 and not re.match(r"(?:nada|isso|problema)\b", dobrar(x)):
                 return ("restricao", x, True)
         m = re.fullmatch(r"(?:eu\s+)?prefiro\s+(?P<x>.+)", f)
-        if m:
+        # Só preferências sobre a forma das respostas; “prefiro praia a
+        # montanha” é um gosto pessoal e segue para a conversa comum.
+        if m and _SOBRE_RESPOSTAS.search(m.group("x")):
             return ("preferencia", corte(m), True)
         m = re.fullmatch(r"(?:eu\s+)?gosto\s+(?:mais\s+)?de\s+(?P<x>(?:explicac|respost|exemplo|texto|resumo|codigo)\w*.*)", f)
         if m:
