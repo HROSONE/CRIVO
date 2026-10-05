@@ -117,7 +117,6 @@ TERMOS_PROGRAMACAO = {
 }
 
 
-@functools.lru_cache(maxsize=65536)
 def radical(p):
     """Redução simples de plural/diminutivo, igual para pergunta e base."""
     if len(p) > 6:
