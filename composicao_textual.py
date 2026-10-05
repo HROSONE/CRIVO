@@ -472,7 +472,10 @@ class CompositorTextual:
         if not indices:
             return None
         pares = tuple((ident, i) for i in indices[:2])
-        return self.compor((ident,), 'funcao', selecionados=pares, origem='conhecimento')
+        _, texto, ctx = self.compor((ident,), 'funcao', selecionados=pares, origem='conhecimento')
+        # Conservar o ID público das explicações; o contexto carrega a
+        # intenção de função que o próximo turno pode herdar.
+        return 'escrita:explicacao', texto, ctx
 
     def _comparar_conceitos(self, a, b):
         """Compara unidades do mesmo aspecto, sem inventar equivalência/causa."""

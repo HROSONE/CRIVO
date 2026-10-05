@@ -17,7 +17,7 @@ class TestesFuncoesContextuais(unittest.TestCase):
             with self.subTest(pergunta=q):
                 b = Crivo()
                 ident, texto = b.responder(q)
-                self.assertEqual(ident, 'escrita:funcao')
+                self.assertEqual(ident, 'escrita:explicacao')
                 self.assertIn('ATP', texto)
                 self.assertIn('respiração celular', texto)
                 self.assertNotIn('linhagem materna', texto)
@@ -31,7 +31,7 @@ class TestesFuncoesContextuais(unittest.TestCase):
         ):
             with self.subTest(pergunta=q):
                 ident, texto = Crivo().responder(q)
-                self.assertEqual(ident, 'escrita:funcao')
+                self.assertEqual(ident, 'escrita:explicacao')
                 self.assertIn(esperado, texto)
 
     def test_qualificador_e_contexto_sem_evidencia_nao_sao_apagados(self):
@@ -86,7 +86,7 @@ class TestesFuncoesContextuais(unittest.TestCase):
     def test_api_reconstroi_funcao_e_troca_sujeito(self):
         r = responder_web({'message': 'E o ribossomo?',
                            'history': ['Qual é a função da mitocôndria?']})
-        self.assertEqual(r['id'], 'escrita:funcao')
+        self.assertEqual(r['id'], 'escrita:explicacao')
         self.assertIn('proteínas', r['response'])
         self.assertNotIn('ATP', r['response'])
         self.assertEqual(r['mechanism'], 'composicao_factual')
@@ -117,7 +117,7 @@ class TestesFuncoesContextuais(unittest.TestCase):
             for q in ('Qual é o papel de Neril dentro do recinto?',
                       'O que Neril faz no recinto?'):
                 ident, texto, ctx = m.responder(q, None)
-                self.assertEqual(ident, 'escrita:funcao')
+                self.assertEqual(ident, 'escrita:explicacao')
                 self.assertEqual(texto, 'Neril filtra água no recinto.')
                 self.assertEqual(ctx.exibidos, (('neril', 0),))
             self.assertEqual(m.responder('Qual é o papel de Neril no Sol?', None)[0], 'fora')
