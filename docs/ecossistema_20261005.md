@@ -92,8 +92,8 @@ CRIVO não entendia "qual a relação entre X e Y?". Agora ele responde a:
   ligações diretas de X;
 - "O que regula, sustenta ou equilibra X?": lista as ligações que chegam a X.
 
-Foram cadastradas 7 ligações ecológicas, cada uma apoiada em um fato com fonte
-do conceito de origem:
+Foram cadastradas 7 ligações ecológicas em `conhecimento_ecologia.json`, cada
+uma apoiada em um fato com fonte do conceito de origem:
 
 - ciclo do carbono → fotossíntese e respiração celular;
 - oceano → efeito estufa (absorve calor e CO₂ em excesso);
