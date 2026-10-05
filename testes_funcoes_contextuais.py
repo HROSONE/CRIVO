@@ -50,6 +50,16 @@ class TestesFuncoesContextuais(unittest.TestCase):
         self.assertNotIn('ATP', texto)
         self.assertIsNone(b.contexto_textual)
 
+    def test_funcao_nao_oculta_respostas_exatas_de_programacao(self):
+        for q, esperado in (('para que serve um algoritmo', 'prog_algoritmo'),
+                            ('para que serve uma variável', 'prog_variavel')):
+            with self.subTest(pergunta=q):
+                b = Crivo()
+                ident, texto = b.responder(q)
+                self.assertEqual(ident, esperado)
+                entrada = next(e for e in b.base if e['id'] == esperado)
+                self.assertIn(entrada['resposta'], texto)
+
     def test_comparacao_sem_ficha_de_pergunta_por_par(self):
         for q in ('Qual a diferença entre mitocôndria e ribossomo?',
                   'Compare mitocôndria com ribossomo.'):
