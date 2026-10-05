@@ -626,6 +626,38 @@ def reformular_finalidade(texto, reconhecer):
     return None
 
 
+_IDENTIDADE = (
+    re.compile(r"(?:e\s+)?quem\s+(?:foi|e|era|sao|foram|eram)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?o\s+que\s+(?:foi|era|foram|eram)\s+(?P<x>.+)"),
+    # Só autoria de obras: a ficha da obra cita o autor. “Quem descobriu o
+    # Brasil?” não é respondido pela definição do país.
+    re.compile(r"(?:e\s+)?quem\s+(?:escreveu|pintou|compos|esculpiu)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?quando\s+(?:foi|aconteceu|ocorreu|comecou|terminou)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?o\s+que\s+(?:aconteceu|ocorreu|houve)\s+(?:n[ao]s?|em|durante)\s+(?P<x>.+)"),
+)
+
+
+def reformular_identidade(texto, reconhecer):
+    """“Quem foi Marie Curie?”, “O que foi a Revolução Francesa?” e “Quem
+    escreveu Dom Casmurro?” pedem a ficha do alvo: viram “O que é X?”.
+
+    Só reformula quando o alvo inteiro é exatamente um conceito com ficha;
+    “Quem é você?” ou alvos com qualificadores seguem para o motor comum.
+    """
+    if not isinstance(texto, str) or len(texto) > 200:
+        return None
+    bruto = _limpar_fim(texto)
+    f = dobrar(bruto)
+    for padrao in _IDENTIDADE:
+        m = padrao.fullmatch(f)
+        if not m:
+            continue
+        alvo = bruto[m.start("x"):m.end("x")].strip()
+        if alvo and len(alvo.split()) <= 6 and reconhecer(alvo):
+            return "O que é %s?" % alvo
+    return None
+
+
 # ---------------------------------------------------- investigação no chat
 _MEMORIA_PROGRAMA = re.compile(
     r"\b(?:vazamento de memoria|memory leak|leak de memoria|out of memory|heap (?:cresce|crescendo|aumenta|estoura)|"
@@ -774,10 +806,18 @@ class ConsultaPratica:
     _PROGRAMACAO = re.compile(r"\b(?:typescript|javascript|ts|js|node|interface|tipo|tipos|json|funcao|classe|"
                               r"objeto|array|promise|async|await|compilador|compilacao|runtime|codigo|api)\b")
 
+    _CACHE = {}
+
     def __init__(self, catalogo):
         self.catalogo = catalogo
         self.indice = []
         if catalogo is None:
+            return
+        # O índice depende só do conteúdo do catálogo; reaproveitá-lo evita
+        # reconstruí-lo a cada Crivo() (o servidor cria um por pedido).
+        guardado = self._CACHE.get(catalogo.sha256)
+        if guardado is not None:
+            self.indice, self.peso = guardado
             return
         for u in catalogo.catalogo.get("unidades", []):
             nucleo = _termos(u.get("conceito", "") + " " + u.get("definicao", ""))
@@ -791,6 +831,7 @@ class ConsultaPratica:
         total = len(self.indice) or 1
         # Termos raros (json) distinguem mais que termos frequentes (api, tipo).
         self.peso = {t: math.log(1 + total / n) for t, n in frequencia.items()}
+        self._CACHE[catalogo.sha256] = (self.indice, self.peso)
 
     def responder(self, texto):
         if not self.indice or not isinstance(texto, str) or len(texto) > 300:

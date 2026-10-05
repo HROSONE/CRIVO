@@ -19,6 +19,7 @@ import math
 import random
 import re
 import sys
+import functools
 import unicodedata
 from collections import Counter
 from pathlib import Path
@@ -49,7 +50,10 @@ MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
 
 
 # ---------------------------------------------------------------- texto ----
+@functools.lru_cache(maxsize=65536)
 def sem_acento(s):
+    # Função pura: cada Crivo() reindexa a mesma base, e o servidor cria uma
+    # instância por pedido. Memorizar evita recalcular milhares de textos.
     return "".join(c for c in unicodedata.normalize("NFD", s)
                    if unicodedata.category(c) != "Mn")
 
@@ -1411,11 +1415,12 @@ class Crivo:
         # O que é DNA?” como duas tarefas independentes.
         contato_completo = conversa_assistente.identificar_contato(
             texto, conversa_assistente.frustracao_recente(self.historico))
-        from compreensao_intencao import reformular_finalidade
+        from compreensao_intencao import reformular_finalidade, reformular_identidade
         # “Pra que a célula precisa da mitocôndria?” tem a mesma intenção de
-        # “Para que serve a mitocôndria?”; só reformula alvos com ficha.
-        finalidade = reformular_finalidade(
-            texto, lambda alvo: self.compositor.resolver(alvo) is not None)
+        # “Para que serve a mitocôndria?”, e “Quem foi Marie Curie?” a de
+        # “O que é Marie Curie?”; só reformula alvos com ficha.
+        reconhecer = lambda alvo: self.compositor.resolver(alvo) is not None
+        finalidade = reformular_finalidade(texto, reconhecer) or reformular_identidade(texto, reconhecer)
         if finalidade is not None:
             texto = finalidade
         elif contato_completo is None:
@@ -2149,7 +2154,8 @@ class Crivo:
         # semelhança só vale se cobrir a pergunta inteira; senão, admitir.
         if busca is None:
             assunto = self.compositor.assunto_mencionado(texto)
-            if assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1):
+            if (assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1)
+                    and not self.compositor.nome_comum_qualificado(assunto, texto)):
                 self.esclarecimento = None
                 self.ultimo_assunto = None
                 return ("fora", "Reconheci o assunto " + self.compositor.itens[assunto]["nome"] +

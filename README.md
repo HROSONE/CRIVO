@@ -6,6 +6,10 @@ de finalidade, conduz a investigação de memória e relaciona perguntas prátic
 programação. [Antes/depois, medição em frases inéditas e limites](docs/intencao_contexto_20261005.md).
 Experimente `Hoje quero terminar o relatório` e depois `O que eu quero fazer hoje?`.
 
+**Acervo ampliado (05/10/2026):** 164 conceitos novos de história, geografia, pessoas, literatura,
+química, matemática e economia, com fontes. Perguntas como `Quem foi Carolina Maria de Jesus?` e
+`O que foi a Era Vargas?` agora usam as fichas. [Detalhes e limites](docs/catalogos_ampliados_20261005.md).
+
 **Treino de 30.000 passos concluído / Drive cheio:** [diagnóstico, correções e recuperação sem repetir o pré-treino](docs/recuperacao_dialogo_20261004.md). O piloto de diálogo melhorou a perda de validação, mas ainda não foi aprovado para conversar no site.
 
 Atualização de 04/10/2026: o chat padrão ganhou [raciocínio ativo e exploração do conhecimento](docs/raciocinio_ativo/README.md),

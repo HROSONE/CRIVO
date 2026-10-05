@@ -111,8 +111,10 @@ class TestesAstronomiaAvancada(unittest.TestCase):
         self.assertIsNotNone(b.rede, b.erro_rede)
         self.assertEqual(assinatura_base(b.base), b.rede.assinatura_base)
         # 241 entradas até 2026-10-03; o conteúdo de física, biologia, sociologia
-        # e filosofia acrescentou 206 conceitos e a rede foi retreinada.
-        self.assertEqual(len(b.base), 447)
+        # e filosofia acrescentou 206 conceitos e a rede foi retreinada. Em
+        # 2026-10-05, história, geografia, pessoas, literatura e ciências
+        # acrescentaram 164, com novo retreino.
+        self.assertEqual(len(b.base), 611)
         self.assertTrue(set(b.rede.rotulos).isdisjoint(
             i for i in b.compositor.itens if i.startswith("astro_")))
 
