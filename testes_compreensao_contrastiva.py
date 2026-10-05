@@ -7,6 +7,19 @@ from scripts.compreensao_contrastiva import gerar, DOMINIOS
 
 
 class ParticoesContrastes(unittest.TestCase):
+    def test_resposta_constante_e_metrica_fabricada_nao_aprovam_geracao(self):
+        from scripts.avaliar_promocao_compreensao import pares_livres
+        r={'geracao':{'exatas':2,'respostas':[
+            dict(id='par',referencia='Pode entrar.',resposta='Pode entrar.',terminou=True),
+            dict(id='par',referencia='Não pode entrar.',resposta='Pode entrar.',terminou=True)]}}
+        self.assertEqual(pares_livres(r)['pares_corretos'],0)
+
+    def test_pesos_diferentes_no_teste_recusam_comparacao(self):
+        from scripts.avaliar_promocao_compreensao import decidir
+        with self.assertRaisesRegex(ValueError,'pesos mudaram'):
+            decidir(dict(split='validacao',pesos_sha256='a'),dict(split='validacao',pesos_sha256='a'),
+                    dict(split='teste',pesos_sha256='a'),dict(split='teste',pesos_sha256='b'))
+
     def test_entidades_e_pedidos_reservados_nao_entram_no_treino(self):
         for tipo in ('pessoas','objetos','lugares'):
             conjuntos=[set(DOMINIOS[s][tipo]) for s in DOMINIOS]
