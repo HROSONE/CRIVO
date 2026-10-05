@@ -32,8 +32,13 @@ class TestesConhecimentoMundo(unittest.TestCase):
             with self.subTest(conceito=item['nome']):
                 self.assertEqual(item['fatos'][0]['papel'], 'definicao')
                 for fato in item['fatos']:
-                    # Filosofia e sociologia não são ciência natural: têm natureza própria.
-                    proprias = {'filosofia': ('filosofico',), 'sociologia': ('social',)}.get(item['area'], ())
+                    # Filosofia e as humanidades não são ciência natural: têm natureza
+                    # própria. História, pessoas, literatura, economia e geografia
+                    # humana entraram com os catálogos de 2026-10-05.
+                    proprias = {'filosofia': ('filosofico',), 'sociologia': ('social',),
+                                'historia': ('social',), 'pessoas': ('social',),
+                                'literatura': ('social',), 'economia': ('social',),
+                                'geografia': ('social',)}.get(item['area'], ())
                     self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao') + proprias)
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
