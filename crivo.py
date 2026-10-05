@@ -1411,11 +1411,12 @@ class Crivo:
         # O que é DNA?” como duas tarefas independentes.
         contato_completo = conversa_assistente.identificar_contato(
             texto, conversa_assistente.frustracao_recente(self.historico))
-        from compreensao_intencao import reformular_finalidade
+        from compreensao_intencao import reformular_finalidade, reformular_identidade
         # “Pra que a célula precisa da mitocôndria?” tem a mesma intenção de
-        # “Para que serve a mitocôndria?”; só reformula alvos com ficha.
-        finalidade = reformular_finalidade(
-            texto, lambda alvo: self.compositor.resolver(alvo) is not None)
+        # “Para que serve a mitocôndria?”, e “Quem foi Marie Curie?” a de
+        # “O que é Marie Curie?”; só reformula alvos com ficha.
+        reconhecer = lambda alvo: self.compositor.resolver(alvo) is not None
+        finalidade = reformular_finalidade(texto, reconhecer) or reformular_identidade(texto, reconhecer)
         if finalidade is not None:
             texto = finalidade
         elif contato_completo is None:

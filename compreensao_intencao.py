@@ -626,6 +626,38 @@ def reformular_finalidade(texto, reconhecer):
     return None
 
 
+_IDENTIDADE = (
+    re.compile(r"(?:e\s+)?quem\s+(?:foi|e|era|sao|foram|eram)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?o\s+que\s+(?:foi|era|foram|eram)\s+(?P<x>.+)"),
+    # Só autoria de obras: a ficha da obra cita o autor. “Quem descobriu o
+    # Brasil?” não é respondido pela definição do país.
+    re.compile(r"(?:e\s+)?quem\s+(?:escreveu|pintou|compos|esculpiu)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?quando\s+(?:foi|aconteceu|ocorreu|comecou|terminou)\s+(?P<x>.+)"),
+    re.compile(r"(?:e\s+)?o\s+que\s+(?:aconteceu|ocorreu|houve)\s+(?:n[ao]s?|em|durante)\s+(?P<x>.+)"),
+)
+
+
+def reformular_identidade(texto, reconhecer):
+    """“Quem foi Marie Curie?”, “O que foi a Revolução Francesa?” e “Quem
+    escreveu Dom Casmurro?” pedem a ficha do alvo: viram “O que é X?”.
+
+    Só reformula quando o alvo inteiro é exatamente um conceito com ficha;
+    “Quem é você?” ou alvos com qualificadores seguem para o motor comum.
+    """
+    if not isinstance(texto, str) or len(texto) > 200:
+        return None
+    bruto = _limpar_fim(texto)
+    f = dobrar(bruto)
+    for padrao in _IDENTIDADE:
+        m = padrao.fullmatch(f)
+        if not m:
+            continue
+        alvo = bruto[m.start("x"):m.end("x")].strip()
+        if alvo and len(alvo.split()) <= 6 and reconhecer(alvo):
+            return "O que é %s?" % alvo
+    return None
+
+
 # ---------------------------------------------------- investigação no chat
 _MEMORIA_PROGRAMA = re.compile(
     r"\b(?:vazamento de memoria|memory leak|leak de memoria|out of memory|heap (?:cresce|crescendo|aumenta|estoura)|"
