@@ -246,6 +246,8 @@ class Crivo:
         # sozinho a partir disso.
         self.sinais = []
         self.total_sinais = 0
+        # Voz própria (voz.py): só age com pesos aprovados no controle.
+        self.usar_voz = True
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -1427,6 +1429,37 @@ class Crivo:
             self.historico.append(registro)
         return novo_ident, nova_resposta
 
+    def _dar_voz(self, pergunta, resposta):
+        """A voz própria reescreve só a composição pura de um assunto (os
+        fatos ligados por “Além disso,”). Notas, limites anexados, listas e
+        comparações ficam como estão. Sem modelo aprovado ou se a guarda de
+        fidelidade recusar, o texto de sempre continua."""
+        ctx = self.contexto_textual
+        if not self.usar_voz or ctx is None or not ctx.exibidos:
+            return resposta, False
+        # Pedidos de escrita (“escreva um texto em duas frases”, resumo,
+        # roteiro) têm forma e tamanho definidos pela pessoa.
+        if re.search(r"\b(?:frases?|escrev\w*|resum\w*|roteiro|topicos|paragrafos?|linhas?)\b",
+                     normalizar(pergunta)):
+            return resposta, False
+        temas = {e for e, _ in ctx.exibidos}
+        if len(temas) != 1:
+            return resposta, False
+        assunto = temas.pop()
+        from curriculo_mundo import texto_fato
+        item = self.compositor.itens.get(assunto)
+        if item is None:
+            return resposta, False
+        pura = self.compositor._ligar([texto_fato(item["fatos"][i]) for _, i in ctx.exibidos])
+        if resposta.strip() != pura.strip():
+            return resposta, False
+        import voz
+        nova = voz.realizar(pergunta, item, [i for _, i in ctx.exibidos])
+        if nova is None:
+            return resposta, False
+        self.contexto_textual = ctx._replace(texto=nova)
+        return nova, True
+
     def _confirmar_declaracao(self, texto):
         achado = self.estado_conversa.interpretar(texto)
         if achado is None or not achado[2] or achado[0] == "objetivo":
@@ -1959,6 +1992,7 @@ class Crivo:
                 composicao = busca or self._buscar_fatos(texto) or composicao
         if composicao is not None:
             ident, resposta, self.contexto_textual = composicao
+            resposta, com_voz = self._dar_voz(original, resposta)
             self.esclarecimento = None
             self.ultimo_assunto = None
             if (self.contexto_textual is not None and
@@ -1966,6 +2000,8 @@ class Crivo:
                 self.contexto_geral = "definicao"
             self.historico.append({"pergunta": original, "id": ident,
                                    "mecanismo": "composicao_factual"})
+            if com_voz:
+                self.historico[-1]["voz"] = "voz_propria"
             self.historico = self.historico[-20:]
             return ident, resposta
 

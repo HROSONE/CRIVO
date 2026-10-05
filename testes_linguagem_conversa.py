@@ -41,7 +41,8 @@ class TestesLinguagemConversa(unittest.TestCase):
                 with self.subTest(nome=item["nome"], prefixo=prefixo):
                     bot.responder(prefixo + item["nome"])
                     self.assertEqual(bot.contexto_textual.temas, (item["id"],))
-                    self.assertIn(item["fatos"][0]["texto"], bot.contexto_textual.texto)
+                    # A voz própria pode pôr sujeito antes da definição, sem mudar o fato.
+                    self.assertIn(item["fatos"][0]["texto"][1:], bot.contexto_textual.texto)
 
     def test_reformulacao_preserva_todas_as_evidencias_e_muda_a_realizacao(self):
         bot = Crivo()

@@ -121,7 +121,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             extra["question_analysis"] = interpretacao
         for campo, publico in (("raciocinio_ativo", "reasoning"),
                                ("exploracao_conhecimento", "knowledge_exploration"),
-                               ("reinterpretacao", "neural_understanding")):
+                               ("reinterpretacao", "neural_understanding"),
+                               ("voz", "voice")):
             if bot.historico[-1].get(campo) is not None:
                 extra[publico] = bot.historico[-1][campo]
     papel = descrever(mecanismo)
