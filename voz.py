@@ -32,6 +32,7 @@ dois duas caso dela dele deles delas nele nela ali isso esse essa entre dessa de
 fica ficam aparece aparecem existe existem mostra mostram tambem quer saber continuar seguir
 diferenca diferencas cada principal coisa agora sobre algo junto juntos
 essas esses estas estes pode podem vista visto faz fazem alem
+liga ligam funciona formou serve
 """
 
 
@@ -68,7 +69,7 @@ def _genero_palavra(palavra):
     if p in _MASCULINOS_EM_A or p.endswith("ma"):
         return "m"
     if p.endswith(("cao", "sao", "giao", "niao", "dade", "tude", "agem", "ise", "ite", "encia", "ancia",
-                   "eza", "ura", "ade", "a", "as", "cia", "gem")) or palavra.lower().endswith("ã"):
+                   "eza", "ura", "ade", "a", "as", "cia", "gem", "pse")) or palavra.lower().endswith("ã"):
         return "f"
     return "m"
 
@@ -122,6 +123,9 @@ def _sem_artigo(item, pergunta, textos):
     """Nomes de pessoas e nomes próprios sem artigo na pergunta: “sobre
     Albert Einstein”, não “sobre o Albert Einstein”."""
     if _nome_com_artigo_na_pergunta(item, pergunta):
+        return False
+    nome = re.escape(item["nome"])
+    if any(re.search(r"(?:^|\s)(?:[Oo]|[Aa]|[Oo]s|[Aa]s|[Nn][oa]s?|[Dd][oa]s?)\s+" + nome + r"\b", t) for t in textos):
         return False
     return item["nome"][:1].isupper() and item.get("area") in ("pessoas", "astronomia", "literatura")
 
@@ -258,7 +262,70 @@ def _ha_mais(item, mostrados):
     return any(i not in mostrados and f.get("papel") != "limite" for i, f in enumerate(item["fatos"]))
 
 
-def _opcoes_fecho(item, mostrados, pergunta=""):
+_LIGA_NP = frozenset("de da do das dos e".split())
+
+
+def _nome_proprio_inicial(frase):
+    """“O Código de Hamurábi, da Babilônia, …” → “o Código de Hamurábi”.
+    Só artigo seguido de palavras com maiúscula (e “de/da/do/e” entre elas)."""
+    palavras = frase.split()
+    if len(palavras) < 2 or palavras[0] not in ("O", "A", "Os", "As") or not palavras[1][:1].isupper():
+        return None
+    np = [palavras[0].lower()]
+    for p in palavras[1:]:
+        limpa = p.strip(",;:.()")
+        if limpa[:1].isupper() or (limpa in _LIGA_NP and np[-1][:1].isupper()):
+            np.append(limpa)
+            if limpa != p:
+                break
+        else:
+            break
+    while np and np[-1] in _LIGA_NP:
+        np.pop()
+    # Pelo menos duas palavras além do artigo: “o Brasil” sozinho não diz
+    # qual é o assunto do fato; “o Código de Hamurábi” diz.
+    return " ".join(np) if len([p for p in np[1:] if p not in _LIGA_NP]) >= 2 else None
+
+
+_ASPECTOS = {"formacao": "como {art}{nome} se formou", "funcionamento": "como funciona {art}{nome}",
+             "funcao": "para que serve {art}{nome}"}
+
+
+def oferta_especifica(item, mostrados, pergunta, ligacoes=(), itens=None):
+    """Próximo passo concreto, sempre tirado do acervo: um nome próprio de um
+    fato não mostrado, uma ligação cadastrada ou um aspecto marcado."""
+    textos = [f["texto"] for f in item["fatos"]] + [item["nome"]]
+    for i, f in enumerate(item["fatos"]):
+        if i not in mostrados and f.get("papel") != "limite":
+            np = _nome_proprio_inicial(f["texto"])
+            if np is None:
+                continue
+            resto = f["texto"][len(np):].lstrip(" ,")
+            palavras_np = set(normalizar(np).split()[1:])
+            # Nome inteiro (seguido de vírgula ou verbo) e diferente do próprio assunto.
+            if (resto[:1] == "," or f["texto"][len(np):].startswith(",") or _comeca_com_verbo(resto)) and \
+                    not palavras_np <= set(normalizar(item["nome"]).split()):
+                return "Se quiser, conto também sobre " + np + ".", ("fato", i)
+    art = "" if _sem_artigo(item, pergunta, textos) else _artigo(item, pergunta) + " "
+    if itens is not None:
+        for ref in ligacoes:
+            outro = ref["destino"] if ref["origem"] == item.get("id") else (
+                ref["origem"] if ref["destino"] == item.get("id") else None)
+            if outro in itens:
+                o = itens[outro]
+                textos_o = [f["texto"] for f in o["fatos"]] + [o["nome"]]
+                art_o = "" if _sem_artigo(o, "", textos_o) else _artigo(o, "") + " "
+                return ("Se quiser, conto como " + art + item["nome"] + " se liga " +
+                        {"o ": "ao ", "a ": "à ", "os ": "aos ", "as ": "às "}.get(art_o, "a ") + o["nome"] + ".",
+                        ("pergunta", "qual a relação entre " + item["nome"] + " e " + o["nome"]))
+    for i, f in enumerate(item["fatos"]):
+        if i not in mostrados and f.get("aspecto") in _ASPECTOS:
+            pedido = _ASPECTOS[f["aspecto"]].format(art=art, nome=item["nome"])
+            return "Se quiser, explico " + pedido + ".", ("pergunta", pedido)
+    return None
+
+
+def _opcoes_fecho(item, mostrados, pergunta="", especifica=None):
     opcoes = ["nada"]
     # Um limite geral (“não tem superfície sólida”) não responde a um aspecto
     # pedido (“como se formou?”); ali, só a oferta de continuar.
@@ -267,10 +334,14 @@ def _opcoes_fecho(item, mostrados, pergunta=""):
         opcoes.append("limite")
     if _ha_mais(item, mostrados):
         opcoes.append("oferta")
+    if especifica:
+        opcoes.append("oferta_especifica")
     return opcoes
 
 
-def _aplicar_fecho(item, pergunta, mostrados, escolha, textos):
+def _aplicar_fecho(item, pergunta, mostrados, escolha, textos, especifica=None):
+    if escolha == "oferta_especifica":
+        return especifica[0] if especifica else None
     if escolha == "limite":
         frase = item["fatos"][_limite_nao_mostrado(item, mostrados)]["texto"]
         return "Vale lembrar que " + _minuscula(frase, textos)
@@ -319,7 +390,7 @@ def caracteristicas(tipo, contexto):
             feats.append("tem_pontovirg")
     if contexto.get("nome"):
         feats.append("nome0=" + normalizar(contexto["nome"]).split()[0])
-    for chave in ("ha_limite", "ha_mais", "sem_sujeito", "nome_inicio", "artigo_pergunta"):
+    for chave in ("ha_limite", "ha_mais", "sem_sujeito", "nome_inicio", "artigo_pergunta", "especifica"):
         if contexto.get(chave):
             feats.append(chave)
     feats.append("n=" + str(min(contexto.get("n", 0), 4)))
@@ -367,7 +438,7 @@ def modelo():
 
 # ------------------------------------------------------------- realizar ---
 
-def pontos_de_decisao(pergunta, item, mostrados):
+def pontos_de_decisao(pergunta, item, mostrados, ligacoes=(), itens=None):
     """Sequência de (tipo, contexto, opções) para um assunto e fatos mostrados."""
     textos = [f["texto"] for f in item["fatos"]] + [item["nome"]]
     base = {"forma": _forma_pergunta(pergunta), "area": item.get("area", ""), "n": len(mostrados),
@@ -384,31 +455,49 @@ def pontos_de_decisao(pergunta, item, mostrados):
         f = item["fatos"][i]
         pontos.append(("conectivo", dict(base, frase=f["texto"], papel=f.get("papel"), pos=pos),
                        _opcoes_conectivo(f["texto"], f.get("papel"), item)))
-    pontos.append(("fecho", dict(base), _opcoes_fecho(item, mostrados, pergunta)))
+    especifica = oferta_especifica(item, mostrados, pergunta, ligacoes, itens)
+    pontos.append(("fecho", dict(base, especifica=bool(especifica)),
+                   _opcoes_fecho(item, mostrados, pergunta, especifica)))
     return pontos, textos
 
 
-def montar(pergunta, item, mostrados, escolhas):
+def montar(pergunta, item, mostrados, escolhas, ligacoes=(), itens=None):
     """Texto a partir de uma escolha por ponto de decisão."""
     textos = [f["texto"] for f in item["fatos"]] + [item["nome"]]
     frases = [_aplicar_abertura(item["fatos"][mostrados[0]]["texto"], item, pergunta, escolhas[0], textos)]
     for k, i in enumerate(mostrados[1:], start=1):
         frases.append(_aplicar_conectivo(item["fatos"][i]["texto"], item, escolhas[k], textos))
-    fecho = _aplicar_fecho(item, pergunta, mostrados, escolhas[-1], textos)
+    fecho = _aplicar_fecho(item, pergunta, mostrados, escolhas[-1], textos,
+                           oferta_especifica(item, mostrados, pergunta, ligacoes, itens))
     if fecho:
         frases.append(fecho)
     return " ".join(frases)
 
 
-def realizar(pergunta, item, mostrados, decisor=None):
+def realizar(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
     """Resposta na voz própria, ou None se o modelo estiver desligado ou a
     guarda de fidelidade recusar."""
+    resultado = realizar_com_oferta(pergunta, item, mostrados, decisor, ligacoes, itens)
+    return resultado[0] if resultado else None
+
+
+def realizar_com_oferta(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
+    """(resposta, ação da oferta ou None). A ação diz o que fazer se a pessoa
+    aceitar: ("continuar",), ("fato", índice) ou ("pergunta", texto)."""
     decisor = decisor or modelo()
     if not decisor.ativo or not mostrados:
         return None
-    pontos, textos = pontos_de_decisao(pergunta, item, mostrados)
+    pontos, textos = pontos_de_decisao(pergunta, item, mostrados, ligacoes, itens)
     escolhas = [decisor.escolher(tipo, ctx, opcoes) for tipo, ctx, opcoes in pontos]
-    resposta = montar(pergunta, item, mostrados, escolhas)
-    if palavras_inventadas(resposta, [pergunta] + textos + item.get("aliases", [])):
+    resposta = montar(pergunta, item, mostrados, escolhas, ligacoes, itens)
+    fontes = [pergunta] + textos + item.get("aliases", [])
+    if itens is not None:
+        fontes += [itens[r[k]]["nome"] for r in ligacoes for k in ("origem", "destino") if r[k] in itens]
+    if palavras_inventadas(resposta, fontes):
         return None
-    return resposta
+    acao = None
+    if escolhas[-1] == "oferta":
+        acao = ("continuar",)
+    elif escolhas[-1] == "oferta_especifica":
+        acao = oferta_especifica(item, mostrados, pergunta, ligacoes, itens)[1]
+    return resposta, acao

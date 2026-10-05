@@ -104,12 +104,37 @@ Nenhuma resposta do teste foi usada para treinar.
 **Catracas:** contrato 45/72 com e sem a voz; troca de assunto 25/27 e 12/14;
 bateria sem inventar (dev e retido); presença 35/35 e `fatos_novos` 0.
 
+## Ofertas específicas e cumpridas (atualização)
+
+Até o PR #96, a voz oferecia "Se quiser, conto mais sobre X.", mas um "sim" na
+fala seguinte caía na confirmação social ("Certo! Quer saber mais…?"): a
+oferta não era cumprida. Agora toda oferta é uma promessa com ação guardada, e
+um "sim", "quero" ou "pode ser" na fala seguinte a executa:
+
+| Oferta | De onde vem | O que o "sim" faz |
+|---|---|---|
+| "Se quiser, conto mais sobre a inflação." | Fatos ainda não mostrados | Continua com eles |
+| "Se quiser, conto como o neurônio se liga à sinapse." | Ligação cadastrada | Responde à relação |
+| "Se quiser, explico como Júpiter se formou." | Aspecto marcado nos fatos | Responde ao aspecto |
+| "Se quiser, conto também sobre o Código de Hamurábi." | Nome próprio, com duas palavras ou mais, no início de um fato não mostrado | Mostra esse fato |
+
+Os textos de todas as ofertas vêm do acervo e passam pela guarda de
+fidelidade. A oferta vale só para a fala seguinte, e a resposta à relação não
+repete a mesma oferta. Como tutor, revisei 5 respostas de treino: quando havia
+oferta específica, ela substituiu a genérica.
+
+Teste congelado depois da mudança: chrF 87,6 (antes 87,4; sem voz, 86,4),
+fidelidade 36/36, marcas mecânicas 0. Caso a caso: 13 casos mais próximos do
+tutor, 19 mais distantes e 4 iguais. A maior parte das respostas do teste
+ainda pede ofertas que o acervo não marca, como "posso contar sobre a imprensa
+de Gutenberg", cujo fato começa com palavra minúscula.
+
 ## Limites
 
 - A voz muda a forma, não o conteúdo: não explica com outras palavras nem
   resume um fato.
-- Ofertas específicas ("posso contar sobre a imprensa de Gutenberg") ainda não
-  existem.
+- Ofertas específicas só aparecem quando o acervo tem nome próprio, ligação ou
+  aspecto marcado.
 - O gênero e o número vêm de regras e de pistas nos fatos, e podem errar em
   nomes raros.
 - O ciclo de retorno (sinais de "sim", "não" e "não era isso") ainda não

@@ -248,6 +248,7 @@ class Crivo:
         self.total_sinais = 0
         # Voz própria (voz.py): só age com pesos aprovados no controle.
         self.usar_voz = True
+        self.oferta_pendente = None
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -1356,7 +1357,11 @@ class Crivo:
                 if getattr(self, "perfil", None) is not None:
                     self.perfil.turno += 1
                 return urgente
-        ident, resposta = self._responder_comum(texto)
+        oferta, self.oferta_pendente = self.oferta_pendente, None
+        if oferta and isinstance(texto, str) and self._ACEITA_OFERTA.fullmatch(normalizar(texto).strip(" !.?")):
+            ident, resposta = self._cumprir_oferta(oferta, texto)
+        else:
+            ident, resposta = self._responder_comum(texto)
         ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
@@ -1435,7 +1440,12 @@ class Crivo:
         comparações ficam como estão. Sem modelo aprovado ou se a guarda de
         fidelidade recusar, o texto de sempre continua."""
         ctx = self.contexto_textual
+        self.oferta_pendente = None
         if not self.usar_voz or ctx is None or not ctx.exibidos:
+            return resposta, False
+        # Respostas de relação já são o passo seguinte de uma oferta; voz ali
+        # repetiria a mesma oferta em ciclo.
+        if ctx.formato in ("relacao", "ligacoes"):
             return resposta, False
         # Pedidos de escrita (“escreva um texto em duas frases”, resumo,
         # roteiro) têm forma e tamanho definidos pela pessoa.
@@ -1454,11 +1464,35 @@ class Crivo:
         if resposta.strip() != pura.strip():
             return resposta, False
         import voz
-        nova = voz.realizar(pergunta, item, [i for _, i in ctx.exibidos])
-        if nova is None:
+        ligacoes = [r for r in self.compositor.ligacoes_mundo if assunto in (r["origem"], r["destino"])]
+        resultado = voz.realizar_com_oferta(pergunta, dict(item, id=assunto), [i for _, i in ctx.exibidos],
+                                            ligacoes=ligacoes, itens=self.compositor.itens)
+        if resultado is None:
             return resposta, False
+        nova, acao = resultado
         self.contexto_textual = ctx._replace(texto=nova)
+        # Oferta feita é promessa: um “sim” na próxima fala a cumpre.
+        self.oferta_pendente = (assunto, acao) if acao else None
         return nova, True
+
+    _ACEITA_OFERTA = re.compile(r"(?:sim|quero|quero sim|claro|pode|pode ser|pode sim|conta|conte|"
+                                r"manda|bora|ok|beleza|por favor|sim,? por favor|quero saber|"
+                                r"conta sim|explica|explique|vai|isso)")
+
+    def _cumprir_oferta(self, oferta, texto):
+        assunto, acao = oferta
+        if acao[0] == "pergunta":
+            ident, resposta = self._responder_comum(acao[1])
+        elif acao[0] == "continuar":
+            ident, resposta = self._responder_comum("continue")
+        else:
+            ident, resposta, self.contexto_textual = self.compositor.compor(
+                (assunto,), selecionados=((assunto, acao[1]),), origem="conhecimento")
+            self.historico.append({"pergunta": texto, "id": ident, "mecanismo": "composicao_factual"})
+            self.historico = self.historico[-20:]
+        if self.historico:
+            self.historico[-1].update(pergunta=texto, oferta_cumprida=acao[0])
+        return ident, resposta
 
     def _confirmar_declaracao(self, texto):
         achado = self.estado_conversa.interpretar(texto)
