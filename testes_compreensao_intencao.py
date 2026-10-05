@@ -91,7 +91,7 @@ class FormulacoesIneditas(unittest.TestCase):
 
     def test_finalidade_em_varias_formas(self):
         for texto, termo in (("Por que o DNA é tão importante?", "genétic"),
-                             ("Pra que a planta precisa da clorofila?", "energia"),
+                             ("Pra que a célula precisa dos ribossomos?", "proteína"),
                              ("Qual a utilidade dos ribossomos?", "proteína"),
                              ("O que a mitocôndria faz na célula?", "ATP")):
             self.assertIn(termo, conversar(texto)["response"], texto)
@@ -180,6 +180,11 @@ class ControlesNegativos(unittest.TestCase):
                       "Se eu perder o emprego, vou ficar arrasado. Perdi o emprego."):
             self.assertIsNone(Inferencia().responder(texto), texto)
             self.assertFalse(conversar(texto)["id"].startswith("inferencia:"), texto)
+
+    def test_finalidade_nao_apaga_contexto_sem_evidencia(self):
+        for texto in ("Qual é o papel da mitocôndria no Sol?", "Pra que o Sol precisa da mitocôndria?",
+                      "Qual é o papel da mitocôndria de extraterrestres?"):
+            self.assertEqual(conversar(texto)["id"], "fora", texto)
 
     def test_finalidade_sem_ficha_nao_inventa_assunto(self):
         self.assertIsNone(reformular_finalidade("Pra que serve o zorblax?", lambda alvo: False))

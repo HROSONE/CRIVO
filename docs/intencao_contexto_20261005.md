@@ -16,7 +16,7 @@ logo depois do motor de código e antes do recuperador:
 | `aplicar` | Com preferência por respostas curtas, encurta explicações longas para duas frases e mantém a linha de fontes. | Depois da resposta |
 | `calcular` | Aritmética em português: `30.000`, `2,5`, `−`, `×`, "vezes", "dividido por", "15% de 200", "raiz quadrada de 81". Usa uma AST restrita, sem `eval`, com limites para potências e divisão por zero. | Antes do recuperador |
 | `Inferencia` | Modus ponens e modus tollens sobre premissas em linguagem comum ("Se chove, a rua fica molhada. Está chovendo."), aponta as falácias de afirmar o consequente e de negar o antecedente, e aceita premissas espalhadas por vários turnos. Reaproveita `SistemaPremissas` de `raciocinio_ativo`. | Antes do recuperador |
-| `reformular_finalidade` | "Pra que a célula precisa da mitocôndria?", "Por que o DNA é importante?" e "Qual o papel do DNA?" viram "Para que serve X?". A reformulação só acontece quando X tem ficha. | Antes da preparação |
+| `reformular_finalidade` | "Pra que a célula precisa da mitocôndria?", "Por que o DNA é importante?" e "Qual o papel do DNA?" viram "Para que serve X?". Só reformula quando X é exatamente um conceito com ficha. Sujeito e qualificadores são mantidos ("…mitocôndria **na célula**", "…**no Sol**"), e o motor existente recusa os contextos sem evidência. | Antes da preparação |
 | `InvestigacaoChat` | Liga `investigacao_memoria.py` (laboratório) ao chat: faz as perguntas de maior ganho, interpreta respostas livres ("continua crescendo depois do GC"), compara hipóteses e cita fontes. Se o ambiente não for Node, avisa que está fora do escopo do modelo. | Antes do recuperador |
 | `ConsultaPratica` | Relaciona perguntas práticas às fichas do acervo de programação, com sinônimos ("tempo de execução" = runtime, "garante" = valida) e peso por raridade do termo (IDF). Em caso de empate, prefere não responder. Abre com "Não." quando a definição nega exatamente o que foi perguntado. | Só quando o resto respondeu "fora" |
 
@@ -50,7 +50,7 @@ As consultas do relatório foram reproduzidas localmente pelo mesmo `responder_w
 
 | Lote | main | branch | Observação |
 |---|---|---|---|
-| Lote 1 (26 frases, 5 controles negativos) | 9/26 | 26/26 | Na primeira medição deu 23/26, e a inspeção manual achou mais erros. Corrigi com regras gerais (radicais verbais, premissas em turnos, IDF), então este lote **deixou de ser inédito**. |
+| Lote 1 (26 frases, 5 controles negativos) | 9/26 | 25/26 (era 26/26 antes da correção do qualificador; ver limites) | Na primeira medição deu 23/26, e a inspeção manual achou mais erros. Corrigi com regras gerais (radicais verbais, premissas em turnos, IDF), então este lote **deixou de ser inédito**. |
 | Lote 2 (16 frases, escritas depois) | 6/16 | 15/16 → 16/16 | A primeira medição, antes de qualquer ajuste, deu 15/16. A inspeção manual achou 4 defeitos (pronome "minha", "gosto **das** explicações", "trabalhar em aprender", "peix**e** chamado), que foram corrigidos depois. O pronome agora segue a convenção existente: citação literal entre aspas. |
 
 O número honesto de generalização é a **primeira** medição de cada lote. Os dois
@@ -85,6 +85,10 @@ entrega precisa de um lote 3 novo, medido antes de qualquer ajuste.
 - **Conhecimento técnico:** a consulta prática depende das fichas existentes, cuja
   revisão editorial continua pendente. O "Não." inicial é uma heurística sobre a
   definição, não uma prova.
+- **Paráfrase com contexto:** como o sujeito vira qualificador, "Pra que a planta precisa
+  da clorofila?" fica sem resposta. O motor recusa "clorofila na planta" por falta de
+  evidência para esse contexto. É uma perda deliberada: apagar o contexto fazia "Qual é o
+  papel da mitocôndria no Sol?" responder sobre ATP (falha pega pelo CI).
 - Achado lateral: "Qual a função do coração?" ainda responde sobre partes da
   planta, um falso positivo do recuperador que fica para a próxima rodada.
 

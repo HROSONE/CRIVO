@@ -569,23 +569,27 @@ class Inferencia:
 
 # --------------------------------------------------------- reformulação
 _ART = r"(?:(?:o|a|os|as)\s+)?"
+_QUALIFICADOR = r"(?P<q>\s+(?:para|pra|na|no|nas|nos|numa|num|em|de|do|da|dos|das|pela|pelo)\s+.+)?"
 _FINALIDADE = (
-    re.compile(r"(?:pra|para|por)\s+que\s+" + _ART + r"(?P<s>[a-z ]+?)\s+(?:precisa|precisam|necessita|necessitam|"
-               r"depende|dependem|usa|usam|utiliza|utilizam)\s+(?:de\s+|do\s+|da\s+|dos\s+|das\s+)?(?P<x>[a-z ]+)"),
-    re.compile(r"por\s*que\s+" + _ART + r"(?P<x>[a-z ]+?)\s+(?:e|sao|seria|seriam)\s+(?:tao\s+)?(?:importantes?|necessari[oa]s?|"
-               r"essencia(?:l|is)|fundamenta(?:l|is)|vita(?:l|is)|indispensave(?:l|is))(?:\s+(?:para|pra)\s+.+)?"),
+    re.compile(r"(?:pra|para|por)\s+que\s+(?P<art>(?:o|a|os|as)\s+)?(?P<s>[a-z ]+?)\s+(?:precisa|precisam|necessita|"
+               r"necessitam|depende|dependem|usa|usam|utiliza|utilizam)\s+(?:de\s+|do\s+|da\s+|dos\s+|das\s+)?(?P<x>[a-z ]+?)"),
+    re.compile(r"por\s*que\s+(?P<x>(?:(?:o|a|os|as)\s+)?[a-z ]+?)\s+(?:e|sao|seria|seriam)\s+(?:tao\s+)?(?:importantes?|"
+               r"necessari[oa]s?|essencia(?:l|is)|fundamenta(?:l|is)|vita(?:l|is)|indispensave(?:l|is))" + _QUALIFICADOR),
     re.compile(r"(?:qual|quais)\s+(?:e\s+|sao\s+)?(?:a\s+|o\s+)?(?:importancia|utilidade|papel|serventia)\s+"
-               r"(?:de\s+|do\s+|da\s+|dos\s+|das\s+)(?P<x>[a-z ]+?)(?:\s+(?:para|pra|na|no)\s+.+)?"),
-    re.compile(r"o\s+que\s+(?:o|a|os|as)\s+(?P<x>[a-z ]+?)\s+(?:faz|fazem)(?:\s+(?:na|no|nas|nos|pela|pelo)\s+.+)?"),
-    re.compile(r"(?:pra|para)\s+que\s+(?:serve|servem)\s+(?P<x>[a-z ]+)"),
+               r"(?:de\s+|do\s+|da\s+|dos\s+|das\s+)(?P<x>[a-z]+(?:\s+[a-z]+)?)" + _QUALIFICADOR),
+    re.compile(r"o\s+que\s+(?P<x>(?:o|a|os|as)\s+[a-z ]+?)\s+(?:faz|fazem)" + _QUALIFICADOR),
+    re.compile(r"(?:pra|para)\s+que\s+(?:serve|servem)\s+(?P<x>[a-z ]+?)" + _QUALIFICADOR),
 )
+_EM = {"o ": "no ", "a ": "na ", "os ": "nos ", "as ": "nas "}
 
 
 def reformular_finalidade(texto, reconhecer):
-    """“Pra que a célula precisa da mitocôndria?” → “Para que serve a mitocôndria?”.
+    """“Pra que a célula precisa da mitocôndria?” → “Para que serve a mitocôndria na célula?”.
 
-    ``reconhecer(trecho)`` diz se o alvo é um conceito com ficha; sem ficha,
-    nada é reformulado (a paráfrase não inventa assunto).
+    ``reconhecer(trecho)`` diz se o alvo é exatamente um conceito com ficha;
+    sem ficha, nada é reformulado. Sujeito e qualificadores (“no Sol”, “de
+    extraterrestres”) são mantidos para que o motor decida se há evidência:
+    a paráfrase nunca apaga contexto.
     """
     if not isinstance(texto, str) or len(texto) > 200:
         return None
@@ -593,15 +597,24 @@ def reformular_finalidade(texto, reconhecer):
     f = dobrar(bruto)
     f2 = re.sub(r"^(?:e\s+|mas\s+|me\s+(?:explica|diz|conta)\s*,?\s+|(?:voce\s+)?sabe\s+)", "", f)
     desloc = len(f) - len(f2)
+
+    def trecho(m, grupo):
+        return bruto[desloc + m.start(grupo):desloc + m.end(grupo)].strip()
+
     for padrao in _FINALIDADE:
         m = padrao.fullmatch(f2)
         if not m:
             continue
-        alvo = bruto[desloc + m.start("x"):desloc + m.end("x")].strip()
-        if not alvo or len(alvo.split()) > 4:
+        alvo = trecho(m, "x")
+        if not alvo or len(alvo.split()) > 4 or not reconhecer(alvo):
             continue
-        if reconhecer(alvo):
-            return "Para que serve %s?" % alvo
+        contexto = ""
+        if "s" in m.groupdict() and m.group("s"):
+            artigo = m.group("art") or ""
+            contexto = " " + _EM.get(artigo, "em ") + trecho(m, "s")
+        elif m.groupdict().get("q"):
+            contexto = " " + trecho(m, "q")
+        return "Para que serve %s%s?" % (alvo, contexto)
     return None
 
 

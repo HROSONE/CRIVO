@@ -1415,7 +1415,7 @@ class Crivo:
         # “Pra que a célula precisa da mitocôndria?” tem a mesma intenção de
         # “Para que serve a mitocôndria?”; só reformula alvos com ficha.
         finalidade = reformular_finalidade(
-            texto, lambda alvo: self.compositor.assunto_mencionado(alvo) is not None)
+            texto, lambda alvo: self.compositor.resolver(alvo) is not None)
         if finalidade is not None:
             texto = finalidade
         elif contato_completo is None:
