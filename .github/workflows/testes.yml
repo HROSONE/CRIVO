@@ -55,8 +55,10 @@ jobs:
     runs-on: ubuntu-latest
     # 20 min até 2026-10-03; o currículo passou de 241 para 447 conceitos e
     # testes que crescem com o acervo (treino com todas as classes, matriz de
-    # pares de conceitos) levam o job de 3.8/3.11 para além disso.
-    timeout-minutes: 35
+    # pares de conceitos) levam o job de 3.8/3.11 para além disso. Com o
+    # acervo de 2026-10-05 (544 conceitos) o 3.8, mais lento, passou de 35 min
+    # também no main; 3.11 e 3.13 terminam em ~26 min.
+    timeout-minutes: 50
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']

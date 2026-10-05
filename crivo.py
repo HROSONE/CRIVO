@@ -186,6 +186,7 @@ class Crivo:
         self.investigacao = InvestigacaoChat()
         self.consulta_pratica = ConsultaPratica(self.programacao)
         self._ids_editoriais = None
+        self._ids_editoriais_praticos = None
         self.contexto_frutas = None
         # Intenção abstrata para continuação do próximo turno, não
         # identifica entidades nem persiste além da pergunta seguinte.
@@ -1330,10 +1331,77 @@ class Crivo:
                     self.perfil.turno += 1
                 return urgente
         ident, resposta = self._responder_comum(texto)
+        ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
         return crise.ajustar(ident, resposta, self)
+
+    _RECUSAS_NEURAIS = frozenset(("fora", "social:nao_entendido", "conversa:esclarecer"))
+    _PEDIDO_GERAL = re.compile(
+        r"\b(?:o que (?:e|eh|foi|era|sao|significa|quer dizer|rolou|aconteceu|houve)|quem (?:e|foi|era)|"
+        r"(?:me )?(?:fala|fale|conta|conte|explica|explique|ensina) (?:sobre|de|da|do|um pouco|o que)|"
+        r"significado|definicao|conceito de|do que se trata)\b")
+    _ASPECTO_ESPECIFICO = re.compile(
+        r"\b(?:como (?:funciona|funcionam|surgiu|surgem|se forma|se formam|acontece|ocorre|age|atua)|"
+        r"por ?que|porque|quando|onde|quanto|quantos|quantas|qual (?:a|e a) (?:causa|diferenca|origem)|"
+        r"diferenca|compar\w*|relacao|causa|efeito|consequencia)\b")
+
+    def _reinterpretar_neural(self, texto, ident, resposta):
+        """Quando as regras não entenderam, a compreensão neural pode apontar o
+        assunto; o CRIVO responde pela pergunta canônica dele, com as fontes
+        de sempre. Abaixo do limiar validado, ou com negação, nada muda."""
+        if (ident not in self._RECUSAS_NEURAIS or getattr(self, "_reinterpretando", False)
+                or not isinstance(texto, str) or re.search(r"\bn(?:ã|a)o\b", texto, re.I)):
+            return ident, resposta
+        from entendimento_neural import GENERICAS, entendimento, normalizar as normalizar_neural
+        motor = entendimento()
+        if not motor.ativo:
+            return ident, resposta
+        # “Por quê?”, “E isso?”: sem palavra de conteúdo, só o contexto diria o assunto.
+        if not any(len(p) >= 3 and p not in GENERICAS for p in normalizar_neural(texto)):
+            return ident, resposta
+        # Assunto já reconhecido e pedido de um aspecto específico: a recusa é
+        # deliberada (o detalhe não está cadastrado); a definição seria uma
+        # resposta aproximada.
+        n = normalizar(texto)
+        if any(re.search(self.compositor._padrao_alias(alias, ident_alias), n)
+               for alias, ident_alias in self.compositor.aliases_busca.items()):
+            # A pergunta cita um conceito conhecido e o CRIVO recusou: só um
+            # pedido geral (“o que foi”, “fala sobre”) equivale a “O que é X?”.
+            # Atributos e aspectos (“qual a temperatura”, “como funciona”)
+            # pedem um detalhe que a definição não responde.
+            if self._ASPECTO_ESPECIFICO.search(n) or not self._PEDIDO_GERAL.search(n):
+                return ident, resposta
+        decisao = motor.decidir(texto)
+        if decisao is None:
+            return ident, resposta
+        rotulo, canonica, prob = decisao
+        # Só intenções práticas da base editorial: nos conceitos do currículo,
+        # um assunto vizinho de uma entidade ou detalhe não cadastrado viraria
+        # invenção (catraca da bateria de medição).
+        if self._ids_editoriais_praticos is None:
+            import json as _json
+            self._ids_editoriais_praticos = frozenset(
+                e["id"] for e in _json.loads(self.caminho_base.read_text(encoding="utf-8")))
+        if rotulo not in self._ids_editoriais_praticos:
+            return ident, resposta
+        indice = next((k for k, e in enumerate(self.base) if e["id"] == rotulo), None)
+        if indice is None:
+            return ident, resposta
+        # A rede não responde sozinha: ela pergunta se entendeu. Nos testes
+        # congelados, as respostas diretas dela trocavam de assunto quando
+        # erravam ("Golfinho respira debaixo d'água?" → peixes); uma pergunta
+        # de confirmação erra sem afirmar nada, e um "sim" leva à resposta.
+        novo_ident, nova_resposta = self._pedir_esclarecimento([indice], texto)
+        registro = {"pergunta": texto, "id": novo_ident, "mecanismo": "compreensao_neural",
+                    "reinterpretacao": {"assunto": rotulo, "pergunta_canonica": canonica,
+                                        "confianca": round(prob, 3)}}
+        if self.historico and self.historico[-1].get("pergunta") == texto:
+            self.historico[-1].update(registro)
+        else:
+            self.historico.append(registro)
+        return novo_ident, nova_resposta
 
     def _confirmar_declaracao(self, texto):
         achado = self.estado_conversa.interpretar(texto)
