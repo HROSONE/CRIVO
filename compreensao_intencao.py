@@ -806,10 +806,18 @@ class ConsultaPratica:
     _PROGRAMACAO = re.compile(r"\b(?:typescript|javascript|ts|js|node|interface|tipo|tipos|json|funcao|classe|"
                               r"objeto|array|promise|async|await|compilador|compilacao|runtime|codigo|api)\b")
 
+    _CACHE = {}
+
     def __init__(self, catalogo):
         self.catalogo = catalogo
         self.indice = []
         if catalogo is None:
+            return
+        # O índice depende só do conteúdo do catálogo; reaproveitá-lo evita
+        # reconstruí-lo a cada Crivo() (o servidor cria um por pedido).
+        guardado = self._CACHE.get(catalogo.sha256)
+        if guardado is not None:
+            self.indice, self.peso = guardado
             return
         for u in catalogo.catalogo.get("unidades", []):
             nucleo = _termos(u.get("conceito", "") + " " + u.get("definicao", ""))
@@ -823,6 +831,7 @@ class ConsultaPratica:
         total = len(self.indice) or 1
         # Termos raros (json) distinguem mais que termos frequentes (api, tipo).
         self.peso = {t: math.log(1 + total / n) for t, n in frequencia.items()}
+        self._CACHE[catalogo.sha256] = (self.indice, self.peso)
 
     def responder(self, texto):
         if not self.indice or not isinstance(texto, str) or len(texto) > 300:

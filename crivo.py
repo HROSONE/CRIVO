@@ -19,6 +19,7 @@ import math
 import random
 import re
 import sys
+import functools
 import unicodedata
 from collections import Counter
 from pathlib import Path
@@ -49,7 +50,10 @@ MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho",
 
 
 # ---------------------------------------------------------------- texto ----
+@functools.lru_cache(maxsize=65536)
 def sem_acento(s):
+    # Função pura: cada Crivo() reindexa a mesma base, e o servidor cria uma
+    # instância por pedido. Memorizar evita recalcular milhares de textos.
     return "".join(c for c in unicodedata.normalize("NFD", s)
                    if unicodedata.category(c) != "Mn")
 
@@ -113,6 +117,7 @@ TERMOS_PROGRAMACAO = {
 }
 
 
+@functools.lru_cache(maxsize=65536)
 def radical(p):
     """Redução simples de plural/diminutivo, igual para pergunta e base."""
     if len(p) > 6:
