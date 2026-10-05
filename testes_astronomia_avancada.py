@@ -25,7 +25,8 @@ class TestesAstronomiaAvancada(unittest.TestCase):
                 with self.subTest(nome=nome):
                     ident, texto = b.responder("O que é " + nome + "?")
                     self.assertEqual(ident, "conhecimento:" + item["id"])
-                    self.assertIn(item["fatos"][0]["texto"], texto)
+                    # A voz própria pode pôr sujeito antes da definição, sem mudar o fato.
+                    self.assertIn(item["fatos"][0]["texto"][1:], texto)
             ident, texto = b.responder("Como funciona " + item["nome"] + "?")
             self.assertEqual(ident, "escrita:explicacao")
             self.assertIn(item["fatos"][1]["texto"], texto)

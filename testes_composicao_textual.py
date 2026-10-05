@@ -28,7 +28,9 @@ class TestesComposicaoTextual(unittest.TestCase):
                 with self.subTest(nome=nome):
                     obtido, resposta = b.responder("O que é " + nome + "?")
                     self.assertEqual(obtido, item.get("id_resposta", "conhecimento:" + ident))
-                    self.assertIn(item["fatos"][0]["texto"], resposta)
+                    # A voz própria pode pôr sujeito ou conectivo antes do fato
+                    # (“Uma acreção de seixos é um crescimento…”), nunca mudá-lo.
+                    self.assertIn(item["fatos"][0]["texto"][1:], resposta)
 
     def test_300_combinacoes_sem_respostas_para_cada_par(self):
         bot = Crivo()

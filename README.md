@@ -1,5 +1,12 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Voz própria (05/10/2026):** as respostas de conhecimento deixam de soar como ficha lida. A
+voz escolhe como abrir, como ligar as frases e como fechar (um limite importante ou a oferta de
+continuar), sem acrescentar nenhum fato: uma guarda de fidelidade descarta qualquer palavra que não
+esteja nos fatos verificados. As escolhas vêm de um modelo próprio treinado com respostas de um
+tutor; nenhuma IA roda no CRIVO. Teste congelado: marcas mecânicas 34 → 0, fidelidade 36/36, chrF
+86,4 → 87,4. [Medição e limites](docs/voz_propria_20261005.md).
+
 **Ecossistema (05/10/2026):** cada mecanismo do CRIVO é uma espécie com papel, nicho e contrapeso
 (`ecossistema.py`); um teste impede que um mecanismo responda sem estar no mapa ou sem regulador. A
 reação da pessoa ("sim", "não", "não era isso") volta como sinal para a espécie que respondeu, um
