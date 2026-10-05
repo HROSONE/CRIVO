@@ -70,6 +70,7 @@ quem como onde quando quanto quantos quantas porque por que se me te voce voces 
 esse essa este esta aquele aquela meu minha seu sua nosso nossa ja so mais menos muito pouco bem mal
 sim nao tambem entao ai la aqui agora hoje oi ola ei olha bom boa dia tarde noite obrigado obrigada
 valeu favor por favor licenca crivo duvida duvidas pergunta perguntas queria quero gostaria preciso
+tenho temos tenha
 precisava pode poderia consegue sabe saber sei conhece conhecer entender entendo compreender explica
 explicar explique explicacao fala falar fale conta contar conte diz dizer diga mostra mostrar ensina
 ensinar aprender estudar estudando estudo escola prova trabalho resumo resumir informacao informacoes
@@ -100,7 +101,9 @@ def guarda_vocabulario(texto, rotulo, nomes, vocabulario):
                 break
     if not ancorado:
         return True
-    raizes = vocabulario.get(rotulo, ())
+    raizes = set(vocabulario.get(rotulo, ()))
+    # Palavras de qualquer nome ou apelido do próprio assunto também cabem.
+    raizes.update(_raiz(p) for nome in nomes.get(rotulo, ()) for p in nome)
     extras = [p for p in restantes if len(p) >= 3 and p not in GENERICAS and _raiz(p) not in raizes]
     return not extras
 

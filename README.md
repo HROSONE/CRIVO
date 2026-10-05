@@ -1,5 +1,10 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Compreensão neural própria (05/10/2026):** quando as regras não entendem uma pergunta, uma rede
+treinada do zero aponta o assunto (ou reconhece que está fora do acervo), e o CRIVO responde com as
+fontes de sempre. No teste congelado: 45 → 53 de 75 perguntas conhecidas, sem nenhuma resposta nova
+para perguntas fora do acervo. [Medição e limites](docs/compreensao_neural_20261005.md).
+
 **Intenção e contexto (05/10/2026):** o chat passa a guardar objetivos, preferências e restrições,
 faz contas em português, tira conclusões de premissas em linguagem comum, reconhece paráfrases
 de finalidade, conduz a investigação de memória e relaciona perguntas práticas ao acervo de
