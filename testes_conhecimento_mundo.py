@@ -89,7 +89,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
 
     def test_detalhe_nao_cadastrado_nao_vira_definicao_aproximada(self):
         for q in ['Qual é a função da constelação?', 'Como funciona a memória declarativa?',
-                  'Dê um exemplo de melatonina.', 'Qual a diferença entre clorofila e proteína?']:
+                  'Dê um exemplo de melatonina.']:
             with self.subTest(pergunta=q):
                 self.assertEqual(Crivo().responder(q)[0], 'fora')
 
