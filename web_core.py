@@ -25,7 +25,7 @@ def _validar_memoria(memoria):
     """Memória entre conversas, guardada SÓ no navegador de quem optou por
     ela e reenviada a cada pedido. O servidor valida, usa e devolve a versão
     atualizada; não guarda nada."""
-    if not isinstance(memoria, dict) or set(memoria) - {"nome", "nomes", "relatos", "temas"}:
+    if not isinstance(memoria, dict) or set(memoria) - {"nome", "nomes", "relatos", "temas", "objetivos", "preferencias", "restricoes"}:
         raise PedidoInvalido("Memória inválida.")
     limpa = {}
     if "nome" in memoria:
@@ -48,6 +48,15 @@ def _validar_memoria(memoria):
             and isinstance(t[2], str) and len(t[2]) <= 60 for t in temas)):
         raise PedidoInvalido("Memória inválida.")
     limpa["temas"] = [list(t) for t in temas]
+    # Objetivos, preferências e restrições declarados pelo usuário.
+    for campo in ("objetivos", "preferencias", "restricoes"):
+        if campo not in memoria:
+            continue
+        itens = memoria[campo]
+        if (not isinstance(itens, list) or len(itens) > 6
+                or not all(_texto_curto(i, 200) for i in itens)):
+            raise PedidoInvalido("Memória inválida.")
+        limpa[campo] = list(itens)
     return limpa
 
 
