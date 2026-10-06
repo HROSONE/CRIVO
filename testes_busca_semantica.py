@@ -106,12 +106,23 @@ class TestesBuscaNoArbitro(unittest.TestCase):
 
     def test_recusas_que_continuam(self):
         for q in ("O que é Ceres?",                      # identidade de algo sem ficha
-                  "Quem propôs a teoria da relatividade?",  # a busca acha Darwin; a leitura não confirma
                   "A memória ajuda o sono?",              # relação com direção, sim/não
                   "Quem descobriu Netuno?"):              # recusa esperada na bateria
             with self.subTest(pergunta=q):
                 ident, texto = Crivo().responder(q)
                 self.assertNotIn(ident, ("escrita:explicacao", "leitura:aproximacao"), texto)
+
+    def test_catraca_perguntas_sem_o_nome(self):
+        # Teste congelado (avaliacoes/busca_sem_nome_v1/teste.json), só
+        # agregados. Em 07/10/2026: 27 de 43 certos, 8 errados, nenhuma
+        # invenção nas 12 sem resposta (sem a busca: 3 certos).
+        import sys
+        sys.path.insert(0, str(RAIZ / "scripts"))
+        from avaliar_busca_sem_nome import avaliar
+        r = avaliar("teste")
+        self.assertGreaterEqual(r["certo"], 27)
+        self.assertLessEqual(r["errado"], 8)
+        self.assertEqual(r["inventou"], 0)
 
     def test_desligada_com_a_leitura(self):
         b = Crivo()

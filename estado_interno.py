@@ -38,6 +38,9 @@ _RECUSA_TEXTO = ("não tenho", "ainda não", "reconheci o assunto", "não reconh
                  "não encontrei", "hum, não entendi")
 _PRONOME = re.compile(r"\b(?:ele|ela|eles|elas|dele|dela|deles|delas|isso|disso|nele|nela)\b")
 _ESCRITA = re.compile(r"\b(?:escrev\w*|resum\w*|frases?|roteiro|topicos|paragrafos?|linhas?|redacao|poema)\b")
+# Pedido de escrita (imperativo); "quem escreveu" é pergunta factual.
+_PEDIDO_ESCRITA = re.compile(r"\b(?:escreva|escreve|escrever|resum\w*|redija|frases?|roteiro|topicos|"
+                             r"paragrafos?|linhas?|redacao|poema)\b")
 _PESSOAL = re.compile(r"\b(?:voce|vc|seu|sua|te|contigo)\b")
 
 
@@ -212,6 +215,7 @@ def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, mo
 # (pelo menos duas pistas cobertas; afirmar exige todas).
 LIMIAR_BUSCA = 0.5
 LIMIAR_BUSCA_APROXIMAR = 0.7
+LIMIAR_BUSCA_MINIMO = 0.2
 
 
 def _pode_buscar(estado):
@@ -226,17 +230,25 @@ def _pode_buscar(estado):
     # resposta está numa terceira ficha. Relação com direção ("a memória
     # ajuda o sono?") continua recusada: só perguntas abertas, não sim/não.
     relacao = q.recusa == "relacao_entre_conceitos" and estado.tipo != "simnao"
-    if not relacao and (q.recusa or q.assunto or q.outros or estado.entidades):
+    # Muitas palavras de conteúdo ("Por que uma geada que destrói parte da
+    # safra de café faz o preço subir?") desanimam a busca por palavras
+    # exatas, não a busca aprendida; a leitura continua conferindo cada pista.
+    longa = q.recusa == "tamanho" and len(estado.fala) <= 200 or q.recusa == "sem_pistas" and len(q.pistas) > 6
+    if not (relacao or longa) and (q.recusa or q.assunto or q.outros or estado.entidades):
+        return False
+    if longa and (q.assunto or q.outros or estado.entidades):
         return False
     if relacao and any(e.origem != "fala" for e in estado.entidades):
         return False
     n = normalizar(estado.fala)
-    return not (_ESCRITA.search(n) or _PESSOAL.search(n))
+    return not (_PEDIDO_ESCRITA.search(n) or _PESSOAL.search(n))
 
 
 def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
     """citado: a ficha citada na fala, cuja leitura já não achou resposta; a
-    busca só fala se achar outra ficha."""
+    busca só fala se achar outra ficha. Duas propostas, a da busca aprendida e
+    a da busca só por palavras (melhor quando a pergunta não traz nome
+    nenhum); a leitura confere cada uma e fala a que ela confirmar."""
     from leitura_ficha import busca_aprendida
     busca = busca_aprendida(bot.compositor)
     # As fichas citadas já foram lidas (ou a pergunta as relaciona): vale o
@@ -248,7 +260,32 @@ def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
                        else "sem fato achado pela busca fora das fichas citadas")
         return ident, resposta
     # Probabilidade entre os fatos que sobraram (fora das fichas citadas).
-    prob, assunto, indice = achados[0][0] / sum(a[0] for a in achados), achados[0][1], achados[0][2]
+    total = sum(a[0] for a in achados)
+    probs = {(a[1], a[2]): a[0] / total for a in achados}
+    propostas = [achados[0][1:]]
+    palavras = next((a for a in busca.buscar_palavras(estado.fala, k=10) if a[0] not in citados), None)
+    if palavras is not None and palavras not in propostas:
+        propostas.append(palavras)
+    conferidas = [_conferir(bot, estado, busca, probs.get(alvo, 0.0), *alvo) for alvo in propostas]
+    ordem = {"afirmar": 2, "aproximar": 1, None: 0}
+    decisao, leitura, evidencia, prob = max(
+        conferidas, key=lambda c: (ordem[c[0]], c[1].prob if c[1] is not None else 0.0))
+    assunto = evidencia["search_subject"]
+    estado.propor("busca_aprendida", None, decisao or "calar", evidencia)
+    if decisao is None:
+        estado.decidir(especie, "recusar", "a busca achou %s, mas a leitura não confirmou"
+                       % bot.compositor.itens[assunto]["nome"])
+        return ident, resposta
+    return _responder_com_leitura(
+        bot, estado, especie, leitura, decisao, evidencia,
+        "%s recusou; a busca achou %s (p=%.2f) e a leitura confirmou (p=%.2f)"
+        % (especie, bot.compositor.itens[assunto]["nome"], prob, leitura.prob))
+
+
+def _conferir(bot, estado, busca, prob, assunto, indice):
+    """Leitura do fato proposto pela busca: (decisão, leitura, evidência, prob)."""
+    from busca_semantica import PARADAS
+    from leitura_ficha import GENERICAS
     # Pistas: todas as palavras de conteúdo da fala, inclusive os nomes de
     # conceitos citados ("ATP", "células"), menos o nome do assunto achado.
     c = bot.compositor
@@ -257,7 +294,8 @@ def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
     pistas = []
     for palavra in estado.quadro.forma.replace("-", " ").replace(",", " ").split():
         palavra = palavra.strip("?!.;:")
-        if palavra in c._FORMA_PERGUNTA or len(palavra) < 2 or palavra in nome or palavra[:5] in raizes_nome:
+        if (palavra in c._FORMA_PERGUNTA or palavra in PARADAS or palavra in GENERICAS or len(palavra) < 3
+                or palavra in nome or palavra[:5] in raizes_nome):
             continue
         palavra = c._FORMAS_VER.get(palavra, palavra)
         raiz = c._raiz(palavra)
@@ -276,16 +314,19 @@ def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
     # Duas pistas cobertas no mínimo: uma só palavra em comum não basta para
     # dizer que um fato achado sem o nome do assunto responde. Aproximar ("não
     # tenho a resposta exata; o mais próximo é…") pede a busca mais confiante.
-    apoio = leitura is not None and leitura.cobertura >= 2
-    if not (apoio and (decisao == "afirmar" and prob >= LIMIAR_BUSCA
-                       or decisao == "aproximar" and prob >= LIMIAR_BUSCA_APROXIMAR)):
+    cob = leitura.cobertura if leitura is not None else 0
+    # Pergunta longa: a leitura só aproxima se faltar no máximo uma pista;
+    # aqui basta cobrir três ou mais e pelo menos metade delas (perguntas sem
+    # resposta no acervo cobrem uma ou nenhuma).
+    if (decisao is None and leitura is not None and leitor.aprendida and cob >= 3
+            and 2 * cob >= len(leitor.pistas(quadro)) and leitura.prob >= leitor.limiar_aproximar
+            and leitura.tracos.get("pergunta_direta") and not leitura.tracos.get("absoluto")
+            and not leitura.tracos.get("tipo_sem_par")):
+        decisao = "aproximar"
+    # A probabilidade da busca cai quando a ficha tem vários fatos parecidos;
+    # com a leitura cobrindo três pistas ou mais, a evidência dela compensa.
+    if not (cob >= 2 and (decisao == "afirmar" and prob >= LIMIAR_BUSCA
+                          or decisao == "aproximar" and (prob >= LIMIAR_BUSCA_APROXIMAR
+                                                         or cob >= 3 and prob >= LIMIAR_BUSCA_MINIMO))):
         decisao = None
-    estado.propor("busca_aprendida", None, decisao or "calar", evidencia)
-    if decisao is None:
-        estado.decidir(especie, "recusar", "a busca achou %s, mas a leitura não confirmou"
-                       % bot.compositor.itens[assunto]["nome"])
-        return ident, resposta
-    return _responder_com_leitura(
-        bot, estado, especie, leitura, decisao, evidencia,
-        "%s recusou; a busca achou %s (p=%.2f) e a leitura confirmou (p=%.2f)"
-        % (especie, bot.compositor.itens[assunto]["nome"], prob, leitura.prob))
+    return decisao, leitura, evidencia, prob

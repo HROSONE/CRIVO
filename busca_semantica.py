@@ -234,6 +234,12 @@ class BuscaSemantica:
 
     # ---------------------------------------------------------------- busca --
 
+    def buscar_palavras(self, pergunta, k=5):
+        """[(id da ficha, índice do fato)] dos k fatos com melhor BM25."""
+        notas = self.bm.notas(termos(pergunta))
+        ordem = sorted(notas, key=lambda j: (-notas[j], j))[:k]
+        return [self.fatos[j][:2] for j in ordem]
+
     def buscar(self, pergunta, k=5, assuntos=None):
         """[(probabilidade, id da ficha, índice do fato)] dos k melhores, com a
         probabilidade do softmax entre os candidatos. assuntos restringe às

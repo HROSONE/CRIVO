@@ -1,5 +1,11 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Transformer do leitor no Colab (07/10/2026):** `notebooks/treinar_transformer_leitor_colab.ipynb`
+pré-treina do zero uma base de ~17M parâmetros com a Wikipédia em português inteira (6 partes
+conferidas por SHA-256), diálogos humanos e o acervo, e ajusta o leitor com exercícios do acervo e
+centenas de milhares de exercícios de leitura da Wikipédia. No Drive, um único checkpoint,
+sobrescrito a cada 10.000 passos (`scripts/pretreinar_leitor_16m.py` recusa menos que isso).
+
 **Busca aprendida (06/10/2026):** o CRIVO passa a procurar direto nos fatos, sem depender da
 etiqueta do assunto. Para cada fato candidato, mede evidências (palavras, o que a pergunta pede
 além do nome do assunto, sentido nos vetores próprios, tipo de pergunta e aspecto) e um modelo de
@@ -7,8 +13,9 @@ além do nome do assunto, sentido nos vetores próprios, tipo de pergunta e aspe
 leitura v2, sem dizer o assunto, o fato certo fica em 1º em 67% das perguntas (23% só com
 palavras) e entre os 5 primeiros em 98% (46%). Ligada no árbitro: quando a pergunta não cita o
 assunto ("Quem pintou a Mona Lisa?") ou a resposta está noutra ficha ("Qual organela produz ATP nas
-células?"), a busca acha o fato e a leitura da ficha confere antes de falar; bateria sem
-invenção nova. [Medição e limites](docs/busca_aprendida_20261006.md).
+células?"), a busca acha o fato e a leitura da ficha confere antes de falar. Teste congelado de
+perguntas que não citam o nome do assunto: o fato certo chega em 27 de 43 (eram 3 sem a busca),
+sem invenção nas 12 sem resposta. [Medição e limites](docs/busca_aprendida_20261006.md).
 
 **Acervo profundo (06/10/2026):** o acervo passou de 544 para 680 conceitos e de 1.729 para 3.947
 fatos, todos com fonte. As fichas existentes ganharam mecanismos, causas, exemplos, evidências e

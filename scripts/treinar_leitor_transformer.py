@@ -51,8 +51,9 @@ def _ler(caminho):
 
 def assuntos_excluidos(compositor):
     fora = {c["assunto"] for c in _ler("dados/leitura_ficha_tutor.json")["casos"]}
-    for teste in ("avaliacoes/leitura_ficha_v1/teste.json", "avaliacoes/leitura_ficha_v2/teste.json"):
-        fora |= {c["assunto"] for c in _ler(teste)["casos"]}
+    for teste in ("avaliacoes/leitura_ficha_v1/teste.json", "avaliacoes/leitura_ficha_v2/teste.json",
+                  "avaliacoes/busca_sem_nome_v1/teste.json", "avaliacoes/busca_sem_nome_v1/dev.json"):
+        fora |= {c["assunto"] for c in _ler(teste)["casos"] if c["assunto"]}
     fora |= {i for i, it in compositor.itens.items() if it.get("area") == "astronomia"}
     return fora
 
@@ -85,6 +86,12 @@ def exemplos_sinteticos(compositor, rng):
         for i, fato in enumerate(fatos):
             for frase in frases(fato) or [fato]:
                 for q, _ in perguntas_da_frase(frase, it["nome"], pessoa):
+                    # Também sem o nome do assunto: o leitor tem de reconhecer
+                    # o fato que responde mesmo quando a pergunta não diz de
+                    # quem fala.
+                    sem_nome = re.sub(r"\s*\b" + re.escape(it["nome"]) + r"\b", "", q, flags=re.I)
+                    if sem_nome != q and len(sem_nome.split()) >= 4:
+                        grupos.append((sem_nome, fatos, i))
                     if not re.search(re.escape(it["nome"].split()[0]), q, re.I):
                         q = q.rstrip("?") + " (" + it["nome"] + ")?"
                     grupos.append((q, fatos, i))
@@ -105,6 +112,37 @@ def exemplos_sinteticos(compositor, rng):
             continue
         q = re.sub(re.escape(nome_outro), it["nome"], q, flags=re.I)
         grupos.append((q, [f["texto"] for f in it["fatos"]], None))
+    rng.shuffle(grupos)
+    return grupos
+
+
+def exemplos_wikipedia(caminho, artigos, rng, por_artigo=2):
+    """[(pergunta, [frases], índice certo ou None)] de artigos da Wikipédia
+    (o treino.txt do pré-treino: um artigo por linha, título na primeira
+    linha). Cada artigo vira uma ficha: até 8 frases seguidas são os fatos e
+    as perguntas saem de uma delas, como no acervo. Em 20% dos artigos, uma
+    pergunta vai para as frases de outro artigo: nenhuma responde."""
+    from perguntas_sinteticas import frases, perguntas_da_frase
+    grupos, anterior = [], None
+    with open(caminho, encoding="utf-8") as f:
+        for linha in f:
+            if len(grupos) >= artigos * por_artigo:
+                break
+            if rng.random() > 0.15:  # espalha a amostra pelo arquivo inteiro
+                continue
+            titulo, _, texto = linha.rstrip("\n").partition("\u2029")
+            todas = [fr for fr in frases(texto.replace("\u2029", " ")) if 40 <= len(fr) <= 300]
+            if len(todas) < 3:
+                continue
+            ini = rng.randrange(0, max(1, len(todas) - 8))
+            janela = todas[ini:ini + 8]
+            perguntas = [(q, i) for i, fr in enumerate(janela) for q, _ in perguntas_da_frase(fr, titulo)]
+            rng.shuffle(perguntas)
+            for q, i in perguntas[:por_artigo]:
+                grupos.append((q, janela, i))
+            if perguntas and anterior is not None and rng.random() < 0.2:
+                grupos.append((perguntas[0][0], anterior, None))
+            anterior = janela
     rng.shuffle(grupos)
     return grupos
 
@@ -200,7 +238,10 @@ def exportar(modelo, estado, sha, base, saida, passo, metricas, args):
         "base": {"pasta": str(base), "pesos_sha256": hashlib.sha256((Path(base) / "pesos.pt").read_bytes()).hexdigest(),
                  "config": estado["config"], "passo_pretreino": estado.get("passo")},
         "treino": {"passo": passo, "passos": args.passos, "lote": args.lote, "lr": args.lr,
-                   "semente": SEMENTE, "dados": "sintéticos das fichas (sem tutor, testes v1/v2 e astronomia)"},
+                   "semente": SEMENTE, "wikipedia": bool(getattr(args, "wikipedia", None)),
+                   "artigos": getattr(args, "artigos", 0) if getattr(args, "wikipedia", None) else 0,
+                   "dados": "sintéticos das fichas (sem tutor, testes v1/v2, teste sem nome e astronomia), "
+                            "com e sem o nome do assunto; opcionalmente exercícios da Wikipédia"},
         "validacao_tutor": metricas,
         "controle": {"aprovado": False,
                      "criterio": "aprovado por scripts/treinar_leitura_ficha.py --com-transformer só se a "
@@ -221,6 +262,9 @@ def main():
     ap.add_argument("--dispositivo", default="cpu")
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--limite-minutos", type=float, default=0)
+    ap.add_argument("--wikipedia", help="treino.txt do pré-treino: acrescenta exercícios de leitura da Wikipédia")
+    ap.add_argument("--artigos", type=int, default=60000, help="artigos da Wikipédia usados (com --wikipedia)")
+    ap.add_argument("--repetir-acervo", type=int, default=5, help="vezes que os exemplos do acervo entram")
     args = ap.parse_args()
     torch.manual_seed(SEMENTE)
     torch.set_num_threads(args.threads)
@@ -228,10 +272,19 @@ def main():
     from crivo import Crivo
     comp = Crivo().compositor
     treino = exemplos_sinteticos(comp, rng)
+    if args.wikipedia:
+        # O acervo é o que o CRIVO lê de verdade: repetido para não se perder
+        # no meio dos exercícios da Wikipédia.
+        wiki = exemplos_wikipedia(args.wikipedia, args.artigos, rng)
+        print("exercícios da Wikipédia:", len(wiki), flush=True)
+        treino = treino * args.repetir_acervo + wiki
+        rng.shuffle(treino)
     validacao = exemplos_tutor(comp)
     pares = [(q, f, 1.0 if alvo == i else 0.0) for q, fatos, alvo in treino for i, f in enumerate(fatos)]
+    grupos_treino = len(treino)
+    del treino
     positivos = sum(y for _, _, y in pares)
-    print("grupos de treino:", len(treino), "| pares:", len(pares), "| positivos:", int(positivos),
+    print("grupos de treino:", grupos_treino, "| pares:", len(pares), "| positivos:", int(positivos),
           "| validação (tutor):", len(validacao), flush=True)
     modelo, bpe, estado, sha = construir(args.base, args.dispositivo)
     contexto = modelo.base.config.contexto
