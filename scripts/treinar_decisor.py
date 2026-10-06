@@ -2,7 +2,9 @@
 
 Uso: python scripts/treinar_decisor.py [--perguntas 1500]
 
-Dados de treino, gerados para as fichas permitidas (sem tutor, testes de
+Dados de treino: as perguntas do tutor em dados/decisor_tutor.json (formulação
+real, sem o nome do assunto; com e sem resposta) e perguntas geradas para as
+fichas permitidas (sem tutor, testes de
 leitura v1/v2, teste de perguntas sem nome e astronomia):
   com resposta  perguntas sintéticas de cada fato, com e sem o nome do
                 assunto (as mesmas da busca aprendida); o fato de origem
@@ -149,7 +151,9 @@ def resumo(linhas, t_a, t_b):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--perguntas", type=int, default=1500)
+    ap.add_argument("--perguntas", type=int, default=1500, help="perguntas sintéticas (0 = nenhuma)")
+    ap.add_argument("--repetir-tutor", type=int, default=3,
+                    help="vezes que as perguntas do tutor (dados/decisor_tutor.json) entram no treino")
     ap.add_argument("--saida", default=str(CAMINHO_MODELO))
     args = ap.parse_args()
     random.seed(SEMENTE)
@@ -167,6 +171,17 @@ def main():
         for g in (grupo(bot, q, assunto, fato), grupo(bot, q, assunto, None, excluir={assunto})):
             if g is not None:
                 treino.append(g)
+    # Perguntas do tutor, com formulação real (sem o nome do assunto, outras
+    # palavras): com a ficha que responde e sem ela; e as sem resposta.
+    tutor = []
+    for c in _ler("dados/decisor_tutor.json")["casos"]:
+        if c["assunto"] is None:
+            tutor.append(grupo(bot, c["pergunta"], None, None))
+        else:
+            tutor.append(grupo(bot, c["pergunta"], c["assunto"], c["fato"]))
+            tutor.append(grupo(bot, c["pergunta"], c["assunto"], None, excluir={c["assunto"]}))
+    tutor = [g for g in tutor if g is not None]
+    treino += tutor * args.repetir_tutor
     validacao = []
     for caminho in ("dados/leitura_ficha_tutor.json", "avaliacoes/busca_sem_nome_v1/dev.json"):
         for c in _ler(caminho)["casos"]:
