@@ -50,7 +50,25 @@ def conceito(ident, nome, area, fonte, natureza, definicao, *detalhes, aliases=(
     return {"id": ident, "nome": nome, "area": area, "aliases": list(aliases), "fatos": fatos}
 
 
-def salvar(caminho, criterio, fontes, itens, ligacoes=(), comparacoes=()):
+def aprofundar(fontes, itens, nome):
+    """Acrescenta os fatos de aprofundamento_<nome>.json (06/10/2026) no fim de
+    cada ficha, e as fontes novas que eles citam. Os fatos originais do
+    gerador continuam primeiro e na mesma ordem."""
+    import os
+    caminho = os.path.join(os.path.dirname(os.path.abspath(__file__)), "aprofundamento_%s.json" % nome)
+    if not os.path.exists(caminho):
+        return fontes, itens
+    with open(caminho, encoding="utf-8") as f:
+        extra = json.load(f)
+    fontes = dict(fontes)
+    fontes.update(extra.get("fontes", {}))
+    itens = [dict(it, fatos=it["fatos"] + extra.get("fatos", {}).get(it["id"], [])) for it in itens]
+    return fontes, itens
+
+
+def salvar(caminho, criterio, fontes, itens, ligacoes=(), comparacoes=(), aprofundamento=None):
+    if aprofundamento:
+        fontes, itens = aprofundar(fontes, itens, aprofundamento)
     dados = {"versao": 1, "revisado_em": VERIFICADO, "criterio": criterio,
              "fontes": dict(fontes), "itens": list(itens),
              "ligacoes": list(ligacoes), "comparacoes": list(comparacoes)}

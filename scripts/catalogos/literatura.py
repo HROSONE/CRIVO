@@ -147,4 +147,4 @@ ITENS = [
 if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Sínteses próprias sobre narrativa, gêneros literários, mitos e obras de referência, com manuais "
-           "abertos e fontes institucionais. Resumos de enredo não substituem a leitura das obras.", FONTES, ITENS)
+           "abertos e fontes institucionais. Resumos de enredo não substituem a leitura das obras.", FONTES, ITENS, aprofundamento="literatura")
