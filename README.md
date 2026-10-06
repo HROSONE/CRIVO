@@ -7,8 +7,9 @@ além do nome do assunto, sentido nos vetores próprios, tipo de pergunta e aspe
 leitura v2, sem dizer o assunto, o fato certo fica em 1º em 67% das perguntas (23% só com
 palavras) e entre os 5 primeiros em 98% (46%). Ligada no árbitro: quando a pergunta não cita o
 assunto ("Quem pintou a Mona Lisa?") ou a resposta está noutra ficha ("Qual organela produz ATP nas
-células?"), a busca acha o fato e a leitura da ficha confere antes de falar; bateria sem
-invenção nova. [Medição e limites](docs/busca_aprendida_20261006.md).
+células?"), a busca acha o fato e a leitura da ficha confere antes de falar. Teste congelado de
+perguntas que não citam o nome do assunto: o fato certo chega em 27 de 43 (eram 3 sem a busca),
+sem invenção nas 12 sem resposta. [Medição e limites](docs/busca_aprendida_20261006.md).
 
 **Acervo profundo (06/10/2026):** o acervo passou de 544 para 680 conceitos e de 1.729 para 3.947
 fatos, todos com fonte. As fichas existentes ganharam mecanismos, causas, exemplos, evidências e

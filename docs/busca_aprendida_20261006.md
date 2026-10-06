@@ -107,7 +107,7 @@ Exemplos:
 | Quem pintou a Mona Lisa? | "não entendi" | "Pintou a Mona Lisa e A Última Ceia." (ficha de Leonardo da Vinci) |
 | Qual organela produz ATP nas células? | "não entendi" | aproxima com o fato da mitocôndria |
 | Qual molécula carrega a informação genética? | recusa | aproxima com a ficha de RNA |
-| Quem propôs a teoria da relatividade? | "não entendi" | continua recusando: a busca acha Darwin e a leitura não confirma |
+| Quem propôs a teoria da relatividade? | "não entendi" | ainda recusa, mas é um erro: o acervo tem Einstein na ficha de relatividade restrita |
 
 Medição com a ligação: a bateria ficou igual (dev 116, retido 54, nenhuma
 invenção, recusas esperadas 13/13 e 12/12). Ela é quase toda de astronomia e
@@ -123,12 +123,76 @@ para pressão arterial ("força… parede"), porque o nome "adesão da lagartixa
 só aparece em parte na pergunta. "Que enzima copia o DNA na replicação?" fica
 na definição ("cópia"), e não no fato da DNA polimerase.
 
+## Perguntas sem o nome do assunto (07/10/2026)
+
+A bateria não mede o caso para o qual a busca existe: quase todas as perguntas
+dela citam o nome do assunto. Por isso há um conjunto novo,
+`avaliacoes/busca_sem_nome_v1`, em que nenhuma pergunta cita o nome nem os
+apelidos da ficha que responde.
+
+- **Fichas:** 80, sorteadas com semente fixa, fora das fichas do tutor, dos
+  testes de leitura e da astronomia.
+- **dev:** 33 perguntas com resposta e 10 sem. Pode ser olhado caso a caso.
+- **teste:** 43 perguntas com resposta e 12 sem. Congelado, medido só em
+  agregados.
+- **Perguntas sem resposta:** conferidas no acervo e na base antiga antes de
+  rodar o CRIVO. Uma pergunta do dev ("animal terrestre mais rápido") tinha
+  resposta na base antiga e foi trocada.
+
+`scripts/avaliar_busca_sem_nome.py` classifica cada resposta:
+
+- **certo:** mostrou o fato esperado, afirmando ou aproximando;
+- **errado:** respondeu com outro fato;
+- **recusou:** recusou, embora o acervo tenha a resposta;
+- **inventou:** respondeu a uma pergunta sem resposta no acervo.
+
+O que mudou, sempre ajustado olhando só o dev:
+
+- **Entrada da busca:** a rota passa a valer também para perguntas longas
+  (mais de 6 pistas ou de 16 palavras) e para "quem escreveu…", que antes
+  era lido como pedido de escrita.
+- **Pistas:** palavras vazias ("se", "joga") deixam de contar como pistas. Antes,
+  "Como se joga xadrez?" virava aproximação com a ficha de soluções.
+- **Afirmar:** com 3 ou mais pistas cobertas, a confirmação da leitura vale
+  mesmo com probabilidade de busca menor. Na ficha com muitos fatos parecidos,
+  essa probabilidade cai.
+- **Aproximar em pergunta longa:** pede 3 ou mais pistas cobertas, pelo
+  menos metade do total. Antes, a leitura exigia que faltasse no máximo uma.
+- **Duas propostas:** a busca aprendida e a busca só por palavras propõem
+  cada uma seu fato, e a leitura confere as duas. Sem nome nenhum na pergunta,
+  as palavras sozinhas acertam mais (no dev, 91% contra 85% em 1º lugar).
+- **Busca, duas evidências novas:** nome citado em parte ("nominalista" para
+  "nominalismo") e peso das palavras quando nenhum nome é citado. O treino
+  ganhou versões das perguntas sintéticas sem o nome do assunto. A
+  regularização foi escolhida pelo tutor e pelo dev juntos. Na validação do
+  tutor, o fato certo em 1º ficou igual (75,2%), entre os 5 primeiros subiu de
+  96,9% para 98,1%, e dentro da ficha caiu de 81,4% para 80,7%. No dev sem
+  nome, a busca aprendida pôs o fato certo em 1º em 85% (antes, 73%). Testes congelados de leitura, medidos como trava
+  de aprovação (terceira leitura, nada escolhido por eles): v1, dentro da
+  ficha, de 76% para 80%; v2, entre os 5 primeiros, de 98% para 100%.
+
+Teste congelado, perguntas sem o nome: lido uma vez antes dos ajustes e uma
+depois.
+
+| | Sem a busca | Busca de 06/10 | Agora |
+|---|---|---|---|
+| fato certo (de 43) | 3 | 16 | **27** |
+| aproximou com o fato certo | 0 | 7 | 17 |
+| respondeu com outro fato | 5 | 6 | 8 |
+| recusou tendo a resposta | 35 | 21 | 8 |
+| inventou (de 12 sem resposta) | 0 | 0 | **0** |
+
+As respostas com outro fato subiram de 6 para 8. A maioria delas vem como
+aproximação, que avisa que não é a resposta exata. A bateria ficou igual (dev
+116, retido 54, nenhuma invenção). `testes_busca_semantica` guarda a catraca:
+pelo menos 27 certos, no máximo 8 errados e nenhuma invenção.
+
 ## Próximos passos
 
-1. Teste congelado de perguntas sem o nome do assunto, com e sem resposta no
-   acervo.
-2. Acrescentar a evidência de nome citado em parte e dar à busca um sinal
-   de "não há resposta", treinado com as perguntas sem resposta.
+1. Reduzir as respostas com outro fato: a leitura ainda aceita um fato da
+   ficha certa que não é o que a pergunta pede.
+2. Dar à busca um sinal de "não há resposta", treinado com as perguntas sem
+   resposta.
 3. Pôr o Transformer próprio (16M, ajustado no Colab) como mais uma
    evidência, com a mesma interface.
 
@@ -138,4 +202,5 @@ na definição ("cópia"), e não no fato da DNA polimerase.
 python scripts/treinar_busca_semantica.py            # treina, mede e grava artefatos/busca_semantica/meta.json
 python scripts/treinar_busca_semantica.py --sem-teste # ajuste: só validação, sem gravar
 python -m unittest testes_busca_semantica
+python scripts/avaliar_busca_sem_nome.py dev --detalhes   # o teste congelado só em agregados
 ```
