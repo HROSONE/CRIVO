@@ -4,7 +4,7 @@ Uso:  python scripts/treinar_busca_semantica.py [--sem-teste]
 
 Exemplos de treino, só das fichas permitidas: perguntas sintéticas tiradas de
 cada fato (scripts/perguntas_sinteticas.py), com variação por sinônimo do
-léxico e versão sem o nome do assunto, e "O que é X?" → primeiro fato. Para cada pergunta, a busca monta os
+léxico, e "O que é X?" → primeiro fato. Para cada pergunta, a busca monta os
 candidatos do acervo inteiro (as fichas com melhor BM25 e as citadas pelo
 nome) e o modelo aprende, por softmax entre eles, a pôr o fato de origem em
 primeiro; e, com o assunto dado, a escolher o fato dentro da ficha. O modelo
@@ -77,11 +77,6 @@ def exemplos_sinteticos(compositor, rng):
             texto = f["texto"] if isinstance(f, dict) else str(f)
             for frase in frases(texto) or [texto]:
                 for q, _ in perguntas_da_frase(frase, it["nome"], pessoa):
-                    # Sem o nome: a busca também tem de achar a ficha quando a
-                    # pergunta não diz de quem fala.
-                    sem_nome = re.sub(r"\s*\b" + re.escape(it["nome"]) + r"\b", "", q, flags=re.I)
-                    if sem_nome != q and len(sem_nome.split()) >= 4:
-                        saida.append((sem_nome, ident, i))
                     if not re.search(re.escape(it["nome"].split()[0]), q, re.I):
                         q = q.rstrip("?") + " (" + it["nome"] + ")?"
                     saida.append((q, ident, i))
@@ -180,20 +175,15 @@ def main():
     base[TRACOS.index("bm")] = 1.0
     base_val = medir(base, validacao)
     print("só BM25: treino", medir(base, treino), "validação", base_val, flush=True)
-    sem_nome_dev = grupos(busca, casos("avaliacoes/busca_sem_nome_v1/dev.json", comp))
-    print("só BM25, perguntas sem o nome (dev):", medir(base, sem_nome_dev), flush=True)
     melhor = None
     for l2 in L2:
         w, perda = treinar(treino, l2)
-        val, dev = medir(w, validacao), medir(w, sem_nome_dev)
-        print("L2 %-6s perda %.3f validação %s sem nome (dev) %s" % (l2, perda, val, dev), flush=True)
-        # Escolha pela validação do tutor (perguntas com o nome) e pelo dev das
-        # perguntas sem o nome, juntos.
-        if melhor is None or nota(val) + nota(dev) > nota(melhor[2]) + nota(melhor[3]):
-            melhor = (l2, w, val, dev)
-    l2, pesos, val, dev = melhor
+        val = medir(w, validacao)
+        print("L2 %-6s perda %.3f treino %s validação %s" % (l2, perda, medir(w, treino), val), flush=True)
+        if melhor is None or nota(val) > nota(melhor[2]):
+            melhor = (l2, w, val)
+    l2, pesos, val = melhor
     print("pesos:", {t: round(float(p), 3) for t, p in zip(TRACOS, pesos)}, flush=True)
-    dev_sem_nome = {"aprendida": dev, "so_bm25": medir(base, sem_nome_dev)}
     if args.sem_teste:
         return
     # Teste congelado: uma vez, com a regularização escolhida pela validação.
@@ -211,7 +201,6 @@ def main():
         "treino": {"perguntas": len(treino), "l2": l2, "semente": SEMENTE,
                    "dados": "perguntas sintéticas das fichas (sem tutor, testes v1/v2 e astronomia)"},
         "validacao_tutor": {"aprendida": val, "so_bm25": base_val},
-        "sem_nome_dev": dev_sem_nome,
         "teste_congelado": teste,
         "controle": {"aprovado": aprovado,
                      "criterio": "dentro_ficha@1 + acervo@5 maior que só BM25 na validação do tutor "

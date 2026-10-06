@@ -15,8 +15,7 @@ Evidências de cada fato candidato (TRACOS):
                quando → data, quanto → número, por que → causa, como →
                funcionamento) e o aspecto pedido ("para que serve", "como
                surgiu", "como se sabe") casa com a marca do fato;
-  ficha        o nome do assunto aparece na pergunta, inteiro ou em parte;
-               posição do fato.
+  ficha        o nome do assunto aparece na pergunta; posição do fato.
 
 Um modelo de ordenação (softmax sobre os candidatos), treinado uma vez com
 perguntas sintéticas de outras fichas (scripts/treinar_busca_semantica.py),
@@ -44,8 +43,7 @@ ja so tambem mais muito muita nao sim ha sobre entre ate apos mas existe existem
 
 TRACOS = ("bm", "bm_ficha", "nome", "resto", "resto_topo", "sentido", "sentido_rel",
           "primeiro", "definicao", "quem_nome", "quando_data", "quanto_numero", "onde_lugar",
-          "porque_causa", "como_funcionamento", "aspecto_par", "aspecto_outro", "tipo_sem_par",
-          "nome_parcial", "bm_sem_nome")
+          "porque_causa", "como_funcionamento", "aspecto_par", "aspecto_outro", "tipo_sem_par")
 
 # Aspecto pedido pela pergunta → marca do fato (curriculo_mundo).
 _ASPECTOS = (
@@ -180,12 +178,8 @@ class BuscaSemantica:
         definicao = bool(re.match(r"(?:o que (?:e|sao|significa)|quem (?:e|foi|era)|defina|qual (?:e )?a definicao)\b",
                                   n_perg))
         fichas, notas, melhor = self.candidatos(pergunta, apenas)
-        # Nenhuma ficha citada pelo nome: as palavras do fato valem mais que a
-        # força da ficha (o modelo aprende quanto).
-        sem_nome = not any(citada for _, citada in fichas)
         topo = max(notas.values(), default=0.0) or 1.0
         ws_perg = palavras(pergunta)
-        raizes_perg = {w[:5] for w in ws_perg}
         saida = []
         for ident, citada in fichas:
             nome_ws = {w for f in self.nomes.get(ident, ()) for w in f.split()}
@@ -199,10 +193,6 @@ class BuscaSemantica:
                 sentidos[j] = self._sentido(resto, set(palavras(self.fatos[j][2])))
             topo_sentido = max(sentidos.values(), default=0.0)
             nome_norm = normalizar(self.c.itens[ident]["nome"])
-            # Nome citado em parte ou com outra flexão: "nominalista" para
-            # "nominalismo", "lagartixa" para "adesão da lagartixa".
-            parcial = max((sum(1 for w in f.split() if w[:5] in raizes_perg) / len(f.split())
-                           for f in self.nomes.get(ident, ()) if f), default=0.0)
             for j in js:
                 _, i, texto = self.fatos[j]
                 fato = self.c.itens[ident]["fatos"][i]
@@ -239,8 +229,6 @@ class BuscaSemantica:
                     "aspecto_par": 1.0 if aspecto and marca == aspecto else 0.0,
                     "aspecto_outro": 1.0 if aspecto and marca and marca != aspecto else 0.0,
                     "tipo_sem_par": 1.0 if tipo in compat and not compat[tipo] else 0.0,
-                    "nome_parcial": parcial,
-                    "bm_sem_nome": notas.get(j, 0.0) / topo if sem_nome else 0.0,
                 }))
         return saida
 

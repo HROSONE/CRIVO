@@ -153,23 +153,33 @@ O que mudou, sempre ajustado olhando só o dev:
   era lido como pedido de escrita.
 - **Pistas:** palavras vazias ("se", "joga") deixam de contar como pistas. Antes,
   "Como se joga xadrez?" virava aproximação com a ficha de soluções.
-- **Afirmar:** com 3 ou mais pistas cobertas, a confirmação da leitura vale
-  mesmo com probabilidade de busca menor. Na ficha com muitos fatos parecidos,
-  essa probabilidade cai.
 - **Aproximar em pergunta longa:** pede 3 ou mais pistas cobertas, pelo
   menos metade do total. Antes, a leitura exigia que faltasse no máximo uma.
 - **Duas propostas:** a busca aprendida e a busca só por palavras propõem
   cada uma seu fato, e a leitura confere as duas. Sem nome nenhum na pergunta,
   as palavras sozinhas acertam mais (no dev, 91% contra 85% em 1º lugar).
-- **Busca, duas evidências novas:** nome citado em parte ("nominalista" para
-  "nominalismo") e peso das palavras quando nenhum nome é citado. O treino
-  ganhou versões das perguntas sintéticas sem o nome do assunto. A
-  regularização foi escolhida pelo tutor e pelo dev juntos. Na validação do
-  tutor, o fato certo em 1º ficou igual (75,2%), entre os 5 primeiros subiu de
-  96,9% para 98,1%, e dentro da ficha caiu de 81,4% para 80,7%. No dev sem
-  nome, a busca aprendida pôs o fato certo em 1º em 85% (antes, 73%). Testes congelados de leitura, medidos como trava
-  de aprovação (terceira leitura, nada escolhido por eles): v1, dentro da
-  ficha, de 76% para 80%; v2, entre os 5 primeiros, de 98% para 100%.
+- **Aproximar com leitura forte:** com 3 ou mais pistas cobertas, a
+  aproximação aceita uma probabilidade de busca menor (≥ 0,2). Na ficha com
+  muitos fatos parecidos, essa probabilidade cai.
+
+Duas tentativas ficaram de fora porque fizeram o CRIVO responder uma pergunta
+que ele deve recusar no teste congelado de compreensão
+(`testes_entendimento_neural`, de 49 para 48 recusas certas):
+
+- deixar **afirmar** com 3 pistas cobertas mesmo com a busca pouco confiante;
+- **retreinar a busca** com duas evidências novas (nome citado em parte e
+  palavras quando nenhum nome é citado) e com perguntas sem o nome.
+
+A causa foi achada desligando uma mudança por vez e olhando só o total do
+teste, sem ver casos.
+
+Também não entrou o **decisor aprendido** (`decisor_resposta.py`), um modelo
+único no lugar dos limiares da rota, treinado com perguntas sintéticas e com
+a ficha que responde retirada do acervo (para aprender a calar). Na validação
+que imita a rota, ele entregou 13 fatos certos contra 21 das regras. As
+perguntas sintéticas copiam as palavras do fato, e as reais não: sem exemplos
+de formulação real, ele não calibra. O código fica no repositório, desligado,
+para quando houver esses dados ou o Transformer (`scripts/treinar_decisor.py`).
 
 Teste congelado, perguntas sem o nome: lido uma vez antes dos ajustes e uma
 depois.
@@ -182,7 +192,9 @@ depois.
 | recusou tendo a resposta | 35 | 21 | 8 |
 | inventou (de 12 sem resposta) | 0 | 0 | **0** |
 
-As respostas com outro fato subiram de 6 para 8. A maioria delas vem como
+A tabela é a mesma com as duas tentativas revertidas (medida de novo, terceira
+leitura do teste, sem escolher nada por ela). As respostas com outro fato
+subiram de 6 para 8. A maioria delas vem como
 aproximação, que avisa que não é a resposta exata. A bateria ficou igual (dev
 116, retido 54, nenhuma invenção). `testes_busca_semantica` guarda a catraca:
 pelo menos 27 certos, no máximo 8 errados e nenhuma invenção.
@@ -193,8 +205,11 @@ pelo menos 27 certos, no máximo 8 errados e nenhuma invenção.
    ficha certa que não é o que a pergunta pede.
 2. Dar à busca um sinal de "não há resposta", treinado com as perguntas sem
    resposta.
-3. Pôr o Transformer próprio (16M, ajustado no Colab) como mais uma
-   evidência, com a mesma interface.
+3. Pôr o Transformer próprio como mais uma evidência, com a mesma interface.
+   O caderno `notebooks/treinar_transformer_leitor_colab.ipynb` pré-treina a
+   base (~17M, Wikipédia em português inteira) e ajusta o leitor com
+   exercícios do acervo e da Wikipédia; grava no Drive um único checkpoint a
+   cada 10.000 passos.
 
 ## Reproduzir
 

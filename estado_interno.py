@@ -325,7 +325,7 @@ def _conferir(bot, estado, busca, prob, assunto, indice):
         decisao = "aproximar"
     # A probabilidade da busca cai quando a ficha tem vários fatos parecidos;
     # com a leitura cobrindo três pistas ou mais, a evidência dela compensa.
-    if not (cob >= 2 and (decisao == "afirmar" and (prob >= LIMIAR_BUSCA or cob >= 3)
+    if not (cob >= 2 and (decisao == "afirmar" and prob >= LIMIAR_BUSCA
                           or decisao == "aproximar" and (prob >= LIMIAR_BUSCA_APROXIMAR
                                                          or cob >= 3 and prob >= LIMIAR_BUSCA_MINIMO))):
         decisao = None

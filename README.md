@@ -1,5 +1,11 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Transformer do leitor no Colab (07/10/2026):** `notebooks/treinar_transformer_leitor_colab.ipynb`
+pré-treina do zero uma base de ~17M parâmetros com a Wikipédia em português inteira (6 partes
+conferidas por SHA-256), diálogos humanos e o acervo, e ajusta o leitor com exercícios do acervo e
+centenas de milhares de exercícios de leitura da Wikipédia. No Drive, um único checkpoint,
+sobrescrito a cada 10.000 passos (`scripts/pretreinar_leitor_16m.py` recusa menos que isso).
+
 **Busca aprendida (06/10/2026):** o CRIVO passa a procurar direto nos fatos, sem depender da
 etiqueta do assunto. Para cada fato candidato, mede evidências (palavras, o que a pergunta pede
 além do nome do assunto, sentido nos vetores próprios, tipo de pergunta e aspecto) e um modelo de
