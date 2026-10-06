@@ -158,7 +158,16 @@ def arbitrar(bot, estado, ident, resposta):
         estado.decidir(especie, "recusar", "leitura fora do nicho (negação, relação, escrita ou sem entidade)")
         return ident, resposta
     leitor = bot.leitura_ficha
-    leitura = leitor.ler(estado.quadro, estado.entidade.id)
+    indice = None
+    if estado.quadro.recusa == "sem_pistas":
+        # Sem pistas ("Onde fica o Egito?"), a busca aprendida escolhe o fato
+        # dentro da ficha (a definição que diz onde fica, não a capital) e a
+        # leitura confere esse fato.
+        from leitura_ficha import busca_aprendida
+        busca = busca_aprendida(bot.compositor)
+        achados = busca.buscar(estado.fala, k=1, assuntos={estado.entidade.id}) if busca.aprendida else []
+        indice = achados[0][2] if achados else None
+    leitura = leitor.ler(estado.quadro, estado.entidade.id, indice=indice)
     decisao = leitor.decisao(leitura)
     evidencia = None if leitura is None else {
         "fact": leitura.indice, "probability": leitura.prob, "margin": leitura.margem,

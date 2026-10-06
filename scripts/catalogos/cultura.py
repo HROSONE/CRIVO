@@ -104,7 +104,7 @@ ITENS = [
              "Chocolate é um alimento que vem do cacau: é feito de derivados das sementes de cacau, como massa e manteiga de cacau, geralmente misturados com açúcar.",
              "O chocolate amargo tem mais cacau; o chocolate ao leite leva leite; o chocolate branco é feito de manteiga de cacau, sem a massa escura do cacau.",
              "Maias e astecas consumiam uma bebida amarga de cacau; o chocolate chegou à Europa no século XVI, levado pelos espanhóis.",
-             "No Brasil, a Anvisa exige que o produto chamado chocolate tenha pelo menos 25% de sólidos totais de cacau.",
+             "No Brasil, uma lei de 2026, em vigor a partir de maio de 2027, exige que o produto chamado chocolate tenha pelo menos 35% de sólidos de cacau (25% no chocolate ao leite); até lá vale a regra da Anvisa de no mínimo 25% de sólidos totais de cacau.",
              "O chocolate contém teobromina, substância estimulante que é tóxica para cães e gatos.",
              aliases=["chocolates"]),
     conceito("mundo_cafe", "café", "alimentos", EMB, C,

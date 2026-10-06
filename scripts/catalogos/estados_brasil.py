@@ -226,7 +226,7 @@ ITENS = [
            "O Paraná é um estado brasileiro que fica na região Sul, de sigla PR.",
            "A capital do Paraná é Curitiba.",
            "O Paraná tem cerca de 11,4 milhões de habitantes, o estado mais populoso do Sul, e área de cerca de 199 mil km².",
-           "O Paraná abriga as Cataratas do Iguaçu e a usina de Itaipu, na fronteira com Paraguai e Argentina, e é grande produtor de grãos e de carne de frango.",
+           "O Paraná abriga as Cataratas do Iguaçu, na fronteira com a Argentina, e a usina de Itaipu, na fronteira com o Paraguai, e é grande produtor de grãos e de carne de frango.",
            "O Paraná recebeu muitos imigrantes poloneses, ucranianos, alemães, italianos e japoneses; Curitiba é conhecida pelo planejamento urbano e pelo transporte por ônibus.",
            aliases=["estado do Paraná"]),
     estado("mundo_estado_santa_catarina", "estado de Santa Catarina",
