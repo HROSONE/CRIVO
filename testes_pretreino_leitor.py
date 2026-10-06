@@ -34,6 +34,23 @@ class TestesPretreinoLeitor(unittest.TestCase):
         self.assertIn("DADOS = Path('/content/crivo-dados')", self.codigo)
         self.assertIn("LEITOR = Path('/content/leitor')", self.codigo)
 
+    def test_progresso_aparece_na_celula_e_no_log(self):
+        # O Colab não mostra o que um subprocesso escreve direto no terminal;
+        # o caderno repassa linha a linha e grava em /content/crivo-log.txt.
+        import ast
+        import tempfile
+        arvore = ast.parse(self.codigo)
+        funcao = next(n for n in arvore.body if isinstance(n, ast.FunctionDef) and n.name == "executar")
+        with tempfile.TemporaryDirectory() as pasta:
+            ambiente = {"subprocess": __import__("subprocess"), "Path": Path, "ROOT": pasta,
+                        "LOG": Path(pasta) / "log.txt"}
+            exec(compile(ast.Module(body=[funcao], type_ignores=[]), "celula", "exec"), ambiente)
+            ambiente["executar"]([sys.executable, "-c", "print('passo 100/40000')"])
+            self.assertIn("passo 100/40000", (Path(pasta) / "log.txt").read_text())
+            with self.assertRaises(RuntimeError):
+                ambiente["executar"]([sys.executable, "-c", "import sys; sys.exit(3)"])
+        self.assertNotIn("subprocess.run([sys.executable, '-u', 'scripts/", self.codigo)
+
     def test_script_recusa_checkpoint_frequente_no_drive(self):
         argv = ["pretreinar_leitor_16m.py", "--etapa", "treinar", "--checkpoint-a-cada", "50",
                 "--checkpoint", "/content/drive/MyDrive/CRIVO/transformer-leitor/checkpoint.pt"]
@@ -70,6 +87,47 @@ class TestesPretreinoLeitor(unittest.TestCase):
         d, v, c, n = m["dimensao"], m["vocabulario"], m["contexto"], m["camadas"]
         aprox = v * d + c * d + n * 12 * d * d
         self.assertTrue(15e6 < aprox < 20e6, aprox)
+
+
+class TestesInstalarLeitor(unittest.TestCase):
+    def setUp(self):
+        import instalar_leitor as il
+        self.il = il
+
+    def test_comparacao_exige_melhorar_sem_piorar(self):
+        base = {"v1": {"certos": 37, "errados": 0, "nulos_afirmados": 3},
+                "v2": {"certos": 20, "errados": 2, "nulos_afirmados": 4},
+                "sem_nome": {"certo": 27, "errado": 8, "inventou": 0},
+                "bateria": {"dev": 116, "retido": 54, "inventou": 0}}
+        import copy
+        melhor = copy.deepcopy(base)
+        melhor["v2"]["certos"] = 25
+        self.assertEqual(self.il._comparar(base, melhor), ([], ["v2 certos +5"]))
+        pior = copy.deepcopy(melhor)
+        pior["v1"]["errados"] = 1
+        piorou, _ = self.il._comparar(base, pior)
+        self.assertEqual(piorou, ["v1 errados +1"])
+        self.assertEqual(self.il._comparar(base, base), ([], []))
+
+    def test_instala_leitor_e_modelo_so_quando_aprovado(self):
+        import tempfile
+        import zipfile
+        with tempfile.TemporaryDirectory() as pasta:
+            pasta = Path(pasta)
+            z = pasta / "resultado.zip"
+            with zipfile.ZipFile(z, "w") as f:
+                f.writestr("leitor_transformer/meta.json", json.dumps({"controle": {"aprovado": True}}))
+                f.writestr("leitor_transformer/pesos_numpy.npz", b"x")
+                f.writestr("leitura_ficha/meta.json", json.dumps({"tracos": ["vies", "transformer"]}))
+            with mock.patch.object(self.il, "LEITOR", pasta / "leitor"), \
+                    mock.patch.object(self.il, "META_TRANSFORMER", pasta / "meta_transformer.json"):
+                meta, com = self.il.instalar(z)
+                self.assertTrue(com)
+                self.assertTrue((pasta / "leitor" / "pesos_numpy.npz").exists())
+                self.assertTrue((pasta / "meta_transformer.json").exists())
+                self.il.desinstalar()
+                self.assertFalse((pasta / "meta_transformer.json").exists())
+                self.assertFalse((pasta / "leitor").exists())
 
 
 if __name__ == "__main__":

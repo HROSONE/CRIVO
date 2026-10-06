@@ -27,6 +27,9 @@ from composicao_textual import normalizar
 RAIZ = Path(__file__).resolve().parent
 CAMINHO_RELACOES = RAIZ / "dados" / "relacoes_pergunta_fato.json"
 CAMINHO_MODELO = RAIZ / "artefatos" / "leitura_ficha" / "meta.json"
+# Modelo com o leitor Transformer como traço a mais (scripts/instalar_leitor.py).
+# Só vale onde o leitor roda (com NumPy, como no site); sem ele, fica o meta.json.
+CAMINHO_MODELO_TRANSFORMER = RAIZ / "artefatos" / "leitura_ficha" / "meta_transformer.json"
 
 Leitura = namedtuple("Leitura", "assunto indice prob margem cobertura tipo tracos")
 
@@ -149,6 +152,11 @@ class LeituraFicha:
         self.aproximar_parcial = True
         self.pesos = None
         self.limiar = self.limiar_aproximar = None
+        if (caminho_modelo == CAMINHO_MODELO and transformer is None and busca is None
+                and CAMINHO_MODELO_TRANSFORMER.exists()):
+            from leitor_transformer import leitor
+            if leitor().disponivel:
+                caminho_modelo = CAMINHO_MODELO_TRANSFORMER
         try:
             meta = json.loads(Path(caminho_modelo).read_text(encoding="utf-8"))
             extras = list(meta.get("tracos", ()))[len(TRACOS):]

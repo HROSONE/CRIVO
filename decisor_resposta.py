@@ -92,10 +92,15 @@ def tracos(bot, quadro, tipo, forma_fala, busca, candidato, citados):
     n_pistas = len(leitor.pistas(q)) if pistas else 0
     cob = leitura.cobertura if leitura is not None else 0
     direta, absoluto = forma_fala
+    # Nome do assunto citado em parte ou com outra flexão ("nominalista").
+    from busca_semantica import palavras
+    raizes = {w[:5] for w in palavras(quadro.texto)}
+    parcial = max((sum(1 for w in f.split() if w[:5] in raizes) / len(f.split())
+                   for f in busca.nomes.get(assunto, ()) if f), default=0.0)
     x = {
         "vies": 1.0, "b_prob": prob, "b_topo": 1.0 if posicao == 0 else 0.0,
         "b_palavras_topo": 1.0 if palavras_topo else 0.0,
-        "b_bm": tb["bm"], "b_bm_ficha": tb["bm_ficha"], "b_nome": tb["nome"], "b_nome_parcial": tb["nome_parcial"],
+        "b_bm": tb["bm"], "b_bm_ficha": tb["bm_ficha"], "b_nome": tb["nome"], "b_nome_parcial": parcial,
         "b_sentido": tb["sentido"], "b_sentido_rel": tb["sentido_rel"], "b_definicao": tb["definicao"],
         "b_tipo_sem_par": tb["tipo_sem_par"],
         "l_prob": leitura.prob if leitura is not None else 0.0,

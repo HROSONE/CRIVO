@@ -181,6 +181,17 @@ perguntas sintéticas copiam as palavras do fato, e as reais não: sem exemplos
 de formulação real, ele não calibra. O código fica no repositório, desligado,
 para quando houver esses dados ou o Transformer (`scripts/treinar_decisor.py`).
 
+Em 07/10, o tutor escreveu 400 perguntas de formulação real
+(`dados/decisor_tutor.json`): 320 sem o nome do assunto e com outras palavras,
+sobre fichas fora de todos os testes, e 80 sem resposta no acervo (conferidas
+no texto do acervo). Com elas, o decisor passou a acertar sem errar na
+validação: 18 fatos certos, nenhum errado e nenhuma pergunta sem resposta
+respondida. Ligado no lugar das regras, porém, o dev das perguntas sem nome
+cai de 20 para 15 acertos, com o mesmo 1 erro e nenhuma invenção. A bateria
+e a catraca de compreensão ficam iguais. Continua desligado. Quando o leitor
+Transformer for instalado (`scripts/instalar_leitor.py`), a probabilidade
+dele entra pela leitura da ficha e o decisor é medido de novo.
+
 Teste congelado, perguntas sem o nome: lido uma vez antes dos ajustes e uma
 depois.
 
