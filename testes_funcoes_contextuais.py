@@ -21,7 +21,12 @@ class TestesFuncoesContextuais(unittest.TestCase):
                 self.assertIn('ATP', texto)
                 self.assertIn('respiração celular', texto)
                 self.assertNotIn('linhagem materna', texto)
-                self.assertEqual(b.contexto_textual.exibidos, (('mundo_mitocondria', 0),))
+                # A definição (respiração celular e ATP) vem primeiro; desde o
+                # acervo de 2026-10-06 outra função documentada pode acompanhá-la.
+                exibidos = b.contexto_textual.exibidos
+                self.assertEqual(exibidos[0], ('mundo_mitocondria', 0))
+                self.assertLessEqual(len(exibidos), 2)
+                self.assertTrue(all(e == 'mundo_mitocondria' for e, _ in exibidos))
 
     def test_funcao_nao_depende_de_um_topico_ou_etiqueta(self):
         for q, esperado in (
