@@ -12,7 +12,7 @@ Para cada pergunta, roda um Crivo novo e classifica a resposta final:
     aproximou         disse que não tem a resposta exata e mostrou um fato;
     afirmou           afirmou um fato como se respondesse (o erro grave).
 
-Uso: python scripts/avaliar_leitura_ficha.py [teste|tutor] [--sem-leitura] [--saida arquivo.json]
+Uso: python scripts/avaliar_leitura_ficha.py [teste|teste_v2|tutor] [--sem-leitura] [--saida arquivo.json]
 """
 import json
 import sys
@@ -23,6 +23,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
 CONJUNTOS = {"teste": RAIZ / "avaliacoes" / "leitura_ficha_v1" / "teste.json",
+             "teste_v2": RAIZ / "avaliacoes" / "leitura_ficha_v2" / "teste.json",
              "tutor": RAIZ / "dados" / "leitura_ficha_tutor.json"}
 
 

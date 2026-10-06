@@ -72,10 +72,18 @@ por falta de evidência (`fora`, "não entendi"). Dúvidas lógicas deliberadas
   é:";
 - **calar:** sem isso, a recusa de antes fica.
 
-Existe um modo de **aproximação parcial**, desligado por padrão
-(`LeituraFicha.aproximar_parcial`). Nele, a leitura aproxima com uma pista sem
-apoio, desde que outra esteja coberta. Veja os números e o motivo de ficar
-desligado abaixo.
+**Aproximação parcial (ligada por decisão do dono do projeto, 05/10/2026).**
+Com `LeituraFicha.aproximar_parcial`, a leitura também aproxima quando falta
+apoio para uma única pista, desde que outra esteja coberta. Ela nunca aproxima:
+
+- perguntas com qualificador absoluto ("memória infinita", "vida eterna",
+  "perfeita", "mágica");
+- pedidos imperativos de um detalhe ("Sobre X, explique o registro de marcas
+  ultravioletas"), em que o "mais próximo" seria outro detalhe.
+
+Nesses casos, a recusa continua. A resposta sempre começa
+avisando que não é exata. A versão estrita (V3) fica disponível desligando a
+chave.
 
 ## Como foi treinado e decidido
 
@@ -115,11 +123,11 @@ leitura. Algumas relações pergunta→fato foram escritas olhando falhas do
 conjunto dev, então o dev deixa de ser medida limpa da leitura. O retido nunca
 foi olhado.
 
-| Conjunto | Sem leitura | Versão ligada (3) | Aproximação parcial ligada |
+| Conjunto | Sem leitura | V3 estrita | **V3 + parcial (ligada)** |
 |---|---|---|---|
-| dev: acertos (126 fatos) | 103 | **115** | 116 |
+| dev: acertos (126 fatos) | 103 | 115 | **116** |
 | dev: inventou / assunto errado | 0 / 0 | 0 / 0 | 0 / 0 |
-| retido: acertos (81 fatos) | 48 | **49** | 54 |
+| retido: acertos (81 fatos) | 48 | 49 | **54** |
 | retido: inventou / assunto errado | 0 / 1 | 0 / 1 | 0 / 1 |
 
 A bateria conta como acerto qualquer resposta que contenha o trecho esperado,
@@ -132,24 +140,30 @@ análise do tutor e dos testes antigos, não dos casos do teste. Como o tutor
 que escreveu o teste também ajusta a leitura, as próximas melhorias precisam
 de um teste novo, escrito depois delas.
 
-| | Sem leitura | V1 | V2 | **V3 (ligada)** | V3 + parcial |
+| | Sem leitura | V1 | V2 | V3 estrita | **V3 + parcial (ligada)** |
 |---|---|---|---|---|---|
-| respondíveis (50): afirmou certo | 22 | 34 | 23 | **24** | 24 |
-| respondíveis: aproximou com o fato certo | 0 | 2 | 16 | 0 | 13 |
-| respondíveis: afirmou errado | 0 | 1 | 0 | **0** | 0 |
+| respondíveis (50): afirmou certo | 22 | 34 | 23 | 24 | **24** |
+| respondíveis: aproximou com o fato certo | 0 | 2 | 16 | 0 | **13** |
+| respondíveis: afirmou errado | 0 | 1 | 0 | 0 | **0** |
 | respondíveis: recusou | 28 | 13 | 11 | 26 | 13 |
 | sem resposta (22): recusou | 20 | 15 | 13 | 19 | 16 |
 | sem resposta: aproximou | 0 | 2 | 6 | 0 | 3 |
-| sem resposta: afirmou (erro grave) | 2 | 5 | 3 | **3** | 3 |
+| sem resposta: afirmou (erro grave) | 2 | 5 | 3 | 3 | **3** |
+
+As travas de qualificador absoluto e de pedido imperativo entraram depois
+dessa medição, por causa de testes antigos do projeto ("Como o cérebro tem
+memória infinita?"; "Sobre X, explique …"). A remedição do teste congelado e
+da bateria deu os mesmos números.
 
 ## Limites
 
 - A leitura escolhe um fato; não resume nem combina fatos, e não deduz.
 - Só age sobre uma entidade citada na fala. O contexto ("e ele tem chuva?")
   entra no estado como entidade, mas a leitura ainda não responde por ele.
-- O ganho em conjuntos limpos é pequeno com a versão ligada. A aproximação
-  parcial entrega muito mais (37 de 50 contra 22), mas também aproxima
-  perguntas com premissa falsa. Ligar ou não é uma decisão de produto.
+- A aproximação parcial entrega o fato certo em 37 de 50 perguntas (eram 22),
+  mas em 3 de 22 perguntas sem resposta mostra um fato próximo, sempre com o
+  aviso de que não é exato. Premissas falsas sem qualificador absoluto ainda
+  podem receber uma aproximação em vez da recusa.
 
 ## Próximo passo: o Transformer no papel certo
 

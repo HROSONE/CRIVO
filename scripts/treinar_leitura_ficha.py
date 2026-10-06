@@ -7,9 +7,9 @@ maior probabilidade é a proposta da leitura; dois limiares dizem o que o
 
   afirmar    prob >= limiar_afirmar, todas as pistas cobertas e fato compatível
              com o tipo de pergunta: responde com o fato;
-  aproximar  prob >= limiar_aproximar e todas as pistas cobertas, mas sem as
-             outras condições: diz que não tem a resposta exata e mostra o
-             fato mais próximo da ficha;
+  aproximar  prob >= limiar_aproximar, no máximo uma pista sem apoio (e outra
+             coberta), sem as condições de afirmar: diz que não tem a resposta
+             exata e mostra o fato mais próximo da ficha;
   calar      fora disso: a recusa de antes continua.
 
 Validação cruzada agrupada por assunto (5 partes): nenhum assunto aparece no
@@ -17,7 +17,11 @@ treino e na validação ao mesmo tempo. Aprovação: na validação, as afirmaç
 do modelo precisam ter precisão >= 0,9 e acertar mais que a regra sem
 aprendizado (todas as pistas cobertas e fato compatível com o tipo).
 
-Uso: python scripts/treinar_leitura_ficha.py [--saida artefatos/leitura_ficha]
+Com --com-transformer, valida também a leitura com o leitor Transformer
+(artefatos/leitor_transformer) como traço a mais e só o aprova se entregar
+mais fatos certos sem mais erros; senão, fica a versão sem ele.
+
+Uso: python scripts/treinar_leitura_ficha.py [--saida artefatos/leitura_ficha] [--com-transformer [pasta]]
 """
 import argparse
 import json
@@ -70,7 +74,7 @@ def propostas(casos, prob):
 
     Pode afirmar = todas as pistas cobertas e fato compatível com o tipo de
     pergunta; sem isso, a leitura no máximo aproxima (leitura_ficha.decisao)."""
-    from leitura_ficha import TRACOS, pode_aproximar
+    from leitura_ficha import TRACOS, pergunta_direta, pode_aproximar
     todas, sem_par = TRACOS.index("todas"), TRACOS.index("tipo_sem_par")
     saida = []
     for c in casos:
@@ -78,7 +82,8 @@ def propostas(casos, prob):
         melhor = max(range(len(ps)), key=lambda i: (ps[i], -i))
         x = c["x"][melhor]
         saida.append((ps[melhor], c["fato"], melhor, bool(x[todas]) and not x[sem_par],
-                      pode_aproximar(dict(zip(TRACOS, x)))))
+                      pode_aproximar(dict(zip(TRACOS, x), pergunta_direta=pergunta_direta(c["pergunta"])),
+                                     parcial=True)))
     return saida
 
 
@@ -117,16 +122,10 @@ def regra(x):
     return 1.0 if x[TRACOS.index("todas")] and not x[TRACOS.index("tipo_sem_par")] else 0.0
 
 
-def main():
+def validar(compositor, leitura):
+    """Validação cruzada por assunto e modelo final para uma leitura."""
     import numpy as np
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--saida", default=str(RAIZ / "artefatos" / "leitura_ficha"))
-    args = parser.parse_args()
-    from crivo import Crivo
-    from leitura_ficha import TRACOS, LeituraFicha
-    bot = Crivo()
-    leitura = LeituraFicha(bot.compositor, caminho_modelo="/nao/existe")
-    casos, ignorados = exemplos(bot.compositor, leitura)
+    casos, ignorados = exemplos(compositor, leitura)
     assuntos = sorted({c["assunto"] for c in casos})
     random.Random(SEMENTE).shuffle(assuntos)
     fora_da_amostra, validacao_regra = [], []
@@ -146,9 +145,9 @@ def main():
     regra_afirma = contar(politica(validacao_regra, 1.0, 2.0)[0])
     aprovado = (precisao(modelo_afirma) >= PRECISAO_AFIRMAR
                 and modelo_afirma["certos"] > regra_afirma["certos"])
-    meta = {
+    return {
         "versao": 1,
-        "tracos": list(TRACOS),
+        "tracos": list(leitura.nomes),
         "pesos": [round(float(v), 5) for v in w],
         "limiar": afirmar,
         "limiar_aproximar": aproximar,
@@ -161,10 +160,49 @@ def main():
                      "criterio": "na validação por assunto, afirmações com precisão >= 0,9 e mais "
                                  "acertos que a regra"},
     }
+
+
+def _entregues(meta):
+    """Fatos certos que chegam à pessoa (afirmados ou aproximados) e erros."""
+    v = meta["validacao_cruzada_por_assunto"]
+    certos = v["modelo_afirma"]["certos"] + v["modelo_aproxima"]["certos"]
+    erros = v["modelo_afirma"]["errados"] + v["modelo_afirma"]["nulos"]
+    return certos, erros
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--saida", default=str(RAIZ / "artefatos" / "leitura_ficha"))
+    parser.add_argument("--com-transformer", nargs="?", const=str(RAIZ / "artefatos" / "leitor_transformer"),
+                        help="pasta do leitor Transformer a comparar como traço a mais")
+    args = parser.parse_args()
+    from crivo import Crivo
+    from leitura_ficha import LeituraFicha
+    bot = Crivo()
+    meta = validar(bot.compositor, LeituraFicha(bot.compositor, caminho_modelo="/nao/existe"))
+    if args.com_transformer:
+        from leitor_transformer import LeitorTransformer
+        lt = LeitorTransformer(args.com_transformer, exigir_aprovacao=False)
+        if not lt.disponivel:
+            raise SystemExit("Leitor Transformer indisponível: " + lt.motivo)
+        com = validar(bot.compositor, LeituraFicha(bot.compositor, caminho_modelo="/nao/existe", transformer=lt))
+        (certos_sem, erros_sem), (certos_com, erros_com) = _entregues(meta), _entregues(com)
+        melhora = com["controle"]["aprovado"] and certos_com > certos_sem and erros_com <= erros_sem
+        comparacao = {"sem_transformer": {"certos_entregues": certos_sem, "erros": erros_sem},
+                      "com_transformer": {"certos_entregues": certos_com, "erros": erros_com},
+                      "transformer_aprovado": melhora}
+        print(json.dumps(comparacao, ensure_ascii=False))
+        meta_lt_caminho = Path(args.com_transformer) / "meta.json"
+        meta_lt = json.loads(meta_lt_caminho.read_text(encoding="utf-8"))
+        meta_lt["controle"]["aprovado"] = melhora
+        meta_lt["controle"]["validacao_leitura"] = comparacao
+        meta_lt_caminho.write_text(json.dumps(meta_lt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        if melhora:
+            meta = dict(com, comparacao_transformer=comparacao)
     saida = Path(args.saida)
     saida.mkdir(parents=True, exist_ok=True)
     (saida / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(json.dumps({k: meta[k] for k in ("dados", "validacao_cruzada_por_assunto", "controle",
+    print(json.dumps({k: meta[k] for k in ("tracos", "dados", "validacao_cruzada_por_assunto", "controle",
                                             "limiar", "limiar_aproximar")}, ensure_ascii=False, indent=1))
 
 

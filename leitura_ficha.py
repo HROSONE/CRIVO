@@ -71,16 +71,37 @@ def _vetores():
     return _CACHE["vetores"]
 
 
+# Qualificadores absolutos fazem da pergunta uma afirmação forte ("memória
+# INFINITA", "vida ETERNA"): uma ficha que não fala disso não é "o mais
+# próximo", e a recusa é a resposta honesta.
+ABSOLUTOS = re.compile(r"^(?:infinit|ilimitad|etern|imortal|perfeit|absolut|magic|milagr|sobrenatural|"
+                       r"inesgotav|onipotent|onisc)")
+
+
+_PEDIDO = re.compile(r"\b(?:explique|explica|explicar|descreva|descreve|fale|fala|conte|conta|detalhe|"
+                    r"escreva|mostre|liste|defina|resuma|compare|analise)\b")
+
+
+def pergunta_direta(texto):
+    """Pergunta com "?" e sem pedido imperativo ("explique", "descreva")."""
+    n = normalizar(texto)
+    return texto.strip().endswith("?") and not _PEDIDO.search(n)
+
+
 def pode_aproximar(tracos, parcial=False):
     """Aproximar também exige todas as pistas cobertas. Uma palavra de conteúdo
     sem apoio na ficha muda o que se pede ("memória INFINITA", "cor de ferrugem
     QUÂNTICA", "dê um EXEMPLO"): ali a recusa é a resposta honesta.
 
-    Com parcial=True (desligado por padrão; docs/estado_interno_20261005.md),
-    aproxima com no máximo uma pista sem apoio, desde que outra esteja coberta.
-    Entrega muito mais fatos certos, mas também aproxima perguntas com premissa
-    falsa, o que quatro testes do projeto proíbem."""
+    Com parcial=True (ligado desde 05/10/2026; docs/estado_interno_20261005.md),
+    aproxima com no máximo uma pista sem apoio, desde que outra esteja coberta,
+    a fala seja uma pergunta direta (não "explique X") e não traga um
+    qualificador absoluto (ABSOLUTOS). A resposta sempre avisa que não é exata."""
     if parcial:
+        # Só pergunta direta: "explique X com Y" pede aquele detalhe, e o
+        # "mais próximo" seria outro detalhe (marcas verdes ≠ ultravioletas).
+        if tracos.get("absoluto") or not tracos.get("pergunta_direta"):
+            return False
         return not tracos.get("faltam_duas") and not (tracos.get("falta_uma") and tracos.get("nenhuma"))
     return bool(tracos.get("todas"))
 
@@ -94,8 +115,15 @@ def tipo_pergunta(n):
 
 
 class LeituraFicha:
-    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO):
+    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO, transformer=None):
+        """transformer: um LeitorTransformer para usar como traço a mais. Sem
+        ele, o traço só entra se o modelo aprovado o pedir e o leitor aprovado
+        existir (leitor_transformer.py)."""
         self.c = compositor
+        self.nomes = TRACOS
+        self.transformer = transformer
+        if transformer is not None:
+            self.nomes = TRACOS + ("transformer",)
         try:
             self.relacoes = json.loads(CAMINHO_RELACOES.read_text(encoding="utf-8"))["relacoes"]
         except (OSError, ValueError, KeyError):
@@ -103,12 +131,17 @@ class LeituraFicha:
         # Os vetores próprios não passam no controle de equivalência (aproximam
         # antônimos); aqui são só um traço fraco, com peso aprendido e medido.
         self.vetores = _vetores()
-        self.aproximar_parcial = False
+        self.aproximar_parcial = True
         self.pesos = None
         self.limiar = self.limiar_aproximar = None
         try:
             meta = json.loads(Path(caminho_modelo).read_text(encoding="utf-8"))
-            if meta.get("controle", {}).get("aprovado") and list(meta["tracos"]) == list(TRACOS):
+            if transformer is None and list(meta.get("tracos", ())) == list(TRACOS) + ["transformer"]:
+                from leitor_transformer import leitor
+                if leitor().disponivel:
+                    self.transformer = leitor()
+                    self.nomes = TRACOS + ("transformer",)
+            if meta.get("controle", {}).get("aprovado") and list(meta["tracos"]) == list(self.nomes):
                 self.pesos = [float(p) for p in meta["pesos"]]
                 self.limiar = float(meta["limiar"])
                 self.limiar_aproximar = float(meta.get("limiar_aproximar", meta["limiar"]))
@@ -140,7 +173,7 @@ class LeituraFicha:
             return 0.0
         return max((vet.similaridade(palavra, w) for w in palavras_fato), default=0.0)
 
-    def tracos(self, quadro, assunto, indice):
+    def tracos(self, quadro, assunto, indice, prob_transformer=None):
         fato = self.c.itens[assunto]["fatos"][indice]
         texto = fato["texto"]
         n_fato = normalizar(texto)
@@ -196,7 +229,9 @@ class LeituraFicha:
             "definicao": 1.0 if indice == 0 else 0.0,
             "tipo_sem_par": 1.0 if tipo in compat and not compat[tipo] else 0.0,
         }
-        return [valores[t] for t in TRACOS], cobertas, tipo
+        if "transformer" in self.nomes:
+            valores["transformer"] = prob_transformer or 0.0
+        return [valores[t] for t in self.nomes], cobertas, tipo
 
     # --------------------------------------------------------------- decisão ---
 
@@ -207,14 +242,18 @@ class LeituraFicha:
     def candidatos(self, quadro, assunto=None):
         """[(prob, índice, cobertura, tipo, traços)] para os fatos da ficha."""
         assunto = assunto or quadro.assunto
+        fatos = self.c.itens[assunto]["fatos"]
+        probs = [None] * len(fatos)
+        if "transformer" in self.nomes and self.transformer is not None:
+            probs = self.transformer.probabilidades(quadro.texto, [f["texto"] for f in fatos])
         saida = []
-        for i, _ in enumerate(self.c.itens[assunto]["fatos"]):
-            x, cobertas, tipo = self.tracos(quadro, assunto, i)
+        for i, _ in enumerate(fatos):
+            x, cobertas, tipo = self.tracos(quadro, assunto, i, probs[i])
             if self.aprendida:
                 p = self._prob(x)
             else:
                 # Regra: todas as pistas cobertas e, havendo tipo, o fato compatível.
-                p = 1.0 if x[TRACOS.index("todas")] and not x[TRACOS.index("tipo_sem_par")] else 0.0
+                p = 1.0 if x[self.nomes.index("todas")] and not x[self.nomes.index("tipo_sem_par")] else 0.0
             saida.append((p, i, cobertas, tipo, x))
         saida.sort(key=lambda s: (-s[0], s[1]))
         return saida
@@ -231,8 +270,10 @@ class LeituraFicha:
             return None
         p, i, cobertas, tipo, x = cands[0]
         segundo = cands[1][0] if len(cands) > 1 else 0.0
-        return Leitura(assunto, i, round(p, 4), round(p - segundo, 4), cobertas, tipo,
-                       dict(zip(TRACOS, x)))
+        tracos = dict(zip(self.nomes, x))
+        tracos["absoluto"] = any(ABSOLUTOS.match(palavra) for _, palavra in quadro.pistas)
+        tracos["pergunta_direta"] = pergunta_direta(quadro.texto)
+        return Leitura(assunto, i, round(p, 4), round(p - segundo, 4), cobertas, tipo, tracos)
 
     def decisao(self, leitura):
         """'afirmar', 'aproximar' ou None, pela probabilidade da leitura."""

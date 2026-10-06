@@ -73,15 +73,14 @@ class Arbitro(unittest.TestCase):
         self.assertEqual(bot.estado_interno.propostas[0].acao, "responder")
         self.assertEqual(len(bot.estado_interno.propostas), 1)
 
-    def test_aproximacao_parcial_desligada_por_padrao(self):
+    def test_premissa_absoluta_nao_vira_aproximacao(self):
         bot = Crivo()
-        self.assertFalse(bot.leitura_ficha.aproximar_parcial)
+        self.assertTrue(bot.leitura_ficha.aproximar_parcial)
         ident, _ = bot.responder("Como o cérebro tem memória infinita?")
         self.assertEqual(ident, "fora")
 
     def test_aproximacao_parcial_avisa_que_nao_e_exata(self):
         bot = Crivo()
-        bot.leitura_ficha.aproximar_parcial = True
         ident, resposta = bot.responder("Quanto dura um ano em Mercúrio?")
         self.assertEqual(ident, "leitura:aproximacao")
         self.assertTrue(resposta.startswith("Não tenho uma resposta exata"))
@@ -109,15 +108,16 @@ class Api(unittest.TestCase):
 class Catraca(unittest.TestCase):
     """Teste congelado da leitura (72 perguntas, fichas fora do treino).
 
-    Medido em 05/10/2026 com a versão ligada (afirma só com todas as pistas
-    cobertas): respondíveis 24 afirmadas certas (eram 22 sem a leitura) e
-    0 afirmações erradas; sem resposta na ficha, 3 afirmadas (eram 2)."""
+    Medido em 05/10/2026 com a aproximação parcial ligada: respondíveis
+    24 afirmadas certas + 13 aproximadas certas (eram 22 + 0 sem a leitura),
+    0 afirmações erradas; sem resposta na ficha, 3 afirmadas (eram 2) e
+    3 aproximadas com aviso."""
 
     def test_teste_congelado(self):
         from scripts.avaliar_leitura_ficha import avaliar
         resumo, _ = avaliar("teste")
         resp, nulos = resumo["respondiveis"], resumo["sem_resposta"]
-        self.assertGreaterEqual(resp.get("afirmou_certo", 0) + resp.get("aproximou_certo", 0), 24, resumo)
+        self.assertGreaterEqual(resp.get("afirmou_certo", 0) + resp.get("aproximou_certo", 0), 37, resumo)
         self.assertLessEqual(resp.get("afirmou_errado", 0), 0, resumo)
         self.assertLessEqual(nulos.get("afirmou", 0), 3, resumo)
 

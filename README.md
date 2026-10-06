@@ -6,8 +6,9 @@ decisão) que as partes do CRIVO leem e escrevem; a API o devolve em `internal_s
 espécie recusa por falta de evidência ("Reconheci o assunto Titã, mas não tenho evidência"), uma
 nova espécie lê a ficha da entidade e propõe o fato que responde ("Chove em Titã?" → o fato sobre
 chuva de metano); um árbitro só deixa afirmar quando todas as palavras da pergunta têm apoio no
-fato. Resultado honesto: bateria dev 103 → 115, retido 48 → 49, teste congelado da leitura 22 → 24
-respostas certas, sem invenção nova na bateria. O gargalo que sobra é vocabulário e sentido.
+fato, e com apoio quase completo responde "não tenho a resposta exata; o mais próximo na ficha é…".
+Bateria retida (nunca olhada): 48 → 54 acertos, sem invenção nova; teste congelado da leitura: o
+fato certo chega em 37 de 50 perguntas (eram 22). O gargalo que sobra é vocabulário e sentido.
 [Medição e limites](docs/estado_interno_20261005.md).
 
 **Voz própria (05/10/2026):** as respostas de conhecimento deixam de soar como ficha lida. A
