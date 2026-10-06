@@ -185,7 +185,9 @@ def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, mo
         bot.oferta_pendente = None
         texto = ("Não tenho uma resposta exata para essa pergunta. O que a ficha de %s traz de mais "
                  "próximo é:\n\n%s" % (bot.compositor.itens[assunto]["nome"], texto))
-    registro = {"pergunta": estado.fala, "id": novo_ident, "mecanismo": "leitura_ficha",
+    # Achado pela busca (fora da ficha citada) ou lido na ficha citada.
+    mecanismo = "busca_aprendida" if "search_subject" in evidencia else "leitura_ficha"
+    registro = {"pergunta": estado.fala, "id": novo_ident, "mecanismo": mecanismo,
                 "leitura": dict(evidencia, decision=decisao, subject=assunto)}
     if com_voz:
         registro["voz"] = "voz_propria"
@@ -198,7 +200,7 @@ def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, mo
     bot.ultimo_turno = {"pergunta": estado.fala, "id": novo_ident}
     bot.assunto_conversa = assunto
     bot.esclarecimento = None
-    estado.decidir("leitura_ficha", decisao, motivo or "%s recusou; a ficha de %s tem evidência (p=%.2f)"
+    estado.decidir(mecanismo, decisao, motivo or "%s recusou; a ficha de %s tem evidência (p=%.2f)"
                    % (especie, bot.compositor.itens[assunto]["nome"], leitura.prob))
     return novo_ident, texto
 

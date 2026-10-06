@@ -91,6 +91,8 @@ class TestesBuscaNoArbitro(unittest.TestCase):
         self.assertIn("Mona Lisa", texto)
         self.assertEqual(self._busca(b)[0].acao, "afirmar")
         self.assertEqual(b.assunto_conversa, "mundo_leonardo_da_vinci")
+        self.assertEqual(b.historico[-1]["mecanismo"], "busca_aprendida")
+        self.assertEqual(b.estado_interno.decisao["especie"], "busca_aprendida")
         self.assertEqual(b.responder("Fontes")[0], "escrita:fontes")
 
     def test_resposta_em_terceira_ficha_vem_aproximada(self):
