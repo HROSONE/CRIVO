@@ -29,6 +29,13 @@ def normalizar(texto):
     return " ".join(re.sub(r"[^a-z0-9+#_,\s-]", " ", n).split()).strip(" ,")
 
 
+# Palavras gramaticais que um nome próprio acentuado vira sem acento
+# ("Pará" → "para", "Sé" → "se"): só a grafia com acento cita a ficha.
+_PALAVRAS_COMUNS = frozenset(
+    "a o e de da do para por pra se so ja la ca e esta este nos vos mais mas pelo pela "
+    "nao sao tem ate".split())
+
+
 def tema(texto):
     return re.sub(r"^(?:o|a|os|as|um|uma|uns|umas) ", "", normalizar(texto))
 
@@ -167,7 +174,9 @@ class CompositorTextual:
             # Nome próprio "Pelé" × "pele": o mesmo texto sem acento já é de outra ficha.
             # A grafia acentuada vira reescrita da pergunta pelo nome desta
             # ficha (grafar), sem tornar ambíguo o nome da outra.
-            if outros and alias[:1].isupper() and alias.casefold() != normalizar(alias) and not any(
+            # O mesmo vale para palavra comum ("Pará" × "para", "Amapá" não).
+            comum = chave in _PALAVRAS_COMUNS
+            if (outros or comum) and alias[:1].isupper() and alias.casefold() != normalizar(alias) and not any(
                     alias.casefold() in self._grafias.get(o, ()) for o in outros):
                 self.grafias_distintas[alias.casefold()] = item["nome"]
                 continue
@@ -953,6 +962,19 @@ class CompositorTextual:
             ocupados.append((ini, fim))
             assuntos.append((ini, ident))
         assuntos.sort()
+        # "Encélado solta jatos de água?", "Qual a temperatura do Sol?": com um
+        # nome próprio citado, o conceito comum (água, temperatura, campo
+        # magnético) é o que se pergunta dele, não um segundo assunto.
+        if len({i for _, i in assuntos}) > 1:
+            proprio = {i for _, i in assuntos if self.itens[i]["nome"][:1].isupper()}
+            # Só grandezas e substâncias (física, química) viram propriedade
+            # do nome próprio; "planetas do Sistema Solar" segue com planetas.
+            propriedade = {i for _, i in assuntos if i not in proprio
+                           and self.itens[i].get("area") in ("fisica", "física", "quimica")}
+            if proprio and propriedade:
+                inicio = {ini: fim for ini, fim in ocupados}
+                assuntos = [(ini, i) for ini, i in assuntos if i not in propriedade]
+                ocupados = [(ini, inicio[ini]) for ini, _ in assuntos]
         # "Urano tem estações": o segundo termo é uma propriedade do
         # primeiro, ligada só por posse; vira pista e não relação.
         if len({i for _, i in assuntos}) > 1:

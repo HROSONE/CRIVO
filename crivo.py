@@ -895,9 +895,19 @@ class Crivo:
             return False
         if self._fora_do_assunto(texto, rank[0][1]):
             return False
+        # Palavra desconhecida ("planeta Zorbax", "Lua mágica") é outro
+        # assunto: a resposta antiga não fala dele.
+        _, vocabulario = self._contexto_consulta(texto)
+        if any(t not in vocabulario for t in self._tokens_consulta(texto, vocabulario)):
+            return False
         entrada = self.base[rank[0][1]]
         if assunto is None:
-            return True
+            return False
+        # Só ficha de conceito comum ("água", "chocolate"): um nome próprio
+        # ("Mercúrio") pede a ficha, não a resposta genérica.
+        item = self.compositor.itens[assunto]
+        if item["nome"][:1].isupper():
+            return False
         return self.compositor._menciona_conceito(
             assunto, normalizar(" ".join(entrada["perguntas"]) + " " + entrada["resposta"]))
 
@@ -2033,7 +2043,12 @@ class Crivo:
         # Ficha ampla citada de passagem ("como poupar água em casa?") não
         # cala a resposta prática da base que cobre a pergunta inteira.
         if composicao is not None and composicao[0] == "fora":
-            if self._base_pratica_cobre(texto, self.compositor.assunto_mencionado(texto)):
+            citado = self.compositor.assunto_mencionado(texto)
+            if citado is None:
+                quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
+                citado = quadro.assunto if quadro is not None else None
+            if (self._base_pratica_cobre(texto, citado) or citado is not None
+                    and self._base_cobre(texto, n, citado, tolerancia=1)):
                 composicao = None
         # Um conceito novo pode compartilhar seu nome com uma pergunta
         # causal anterior. Só ceder à fonte legada quando o sujeito da
