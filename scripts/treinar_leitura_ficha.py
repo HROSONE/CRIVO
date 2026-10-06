@@ -19,7 +19,8 @@ aprendizado (todas as pistas cobertas e fato compatível com o tipo).
 
 Com --com-transformer, valida também a leitura com o leitor Transformer
 (artefatos/leitor_transformer) como traço a mais e só o aprova se entregar
-mais fatos certos sem mais erros; senão, fica a versão sem ele.
+pelo menos MARGEM_TRANSFORMER fatos certos a mais sem mais erros; senão, fica
+a versão sem ele.
 
 Uso: python scripts/treinar_leitura_ficha.py [--saida artefatos/leitura_ficha] [--com-transformer [pasta]]
 """
@@ -33,6 +34,7 @@ RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
 
 PRECISAO_AFIRMAR = 0.9
+MARGEM_TRANSFORMER = 4  # fatos certos a mais, na validação, para aprovar o leitor Transformer
 PRECISAO_APROXIMAR = 0.7
 SEMENTE = 20261005
 
@@ -187,7 +189,10 @@ def main():
             raise SystemExit("Leitor Transformer indisponível: " + lt.motivo)
         com = validar(bot.compositor, LeituraFicha(bot.compositor, caminho_modelo="/nao/existe", transformer=lt))
         (certos_sem, erros_sem), (certos_com, erros_com) = _entregues(meta), _entregues(com)
-        melhora = com["controle"]["aprovado"] and certos_com > certos_sem and erros_com <= erros_sem
+        # Margem mínima: +2 em ~130 perguntas é ruído (o piloto de 2,6M, que
+        # não aprendeu nada no teste congelado, ganhava +2 aqui).
+        melhora = (com["controle"]["aprovado"] and certos_com >= certos_sem + MARGEM_TRANSFORMER
+                   and erros_com <= erros_sem)
         comparacao = {"sem_transformer": {"certos_entregues": certos_sem, "erros": erros_sem},
                       "com_transformer": {"certos_entregues": certos_com, "erros": erros_com},
                       "transformer_aprovado": melhora}

@@ -87,6 +87,28 @@ class Arbitro(unittest.TestCase):
         self.assertIn("88 dias", resposta)
 
 
+class LeitorTransformer(unittest.TestCase):
+    def test_sem_artefato_aprovado_fica_desligado(self):
+        from leitor_transformer import LeitorTransformer as Leitor
+        self.assertFalse(Leitor("/nao/existe").disponivel)
+        bot = Crivo()
+        self.assertNotIn("transformer", bot.leitura_ficha.nomes)
+
+    def test_sequencia_fato_depois_pergunta(self):
+        from leitor_transformer import sequencia
+        from pontuador_frases import BPE
+        bpe = BPE(RAIZ / "artefatos" / "linguagem_profunda" / "tokenizer.json")
+        ids = sequencia(bpe, 64, "Chove em Titã?", "Titã tem chuva de metano. " * 20)
+        e = bpe.especiais
+        self.assertEqual(ids[0], e["<documento>"])
+        self.assertEqual(ids[-1], e["<fim>"])
+        self.assertIn(e["<usuario>"], ids)
+        self.assertLessEqual(len(ids), 64)
+        # A pergunta nunca é cortada; o fato, sim.
+        q = bpe.codificar("Chove em Titã?")
+        self.assertEqual(ids[-1 - len(q):-1], q)
+
+
 class Api(unittest.TestCase):
     def test_estado_interno_na_api(self):
         r = responder_web({"message": "Chove em Titã?"})

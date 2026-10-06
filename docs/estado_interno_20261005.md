@@ -165,19 +165,53 @@ da bateria deu os mesmos números.
   aviso de que não é exato. Premissas falsas sem qualificador absoluto ainda
   podem receber uma aproximação em vez da recusa.
 
-## Próximo passo: o Transformer no papel certo
+## O Transformer como leitor (preparado em 06/10/2026)
 
-O resultado aponta onde o Transformer próprio deve entrar. Primeiro como
-**leitor**: dado o estado (pergunta, entidade e fatos da ficha), dizer se e
+O resultado acima aponta onde o Transformer próprio deve entrar: como
+**leitor**. Dado o estado (pergunta, entidade e fatos da ficha), ele diz se e
 qual fato responde, entendendo paráfrases ("o quadro mais famoso" ↔ "pintou
-Abaporu"). É o que a lista de relações e os vetores não conseguem. O treino
-seria um pré-treino em português (o corpus da Wikipédia já usado pelo
-projeto), seguido de ajuste com pares pergunta–fato do tutor e sintéticos.
-Seria medido contra esta leitura num teste congelado novo, e só ligado se
-superar. Depois, como **realizador**: recebe o estado com os fatos escolhidos e
-escreve a resposta, com a guarda de fidelidade descartando o que não estiver
-nos fatos. Prever a próxima palavra solto já foi testado (16M parâmetros:
-33/72 contra 42/72 do motor híbrido) e não vira conversa.
+Abaporu"). É o que a lista de relações e os vetores não conseguem. Prever a
+próxima palavra solto já foi testado (16M parâmetros: 33/72 contra 42/72 do
+motor híbrido) e não vira conversa.
+
+O que ficou pronto:
+
+| Peça | O que faz |
+|---|---|
+| `leitor_transformer.py` | executor NumPy (sem PyTorch no site): `<documento> fato <usuario> pergunta <fim>` passa pelo Transformer causal, e o estado da última posição vai para uma camada linear que dá P(o fato responde) |
+| `scripts/treinar_leitor_transformer.py` | ajuste em PyTorch a partir de um pré-treino próprio (`--base`) |
+| `scripts/perguntas_sinteticas.py` | perguntas tiradas das próprias fichas, com variações (sinônimos, palavras retiradas) e perguntas sem resposta (nome de outra ficha) |
+| `scripts/treinar_leitura_ficha.py --com-transformer` | prova 1: o leitor entra como traço a mais da leitura e só é aprovado se entregar pelo menos 4 fatos certos a mais, sem mais erros, na validação do tutor |
+| `avaliacoes/leitura_ficha_v2` | prova 2: teste congelado novo (70 perguntas, 24 fichas), escrito antes de qualquer código do leitor; o leitor só fica ligado se melhorar aqui |
+| `notebooks/treinar_leitor_colab.ipynb` | treino com GPU a partir do pré-treino de 16M guardado no Drive, as duas provas e um zip com o resultado |
+
+Os dados de treino do leitor nunca incluem as fichas das perguntas do tutor,
+dos testes v1 e v2, nem a astronomia da bateria. Assim, todas essas medidas
+continuam limpas.
+
+**Piloto em CPU** (base de 2,6M, `artefatos/linguagem_profunda`, 3.000 passos,
+cerca de 25 minutos):
+
+- treino: a perda cai de 0,45 para cerca de 0,1, ou seja, o modelo decora as
+  perguntas sintéticas;
+- validação do tutor: acerto do fato de 27% para 35% (com cerca de 3 fatos
+  por ficha, o acaso fica perto de 33%); separação entre perguntas com e sem
+  resposta (AUC) 0,56, quase o acaso de 0,5;
+- prova 1 (com a margem antiga, de 1 fato): 79 contra 77 fatos certos
+  entregues. Isso é ruído, e por isso a margem passou a ser de 4;
+- prova 2, teste congelado v2: igual à linha de base (19 fatos certos e 6
+  erros, com ou sem o leitor). **Não fica ligado.**
+
+Conclusão: o caminho funciona de ponta a ponta. A paridade NumPy × PyTorch é
+exata até a sexta casa. Mas o Transformer de 2,6M, com pouco pré-treino, não
+transfere para paráfrases reais. O teste que importa é o de 16M no Colab.
+Linha de base para ele no teste v2, com a leitura atual: 12 afirmadas certas,
+7 aproximadas certas, 2 afirmações erradas e 4 afirmações em perguntas sem
+resposta. Sem leitura nenhuma: 9 certas.
+
+Depois do leitor, o próximo papel é o de **realizador**: receber o estado com
+os fatos escolhidos e escrever a resposta, com a guarda de fidelidade
+descartando o que não estiver nos fatos.
 
 ## Reproduzir
 
@@ -187,4 +221,8 @@ python scripts/avaliar_leitura_ficha.py teste    # teste congelado (~1 min)
 python scripts/avaliar_leitura_ficha.py teste --sem-leitura
 python scripts/avaliar_bateria.py todos
 python -m unittest testes_leitura_ficha
+# leitor Transformer (piloto em CPU; o de verdade vai pelo caderno do Colab)
+python scripts/treinar_leitor_transformer.py --base artefatos/linguagem_profunda --passos 3000
+python scripts/treinar_leitura_ficha.py --com-transformer artefatos/leitor_transformer
+python scripts/avaliar_leitura_ficha.py teste_v2
 ```
