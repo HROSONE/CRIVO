@@ -1,5 +1,12 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Acervo profundo (06/10/2026):** o acervo passou de 544 para 680 conceitos e de 1.729 para 3.947
+fatos, todos com fonte. As fichas existentes ganharam mecanismos, causas, exemplos, evidências e
+equívocos comuns; seis catálogos novos trazem artes e música, direito, política e economia, saúde e
+corpo humano, tecnologia e energia, matemática, química e estatística, e psicologia, neurociência e
+linguística. Só acréscimos (nenhum fato antigo mudou), revisão dos fatos sinalizados e verificação
+automática (`scripts/verificar_acervo.py`). [Detalhes e limites](docs/acervo_profundo_20261006.md).
+
 **Estado interno e leitura da ficha (05/10/2026):** cada fala monta um estado comum (tipo de
 pergunta, entidades, memória da conversa, conhecimento disponível, propostas de cada espécie e a
 decisão) que as partes do CRIVO leem e escrevem; a API o devolve em `internal_state`. Quando uma
