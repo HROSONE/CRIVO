@@ -44,7 +44,10 @@ class TestesConhecimentoMundo(unittest.TestCase):
                                 'direito': ('social', 'filosofico'), 'politica': ('social', 'filosofico'),
                                 'linguistica': ('social',), 'psicologia': ('social',),
                                 'saude': ('social',), 'computação': ('social',),
-                                'tecnologia': ('social',), 'engenharia': ('social',)}.get(item['area'], ())
+                                'tecnologia': ('social',), 'engenharia': ('social',),
+                                # Lacunas de 2026-10-06: esporte, alimentos e meio ambiente.
+                                'esporte': ('social',), 'alimentos': ('social',),
+                                'ambiente': ('social',)}.get(item['area'], ())
                     self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao') + proprias)
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
