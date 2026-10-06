@@ -296,7 +296,9 @@ class LeituraFicha:
         """Melhor fato da ficha com a margem para o segundo, ou None. Com
         indice, a leitura desse fato (proposto por outra espécie, como a busca
         aprendida), com a margem para o melhor dos outros."""
-        if quadro is None or quadro.recusa:
+        # Sem pistas além do assunto ("Onde fica o Egito?"), só o tipo da
+        # pergunta (quem, quando, onde, quanto) guia a leitura; abaixo.
+        if quadro is None or quadro.recusa and quadro.recusa != "sem_pistas":
             return None
         assunto = assunto or quadro.assunto
         if assunto not in self.c.itens:

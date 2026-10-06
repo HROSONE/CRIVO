@@ -131,7 +131,9 @@ def _pode_ler(estado):
     """A leitura da ficha só entra numa pergunta factual sobre UMA entidade
     citada na fala, sem negação, pedido de escrita ou pergunta pessoal."""
     q = estado.quadro
-    if q is None or q.recusa or q.outros or estado.negacao:
+    # "Onde fica o Egito?" e "O que fazem os rins?" não têm pistas além do
+    # assunto: o tipo da pergunta guia a leitura, que confere sozinha.
+    if q is None or q.recusa and q.recusa != "sem_pistas" or q.outros or estado.negacao:
         return False
     e = estado.entidade
     if e is None or e.origem != "fala" or e.id != q.assunto:

@@ -104,14 +104,19 @@ def main():
         if len(fatos) > 12:
             erros.append("%s: mais de 12 fatos" % ident)
     # Colisões de nome/apelido entre conceitos diferentes.
-    donos = {}
+    # Grafia com acento diferente ("Pelé" × "pele") não colide: o compositor
+    # a trata como grafia distinta e reescreve a pergunta pelo nome da ficha.
+    donos, grafias = {}, {}
     for ident, it in agora.items():
         for nome in [it.get("nome", "")] + list(it.get("aliases", [])):
             n = _norm(nome)
             if n and n in donos and donos[n] != ident:
-                if ident not in antes or donos[n] not in antes:
+                acentos = [g for g in grafias.get(n, set()) | {nome.casefold()} if g != _norm(g)]
+                distinta = bool(acentos) and nome.casefold() not in grafias.get(n, set())
+                if (ident not in antes or donos[n] not in antes) and not distinta:
                     erros.append("nome/apelido '%s' em %s e %s" % (nome, donos[n], ident))
             donos.setdefault(n, ident)
+            grafias.setdefault(n, set()).add(nome.casefold())
     for ident in antes:
         if ident not in agora:
             erros.append("%s: conceito removido" % ident)

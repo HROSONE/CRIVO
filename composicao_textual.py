@@ -60,6 +60,8 @@ class CompositorTextual:
     def __init__(self, base, caminho, extrair_definicao, curriculo_mundo=None):
         self.itens = {}
         self.aliases = {}
+        self.grafias_distintas = {}
+        self._grafias = {}
         self.fontes = {}
         self.expandidos = set()
         self.referencias = []
@@ -110,6 +112,7 @@ class CompositorTextual:
             self.mundo_ids = {i["id"] for i in curriculo_mundo["itens"]}
             self.ligacoes_mundo = curriculo_mundo.get("ligacoes", [])
             self.comparacoes_mundo = curriculo_mundo.get("comparacoes", [])
+            self._apelidos_de_sobrenome(curriculo_mundo["itens"])
         # A memoria sinaptica so coativa fatos com fontes editoriais. Ela
         # NUNCA usa perguntas de prova, feedback de chat ou pesos externos.
         # A inicializacao a partir de provas permite auditar cada resposta.
@@ -135,10 +138,48 @@ class CompositorTextual:
         return self.compor((ativacao.conceito,), "explicacao", selecionados=(
             (ativacao.conceito, ativacao.indice),), origem="conhecimento")
 
+    def _apelidos_de_sobrenome(self, itens):
+        """Pessoas são chamadas pelo sobrenome ("Beethoven", "Newton"): o
+        último nome de uma ficha de pessoa vira apelido quando é único entre
+        todas as pessoas e não é nome nem apelido de nenhuma outra ficha."""
+        candidatos = {}
+        for item in itens:
+            # Ficha de pessoa: área "pessoas" ou definição com as datas de
+            # vida logo após o nome ("Ludwig van Beethoven (1770–1827) foi...").
+            definicao = item["fatos"][0]["texto"] if item.get("fatos") else ""
+            if item.get("area") != "pessoas" and not re.match(
+                    re.escape(item["nome"]) + r"\s*\(\d{3,4}\s*[–-]\s*\d{3,4}\)", definicao):
+                continue
+            partes = tema(item["nome"]).split()
+            if len(partes) >= 2 and len(partes[-1]) >= 4:
+                candidatos.setdefault(partes[-1], set()).add(item["id"])
+        for sobrenome, ids in candidatos.items():
+            if len(ids) == 1 and sobrenome not in self.aliases:
+                ident = next(iter(ids))
+                self.aliases[sobrenome] = {ident}
+                self.itens[ident] = dict(self.itens[ident], aliases=list(self.itens[ident].get("aliases", [])) + [sobrenome])
+
     def _adicionar(self, item):
         self.itens[item["id"]] = item
         for alias in [item["nome"]] + item.get("aliases", []):
-            self.aliases.setdefault(tema(alias), set()).add(item["id"])
+            chave = tema(alias)
+            outros = self.aliases.get(chave, set()) - {item["id"]}
+            # Nome próprio "Pelé" × "pele": o mesmo texto sem acento já é de outra ficha.
+            # A grafia acentuada vira reescrita da pergunta pelo nome desta
+            # ficha (grafar), sem tornar ambíguo o nome da outra.
+            if outros and alias[:1].isupper() and alias.casefold() != normalizar(alias) and not any(
+                    alias.casefold() in self._grafias.get(o, ()) for o in outros):
+                self.grafias_distintas[alias.casefold()] = item["nome"]
+                continue
+            self.aliases.setdefault(chave, set()).add(item["id"])
+            self._grafias.setdefault(item["id"], set()).add(alias.casefold())
+
+    def grafar(self, texto):
+        """Reescreve grafias distintas ("Pelé") pelo nome da ficha delas."""
+        for grafia, nome in self.grafias_distintas.items():
+            if grafia in texto.casefold():
+                texto = re.sub(r"(?<!\w)" + re.escape(grafia) + r"(?!\w)", nome, texto, flags=re.I)
+        return texto
 
     def _carregar(self, dados, ids_base):
         if (not isinstance(dados, dict) or dados.get("versao") != 1 or
