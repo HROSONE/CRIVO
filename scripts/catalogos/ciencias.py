@@ -170,4 +170,4 @@ if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Sínteses próprias de química, matemática e economia de nível introdutório e universitário, com "
            "manuais abertos da OpenStax (CC BY 4.0). Exemplos numéricos foram conferidos à mão.",
-           FONTES, QUIMICA + MATEMATICA + ECONOMIA)
+           FONTES, QUIMICA + MATEMATICA + ECONOMIA, aprofundamento="ciencias")

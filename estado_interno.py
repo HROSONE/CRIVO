@@ -147,6 +147,8 @@ def arbitrar(bot, estado, ident, resposta):
     if not recusa or not isinstance(estado.fala, str) or not getattr(bot, "usar_leitura_ficha", True):
         estado.decidir(especie, "recusar" if recusa else "responder", "primeira espécie a responder")
         return ident, resposta
+    if ident in REVISAVEIS and _pode_buscar(estado):
+        return _ler_pela_busca(bot, estado, especie, ident, resposta)
     if ident not in REVISAVEIS or not _pode_ler(estado):
         estado.decidir(especie, "recusar", "leitura fora do nicho (negação, relação, escrita ou sem entidade)")
         return ident, resposta
@@ -158,8 +160,17 @@ def arbitrar(bot, estado, ident, resposta):
         "cues_covered": leitura.cobertura, "question_type": leitura.tipo}
     estado.propor("leitura_ficha", None, decisao or "calar", evidencia)
     if decisao is None:
+        # A ficha citada não tem a resposta; numa pergunta aberta, ela pode
+        # estar em outra ("Que cientista estudou a evolução?"). Sim/não e
+        # "o que é X" são sobre a ficha citada: a recusa fica.
+        if estado.tipo != "simnao" and not estado.quadro.pedido_nome:
+            return _ler_pela_busca(bot, estado, especie, ident, resposta, citado=estado.entidade.id)
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente")
         return ident, resposta
+    return _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia)
+
+
+def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, motivo=None):
     assunto, i = leitura.assunto, leitura.indice
     novo_ident, texto, ctx = bot.compositor.compor((assunto,), "explicacao", selecionados=((assunto, i),),
                                                   origem="conhecimento")
@@ -174,7 +185,9 @@ def arbitrar(bot, estado, ident, resposta):
         bot.oferta_pendente = None
         texto = ("Não tenho uma resposta exata para essa pergunta. O que a ficha de %s traz de mais "
                  "próximo é:\n\n%s" % (bot.compositor.itens[assunto]["nome"], texto))
-    registro = {"pergunta": estado.fala, "id": novo_ident, "mecanismo": "leitura_ficha",
+    # Achado pela busca (fora da ficha citada) ou lido na ficha citada.
+    mecanismo = "busca_aprendida" if "search_subject" in evidencia else "leitura_ficha"
+    registro = {"pergunta": estado.fala, "id": novo_ident, "mecanismo": mecanismo,
                 "leitura": dict(evidencia, decision=decisao, subject=assunto)}
     if com_voz:
         registro["voz"] = "voz_propria"
@@ -187,6 +200,92 @@ def arbitrar(bot, estado, ident, resposta):
     bot.ultimo_turno = {"pergunta": estado.fala, "id": novo_ident}
     bot.assunto_conversa = assunto
     bot.esclarecimento = None
-    estado.decidir("leitura_ficha", decisao, "%s recusou; a ficha de %s tem evidência (p=%.2f)"
+    estado.decidir(mecanismo, decisao, motivo or "%s recusou; a ficha de %s tem evidência (p=%.2f)"
                    % (especie, bot.compositor.itens[assunto]["nome"], leitura.prob))
     return novo_ident, texto
+
+
+# Busca aprendida (busca_semantica.py): quando a pergunta não cita o nome de
+# nenhum assunto, a busca procura o fato no acervo inteiro e a leitura da
+# ficha confere se ele responde. A busca ordena bem, mas não sabe quando não
+# há resposta; por isso só fala quando a leitura do fato achado o confirma
+# (pelo menos duas pistas cobertas; afirmar exige todas).
+LIMIAR_BUSCA = 0.5
+LIMIAR_BUSCA_APROXIMAR = 0.7
+
+
+def _pode_buscar(estado):
+    """Pergunta factual sem nenhuma entidade reconhecida (nem da conversa),
+    sem negação, relação, pedido de escrita ou pergunta pessoal. "O que é
+    Ceres?" sem ficha de Ceres pede a identidade de algo desconhecido: um
+    fato que só cita o nome não é a resposta, e a recusa continua."""
+    q = estado.quadro
+    if q is None or q.pedido_nome or estado.negacao:
+        return False
+    # "Qual organela produz ATP nas células?" cita dois conceitos, e a
+    # resposta está numa terceira ficha. Relação com direção ("a memória
+    # ajuda o sono?") continua recusada: só perguntas abertas, não sim/não.
+    relacao = q.recusa == "relacao_entre_conceitos" and estado.tipo != "simnao"
+    if not relacao and (q.recusa or q.assunto or q.outros or estado.entidades):
+        return False
+    if relacao and any(e.origem != "fala" for e in estado.entidades):
+        return False
+    n = normalizar(estado.fala)
+    return not (_ESCRITA.search(n) or _PESSOAL.search(n))
+
+
+def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
+    """citado: a ficha citada na fala, cuja leitura já não achou resposta; a
+    busca só fala se achar outra ficha."""
+    from leitura_ficha import busca_aprendida
+    busca = busca_aprendida(bot.compositor)
+    # As fichas citadas já foram lidas (ou a pergunta as relaciona): vale o
+    # melhor fato de outra ficha.
+    citados = {e.id for e in estado.entidades} | ({citado} if citado else set())
+    achados = [a for a in (busca.buscar(estado.fala, k=10) if busca.aprendida else ()) if a[1] not in citados]
+    if not achados:
+        estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente" if citado
+                       else "sem fato achado pela busca fora das fichas citadas")
+        return ident, resposta
+    # Probabilidade entre os fatos que sobraram (fora das fichas citadas).
+    prob, assunto, indice = achados[0][0] / sum(a[0] for a in achados), achados[0][1], achados[0][2]
+    # Pistas: todas as palavras de conteúdo da fala, inclusive os nomes de
+    # conceitos citados ("ATP", "células"), menos o nome do assunto achado.
+    c = bot.compositor
+    nome = {w for f in busca.nomes.get(assunto, ()) for w in f.split()}
+    raizes_nome = {w[:5] for w in nome}
+    pistas = []
+    for palavra in estado.quadro.forma.replace("-", " ").replace(",", " ").split():
+        palavra = palavra.strip("?!.;:")
+        if palavra in c._FORMA_PERGUNTA or len(palavra) < 2 or palavra in nome or palavra[:5] in raizes_nome:
+            continue
+        palavra = c._FORMAS_VER.get(palavra, palavra)
+        raiz = c._raiz(palavra)
+        if raiz not in (r for r, _ in pistas):
+            pistas.append((raiz, palavra))
+    pistas = tuple(pistas)
+    quadro = estado.quadro._replace(assunto=assunto, outros=(), pistas=pistas, recusa="")
+    leitor = bot.leitura_ficha
+    # A leitura confere o fato que a busca achou: todas as pistas cobertas.
+    leitura = leitor.ler(quadro, assunto, indice) if pistas else None
+    decisao = leitor.decisao(leitura)
+    evidencia = {"search_subject": assunto, "search_fact": indice, "search_probability": round(prob, 4)}
+    if leitura is not None:
+        evidencia.update({"fact": leitura.indice, "probability": leitura.prob, "margin": leitura.margem,
+                          "cues_covered": leitura.cobertura, "question_type": leitura.tipo})
+    # Duas pistas cobertas no mínimo: uma só palavra em comum não basta para
+    # dizer que um fato achado sem o nome do assunto responde. Aproximar ("não
+    # tenho a resposta exata; o mais próximo é…") pede a busca mais confiante.
+    apoio = leitura is not None and leitura.cobertura >= 2
+    if not (apoio and (decisao == "afirmar" and prob >= LIMIAR_BUSCA
+                       or decisao == "aproximar" and prob >= LIMIAR_BUSCA_APROXIMAR)):
+        decisao = None
+    estado.propor("busca_aprendida", None, decisao or "calar", evidencia)
+    if decisao is None:
+        estado.decidir(especie, "recusar", "a busca achou %s, mas a leitura não confirmou"
+                       % bot.compositor.itens[assunto]["nome"])
+        return ident, resposta
+    return _responder_com_leitura(
+        bot, estado, especie, leitura, decisao, evidencia,
+        "%s recusou; a busca achou %s (p=%.2f) e a leitura confirmou (p=%.2f)"
+        % (especie, bot.compositor.itens[assunto]["nome"], prob, leitura.prob))

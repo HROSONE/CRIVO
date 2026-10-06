@@ -156,4 +156,4 @@ if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Sínteses próprias de geografia física e humana, com fatos de agências científicas públicas "
            "(NOAA, NASA), do IBGE e de manuais abertos. Números são valores de referência arredondados e mudam com "
-           "novas medições e censos.", FONTES, ITENS, (), COMPARACOES)
+           "novas medições e censos.", FONTES, ITENS, (), COMPARACOES, aprofundamento="geografia")

@@ -245,4 +245,4 @@ if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Sínteses próprias de história mundial e do Brasil, com fatos consolidados em manuais abertos "
            "(OpenStax, CC BY 4.0) e referência institucional brasileira. Datas e números são aproximações correntes da "
-           "historiografia; interpretações podem mudar com novas evidências.", FONTES, ITENS, LIGACOES, COMPARACOES)
+           "historiografia; interpretações podem mudar com novas evidências.", FONTES, ITENS, LIGACOES, COMPARACOES, aprofundamento="historia")

@@ -61,8 +61,12 @@ CASOS = [
         ("Amanhã tenho prova e estou cansado", "conversa:relato", ["prova", "cansado"]),
         ("O que vale mais a pena?", "conversa:reflexao", ["estudar hoje", "descansar", "prazo"]),
     ]),
-    ("cinema e perspectiva", [
-        ("Vamos conversar sobre cinema", "conversa:abertura", ["cinema"]),
+    # Até 2026-10-05 o assunto era "cinema"; com a ficha de cinema (acervo de
+    # 2026-10-06) o CRIVO compõe a explicação, como faz para todo assunto com
+    # ficha. O diálogo mede a abertura e o fluxo, então o assunto passa a ser
+    # um sem ficha.
+    ("séries e perspectiva", [
+        ("Vamos conversar sobre séries", "conversa:abertura", ["séries"]),
         ("Gosto de histórias com finais inesperados", "conversa:relato", ["finais inesperados"]),
         ("E você?", "conversa:perspectiva", ["Não tenho gostos", "finais inesperados"]),
         ("O que faz um final ser bom?", "conversa:criterios", ["finais inesperados", "critério"]),

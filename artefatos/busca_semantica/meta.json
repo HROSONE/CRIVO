@@ -1,0 +1,97 @@
+{
+ "versao": 1,
+ "tracos": [
+  "bm",
+  "bm_ficha",
+  "nome",
+  "resto",
+  "resto_topo",
+  "sentido",
+  "sentido_rel",
+  "primeiro",
+  "definicao",
+  "quem_nome",
+  "quando_data",
+  "quanto_numero",
+  "onde_lugar",
+  "porque_causa",
+  "como_funcionamento",
+  "aspecto_par",
+  "aspecto_outro",
+  "tipo_sem_par"
+ ],
+ "pesos": [
+  1.7743,
+  3.63422,
+  4.16199,
+  -0.56856,
+  1.10055,
+  0.73739,
+  5.15652,
+  -0.04777,
+  3.80243,
+  -1.39339,
+  1.55455,
+  1.69217,
+  1.40745,
+  2.30622,
+  0.0,
+  -0.7676,
+  -0.65152,
+  -1.64813
+ ],
+ "treino": {
+  "perguntas": 1961,
+  "l2": 0.0,
+  "semente": 20261006,
+  "dados": "perguntas sintéticas das fichas (sem tutor, testes v1/v2 e astronomia)"
+ },
+ "validacao_tutor": {
+  "aprendida": {
+   "casos": 161,
+   "dentro_ficha@1": 0.814,
+   "acervo@1": 0.752,
+   "acervo@5": 0.969
+  },
+  "so_bm25": {
+   "casos": 161,
+   "dentro_ficha@1": 0.547,
+   "acervo@1": 0.398,
+   "acervo@5": 0.683
+  }
+ },
+ "teste_congelado": {
+  "leitura_ficha_v1": {
+   "aprendida": {
+    "casos": 50,
+    "dentro_ficha@1": 0.76,
+    "acervo@1": 0.74,
+    "acervo@5": 0.98
+   },
+   "so_bm25": {
+    "casos": 50,
+    "dentro_ficha@1": 0.44,
+    "acervo@1": 0.34,
+    "acervo@5": 0.62
+   }
+  },
+  "leitura_ficha_v2": {
+   "aprendida": {
+    "casos": 48,
+    "dentro_ficha@1": 0.667,
+    "acervo@1": 0.667,
+    "acervo@5": 0.979
+   },
+   "so_bm25": {
+    "casos": 48,
+    "dentro_ficha@1": 0.292,
+    "acervo@1": 0.229,
+    "acervo@5": 0.458
+   }
+  }
+ },
+ "controle": {
+  "aprovado": true,
+  "criterio": "dentro_ficha@1 + acervo@5 maior que só BM25 na validação do tutor e nos testes congelados de leitura v1 e v2"
+ }
+}

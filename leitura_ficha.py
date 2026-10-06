@@ -82,6 +82,16 @@ _PEDIDO = re.compile(r"\b(?:explique|explica|explicar|descreva|descreve|fale|fal
                     r"escreva|mostre|liste|defina|resuma|compare|analise)\b")
 
 
+def busca_aprendida(compositor):
+    """Busca aprendida do acervo, uma por acervo e processo (o índice BM25 é
+    montado uma vez; o site cria um Crivo por mensagem)."""
+    chave = ("busca", len(compositor.itens), sum(len(it["fatos"]) for it in compositor.itens.values()))
+    if chave not in _CACHE:
+        from busca_semantica import BuscaSemantica
+        _CACHE[chave] = BuscaSemantica(compositor, vetores=_vetores())
+    return _CACHE[chave]
+
+
 def pergunta_direta(texto):
     """Pergunta com "?" e sem pedido imperativo ("explique", "descreva")."""
     n = normalizar(texto)
@@ -115,15 +125,20 @@ def tipo_pergunta(n):
 
 
 class LeituraFicha:
-    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO, transformer=None):
+    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO, transformer=None, busca=None):
         """transformer: um LeitorTransformer para usar como traço a mais. Sem
         ele, o traço só entra se o modelo aprovado o pedir e o leitor aprovado
-        existir (leitor_transformer.py)."""
+        existir (leitor_transformer.py). busca: idem com a busca aprendida
+        (busca_semantica.py), cuja probabilidade para cada fato da ficha vira
+        o traço "busca"."""
         self.c = compositor
         self.nomes = TRACOS
         self.transformer = transformer
+        self.busca = busca
         if transformer is not None:
-            self.nomes = TRACOS + ("transformer",)
+            self.nomes = self.nomes + ("transformer",)
+        if busca is not None:
+            self.nomes = self.nomes + ("busca",)
         try:
             self.relacoes = json.loads(CAMINHO_RELACOES.read_text(encoding="utf-8"))["relacoes"]
         except (OSError, ValueError, KeyError):
@@ -136,11 +151,17 @@ class LeituraFicha:
         self.limiar = self.limiar_aproximar = None
         try:
             meta = json.loads(Path(caminho_modelo).read_text(encoding="utf-8"))
-            if transformer is None and list(meta.get("tracos", ())) == list(TRACOS) + ["transformer"]:
+            extras = list(meta.get("tracos", ()))[len(TRACOS):]
+            if transformer is None and busca is None and extras in (["transformer"], ["transformer", "busca"]):
                 from leitor_transformer import leitor
                 if leitor().disponivel:
                     self.transformer = leitor()
-                    self.nomes = TRACOS + ("transformer",)
+                    self.nomes = self.nomes + ("transformer",)
+            if busca is None and extras and extras[-1] == "busca":
+                b = busca_aprendida(compositor)
+                if b.aprendida:
+                    self.busca = b
+                    self.nomes = self.nomes + ("busca",)
             if meta.get("controle", {}).get("aprovado") and list(meta["tracos"]) == list(self.nomes):
                 self.pesos = [float(p) for p in meta["pesos"]]
                 self.limiar = float(meta["limiar"])
@@ -173,7 +194,7 @@ class LeituraFicha:
             return 0.0
         return max((vet.similaridade(palavra, w) for w in palavras_fato), default=0.0)
 
-    def tracos(self, quadro, assunto, indice, prob_transformer=None):
+    def tracos(self, quadro, assunto, indice, prob_transformer=None, prob_busca=0.0):
         fato = self.c.itens[assunto]["fatos"][indice]
         texto = fato["texto"]
         n_fato = normalizar(texto)
@@ -231,6 +252,8 @@ class LeituraFicha:
         }
         if "transformer" in self.nomes:
             valores["transformer"] = prob_transformer or 0.0
+        if "busca" in self.nomes:
+            valores["busca"] = prob_busca
         return [valores[t] for t in self.nomes], cobertas, tipo
 
     # --------------------------------------------------------------- decisão ---
@@ -246,9 +269,12 @@ class LeituraFicha:
         probs = [None] * len(fatos)
         if "transformer" in self.nomes and self.transformer is not None:
             probs = self.transformer.probabilidades(quadro.texto, [f["texto"] for f in fatos])
+        busca = {}
+        if "busca" in self.nomes and self.busca is not None:
+            busca = {i: p for p, _, i in self.busca.buscar(quadro.texto, k=len(fatos), assuntos={assunto})}
         saida = []
         for i, _ in enumerate(fatos):
-            x, cobertas, tipo = self.tracos(quadro, assunto, i, probs[i])
+            x, cobertas, tipo = self.tracos(quadro, assunto, i, probs[i], busca.get(i, 0.0))
             if self.aprendida:
                 p = self._prob(x)
             else:
@@ -258,8 +284,10 @@ class LeituraFicha:
         saida.sort(key=lambda s: (-s[0], s[1]))
         return saida
 
-    def ler(self, quadro, assunto=None):
-        """Melhor fato da ficha com a margem para o segundo, ou None."""
+    def ler(self, quadro, assunto=None, indice=None):
+        """Melhor fato da ficha com a margem para o segundo, ou None. Com
+        indice, a leitura desse fato (proposto por outra espécie, como a busca
+        aprendida), com a margem para o melhor dos outros."""
         if quadro is None or quadro.recusa:
             return None
         assunto = assunto or quadro.assunto
@@ -268,6 +296,12 @@ class LeituraFicha:
         cands = self.candidatos(quadro, assunto)
         if not cands or not self.pistas(quadro) and cands[0][3] not in ("quem", "quando", "onde", "quanto"):
             return None
+        if indice is not None:
+            escolhido = next((c for c in cands if c[1] == indice), None)
+            if escolhido is None:
+                return None
+            outros = [c for c in cands if c[1] != indice]
+            cands = [escolhido] + outros
         p, i, cobertas, tipo, x = cands[0]
         segundo = cands[1][0] if len(cands) > 1 else 0.0
         tracos = dict(zip(self.nomes, x))

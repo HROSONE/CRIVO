@@ -20,9 +20,10 @@ aprendizado (todas as pistas cobertas e fato compatível com o tipo).
 Com --com-transformer, valida também a leitura com o leitor Transformer
 (artefatos/leitor_transformer) como traço a mais e só o aprova se entregar
 pelo menos MARGEM_TRANSFORMER fatos certos a mais sem mais erros; senão, fica
-a versão sem ele.
+a versão sem ele. --com-busca faz o mesmo com a busca aprendida
+(busca_semantica.py), com a mesma margem.
 
-Uso: python scripts/treinar_leitura_ficha.py [--saida artefatos/leitura_ficha] [--com-transformer [pasta]]
+Uso: python scripts/treinar_leitura_ficha.py [--saida artefatos/leitura_ficha] [--com-busca] [--com-transformer [pasta]]
 """
 import argparse
 import json
@@ -175,6 +176,8 @@ def _entregues(meta):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--saida", default=str(RAIZ / "artefatos" / "leitura_ficha"))
+    parser.add_argument("--com-busca", action="store_true",
+                        help="comparar a busca aprendida (busca_semantica.py) como traço a mais")
     parser.add_argument("--com-transformer", nargs="?", const=str(RAIZ / "artefatos" / "leitor_transformer"),
                         help="pasta do leitor Transformer a comparar como traço a mais")
     args = parser.parse_args()
@@ -204,6 +207,21 @@ def main():
         meta_lt_caminho.write_text(json.dumps(meta_lt, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         if melhora:
             meta = dict(com, comparacao_transformer=comparacao)
+    if args.com_busca:
+        from leitura_ficha import busca_aprendida
+        b = busca_aprendida(bot.compositor)
+        if not b.aprendida:
+            raise SystemExit("Busca aprendida sem modelo aprovado (scripts/treinar_busca_semantica.py)")
+        com = validar(bot.compositor, LeituraFicha(bot.compositor, caminho_modelo="/nao/existe", busca=b))
+        (certos_sem, erros_sem), (certos_com, erros_com) = _entregues(meta), _entregues(com)
+        melhora = (com["controle"]["aprovado"] and certos_com >= certos_sem + MARGEM_TRANSFORMER
+                   and erros_com <= erros_sem)
+        comparacao = {"sem_busca": {"certos_entregues": certos_sem, "erros": erros_sem},
+                      "com_busca": {"certos_entregues": certos_com, "erros": erros_com},
+                      "busca_aprovada": melhora}
+        print(json.dumps(comparacao, ensure_ascii=False))
+        if melhora:
+            meta = dict(com, comparacao_busca=comparacao)
     saida = Path(args.saida)
     saida.mkdir(parents=True, exist_ok=True)
     (saida / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

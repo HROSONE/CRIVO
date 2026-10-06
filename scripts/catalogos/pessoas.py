@@ -202,4 +202,4 @@ if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Biografias curtas, em síntese própria, de pessoas de grande relevância histórica, científica e "
            "cultural, com fontes institucionais e manuais abertos. Datas seguem referências correntes; aspectos "
-           "debatidos são indicados como tais.", FONTES, ITENS)
+           "debatidos são indicados como tais.", FONTES, ITENS, aprofundamento="pessoas")

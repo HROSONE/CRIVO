@@ -147,8 +147,9 @@ class TestesContatoContextual(unittest.TestCase):
 
     def test_conceitos_e_fontes_preservam_pesos(self):
         bot = Crivo()
-        # 447 até 2026-10-03; 611 com os catálogos ampliados de 2026-10-05.
-        self.assertEqual(len(bot.base), 611)
+        # 447 até 2026-10-03; 611 com os catálogos ampliados de 2026-10-05; 747 com o
+        # acervo profundo de 2026-10-06.
+        self.assertEqual(len(bot.base), 747)
         for q, ident, trecho, fonte in (
             ('O que é um humano?', 'conhecimento:ser_humano', 'Homo sapiens', 'humanorigins.si.edu'),
             ('O que é o vácuo?', 'conhecimento:vacuo', 'matéria', 'home.cern'),
