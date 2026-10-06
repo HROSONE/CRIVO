@@ -284,8 +284,10 @@ class LeituraFicha:
         saida.sort(key=lambda s: (-s[0], s[1]))
         return saida
 
-    def ler(self, quadro, assunto=None):
-        """Melhor fato da ficha com a margem para o segundo, ou None."""
+    def ler(self, quadro, assunto=None, indice=None):
+        """Melhor fato da ficha com a margem para o segundo, ou None. Com
+        indice, a leitura desse fato (proposto por outra espécie, como a busca
+        aprendida), com a margem para o melhor dos outros."""
         if quadro is None or quadro.recusa:
             return None
         assunto = assunto or quadro.assunto
@@ -294,6 +296,12 @@ class LeituraFicha:
         cands = self.candidatos(quadro, assunto)
         if not cands or not self.pistas(quadro) and cands[0][3] not in ("quem", "quando", "onde", "quanto"):
             return None
+        if indice is not None:
+            escolhido = next((c for c in cands if c[1] == indice), None)
+            if escolhido is None:
+                return None
+            outros = [c for c in cands if c[1] != indice]
+            cands = [escolhido] + outros
         p, i, cobertas, tipo, x = cands[0]
         segundo = cands[1][0] if len(cands) > 1 else 0.0
         tracos = dict(zip(self.nomes, x))

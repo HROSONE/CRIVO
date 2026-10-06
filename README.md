@@ -5,8 +5,10 @@ etiqueta do assunto. Para cada fato candidato, mede evidências (palavras, o que
 além do nome do assunto, sentido nos vetores próprios, tipo de pergunta e aspecto) e um modelo de
 18 pesos aprendeu quanto vale cada uma. Fato novo é achado sem retreinar. No teste congelado de
 leitura v2, sem dizer o assunto, o fato certo fica em 1º em 67% das perguntas (23% só com
-palavras) e entre os 5 primeiros em 98% (46%). Ainda não responde sozinha: quem decide se fala
-continua sendo a leitura da ficha. [Medição e limites](docs/busca_aprendida_20261006.md).
+palavras) e entre os 5 primeiros em 98% (46%). Ligada no árbitro: quando a pergunta não cita o
+assunto ("Quem pintou a Mona Lisa?") ou a resposta está noutra ficha ("Qual organela produz ATP nas
+células?"), a busca acha o fato e a leitura da ficha confere antes de falar; bateria sem
+invenção nova. [Medição e limites](docs/busca_aprendida_20261006.md).
 
 **Acervo profundo (06/10/2026):** o acervo passou de 544 para 680 conceitos e de 1.729 para 3.947
 fatos, todos com fonte. As fichas existentes ganharam mecanismos, causas, exemplos, evidências e

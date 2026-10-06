@@ -77,5 +77,46 @@ class TestesBuscaSemantica(unittest.TestCase):
         self.assertGreaterEqual(top5, 46)
 
 
+class TestesBuscaNoArbitro(unittest.TestCase):
+    """A busca entra quando a espécie que respondeu recusou e a resposta está
+    numa ficha que a pergunta não cita pelo nome; a leitura confirma."""
+
+    def _busca(self, bot):
+        return [p for p in bot.estado_interno.propostas if p.especie == "busca_aprendida"]
+
+    def test_acha_a_ficha_sem_o_nome(self):
+        b = Crivo()
+        ident, texto = b.responder("Quem pintou a Mona Lisa?")
+        self.assertEqual(ident, "escrita:explicacao")
+        self.assertIn("Mona Lisa", texto)
+        self.assertEqual(self._busca(b)[0].acao, "afirmar")
+        self.assertEqual(b.assunto_conversa, "mundo_leonardo_da_vinci")
+        self.assertEqual(b.responder("Fontes")[0], "escrita:fontes")
+
+    def test_resposta_em_terceira_ficha_vem_aproximada(self):
+        # Cita ATP e célula; a resposta está na mitocôndria. "células" não
+        # está no fato, então não afirma: aproxima, dizendo que não é exata.
+        b = Crivo()
+        ident, texto = b.responder("Qual organela produz ATP nas células?")
+        self.assertEqual(ident, "leitura:aproximacao")
+        self.assertTrue(texto.startswith("Não tenho uma resposta exata"))
+        self.assertIn("mitocôndria", texto.lower())
+
+    def test_recusas_que_continuam(self):
+        for q in ("O que é Ceres?",                      # identidade de algo sem ficha
+                  "Quem propôs a teoria da relatividade?",  # a busca acha Darwin; a leitura não confirma
+                  "A memória ajuda o sono?",              # relação com direção, sim/não
+                  "Quem descobriu Netuno?"):              # recusa esperada na bateria
+            with self.subTest(pergunta=q):
+                ident, texto = Crivo().responder(q)
+                self.assertNotIn(ident, ("escrita:explicacao", "leitura:aproximacao"), texto)
+
+    def test_desligada_com_a_leitura(self):
+        b = Crivo()
+        b.usar_leitura_ficha = False
+        b.responder("Quem pintou a Mona Lisa?")
+        self.assertFalse(self._busca(b))
+
+
 if __name__ == "__main__":
     unittest.main()
