@@ -34,6 +34,23 @@ class TestesPretreinoLeitor(unittest.TestCase):
         self.assertIn("DADOS = Path('/content/crivo-dados')", self.codigo)
         self.assertIn("LEITOR = Path('/content/leitor')", self.codigo)
 
+    def test_progresso_aparece_na_celula_e_no_log(self):
+        # O Colab não mostra o que um subprocesso escreve direto no terminal;
+        # o caderno repassa linha a linha e grava em /content/crivo-log.txt.
+        import ast
+        import tempfile
+        arvore = ast.parse(self.codigo)
+        funcao = next(n for n in arvore.body if isinstance(n, ast.FunctionDef) and n.name == "executar")
+        with tempfile.TemporaryDirectory() as pasta:
+            ambiente = {"subprocess": __import__("subprocess"), "Path": Path, "ROOT": pasta,
+                        "LOG": Path(pasta) / "log.txt"}
+            exec(compile(ast.Module(body=[funcao], type_ignores=[]), "celula", "exec"), ambiente)
+            ambiente["executar"]([sys.executable, "-c", "print('passo 100/40000')"])
+            self.assertIn("passo 100/40000", (Path(pasta) / "log.txt").read_text())
+            with self.assertRaises(RuntimeError):
+                ambiente["executar"]([sys.executable, "-c", "import sys; sys.exit(3)"])
+        self.assertNotIn("subprocess.run([sys.executable, '-u', 'scripts/", self.codigo)
+
     def test_script_recusa_checkpoint_frequente_no_drive(self):
         argv = ["pretreinar_leitor_16m.py", "--etapa", "treinar", "--checkpoint-a-cada", "50",
                 "--checkpoint", "/content/drive/MyDrive/CRIVO/transformer-leitor/checkpoint.pt"]
