@@ -41,13 +41,17 @@ def preparar(casos):
             continue
         item = bot.compositor.itens[assunto]
         mostrados = [i for _, i in ctx.exibidos]
-        pontos, _ = voz.pontos_de_decisao(caso["pergunta"], item, mostrados)
+        item = dict(item, id=assunto)
+        ligacoes = [r for r in bot.compositor.ligacoes_mundo if assunto in (r["origem"], r["destino"])]
+        itens = bot.compositor.itens
+        pontos, _ = voz.pontos_de_decisao(caso["pergunta"], item, mostrados, ligacoes, itens)
         melhor, valor = None, -1
         for escolhas in itertools.product(*[opcoes for _, _, opcoes in pontos]):
-            s = chrf(voz.montar(caso["pergunta"], item, mostrados, escolhas), caso["tutor"])
+            s = chrf(voz.montar(caso["pergunta"], item, mostrados, escolhas, ligacoes, itens), caso["tutor"])
             if s > valor:
                 melhor, valor = escolhas, s
         exemplos.append({"caso": caso, "item": item, "mostrados": mostrados, "atual": atual,
+                         "ligacoes": ligacoes, "itens": itens,
                          "pontos": pontos, "oraculo": melhor, "chrf_oraculo": valor})
     return exemplos
 
@@ -90,7 +94,8 @@ def medir(exemplos, pesos):
     soma_voz = soma_atual = acertos = total = fieis = 0
     for ex in exemplos:
         caso = ex["caso"]
-        resposta = voz.realizar(caso["pergunta"], ex["item"], ex["mostrados"], decisor=d)
+        resposta = voz.realizar(caso["pergunta"], ex["item"], ex["mostrados"], decisor=d,
+                                ligacoes=ex["ligacoes"], itens=ex["itens"])
         fieis += resposta is not None
         resposta = resposta or ex["atual"]
         soma_voz += chrf(resposta, caso["tutor"])

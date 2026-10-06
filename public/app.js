@@ -248,6 +248,19 @@
       }
       tag.title = "Motor: " + (extra.mechanism || "recuperador");
       row.appendChild(tag);
+      // Ciclo de retorno: “sim”, “não” ou “não era isso” viram sinais para a
+      // espécie que respondeu. Ficam só neste navegador, no mesmo arquivo de
+      // avaliações que a pessoa decide baixar.
+      if (Array.isArray(extra.ecosystem_feedback)) {
+        extra.ecosystem_feedback.forEach(function (sinal, k) {
+          if (!sinal || typeof sinal !== "object") return;
+          registrarAvaliacao({
+            chave: "sinal-" + String(Date.now()) + "-" + k, quando: new Date().toISOString(),
+            tipo: "sinal", sinal: String(sinal.tipo || ""), especie: String(sinal.especie || ""),
+            pergunta: String(sinal.pergunta || ""), assunto: sinal.assunto || null, fala: extra.question || ""
+          });
+        });
+      }
       if (extra.question) {
         const chave = String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8);
         [["👍", 1, "Boa resposta"], ["👎", -1, "Resposta ruim"]].forEach(function (opcao) {
@@ -264,6 +277,7 @@
             registrarAvaliacao({
               chave: chave, quando: new Date().toISOString(), nota: opcao[1],
               pergunta: extra.question, resposta: text, id: extra.id,
+              especie: extra.mechanism || "recuperador", voz: extra.voice || null,
               historico: (extra.history || []).slice(-4)
             });
           });

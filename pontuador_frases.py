@@ -125,6 +125,10 @@ class Pontuador:
     def logits_lote(self, lote):
         """Várias sequências de uma vez, completadas à direita: com atenção
         causal, o enchimento no fim não altera as posições anteriores."""
+        return self.ocultos_lote(lote) @ self.p["embedding.weight"].T
+
+    def ocultos_lote(self, lote):
+        """Estados finais (após a última normalização) de cada posição."""
         np, p = self.np, self.p
         t = max(len(ids) for ids in lote)
         matriz = np.zeros((len(lote), t), dtype=np.int64)
@@ -146,7 +150,7 @@ class Pontuador:
             m = self._norm(x, b + "norm2") @ p[b + "mlp.0.weight"].T + p[b + "mlp.0.bias"]
             m = 0.5 * m * (1.0 + _erf(m / math.sqrt(2.0), np))
             x = x + m @ p[b + "mlp.2.weight"].T + p[b + "mlp.2.bias"]
-        return self._norm(x, "norm") @ p["embedding.weight"].T
+        return self._norm(x, "norm")
 
     def prefixo(self, mensagem):
         e = self.bpe.especiais

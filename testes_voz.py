@@ -77,6 +77,31 @@ class VozNoChat(unittest.TestCase):
         self.assertIn("Além disso", resposta)
 
 
+class OfertasCumpridas(unittest.TestCase):
+    def test_sim_depois_da_oferta_generica_continua(self):
+        r = responder_web({"message": "sim", "history": ["O que é inflação?"]})
+        self.assertEqual(r["id"], "escrita:continuacao")
+        self.assertIn("Plano Real", r["response"])
+
+    def test_sim_depois_da_ligacao_responde_a_relacao_sem_repetir_a_oferta(self):
+        r = responder_web({"message": "sim", "history": ["O que é neurônio?"]})
+        self.assertEqual(r["id"], "escrita:relacao")
+        self.assertIn("sinapses", r["response"])
+        self.assertNotIn("Se quiser", r["response"])
+
+    def test_oferta_vale_so_para_a_fala_seguinte(self):
+        # A oferta sobre inflação foi substituída pela da resposta sobre DNA.
+        r = responder_web({"message": "sim", "history": ["O que é inflação?", "O que é DNA?"]})
+        self.assertNotIn("Plano Real", r["response"])
+        r = responder_web({"message": "sim", "history": ["O que é inflação?", "Oi"]})
+        self.assertNotIn("Plano Real", r["response"])
+
+    def test_oferta_especifica_vem_do_acervo(self):
+        self.assertEqual(voz._nome_proprio_inicial("O Código de Hamurábi, da Babilônia, é antigo."),
+                         "o Código de Hamurábi")
+        self.assertIsNone(voz._nome_proprio_inicial("O Brasil viveu hiperinflação."))
+
+
 class Catraca(unittest.TestCase):
     def test_tutor_e_teste_congelado_sao_disjuntos(self):
         teste = json.loads((RAIZ / "avaliacoes/voz_v1/teste.json").read_text(encoding="utf-8"))

@@ -13,7 +13,7 @@ sem alguém que corrija o excesso dela.
 
 ## 1. Mapa das espécies (`ecossistema.py`)
 
-São 26 espécies em 6 reinos (conhecimento, raciocínio, linguagem, conversa,
+São 27 espécies em 6 reinos (26 na criação; a leitura da ficha entrou depois, veja `docs/estado_interno_20261005.md`) (conhecimento, raciocínio, linguagem, conversa,
 neural e programação). Cada uma declara:
 
 | Campo | O que é | Exemplo (`compreensao_neural`) |
@@ -53,6 +53,34 @@ como sinal para a espécie que respondeu:
 Os sinais ficam em `Crivo.sinais`, e a API devolve os da fala atual em
 `ecosystem_feedback`. **Nada é treinado automaticamente** com eles: um sinal
 só vira melhoria depois de passar pelas medições, como qualquer mudança.
+
+### Do sinal ao exemplo (atualização)
+
+O servidor não guarda conversas. Por isso, o caminho do sinal até o treino
+passa pela pessoa:
+
+1. **No site.** Os 👍/👎 e os sinais automáticos ("sim" ou "não" a uma
+   confirmação, "não era isso") ficam só no navegador. Cada um registra a
+   espécie que respondeu e se a voz própria falou.
+2. **Download.** "Baixar avaliações" gera `crivo-avaliacoes.json`. Nada é
+   enviado sozinho.
+3. **Fila.** `python scripts/retorno_para_exemplos.py fila crivo-avaliacoes.json`
+   monta a fila `dados/retorno_fila.json`, sem duplicar e com
+   `"revisado": false`:
+   - 👍 numa resposta com voz: a resposta pode virar exemplo de tutor;
+   - 👎 ou "não era isso": precisa de uma resposta corrigida;
+   - "sim" a uma confirmação da rede: a fala vira exemplo daquele assunto;
+   - "não" a essa confirmação: registro do erro, usado para medir.
+4. **Revisão.** Quem revisa marca `"revisado": true` e escreve as correções.
+   Depois, `python scripts/retorno_para_exemplos.py incorporar` move os itens
+   revisados para `dados/voz_tutor.json` e `dados/entendimento_retorno.json`.
+   Ficam de fora:
+   - respostas com palavra inventada (guarda de fidelidade);
+   - assuntos do teste congelado da voz;
+   - perguntas do teste congelado da compreensão.
+5. **Treino.** `treinar_voz.py` e `treinar_entendimento.py` leem esses
+   arquivos. O retreino e as catracas continuam manuais: nenhum sinal muda
+   pesos sozinho.
 
 De quebra, "não era isso" deixou de ser lido como relato do dia a dia e passou a
 ser reconhecido como contestação.
@@ -103,6 +131,29 @@ uma apoiada em um fato com fonte do conceito de origem:
 
 O CRIVO **não deduz cadeias de causa**: liga só o que está cadastrado com fonte
 e avisa isso na resposta.
+
+### Experimento: recuperador que confirma quando não cobre a pergunta (não adotado)
+
+O painel mostrou o recuperador por palavras como o elo mais fraco. Foi testada
+uma regra: quando a entrada escolhida não cobre uma palavra de conteúdo da
+pergunta ("Como ORDENO uma lista?" → append), o CRIVO pergunta "Você quis
+perguntar algo como…?" em vez de afirmar. Também foi testada uma segunda
+opinião: responder direto quando a compreensão neural aponta a mesma entrada.
+
+| Variante | Teste congelado: diretas certas / recusas certas | Bateria dev: certas / parciais |
+|---|---|---|
+| Sem a regra | 45/75 · 49/55 | 116 · 9 |
+| Confirma com 1 palavra faltando | 25/75 · 55/55 | 116 · 6 |
+| A mesma, com segunda opinião da rede | 36/75 · 55/55 | 116 · 6 |
+| Com 2 ou mais palavras faltando | 42/75 · 53/55 | 116 · 9 |
+| Com metade do conteúdo faltando | 41/75 · 54/55 | 116 · 7 |
+
+Todas as variantes trocam respostas diretas certas por recusas e confirmações,
+e nenhuma mantém a catraca de 45/75. Por isso a regra não entrou. A lição: a
+cobertura literal de palavras é uma pista fraca. Perguntas informais
+("samambaia amarelando") usam palavras que a entrada certa não tem. O caminho
+provável é várias espécies propondo respostas com evidência, e um árbitro
+decidindo quando confirmar.
 
 ## Limites
 

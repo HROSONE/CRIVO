@@ -1,5 +1,16 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Estado interno e leitura da ficha (05/10/2026):** cada fala monta um estado comum (tipo de
+pergunta, entidades, memória da conversa, conhecimento disponível, propostas de cada espécie e a
+decisão) que as partes do CRIVO leem e escrevem; a API o devolve em `internal_state`. Quando uma
+espécie recusa por falta de evidência ("Reconheci o assunto Titã, mas não tenho evidência"), uma
+nova espécie lê a ficha da entidade e propõe o fato que responde ("Chove em Titã?" → o fato sobre
+chuva de metano); um árbitro só deixa afirmar quando todas as palavras da pergunta têm apoio no
+fato, e com apoio quase completo responde "não tenho a resposta exata; o mais próximo na ficha é…".
+Bateria retida (nunca olhada): 48 → 54 acertos, sem invenção nova; teste congelado da leitura: o
+fato certo chega em 37 de 50 perguntas (eram 22). O gargalo que sobra é vocabulário e sentido.
+[Medição e limites](docs/estado_interno_20261005.md).
+
 **Voz própria (05/10/2026):** as respostas de conhecimento deixam de soar como ficha lida. A
 voz escolhe como abrir, como ligar as frases e como fechar (um limite importante ou a oferta de
 continuar), sem acrescentar nenhum fato: uma guarda de fidelidade descarta qualquer palavra que não

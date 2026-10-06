@@ -220,6 +220,15 @@ def gerar(bot, canonicas, editoriais, semente=20261005):
     for modelo, slot in FORA_VALIDACAO.items():
         for _ in range(8):
             validacao.append((preencher(modelo, slot, PREENCHE_VALIDACAO), FORA))
+    # Ciclo de retorno: falas reais que a pessoa confirmou (“sim”) depois de
+    # uma confirmação da rede, já revisadas (scripts/retorno_para_exemplos.py).
+    retorno = RAIZ / "dados" / "entendimento_retorno.json"
+    if retorno.is_file():
+        for par in json.loads(retorno.read_text(encoding="utf-8")).get("positivos", []):
+            if par.get("assunto") in canonicas:
+                treino.append((par["pergunta"], par["assunto"]))
+                for _ in range(4):
+                    treino.append((variar(par["pergunta"], rng), par["assunto"]))
     teste = json.loads((RAIZ / "avaliacoes/entendimento_v1/teste.json").read_text(encoding="utf-8"))
     proibidas = {" ".join(normalizar(c["p"])) for c in teste["positivos"]} | {
         " ".join(normalizar(p)) for p in teste["negativos"]}
