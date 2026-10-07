@@ -25,6 +25,7 @@ import math
 import re
 import unicodedata
 import zlib
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
@@ -200,12 +201,16 @@ def preserva_evidencia(texto, fatos):
     foi omitido. A unidade já foi escolhida pelo leitor/compositor.
     """
     fonte = " ".join(fatos)
-    raizes = {w[:4] for w in palavras_conteudo(fonte)}
-    numeros = set(re.findall(r"\d+(?:[.,]\d+)*", fonte))
-    negacoes = {w for w in _ws(fonte) if w in ("nao", "nem", "nunca", "jamais")}
-    return (raizes <= {w[:4] for w in palavras_conteudo(texto)}
-            and numeros <= set(re.findall(r"\d+(?:[.,]\d+)*", texto))
-            and negacoes <= set(_ws(texto)))
+    # Raízes e conjuntos confundem governantes/governados e perdem a
+    # repetição de nomes como Mato Grosso. A unidade selecionada precisa
+    # conservar cada palavra de conteúdo, inclusive siglas, e suas ocorrências.
+    def cobre(originais, escritos):
+        return not (Counter(originais) - Counter(escritos))
+    return (cobre(palavras_conteudo(fonte), palavras_conteudo(texto))
+            and cobre(re.findall(r"\d+(?:[.,]\d+)*", fonte),
+                      re.findall(r"\d+(?:[.,]\d+)*", texto))
+            and cobre((w for w in _ws(fonte) if w in ("nao", "nem", "nunca", "jamais")),
+                      (w for w in _ws(texto) if w in ("nao", "nem", "nunca", "jamais"))))
 
 
 def aprovada_pela_guarda(texto, fatos, pergunta):

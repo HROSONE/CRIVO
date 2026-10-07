@@ -40,18 +40,21 @@ class TestesConteudoAvancado(unittest.TestCase):
         self.assertEqual(falhas, [])
 
     def test_nome_próprio_mantém_maiúscula_depois_do_conectivo(self):
-        sem_voz = Crivo()
+        # O conectivo pertence ao compositor; a geração tem redação própria.
+        sem_voz = Crivo(usar_geracao=False)
         sem_voz.usar_voz = False
         resposta = sem_voz.responder("O que é anomia?")[1]
         self.assertIn("Além disso, Durkheim", resposta)
-        sem_voz = Crivo()
+        sem_voz = Crivo(usar_geracao=False)
         sem_voz.usar_voz = False
         resposta = sem_voz.responder("O que é uma galáxia espiral?")[1]
         self.assertNotIn("Além disso, A ", resposta)
         # Com a voz própria, o nome continua em maiúscula em qualquer posição.
-        resposta = Crivo().responder("O que é anomia?")[1]
-        self.assertIn("Durkheim", resposta)
-        self.assertNotIn("durkheim", resposta)
+        for usar_geracao in (False, True):
+            with self.subTest(geracao=usar_geracao):
+                resposta = Crivo(usar_geracao=usar_geracao).responder("O que é anomia?")[1]
+                self.assertIn("Durkheim", resposta)
+                self.assertNotIn("durkheim", resposta)
 
 
 if __name__ == "__main__":
