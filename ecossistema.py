@@ -118,6 +118,10 @@ _LISTA = (
             ("fontes", "recusa"),
             ("testes_exploracao_conhecimento.py",)),
     # --- linguagem ----------------------------------------------------------
+    Especie("correcao_texto", "linguagem",
+            "Propõe correções por regras explícitas, preservando o original e mostrando alterações.",
+            "Pedidos de correção de conteúdo enviado e consulta das alterações.",
+            ("correcao_texto.py", "analise_conteudo.py"), ("pessoa", "catracas"), ("testes_correcao_texto.py",)),
     Especie("analise_conteudo", "linguagem",
             "Resume e analisa conteúdo enviado com citações e offsets verificáveis.",
             "Pedidos explícitos de resumo, ideias centrais e padrões; retomadas do mesmo conteúdo.",

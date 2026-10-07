@@ -44,7 +44,11 @@ def pedido(texto):
     n = re.sub(r'^(?:por favor[, ]+|voce pode |pode |me )', '', n)
     if re.search(r'\brelato\b', n) and not re.search(r'\b(?:texto|conteudo|sequencia)\b', n):
         return None  # Relatos pessoais conservam a operação de conversa.
-    if n in ('mais curto', 'mais curta') or re.match(r'^(?:resuma|resumir|faca um resumo|resume)\b', n):
+    if re.match(r'^(?:corrija|corrigir|revise|revisar|faca a correcao|faca uma correcao|corrige)\b', n):
+        modo = 'correcao'
+    elif n in ('mostre as alteracoes', 'o que voce corrigiu', 'o que mudou', 'quais foram as correcoes'):
+        modo = 'alteracoes'
+    elif n in ('mais curto', 'mais curta') or re.match(r'^(?:resuma|resumir|faca um resumo|resume)\b', n):
         modo = 'resumo'
     elif re.match(r'^(?:analise|analisar|faca uma analise)\b', n):
         modo = 'analise'
@@ -60,6 +64,10 @@ def pedido(texto):
         return None
     if modo == 'resumo' and 'padroes' in n:
         modo = 'analise'
+    if modo == 'correcao' and re.search(r'\b(?:codigo|funcao|programa|script|javascript|python|js|ts|typescript)\b', n) and not re.search(r'\b(?:texto|redacao|paragrafo)\b', n):
+        return None  # A correção de programação mantém o motor existente.
+    if modo == 'correcao' and re.fullmatch(r'corrija (?:a )?premissa', n):
+        return None  # A revisão lógica altera as premissas da sessão.
     # Citação também serve como entrada, sem exigir dois-pontos.
     if corte is None:
         citado = re.search(r'["“](.+)["”]\s*$', t, re.S)
@@ -67,6 +75,11 @@ def pedido(texto):
             return pedido(t[:citado.start()] + ': ' + citado.group(1))
     qtd = re.search(r'\b([1-8]) (?:frases?|ideias?|pontos?)\b', n)
     explicito = bool(corte or re.search(r'\b(?:texto|conteudo|sequencia|enviado|enviei)\b', n))
+    if not corte and modo == 'correcao' and not explicito and n not in (
+            'corrija', 'corrigir', 'corrige', 'corrija isso', 'revise', 'revisar', 'revise isso'):
+        return None
+    if modo in ('correcao', 'alteracoes'):
+        explicito = True
     if not corte and modo in ('resumo', 'analise') and not explicito and not qtd and n not in (
             'resuma', 'resume', 'resumir', 'mais curto', 'mais curta', 'resuma isso', 'faca um resumo', 'analise', 'analise isso'):
         return None
@@ -172,27 +185,39 @@ class AnaliseConteudo:
     def __init__(self):
         self.fonte = None
         self.ultima = None
+        self.correcao = None
 
     def responder(self, texto):
         self.ultima = None
         p = pedido(texto)
         if p is None:
             self.fonte = None
+            self.correcao = None
             return None
         if p.fonte is not None:
+            self.correcao = None
             if not p.fonte or len(p.fonte) > LIMITE_CONTEUDO:
                 self.fonte = None
                 return 'texto:conteudo_invalido', 'Envie um conteúdo não vazio, com até 12 mil caracteres.'
             us = unidades(p.fonte)
-            if len(us) > 200:
+            if len(us) > 200 and p.modo != 'correcao':
                 self.fonte = None
                 return 'texto:conteudo_invalido', 'Divida o conteúdo em partes com até 200 frases ou itens.'
             self.fonte = p.fonte
         elif self.fonte is None:
             if not p.explicito:
                 return None  # Resumo do acervo permanece no compositor.
-            return 'texto:pedir_conteudo', 'Cole o conteúdo depois de «Resuma este texto:» ou «Analise este conteúdo:».'
+            return 'texto:pedir_conteudo', 'Cole o conteúdo depois de «Resuma este texto:», «Analise este conteúdo:» ou «Corrija este texto:».'
+        if p.modo in ('correcao', 'alteracoes'):
+            from correcao_texto import corrigir, apresentar
+            if p.modo == 'correcao':
+                self.correcao = corrigir(self.fonte)
+            elif self.correcao is None:
+                return 'texto:pedir_correcao', 'Peça «Corrija este texto:» antes de consultar as alterações.'
+            return 'texto:' + p.modo, apresentar(self.correcao, p.modo == 'alteracoes')
         us = unidades(self.fonte)
+        if len(us) > 200:
+            return 'texto:conteudo_invalido', 'Divida o conteúdo em partes com até 200 frases ou itens para análise.'
         if not us:
             return 'texto:conteudo_invalido', 'Não encontrei frases ou itens no conteúdo enviado.'
         qtd = min(p.quantidade, max(1, len(us) - 1)) if p.modo == 'resumo' else p.quantidade

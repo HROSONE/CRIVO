@@ -86,7 +86,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     mensagem = payload.get("message")
     historico = payload.get("history", [])
     if not mensagem_valida(mensagem):
-        raise PedidoInvalido("Envie até 1200 caracteres por pergunta ou até 12000 para conteúdo com pedido explícito de análise/resumo.")
+        raise PedidoInvalido("Envie até 1200 caracteres por pergunta ou até 12000 para conteúdo com pedido explícito de análise/resumo/correção.")
     if (not isinstance(historico, list) or len(historico) > LIMITE_HISTORICO
             or any(not mensagem_valida(p) for p in historico)
             or sum(len(p) for p in historico) > LIMITE_HISTORICO_CARACTERES):
@@ -127,6 +127,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     extra["generation"] = bot.ultima_geracao
     if bot.ultima_analise_conteudo is not None:
         extra["content_analysis"] = bot.ultima_analise_conteudo
+    if bot.ultima_correcao_texto is not None:
+        extra["text_correction"] = bot.ultima_correcao_texto
     if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
         interpretacao = bot.historico[-1].get("interpretacao_pergunta")
         if interpretacao is not None:
