@@ -1,0 +1,86 @@
+{
+ "versao": 1,
+ "papel": "geração ancorada: resposta a partir dos fatos",
+ "base": {
+  "config": {
+   "vocabulario": 8192,
+   "dimensao": 384,
+   "camadas": 8,
+   "cabecas": 8,
+   "contexto": 256,
+   "dropout": 0.1
+  }
+ },
+ "treino": {
+  "exemplos": 1645,
+  "passos": 1500,
+  "lote": 16,
+  "lr": 5e-05,
+  "semente": 20261007
+ },
+ "validacao": {
+  "melhor": {
+   "perda_val": 0.458,
+   "fiel": 38,
+   "verificado": 36,
+   "f1": 0.481,
+   "n": 40,
+   "passo": 900
+  },
+  "historico": [
+   {
+    "perda_val": 2.099,
+    "fiel": 10,
+    "verificado": 9,
+    "f1": 0.147,
+    "n": 40,
+    "passo": 0
+   },
+   {
+    "perda_val": 0.559,
+    "fiel": 39,
+    "verificado": 37,
+    "f1": 0.337,
+    "n": 40,
+    "passo": 300
+   },
+   {
+    "perda_val": 0.478,
+    "fiel": 38,
+    "verificado": 38,
+    "f1": 0.443,
+    "n": 40,
+    "passo": 600
+   },
+   {
+    "perda_val": 0.458,
+    "fiel": 38,
+    "verificado": 36,
+    "f1": 0.481,
+    "n": 40,
+    "passo": 900
+   },
+   {
+    "perda_val": 0.617,
+    "fiel": 38,
+    "verificado": 37,
+    "f1": 0.495,
+    "n": 40,
+    "passo": 1200
+   },
+   {
+    "perda_val": 0.466,
+    "fiel": 36,
+    "verificado": 34,
+    "f1": 0.505,
+    "n": 40,
+    "passo": 1500
+   }
+  ]
+ },
+ "pesos_externos": false,
+ "controle": {
+  "aprovado": true,
+  "provisorio": "medição em andamento"
+ }
+}

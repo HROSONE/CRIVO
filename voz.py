@@ -481,6 +481,26 @@ def realizar(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
     return resultado[0] if resultado else None
 
 
+def fecho_com_oferta(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
+    """Só o fecho que a voz escolheria (limite importante ou oferta), para ir
+    depois de uma resposta escrita por outra espécie: ("" ou frase, ação)."""
+    decisor = decisor or modelo()
+    if not decisor.ativo or not mostrados:
+        return "", None
+    pontos, textos = pontos_de_decisao(pergunta, item, mostrados, ligacoes, itens)
+    tipo, ctx, opcoes = pontos[-1]
+    escolha = decisor.escolher(tipo, ctx, opcoes)
+    especifica = oferta_especifica(item, mostrados, pergunta, ligacoes, itens)
+    fecho = _aplicar_fecho(item, pergunta, mostrados, escolha, textos, especifica) or ""
+    fontes = [pergunta] + textos + item.get("aliases", [])
+    if itens is not None:
+        fontes += [itens[r[k]]["nome"] for r in ligacoes for k in ("origem", "destino") if r[k] in itens]
+    if not fecho or palavras_inventadas(fecho, fontes):
+        return "", None
+    acao = ("continuar",) if escolha == "oferta" else especifica[1] if escolha == "oferta_especifica" else None
+    return fecho, acao
+
+
 def realizar_com_oferta(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
     """(resposta, ação da oferta ou None). A ação diz o que fazer se a pessoa
     aceitar: ("continuar",), ("fato", índice) ou ("pergunta", texto)."""

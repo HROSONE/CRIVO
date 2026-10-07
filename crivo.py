@@ -154,7 +154,7 @@ SINONIMOS_CONSULTA_TECNICA = {
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
                  usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                 usar_interpretador_perguntas=True):
+                 usar_interpretador_perguntas=True, usar_geracao=True):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
         from programacao_chat import MotorCodigoChat
@@ -249,6 +249,11 @@ class Crivo:
         # Voz própria (voz.py): só age com pesos aprovados no controle.
         self.usar_voz = True
         self.oferta_pendente = None
+        # Geração ancorada (geracao_ancorada.py): o CRIVO escolhe a ficha e a
+        # busca escolhe o fato; o Transformer só escreve a resposta a partir
+        # dele. O controle antigo é explícito: usar_geracao=False.
+        self.usar_geracao = usar_geracao
+        self.ultima_geracao = None
         # Leitura da ficha e estado interno do turno (estado_interno.py).
         self.usar_leitura_ficha = True
         self._leitura_ficha = None
@@ -1430,6 +1435,8 @@ class Crivo:
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
+        self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
+                               "motivo": "crise", "tentativas": 0}
         if isinstance(texto, str):
             texto = self.compositor.grafar(texto)
             urgente = crise.responder(texto, self)
@@ -1449,6 +1456,7 @@ class Crivo:
             ident, resposta = self._responder_comum(texto)
         ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
         ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
+        ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
@@ -1569,6 +1577,140 @@ class Crivo:
         self.oferta_pendente = (assunto, acao) if acao else None
         return nova, True
 
+    _PERGUNTA_ABERTA = re.compile(r"(?:o que|que|qual|quais|quem|quando|onde|como|por ?que|quanto|quantos|"
+                                  r"quantas|quanta|para que|pra que|em que)\b")
+    _RECUSAS_GERACAO = frozenset(("fora", "duvida", "social:nao_entendido", "leitura:aproximacao"))
+    _MECANISMOS_FICHA = frozenset(("composicao_factual", "leitura_ficha", "busca_aprendida"))
+
+    def _escrever_com_geracao(self, texto, ident, resposta):
+        """Redige com evidências do turno; todo recuo deixa um diagnóstico.
+
+        Usa os fatos já verificados pelo leitor ou compositor, inclusive os
+        de turnos anteriores. A redação não troca de assunto nem resgata recusas.
+        Provas lógicas, código, fontes e recusas sem evidências mantêm seu motor.
+        """
+        trace = {"habilitada": self.usar_geracao, "usada": False,
+                 "motivo": "desligada", "tentativas": 0}
+        self.ultima_geracao = trace
+
+        def recuar(motivo):
+            trace["motivo"] = motivo
+            return ident, resposta
+
+        if not self.usar_geracao:
+            return recuar("desligada")
+        if not isinstance(texto, str):
+            return recuar("entrada_invalida")
+        n = normalizar(texto).strip()
+        ultimo = self.historico[-1] if self.historico and self.historico[-1].get("pergunta") == texto else {}
+        ctx = self.contexto_textual
+        composicao = (ident in {"escrita:" + f for f in
+                               ("texto", "resumo", "topicos", "simples", "explicacao", "continuacao", "comparacao")}
+                      and ctx is not None
+                      and ctx.origem != "base" and ctx.formato in
+                      ("texto", "resumo", "topicos", "simples", "explicacao", "continuacao", "comparacao"))
+        if ident == "leitura:aproximacao":
+            return recuar("resposta_incerta")
+        if ident.endswith(":fontes"):
+            return recuar("consulta_de_fontes")
+        if composicao:
+            pares = tuple(ctx.exibidos)
+            if not pares:
+                return recuar("sem_evidencias")
+            if len(pares) > 4:
+                return recuar("limite_de_evidencias")
+            trace["modo"] = "composicao"
+        else:
+            if not self._PERGUNTA_ABERTA.match(n) or re.search(
+                    r"\b(?:frases?|escrev\w*|resum\w*|roteiro|topicos|paragrafos?|linhas?|compar\w*|diferenca)\b", n):
+                return recuar("pedido_fora_do_escopo")
+            assunto = None
+            recusa = ident in self._RECUSAS_GERACAO or resposta.strip().lower().startswith(
+                ("não tenho", "reconheci o assunto", "não reconheci", "não encontrei"))
+            if recusa:
+                return recuar("sem_resposta_verificada")
+            elif ultimo.get("mecanismo") in self._MECANISMOS_FICHA and ctx is not None and ctx.exibidos \
+                    and ctx.formato not in ("relacao", "ligacoes", "comparacao") and len({e for e, _ in ctx.exibidos}) == 1:
+                assunto = ctx.exibidos[0][0]
+            if assunto not in self.compositor.itens:
+                return recuar("sem_ficha_elegivel")
+            indices = [i for e, i in ctx.exibidos if e == assunto]
+            if not indices or len(indices) > 4:
+                return recuar("limite_de_evidencias")
+            pares = tuple((assunto, i) for i in indices)
+            trace["origem"] = ultimo.get("mecanismo")
+            trace["modo"] = "factual"
+        from curriculo_mundo import texto_fato
+        from geracao_ancorada import geracao
+        g = geracao()
+        if not g.disponivel:
+            trace["modelo"] = g.motivo
+            return recuar("modelo_indisponivel")
+        trace["evidencias"] = [{"assunto": e, "fato": i} for e, i in pares]
+        segmentos = []
+        rejeicoes = []
+        # Uma evidência por passagem evita misturar números ou sujeitos e
+        # impede que fatos do segundo tema sejam cortados pelo contexto de 256.
+        grupos = [(p,) for p in pares]
+        for grupo in grupos:
+            fatos = [texto_fato(self.compositor.itens[e]["fatos"][i]) for e, i in grupo]
+            diagnostico = {}
+            escrita = g.gerar(texto, fatos, diagnostico=diagnostico)
+            trace["tentativas"] += diagnostico.get("tentativas", 0)
+            rejeicoes.extend(diagnostico.get("rejeicoes", ()))
+            if not escrita:
+                trace["rejeicoes"] = rejeicoes
+                return recuar(diagnostico.get("motivo", "guarda_rejeitou"))
+            segmentos.append(escrita)
+        trace["rejeicoes"] = rejeicoes
+        if composicao:
+            # Substitui apenas os trechos factuais, preservando títulos,
+            # conectores, instruções e ofertas de estudo. Se o compositor
+            # já simplificou o fato, não desfaz essa adaptação ao pedido.
+            escrita = resposta
+            for segmento, (e, i) in zip(segmentos, pares):
+                fato = texto_fato(self.compositor.itens[e]["fatos"][i])
+                if fato in escrita:
+                    escrita = escrita.replace(fato, segmento, 1)
+                else:
+                    variante = self.compositor._minuscula_inicial(fato)
+                    if variante not in escrita:
+                        return recuar("formato_requer_compositor")
+                    escrita = escrita.replace(variante, self.compositor._minuscula_inicial(segmento), 1)
+            novo_ctx = ctx
+        else:
+            escrita = " ".join(segmentos)
+            if self.usar_voz:
+                import voz
+                item = self.compositor.itens[assunto]
+                ligacoes = [r for r in self.compositor.ligacoes_mundo if assunto in (r["origem"], r["destino"])]
+                fecho, acao = voz.fecho_com_oferta(texto, dict(item, id=assunto), indices, ligacoes=ligacoes,
+                                                   itens=self.compositor.itens)
+                if fecho:
+                    escrita += " " + fecho
+                self.oferta_pendente = (assunto, acao) if acao else None
+            _, _, novo_ctx = self.compositor.compor((assunto,), "explicacao",
+                                                    selecionados=pares, origem="conhecimento")
+        self.contexto_textual = novo_ctx._replace(texto=escrita)
+        self.ultima_resposta_mostrada = escrita
+        self.conversacao.ultima_resposta_texto = escrita
+        trace.update(usada=True, motivo="gerada", substituiu=ident,
+                     texto_alterado=escrita != resposta,
+                     copia_literal=all(s.strip() in texto_fato(self.compositor.itens[e]["fatos"][i])
+                                        for s, (e, i) in zip(segmentos, pares)))
+        # O ID semântico continua estável; o mecanismo indica quem escreveu.
+        novo_id = ident
+        registro = {"pergunta": texto, "id": novo_id, "mecanismo": "geracao_ancorada",
+                    "geracao": dict(trace)}
+        if ultimo:
+            ultimo.update(registro)
+        else:
+            self.historico.append(registro)
+            self.historico = self.historico[-20:]
+        if self.ultimo_turno is not None:
+            self.ultimo_turno["id"] = novo_id
+        return novo_id, escrita
+
     _ACEITA_OFERTA = re.compile(r"(?:sim|quero|quero sim|claro|pode|pode ser|pode sim|conta|conte|"
                                 r"manda|bora|ok|beleza|por favor|sim,? por favor|quero saber|"
                                 r"conta sim|explica|explique|vai|isso)")
@@ -1663,6 +1805,7 @@ class Crivo:
         if intencao is not None:
             return intencao
         original_usuario = texto
+        contexto_completo = self._pedido_sobre_comparacao(texto, self.contexto_textual)
         # Um vocativo não é uma referência a pessoa do relato. Retirar
         # aberturas completas antes do planejador evita interpretar “Oi!
         # O que é DNA?” como duas tarefas independentes.
@@ -1678,11 +1821,12 @@ class Crivo:
             texto = finalidade
         elif contato_completo is None:
             texto = conversa_assistente.preparar_conversa(texto)
-            texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
+            if not contexto_completo:
+                texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:
             self.perfil.turno += 1
         try:
-            lembrado = self._memoria_responder(original_usuario)
+            lembrado = None if contexto_completo else self._memoria_responder(original_usuario)
             if lembrado is not None:
                 return lembrado
             limite = self._nocao_limite(texto)
@@ -1750,6 +1894,15 @@ class Crivo:
         if mencionado is not None:
             self.assunto_conversa = mencionado
 
+    @staticmethod
+    def _pedido_sobre_comparacao(texto, contexto):
+        """Resumir/formatar a comparação inteira não escolhe só um dos temas."""
+        return (contexto is not None and contexto.formato == "comparacao"
+                and normalizar(texto).strip(" .!?") in
+                ("resuma isso", "resuma", "mais curto", "mais curta", "pode resumir",
+                 "em topicos", "coloque em topicos", "transforme em topicos",
+                 "mais simples", "em palavras simples", "qual a fonte", "qual e a fonte", "fontes"))
+
     def _responder_turno(self, texto):
         pergunta = (self.interpretador_perguntas.analisar(texto)
                     if self.usar_interpretador_perguntas else None)
@@ -1786,12 +1939,18 @@ class Crivo:
             # Leitura textual explícita tem precedência, mas ainda passa por
             # todo o registro de turno abaixo.
             from compreensao_textual import responder as compreender_texto
-            resultado = compreender_texto(texto, self._contexto_textual_anterior)
+            composto = (self.compositor.responder(texto, self._contexto_textual_anterior)
+                        if self._pedido_sobre_comparacao(texto, self._contexto_textual_anterior) else None)
+            if composto is not None:
+                ident, resposta, self.contexto_textual = composto
+                resultado = ident, resposta
+            else:
+                resultado = compreender_texto(texto, self._contexto_textual_anterior)
             if resultado is not None:
                 origem = None
                 preparacao = None
                 self.historico.append({"pergunta": texto, "id": resultado[0],
-                                       "mecanismo": "compreensao_textual"})
+                                       "mecanismo": "composicao_factual" if composto else "compreensao_textual"})
                 self.historico = self.historico[-20:]
             else:
                 resultado, origem = self._executar_preparacao(preparacao, texto, registro_anterior)

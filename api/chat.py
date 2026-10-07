@@ -83,6 +83,8 @@ class handler(BaseHTTPRequestHandler):
             return self._json(503, {"status": "unavailable",
                                     "error": "Arquivos de conhecimento ausentes."})
         from modelo_efeitos_chat import status_modelo
+        from geracao_ancorada import geracao
+        g = geracao()
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "programming_active": True,
                                 "question_interpretation_active": True,
@@ -91,6 +93,8 @@ class handler(BaseHTTPRequestHandler):
                                 "build_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA"),
                                 "programming_effects_model": status_modelo(),
                                 "engine": "python-local", "external_ai": False,
+                                "generation": {"enabled": getattr(self.server, "usar_geracao", True),
+                                               "available": g.disponivel, "reason": g.motivo},
                                 "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)
                                 or bool(getattr(self.server, "modelo_linguagem", None)),
                                 "experimental_programming": bool(getattr(self.server, "gerador_programacao", None))})
@@ -139,7 +143,8 @@ class handler(BaseHTTPRequestHandler):
             resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
                 self.server, "dialogo_contextual", False), modelo_linguagem=getattr(
                 self.server, "modelo_linguagem", None), gerador_programacao=getattr(
-                self.server, "gerador_programacao", None))
+                self.server, "gerador_programacao", None),
+                usar_geracao=getattr(self.server, "usar_geracao", True))
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

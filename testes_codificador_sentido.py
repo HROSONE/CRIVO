@@ -21,6 +21,16 @@ class CodificadorSentido(unittest.TestCase):
         self.assertTrue(self.cod.meta["controle"]["aprovado"])
         self.assertFalse(self.cod.meta["pesos_externos"])
 
+    def test_acervo_e_lote_vazios(self):
+        self.assertEqual(self.cod.codificar([], "pergunta").shape[0], 0)
+        self.assertEqual(self.cod.vetores_fatos([]).shape[0], 0)
+        from types import SimpleNamespace
+        from busca_semantica import BuscaSemantica
+        comp = SimpleNamespace(itens={}, aliases={})
+        busca = BuscaSemantica(comp)
+        self.assertIsNone(busca.proximidades("Qual a capital?"))
+        self.assertEqual(busca.buscar("Qual a capital?"), [])
+
     def test_vetores_normalizados(self):
         v = self.cod.codificar(["Quem pintou a Mona Lisa?", "O que é fotossíntese?"], "pergunta")
         for linha in v:

@@ -1,0 +1,149 @@
+diff --git a/crivo.py b/crivo.py
+index 843278b..245a8f2 100644
+--- a/crivo.py
++++ b/crivo.py
+@@ -249,6 +249,12 @@ class Crivo:
+         # Voz própria (voz.py): só age com pesos aprovados no controle.
+         self.usar_voz = True
+         self.oferta_pendente = None
++        # Geração ancorada (geracao_ancorada.py): o Transformer escreve a
++        # resposta a partir dos fatos escolhidos. Ligada no site (web_core);
++        # desligada por padrão para que o restante dos testes meça o texto de
++        # sempre. voz_do_turno diz quem deu forma à última resposta.
++        self.usar_geracao = False
++        self.voz_do_turno = None
+         # Leitura da ficha e estado interno do turno (estado_interno.py).
+         self.usar_leitura_ficha = True
+         self._leitura_ficha = None
+@@ -1535,7 +1541,8 @@ class Crivo:
+         fidelidade recusar, o texto de sempre continua."""
+         ctx = self.contexto_textual
+         self.oferta_pendente = None
+-        if not self.usar_voz or ctx is None or not ctx.exibidos:
++        self.voz_do_turno = None
++        if not (self.usar_voz or self.usar_geracao) or ctx is None or not ctx.exibidos:
+             return resposta, False
+         # Respostas de relação já são o passo seguinte de uma oferta; voz ali
+         # repetiria a mesma oferta em ciclo.
+@@ -1559,16 +1566,44 @@ class Crivo:
+             return resposta, False
+         import voz
+         ligacoes = [r for r in self.compositor.ligacoes_mundo if assunto in (r["origem"], r["destino"])]
++        escrita = self._escrever_com_geracao(pergunta, [texto_fato(item["fatos"][i]) for _, i in ctx.exibidos])
++        if escrita:
++            # O Transformer responde; a voz fecha (limite importante ou oferta).
++            fecho, acao = ("", None)
++            if self.usar_voz:
++                fecho, acao = voz.fecho_com_oferta(pergunta, dict(item, id=assunto), [i for _, i in ctx.exibidos],
++                                                   ligacoes=ligacoes, itens=self.compositor.itens)
++            escrita = (escrita + " " + fecho).strip()
++            self.contexto_textual = ctx._replace(texto=escrita)
++            self.oferta_pendente = (assunto, acao) if acao else None
++            self.voz_do_turno = "geracao_ancorada"
++            return escrita, True
++        if not self.usar_voz:
++            return resposta, False
+         resultado = voz.realizar_com_oferta(pergunta, dict(item, id=assunto), [i for _, i in ctx.exibidos],
+                                             ligacoes=ligacoes, itens=self.compositor.itens)
+         if resultado is None:
+             return resposta, False
+         nova, acao = resultado
++        self.voz_do_turno = "voz_propria"
+         self.contexto_textual = ctx._replace(texto=nova)
+         # Oferta feita é promessa: um “sim” na próxima fala a cumpre.
+         self.oferta_pendente = (assunto, acao) if acao else None
+         return nova, True
+ 
++    _PERGUNTA_ABERTA = re.compile(r"(?:o que|que|qual|quais|quem|quando|onde|como|por ?que|"
++                                  r"quanto|quantos|quantas|quanta|para que|pra que)\b")
++
++    def _escrever_com_geracao(self, pergunta, fatos):
++        """Resposta escrita pelo Transformer a partir dos fatos, ou None.
++        Só para perguntas abertas: em sim/não a polaridade não se confere
++        pelas palavras dos fatos."""
++        if not self.usar_geracao or not self._PERGUNTA_ABERTA.match(normalizar(pergunta).strip()):
++            return None
++        from geracao_ancorada import geracao
++        g = geracao()
++        return g.gerar(pergunta, fatos) if g.disponivel else None
++
+     _ACEITA_OFERTA = re.compile(r"(?:sim|quero|quero sim|claro|pode|pode ser|pode sim|conta|conte|"
+                                 r"manda|bora|ok|beleza|por favor|sim,? por favor|quero saber|"
+                                 r"conta sim|explica|explique|vai|isso)")
+@@ -2139,7 +2174,7 @@ class Crivo:
+             self.historico.append({"pergunta": original, "id": ident,
+                                    "mecanismo": "composicao_factual"})
+             if com_voz:
+-                self.historico[-1]["voz"] = "voz_propria"
++                self.historico[-1]["voz"] = self.voz_do_turno or "voz_propria"
+             self.historico = self.historico[-20:]
+             return ident, resposta
+ 
+diff --git a/estado_interno.py b/estado_interno.py
+index d6514d2..5d1cc0c 100644
+--- a/estado_interno.py
++++ b/estado_interno.py
+@@ -211,7 +211,7 @@ def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, mo
+     registro = {"pergunta": estado.fala, "id": novo_ident, "mecanismo": mecanismo,
+                 "leitura": dict(evidencia, decision=decisao, subject=assunto)}
+     if com_voz:
+-        registro["voz"] = "voz_propria"
++        registro["voz"] = bot.voz_do_turno or "voz_propria"
+     if bot.historico and bot.historico[-1].get("pergunta") == estado.fala:
+         bot.historico[-1].clear()
+         bot.historico[-1].update(registro)
+diff --git a/voz.py b/voz.py
+index 78e00cc..dca9cd5 100644
+--- a/voz.py
++++ b/voz.py
+@@ -481,6 +481,26 @@ def realizar(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
+     return resultado[0] if resultado else None
+ 
+ 
++def fecho_com_oferta(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
++    """Só o fecho que a voz escolheria (limite importante ou oferta), para ir
++    depois de uma resposta escrita por outra espécie: ("" ou frase, ação)."""
++    decisor = decisor or modelo()
++    if not decisor.ativo or not mostrados:
++        return "", None
++    pontos, textos = pontos_de_decisao(pergunta, item, mostrados, ligacoes, itens)
++    tipo, ctx, opcoes = pontos[-1]
++    escolha = decisor.escolher(tipo, ctx, opcoes)
++    especifica = oferta_especifica(item, mostrados, pergunta, ligacoes, itens)
++    fecho = _aplicar_fecho(item, pergunta, mostrados, escolha, textos, especifica) or ""
++    fontes = [pergunta] + textos + item.get("aliases", [])
++    if itens is not None:
++        fontes += [itens[r[k]]["nome"] for r in ligacoes for k in ("origem", "destino") if r[k] in itens]
++    if not fecho or palavras_inventadas(fecho, fontes):
++        return "", None
++    acao = ("continuar",) if escolha == "oferta" else especifica[1] if escolha == "oferta_especifica" else None
++    return fecho, acao
++
++
+ def realizar_com_oferta(pergunta, item, mostrados, decisor=None, ligacoes=(), itens=None):
+     """(resposta, ação da oferta ou None). A ação diz o que fazer se a pessoa
+     aceitar: ("continuar",), ("fato", índice) ou ("pergunta", texto)."""
+diff --git a/web_core.py b/web_core.py
+index 3797cda..be65d59 100644
+--- a/web_core.py
++++ b/web_core.py
+@@ -60,7 +60,8 @@ def _validar_memoria(memoria):
+     return limpa
+ 
+ 
+-def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
++def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
++                  usar_geracao=True):
+     """Valida o contrato JSON e devolve um resultado serializável.
+ 
+     Em ambientes serverless os processos podem reiniciar entre mensagens;
+@@ -94,6 +95,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
+     finally:
+         bot.motor_codigo.reconstruindo = False
+     sinais_antes = bot.total_sinais
++    # A geração ancorada escreve só a resposta desta mensagem: refazer o
++    # histórico com ela custaria tempo sem mudar o que a pessoa já leu.
++    bot.usar_geracao = usar_geracao
+     identificador, resposta = bot.responder(mensagem)
+     novos_sinais = bot.total_sinais - sinais_antes
+     from ecossistema import descrever, mecanismo_do_turno

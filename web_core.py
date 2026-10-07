@@ -60,7 +60,8 @@ def _validar_memoria(memoria):
     return limpa
 
 
-def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
+def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
+                  usar_geracao=True):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -84,7 +85,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                    "\x00" in p for p in historico)):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
-    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem, gerador_programacao=gerador_programacao)
+    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem,
+                gerador_programacao=gerador_programacao, usar_geracao=usar_geracao)
     if memoria:
         bot.carregar_memoria(memoria)
     bot.motor_codigo.reconstruindo = True
@@ -115,6 +117,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     prova_planejada = any((i in provas_efetivas or i in ids_editoriais and "Relações verificadas:" in t)
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
+    extra["generation"] = bot.ultima_geracao
     if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
         interpretacao = bot.historico[-1].get("interpretacao_pergunta")
         if interpretacao is not None:

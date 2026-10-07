@@ -72,10 +72,13 @@ class CodificadorSentido:
             for i, ids in enumerate(seqs):
                 v = ocultos[i, :len(ids)].mean(0)
                 saida.append(v / (np.linalg.norm(v) + 1e-8))
-        return np.stack(saida) if saida else np.zeros((0, ocultos.shape[-1]), dtype=np.float32)
+        return np.stack(saida) if saida else np.zeros(
+            (0, self.modelo.p["embedding.weight"].shape[1]), dtype=np.float32)
 
     def vetores_fatos(self, textos):
         """Vetores dos fatos, pelo cache; os que faltam são codificados agora."""
+        if not textos:
+            return self.codificar([], "fato")
         faltam = [t for t in dict.fromkeys(textos) if chave(t) not in self._cache]
         if faltam:
             for t, v in zip(faltam, self.codificar(faltam, "fato")):

@@ -1,0 +1,100 @@
+diff --git a/crivo.py b/crivo.py
+index 843278b..4a65f3e 100644
+--- a/crivo.py
++++ b/crivo.py
+@@ -1254,6 +1254,7 @@ class Crivo:
+ 
+     # ----- memória entre conversas (guardada só no navegador, opcional) -----
+     def carregar_memoria(self, memoria):
++        self.aprendizado.carregar(memoria)
+         dados = self.conversacao.dialogo.dados
+         if memoria.get("nome"):
+             dados["nome"] = memoria["nome"]
+@@ -1288,6 +1289,9 @@ class Crivo:
+         for campo, itens in self.estado_conversa.exportar().items():
+             if itens:
+                 saida[campo] = itens
++        for campo, itens in self.aprendizado.exportar().items():
++            if itens:
++                saida[campo] = itens
+         return saida
+ 
+     def _nao_entendi_com_presenca(self, texto, resposta):
+@@ -1439,6 +1443,14 @@ class Crivo:
+                     self.perfil.turno += 1
+                 return urgente
+         import estado_interno
++        # Correção ("não é isso"), escolha entre alternativas, lacunas e o que
++        # já foi aprendido nesta conversa vêm antes do turno comum.
++        proprio = self.aprendizado.antes(texto) if isinstance(texto, str) else None
++        if proprio is not None:
++            self.historico.append({"pergunta": texto, "id": proprio[0], "mecanismo": "aprendizado"})
++            self.historico = self.historico[-20:]
++            self.ultimo_turno = {"pergunta": texto, "id": proprio[0]}
++            return proprio
+         # Estado comum do turno: compreensão, memória e conhecimento que as
+         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
+         self.estado_interno = estado_interno.construir(self, texto)
+@@ -1452,8 +1464,22 @@ class Crivo:
+         if self._ids_editoriais is None:
+             self._ids_editoriais = frozenset(e["id"] for e in self.base)
+         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
++        # Árbitro que aprendeu em quem confiar (confianca.py): resposta factual
++        # pouco confiável vira "não tenho certeza".
++        if getattr(self, "usar_confianca", True):
++            import confianca
++            ident, resposta = confianca.avaliar_turno(self, texto, ident, resposta)
++        ident, resposta = self.aprendizado.depois(texto, ident, resposta)
+         return crise.ajustar(ident, resposta, self)
+ 
++    @property
++    def aprendizado(self):
++        """Correções, lacunas e curiosidade da conversa (aprendizado.py)."""
++        if getattr(self, "_aprendizado", None) is None:
++            from aprendizado import Aprendizado
++            self._aprendizado = Aprendizado(self)
++        return self._aprendizado
++
+     @property
+     def leitura_ficha(self):
+         """Espécie que lê as fichas (leitura_ficha.py), criada no primeiro uso."""
+diff --git a/web_core.py b/web_core.py
+index 3797cda..89a2f72 100644
+--- a/web_core.py
++++ b/web_core.py
+@@ -25,7 +25,8 @@ def _validar_memoria(memoria):
+     """Memória entre conversas, guardada SÓ no navegador de quem optou por
+     ela e reenviada a cada pedido. O servidor valida, usa e devolve a versão
+     atualizada; não guarda nada."""
+-    if not isinstance(memoria, dict) or set(memoria) - {"nome", "nomes", "relatos", "temas", "objetivos", "preferencias", "restricoes"}:
++    if not isinstance(memoria, dict) or set(memoria) - {"nome", "nomes", "relatos", "temas", "objetivos", "preferencias",
++                                                        "restricoes", "aprendizados", "lacunas"}:
+         raise PedidoInvalido("Memória inválida.")
+     limpa = {}
+     if "nome" in memoria:
+@@ -57,6 +58,25 @@ def _validar_memoria(memoria):
+                 or not all(_texto_curto(i, 200) for i in itens)):
+             raise PedidoInvalido("Memória inválida.")
+         limpa[campo] = list(itens)
++    # O que o CRIVO aprendeu (correções) e o que não soube (lacunas).
++    aprendizados = memoria.get("aprendizados", [])
++    if (not isinstance(aprendizados, list) or len(aprendizados) > 20 or not all(
++            isinstance(a, dict) and set(a) <= {"pergunta", "assunto", "fato", "sinal"}
++            and _texto_curto(a.get("pergunta"), 300) and _texto_curto(a.get("assunto"), 80)
++            and type(a.get("fato")) is int and 0 <= a["fato"] < 50 and a.get("sinal") in (1, -1)
++            for a in aprendizados)):
++        raise PedidoInvalido("Memória inválida.")
++    if aprendizados:
++        limpa["aprendizados"] = [dict(a) for a in aprendizados]
++    lacunas = memoria.get("lacunas", [])
++    if (not isinstance(lacunas, list) or len(lacunas) > 20 or not all(
++            isinstance(l, dict) and set(l) <= {"pergunta", "resposta_usuario"}
++            and _texto_curto(l.get("pergunta"), 300)
++            and ("resposta_usuario" not in l or _texto_curto(l["resposta_usuario"], 200))
++            for l in lacunas)):
++        raise PedidoInvalido("Memória inválida.")
++    if lacunas:
++        limpa["lacunas"] = [dict(l) for l in lacunas]
+     return limpa
+ 
+ 
