@@ -22,15 +22,16 @@ class TestesComposicaoTextual(unittest.TestCase):
 
     def test_todos_os_novos_conceitos_e_aliases(self):
         b = Crivo()
+        palavras = lambda t: " ".join(re.findall(r"\w+", t.casefold()))
         for ident in sorted(b.compositor.expandidos):
             item = b.compositor.itens[ident]
             for nome in [item["nome"]] + item.get("aliases", []):
                 with self.subTest(nome=nome):
                     obtido, resposta = b.responder("O que é " + nome + "?")
                     self.assertEqual(obtido, item.get("id_resposta", "conhecimento:" + ident))
-                    # A voz própria pode pôr sujeito ou conectivo antes do fato
-                    # (“Uma acreção de seixos é um crescimento…”), nunca mudá-lo.
-                    self.assertIn(item["fatos"][0]["texto"][1:], resposta)
+                    # Pontuação e capitalização podem variar; o conteúdo
+                    # da evidência conserva todas as palavras na mesma ordem.
+                    self.assertIn(palavras(item["fatos"][0]["texto"]), palavras(resposta))
 
     def test_300_combinacoes_sem_respostas_para_cada_par(self):
         bot = Crivo()
@@ -198,7 +199,9 @@ class TestesComposicaoTextual(unittest.TestCase):
     def test_api_reconstroi_escrita_sem_prova_logica_falsa(self):
         r = responder_web({"message": "Em tópicos", "history": ["Escreva um texto sobre DNA e RNA"]})
         self.assertEqual(r["id"], "escrita:topicos")
-        self.assertEqual(r["mechanism"], "composicao_factual")
+        self.assertIn(r["mechanism"], ("composicao_factual", "geracao_ancorada"))
+        # O escritor pode ser o gerador próprio; isso não é prova lógica.
+        self.assertEqual(r["generation"]["usada"], r["mechanism"] == "geracao_ancorada")
         self.assertFalse(r["has_proof"])
         self.assertIn("DNA", r["response"])
         self.assertIn("RNA", r["response"])
