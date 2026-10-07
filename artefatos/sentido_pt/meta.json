@@ -1,0 +1,125 @@
+{
+ "versao": 1,
+ "papel": "codificador de sentido: vetores de pergunta e fato (média dos estados finais)",
+ "base": {
+  "config": {
+   "vocabulario": 8192,
+   "dimensao": 384,
+   "camadas": 8,
+   "cabecas": 8,
+   "contexto": 256,
+   "dropout": 0.1
+  },
+  "origem": "Transformer próprio (pré-treino do zero) + leitor"
+ },
+ "treino": {
+  "passos": 600,
+  "lote": 48,
+  "lr": 3e-05,
+  "temperatura": 0.05,
+  "semente": 20261007,
+  "pares": 4292,
+  "dados": "tutor do decisor (paráfrases reais, sem o nome) + sintéticas sem o nome e com sinônimos; negativo difícil do BM25 de outra ficha; mesma ficha nunca é negativo"
+ },
+ "validacao": {
+  "antes": {
+   "fato@1": 0,
+   "fato@10": 8,
+   "ficha@1": 0,
+   "n": 194
+  },
+  "melhor": {
+   "fato@1": 45,
+   "fato@10": 97,
+   "ficha@1": 72,
+   "n": 194,
+   "passo": 450
+  },
+  "historico": [
+   {
+    "fato@1": 0,
+    "fato@10": 8,
+    "ficha@1": 0,
+    "n": 194,
+    "passo": 0
+   },
+   {
+    "fato@1": 41,
+    "fato@10": 91,
+    "ficha@1": 69,
+    "n": 194,
+    "passo": 150
+   },
+   {
+    "fato@1": 40,
+    "fato@10": 88,
+    "ficha@1": 64,
+    "n": 194,
+    "passo": 300
+   },
+   {
+    "fato@1": 45,
+    "fato@10": 97,
+    "ficha@1": 72,
+    "n": 194,
+    "passo": 450
+   },
+   {
+    "fato@1": 42,
+    "fato@10": 102,
+    "ficha@1": 72,
+    "n": 194,
+    "passo": 600
+   }
+  ]
+ },
+ "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+ "pesos_externos": false,
+ "controle": {
+  "aprovado": true,
+  "peso": 2.0,
+  "regra": "traço somado à busca aprendida (peso x cosseno); aprovado por não piorar nenhuma classe dos testes congelados e melhorar o dev",
+  "peso_escolhido_em": "validação do treino (tutor da leitura + dev das perguntas sem nome); testes congelados fora",
+  "busca_sem_nome_dev": {
+   "sem": {
+    "certo": 20,
+    "errado": 1,
+    "recusou": 12,
+    "calou_bem": 7,
+    "busca_top1": 23,
+    "busca_top5": 31
+   },
+   "com": {
+    "certo": 22,
+    "errado": 1,
+    "recusou": 10,
+    "calou_bem": 7,
+    "busca_top1": 26,
+    "busca_top5": 33
+   }
+  },
+  "busca_sem_nome_teste": {
+   "sem": {
+    "certo": 29,
+    "errado": 7,
+    "recusou": 7,
+    "calou_bem": 8,
+    "busca_top1": 30,
+    "busca_top5": 38
+   },
+   "com": {
+    "certo": 29,
+    "errado": 7,
+    "recusou": 7,
+    "calou_bem": 9,
+    "busca_top1": 28,
+    "busca_top5": 39
+   }
+  },
+  "sem_mudanca": [
+   "leitura_ficha v1 e v2",
+   "bateria dev e retido",
+   "lacunas dev e teste"
+  ]
+ }
+}
