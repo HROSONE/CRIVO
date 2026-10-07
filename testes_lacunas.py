@@ -55,6 +55,9 @@ class Catalogos(unittest.TestCase):
             self.assertTrue({i["id"] for i in dados["itens"]} <= ids, nome)
 
     def test_verificador_do_acervo_sem_erros(self):
+        # O verificador compara com o HEAD do git; cópia sem histórico não tem base.
+        if subprocess.run(["git", "rev-parse", "HEAD"], cwd=RAIZ, capture_output=True).returncode != 0:
+            self.skipTest("sem repositório git para comparar com o HEAD")
         saida = subprocess.run([sys.executable, "scripts/verificar_acervo.py"], cwd=RAIZ,
                                capture_output=True, text=True)
         self.assertEqual(saida.returncode, 0, saida.stdout[-2000:])

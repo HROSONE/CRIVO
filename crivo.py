@@ -522,12 +522,6 @@ class Crivo:
             if any(t in vocabulario_acervo and t not in resposta and t not in self._GENERICOS and len(t) >= minimo
                    for t in resto):
                 return True
-        # "O que é energia?" pede definição; uma entrada prática (economizar
-        # energia, cores da reciclagem) não é a definição do conceito.
-        if self.base[indice].get("topico") != "programacao" and re.match(
-                r"(?:o )?que (?:e|eh|sao|significa) ", normalizar(texto).strip()) and not any(
-                re.match(r"(?:o )?que (?:e|eh|sao|significa) ", normalizar(p)) for p in self.base[indice]["perguntas"]):
-            return True
         outros = [t for t in resto if t in conceitos and t not in nucleo]
         # Quando a pergunta cita o assunto do próprio identificador ("mofo no
         # guarda-roupa" × mofo), só outro ser ou astro citado a desqualifica.
