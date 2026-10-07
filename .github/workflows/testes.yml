@@ -64,7 +64,10 @@ jobs:
     # de 2026-10-06 (680 conceitos, 3.947 fatos) o 3.11 levou 43 min e o 3.8
     # passou de 50. Com as lacunas de 2026-10-07 (949 conceitos, ~5.200 fatos)
     # o 3.13 levou 47 min e o 3.8/3.11 passaram de 75.
-    timeout-minutes: 120
+    # Com NumPy, a suíte também executa o gerador próprio: só a matriz
+    # de pares e os 2.439 nomes/aliases somam mais de uma hora em CPU.
+    # Mantemos todos os testes e orçamento para a validação completa.
+    timeout-minutes: 240
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']
