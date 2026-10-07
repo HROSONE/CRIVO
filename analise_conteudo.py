@@ -42,6 +42,8 @@ def pedido(texto):
         return None
     n = normalizar(cab).strip(' .!?')
     n = re.sub(r'^(?:por favor[, ]+|voce pode |pode |me )', '', n)
+    if re.search(r'\brelato\b', n) and not re.search(r'\b(?:texto|conteudo|sequencia)\b', n):
+        return None  # Relatos pessoais conservam a operação de conversa.
     if n in ('mais curto', 'mais curta') or re.match(r'^(?:resuma|resumir|faca um resumo|resume)\b', n):
         modo = 'resumo'
     elif re.match(r'^(?:analise|analisar|faca uma analise)\b', n):
