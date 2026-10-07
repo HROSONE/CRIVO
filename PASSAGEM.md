@@ -1,4 +1,16 @@
-# Passagem de trabalho: estado em 07/10/2026, 08:20 UTC
+# Passagem de trabalho — 07/10/2026
+
+## Continuação: PR #104
+
+[PR #104](https://github.com/HROSONE/CRIVO/pull/104), branch `codex/geracao-integrada`, sobre o #103. A implementação liga o gerador próprio por padrão no Crivo, no adaptador web e na API. Retira o resgate de recusas e usa somente evidências já verificadas pelo leitor/compositor. Mantém IDs, contexto, fontes e histórico; comparação seguida de resumo preserva os dois temas. A guarda também confere omissões, valores, negações e siglas. Acervo vazio deixa de causar erro no codificador.
+
+A comparação completa terminou: oito avaliações sem regressão nas classes/áreas, 281 de 863 turnos com saída do gerador, 98,6% dessas saídas como cópia literal. Os 80 testes iniciais passaram e mais 44 testes de geração/conversa passaram após corrigir as regressões do CI. O fluxo completo no navegador passou para comparação DNA/RNA → resumo → fontes. A comparação de qualidade com/sem geração está registrada em `docs/geracao_integrada_20261007.md` e nos agregados associados. O workflow `geracao-ancorada.yml` passa a exigir essa comparação, com os classificadores originais e sem publicar os casos congelados.
+
+**Limite:** ligar o Transformer não o torna um gerador geral. Os pesos existentes frequentemente copiam a fonte, e a restrição atual favorece essa cópia. O diagnóstico e a interface identificam esse comportamento. Nenhum novo peso foi treinado ou aprovado. Veja o documento para o critério do próximo treino.
+
+A prévia Vercel exige autenticação; os conectores retornaram 403 e a validação remota não foi concluída. A implementação foi validada localmente. A main ainda depende da integração dos PRs.
+
+## Histórico do PR #103, registrado às 08:20 UTC
 
 Nota para quem continuar (pessoa, Claude ou Codex). Tudo o que existia só no servidor da sessão do Claude já está neste repositório.
 
