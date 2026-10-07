@@ -19,6 +19,20 @@ class Guarda(unittest.TestCase):
         self.assertFalse(preserva_evidencia("O tratamento cura a doença e dura 30 dias.", [fato]))
         self.assertFalse(preserva_evidencia("O tratamento não cura a doença.", [fato]))
 
+    def test_omissoes_de_mesma_raiz_repeticoes_e_siglas(self):
+        casos = (
+            ("As leis valem para governantes e governados.", "As leis valem para governantes."),
+            ("A região inclui Mato Grosso e Mato Grosso do Sul.", "A região inclui Mato Grosso do Sul."),
+            ("Sono não REM se distingue de sono REM.", "Sono não REM se distingue de sono RE-M."),
+            ("O procedimento leva 30 dias e a revisão mais 30 dias.", "O procedimento e a revisão levam 30 dias."),
+        )
+        for fato, incompleta in casos:
+            with self.subTest(fato=fato):
+                self.assertTrue(preserva_evidencia(fato, [fato]))
+                self.assertFalse(preserva_evidencia(incompleta, [fato]))
+        fato = "Método que compara populações sob hipóteses explícitas."
+        self.assertTrue(preserva_evidencia("Método que compara populações, sob hipóteses explícitas.", [fato]))
+
     def test_siglas_curtas_tambem_sao_conteudo(self):
         fato = "O DNA armazena informações genéticas. O RNA participa da síntese de proteínas."
         self.assertTrue(troca_de_palavra("O RNA armazena informações genéticas.", fato))
@@ -91,6 +105,18 @@ class NoCrivo(unittest.TestCase):
         self.assertEqual((obtido, texto), (ident, original))
         self.assertFalse(bot.ultima_geracao['usada'])
         self.assertEqual(bot.ultima_geracao['motivo'], 'sequencia_de_evidencia_nao_preservada')
+
+    def test_definicoes_preservam_governados_estados_e_siglas(self):
+        from crivo import Crivo
+        import re
+        palavras = lambda t: " ".join(re.findall(r"\w+", t.casefold()))
+        b = Crivo()
+        for nome in ("Estado de direito", "império da lei", "Centro-Oeste brasileiro",
+                     "sono não REM", "fase não REM", "não REM"):
+            with self.subTest(nome=nome):
+                _, texto = b.responder("O que é " + nome + "?")
+                item = b.compositor.itens[b.contexto_textual.temas[0]]
+                self.assertIn(palavras(item["fatos"][0]["texto"]), palavras(texto))
 
     def perguntar(self, texto, ligada=True):
         from crivo import Crivo
