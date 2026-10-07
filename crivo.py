@@ -268,10 +268,17 @@ class Crivo:
     def carregar_rede(self, caminho, limiar=0.80):
         from rede_neural import RedeCrivo, assinatura_base, assinatura_regras
         rede = RedeCrivo.carregar(caminho)
-        if set(rede.rotulos) != {e["id"] for e in self.base}:
+        # Fichas novas do acervo não invalidam a rede: ela confirma as
+        # entradas que conhece (com as mesmas perguntas do treino) e as novas
+        # ficam com o recuperador e a busca aprendida. Só uma entrada antiga
+        # alterada, removida ou uma entrada editorial nova pedem retreino.
+        conhecidas = set(rede.rotulos)
+        novas = [e for e in self.base if e["id"] not in conhecidas]
+        if (not conhecidas <= {e["id"] for e in self.base} or
+                any(e.get("origem_curriculo") != "mundo" for e in novas)):
             raise ValueError("Rede incompatível com a base; treine novamente")
-        if (rede.assinatura_base is not None and
-                rede.assinatura_base != assinatura_base(self.base)):
+        if (rede.assinatura_base is not None and rede.assinatura_base != assinatura_base(
+                [e for e in self.base if e["id"] in conhecidas])):
             raise ValueError("Perguntas da base mudaram; treine a rede novamente")
         if (rede.assinatura_regras is not None and
                 rede.assinatura_regras != assinatura_regras(rede.modo)):
@@ -496,6 +503,25 @@ class Crivo:
                 return True
         if len(bate) == 1 and resto and bate[0] not in nucleo:
             return True
+        # Só metade do assunto central da entrada e, no lugar da outra metade,
+        # uma palavra que o acervo conhece e a entrada não usa: a pergunta é
+        # sobre outra coisa ("maior país" × maior animal, "escravidão no
+        # Brasil" × climas do Brasil). Sinônimos que o acervo não conhece
+        # ("molho meu vasinho" × regar planta) não desqualificam.
+        central = nucleo - self._GENERICOS
+        cobertos = central & set(bate)
+        # Programação tem seu próprio vocabulário ("ler uma resposta pelo
+        # teclado" × input): a regra vale para o conhecimento do mundo.
+        if central and len(cobertos) * 2 <= len(central) and self.base[indice].get("topico") != "programacao":
+            vocabulario_acervo = self._vocabulario_acervo()
+            resposta = set(tokens(self.base[indice]["resposta"]))
+            # Sem nada do assunto central, qualquer palavra conhecida pesa;
+            # com metade dele, só um substantivo longo ("escravidão",
+            # "presidente"), não verbos e adjetivos laterais ("beber", "calor").
+            minimo = 3 if not cobertos else 6
+            if any(t in vocabulario_acervo and t not in resposta and t not in self._GENERICOS and len(t) >= minimo
+                   for t in resto):
+                return True
         outros = [t for t in resto if t in conceitos and t not in nucleo]
         # Quando a pergunta cita o assunto do próprio identificador ("mofo no
         # guarda-roupa" × mofo), só outro ser ou astro citado a desqualifica.
@@ -516,6 +542,16 @@ class Crivo:
         if self._GERAR.match(normalizar(texto)) and any(t not in vocabulario and t not in verbos for t in toks):
             return True
         return False
+
+    def _vocabulario_acervo(self):
+        """Palavras dos nomes e apelidos das fichas do acervo (uma vez)."""
+        if getattr(self, "_vocab_acervo", None) is None:
+            vocab = set()
+            for item in self.compositor.itens.values():
+                for nome in [item["nome"]] + list(item.get("aliases", [])):
+                    vocab |= set(tokens(nome))
+            self._vocab_acervo = vocab
+        return self._vocab_acervo
 
     def _ranking(self, texto):
         indices, idf = self._contexto_consulta(texto)
@@ -852,6 +888,42 @@ class Crivo:
             return bool(pergunta) and tema_ok and len(pergunta - evidencia) <= tolerancia
         exigidos = set(tokens(self.compositor.itens[assunto]["nome"] if assunto else texto))
         return bool(exigidos) and exigidos <= evidencia
+
+    def _base_pratica_cobre(self, texto, assunto):
+        """Uma ficha ampla citada de passagem ("cachorro pode comer chocolate?",
+        "cacto precisa de muita água?") não cala a resposta prática da base
+        que trata da pergunta inteira: a entrada mais forte, sem conflito de
+        assunto, que fala do conceito nas perguntas ou na resposta."""
+        rank = self._ranking(texto)
+        if not rank or rank[0][0] < LIMIAR or (len(rank) > 1 and rank[0][0] - rank[1][0] < 0.06):
+            return False
+        if self._fora_do_assunto(texto, rank[0][1]):
+            return False
+        # Palavra desconhecida ("planeta Zorbax", "Lua mágica") é outro
+        # assunto: a resposta antiga não fala dele.
+        _, vocabulario = self._contexto_consulta(texto)
+        if any(t not in vocabulario for t in self._tokens_consulta(texto, vocabulario)):
+            return False
+        entrada = self.base[rank[0][1]]
+        if assunto is None:
+            return False
+        # Só ficha de conceito comum ("água", "chocolate"): um nome próprio
+        # ("Mercúrio") pede a ficha, não a resposta genérica.
+        item = self.compositor.itens[assunto]
+        if item["nome"][:1].isupper():
+            return False
+        # Mecanismo ou causa ("Como funciona a geladeira por dentro?") é
+        # pergunta sobre o conceito, não a dica prática da entrada antiga.
+        if re.match(r"(?:como (?:\w+ )?funcion\w*|por que|porque|pq)\b", normalizar(texto)):
+            return False
+        # A ficha responde: ela vence.
+        quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
+        if quadro is not None and quadro.assunto == assunto and getattr(self, "usar_leitura_ficha", True):
+            leitor = self.leitura_ficha
+            if leitor.decisao(leitor.ler(quadro, assunto)) is not None:
+                return False
+        return self.compositor._menciona_conceito(
+            assunto, normalizar(" ".join(entrada["perguntas"]) + " " + entrada["resposta"]))
 
     def _registrar(self, indice, pergunta):
         e = self.base[indice]
@@ -1314,7 +1386,11 @@ class Crivo:
         achado = nocoes().nao_sei(texto, getattr(self, "nocao_conversa", None))
         if achado is None or self.compositor.assunto_mencionado(achado[2]) is not None:
             return None
+        # Pergunta que cita conceitos com ficha (mesmo dois, numa relação)
+        # não vira noção: o compositor e a busca respondem ou recusam.
+        quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
         if not depois_de_fora and (self.compositor.assunto_mencionado(texto) is not None
+                                   or quadro is not None and quadro.assunto is not None and quadro.outros
                                    or self._base_cobre(texto, normalizar(texto))):
             return None
         if depois_de_fora and self.historico and self.historico[-1].get("pergunta") == texto:
@@ -1355,6 +1431,7 @@ class Crivo:
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
         if isinstance(texto, str):
+            texto = self.compositor.grafar(texto)
             urgente = crise.responder(texto, self)
             if urgente is not None:
                 self.ultimo_turno = {"pergunta": texto, "id": urgente[0]}
@@ -1981,6 +2058,16 @@ class Crivo:
         if (composicao is not None and composicao[0] == "fora" and
                 len(self.indices_exatos.get(chave_pergunta(n), [])) == 1):
             composicao = None
+        # Ficha ampla citada de passagem ("como poupar água em casa?") não
+        # cala a resposta prática da base que cobre a pergunta inteira.
+        if composicao is not None and composicao[0] == "fora":
+            citado = self.compositor.assunto_mencionado(texto)
+            if citado is None:
+                quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
+                citado = quadro.assunto if quadro is not None else None
+            if (self._base_pratica_cobre(texto, citado) or citado is not None
+                    and self._base_cobre(texto, n, citado, tolerancia=1)):
+                composicao = None
         # Um conceito novo pode compartilhar seu nome com uma pergunta
         # causal anterior. Só ceder à fonte legada quando o sujeito da
         # pergunta e TODOS os termos consultados constarem na evidência
@@ -2334,7 +2421,8 @@ class Crivo:
         if busca is None:
             assunto = self.compositor.assunto_mencionado(texto)
             if (assunto is not None and not self._base_cobre(texto, n, assunto, tolerancia=1)
-                    and not self.compositor.nome_comum_qualificado(assunto, texto)):
+                    and not self.compositor.nome_comum_qualificado(assunto, texto)
+                    and not self._base_pratica_cobre(texto, assunto)):
                 self.esclarecimento = None
                 self.ultimo_assunto = None
                 return ("fora", "Reconheci o assunto " + self.compositor.itens[assunto]["nome"] +

@@ -40,7 +40,8 @@ class TestesIntencaoDefinicao(unittest.TestCase):
     def test_definicao_desconhecida_nao_dispara_fenomeno_vizinho(self):
         for pergunta in (
             "O que é uma árvore genealógica?",
-            "O que é uma árvore de Natal?",
+            # "árvore de Natal" saiu em 07/10/2026: a ficha do Natal cita a árvore
+            # entre os símbolos da festa, e responder com ela é correto.
             "O que é uma nuvem de pontos?",
             "O que é uma nuvem?",
             "O que é uma folha?",

@@ -29,6 +29,13 @@ def normalizar(texto):
     return " ".join(re.sub(r"[^a-z0-9+#_,\s-]", " ", n).split()).strip(" ,")
 
 
+# Palavras gramaticais que um nome próprio acentuado vira sem acento
+# ("Pará" → "para", "Sé" → "se"): só a grafia com acento cita a ficha.
+_PALAVRAS_COMUNS = frozenset(
+    "a o e de da do para por pra se so ja la ca e esta este nos vos mais mas pelo pela "
+    "nao sao tem ate".split())
+
+
 def tema(texto):
     return re.sub(r"^(?:o|a|os|as|um|uma|uns|umas) ", "", normalizar(texto))
 
@@ -60,6 +67,8 @@ class CompositorTextual:
     def __init__(self, base, caminho, extrair_definicao, curriculo_mundo=None):
         self.itens = {}
         self.aliases = {}
+        self.grafias_distintas = {}
+        self._grafias = {}
         self.fontes = {}
         self.expandidos = set()
         self.referencias = []
@@ -110,6 +119,7 @@ class CompositorTextual:
             self.mundo_ids = {i["id"] for i in curriculo_mundo["itens"]}
             self.ligacoes_mundo = curriculo_mundo.get("ligacoes", [])
             self.comparacoes_mundo = curriculo_mundo.get("comparacoes", [])
+            self._apelidos_de_sobrenome(curriculo_mundo["itens"])
         # A memoria sinaptica so coativa fatos com fontes editoriais. Ela
         # NUNCA usa perguntas de prova, feedback de chat ou pesos externos.
         # A inicializacao a partir de provas permite auditar cada resposta.
@@ -135,10 +145,65 @@ class CompositorTextual:
         return self.compor((ativacao.conceito,), "explicacao", selecionados=(
             (ativacao.conceito, ativacao.indice),), origem="conhecimento")
 
+    def _apelidos_de_sobrenome(self, itens):
+        """Pessoas são chamadas pelo sobrenome ("Beethoven", "Newton"): o
+        último nome de uma ficha de pessoa vira apelido quando é único entre
+        todas as pessoas e não é nome nem apelido de nenhuma outra ficha."""
+        candidatos = {}
+        for item in itens:
+            # Ficha de pessoa: área "pessoas" ou definição com as datas de
+            # vida logo após o nome ("Ludwig van Beethoven (1770–1827) foi...").
+            definicao = item["fatos"][0]["texto"] if item.get("fatos") else ""
+            if item.get("area") != "pessoas" and not re.match(
+                    re.escape(item["nome"]) + r"\s*\(\d{3,4}\s*[–-]\s*\d{3,4}\)", definicao):
+                continue
+            partes = tema(item["nome"]).split()
+            if len(partes) >= 2 and len(partes[-1]) >= 4:
+                candidatos.setdefault(partes[-1], set()).add(item["id"])
+        for sobrenome, ids in candidatos.items():
+            if len(ids) == 1 and sobrenome not in self.aliases:
+                ident = next(iter(ids))
+                self.aliases[sobrenome] = {ident}
+                self.itens[ident] = dict(self.itens[ident], aliases=list(self.itens[ident].get("aliases", [])) + [sobrenome])
+
+    def _amplo(self, ident):
+        """Conceito amplo: um nome de uma palavra (o nome ou um apelido)
+        aparece nos fatos de 30 ou mais fichas (luz, energia, água, calor)."""
+        cache = self.__dict__.setdefault("_amplos", {})
+        if ident not in cache:
+            item = self.itens[ident]
+            nomes = [tema(a) for a in [item["nome"]] + list(item.get("aliases", [])) if len(tema(a).split()) == 1]
+            if not hasattr(self, "_textos_fichas"):
+                self._textos_fichas = [normalizar(" ".join(f["texto"] if isinstance(f, dict) else str(f)
+                                                          for f in it["fatos"])) for it in self.itens.values()]
+            cache[ident] = any(
+                sum(1 for t in self._textos_fichas if _compilado(r"\b" + re.escape(nome) + r"s?\b").search(t)) >= 30
+                for nome in nomes)
+        return cache[ident]
+
     def _adicionar(self, item):
         self.itens[item["id"]] = item
         for alias in [item["nome"]] + item.get("aliases", []):
-            self.aliases.setdefault(tema(alias), set()).add(item["id"])
+            chave = tema(alias)
+            outros = self.aliases.get(chave, set()) - {item["id"]}
+            # Nome próprio "Pelé" × "pele": o mesmo texto sem acento já é de outra ficha.
+            # A grafia acentuada vira reescrita da pergunta pelo nome desta
+            # ficha (grafar), sem tornar ambíguo o nome da outra.
+            # O mesmo vale para palavra comum ("Pará" × "para", "Amapá" não).
+            comum = chave in _PALAVRAS_COMUNS
+            if (outros or comum) and alias[:1].isupper() and alias.casefold() != normalizar(alias) and not any(
+                    alias.casefold() in self._grafias.get(o, ()) for o in outros):
+                self.grafias_distintas[alias.casefold()] = item["nome"]
+                continue
+            self.aliases.setdefault(chave, set()).add(item["id"])
+            self._grafias.setdefault(item["id"], set()).add(alias.casefold())
+
+    def grafar(self, texto):
+        """Reescreve grafias distintas ("Pelé") pelo nome da ficha delas."""
+        for grafia, nome in self.grafias_distintas.items():
+            if grafia in texto.casefold() and nome.casefold() not in texto.casefold():
+                texto = re.sub(r"(?<!\w)" + re.escape(grafia) + r"(?!\w)", nome, texto, flags=re.I)
+        return texto
 
     def _carregar(self, dados, ids_base):
         if (not isinstance(dados, dict) or dados.get("versao") != 1 or
@@ -903,6 +968,13 @@ class CompositorTextual:
         candidatos = []
         for alias, ident in self.aliases_busca.items():
             for m in re.finditer(self._padrao_alias(alias, ident), busca):
+                # "rio Amazonas" não é o estado do Amazonas: a palavra de tipo
+                # de lugar logo antes do nome precisa constar no nome da ficha.
+                tipo = re.search(r"\b(rio|cidade|ilha|serra|monte|lago|oceano|mar|estado|pais|regiao)\s+(?:d[aeo]s?\s+)?$",
+                                 busca[:m.start()])
+                if tipo and tipo.group(1) not in tema(self.itens[ident]["nome"]).split() and \
+                        tipo.group(1) not in alias.split():
+                    continue
                 candidatos.append((m.start(), m.end(), ident))
         candidatos.sort(key=lambda c: (-(c[1] - c[0]), c[0]))
         ocupados, assuntos = [], []
@@ -912,6 +984,29 @@ class CompositorTextual:
             ocupados.append((ini, fim))
             assuntos.append((ini, ident))
         assuntos.sort()
+        # "Encélado solta jatos de água?", "Qual a temperatura do Sol?": com um
+        # nome próprio citado, o conceito comum (água, temperatura, campo
+        # magnético) é o que se pergunta dele, não um segundo assunto.
+        if len({i for _, i in assuntos}) > 1:
+            proprio = {i for _, i in assuntos if self.itens[i]["nome"][:1].isupper()}
+            # Só grandezas e substâncias (física, química) viram propriedade
+            # do nome próprio; "planetas do Sistema Solar" segue com planetas.
+            propriedade = {i for _, i in assuntos if i not in proprio
+                           and self.itens[i].get("area") in ("fisica", "física", "quimica")}
+            if proprio and propriedade:
+                inicio = {ini: fim for ini, fim in ocupados}
+                assuntos = [(ini, i) for ini, i in assuntos if i not in propriedade]
+                ocupados = [(ini, inicio[ini]) for ini, _ in assuntos]
+        # "A luz passa pelo vácuo?", "Pra onde vai a energia numa colisão?":
+        # um conceito amplo (citado nos fatos de muitas fichas) ao lado de um
+        # conceito específico é o que se pergunta deste, não uma relação.
+        if len({i for _, i in assuntos}) > 1:
+            comuns = [(ini, i) for ini, i in assuntos if not self.itens[i]["nome"][:1].isupper()]
+            amplos = {i for _, i in comuns if self._amplo(i)}
+            if amplos and len({i for _, i in comuns} - amplos) >= 1 and len(comuns) == len(assuntos):
+                inicio = {ini: fim for ini, fim in ocupados}
+                assuntos = [(ini, i) for ini, i in assuntos if i not in amplos]
+                ocupados = [(ini, inicio[ini]) for ini, _ in assuntos]
         # "Urano tem estações": o segundo termo é uma propriedade do
         # primeiro, ligada só por posse; vira pista e não relação.
         if len({i for _, i in assuntos}) > 1:

@@ -24,19 +24,19 @@ sys.path.insert(0, str(RAIZ / "scripts"))
 
 
 def avaliar(conjunto, detalhes=False):
-    from avaliar_bateria import recusou
+    from avaliar_bateria import de_ficha_posterior, recusou
     from crivo import Crivo
     from leitura_ficha import busca_aprendida
     casos = json.loads((RAIZ / "avaliacoes" / "busca_sem_nome_v1" / ("%s.json" % conjunto))
                        .read_text(encoding="utf-8"))["casos"]
-    r = dict.fromkeys(("certo", "aproximou_certo", "errado", "recusou", "inventou", "calou_bem",
-                       "busca_top1", "busca_top5"), 0)
+    r = dict.fromkeys(("certo", "aproximou_certo", "errado", "recusou", "inventou", "ficha_posterior",
+                       "calou_bem", "busca_top1", "busca_top5"), 0)
     for caso in casos:
         bot = Crivo()
         ident, resposta = bot.responder(caso["pergunta"])
         negou = recusou(ident, resposta) and ident != "leitura:aproximacao"
         if caso["assunto"] is None:
-            classe = "calou_bem" if negou else "inventou"
+            classe = "calou_bem" if negou else "ficha_posterior" if de_ficha_posterior(bot) else "inventou"
         else:
             alvo = (caso["assunto"], caso["fato"])
             fato = bot.compositor.itens[alvo[0]]["fatos"][alvo[1]]["texto"]

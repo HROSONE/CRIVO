@@ -131,7 +131,9 @@ def _pode_ler(estado):
     """A leitura da ficha só entra numa pergunta factual sobre UMA entidade
     citada na fala, sem negação, pedido de escrita ou pergunta pessoal."""
     q = estado.quadro
-    if q is None or q.recusa or q.outros or estado.negacao:
+    # "Onde fica o Egito?" e "O que fazem os rins?" não têm pistas além do
+    # assunto: o tipo da pergunta guia a leitura, que confere sozinha.
+    if q is None or q.recusa and q.recusa != "sem_pistas" or q.outros or estado.negacao:
         return False
     e = estado.entidade
     if e is None or e.origem != "fala" or e.id != q.assunto:
@@ -156,7 +158,16 @@ def arbitrar(bot, estado, ident, resposta):
         estado.decidir(especie, "recusar", "leitura fora do nicho (negação, relação, escrita ou sem entidade)")
         return ident, resposta
     leitor = bot.leitura_ficha
-    leitura = leitor.ler(estado.quadro, estado.entidade.id)
+    indice = None
+    if estado.quadro.recusa == "sem_pistas":
+        # Sem pistas ("Onde fica o Egito?"), a busca aprendida escolhe o fato
+        # dentro da ficha (a definição que diz onde fica, não a capital) e a
+        # leitura confere esse fato.
+        from leitura_ficha import busca_aprendida
+        busca = busca_aprendida(bot.compositor)
+        achados = busca.buscar(estado.fala, k=1, assuntos={estado.entidade.id}) if busca.aprendida else []
+        indice = achados[0][2] if achados else None
+    leitura = leitor.ler(estado.quadro, estado.entidade.id, indice=indice)
     decisao = leitor.decisao(leitura)
     evidencia = None if leitura is None else {
         "fact": leitura.indice, "probability": leitura.prob, "margin": leitura.margem,
@@ -166,7 +177,14 @@ def arbitrar(bot, estado, ident, resposta):
         # A ficha citada não tem a resposta; numa pergunta aberta, ela pode
         # estar em outra ("Que cientista estudou a evolução?"). Sim/não e
         # "o que é X" são sobre a ficha citada: a recusa fica.
-        if estado.tipo != "simnao" and not estado.quadro.pedido_nome:
+        # Conceito comum citado de passagem ("A luz passa pelo vácuo?") não é
+        # o assunto do sim/não: a resposta pode estar na ficha do vácuo.
+        comum = not bot.compositor.itens[estado.entidade.id]["nome"][:1].isupper()
+        if (estado.tipo != "simnao" or comum) and not estado.quadro.pedido_nome:
+            # Conceito amplo (água, temperatura) é só uma palavra da pergunta:
+            # a busca procura em todas as fichas, como sem entidade citada.
+            if bot.compositor._amplo(estado.entidade.id):
+                return _ler_pela_busca(bot, estado, especie, ident, resposta, sem_citados=True)
             return _ler_pela_busca(bot, estado, especie, ident, resposta, citado=estado.entidade.id)
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente")
         return ident, resposta
@@ -244,7 +262,7 @@ def _pode_buscar(estado):
     return not (_PEDIDO_ESCRITA.search(n) or _PESSOAL.search(n))
 
 
-def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
+def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None, sem_citados=False):
     """citado: a ficha citada na fala, cuja leitura já não achou resposta; a
     busca só fala se achar outra ficha. Duas propostas, a da busca aprendida e
     a da busca só por palavras (melhor quando a pergunta não traz nome
@@ -253,7 +271,7 @@ def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
     busca = busca_aprendida(bot.compositor)
     # As fichas citadas já foram lidas (ou a pergunta as relaciona): vale o
     # melhor fato de outra ficha.
-    citados = {e.id for e in estado.entidades} | ({citado} if citado else set())
+    citados = set() if sem_citados else {e.id for e in estado.entidades} | ({citado} if citado else set())
     achados = [a for a in (busca.buscar(estado.fala, k=10) if busca.aprendida else ()) if a[1] not in citados]
     if not achados:
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente" if citado

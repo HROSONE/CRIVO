@@ -21,6 +21,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ))
+sys.path.insert(0, str(RAIZ / "scripts"))
 
 CONJUNTOS = {"teste": RAIZ / "avaliacoes" / "leitura_ficha_v1" / "teste.json",
              "teste_v2": RAIZ / "avaliacoes" / "leitura_ficha_v2" / "teste.json",
@@ -37,7 +38,10 @@ def classificar(bot, caso, ident, resposta):
     r = _n(resposta)
     aproximou = ident == "leitura:aproximacao"
     if caso["fato"] is None:
-        return "aproximou" if aproximou else "recusou" if recusou(ident, resposta) else "afirmou"
+        from avaliar_bateria import de_ficha_posterior
+        if aproximou or recusou(ident, resposta):
+            return "aproximou" if aproximou else "recusou"
+        return "ficha_posterior" if de_ficha_posterior(bot) else "afirmou"
     alvo = _n(bot.compositor.itens[caso["assunto"]]["fatos"][caso["fato"]]["texto"])[:80]
     if alvo in r:
         return "aproximou_certo" if aproximou else "afirmou_certo"

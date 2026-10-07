@@ -37,7 +37,11 @@ def ler_curriculo(caminho):
                            "conhecimento_ecologia.json", "conhecimento_artes.json",
                            "conhecimento_sociedade.json", "conhecimento_saude.json",
                            "conhecimento_tecnologia.json", "conhecimento_exatas.json",
-                           "conhecimento_mente.json"):
+                           "conhecimento_mente.json", "conhecimento_paises.json",
+                           "conhecimento_estados_brasil.json", "conhecimento_esporte.json",
+                           "conhecimento_historia_complementar.json", "conhecimento_saude_basica.json",
+                           "conhecimento_ciencia_cotidiana.json", "conhecimento_cidadania.json",
+                           "conhecimento_cultura.json"):
             extra_path = caminho.with_name(extra_nome)
             if not extra_path.is_file():
                 continue
@@ -51,7 +55,7 @@ def ler_curriculo(caminho):
     if (not isinstance(dados, dict) or dados.get("versao") != 1 or
             not isinstance(dados.get("fontes"), dict) or
             not isinstance(dados.get("itens"), list) or
-            not 1 <= len(dados["itens"]) <= 1000):
+            not 1 <= len(dados["itens"]) <= 1500):
         raise ValueError("Currículo do mundo inválido")
     fontes = dados["fontes"]
     for fonte in fontes.values():

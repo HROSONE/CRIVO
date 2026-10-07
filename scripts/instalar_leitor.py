@@ -42,8 +42,8 @@ sys.path.insert(0, 'scripts')
 from avaliar_leitura_ficha import avaliar as leitura
 from avaliar_busca_sem_nome import avaliar as sem_nome
 from avaliar_bateria import avaliar as bateria
-r = {'v1': leitura('teste'), 'v2': leitura('teste_v2'), 'sem_nome': sem_nome('teste'),
-     'bateria_dev': bateria('dev'), 'bateria_retido': bateria('retido')}
+r = {'v1': leitura('teste')[0], 'v2': leitura('teste_v2')[0], 'sem_nome': sem_nome('teste'),
+     'bateria_dev': bateria('dev')[0], 'bateria_retido': bateria('retido')[0]}
 print('RESULTADO ' + json.dumps(r, ensure_ascii=False))
 """
     saida = subprocess.run([sys.executable, "-c", codigo], cwd=RAIZ, capture_output=True, text=True, check=True)

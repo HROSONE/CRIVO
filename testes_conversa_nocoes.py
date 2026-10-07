@@ -123,7 +123,8 @@ class TestesConversa(unittest.TestCase):
         ident, resposta = Crivo().responder("o que é saudade?")
         self.assertEqual(ident, "nocao:definicao")
         self.assertIn("noção, sem fonte", resposta)
-        ident, resposta = Crivo().responder("como funciona a geladeira por dentro?")
+        # A geladeira ganhou ficha em 07/10/2026; o micro-ondas segue só como noção.
+        ident, resposta = Crivo().responder("como funciona o micro-ondas por dentro?")
         self.assertEqual(ident, "nocao:nao_sei")
         self.assertIn("Não sei explicar", resposta)
 

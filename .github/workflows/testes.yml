@@ -59,8 +59,9 @@ jobs:
     # acervo de 2026-10-05 (544 conceitos) o 3.8, mais lento, passou de 35 min
     # também no main; 3.11 e 3.13 terminam em ~26 min. Com o acervo profundo
     # de 2026-10-06 (680 conceitos, 3.947 fatos) o 3.11 levou 43 min e o 3.8
-    # passou de 50.
-    timeout-minutes: 75
+    # passou de 50. Com as lacunas de 2026-10-07 (949 conceitos, ~5.200 fatos)
+    # o 3.13 levou 47 min e o 3.8/3.11 passaram de 75.
+    timeout-minutes: 120
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']

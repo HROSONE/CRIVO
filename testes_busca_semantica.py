@@ -120,8 +120,10 @@ class TestesBuscaNoArbitro(unittest.TestCase):
         sys.path.insert(0, str(RAIZ / "scripts"))
         from avaliar_busca_sem_nome import avaliar
         r = avaliar("teste")
-        self.assertGreaterEqual(r["certo"], 27)
-        self.assertLessEqual(r["errado"], 8)
+        # 07/10/2026 (lacunas): 29 certos, 7 errados; as 4 perguntas sem
+        # resposta que fichas novas passaram a responder contam à parte.
+        self.assertGreaterEqual(r["certo"], 29)
+        self.assertLessEqual(r["errado"], 7)
         self.assertEqual(r["inventou"], 0)
 
     def test_desligada_com_a_leitura(self):

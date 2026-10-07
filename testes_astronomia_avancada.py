@@ -110,13 +110,18 @@ class TestesAstronomiaAvancada(unittest.TestCase):
     def test_pesos_existentes_continuam_compativeis(self):
         b = Crivo()
         self.assertIsNotNone(b.rede, b.erro_rede)
-        self.assertEqual(assinatura_base(b.base), b.rede.assinatura_base)
+        conhecidas = set(b.rede.rotulos)
+        self.assertEqual(assinatura_base([e for e in b.base if e["id"] in conhecidas]), b.rede.assinatura_base)
+        # Desde 2026-10-07, fichas novas do acervo não invalidam a rede: as
+        # entradas que ela não conhece são todas do currículo do mundo.
+        self.assertTrue(all(e.get("origem_curriculo") == "mundo" for e in b.base if e["id"] not in conhecidas))
         # 241 entradas até 2026-10-03; o conteúdo de física, biologia, sociologia
         # e filosofia acrescentou 206 conceitos e a rede foi retreinada. Em
         # 2026-10-05, história, geografia, pessoas, literatura e ciências
         # acrescentaram 164, com novo retreino. Em 2026-10-06, o acervo profundo
         # acrescentou 136 (artes, sociedade, saúde, tecnologia, exatas e mente).
-        self.assertEqual(len(b.base), 747)
+        self.assertEqual(len(b.rede.rotulos), 747)
+        self.assertGreaterEqual(len(b.base), 747)
         self.assertTrue(set(b.rede.rotulos).isdisjoint(
             i for i in b.compositor.itens if i.startswith("astro_")))
 
