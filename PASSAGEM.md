@@ -29,10 +29,14 @@ as evidências quando recua da geração e continua gerando no caso de DNA.
 As suítes amplas continuam em andamento. A primeira execução local iniciou
 antes das últimas correções, foi encerrada após o diagnóstico e não representa
 aprovação da versão atual.
-A nova varredura de 2.439 nomes/aliases usa a guarda corrigida. CI instala NumPy
+A nova varredura de 2.439 nomes/aliases, cobrindo 977 conceitos, passou com a
+guarda corrigida em 2.514 segundos. CI instala NumPy
 com uma thread de cálculo e mantém todos os testes; orçamentos de 240 minutos
 na matriz geral e 150 no interpretador refletem as medições em CPU. Execuções
 substituídas/duplicadas foram retiradas da fila; as versões atuais são preservadas.
+A auditoria do PR #108 não iniciou: o GitHub informou cinco tentativas sem
+conseguir atribuir um executor. A repetição apenas dos jobs falhos foi solicitada
+no run 37638155372 (tentativa 2); não é falha de um teste executado.
 Experimentos próprios permanecem isolados, com aprovação falsa: não promover
 os pesos ao chat nem afirmar geração/raciocínio geral pelos resultados limitados.
 As notas históricas abaixo descrevem o estado anterior à restauração.
