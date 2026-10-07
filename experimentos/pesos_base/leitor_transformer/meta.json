@@ -1,0 +1,48 @@
+{
+ "versao": 1,
+ "papel": "leitor: probabilidade de um fato da ficha responder à pergunta",
+ "base": {
+  "pasta": "/content/drive/MyDrive/CRIVO/transformer-leitor/base",
+  "pesos_sha256": "16102a72b21031b8bee2b4edfa633a359f7f08c5beab552b05f294e656b0cc67",
+  "config": {
+   "vocabulario": 8192,
+   "dimensao": 384,
+   "camadas": 8,
+   "cabecas": 8,
+   "contexto": 256,
+   "dropout": 0.1
+  },
+  "passo_pretreino": 20000
+ },
+ "treino": {
+  "passo": 1000,
+  "passos": 4000,
+  "lote": 64,
+  "lr": 5e-05,
+  "semente": 20261006,
+  "wikipedia": true,
+  "artigos": 60000,
+  "dados": "sintéticos das fichas (sem tutor, testes v1/v2, teste sem nome e astronomia), com e sem o nome do assunto; opcionalmente exercícios da Wikipédia"
+ },
+ "validacao_tutor": {
+  "acerto_fato": 0.5528,
+  "auc_respondivel": 0.7138,
+  "respondiveis": 161,
+  "sem_resposta": 65
+ },
+ "controle": {
+  "aprovado": false,
+  "criterio": "aprovado por scripts/treinar_leitura_ficha.py --com-transformer só se a validação por assunto melhorar; fica ligado só se o teste congelado v2 melhorar",
+  "validacao_leitura": {
+   "sem_transformer": {
+    "certos_entregues": 77,
+    "erros": 1
+   },
+   "com_transformer": {
+    "certos_entregues": 77,
+    "erros": 1
+   },
+   "transformer_aprovado": false
+  }
+ }
+}
