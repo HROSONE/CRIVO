@@ -181,6 +181,10 @@ def arbitrar(bot, estado, ident, resposta):
         # o assunto do sim/não: a resposta pode estar na ficha do vácuo.
         comum = not bot.compositor.itens[estado.entidade.id]["nome"][:1].isupper()
         if (estado.tipo != "simnao" or comum) and not estado.quadro.pedido_nome:
+            # Conceito amplo (água, temperatura) é só uma palavra da pergunta:
+            # a busca procura em todas as fichas, como sem entidade citada.
+            if bot.compositor._amplo(estado.entidade.id):
+                return _ler_pela_busca(bot, estado, especie, ident, resposta, sem_citados=True)
             return _ler_pela_busca(bot, estado, especie, ident, resposta, citado=estado.entidade.id)
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente")
         return ident, resposta
@@ -258,7 +262,7 @@ def _pode_buscar(estado):
     return not (_PEDIDO_ESCRITA.search(n) or _PESSOAL.search(n))
 
 
-def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
+def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None, sem_citados=False):
     """citado: a ficha citada na fala, cuja leitura já não achou resposta; a
     busca só fala se achar outra ficha. Duas propostas, a da busca aprendida e
     a da busca só por palavras (melhor quando a pergunta não traz nome
@@ -267,7 +271,7 @@ def _ler_pela_busca(bot, estado, especie, ident, resposta, citado=None):
     busca = busca_aprendida(bot.compositor)
     # As fichas citadas já foram lidas (ou a pergunta as relaciona): vale o
     # melhor fato de outra ficha.
-    citados = {e.id for e in estado.entidades} | ({citado} if citado else set())
+    citados = set() if sem_citados else {e.id for e in estado.entidades} | ({citado} if citado else set())
     achados = [a for a in (busca.buscar(estado.fala, k=10) if busca.aprendida else ()) if a[1] not in citados]
     if not achados:
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente" if citado

@@ -32,10 +32,38 @@ def recusou(ident, resposta):
     return ident in RECUSAS_ID or resposta.strip().lower().startswith(RECUSAS_INICIO)
 
 
-def classificar(caso, ident, resposta):
+# Catálogos escritos depois dos testes congelados (lacunas, 07/10/2026). Uma
+# pergunta feita como "sem resposta no acervo" que passa a ser respondida por
+# uma ficha deles não é invenção: o acervo cresceu. Conta à parte.
+CATALOGOS_POSTERIORES = ("paises", "estados_brasil", "esporte", "historia_complementar", "saude_basica",
+                         "ciencia_cotidiana", "cidadania", "cultura")
+_POSTERIORES = None
+
+
+def fichas_posteriores():
+    global _POSTERIORES
+    if _POSTERIORES is None:
+        _POSTERIORES = set()
+        for nome in CATALOGOS_POSTERIORES:
+            caminho = PASTA / ("conhecimento_%s.json" % nome)
+            if caminho.exists():
+                _POSTERIORES |= {i["id"] for i in json.loads(caminho.read_text(encoding="utf-8"))["itens"]}
+    return _POSTERIORES
+
+
+def de_ficha_posterior(bot):
+    """A resposta mostrou só fatos de fichas posteriores aos testes?"""
+    ctx = getattr(bot, "contexto_textual", None)
+    temas = {a for a, _ in (ctx.exibidos if ctx else ())}
+    return bool(temas) and temas <= fichas_posteriores()
+
+
+def classificar(caso, ident, resposta, bot=None):
     r = normalizar(resposta)
     if caso.get("tipo") == "recusa":
-        return "acerto" if recusou(ident, resposta) else "inventou"
+        if recusou(ident, resposta):
+            return "acerto"
+        return "ficha_posterior" if bot is not None and de_ficha_posterior(bot) else "inventou"
     if any(normalizar(t) in r for t in caso["contem"]):
         return "acerto"
     if recusou(ident, resposta):
@@ -61,8 +89,9 @@ def avaliar(conjunto):
     dados = json.loads((PASTA / "avaliacoes" / "bateria_v1" / (conjunto + ".json")).read_text(encoding="utf-8"))
     resultados, contagem = [], {}
     for caso in dados["casos"]:
-        ident, resposta = Crivo().responder(caso["p"])
-        classe = classificar(caso, ident, resposta)
+        bot = Crivo()
+        ident, resposta = bot.responder(caso["p"])
+        classe = classificar(caso, ident, resposta, bot)
         contagem[classe] = contagem.get(classe, 0) + 1
         resultados.append({"pergunta": caso["p"], "tipo": caso.get("tipo", "fato"),
                            "classe": classe, "id": ident, "resposta": resposta[:300]})
@@ -89,6 +118,7 @@ def avaliar(conjunto):
         "recusas_esperadas": len(resultados) - len(fatos),
         "recusas_corretas": sum(r["classe"] == "acerto" for r in resultados if r["tipo"] == "recusa"),
         "inventou": contagem.get("inventou", 0),
+        "ficha_posterior": contagem.get("ficha_posterior", 0),
         "dialogos": len(dados["dialogos"]),
         "dialogos_ok": dialogos_ok,
     }

@@ -39,6 +39,10 @@ def classificar(caso, ident, resposta):
         if "id" in caso:
             return "acerto" if ident == caso["id"] else "errado"
         return "acerto" if contem(resposta, caso["contem"]) else "errado"
+    # "Reconheci o assunto café, mas não tenho evidência…": o assunto tem
+    # ficha e o limite é dito; é o "não sei" honesto (07/10/2026).
+    if tipo == "nao_sei" and resposta.startswith("Reconheci o assunto"):
+        return "acerto"
     if nao_entendeu(ident, resposta):
         return "nao_entendeu"
     if tipo == "observacao":

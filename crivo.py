@@ -510,7 +510,9 @@ class Crivo:
         # ("molho meu vasinho" × regar planta) não desqualificam.
         central = nucleo - self._GENERICOS
         cobertos = central & set(bate)
-        if central and len(cobertos) * 2 <= len(central):
+        # Programação tem seu próprio vocabulário ("ler uma resposta pelo
+        # teclado" × input): a regra vale para o conhecimento do mundo.
+        if central and len(cobertos) * 2 <= len(central) and self.base[indice].get("topico") != "programacao":
             vocabulario_acervo = self._vocabulario_acervo()
             resposta = set(tokens(self.base[indice]["resposta"]))
             # Sem nada do assunto central, qualquer palavra conhecida pesa;
@@ -522,7 +524,8 @@ class Crivo:
                 return True
         # "O que é energia?" pede definição; uma entrada prática (economizar
         # energia, cores da reciclagem) não é a definição do conceito.
-        if re.match(r"(?:o )?que (?:e|eh|sao|significa) ", normalizar(texto).strip()) and not any(
+        if self.base[indice].get("topico") != "programacao" and re.match(
+                r"(?:o )?que (?:e|eh|sao|significa) ", normalizar(texto).strip()) and not any(
                 re.match(r"(?:o )?que (?:e|eh|sao|significa) ", normalizar(p)) for p in self.base[indice]["perguntas"]):
             return True
         outros = [t for t in resto if t in conceitos and t not in nucleo]
@@ -915,6 +918,16 @@ class Crivo:
         item = self.compositor.itens[assunto]
         if item["nome"][:1].isupper():
             return False
+        # Mecanismo ou causa ("Como funciona a geladeira por dentro?") é
+        # pergunta sobre o conceito, não a dica prática da entrada antiga.
+        if re.match(r"(?:como (?:\w+ )?funcion\w*|por que|porque|pq)\b", normalizar(texto)):
+            return False
+        # A ficha responde: ela vence.
+        quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
+        if quadro is not None and quadro.assunto == assunto and getattr(self, "usar_leitura_ficha", True):
+            leitor = self.leitura_ficha
+            if leitor.decisao(leitor.ler(quadro, assunto)) is not None:
+                return False
         return self.compositor._menciona_conceito(
             assunto, normalizar(" ".join(entrada["perguntas"]) + " " + entrada["resposta"]))
 
@@ -1379,7 +1392,11 @@ class Crivo:
         achado = nocoes().nao_sei(texto, getattr(self, "nocao_conversa", None))
         if achado is None or self.compositor.assunto_mencionado(achado[2]) is not None:
             return None
+        # Pergunta que cita conceitos com ficha (mesmo dois, numa relação)
+        # não vira noção: o compositor e a busca respondem ou recusam.
+        quadro = getattr(getattr(self, "estado_interno", None), "quadro", None)
         if not depois_de_fora and (self.compositor.assunto_mencionado(texto) is not None
+                                   or quadro is not None and quadro.assunto is not None and quadro.outros
                                    or self._base_cobre(texto, normalizar(texto))):
             return None
         if depois_de_fora and self.historico and self.historico[-1].get("pergunta") == texto:

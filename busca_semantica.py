@@ -158,6 +158,23 @@ class BuscaSemantica:
         n = " " + " ".join(palavras(pergunta)) + " "
         citadas = {ident for ident, formas in self.nomes.items()
                    if any(f and " " + f + " " in n for f in formas)}
+        # "rio Amazonas" não cita o estado do Amazonas: palavra de tipo de
+        # lugar logo antes do nome precisa constar no nome da ficha.
+        for ident in list(citadas):
+            nome = normalizar(self.c.itens[ident]["nome"]).split() if ident in self.c.itens else []
+            for f in self.nomes.get(ident, ()):
+                m = re.search(r" (rio|cidade|ilha|serra|monte|lago|oceano|mar|estado|pais|regiao) (?:d[aeo]s? )?" +
+                              re.escape(f) + " ", n)
+                if m and m.group(1) not in nome and m.group(1) not in f.split() and \
+                        not any(" " + g + " " in n.replace(m.group(0), " ") for g in self.nomes[ident]):
+                    citadas.discard(ident)
+        # Conceito amplo (água, temperatura, luz) citado no meio de outra
+        # pergunta ("Quanta água o rio Amazonas leva?") é palavra da pergunta,
+        # não o nome do assunto: entra pelo BM25, sem o traço de nome. Só
+        # "O que é a água?" o cita como assunto.
+        amplo = getattr(self.c, "_amplo", None)
+        if amplo is not None and not re.match(r"(?:o que (?:e|sao|significa)|defina)\b", normalizar(pergunta).strip()):
+            citadas = {i for i in citadas if i not in self.c.itens or not amplo(i)}
         notas = self.bm.notas(termos(pergunta))
         melhor = {}
         for j, s in notas.items():

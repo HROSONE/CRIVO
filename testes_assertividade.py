@@ -49,7 +49,7 @@ class TestesAssertividade(unittest.TestCase):
     def test_mais_nao_recupera_assunto_abandonado(self):
         bot = Crivo()
         bot.responder("como cuidar de cachorro?")
-        bot.responder("qual a capital da Austrália?")
+        bot.responder("qual a capital da Mongólia?")
         self.assertEqual(bot.responder("mais")[0], "mais:fim")
 
     def test_historico_inclui_pergunta_exata(self):
