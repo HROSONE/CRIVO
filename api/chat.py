@@ -17,7 +17,7 @@ if str(RAIZ) not in sys.path:
 
 from web_core import PedidoInvalido, responder_web  # noqa: E402
 
-LIMITE_BODY = 16 * 1024
+LIMITE_BODY = 256 * 1024
 
 
 class CorpoHTTPInvalido(ValueError):

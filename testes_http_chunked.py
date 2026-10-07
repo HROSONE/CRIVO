@@ -20,7 +20,8 @@ class ChunkedTestes(unittest.TestCase):
         stream.read.assert_not_called()
 
     def test_limite_soma_todos_os_blocos(self):
-        bloco = b'2000\r\n'+b'x'*8192+b'\r\n'
+        metade = LIMITE_BODY // 2
+        bloco = format(metade, 'x').encode() + b'\r\n' + b'x' * metade + b'\r\n'
         with self.assertRaises(CorpoHTTPInvalido) as erro:
             ler_chunked(io.BytesIO(bloco*2+b'1\r\ny\r\n0\r\n\r\n'))
         self.assertEqual(erro.exception.status, 413)
@@ -87,7 +88,7 @@ class ChunkedHTTPTestes(unittest.TestCase):
                 self.assertTrue(result['id'].startswith('social:'))
 
     def test_corpo_grande_vazio_ou_ambiguo_nao_chega_ao_crivo(self):
-        self.assertEqual(self.pedido(b'4001\r\n')[0], 413)
+        self.assertEqual(self.pedido(format(LIMITE_BODY + 1, 'x').encode() + b'\r\n')[0], 413)
         self.assertEqual(self.pedido(b'0\r\n\r\n')[0], 413)
         self.assertEqual(self.pedido(b'2\r\n{}\r\n0\r\n\r\n', {'Content-Length':'2'})[0], 400)
         self.assertEqual(self.pedido(b'1\r\nx\r\n0\r\n\r\n')[0], 400)
