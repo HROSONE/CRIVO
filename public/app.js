@@ -229,6 +229,8 @@
       if (extra.has_proof) {
         tag.classList.add("proof");
         tag.textContent = "◈ Prova lógica";
+      } else if (extra.text_correction) {
+        tag.textContent = "◇ Revisão de texto · confira a proposta";
       } else if (extra.content_analysis) {
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.generation && extra.generation.usada) {
