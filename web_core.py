@@ -60,7 +60,8 @@ def _validar_memoria(memoria):
     return limpa
 
 
-def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None):
+def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
+                  usar_geracao=True):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -94,6 +95,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     finally:
         bot.motor_codigo.reconstruindo = False
     sinais_antes = bot.total_sinais
+    # A geração ancorada escreve só a resposta desta mensagem: refazer o
+    # histórico com ela custaria tempo sem mudar o que a pessoa já leu.
+    bot.usar_geracao = usar_geracao
     identificador, resposta = bot.responder(mensagem)
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno

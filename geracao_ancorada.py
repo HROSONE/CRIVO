@@ -121,15 +121,63 @@ def troca_de_palavra(texto, fonte):
     return any((a, b) not in pares for a, b in zip(w, w[1:]) if conteudo(a) or conteudo(b))
 
 
+def numero_fora_de_lugar(texto, fonte, janela=3):
+    """Número com palavras seguintes diferentes das da fonte: "8,1 milhões de
+    km²" quando a fonte diz "8,1 milhões de habitantes" (números trocados)."""
+    def contextos(t):
+        ws = re.findall(r"\d+(?:[.,]\d+)*|[a-z]+", norm(t))
+        return [(w, tuple(ws[i + 1:i + 1 + janela])) for i, w in enumerate(ws) if w[0].isdigit()]
+    da_fonte = {}
+    for n, depois in contextos(fonte):
+        da_fonte.setdefault(n, set()).add(depois)
+    for n, depois in contextos(texto):
+        if not any(d[:len(depois)] == depois or depois[:len(d)] == d for d in da_fonte.get(n, ())):
+            return True
+    return False
+
+
+def sem_conteudo_novo(texto, pergunta):
+    """Eco da pergunta: nenhuma palavra de conteúdo além das da pergunta."""
+    da_pergunta = {w[:4] for w in palavras_conteudo(pergunta)}
+    return not [w for w in palavras_conteudo(texto) if w[:4] not in da_pergunta]
+
+
+def quem_sem_nome(texto, pergunta):
+    """"Quem foi...?" respondido sem nome próprio que não esteja na pergunta."""
+    if not norm(pergunta).strip().startswith("quem"):
+        return False
+    da_pergunta = set(_ws(pergunta))
+    nomes = [m.group(0) for m in re.finditer(r"(?<!^)\b[A-ZÁÉÍÓÚÂÊÔÃÕ][\wÀ-ú]+", texto.strip())]
+    return not [n for n in nomes if norm(n) not in da_pergunta]
+
+
+_INTERROGATIVAS = frozenset("que qual quais quem quando onde como quanto quantos quanta quantas".split())
+
+
+def comeco_torto(texto, pergunta):
+    """Começo que não é de resposta: palavra de pergunta ("Quem tem 90
+    minutos"), palavra repetida ("Porque, porque"), "porque, por isso", ou
+    verbo sem sujeito numa pergunta "quem" ("Foi o primeiro ser humano...")."""
+    ws = _ws(texto)
+    if not ws or ws[0] in _INTERROGATIVAS or (len(ws) > 1 and ws[0] == ws[1]):
+        return True
+    if re.match(r"porque,? (?:por isso|porque)", norm(texto)):
+        return True
+    return norm(pergunta).strip().startswith("quem") and ws[0] in ("foi", "e", "era", "sao", "foram")
+
+
 def polaridade_inventada(texto):
     w = _ws(texto)
     return bool(w) and w[0] in ("sim", "nao")
 
 
 def aprovada_pela_guarda(texto, fatos, pergunta):
-    if not texto or not texto.rstrip().endswith((".", "!", "?")):
+    if not texto or not texto.rstrip().endswith((".", "!")):
         return False
     fonte = " ".join(fatos) + " " + pergunta
+    if numero_fora_de_lugar(texto, " ".join(fatos)) or sem_conteudo_novo(texto, pergunta) or \
+            quem_sem_nome(texto, pergunta) or comeco_torto(texto, pergunta):
+        return False
     return (not polaridade_inventada(texto) and not repete_palavra(texto, fonte)
             and not troca_de_palavra(texto, fonte) and costura(texto, fonte)
             and verificado(texto, fatos, pergunta))

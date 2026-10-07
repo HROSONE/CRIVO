@@ -249,6 +249,11 @@ class Crivo:
         # Voz própria (voz.py): só age com pesos aprovados no controle.
         self.usar_voz = True
         self.oferta_pendente = None
+        # Geração ancorada (geracao_ancorada.py): o CRIVO escolhe a ficha e a
+        # busca escolhe o fato; o Transformer só escreve a resposta a partir
+        # dele. Ligada no site (web_core); desligada por padrão para que o
+        # restante dos testes meça o texto de sempre.
+        self.usar_geracao = False
         # Leitura da ficha e estado interno do turno (estado_interno.py).
         self.usar_leitura_ficha = True
         self._leitura_ficha = None
@@ -1449,6 +1454,7 @@ class Crivo:
             ident, resposta = self._responder_comum(texto)
         ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
         ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
+        ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
@@ -1568,6 +1574,75 @@ class Crivo:
         # Oferta feita é promessa: um “sim” na próxima fala a cumpre.
         self.oferta_pendente = (assunto, acao) if acao else None
         return nova, True
+
+    _PERGUNTA_ABERTA = re.compile(r"(?:o que|que|qual|quais|quem|quando|onde|como|por ?que|quanto|quantos|"
+                                  r"quantas|quanta|para que|pra que|em que)\b")
+    _RECUSAS_GERACAO = frozenset(("fora", "duvida", "social:nao_entendido", "leitura:aproximacao"))
+    _MECANISMOS_FICHA = frozenset(("composicao_factual", "leitura_ficha", "busca_aprendida"))
+    _CONFIANCA_GERACAO = 0.5
+
+    def _escrever_com_geracao(self, texto, ident, resposta):
+        """Geração ancorada: só para perguntas abertas que o CRIVO respondeu com
+        uma única ficha, ou recusou citando uma ficha pelo nome. A busca escolhe
+        o fato dessa ficha (com confiança mínima); o Transformer escreve a
+        resposta só a partir dele, e a guarda confere. Qualquer falha devolve a
+        resposta de sempre."""
+        if not self.usar_geracao or not isinstance(texto, str):
+            return ident, resposta
+        n = normalizar(texto).strip()
+        if not self._PERGUNTA_ABERTA.match(n) or re.search(
+                r"\b(?:frases?|escrev\w*|resum\w*|roteiro|topicos|paragrafos?|linhas?|compar\w*|diferenca)\b", n):
+            return ident, resposta
+        ultimo = self.historico[-1] if self.historico and self.historico[-1].get("pergunta") == texto else {}
+        ctx = self.contexto_textual
+        assunto = None
+        recusa = ident in self._RECUSAS_GERACAO or resposta.strip().lower().startswith(
+            ("não tenho", "reconheci o assunto", "não reconheci", "não encontrei"))
+        if recusa:
+            assunto = self.compositor.assunto_mencionado(texto)
+        elif ultimo.get("mecanismo") in self._MECANISMOS_FICHA and ctx is not None and ctx.exibidos \
+                and ctx.formato not in ("relacao", "ligacoes", "comparacao") and len({e for e, _ in ctx.exibidos}) == 1:
+            assunto = ctx.exibidos[0][0]
+        if assunto not in self.compositor.itens:
+            return ident, resposta
+        from leitura_ficha import busca_aprendida
+        achados = busca_aprendida(self.compositor).buscar(texto, k=2, assuntos=[assunto])
+        if not achados or achados[0][0] < self._CONFIANCA_GERACAO:
+            return ident, resposta
+        indices = [achados[0][2]]
+        if re.search(r"\be (?:o que|que|qual|quais|quem|quando|onde|como|por que|quant[oa]s?)\b", n) and \
+                len(achados) > 1 and achados[1][0] >= 0.5 * achados[0][0]:
+            indices.append(achados[1][2])
+        from curriculo_mundo import texto_fato
+        from geracao_ancorada import geracao
+        g = geracao()
+        item = self.compositor.itens[assunto]
+        escrita = g.gerar(texto, [texto_fato(item["fatos"][i]) for i in indices]) if g.disponivel else None
+        if not escrita:
+            return ident, resposta
+        if self.usar_voz:
+            import voz
+            ligacoes = [r for r in self.compositor.ligacoes_mundo if assunto in (r["origem"], r["destino"])]
+            fecho, acao = voz.fecho_com_oferta(texto, dict(item, id=assunto), indices, ligacoes=ligacoes,
+                                               itens=self.compositor.itens)
+            if fecho:
+                escrita = escrita + " " + fecho
+            self.oferta_pendente = (assunto, acao) if acao else None
+        _, _, novo_ctx = self.compositor.compor((assunto,), "explicacao",
+                                                selecionados=tuple((assunto, i) for i in indices),
+                                                origem="conhecimento")
+        self.contexto_textual = novo_ctx._replace(texto=escrita)
+        self.ultima_resposta_mostrada = escrita
+        registro = {"pergunta": texto, "id": "geracao:%s" % assunto, "mecanismo": "geracao_ancorada",
+                    "geracao": {"assunto": assunto, "fatos": indices, "confianca": round(achados[0][0], 3),
+                                "substituiu": ident}}
+        if ultimo:
+            ultimo.clear()
+            ultimo.update(registro)
+        else:
+            self.historico.append(registro)
+            self.historico = self.historico[-20:]
+        return "geracao:%s" % assunto, escrita
 
     _ACEITA_OFERTA = re.compile(r"(?:sim|quero|quero sim|claro|pode|pode ser|pode sim|conta|conte|"
                                 r"manda|bora|ok|beleza|por favor|sim,? por favor|quero saber|"

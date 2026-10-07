@@ -193,6 +193,16 @@ _LISTA = (
              "codificador_sentido.py", "artefatos/sentido_pt"),
             ("fontes", "recusa", "catracas"),
             ("testes_busca_semantica.py", "testes_bateria.py", "testes_codificador_sentido.py")),
+    Especie("geracao_ancorada", "neural",
+            "Escreve a resposta com o Transformer próprio a partir do fato que a busca escolheu na "
+            "ficha; decodificação restrita aos tokens do fato e da pergunta e guarda de fidelidade, "
+            "números, nome próprio e repetição.",
+            "No site, em perguntas abertas que o CRIVO respondeu com uma única ficha ou recusou "
+            "citando uma ficha, com a busca confiante no fato; qualquer falha devolve a resposta "
+            "de sempre.",
+            ("geracao_ancorada.py", "artefatos/geracao_pt"),
+            ("fontes", "recusa", "catracas"),
+            ("testes_geracao_ancorada.py",)),
     Especie("geracao_neural", "neural",
             "Escreve respostas com o gerador próprio (desligado por padrão).",
             "Só em modo experimental, quando ligado explicitamente.",
