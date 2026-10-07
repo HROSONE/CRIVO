@@ -53,6 +53,9 @@ jobs:
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
     runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     # 20 min até 2026-10-03; o currículo passou de 241 para 447 conceitos e
     # testes que crescem com o acervo (treino com todas as classes, matriz de
     # pares de conceitos) levam o job de 3.8/3.11 para além disso. Com o
