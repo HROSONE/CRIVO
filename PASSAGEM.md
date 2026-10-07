@@ -9,7 +9,9 @@ pesos baixados removidos. A restrição está registrada em `AGENTS.md`.
 
 Os PRs #105–#110 foram reabertos e estão prontos para revisão. As descrições
 originais foram restauradas e os commits anteriores continuam ancestrais das
-respectivas branches; não houve reescrita nem descarte. As correções foram
+respectivas branches; não houve reescrita nem descarte. Os conflitos entre
+Bíblia e conteúdo foram resolvidos; as etapas posteriores agora incluem
+essa combinação para validar a futura integração sem esperas sequenciais. As correções foram
 propagadas nas branches originais, mantendo as dependências #106→#105 e
 #110→#109→#108. O #111 permanece rascunho para comparação e não substitui
 os originais. Nenhuma destas entregas foi integrada à main.
@@ -52,7 +54,7 @@ Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais,
 88 testes da suíte conjunta passaram; os testes específicos foram repetidos após os ajustes, inclusive sem NumPy. O navegador passou em conteúdo longo → análise → resumo → padrões → fonte, conferindo as citações. Veja `docs/analise_conteudo_20261007.md` para comandos, contrato e limites. Esta versão usa heurísticas extrativas; não é novo treino nem análise semântica irrestrita. A entrega desta etapa está em branch separada da main até a integração de seu PR.
 ## Nova etapa: conhecimento bíblico TNM
 
-Branch `codex/biblia-tnm`, independente sobre a main: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
+Branch `codex/biblia-tnm`, preparada para integrar também as etapas #105/#106: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
 ## Experimento modular: avanço restrito, não aprovado
 
 Branch `codex/raciocinio-modular`, sobre o PR #109. Quatro tarefas com pesos
