@@ -1692,6 +1692,19 @@ class Crivo:
             if not escrita:
                 trace["rejeicoes"] = rejeicoes
                 return recuar(diagnostico.get("motivo", "guarda_rejeitou"))
+            if composicao:
+                # Evidências prometidas pelo plano conservam também a ordem
+                # e multiplicidade de palavras (escalas, sequências, ressalvas).
+                # A guarda de raízes não detecta omissão de palavras repetidas.
+                def termos(t):
+                    import unicodedata
+                    t = ''.join(c for c in unicodedata.normalize('NFD', t.casefold())
+                                if unicodedata.category(c) != 'Mn')
+                    return re.findall(r'[a-z0-9]+', t)
+                if termos(escrita) != termos(' '.join(fatos)):
+                    return recuar('sequencia_de_evidencia_nao_preservada')
+                if normalizar(escrita) != normalizar(' '.join(fatos)):
+                    return recuar('formato_de_evidencia_nao_preservado')
             segmentos.append(escrita)
         trace["rejeicoes"] = rejeicoes
         if composicao:
@@ -1731,7 +1744,8 @@ class Crivo:
                                         for s, (e, i) in zip(segmentos, pares)))
         # O ID semântico continua estável; o mecanismo indica quem escreveu.
         novo_id = ident
-        registro = {"pergunta": texto, "id": novo_id, "mecanismo": "geracao_ancorada",
+        mecanismo = 'busca_aprendida' if ultimo.get('mecanismo') == 'busca_aprendida' else 'geracao_ancorada'
+        registro = {"pergunta": texto, "id": novo_id, "mecanismo": mecanismo,
                     "geracao": dict(trace)}
         if ultimo:
             ultimo.update(registro)
@@ -1852,6 +1866,10 @@ class Crivo:
             texto = finalidade
         elif contato_completo is None:
             texto = conversa_assistente.preparar_conversa(texto)
+            elipse = re.fullmatch(r'e (?:um|uma) (.+)', normalizar(texto))
+            anterior = self.historico[-1].get('pergunta', '') if self.historico else ''
+            if elipse and self._alvo_definicao(anterior) and reconhecer(elipse[1]):
+                texto = 'O que é ' + elipse[1] + '?'
             if not contexto_completo:
                 texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:
