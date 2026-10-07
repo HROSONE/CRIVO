@@ -1,0 +1,43 @@
+name: Geração ancorada no CRIVO completo
+on:
+  pull_request:
+    paths:
+      - 'crivo.py'
+      - 'geracao_ancorada.py'
+      - 'api/chat.py'
+      - 'web_core.py'
+      - 'web_local.py'
+      - 'busca_semantica.py'
+      - 'codificador_sentido.py'
+      - 'artefatos/geracao_pt/**'
+      - 'testes_geracao_ancorada.py'
+      - 'scripts/avaliar_geracao_ancorada.py'
+      - '.github/workflows/geracao-ancorada.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: python -m pip install -r requirements.txt
+      - name: Gerador real, contexto, fontes, guardas e API
+        run: python -m unittest testes_geracao_ancorada testes_codificador_sentido testes_web testes_raciocinio testes_memoria_navegador -v
+      - name: Com e sem geração, com classificadores originais
+        run: python scripts/avaliar_geracao_ancorada.py --saida /tmp/geracao-completa.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: geracao-completa
+          path: /tmp/geracao-completa.json

@@ -152,6 +152,8 @@ class BuscaSemantica:
     def proximidades(self, pergunta):
         """Cosseno entre a pergunta e cada fato do acervo, pelo codificador de
         sentido, ou None se ele não estiver disponível."""
+        if not self.fatos:
+            return None
         d = self.denso if self.usar_denso else None
         if d is None:
             return None

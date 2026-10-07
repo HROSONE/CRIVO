@@ -5,7 +5,7 @@ modelo externo), ajustado com respostas de um tutor no formato
 
     <documento> fato <documento> fato ... <usuario> pergunta <assistente> resposta <fim>
 
-(scripts/treinar_geracao_ancorada.py). Aqui ele roda em NumPy, com memória
+(experimentos/geracao_ancorada/treinar_geracao_ancorada.py). Aqui ele roda em NumPy, com memória
 de atenção (cache de chaves e valores), sem PyTorch no site.
 
 A geração é presa aos fatos de três maneiras:
@@ -55,7 +55,8 @@ def _ws(t):
 
 
 def palavras_conteudo(t):
-    return [w for w in _ws(t) if len(w) >= 4 and w not in _LIGACAO]
+    # Siglas como DNA, RNA, ATP e HIV também carregam conteúdo.
+    return [w for w in _ws(t) if len(w) >= 3 and w not in _LIGACAO]
 
 
 def fiel(resposta, fatos, pergunta):
@@ -117,7 +118,7 @@ def troca_de_palavra(texto, fonte):
     f = _ws(fonte)
     pares = set(zip(f, f[1:]))
     w = _ws(texto)
-    conteudo = lambda x: len(x) >= 4 and x not in _LIGACAO  # noqa: E731
+    conteudo = lambda x: len(x) >= 3 and x not in _LIGACAO  # noqa: E731
     return any((a, b) not in pares for a, b in zip(w, w[1:]) if conteudo(a) or conteudo(b))
 
 
@@ -171,16 +172,44 @@ def polaridade_inventada(texto):
     return bool(w) and w[0] in ("sim", "nao")
 
 
-def aprovada_pela_guarda(texto, fatos, pergunta):
+def motivo_da_guarda(texto, fatos, pergunta):
+    """Código estável de recuo, sem guardar o texto rejeitado no chat."""
     if not texto or not texto.rstrip().endswith((".", "!")):
-        return False
+        return "resposta_incompleta"
+    if not fatos:
+        return "sem_evidencias"
     fonte = " ".join(fatos) + " " + pergunta
-    if numero_fora_de_lugar(texto, " ".join(fatos)) or sem_conteudo_novo(texto, pergunta) or \
-            quem_sem_nome(texto, pergunta) or comeco_torto(texto, pergunta):
-        return False
-    return (not polaridade_inventada(texto) and not repete_palavra(texto, fonte)
-            and not troca_de_palavra(texto, fonte) and costura(texto, fonte)
-            and verificado(texto, fatos, pergunta))
+    verificacoes = (
+        (numero_fora_de_lugar(texto, " ".join(fatos)), "numero_sem_suporte"),
+        (sem_conteudo_novo(texto, pergunta), "eco_da_pergunta"),
+        (quem_sem_nome(texto, pergunta), "identidade_ausente"),
+        (comeco_torto(texto, pergunta), "comeco_inadequado"),
+        (polaridade_inventada(texto), "polaridade_sem_suporte"),
+        (repete_palavra(texto, fonte), "repeticao"),
+        (troca_de_palavra(texto, fonte), "relacao_sem_suporte"),
+        (not costura(texto, fonte), "costura_sem_suporte"),
+        (not verificado(texto, fatos, pergunta), "conteudo_sem_suporte"),
+    )
+    return next((motivo for falhou, motivo in verificacoes if falhou), None)
+
+
+def preserva_evidencia(texto, fatos):
+    """Não apaga conteúdos, valores ou ressalvas da evidência selecionada.
+
+    A guarda de suporte verifica o que foi dito; esta confere também o que
+    foi omitido. A unidade já foi escolhida pelo leitor/compositor.
+    """
+    fonte = " ".join(fatos)
+    raizes = {w[:4] for w in palavras_conteudo(fonte)}
+    numeros = set(re.findall(r"\d+(?:[.,]\d+)*", fonte))
+    negacoes = {w for w in _ws(fonte) if w in ("nao", "nem", "nunca", "jamais")}
+    return (raizes <= {w[:4] for w in palavras_conteudo(texto)}
+            and numeros <= set(re.findall(r"\d+(?:[.,]\d+)*", texto))
+            and negacoes <= set(_ws(texto)))
+
+
+def aprovada_pela_guarda(texto, fatos, pergunta):
+    return motivo_da_guarda(texto, fatos, pergunta) is None
 
 
 # -------------------------------------------------------------- executor ---
@@ -277,12 +306,13 @@ class GeracaoAncorada:
             x = x + m @ p[b + "mlp.2.weight"].T + p[b + "mlp.2.bias"]
         return self._norm(x[-1:], "norm")[0] @ p["embedding.weight"].T
 
-    def _decodificar(self, prompt, mascara, rng=None, temperatura=0.7, top_k=5):
+    def _decodificar(self, prompt, mascara, rng=None, temperatura=0.7, top_k=5, fonte=None, prefixo=""):
         np = self.np
-        cache, saida = {}, []
-        logits = self._passo(prompt, 0, cache)
-        pos = len(prompt)
-        for _ in range(min(MAX_TOKENS, self.contexto - len(prompt))):
+        cache, saida = {}, self.bpe.codificar(prefixo) if prefixo else []
+        entrada = prompt + saida
+        logits = self._passo(entrada, 0, cache)
+        pos = len(entrada)
+        for _ in range(min(MAX_TOKENS - len(saida), self.contexto - len(entrada))):
             l = logits + mascara
             for t in set(saida[-3:]):
                 if saida.count(t) > 2:
@@ -290,6 +320,25 @@ class GeracaoAncorada:
             for k in range(len(saida) - 2):  # sem repetir trigramas
                 if saida[k] == saida[-2] and saida[k + 1] == saida[-1]:
                     l[saida[k + 2]] = -np.inf
+            if fonte is not None:
+                # Confira pares de palavras já completos antes de escolher
+                # o token. O último fragmento BPE ainda pode estar incompleto.
+                # A guarda final continua obrigatória, com os mesmos critérios.
+                candidatos = np.argsort(l)[-64:][::-1]
+                validos = []
+                for candidato in candidatos:
+                    if not np.isfinite(l[candidato]):
+                        continue
+                    parcial = self.decodificar(saida + [int(candidato)])
+                    completo = parcial if candidato == self.fim else re.sub(r"[\wÀ-ú]+$", "", parcial)
+                    if not troca_de_palavra(completo, fonte) and not repete_palavra(completo, fonte):
+                        validos.append(int(candidato))
+                        if len(validos) >= top_k:
+                            break
+                if validos:
+                    restrito = np.full_like(l, -np.inf)
+                    restrito[validos] = l[validos]
+                    l = restrito
             if rng is None:
                 prox = int(l.argmax())
             else:
@@ -304,11 +353,33 @@ class GeracaoAncorada:
             pos += 1
         return self.decodificar(saida).strip()
 
-    def gerar(self, pergunta, fatos, tentativas=3):
-        """Resposta escrita a partir dos fatos, ou None se nenhuma tentativa
-        passar na guarda. A primeira tentativa é gulosa; as outras sorteiam
-        entre os 5 pedaços mais prováveis, com semente fixa pela pergunta."""
+    def gerar(self, pergunta, fatos, tentativas=3, diagnostico=None):
+        """Inferência determinística reutilizada ao reconstruir o histórico.
+
+        A chave contém pergunta e evidências completas; conversas com fontes
+        diferentes não compartilham uma resposta. O diagnóstico devolvido é
+        uma cópia, para não misturar requisições concorrentes.
+        """
+        texto, trace = self._gerar_cache(pergunta, tuple(fatos), tentativas)
+        if diagnostico is not None:
+            diagnostico.update({k: list(v) if isinstance(v, list) else v for k, v in trace.items()})
+        return texto
+
+    @lru_cache(maxsize=128)
+    def _gerar_cache(self, pergunta, fatos, tentativas):
+        trace = {}
+        texto = self._gerar(pergunta, fatos, tentativas, trace)
+        return texto, trace
+
+    def _gerar(self, pergunta, fatos, tentativas=3, diagnostico=None):
+        """Resposta escrita a partir dos fatos, ou None. Tenta decodificação
+        gulosa, amostragem determinística e um começo da evidência. Diagnóstico
+        pertence à chamada, sem estado compartilhado entre requisições."""
+        if diagnostico is None:
+            diagnostico = {}
+        diagnostico.update(tentativas=0, rejeicoes=[])
         if not self.disponivel or not fatos:
+            diagnostico["motivo"] = "modelo_indisponivel" if not self.disponivel else "sem_evidencias"
             return None
         np = self.np
         prompt = self.prompt(pergunta, fatos)
@@ -316,12 +387,25 @@ class GeracaoAncorada:
         mascara = np.full(self.p["embedding.weight"].shape[0], -np.inf, dtype=np.float32)
         mascara[sorted(permit)] = 0.0
         rng = None
-        for _ in range(tentativas):
-            texto = self._decodificar(prompt, mascara, rng)
-            if aprovada_pela_guarda(texto, fatos, pergunta):
+        for tentativa in range(tentativas):
+            # Um começo vindo da própria evidência conserva sujeito e
+            # antecedente. O restante continua sendo
+            # predito pelo Transformer e precisa passar pela guarda inteira.
+            prefixo = " ".join(fatos[0].split()[:2]) if len(fatos) == 1 else ""
+            texto = self._decodificar(prompt, mascara, rng,
+                                      fonte=" ".join(fatos) + " " + pergunta, prefixo=prefixo)
+            diagnostico["tentativas"] += 1
+            motivo = motivo_da_guarda(texto, fatos, pergunta)
+            if motivo is None and not preserva_evidencia(texto, fatos):
+                motivo = "evidencia_incompleta"
+            if motivo is None:
+                diagnostico["motivo"] = "gerada"
+                diagnostico["prefixo_fonte"] = bool(prefixo)
                 return texto
+            diagnostico["rejeicoes"].append(motivo)
             if rng is None:
                 rng = np.random.default_rng(zlib.crc32(norm(pergunta).encode("utf-8")))
+        diagnostico["motivo"] = "guarda_rejeitou"
         return None
 
 

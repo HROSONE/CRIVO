@@ -61,7 +61,7 @@ def _validar_memoria(memoria):
 
 
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                  usar_geracao=False):
+                  usar_geracao=True):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -85,7 +85,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                    "\x00" in p for p in historico)):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
-    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem, gerador_programacao=gerador_programacao)
+    bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem,
+                gerador_programacao=gerador_programacao, usar_geracao=usar_geracao)
     if memoria:
         bot.carregar_memoria(memoria)
     bot.motor_codigo.reconstruindo = True
@@ -95,9 +96,6 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     finally:
         bot.motor_codigo.reconstruindo = False
     sinais_antes = bot.total_sinais
-    # A geração ancorada escreve só a resposta desta mensagem: refazer o
-    # histórico com ela custaria tempo sem mudar o que a pessoa já leu.
-    bot.usar_geracao = usar_geracao
     identificador, resposta = bot.responder(mensagem)
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno
@@ -119,6 +117,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     prova_planejada = any((i in provas_efetivas or i in ids_editoriais and "Relações verificadas:" in t)
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
+    extra["generation"] = bot.ultima_geracao
     if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
         interpretacao = bot.historico[-1].get("interpretacao_pergunta")
         if interpretacao is not None:

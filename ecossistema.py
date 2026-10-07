@@ -197,9 +197,10 @@ _LISTA = (
             "Escreve a resposta com o Transformer próprio a partir do fato que a busca escolheu na "
             "ficha; decodificação restrita aos tokens do fato e da pergunta e guarda de fidelidade, "
             "números, nome próprio e repetição.",
-            "No site, em perguntas abertas que o CRIVO respondeu com uma única ficha ou recusou "
-            "citando uma ficha, com a busca confiante no fato; qualquer falha devolve a resposta "
-            "de sempre.",
+            "No CRIVO, API e servidor local, em perguntas factuais e composição de evidências "
+            "selecionadas (resumo, tópicos, continuação e comparação). Recusas e respostas "
+            "incertas preservam seu limite; a redação conserva toda a evidência. Recuos "
+            "têm diagnóstico explícito.",
             ("geracao_ancorada.py", "artefatos/geracao_pt"),
             ("fontes", "recusa", "catracas"),
             ("testes_geracao_ancorada.py",)),

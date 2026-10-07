@@ -229,6 +229,10 @@
       if (extra.has_proof) {
         tag.classList.add("proof");
         tag.textContent = "◈ Prova lógica";
+      } else if (extra.generation && extra.generation.usada) {
+        tag.textContent = extra.generation.copia_literal
+          ? "◇ Modelo próprio · fatos da fonte"
+          : "◇ Modelo próprio · geração ancorada";
       } else if (extra.mechanism === "raciocinio_ativo") {
         tag.textContent = "◇ Raciocínio sob premissas";
       } else if (extra.mechanism === "exploracao_conhecimento") {

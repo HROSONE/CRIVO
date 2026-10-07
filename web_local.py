@@ -46,7 +46,7 @@ class LocalHandler(CrivoAPI):
 
 def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False,
                    modelo_linguagem=None, modelo_programacao=None, programacao_experimental=False,
-                   relatorio_programacao=None):
+                   relatorio_programacao=None, usar_geracao=True):
     if modelo_linguagem:
         from dialogo_linguagem_profunda import carregar_modelo
         carregar_modelo(modelo_linguagem)  # Falhar no início se pesos/dependências não existem.
@@ -62,6 +62,7 @@ def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False,
     server.dialogo_contextual = usar_dialogo_contextual
     server.modelo_linguagem = modelo_linguagem
     server.gerador_programacao = gerador
+    server.usar_geracao = usar_geracao
     return server
 
 
@@ -77,10 +78,13 @@ def main():
     parser.add_argument("--modelo-programacao", metavar="DIRETORIO")
     parser.add_argument("--programacao-experimental", action="store_true")
     parser.add_argument("--relatorio-programacao", metavar="JSON")
+    parser.add_argument("--sem-geracao", action="store_true",
+                        help="Executa o controle sem o Transformer de geração.")
     args = parser.parse_args()
     server = criar_servidor(args.host, args.port, args.dialogo_experimental,
                            args.modelo_linguagem_profunda, args.modelo_programacao,
-                           args.programacao_experimental, args.relatorio_programacao)
+                           args.programacao_experimental, args.relatorio_programacao,
+                           usar_geracao=not args.sem_geracao)
     print("CRIVO web: http://%s:%s" % (args.host, server.server_address[1]))
     print("O endpoint não possui login; evite expor a porta na internet.")
     try:
