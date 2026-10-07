@@ -140,9 +140,10 @@ class handler(BaseHTTPRequestHandler):
                 self.server, "dialogo_contextual", False), modelo_linguagem=getattr(
                 self.server, "modelo_linguagem", None), gerador_programacao=getattr(
                 self.server, "gerador_programacao", None),
-                # Geração ancorada só no site (a Vercel define VERCEL=1); nos
-                # testes e no servidor local fica desligada.
-                usar_geracao=os.environ.get("VERCEL") == "1")
+                # Geração ancorada desligada: medida no CRIVO completo, ela
+                # aumentou os erros (PASSAGEM.md). Para ligar no site depois de
+                # corrigir: usar_geracao=os.environ.get("VERCEL") == "1".
+                usar_geracao=False)
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:
