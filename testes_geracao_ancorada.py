@@ -90,9 +90,10 @@ class NoCrivo(unittest.TestCase):
         _, resposta = self.perguntar("Quem foi Pelé?")
         self.assertIn("futebol", resposta)
 
-    def test_site_usa_a_geracao(self):
+    def test_site_usa_a_geracao_e_testes_antigos_nao(self):
         from web_core import responder_web
-        r = responder_web({"message": "Quais línguas se falam na Suíça?"})
+        self.assertEqual(responder_web({"message": "O que é DNA?"})["id"], "conhecimento:dna")
+        r = responder_web({"message": "Quais línguas se falam na Suíça?"}, usar_geracao=True)
         self.assertTrue(r["id"].startswith("geracao:"), r)
 
 

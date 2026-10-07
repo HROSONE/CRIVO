@@ -139,7 +139,10 @@ class handler(BaseHTTPRequestHandler):
             resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
                 self.server, "dialogo_contextual", False), modelo_linguagem=getattr(
                 self.server, "modelo_linguagem", None), gerador_programacao=getattr(
-                self.server, "gerador_programacao", None))
+                self.server, "gerador_programacao", None),
+                # Geração ancorada só no site (a Vercel define VERCEL=1); nos
+                # testes e no servidor local fica desligada.
+                usar_geracao=os.environ.get("VERCEL") == "1")
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

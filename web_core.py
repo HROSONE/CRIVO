@@ -61,7 +61,7 @@ def _validar_memoria(memoria):
 
 
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                  usar_geracao=True):
+                  usar_geracao=False):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
