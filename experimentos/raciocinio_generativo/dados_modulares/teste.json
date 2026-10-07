@@ -1,0 +1,1442 @@
+[
+  {
+    "id": "modular-teste-0000",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "O botão acende",
+      "O relógio para",
+      "Se o relógio para, então o rádio toca"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0001",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "O tubo abre",
+      "A placa aquece",
+      "Se o tubo abre, então o botão não acende"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0002",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "A placa aquece",
+      "Se o feixe passa, então o tubo abre"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0003",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "O feixe passa",
+      "O botão não acende",
+      "Se o botão acende, então o tubo abre",
+      "O botão acende"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0004",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se o feixe passa, então a sirene soa",
+      "O tubo abre",
+      "Se o tubo abre, então o feixe passa",
+      "O radar gira"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0005",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "O botão acende",
+      "Se o botão acende, então o radar gira",
+      "O feixe passa",
+      "Se o radar gira, então o rádio não toca"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0006",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se a placa aquece, então o feixe passa",
+      "Se o rádio toca, então a placa aquece",
+      "O relógio para"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0007",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O rádio toca",
+      "Se o feixe passa, então o radar gira",
+      "O rádio não toca",
+      "Se o rádio toca, então o feixe passa",
+      "A placa aquece"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0008",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se o tubo abre, então o relógio para",
+      "Se o radar gira, então o tubo abre",
+      "A sirene soa",
+      "Se o relógio para, então a placa aquece",
+      "O radar gira"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0009",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o radar gira, então a sirene não soa",
+      "Se o feixe passa, então o botão acende",
+      "A placa aquece",
+      "Se o botão acende, então o radar gira",
+      "O feixe passa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0010",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se o radar gira, então a sirene soa",
+      "O rádio toca",
+      "Se a sirene soa, então o relógio para",
+      "Se o tubo abre, então o radar gira"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0011",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "Se o radar gira, então a sirene soa",
+      "Se o feixe passa, então o radar gira",
+      "O tubo abre",
+      "Se o tubo abre, então o feixe passa",
+      "O tubo não abre",
+      "A placa aquece"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0012",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "O tubo abre",
+      "O rádio toca",
+      "Se o rádio toca e o tubo abre, então o botão acende",
+      "Se o botão acende, então a sirene soa",
+      "A placa aquece"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0013",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o rádio toca e o botão acende, então o feixe passa",
+      "O rádio toca",
+      "O botão acende",
+      "Se o feixe passa, então a placa não aquece",
+      "O tubo abre"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0014",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o radar gira e a sirene soa, então o tubo abre",
+      "Se o tubo abre, então o rádio toca",
+      "O feixe passa",
+      "A sirene soa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0015",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "A placa não aquece",
+      "Se a sirene soa, então o botão acende",
+      "Se a placa aquece e o rádio toca, então a sirene soa",
+      "O radar gira",
+      "A placa aquece",
+      "O rádio toca"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0016",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "positivo",
+    "premissas": [
+      "A placa aquece",
+      "Se o tubo abre, então o radar gira",
+      "Se o relógio para, então o tubo abre",
+      "Se o feixe passa, então a sirene soa",
+      "Se o radar gira, então o feixe passa",
+      "O relógio para"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0017",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "negativo",
+    "premissas": [
+      "A placa aquece",
+      "O feixe passa",
+      "Se o botão acende, então o rádio não toca",
+      "Se a placa aquece, então o tubo abre",
+      "Se a sirene soa, então o botão acende",
+      "Se o tubo abre, então a sirene soa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0018",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "ausente",
+    "premissas": [
+      "Se o tubo abre, então a placa aquece",
+      "Se o rádio toca, então a sirene soa",
+      "Se o radar gira, então o tubo abre",
+      "O botão acende",
+      "Se a sirene soa, então o radar gira"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0019",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "conflito",
+    "premissas": [
+      "Se o botão acende, então o relógio para",
+      "O rádio toca",
+      "Se o radar gira, então o feixe passa",
+      "O radar gira",
+      "O radar não gira",
+      "Se o relógio para, então a sirene soa",
+      "Se o feixe passa, então o botão acende"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0020",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "positivo",
+    "premissas": [
+      "Se a placa aquece, então o radar gira",
+      "O tubo abre",
+      "O feixe passa",
+      "Se a sirene soa, então o botão acende",
+      "Se o botão acende, então a placa aquece",
+      "Se o radar gira, então o relógio para",
+      "Se o tubo abre, então a sirene soa"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0021",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "negativo",
+    "premissas": [
+      "O feixe passa",
+      "Se o tubo abre, então a placa aquece",
+      "Se a placa aquece, então a sirene soa",
+      "Se o botão acende, então o radar não gira",
+      "O tubo abre",
+      "Se o rádio toca, então o botão acende",
+      "Se a sirene soa, então o rádio toca"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0022",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "ausente",
+    "premissas": [
+      "Se o botão acende, então a sirene soa",
+      "O rádio toca",
+      "Se a sirene soa, então a placa aquece",
+      "Se o radar gira, então o botão acende",
+      "Se o feixe passa, então o radar gira",
+      "Se o tubo abre, então o feixe passa"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0023",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "conflito",
+    "premissas": [
+      "Se o feixe passa, então o relógio para",
+      "Se a sirene soa, então o rádio toca",
+      "Se o botão acende, então a sirene soa",
+      "Se o rádio toca, então o feixe passa",
+      "O tubo não abre",
+      "Se o tubo abre, então o botão acende",
+      "O tubo abre",
+      "A placa aquece"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0024",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se a sirene soa, então o botão acende",
+      "A sirene soa",
+      "O rádio toca",
+      "Se o radar gira, então o feixe passa",
+      "Se a sirene soa, então o tubo abre",
+      "Se o tubo abre e o botão acende, então o radar gira"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0025",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "O radar gira",
+      "Se o radar gira, então o rádio toca",
+      "O botão acende",
+      "Se o radar gira, então a sirene soa",
+      "Se o tubo abre, então o relógio não para",
+      "Se a sirene soa e o rádio toca, então o tubo abre"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0026",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "O tubo abre",
+      "Se o relógio para, então a sirene soa",
+      "Se o rádio toca, então o radar gira",
+      "Se o feixe passa e a sirene soa, então o rádio toca",
+      "Se o relógio para, então o feixe passa"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0027",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "Se o feixe passa, então a placa aquece",
+      "Se a sirene soa, então o relógio para",
+      "A sirene não soa",
+      "A sirene soa",
+      "O botão acende",
+      "Se a sirene soa, então o rádio toca",
+      "Se o relógio para e o rádio toca, então o feixe passa"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0028",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "A placa aquece",
+      "O tubo abre",
+      "Se a placa aquece, então o relógio para"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0029",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "O relógio para",
+      "O tubo abre",
+      "Se o relógio para, então a sirene não soa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0030",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "O rádio toca",
+      "Se a sirene soa, então o relógio para"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0031",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "A sirene não soa",
+      "A sirene soa",
+      "Se a sirene soa, então o rádio toca",
+      "O tubo abre"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0032",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "O radar gira",
+      "Se o rádio toca, então a sirene soa",
+      "A placa aquece",
+      "Se o radar gira, então o rádio toca"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0033",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o tubo abre, então o botão acende",
+      "Se o botão acende, então a sirene não soa",
+      "O tubo abre",
+      "O rádio toca"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0034",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o feixe passa, então o rádio toca",
+      "O botão acende",
+      "Se o relógio para, então o feixe passa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0035",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "A sirene não soa",
+      "Se a sirene soa, então a placa aquece",
+      "O botão acende",
+      "Se a placa aquece, então o relógio para",
+      "A sirene soa"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0036",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se o radar gira, então o tubo abre",
+      "A placa aquece",
+      "Se o tubo abre, então o rádio toca",
+      "Se a placa aquece, então o radar gira",
+      "A sirene soa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0037",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "O tubo abre",
+      "Se o feixe passa, então a sirene não soa",
+      "O relógio para",
+      "Se o botão acende, então o feixe passa",
+      "Se o tubo abre, então o botão acende"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0038",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se a placa aquece, então o tubo abre",
+      "Se o relógio para, então a placa aquece",
+      "Se o radar gira, então o relógio para",
+      "O feixe passa"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0039",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "A placa aquece",
+      "A placa não aquece",
+      "Se a placa aquece, então o rádio toca",
+      "Se o rádio toca, então a sirene soa",
+      "Se a sirene soa, então o feixe passa",
+      "O botão acende"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0040",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "O rádio toca",
+      "O botão acende",
+      "Se o feixe passa e o botão acende, então a placa aquece",
+      "O feixe passa",
+      "Se a placa aquece, então o radar gira"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0041",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "O tubo abre",
+      "Se o radar gira, então a placa não aquece",
+      "A sirene soa",
+      "O botão acende",
+      "Se o botão acende e o tubo abre, então o radar gira"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0042",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o relógio para e a sirene soa, então a placa aquece",
+      "A sirene soa",
+      "Se a placa aquece, então o tubo abre",
+      "O botão acende"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0043",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O botão não acende",
+      "O radar gira",
+      "Se o rádio toca, então a placa aquece",
+      "O botão acende",
+      "O tubo abre",
+      "Se o botão acende e o radar gira, então o rádio toca"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0044",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "positivo",
+    "premissas": [
+      "O relógio para",
+      "Se o tubo abre, então o feixe passa",
+      "Se a placa aquece, então o botão acende",
+      "Se o botão acende, então o rádio toca",
+      "O tubo abre",
+      "Se o feixe passa, então a placa aquece"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0045",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "negativo",
+    "premissas": [
+      "Se o tubo abre, então o feixe passa",
+      "Se a sirene soa, então o tubo abre",
+      "O rádio toca",
+      "Se o radar gira, então a sirene soa",
+      "O radar gira",
+      "Se o feixe passa, então a placa não aquece"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0046",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "ausente",
+    "premissas": [
+      "Se a placa aquece, então o botão acende",
+      "Se o radar gira, então a placa aquece",
+      "Se o botão acende, então a sirene soa",
+      "O feixe passa",
+      "Se o rádio toca, então o radar gira"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0047",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "conflito",
+    "premissas": [
+      "O tubo não abre",
+      "Se o tubo abre, então o feixe passa",
+      "Se a sirene soa, então o rádio toca",
+      "O tubo abre",
+      "Se o feixe passa, então o relógio para",
+      "Se o relógio para, então a sirene soa",
+      "O radar gira"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0048",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "positivo",
+    "premissas": [
+      "O feixe passa",
+      "O relógio para",
+      "Se o tubo abre, então a placa aquece",
+      "Se o radar gira, então o rádio toca",
+      "Se o feixe passa, então o radar gira",
+      "Se a sirene soa, então o tubo abre",
+      "Se o rádio toca, então a sirene soa"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0049",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "negativo",
+    "premissas": [
+      "Se o tubo abre, então o botão acende",
+      "A sirene soa",
+      "Se o radar gira, então o relógio para",
+      "O tubo abre",
+      "Se o relógio para, então o feixe não passa",
+      "Se o botão acende, então o rádio toca",
+      "Se o rádio toca, então o radar gira"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0050",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "ausente",
+    "premissas": [
+      "O rádio toca",
+      "Se o feixe passa, então o tubo abre",
+      "Se o relógio para, então a sirene soa",
+      "Se o radar gira, então o botão acende",
+      "Se o tubo abre, então o relógio para",
+      "Se o botão acende, então o feixe passa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0051",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "conflito",
+    "premissas": [
+      "O botão acende",
+      "A sirene soa",
+      "Se o relógio para, então o rádio toca",
+      "Se o tubo abre, então a placa aquece",
+      "Se o botão acende, então o feixe passa",
+      "O botão não acende",
+      "Se a placa aquece, então o relógio para",
+      "Se o feixe passa, então o tubo abre"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0052",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se a sirene soa, então o rádio toca",
+      "O relógio para",
+      "A sirene soa",
+      "Se o radar gira, então o botão acende",
+      "Se o rádio toca e o tubo abre, então o radar gira",
+      "Se a sirene soa, então o tubo abre"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0053",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se a placa aquece e o feixe passa, então o relógio para",
+      "Se o tubo abre, então a placa aquece",
+      "O tubo abre",
+      "Se o relógio para, então o rádio não toca",
+      "Se o tubo abre, então o feixe passa",
+      "A sirene soa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0054",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se o relógio para, então o feixe passa",
+      "Se o rádio toca, então o botão acende",
+      "Se o feixe passa e a sirene soa, então o rádio toca",
+      "Se o relógio para, então a sirene soa",
+      "A placa aquece"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0055",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O feixe passa",
+      "Se o relógio para, então a placa aquece",
+      "O relógio para",
+      "Se o relógio para, então o rádio toca",
+      "Se o rádio toca e a placa aquece, então o radar gira",
+      "Se o radar gira, então o tubo abre",
+      "O relógio não para"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0056",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "O tubo abre",
+      "Se o tubo abre, então o botão acende",
+      "A sirene soa"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0057",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "A sirene soa",
+      "Se a sirene soa, então o radar não gira",
+      "O rádio toca"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0058",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "Se o feixe passa, então o relógio para",
+      "O rádio toca"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0059",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "O relógio para",
+      "O relógio não para",
+      "Se o relógio para, então a sirene soa",
+      "O feixe passa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0060",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se o radar gira, então o feixe passa",
+      "O relógio para",
+      "O radar gira",
+      "Se o feixe passa, então o rádio toca"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0061",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "O rádio toca",
+      "Se o relógio para, então a placa não aquece",
+      "O botão acende",
+      "Se o rádio toca, então o relógio para"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0062",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o relógio para, então o radar gira",
+      "Se o radar gira, então o feixe passa",
+      "A placa aquece"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0063",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O feixe passa",
+      "Se o tubo abre, então o botão acende",
+      "O tubo não abre",
+      "Se o botão acende, então o rádio toca",
+      "O tubo abre"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0064",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se o radar gira, então a sirene soa",
+      "A placa aquece",
+      "O relógio para",
+      "Se a placa aquece, então o tubo abre",
+      "Se o tubo abre, então o radar gira"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0065",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o radar gira, então o tubo não abre",
+      "O relógio para",
+      "Se a sirene soa, então o radar gira",
+      "Se a placa aquece, então a sirene soa",
+      "A placa aquece"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0066",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se o rádio toca, então a sirene soa",
+      "O botão acende",
+      "Se a sirene soa, então a placa aquece",
+      "Se o relógio para, então o rádio toca"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0067",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O radar gira",
+      "O feixe não passa",
+      "O feixe passa",
+      "Se o feixe passa, então o tubo abre",
+      "Se o tubo abre, então o rádio toca",
+      "Se o rádio toca, então a placa aquece"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0068",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "O feixe passa",
+      "O relógio para",
+      "O rádio toca",
+      "Se o feixe passa e o relógio para, então o tubo abre",
+      "Se o tubo abre, então a sirene soa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0069",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o rádio toca e o tubo abre, então o botão acende",
+      "O rádio toca",
+      "O feixe passa",
+      "Se o botão acende, então a placa não aquece",
+      "O tubo abre"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0070",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o relógio para e o botão acende, então o radar gira",
+      "O tubo abre",
+      "Se o radar gira, então o rádio toca",
+      "O botão acende"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0071",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O rádio não toca",
+      "Se o botão acende, então o feixe passa",
+      "O relógio para",
+      "Se o rádio toca e o relógio para, então o botão acende",
+      "O rádio toca",
+      "O tubo abre"
+    ],
+    "objetivo": "O feixe passa",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0072",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "positivo",
+    "premissas": [
+      "Se o relógio para, então a placa aquece",
+      "Se o feixe passa, então a sirene soa",
+      "O relógio para",
+      "O rádio toca",
+      "Se a sirene soa, então o tubo abre",
+      "Se a placa aquece, então o feixe passa"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0073",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "negativo",
+    "premissas": [
+      "O relógio para",
+      "O radar gira",
+      "Se a placa aquece, então o botão acende",
+      "Se o botão acende, então o rádio toca",
+      "Se o rádio toca, então o tubo não abre",
+      "Se o radar gira, então a placa aquece"
+    ],
+    "objetivo": "O tubo abre",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0074",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "ausente",
+    "premissas": [
+      "Se a placa aquece, então o rádio toca",
+      "Se a sirene soa, então a placa aquece",
+      "O tubo abre",
+      "Se o rádio toca, então o botão acende",
+      "Se o botão acende, então o radar gira"
+    ],
+    "objetivo": "O radar gira",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0075",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "conflito",
+    "premissas": [
+      "Se o rádio toca, então a sirene soa",
+      "O radar não gira",
+      "Se o tubo abre, então o rádio toca",
+      "Se o botão acende, então o tubo abre",
+      "O relógio para",
+      "Se o radar gira, então o botão acende",
+      "O radar gira"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0076",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "positivo",
+    "premissas": [
+      "Se o tubo abre, então a placa aquece",
+      "O tubo abre",
+      "Se a sirene soa, então o rádio toca",
+      "Se o feixe passa, então o relógio para",
+      "Se o relógio para, então a sirene soa",
+      "O botão acende",
+      "Se a placa aquece, então o feixe passa"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0077",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "negativo",
+    "premissas": [
+      "Se o radar gira, então o feixe passa",
+      "Se a placa aquece, então o radar gira",
+      "O tubo abre",
+      "Se o feixe passa, então a sirene não soa",
+      "O rádio toca",
+      "Se o botão acende, então a placa aquece",
+      "Se o tubo abre, então o botão acende"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0078",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "ausente",
+    "premissas": [
+      "Se o botão acende, então a placa aquece",
+      "Se o feixe passa, então o botão acende",
+      "Se o radar gira, então o feixe passa",
+      "O rádio toca",
+      "Se a sirene soa, então o radar gira",
+      "Se a placa aquece, então o relógio para"
+    ],
+    "objetivo": "O relógio para",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0079",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "conflito",
+    "premissas": [
+      "O tubo abre",
+      "Se o feixe passa, então o radar gira",
+      "A placa não aquece",
+      "A placa aquece",
+      "Se o radar gira, então o relógio para",
+      "Se o rádio toca, então a sirene soa",
+      "Se o relógio para, então o rádio toca",
+      "Se a placa aquece, então o feixe passa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "modular-teste-0080",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "A sirene soa",
+      "Se o radar gira e o rádio toca, então o feixe passa",
+      "Se a sirene soa, então o radar gira",
+      "Se o feixe passa, então a placa aquece",
+      "O relógio para",
+      "Se a sirene soa, então o rádio toca"
+    ],
+    "objetivo": "A placa aquece",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "modular-teste-0081",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o tubo abre e o radar gira, então o rádio toca",
+      "A placa aquece",
+      "Se a placa aquece, então o radar gira",
+      "Se o rádio toca, então o botão não acende",
+      "O feixe passa",
+      "Se a placa aquece, então o tubo abre"
+    ],
+    "objetivo": "O botão acende",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "modular-teste-0082",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se o radar gira, então o rádio toca",
+      "Se a placa aquece, então a sirene soa",
+      "O relógio para",
+      "Se a sirene soa e o tubo abre, então o radar gira",
+      "Se a placa aquece, então o tubo abre"
+    ],
+    "objetivo": "O rádio toca",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "modular-teste-0083",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "Se o feixe passa, então a placa aquece",
+      "O rádio toca",
+      "Se a placa aquece e o radar gira, então o botão acende",
+      "O feixe passa",
+      "Se o feixe passa, então o radar gira",
+      "Se o botão acende, então a sirene soa",
+      "O feixe não passa"
+    ],
+    "objetivo": "A sirene soa",
+    "ood_estrutura": true,
+    "status": "conflito"
+  }
+]

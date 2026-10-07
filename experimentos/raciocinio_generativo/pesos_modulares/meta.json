@@ -1,0 +1,41 @@
+{
+  "base": {
+    "config": {
+      "vocabulario": 8192,
+      "dimensao": 384,
+      "camadas": 8,
+      "cabecas": 8,
+      "contexto": 256,
+      "dropout": 0.1
+    }
+  },
+  "papel": "piloto modular",
+  "controle": {
+    "aprovado": false
+  },
+  "treino": {
+    "passos": 800,
+    "lote": 8,
+    "lr": 0.00015,
+    "semente": 8204,
+    "checkpoint": 400,
+    "exemplos": {
+      "regra": 2720,
+      "apoio": 12800,
+      "estado": 1280,
+      "redacao": 640
+    },
+    "tokens_alvo": {
+      "regra": 3200,
+      "apoio": 3200,
+      "estado": 3200,
+      "redacao": 9599
+    }
+  },
+  "corpus_sha256": {
+    "treino": "8831744e45dab85b1e893b6a0157c8984a65fa3ff935ec310be5eb8720673616",
+    "dev": "12464da7db768d327f3478d1d1206a403149faac40a9a7c7aa6b87f4493b8e10",
+    "teste": "4ea8d5cc387111c882ba6559c6fbcfd88684d910549235cd2b094cf3904fa5f9"
+  },
+  "pesos_externos": false
+}
