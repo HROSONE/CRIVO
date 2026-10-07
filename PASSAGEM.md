@@ -8,7 +8,7 @@ A comparação completa terminou: oito avaliações sem regressão nas classes/�
 
 **Limite:** ligar o Transformer não o torna um gerador geral. Os pesos existentes frequentemente copiam a fonte, e a restrição atual favorece essa cópia. O diagnóstico e a interface identificam esse comportamento. Nenhum novo peso foi treinado ou aprovado. Veja o documento para o critério do próximo treino.
 
-A prévia Vercel exige autenticação; os conectores retornaram 403 e a validação remota não foi concluída. A implementação foi validada localmente. A main ainda depende da integração dos PRs.
+A prévia Vercel exige autenticação; os conectores retornaram 403 e a validação remota não foi concluída. A implementação foi validada localmente. A entrega à main é feita pelo PR #104, que reúne também os commits e pesos do #103. Consulte o estado do PR para confirmar a integração.
 
 ## Histórico do PR #103, registrado às 08:20 UTC
 
