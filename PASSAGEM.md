@@ -9,6 +9,9 @@ Branch `codex/correcao-texto`, baseada na etapa do PR #105. Comandos `Corrija es
 Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais, recorrências lexicais, conectores e hipóteses de oposição literal, com citações e offsets do documento enviado. As retomadas e a consulta de fonte funcionam pelo histórico do chat. A interface aceita mensagens de conteúdo de até 12 mil caracteres; perguntas comuns continuam com 1.200. O conteúdo não entra no acervo nem na memória pessoal.
 
 88 testes da suíte conjunta passaram; os testes específicos foram repetidos após os ajustes, inclusive sem NumPy. O navegador passou em conteúdo longo → análise → resumo → padrões → fonte, conferindo as citações. Veja `docs/analise_conteudo_20261007.md` para comandos, contrato e limites. Esta versão usa heurísticas extrativas; não é novo treino nem análise semântica irrestrita. A entrega desta etapa está em branch separada da main até a integração de seu PR.
+## Nova etapa: conhecimento bíblico TNM
+
+Branch `codex/biblia-tnm`, independente sobre a main: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
 
 ## Continuação: PR #104
 

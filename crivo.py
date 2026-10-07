@@ -1490,8 +1490,14 @@ class Crivo:
             ident, resposta = self._cumprir_oferta(oferta, texto)
         else:
             ident, resposta = self._responder_comum(texto)
-        ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
-        ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
+        referencia_exata = bool(self.historico and self.historico[-1].get('pergunta') == texto and
+                                self.historico[-1].get('referencia_biblica_exata'))
+        if referencia_exata:
+            self.estado_interno.propor('composicao_factual', ident, 'responder')
+            self.estado_interno.decidir('composicao_factual', 'responder', 'referência bíblica exata')
+        else:
+            ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
+            ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
@@ -1598,6 +1604,10 @@ class Crivo:
         item = self.compositor.itens.get(assunto)
         if item is None:
             return resposta, False
+        if any(item['fatos'][i].get('natureza') == 'religioso' for _, i in ctx.exibidos):
+            # Manter a moldura de atribuição: estes fatos descrevem uma edição
+            # religiosa; o realizador de definições não foi avaliado nesse domínio.
+            return resposta, False
         pura = self.compositor._ligar([texto_fato(item["fatos"][i]) for _, i in ctx.exibidos])
         if resposta.strip() != pura.strip():
             return resposta, False
@@ -1697,6 +1707,13 @@ class Crivo:
             if not escrita:
                 trace["rejeicoes"] = rejeicoes
                 return recuar(diagnostico.get("motivo", "guarda_rejeitou"))
+            for e, i in grupo:
+                f = self.compositor.itens[e]['fatos'][i]
+                if f.get('natureza') == 'religioso':
+                    moldura = re.match(r'^(?:Na TNM,|Segundo[^,]+,|A Bíblia|A Tradução do Novo Mundo)', f['texto'])
+                    ref = f.get('referencia_biblica')
+                    if not moldura or not escrita.startswith(moldura[0]) or ref and ('Referência: ' + ref + '.') not in escrita:
+                        return recuar('atribuicao_religiosa_nao_preservada')
             segmentos.append(escrita)
         trace["rejeicoes"] = rejeicoes
         if composicao:
@@ -1836,6 +1853,20 @@ class Crivo:
             self.planejador.ultimo = None
             self.historico[-1]["mecanismo"] = "motor_programacao_proprio"
             self.ultimo_turno = {"pergunta": texto, "id": resultado[0]}
+            return resultado
+        from referencias_biblicas import responder as responder_referencia
+        biblia = responder_referencia(texto, self.compositor)
+        if biblia is not None:
+            ident, resposta, contexto = biblia
+            self.perfil.turno += 1
+            resultado = self._registrar_social((ident, resposta), texto)
+            self.historico[-1].update(mecanismo='composicao_factual', referencia_biblica_exata=True)
+            self.contexto_textual = contexto
+            self.ultima_resposta_mostrada = resposta
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.assunto_conversa = self.oferta_pendente = None
+            self.planejador.ultimo = None
+            self.ultimo_turno = {'pergunta': texto, 'id': ident}
             return resultado
         intencao = self._responder_intencao(texto)
         if intencao is not None:
