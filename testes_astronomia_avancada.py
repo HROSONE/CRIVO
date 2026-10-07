@@ -1,6 +1,7 @@
 """Integração de conhecimento com evidência, limites e pesos preservados."""
 import copy
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -18,6 +19,7 @@ class TestesAstronomiaAvancada(unittest.TestCase):
 
     def test_definicoes_aliases_e_funcionamento_disponiveis_no_motor(self):
         b = Crivo()
+        palavras = lambda t: " ".join(re.findall(r"\w+", t.casefold()))
         novos = [i for i in b.compositor.itens.values() if i["id"].startswith("astro_")]
         self.assertEqual(len(novos), self.manifesto["conceitos_novos"])
         for item in novos:
@@ -25,8 +27,9 @@ class TestesAstronomiaAvancada(unittest.TestCase):
                 with self.subTest(nome=nome):
                     ident, texto = b.responder("O que é " + nome + "?")
                     self.assertEqual(ident, "conhecimento:" + item["id"])
-                    # A voz própria pode pôr sujeito antes da definição, sem mudar o fato.
-                    self.assertIn(item["fatos"][0]["texto"][1:], texto)
+                    # A voz pode ajustar pontuação e capitalização. Todas as
+                    # palavras da evidência conservam ordem e multiplicidade.
+                    self.assertIn(palavras(item["fatos"][0]["texto"]), palavras(texto))
             ident, texto = b.responder("Como funciona " + item["nome"] + "?")
             self.assertEqual(ident, "escrita:explicacao")
             self.assertIn(item["fatos"][1]["texto"], texto)
