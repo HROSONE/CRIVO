@@ -1,5 +1,15 @@
 # Passagem de trabalho — 07/10/2026
 
+## Nova etapa: correção de texto
+
+Branch `codex/correcao-texto`, baseada na etapa do PR #105. Comandos `Corrija este texto:`, `Revise:` e `Corrija isso` propõem ajustes por regras limitadas; `Mostre as alterações` expõe o diff. O original continua sendo a fonte para análise e resumo. A API expõe `text_correction` e a interface identifica a revisão. Não há novo treino nem corretor gramatical completo: grafias ambíguas e divisões sem evidência permanecem para revisão. Veja `docs/correcao_texto_20261007.md` para contrato, exemplos e limites. A entrega está em branch separada até integração do PR.
+
+## Nova etapa: análise de conteúdo enviado
+
+Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais, recorrências lexicais, conectores e hipóteses de oposição literal, com citações e offsets do documento enviado. As retomadas e a consulta de fonte funcionam pelo histórico do chat. A interface aceita mensagens de conteúdo de até 12 mil caracteres; perguntas comuns continuam com 1.200. O conteúdo não entra no acervo nem na memória pessoal.
+
+88 testes da suíte conjunta passaram; os testes específicos foram repetidos após os ajustes, inclusive sem NumPy. O navegador passou em conteúdo longo → análise → resumo → padrões → fonte, conferindo as citações. Veja `docs/analise_conteudo_20261007.md` para comandos, contrato e limites. Esta versão usa heurísticas extrativas; não é novo treino nem análise semântica irrestrita. A entrega desta etapa está em branch separada da main até a integração de seu PR.
+
 ## Continuação: PR #104
 
 [PR #104](https://github.com/HROSONE/CRIVO/pull/104), branch `codex/geracao-integrada`, sobre o #103. A implementação liga o gerador próprio por padrão no Crivo, no adaptador web e na API. Retira o resgate de recusas e usa somente evidências já verificadas pelo leitor/compositor. Mantém IDs, contexto, fontes e histórico; comparação seguida de resumo preserva os dois temas. A guarda também confere omissões, valores, negações e siglas. Acervo vazio deixa de causar erro no codificador.
