@@ -16,14 +16,19 @@ on:
 jobs:
   compreensao-chat:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Exercitar também o gerador próprio ativo
+        run: python -m pip install -r requirements.txt
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
-        run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_web -v
+        run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_voz testes_web -v
   matematica-linguagem-profunda:
     runs-on: ubuntu-latest
     steps:
@@ -53,6 +58,9 @@ jobs:
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
     runs-on: ubuntu-latest
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     # 20 min até 2026-10-03; o currículo passou de 241 para 447 conceitos e
     # testes que crescem com o acervo (treino com todas as classes, matriz de
     # pares de conceitos) levam o job de 3.8/3.11 para além disso. Com o
@@ -61,7 +69,10 @@ jobs:
     # de 2026-10-06 (680 conceitos, 3.947 fatos) o 3.11 levou 43 min e o 3.8
     # passou de 50. Com as lacunas de 2026-10-07 (949 conceitos, ~5.200 fatos)
     # o 3.13 levou 47 min e o 3.8/3.11 passaram de 75.
-    timeout-minutes: 120
+    # Com NumPy, a suíte também executa o gerador próprio: só a matriz
+    # de pares e os 2.439 nomes/aliases somam mais de uma hora em CPU.
+    # Mantemos todos os testes e orçamento para a validação completa.
+    timeout-minutes: 240
     strategy:
       matrix:
         python-version: ['3.8', '3.11', '3.13']
@@ -73,6 +84,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Instalar aceleração declarada pelo projeto
+        run: python -m pip install -r requirements.txt
       - name: Compilar
         run: python -m compileall -q .
       - name: Testes originais

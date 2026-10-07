@@ -229,6 +229,8 @@
       if (extra.has_proof) {
         tag.classList.add("proof");
         tag.textContent = "◈ Prova lógica";
+      } else if (extra.content_analysis) {
+        tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.generation && extra.generation.usada) {
         tag.textContent = extra.generation.copia_literal
           ? "◇ Modelo próprio · fatos da fonte"
@@ -347,7 +349,9 @@
   async function sendQuestion(override) {
     if (state.busy) return;
     const question = String(override === undefined ? ui.question.value : override).trim();
-    if (!question || question.length > 1200) return;
+    if (!question || question.length > 12000) return;
+    const history = state.history.slice(-MAX_HISTORY);
+    while (history.reduce(function (total, item) { return total + item.length; }, 0) > 24000) history.shift();
     state.busy = true;
     const generation = state.generation;
     const controller = new AbortController();
@@ -367,7 +371,7 @@
         cache: "no-store",
         body: JSON.stringify(Object.assign({
           message: question,
-          history: state.history.slice(-MAX_HISTORY)
+          history: history
         }, state.remember ? { memory: state.memory || {} } : {})),
         signal: controller.signal
       });

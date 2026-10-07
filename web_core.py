@@ -8,6 +8,16 @@ from crivo import Crivo
 
 LIMITE_MENSAGEM = 1200
 LIMITE_HISTORICO = 10
+LIMITE_HISTORICO_CARACTERES = 24000
+
+
+def mensagem_valida(texto):
+    from analise_conteudo import pedido, LIMITE_CONTEUDO
+    if not isinstance(texto, str) or not texto.strip() or "\x00" in texto:
+        return False
+    p = pedido(texto)
+    limite = LIMITE_CONTEUDO if p is not None and p.fonte is not None else LIMITE_MENSAGEM
+    return len(texto.strip()) <= limite
 
 
 class PedidoInvalido(ValueError):
@@ -75,14 +85,11 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     memoria = _validar_memoria(payload["memory"]) if "memory" in payload else None
     mensagem = payload.get("message")
     historico = payload.get("history", [])
-    if (not isinstance(mensagem, str) or
-            not 1 <= len(mensagem.strip()) <= LIMITE_MENSAGEM or
-            "\x00" in mensagem):
-        raise PedidoInvalido("A pergunta deve ter entre 1 e 1200 caracteres.")
+    if not mensagem_valida(mensagem):
+        raise PedidoInvalido("Envie até 1200 caracteres por pergunta ou até 12000 para conteúdo com pedido explícito de análise/resumo.")
     if (not isinstance(historico, list) or len(historico) > LIMITE_HISTORICO
-            or any(not isinstance(p, str) or
-                   not 1 <= len(p.strip()) <= LIMITE_MENSAGEM or
-                   "\x00" in p for p in historico)):
+            or any(not mensagem_valida(p) for p in historico)
+            or sum(len(p) for p in historico) > LIMITE_HISTORICO_CARACTERES):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
     bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem,
@@ -118,6 +125,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
     extra["generation"] = bot.ultima_geracao
+    if bot.ultima_analise_conteudo is not None:
+        extra["content_analysis"] = bot.ultima_analise_conteudo
     if bot.historico and bot.historico[-1].get("pergunta") == mensagem:
         interpretacao = bot.historico[-1].get("interpretacao_pergunta")
         if interpretacao is not None:

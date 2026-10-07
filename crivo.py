@@ -219,6 +219,9 @@ class Crivo:
         self.planejador = PlanejadorConversa(self.compositor)
         self._pedido_turno = None
         self.contexto_textual = None
+        from analise_conteudo import AnaliseConteudo
+        self.analise_conteudo = AnaliseConteudo()
+        self.ultima_analise_conteudo = None
         self._contexto_textual_anterior = None
         self.ultimo_ato_social = None
         self._ato_social_anterior = None
@@ -1435,6 +1438,8 @@ class Crivo:
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
+        original_conteudo = texto
+        self.ultima_analise_conteudo = None
         self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                "motivo": "crise", "tentativas": 0}
         if isinstance(texto, str):
@@ -1446,6 +1451,32 @@ class Crivo:
                     self.perfil.turno += 1
                 return urgente
         import estado_interno
+        conteudo = self.analise_conteudo.responder(original_conteudo)
+        if conteudo is not None:
+            ident, resposta = conteudo
+            self.ultima_analise_conteudo = self.analise_conteudo.ultima
+            self.contexto_textual = None
+            self.assunto_conversa = None
+            self.oferta_pendente = None
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.conversacao.pendente = None
+            self.conversacao.oferta = None
+            self.conversacao.quiz = None
+            self.motor_codigo.ultimo = None
+            self.planejador.ultimo = None
+            self.ultima_resposta_mostrada = resposta
+            self.conversacao.ultima_resposta_texto = resposta
+            self.ultimo_turno = {"pergunta": original_conteudo, "id": ident}
+            self.historico.append({"pergunta": original_conteudo, "id": ident,
+                                   "mecanismo": "analise_conteudo"})
+            self.historico = self.historico[-20:]
+            self.perfil.turno += 1
+            self.estado_interno = estado_interno.EstadoInterno(original_conteudo)
+            self.estado_interno.propor("analise_conteudo", ident, "responder")
+            self.estado_interno.decidir("analise_conteudo", "responder", "evidências do conteúdo enviado")
+            self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
+                                   "motivo": "analise_extrativa", "tentativas": 0}
+            return ident, resposta
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
@@ -1661,6 +1692,19 @@ class Crivo:
             if not escrita:
                 trace["rejeicoes"] = rejeicoes
                 return recuar(diagnostico.get("motivo", "guarda_rejeitou"))
+            if composicao:
+                # Evidências prometidas pelo plano conservam também a ordem
+                # e multiplicidade de palavras (escalas, sequências, ressalvas).
+                # A guarda de raízes não detecta omissão de palavras repetidas.
+                def termos(t):
+                    import unicodedata
+                    t = ''.join(c for c in unicodedata.normalize('NFD', t.casefold())
+                                if unicodedata.category(c) != 'Mn')
+                    return re.findall(r'[a-z0-9]+', t)
+                if termos(escrita) != termos(' '.join(fatos)):
+                    return recuar('sequencia_de_evidencia_nao_preservada')
+                if normalizar(escrita) != normalizar(' '.join(fatos)):
+                    return recuar('formato_de_evidencia_nao_preservado')
             segmentos.append(escrita)
         trace["rejeicoes"] = rejeicoes
         if composicao:
@@ -1700,7 +1744,8 @@ class Crivo:
                                         for s, (e, i) in zip(segmentos, pares)))
         # O ID semântico continua estável; o mecanismo indica quem escreveu.
         novo_id = ident
-        registro = {"pergunta": texto, "id": novo_id, "mecanismo": "geracao_ancorada",
+        mecanismo = 'busca_aprendida' if ultimo.get('mecanismo') == 'busca_aprendida' else 'geracao_ancorada'
+        registro = {"pergunta": texto, "id": novo_id, "mecanismo": mecanismo,
                     "geracao": dict(trace)}
         if ultimo:
             ultimo.update(registro)
@@ -1821,6 +1866,10 @@ class Crivo:
             texto = finalidade
         elif contato_completo is None:
             texto = conversa_assistente.preparar_conversa(texto)
+            elipse = re.fullmatch(r'e (?:um|uma) (.+)', normalizar(texto))
+            anterior = self.historico[-1].get('pergunta', '') if self.historico else ''
+            if elipse and self._alvo_definicao(anterior) and reconhecer(elipse[1]):
+                texto = 'O que é ' + elipse[1] + '?'
             if not contexto_completo:
                 texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:
