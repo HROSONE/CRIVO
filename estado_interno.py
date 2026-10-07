@@ -177,7 +177,10 @@ def arbitrar(bot, estado, ident, resposta):
         # A ficha citada não tem a resposta; numa pergunta aberta, ela pode
         # estar em outra ("Que cientista estudou a evolução?"). Sim/não e
         # "o que é X" são sobre a ficha citada: a recusa fica.
-        if estado.tipo != "simnao" and not estado.quadro.pedido_nome:
+        # Conceito comum citado de passagem ("A luz passa pelo vácuo?") não é
+        # o assunto do sim/não: a resposta pode estar na ficha do vácuo.
+        comum = not bot.compositor.itens[estado.entidade.id]["nome"][:1].isupper()
+        if (estado.tipo != "simnao" or comum) and not estado.quadro.pedido_nome:
             return _ler_pela_busca(bot, estado, especie, ident, resposta, citado=estado.entidade.id)
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente")
         return ident, resposta

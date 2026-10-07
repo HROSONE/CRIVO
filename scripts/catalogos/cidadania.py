@@ -2,7 +2,6 @@ from comum import conceito, openstax, referencia, salvar
 
 GOV = "cid_openstax_governo"
 ECO = "cid_openstax_economia"
-PY = "cid_openstax_python"
 PLA = "cid_planalto_legislacao"
 TSE = "cid_tse"
 CAM = "cid_camara"
@@ -22,8 +21,6 @@ FONTES = [
              "OpenStax, Rice University; Glen Krutz, Sylvie Waskiewicz"),
     openstax(ECO, "Principles of Economics 3e", "principles-economics-3e",
              "OpenStax, Rice University; Steven A. Greenlaw, David Shapiro, Daniel MacDonald"),
-    openstax(PY, "Introduction to Python Programming", "introduction-python-programming",
-             "OpenStax, Rice University; Udayan Das, Aubrey Lawson, Chris Mayfield, Narges Norouzi"),
     referencia(PLA, "Portal da Legislação do Governo Federal (Planalto)", "https://www.planalto.gov.br/",
                "Presidência da República", TERMOS),
     referencia(TSE, "Tribunal Superior Eleitoral (TSE)", "https://www.tse.jus.br/",
@@ -181,7 +178,7 @@ ITENS = [
              "O imposto de renda da pessoa física é progressivo: as alíquotas da tabela mensal vão de zero a 27,5%, crescendo conforme a renda.",
              "Grande parte do imposto de renda é retida na fonte pelo empregador; anualmente, quem se enquadra nos critérios faz a declaração, geralmente entre março e o fim de maio, e pode ter imposto a pagar ou a restituir.",
              "O imposto de renda foi criado no Brasil em 1922; a partir de 2026, quem recebe até R$ 5 mil por mês ficou isento do imposto de renda da pessoa física.",
-             aliases=["IR", "IRPF", "declaração do imposto de renda", "Leão"]),
+             aliases=["IRPF", "declaração do imposto de renda"]),
     conceito("mundo_cpf", "CPF", DIR, RFB, S,
              "CPF, ou Cadastro de Pessoas Físicas, é o número de identificação fiscal de cada pessoa no Brasil, administrado pela Receita Federal.",
              "O número do CPF tem 11 dígitos, sendo os dois últimos dígitos verificadores, calculados a partir dos anteriores.",
@@ -219,13 +216,6 @@ ITENS = [
              aliases=["BTC"]),
 
     # ---------------- Tecnologia do dia a dia ----------------
-    conceito("mundo_python", "Python", "computação", PY, C,
-             "O Python é uma linguagem de programação de alto nível, interpretada e de uso geral, conhecida pela sintaxe simples e legível.",
-             "Python foi criado pelo programador holandês Guido van Rossum e lançado em 1991; o nome é uma homenagem ao grupo de humor britânico Monty Python.",
-             "Em Python, a indentação faz parte da sintaxe: os blocos de código são definidos pelo recuo das linhas, e não por chaves.",
-             "Python é muito usado em ciência de dados, inteligência artificial, automação de tarefas, desenvolvimento web e ensino de programação.",
-             "Python é software livre mantido pela Python Software Foundation; o Python 3 foi lançado em 2008, e o Python 2 deixou de receber suporte em 2020.",
-             aliases=["linguagem Python", "Python 3"]),
     conceito("mundo_malware", "malware", TEC, CERT, C,
              "Malware, ou software malicioso, é qualquer programa feito para causar danos, roubar dados ou tomar o controle de computadores e celulares.",
              "Vírus de computador é um tipo de malware que se anexa a arquivos ou programas e se espalha quando eles são executados; outros tipos são worms, cavalos de troia, spyware e ransomware.",
@@ -303,7 +293,6 @@ ASPECTOS = {
     "mundo_rotativo_cartao": {2: "funcionamento"},
     "mundo_criptomoeda": {1: "funcionamento"},
     "mundo_bitcoin": {1: "formacao", 2: "funcionamento"},
-    "mundo_python": {1: "formacao", 3: "funcao"},
     "mundo_malware": {2: "funcionamento"},
     "mundo_ransomware": {0: "funcionamento"},
     "mundo_backup": {1: "funcao"},
@@ -319,5 +308,5 @@ if __name__ == "__main__":
     import sys
     salvar(sys.argv[1], "Sínteses próprias sobre cidadania, instituições políticas, direitos trabalhistas, economia pessoal e "
            "tecnologia do dia a dia no Brasil, a partir de legislação federal, órgãos públicos (TSE, Câmara, Senado, STF, "
-           "Banco Central, Receita Federal, INSS), manuais abertos OpenStax (CC BY 4.0), documentação do Python e da cartilha "
+           "Banco Central, Receita Federal, INSS), manuais abertos OpenStax (CC BY 4.0) e da cartilha "
            "do CERT.br. Valores e regras podem mudar por lei; números são os vigentes em 2026.", FONTES, ITENS)

@@ -210,7 +210,7 @@ ITENS = [
              "O conceito de inteligência emocional foi proposto pelos psicólogos Peter Salovey e John Mayer em 1990 e popularizado pelo livro Inteligência Emocional, de Daniel Goleman, em 1995.",
              "Daniel Goleman descreveu a inteligência emocional em cinco componentes: autoconsciência, autocontrole, automotivação, empatia e habilidades sociais.",
              "A medição e o poder de previsão da inteligência emocional ainda são debatidos na psicologia, e o conceito é distinto do QI, que mede habilidades cognitivas.",
-             aliases=["QE", "quociente emocional"]),
+             aliases=["quociente emocional"]),
     # ---------- meio ambiente ----------
     conceito("mundo_chuva_acida", "chuva ácida", "ambiente", QUI, C,
              "Chuva ácida é a precipitação com acidez acima do normal, com pH abaixo de cerca de 5,6, causada por poluentes lançados na atmosfera.",

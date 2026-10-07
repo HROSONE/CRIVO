@@ -166,6 +166,21 @@ class CompositorTextual:
                 self.aliases[sobrenome] = {ident}
                 self.itens[ident] = dict(self.itens[ident], aliases=list(self.itens[ident].get("aliases", [])) + [sobrenome])
 
+    def _amplo(self, ident):
+        """Conceito amplo: um nome de uma palavra (o nome ou um apelido)
+        aparece nos fatos de 30 ou mais fichas (luz, energia, água, calor)."""
+        cache = self.__dict__.setdefault("_amplos", {})
+        if ident not in cache:
+            item = self.itens[ident]
+            nomes = [tema(a) for a in [item["nome"]] + list(item.get("aliases", [])) if len(tema(a).split()) == 1]
+            if not hasattr(self, "_textos_fichas"):
+                self._textos_fichas = [normalizar(" ".join(f["texto"] if isinstance(f, dict) else str(f)
+                                                          for f in it["fatos"])) for it in self.itens.values()]
+            cache[ident] = any(
+                sum(1 for t in self._textos_fichas if _compilado(r"\b" + re.escape(nome) + r"s?\b").search(t)) >= 30
+                for nome in nomes)
+        return cache[ident]
+
     def _adicionar(self, item):
         self.itens[item["id"]] = item
         for alias in [item["nome"]] + item.get("aliases", []):
@@ -186,7 +201,7 @@ class CompositorTextual:
     def grafar(self, texto):
         """Reescreve grafias distintas ("Pelé") pelo nome da ficha delas."""
         for grafia, nome in self.grafias_distintas.items():
-            if grafia in texto.casefold():
+            if grafia in texto.casefold() and nome.casefold() not in texto.casefold():
                 texto = re.sub(r"(?<!\w)" + re.escape(grafia) + r"(?!\w)", nome, texto, flags=re.I)
         return texto
 
@@ -953,6 +968,13 @@ class CompositorTextual:
         candidatos = []
         for alias, ident in self.aliases_busca.items():
             for m in re.finditer(self._padrao_alias(alias, ident), busca):
+                # "rio Amazonas" não é o estado do Amazonas: a palavra de tipo
+                # de lugar logo antes do nome precisa constar no nome da ficha.
+                tipo = re.search(r"\b(rio|cidade|ilha|serra|monte|lago|oceano|mar|estado|pais|regiao)\s+(?:d[aeo]s?\s+)?$",
+                                 busca[:m.start()])
+                if tipo and tipo.group(1) not in tema(self.itens[ident]["nome"]).split() and \
+                        tipo.group(1) not in alias.split():
+                    continue
                 candidatos.append((m.start(), m.end(), ident))
         candidatos.sort(key=lambda c: (-(c[1] - c[0]), c[0]))
         ocupados, assuntos = [], []
@@ -974,6 +996,16 @@ class CompositorTextual:
             if proprio and propriedade:
                 inicio = {ini: fim for ini, fim in ocupados}
                 assuntos = [(ini, i) for ini, i in assuntos if i not in propriedade]
+                ocupados = [(ini, inicio[ini]) for ini, _ in assuntos]
+        # "A luz passa pelo vácuo?", "Pra onde vai a energia numa colisão?":
+        # um conceito amplo (citado nos fatos de muitas fichas) ao lado de um
+        # conceito específico é o que se pergunta deste, não uma relação.
+        if len({i for _, i in assuntos}) > 1:
+            comuns = [(ini, i) for ini, i in assuntos if not self.itens[i]["nome"][:1].isupper()]
+            amplos = {i for _, i in comuns if self._amplo(i)}
+            if amplos and len({i for _, i in comuns} - amplos) >= 1 and len(comuns) == len(assuntos):
+                inicio = {ini: fim for ini, fim in ocupados}
+                assuntos = [(ini, i) for ini, i in assuntos if i not in amplos]
                 ocupados = [(ini, inicio[ini]) for ini, _ in assuntos]
         # "Urano tem estações": o segundo termo é uma propriedade do
         # primeiro, ligada só por posse; vira pista e não relação.

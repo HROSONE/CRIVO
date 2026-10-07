@@ -104,7 +104,7 @@ ITENS = [
          "O inglês é o idioma predominante dos Estados Unidos, declarado oficial por ordem executiva em 2025; a moeda é o dólar americano.",
          "Os Estados Unidos têm cerca de 340 milhões de habitantes, a terceira maior população do mundo, e cerca de 9,8 milhões de km², estando entre os quatro maiores países em área.",
          "Os Estados Unidos declararam independência do Reino Unido em 4 de julho de 1776, e sua Constituição, de 1787, é a constituição escrita nacional mais antiga ainda em vigor.",
-         aliases=["EUA", "Estados Unidos da América", "USA"]),
+         aliases=["EUA", "Estados Unidos da América"]),
     pais("mundo_canada", "Canadá",
          "Canadá é um país do norte da América do Norte, que se estende do Atlântico ao Pacífico e ao Oceano Ártico e faz fronteira com os Estados Unidos.",
          "A capital do Canadá é Ottawa.",

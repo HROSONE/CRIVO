@@ -268,10 +268,17 @@ class Crivo:
     def carregar_rede(self, caminho, limiar=0.80):
         from rede_neural import RedeCrivo, assinatura_base, assinatura_regras
         rede = RedeCrivo.carregar(caminho)
-        if set(rede.rotulos) != {e["id"] for e in self.base}:
+        # Fichas novas do acervo não invalidam a rede: ela confirma as
+        # entradas que conhece (com as mesmas perguntas do treino) e as novas
+        # ficam com o recuperador e a busca aprendida. Só uma entrada antiga
+        # alterada, removida ou uma entrada editorial nova pedem retreino.
+        conhecidas = set(rede.rotulos)
+        novas = [e for e in self.base if e["id"] not in conhecidas]
+        if (not conhecidas <= {e["id"] for e in self.base} or
+                any(e.get("origem_curriculo") != "mundo" for e in novas)):
             raise ValueError("Rede incompatível com a base; treine novamente")
-        if (rede.assinatura_base is not None and
-                rede.assinatura_base != assinatura_base(self.base)):
+        if (rede.assinatura_base is not None and rede.assinatura_base != assinatura_base(
+                [e for e in self.base if e["id"] in conhecidas])):
             raise ValueError("Perguntas da base mudaram; treine a rede novamente")
         if (rede.assinatura_regras is not None and
                 rede.assinatura_regras != assinatura_regras(rede.modo)):

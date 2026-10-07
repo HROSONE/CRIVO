@@ -138,7 +138,7 @@ ITENS = [
              "O triângulo do fogo mostra que a combustão precisa de combustível, comburente e calor; retirar um deles apaga o fogo.",
              "A combustão completa de combustíveis com carbono produz gás carbônico e água.",
              "A combustão incompleta, com pouco oxigênio, produz monóxido de carbono, um gás tóxico, inodoro e invisível.",
-             aliases=["fogo", "queima", "triângulo do fogo"]),
+             aliases=["fogo", "triângulo do fogo"]),
     conceito("mundo_pressao_atmosferica", "pressão atmosférica", F, CF, C,
              "Pressão atmosférica é a pressão exercida pelo peso do ar da atmosfera sobre a superfície da Terra e tudo o que está nela.",
              "Ao nível do mar, a pressão atmosférica média é de cerca de 101 mil pascals, o que corresponde a 1 atmosfera ou 760 milímetros de mercúrio.",
