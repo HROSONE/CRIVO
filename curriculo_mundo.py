@@ -1,6 +1,6 @@
 """Currículo factual curado: dados locais, fontes e exemplos de conceitos.
 
-Só sínteses próprias, conferidas em fontes científicas com condições de
+Só sínteses próprias, conferidas em fontes identificadas com condições de
 reutilização registradas, entram no currículo. Nenhum texto remoto,
 modelo pronto, chave ou download é necessário durante a conversa/treino.
 """
@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 
-NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao", "filosofico", "social"))
+NATUREZAS = frozenset(("cientifico", "psicologico", "orientacao", "filosofico", "social", "religioso"))
 REUTILIZACOES = frozenset(("dominio_publico", "CC-BY-4.0", "permissao_institucional",
                          "somente_referencia"))
 
@@ -41,7 +41,7 @@ def ler_curriculo(caminho):
                            "conhecimento_estados_brasil.json", "conhecimento_esporte.json",
                            "conhecimento_historia_complementar.json", "conhecimento_saude_basica.json",
                            "conhecimento_ciencia_cotidiana.json", "conhecimento_cidadania.json",
-                           "conhecimento_cultura.json"):
+                           "conhecimento_cultura.json", "conhecimento_biblia.json"):
             extra_path = caminho.with_name(extra_nome)
             if not extra_path.is_file():
                 continue
@@ -64,7 +64,7 @@ def ler_curriculo(caminho):
                 not isinstance(fonte.get("url"), str) or
                 urlparse(fonte["url"]).scheme != "https" or
                 not urlparse(fonte["url"]).netloc or
-                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico", "catalogo_tecnico") or
+                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico", "catalogo_tecnico", "institucional_religiosa") or
                 type(fonte.get("ano")) is not int or
                 not 1900 <= fonte["ano"] <= 2100 or
                 fonte.get("ano_tipo") not in ("publicacao", "consulta")):
@@ -78,7 +78,7 @@ def ler_curriculo(caminho):
                 not isinstance(fonte.get("escopo_uso"), str) or not fonte["escopo_uso"].strip() or
                 not isinstance(fonte.get("verificado_em"), str) or
                 not re.fullmatch(r"\d{4}-\d{2}-\d{2}", fonte["verificado_em"])):
-            raise ValueError("Fonte científica sem condições de reutilização ou crédito")
+            raise ValueError("Fonte sem condições de reutilização ou crédito")
         if (fonte["reutilizacao"] == "somente_referencia" and
                 fonte.get("reproducao_autorizada") is not False):
             raise ValueError("Referência bibliográfica não pode presumir autorização de reprodução")
@@ -107,6 +107,10 @@ def ler_curriculo(caminho):
                     not isinstance(fato.get("fontes", []), list) or
                     not all(isinstance(f, str) and f in fontes for f in fato.get("fontes", []))):
                 raise ValueError("Fato do mundo sem evidência ou natureza válida")
+            if fontes[fato['fonte']]['tipo'] == 'institucional_religiosa' and fato['natureza'] != 'religioso':
+                raise ValueError("Fonte religiosa exige atribuição religiosa do fato")
+            if fato['natureza'] == 'religioso' and fontes[fato['fonte']]['tipo'] != 'institucional_religiosa':
+                raise ValueError("Fato religioso exige fonte religiosa identificada")
     # Relações são direcionais e explícitas: o predicado e os argumentos
     # inteiros precisam corresponder. Sem inferência de causalidade transitiva.
     itens = {i["id"]: i for i in dados["itens"]}
