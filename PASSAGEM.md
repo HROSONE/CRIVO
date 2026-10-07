@@ -1,5 +1,16 @@
 # Passagem de trabalho — 07/10/2026
 
+## Investigação: geração e raciocínio aprendido
+
+Branch `codex/diagnostico-gerativo`: aplicação da skill fornecida pelo usuário,
+pesquisa em fontes primárias e seis sondas dos pesos atuais, incluindo ablação
+de restrições. Remover as restrições não demonstrou resolver a composição de
+dois passos ou resumo seletivo. Verificador experimental de passos com apoios
+explícitos passou em seis contratos, com e sem NumPy; ainda não há modelo
+treinado para gerar esses passos. Diagnóstico, evidências e critérios do
+próximo experimento em `docs/diagnostico_generativo_20261007.md`.
+Não altera o chat nem aprova novos pesos.
+
 ## Continuação: PR #104
 
 [PR #104](https://github.com/HROSONE/CRIVO/pull/104), branch `codex/geracao-integrada`, sobre o #103. A implementação liga o gerador próprio por padrão no Crivo, no adaptador web e na API. Retira o resgate de recusas e usa somente evidências já verificadas pelo leitor/compositor. Mantém IDs, contexto, fontes e histórico; comparação seguida de resumo preserva os dois temas. A guarda também confere omissões, valores, negações e siglas. Acervo vazio deixa de causar erro no codificador.
