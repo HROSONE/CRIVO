@@ -202,7 +202,8 @@ class TestesCorpoServerless(unittest.TestCase):
         self.assertEqual(self.pedido(b'{}',tamanho='invalido')[0],411)
 
     def test_limite_vazio_e_json_invalido_mesmo_sem_length(self):
-        self.assertEqual(self.pedido(b'x'*16385)[0],413)
+        from api.chat import LIMITE_BODY
+        self.assertEqual(self.pedido(b'x'*(LIMITE_BODY + 1))[0],413)
         self.assertEqual(self.pedido(b'')[0],413)
         self.assertEqual(self.pedido(b'{')[0],400)
 
