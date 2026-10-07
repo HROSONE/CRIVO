@@ -16,14 +16,19 @@ on:
 jobs:
   compreensao-chat:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Exercitar também o gerador próprio ativo
+        run: python -m pip install -r requirements.txt
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
-        run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_web -v
+        run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_voz testes_web -v
   matematica-linguagem-profunda:
     runs-on: ubuntu-latest
     steps:

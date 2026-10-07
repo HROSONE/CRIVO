@@ -71,10 +71,25 @@ class VozNoChat(unittest.TestCase):
         self.assertNotEqual(r.get("voice"), "voz_propria")
 
     def test_sem_voz_o_texto_de_sempre_volta(self):
-        bot = Crivo()
+        # O texto literal anterior pertence ao compositor. Desativar a voz
+        # não desativa o gerador, que tem uma realização textual própria.
+        bot = Crivo(usar_geracao=False)
         bot.usar_voz = False
         _, resposta = bot.responder("O que é fotossíntese?")
         self.assertIn("Além disso", resposta)
+
+    def test_sem_voz_preserva_os_fatos_com_ambos_os_escritores(self):
+        for geracao in (False, True):
+            with self.subTest(geracao=geracao):
+                bot = Crivo(usar_geracao=geracao)
+                bot.usar_voz = False
+                _, resposta = bot.responder("O que é fotossíntese?")
+                for evidencia in ("energia luminosa", "dióxido de carbono", "liberação de oxigênio"):
+                    self.assertIn(evidencia, resposta)
+                self.assertIsNone(bot.historico[-1].get('voz'))
+                self.assertEqual(bot.contexto_textual.temas, ('mundo_fotossintese',))
+                if not geracao:
+                    self.assertFalse(bot.ultima_geracao['usada'])
 
 
 class OfertasCumpridas(unittest.TestCase):
