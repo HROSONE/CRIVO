@@ -185,12 +185,14 @@ _LISTA = (
             ("testes_leitura_ficha.py", "testes_bateria.py")),
     Especie("busca_aprendida", "neural",
             "Procura no acervo inteiro o fato que responde, pesando evidências (palavras, sentido, "
-            "tipo de pergunta e aspecto) com pesos aprendidos; a leitura da ficha confirma.",
+            "tipo de pergunta e aspecto) com pesos aprendidos, mais a proximidade de sentido dada pelo "
+            "Transformer próprio (codificador_sentido.py); a leitura da ficha confirma.",
             "Quando a espécie que respondeu recusou e a pergunta não cita o nome de nenhum "
             "conceito; só afirma se a busca e a leitura apontam o mesmo fato.",
-            ("busca_semantica.py", "estado_interno.py", "artefatos/busca_semantica"),
+            ("busca_semantica.py", "estado_interno.py", "artefatos/busca_semantica",
+             "codificador_sentido.py", "artefatos/sentido_pt"),
             ("fontes", "recusa", "catracas"),
-            ("testes_busca_semantica.py", "testes_bateria.py")),
+            ("testes_busca_semantica.py", "testes_bateria.py", "testes_codificador_sentido.py")),
     Especie("geracao_neural", "neural",
             "Escreve respostas com o gerador próprio (desligado por padrão).",
             "Só em modo experimental, quando ligado explicitamente.",

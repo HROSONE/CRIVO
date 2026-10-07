@@ -117,6 +117,11 @@ class BuscaSemantica:
             formas = [it["nome"]] + list(it.get("aliases") or ())
             self.nomes[ident] = [" ".join(palavras(f)) for f in formas if palavras(f)]
         self._vetores = vetores
+        # Codificador de sentido (codificador_sentido.py): um traço a mais na
+        # busca, só com pesos aprovados no controle.
+        self.usar_denso = True
+        self._denso = None
+        self._matriz = None
         self.pesos = dict.fromkeys(TRACOS, 0.0)
         self.pesos["bm"] = 1.0
         self.aprendida = False
@@ -136,6 +141,24 @@ class BuscaSemantica:
             self._vetores = _vetores()
         return self._vetores
 
+    @property
+    def denso(self):
+        if self._denso is None:
+            from codificador_sentido import codificador
+            c = codificador()
+            self._denso = c if c.disponivel else False
+        return self._denso or None
+
+    def proximidades(self, pergunta):
+        """Cosseno entre a pergunta e cada fato do acervo, pelo codificador de
+        sentido, ou None se ele não estiver disponível."""
+        d = self.denso if self.usar_denso else None
+        if d is None:
+            return None
+        if self._matriz is None:
+            self._matriz = d.vetores_fatos([t for _, _, t in self.fatos])
+        return self._matriz @ d.codificar([pergunta], "pergunta")[0]
+
     # ------------------------------------------------------------ evidências --
 
     def _sentido(self, ws_pergunta, ws_fato):
@@ -152,9 +175,10 @@ class BuscaSemantica:
                 total += max(0.0, max((vet.similaridade(w, f) for f in ws_fato if len(f) >= 4), default=0.0))
         return total / len(ws_pergunta)
 
-    def candidatos(self, pergunta, apenas=None):
-        """[(id da ficha, nome citado?)]: fichas com melhor BM25 e as citadas
-        pelo nome; com apenas, só essas fichas."""
+    def candidatos(self, pergunta, apenas=None, extras=()):
+        """[(id da ficha, nome citado?)]: fichas com melhor BM25, as citadas
+        pelo nome e as extras (as mais próximas pelo sentido); com apenas, só
+        essas fichas."""
         n = " " + " ".join(palavras(pergunta)) + " "
         citadas = {ident for ident, formas in self.nomes.items()
                    if any(f and " " + f + " " in n for f in formas)}
@@ -183,10 +207,10 @@ class BuscaSemantica:
         if apenas is not None:
             fichas = {i for i in apenas if i in self.por_ficha}
         else:
-            fichas = set(sorted(melhor, key=lambda i: (-melhor[i], i))[:self.FICHAS]) | citadas
+            fichas = set(sorted(melhor, key=lambda i: (-melhor[i], i))[:self.FICHAS]) | citadas | set(extras)
         return [(i, i in citadas) for i in sorted(fichas)], notas, melhor
 
-    def tracos(self, pergunta, apenas=None):
+    def tracos(self, pergunta, apenas=None, extras=()):
         """[(j, {traço: valor})] dos fatos candidatos (ou das fichas em apenas)."""
         from leitura_ficha import _CAUSAL, _DATA, _LUGAR, tipo_pergunta
         n_perg = normalizar(pergunta).strip()
@@ -194,7 +218,7 @@ class BuscaSemantica:
         aspecto = next((a for a, p in _ASPECTOS if re.search(p, n_perg)), None)
         definicao = bool(re.match(r"(?:o que (?:e|sao|significa)|quem (?:e|foi|era)|defina|qual (?:e )?a definicao)\b",
                                   n_perg))
-        fichas, notas, melhor = self.candidatos(pergunta, apenas)
+        fichas, notas, melhor = self.candidatos(pergunta, apenas, extras)
         topo = max(notas.values(), default=0.0) or 1.0
         ws_perg = palavras(pergunta)
         saida = []
@@ -261,10 +285,18 @@ class BuscaSemantica:
         """[(probabilidade, id da ficha, índice do fato)] dos k melhores, com a
         probabilidade do softmax entre os candidatos. assuntos restringe às
         fichas dadas (a pergunta já disse de quem fala)."""
-        cand = self.tracos(pergunta, assuntos)
+        prox = self.proximidades(pergunta)
+        extras = ()
+        if prox is not None and assuntos is None:
+            # Fichas dos 10 fatos mais próximos pelo sentido também concorrem,
+            # mesmo sem palavra em comum com a pergunta.
+            extras = {self.fatos[j][0] for j in prox.argsort()[-10:]}
+        cand = self.tracos(pergunta, assuntos, extras)
         if not cand:
             return []
         z = [sum(self.pesos[t] * x[t] for t in TRACOS) for _, x in cand]
+        if prox is not None:
+            z = [v + self.denso.peso * float(prox[j]) for v, (j, _) in zip(z, cand)]
         m = max(z)
         e = [math.exp(v - m) for v in z]
         soma = sum(e)
