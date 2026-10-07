@@ -1,18 +1,20 @@
 # Passagem de trabalho — 07/10/2026
 
-## Consolidação das etapas pendentes e modelo base
+## Consolidação das etapas pendentes
+
+Restrição do projeto: usar somente os modelos próprios do Crivo. Não integrar,
+baixar ou executar modelos externos. A integração com Qwen introduzida nesta
+sessão foi retirada; seu serviço foi parado e os pesos baixados foram removidos.
 
 As branches dos PRs #105–#110 foram reunidas em `codex/consolidacao-generativa`.
 Análise, correção e Bíblia são funcionalidades; os três experimentos ficam como
 registros concluídos, sem aprovação dos pesos. Corrigidas regressões de
-continuação com artigo indefinido, preservação de sequências das evidências e
-planejamento de pedidos bíblicos compostos. O teste de contagem de fichas não
-congela mais o acervo. A matriz CI instala NumPy; os checks sem opcionais continuam.
-Modelo público Qwen2.5-1.5B-Instruct Q4_K_M executado via llama.cpp, fora do Git.
-`CRIVO_LLM_URL`/`CRIVO_LLM_MODEL`/`CRIVO_LLM_API_KEY` ligam o serviço ao chat.
-Modelo sem URL conserva a execução local. Não confundir geração livre com prova.
-Ver `docs/modelo_base_20261007.md` e o resultado HTTP registrado. A ativação no
-site público exige endpoint hospedado; a sessão local não constitui hospedagem.
+continuação com artigo indefinido, preservação de sequências das evidências,
+identificação da busca aprendida e planejamento de pedidos bíblicos compostos.
+O teste de contagem de fichas permite crescimento do acervo. A matriz CI instala
+NumPy; os checks sem opcionais continuam. A consolidação aguarda validação e
+integração na main pelo PR #111. Não afirmar geração ou raciocínio geral a partir
+dos resultados limitados dos experimentos próprios.
 As notas históricas abaixo descrevem o estado antes da consolidação.
 
 ## Nova etapa: correção de texto
