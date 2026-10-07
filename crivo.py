@@ -1664,14 +1664,19 @@ class Crivo:
             segmentos.append(escrita)
         trace["rejeicoes"] = rejeicoes
         if composicao:
-            if ctx.formato == "topicos":
-                escrita = "\n".join("- " + s for s in segmentos)
-            elif ctx.formato == "comparacao":
-                escrita = "\n\n".join(self.compositor.itens[e]["nome"] + ": " +
-                                         " ".join(s for s, (a, _) in zip(segmentos, pares) if a == e)
-                                         for e in dict.fromkeys(a for a, _ in pares))
-            else:
-                escrita = "\n\n".join(segmentos)
+            # Substitui apenas os trechos factuais, preservando títulos,
+            # conectores, instruções e ofertas de estudo. Se o compositor
+            # já simplificou o fato, não desfaz essa adaptação ao pedido.
+            escrita = resposta
+            for segmento, (e, i) in zip(segmentos, pares):
+                fato = texto_fato(self.compositor.itens[e]["fatos"][i])
+                if fato in escrita:
+                    escrita = escrita.replace(fato, segmento, 1)
+                else:
+                    variante = self.compositor._minuscula_inicial(fato)
+                    if variante not in escrita:
+                        return recuar("formato_requer_compositor")
+                    escrita = escrita.replace(variante, self.compositor._minuscula_inicial(segmento), 1)
             novo_ctx = ctx
         else:
             escrita = " ".join(segmentos)

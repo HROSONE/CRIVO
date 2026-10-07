@@ -33,7 +33,7 @@ def tarefas():
     )
 
 
-def medir(ligada, alvos=None):
+def medir(ligada, alvos=None, publicar=None):
     import crivo
     original = crivo.Crivo
     usos, motivos, rejeicoes, modos = Counter(), Counter(), Counter(), Counter()
@@ -70,6 +70,8 @@ def medir(ligada, alvos=None):
             resultado[nome] = {"qualidade": qualidade, "uso": dict(usos),
                                "motivos": dict(motivos), "rejeicoes": dict(rejeicoes),
                                "modos": dict(modos), "segundos": round(time.monotonic() - inicio, 2)}
+            if publicar is not None:
+                publicar(resultado)
             print(json.dumps({"modo": "com" if ligada else "sem", "avaliacao": nome,
                               **resultado[nome]}, ensure_ascii=False), flush=True)
     finally:
@@ -106,14 +108,21 @@ def main():
     parser.add_argument("--saida", type=Path, required=True)
     args = parser.parse_args()
     resultado = {"versao": 1, "classificadores": "originais", "congelados": "somente agregados"}
-    for modo in (("sem", "com") if args.modo == "ambos" else (args.modo,)):
-        resultado[modo] = medir(modo == "com", args.avaliacoes)
-        args.saida.parent.mkdir(parents=True, exist_ok=True)
+    args.saida.parent.mkdir(parents=True, exist_ok=True)
+
+    def salvar():
         args.saida.write_text(json.dumps(resultado, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    for modo in (("sem", "com") if args.modo == "ambos" else (args.modo,)):
+        def publicar(parcial):
+            resultado[modo] = parcial
+            salvar()
+        resultado[modo] = medir(modo == "com", args.avaliacoes, publicar)
+        salvar()
     if "sem" in resultado and "com" in resultado:
         resultado["regressoes"] = regressoes(resultado["sem"], resultado["com"])
         resultado["aprovado"] = not resultado["regressoes"]
-        args.saida.write_text(json.dumps(resultado, ensure_ascii=False, indent=2), encoding="utf-8")
+        salvar()
         if not resultado["aprovado"]:
             raise SystemExit(1)
 

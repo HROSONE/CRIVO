@@ -11,6 +11,10 @@ on:
       - 'codificador_sentido.py'
       - 'artefatos/geracao_pt/**'
       - 'testes_geracao_ancorada.py'
+      - 'composicao_textual.py'
+      - 'conversa_cotidiana.py'
+      - 'testes_conversa_estudo.py'
+      - 'testes_linguagem_conversa.py'
       - 'scripts/avaliar_geracao_ancorada.py'
       - '.github/workflows/geracao-ancorada.yml'
   workflow_dispatch:
@@ -33,7 +37,7 @@ jobs:
           node-version: '22'
       - run: python -m pip install -r requirements.txt
       - name: Gerador real, contexto, fontes, guardas e API
-        run: python -m unittest testes_geracao_ancorada testes_codificador_sentido testes_web testes_raciocinio testes_memoria_navegador -v
+        run: python -m unittest testes_geracao_ancorada testes_codificador_sentido testes_web testes_raciocinio testes_memoria_navegador testes_conversa_estudo testes_linguagem_conversa -v
       - name: Com e sem geração, com classificadores originais
         run: python scripts/avaliar_geracao_ancorada.py --saida /tmp/geracao-completa.json
       - uses: actions/upload-artifact@v4

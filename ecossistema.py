@@ -194,8 +194,8 @@ _LISTA = (
             ("fontes", "recusa", "catracas"),
             ("testes_busca_semantica.py", "testes_bateria.py", "testes_codificador_sentido.py")),
     Especie("geracao_ancorada", "neural",
-            "Escreve a resposta com o Transformer próprio a partir do fato que a busca escolheu na "
-            "ficha; decodificação restrita aos tokens do fato e da pergunta e guarda de fidelidade, "
+            "Escreve a resposta com o Transformer próprio a partir das evidências escolhidas pelo "
+            "leitor/compositor; decodificação restrita aos tokens da fonte e da pergunta e guarda de fidelidade, "
             "números, nome próprio e repetição.",
             "No CRIVO, API e servidor local, em perguntas factuais e composição de evidências "
             "selecionadas (resumo, tópicos, continuação e comparação). Recusas e respostas "
