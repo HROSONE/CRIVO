@@ -1,0 +1,23 @@
+name: Contratos do piloto de raciocínio generativo
+on:
+  pull_request:
+    paths:
+      - 'experimentos/raciocinio_generativo/**'
+      - 'raciocinio_ativo.py'
+      - '.github/workflows/piloto-raciocinio-generativo.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contratos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Dados separados e veto sem resposta simbólica oculta
+        env:
+          PYTHONPATH: experimentos/raciocinio_generativo
+        run: python -S -m unittest testes_piloto -v

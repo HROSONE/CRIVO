@@ -1,0 +1,962 @@
+[
+  {
+    "id": "teste-0000",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "Se a torre fecha, então a ponte abre",
+      "A torre fecha",
+      "O mapa aparece"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0001",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "Se a torre fecha, então a chave não entra",
+      "O barco chega",
+      "A torre fecha"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0002",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "Se a torre fecha, então o mapa aparece",
+      "O barco chega"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0003",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "O farol pisca",
+      "O barco não chega",
+      "Se o barco chega, então o mapa aparece",
+      "O barco chega"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0004",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se o sino toca, então o mapa aparece",
+      "O sino toca",
+      "Se o mapa aparece, então a ponte abre",
+      "A nave parte"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0005",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se a chave entra, então o mapa aparece",
+      "A nave parte",
+      "Se o mapa aparece, então a ponte não abre",
+      "A chave entra"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0006",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o farol pisca, então a torre fecha",
+      "Se a torre fecha, então o barco chega",
+      "O mapa aparece"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0007",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "Se o barco chega, então a chave entra",
+      "O mapa aparece",
+      "O mapa não aparece",
+      "A torre fecha",
+      "Se o mapa aparece, então o barco chega"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0008",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se o sino toca, então a torre fecha",
+      "Se a chave entra, então o sino toca",
+      "O barco chega",
+      "Se o barco chega, então a chave entra",
+      "A ponte abre"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0009",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o barco chega, então a chave não entra",
+      "Se o farol pisca, então o barco chega",
+      "Se o mapa aparece, então o farol pisca",
+      "A ponte abre",
+      "O mapa aparece"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0010",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se o sino toca, então o barco chega",
+      "Se a torre fecha, então a chave entra",
+      "Se o barco chega, então a torre fecha",
+      "O farol pisca"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0011",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O farol pisca",
+      "Se a ponte abre, então o mapa aparece",
+      "A torre fecha",
+      "Se a torre fecha, então a ponte abre",
+      "Se o mapa aparece, então o sino toca",
+      "A torre não fecha"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0012",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se o barco chega e o sino toca, então o farol pisca",
+      "A chave entra",
+      "Se o farol pisca, então a torre fecha",
+      "O barco chega",
+      "O sino toca"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0013",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o barco chega e a chave entra, então a ponte abre",
+      "A chave entra",
+      "O barco chega",
+      "A nave parte",
+      "Se a ponte abre, então a torre não fecha"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0014",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "O mapa aparece",
+      "Se a ponte abre, então a nave parte",
+      "Se o sino toca e o mapa aparece, então a ponte abre",
+      "O farol pisca"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0015",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "A ponte não abre",
+      "Se a nave parte, então a chave entra",
+      "O mapa aparece",
+      "Se a ponte abre e o mapa aparece, então a nave parte",
+      "A ponte abre",
+      "A torre fecha"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0016",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "positivo",
+    "premissas": [
+      "A torre fecha",
+      "Se o farol pisca, então a ponte abre",
+      "Se a ponte abre, então o sino toca",
+      "Se a chave entra, então o farol pisca",
+      "Se a torre fecha, então a chave entra",
+      "A nave parte"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0017",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "negativo",
+    "premissas": [
+      "Se o sino toca, então o barco não chega",
+      "Se a chave entra, então o sino toca",
+      "Se o farol pisca, então a chave entra",
+      "Se o mapa aparece, então o farol pisca",
+      "O mapa aparece",
+      "A nave parte"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0018",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "ausente",
+    "premissas": [
+      "Se o mapa aparece, então a chave entra",
+      "O sino toca",
+      "Se a nave parte, então a torre fecha",
+      "Se a torre fecha, então a ponte abre",
+      "Se a chave entra, então a nave parte"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0019",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "conflito",
+    "premissas": [
+      "Se a nave parte, então o mapa aparece",
+      "A chave entra",
+      "Se o mapa aparece, então o farol pisca",
+      "A nave não parte",
+      "Se o farol pisca, então o barco chega",
+      "Se o barco chega, então o sino toca",
+      "A nave parte"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0020",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "positivo",
+    "premissas": [
+      "Se a chave entra, então a torre fecha",
+      "Se o mapa aparece, então o sino toca",
+      "A chave entra",
+      "Se a torre fecha, então o farol pisca",
+      "A ponte abre",
+      "Se o sino toca, então a nave parte",
+      "Se o farol pisca, então o mapa aparece"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0021",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "negativo",
+    "premissas": [
+      "Se a nave parte, então a chave entra",
+      "O sino toca",
+      "Se a ponte abre, então o mapa não aparece",
+      "Se o barco chega, então a nave parte",
+      "Se a torre fecha, então a ponte abre",
+      "O barco chega",
+      "Se a chave entra, então a torre fecha"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0022",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "ausente",
+    "premissas": [
+      "Se o sino toca, então a nave parte",
+      "Se o barco chega, então o mapa aparece",
+      "Se a nave parte, então a ponte abre",
+      "Se a chave entra, então o sino toca",
+      "Se o mapa aparece, então a chave entra",
+      "A torre fecha"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0023",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "conflito",
+    "premissas": [
+      "Se o barco chega, então a nave parte",
+      "O sino toca",
+      "Se a torre fecha, então a ponte abre",
+      "O mapa não aparece",
+      "O mapa aparece",
+      "Se o farol pisca, então a torre fecha",
+      "Se a nave parte, então o farol pisca",
+      "Se o mapa aparece, então o barco chega"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0024",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se a chave entra, então o barco chega",
+      "Se a chave entra, então o mapa aparece",
+      "Se o mapa aparece e o barco chega, então a ponte abre",
+      "Se a ponte abre, então a torre fecha",
+      "A chave entra",
+      "O farol pisca"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0025",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "A chave entra",
+      "A ponte abre",
+      "Se a chave entra, então o farol pisca",
+      "Se a chave entra, então a nave parte",
+      "Se o farol pisca e a nave parte, então a torre fecha",
+      "Se a torre fecha, então o barco não chega"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0026",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "A torre fecha",
+      "Se o farol pisca, então a chave entra",
+      "Se o mapa aparece, então a nave parte",
+      "Se o mapa aparece, então a ponte abre",
+      "Se a nave parte e a ponte abre, então o farol pisca"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0027",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O farol pisca",
+      "Se a chave entra, então a nave parte",
+      "O barco não chega",
+      "O barco chega",
+      "Se a torre fecha e a ponte abre, então a chave entra",
+      "Se o barco chega, então a ponte abre",
+      "Se o barco chega, então a torre fecha"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0028",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "Se a chave entra, então o mapa aparece",
+      "A chave entra",
+      "O sino toca"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0029",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "A nave parte",
+      "O farol pisca",
+      "Se o farol pisca, então o mapa não aparece"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0030",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "Se a chave entra, então o mapa aparece",
+      "O barco chega"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0031",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "A torre fecha",
+      "Se a torre fecha, então o mapa aparece",
+      "O farol pisca",
+      "A torre não fecha"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0032",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se a torre fecha, então a chave entra",
+      "Se a chave entra, então o barco chega",
+      "O farol pisca",
+      "A torre fecha"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0033",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o farol pisca, então o mapa aparece",
+      "O sino toca",
+      "O farol pisca",
+      "Se o mapa aparece, então o barco não chega"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0034",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "A ponte abre",
+      "Se o barco chega, então o farol pisca",
+      "Se a torre fecha, então o barco chega"
+    ],
+    "objetivo": "O farol pisca",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0035",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O farol não pisca",
+      "O farol pisca",
+      "Se o farol pisca, então o sino toca",
+      "A torre fecha",
+      "Se o sino toca, então o mapa aparece"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0036",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se a ponte abre, então a chave entra",
+      "A ponte abre",
+      "Se a chave entra, então o barco chega",
+      "O sino toca",
+      "Se o barco chega, então a torre fecha"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0037",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o farol pisca, então a nave parte",
+      "Se a nave parte, então a torre não fecha",
+      "O mapa aparece",
+      "A chave entra",
+      "Se a chave entra, então o farol pisca"
+    ],
+    "objetivo": "A torre fecha",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0038",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se a chave entra, então o barco chega",
+      "Se o farol pisca, então a chave entra",
+      "O mapa aparece",
+      "Se o barco chega, então o sino toca"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0039",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O sino toca",
+      "Se a ponte abre, então o mapa aparece",
+      "Se o barco chega, então a ponte abre",
+      "Se o farol pisca, então o barco chega",
+      "O farol não pisca",
+      "O farol pisca"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0040",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "O sino toca",
+      "Se o sino toca e a ponte abre, então o farol pisca",
+      "Se o farol pisca, então a nave parte",
+      "A ponte abre",
+      "A torre fecha"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0041",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "O mapa aparece",
+      "A chave entra",
+      "O barco chega",
+      "Se o mapa aparece e a chave entra, então a torre fecha",
+      "Se a torre fecha, então o sino não toca"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0042",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "O farol pisca",
+      "O barco chega",
+      "Se o sino toca e o barco chega, então o mapa aparece",
+      "Se o mapa aparece, então a chave entra"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0043",
+    "split": "teste",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "O barco chega",
+      "Se o barco chega e o sino toca, então a chave entra",
+      "Se a chave entra, então a nave parte",
+      "A ponte abre",
+      "O sino toca",
+      "O barco não chega"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0044",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "positivo",
+    "premissas": [
+      "A chave entra",
+      "Se a chave entra, então a ponte abre",
+      "Se o mapa aparece, então a torre fecha",
+      "O barco chega",
+      "Se a ponte abre, então o mapa aparece",
+      "Se a torre fecha, então o sino toca"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0045",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "negativo",
+    "premissas": [
+      "Se a nave parte, então o barco chega",
+      "Se a ponte abre, então a nave parte",
+      "Se o sino toca, então o mapa não aparece",
+      "O farol pisca",
+      "A ponte abre",
+      "Se o barco chega, então o sino toca"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0046",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "ausente",
+    "premissas": [
+      "Se o sino toca, então o barco chega",
+      "Se o barco chega, então a ponte abre",
+      "Se a chave entra, então a torre fecha",
+      "Se a torre fecha, então o sino toca",
+      "O farol pisca"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0047",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 4,
+    "modo": "conflito",
+    "premissas": [
+      "O farol não pisca",
+      "Se o mapa aparece, então a torre fecha",
+      "Se a ponte abre, então o mapa aparece",
+      "A nave parte",
+      "Se o farol pisca, então a ponte abre",
+      "O farol pisca",
+      "Se a torre fecha, então o barco chega"
+    ],
+    "objetivo": "O barco chega",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0048",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "positivo",
+    "premissas": [
+      "O barco chega",
+      "Se a chave entra, então a nave parte",
+      "Se a ponte abre, então a torre fecha",
+      "Se o barco chega, então a ponte abre",
+      "Se a torre fecha, então o sino toca",
+      "Se o sino toca, então a chave entra",
+      "O farol pisca"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0049",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "negativo",
+    "premissas": [
+      "Se a torre fecha, então a nave parte",
+      "Se a nave parte, então o sino toca",
+      "A torre fecha",
+      "Se o sino toca, então a ponte abre",
+      "Se a ponte abre, então o mapa aparece",
+      "Se o mapa aparece, então o farol não pisca",
+      "A chave entra"
+    ],
+    "objetivo": "O farol pisca",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0050",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "ausente",
+    "premissas": [
+      "Se o sino toca, então a torre fecha",
+      "Se a torre fecha, então o farol pisca",
+      "Se a ponte abre, então o barco chega",
+      "Se o barco chega, então o sino toca",
+      "Se a chave entra, então a ponte abre",
+      "A nave parte"
+    ],
+    "objetivo": "O farol pisca",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0051",
+    "split": "teste",
+    "familia": "cadeia",
+    "profundidade": 5,
+    "modo": "conflito",
+    "premissas": [
+      "Se o farol pisca, então o barco chega",
+      "Se a nave parte, então o mapa aparece",
+      "A chave entra",
+      "Se a chave entra, então a ponte abre",
+      "Se a ponte abre, então o farol pisca",
+      "A torre fecha",
+      "A chave não entra",
+      "Se o barco chega, então a nave parte"
+    ],
+    "objetivo": "O mapa aparece",
+    "ood_estrutura": true,
+    "status": "conflito"
+  },
+  {
+    "id": "teste-0052",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "A nave parte",
+      "O mapa aparece",
+      "Se o sino toca e a torre fecha, então o farol pisca",
+      "Se a nave parte, então o sino toca",
+      "Se a nave parte, então a torre fecha",
+      "Se o farol pisca, então a chave entra"
+    ],
+    "objetivo": "A chave entra",
+    "ood_estrutura": true,
+    "status": "sustentado"
+  },
+  {
+    "id": "teste-0053",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o mapa aparece, então o farol pisca",
+      "Se o farol pisca e a chave entra, então a torre fecha",
+      "Se o mapa aparece, então a chave entra",
+      "O sino toca",
+      "O mapa aparece",
+      "Se a torre fecha, então a ponte não abre"
+    ],
+    "objetivo": "A ponte abre",
+    "ood_estrutura": true,
+    "status": "refutado"
+  },
+  {
+    "id": "teste-0054",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se a chave entra e o barco chega, então a torre fecha",
+      "Se o sino toca, então o barco chega",
+      "Se o sino toca, então a chave entra",
+      "Se a torre fecha, então a nave parte",
+      "A ponte abre"
+    ],
+    "objetivo": "A nave parte",
+    "ood_estrutura": true,
+    "status": "indeterminado"
+  },
+  {
+    "id": "teste-0055",
+    "split": "teste",
+    "familia": "diamante",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "Se o barco chega, então o sino toca",
+      "O mapa não aparece",
+      "O mapa aparece",
+      "Se o mapa aparece, então a chave entra",
+      "O farol pisca",
+      "Se a torre fecha e a chave entra, então o barco chega",
+      "Se o mapa aparece, então a torre fecha"
+    ],
+    "objetivo": "O sino toca",
+    "ood_estrutura": true,
+    "status": "conflito"
+  }
+]
