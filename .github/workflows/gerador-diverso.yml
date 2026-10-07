@@ -1,0 +1,44 @@
+name: Preparação do gerador próprio diverso
+on:
+  push:
+    branches: [codex/gerador-diverso]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  preparar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Contratos de diversidade e isolamento
+        run: python -m unittest testes_gerador_diverso -v
+      - name: Confirmar que a semente não é aprovada como corpus completo
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          out=Path('trabalho/auditoria.json')
+          p=subprocess.run([sys.executable, 'scripts/auditar_gerador_diverso.py', 'dados/gerador_diverso_semente.jsonl', '--saida', str(out)])
+          if p.returncode != 1 or json.loads(out.read_text())['apto_para_treino_completo']:
+              raise SystemExit('A semente deve ser reprovada para treino completo')
+          PY
+      - name: Instalar bibliotecas de cálculo, sem modelos externos
+        run: |
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'tokenizers>=0.20,<1'
+      - name: Instanciar rede e verificar três atualizações próprias
+        run: python scripts/sondar_gerador_diverso.py --saida trabalho/sonda --passos 3
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preparacao-gerador-diverso-${{ github.run_id }}
+          path: trabalho/
+          retention-days: 30
+          if-no-files-found: warn
