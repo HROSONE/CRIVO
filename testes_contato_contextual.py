@@ -150,7 +150,9 @@ class TestesContatoContextual(unittest.TestCase):
         # 447 até 2026-10-03; 611 com os catálogos ampliados de 2026-10-05; 747 com o
         # acervo profundo de 2026-10-06; 1016 com as lacunas de 2026-10-07 (a
         # rede de 747 continua valendo para as entradas que conhece).
-        self.assertEqual(len(bot.base), 1016)
+        # O contrato é preservar a rede ao ampliar o acervo, não congelar
+        # a quantidade de fichas (a Bíblia acrescenta 33 entradas).
+        self.assertGreaterEqual(len(bot.base), 1016)
         self.assertIsNotNone(bot.rede, bot.erro_rede)
         for q, ident, trecho, fonte in (
             ('O que é um humano?', 'conhecimento:ser_humano', 'Homo sapiens', 'humanorigins.si.edu'),
