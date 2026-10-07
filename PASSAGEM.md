@@ -1,21 +1,40 @@
 # Passagem de trabalho — 07/10/2026
 
-## Consolidação das etapas pendentes
+## Restauração dos PRs originais e validação própria
 
-Restrição do projeto: usar somente os modelos próprios do Crivo. Não integrar,
-baixar ou executar modelos externos. A integração com Qwen introduzida nesta
-sessão foi retirada; seu serviço foi parado e os pesos baixados foram removidos.
+Restrição do projeto: somente modelos próprios do Crivo. Não baixar, executar
+ou integrar modelos externos, inclusive quando hospedados localmente.
+A integração Qwen introduzida nesta sessão foi retirada; serviço parado e
+pesos baixados removidos. A restrição está registrada em `AGENTS.md`.
 
-As branches dos PRs #105–#110 foram reunidas em `codex/consolidacao-generativa`.
-Análise, correção e Bíblia são funcionalidades; os três experimentos ficam como
-registros concluídos, sem aprovação dos pesos. Corrigidas regressões de
-continuação com artigo indefinido, preservação de sequências das evidências,
-identificação da busca aprendida e planejamento de pedidos bíblicos compostos.
-O teste de contagem de fichas permite crescimento do acervo. A matriz CI instala
-NumPy; os checks sem opcionais continuam. A consolidação aguarda validação e
-integração na main pelo PR #111. Não afirmar geração ou raciocínio geral a partir
-dos resultados limitados dos experimentos próprios.
-As notas históricas abaixo descrevem o estado antes da consolidação.
+Os PRs #105–#110 foram reabertos e estão prontos para revisão. As descrições
+originais foram restauradas e os commits anteriores continuam ancestrais das
+respectivas branches; não houve reescrita nem descarte. As correções foram
+propagadas nas branches originais, mantendo as dependências #106→#105 e
+#110→#109→#108. O #111 permanece rascunho para comparação e não substitui
+os originais. Nenhuma destas entregas foi integrada à main.
+
+Corrigidos: retomadas com artigo indefinido, composição bíblica validada,
+identificação da busca aprendida, crescimento do acervo e preservação de
+sequências de evidência. A guarda do gerador agora confere palavras completas
+e multiplicidade, números e negações; os conjuntos de raízes deixavam passar
+omissões de governados, Mato Grosso e REM. Os pesos não foram alterados.
+
+Passaram 25 testes da geração (incluindo seis casos de omissão), nove contratos
+da guarda sem NumPy, 22 HTTP, 20 contratos dos experimentos e 68 contratos
+sem dependências opcionais (dois dispensados nesse modo). Nomes próprios foram
+verificados no compositor e no gerador, com e sem NumPy. HTTP local conserva
+as evidências quando recua da geração e continua gerando no caso de DNA.
+
+As suítes amplas continuam em andamento. A primeira execução local iniciou
+antes das últimas correções e não representa aprovação da versão atual.
+A nova varredura de 2.439 nomes/aliases usa a guarda corrigida. CI instala NumPy
+com uma thread de cálculo e mantém todos os testes; orçamentos de 240 minutos
+na matriz geral e 150 no interpretador refletem as medições em CPU. Execuções
+substituídas/duplicadas foram retiradas da fila; as versões atuais são preservadas.
+Experimentos próprios permanecem isolados, com aprovação falsa: não promover
+os pesos ao chat nem afirmar geração/raciocínio geral pelos resultados limitados.
+As notas históricas abaixo descrevem o estado anterior à restauração.
 
 ## Nova etapa: correção de texto
 
