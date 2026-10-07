@@ -76,6 +76,22 @@ class Transformer(unittest.TestCase):
 
 @unittest.skipUnless(TEM_NUMPY, "o Transformer roda em NumPy")
 class NoCrivo(unittest.TestCase):
+    def test_composicao_nao_apaga_repeticoes_legitimas_da_evidencia(self):
+        from crivo import Crivo
+        from unittest.mock import patch
+        from types import SimpleNamespace
+        bot = Crivo(usar_geracao=False)
+        pergunta = 'Escreva um texto sobre escala musical'
+        ident, original = bot.responder(pergunta)
+        bot.usar_geracao = True
+        def gerar(q, fatos, diagnostico):
+            return fatos[0].replace('tom, tom, semitom, tom, tom, tom, semitom', 'tom, tom, semitom')
+        with patch('geracao_ancorada.geracao', return_value=SimpleNamespace(disponivel=True, gerar=gerar)):
+            obtido, texto = bot._escrever_com_geracao(pergunta, ident, original)
+        self.assertEqual((obtido, texto), (ident, original))
+        self.assertFalse(bot.ultima_geracao['usada'])
+        self.assertEqual(bot.ultima_geracao['motivo'], 'sequencia_de_evidencia_nao_preservada')
+
     def perguntar(self, texto, ligada=True):
         from crivo import Crivo
         bot = Crivo()
