@@ -99,13 +99,19 @@ class TestesFuncoesContextuais(unittest.TestCase):
         self.assertNotIn('meteoro: Asteroides', texto)
 
     def test_api_reconstroi_funcao_e_troca_sujeito(self):
-        r = responder_web({'message': 'E o ribossomo?',
-                           'history': ['Qual é a função da mitocôndria?']})
-        self.assertEqual(r['id'], 'escrita:explicacao')
-        self.assertIn('proteínas', r['response'])
-        self.assertNotIn('ATP', r['response'])
-        self.assertEqual(r['mechanism'], 'composicao_factual')
-        self.assertFalse(r['has_proof'])
+        for geracao in (False, True):
+            with self.subTest(geracao=geracao):
+                r = responder_web({'message': 'E o ribossomo?',
+                                   'history': ['Qual é a função da mitocôndria?']},
+                                  usar_geracao=geracao)
+                self.assertEqual(r['id'], 'escrita:explicacao')
+                self.assertIn('proteínas', r['response'])
+                self.assertNotIn('ATP', r['response'])
+                self.assertIn(r['mechanism'], ('composicao_factual', 'geracao_ancorada'))
+                self.assertEqual(r['generation']['usada'], r['mechanism'] == 'geracao_ancorada')
+                if not geracao:
+                    self.assertEqual(r['mechanism'], 'composicao_factual')
+                self.assertFalse(r['has_proof'])
 
     def test_api_fontes_da_funcao_real(self):
         r = responder_web({'message': 'Quais fontes?',
