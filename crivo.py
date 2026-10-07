@@ -219,6 +219,10 @@ class Crivo:
         self.planejador = PlanejadorConversa(self.compositor)
         self._pedido_turno = None
         self.contexto_textual = None
+        from analise_conteudo import AnaliseConteudo
+        self.analise_conteudo = AnaliseConteudo()
+        self.ultima_analise_conteudo = None
+        self.ultima_correcao_texto = None
         self._contexto_textual_anterior = None
         self.ultimo_ato_social = None
         self._ato_social_anterior = None
@@ -1435,6 +1439,9 @@ class Crivo:
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
+        original_conteudo = texto
+        self.ultima_analise_conteudo = None
+        self.ultima_correcao_texto = None
         self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                "motivo": "crise", "tentativas": 0}
         if isinstance(texto, str):
@@ -1446,6 +1453,35 @@ class Crivo:
                     self.perfil.turno += 1
                 return urgente
         import estado_interno
+        conteudo = self.analise_conteudo.responder(original_conteudo)
+        if conteudo is not None:
+            ident, resposta = conteudo
+            mecanismo = "correcao_texto" if ident in ("texto:correcao", "texto:alteracoes", "texto:pedir_correcao") else "analise_conteudo"
+            if mecanismo == "correcao_texto":
+                self.ultima_correcao_texto = self.analise_conteudo.correcao
+            self.ultima_analise_conteudo = self.analise_conteudo.ultima
+            self.contexto_textual = None
+            self.assunto_conversa = None
+            self.oferta_pendente = None
+            self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+            self.conversacao.pendente = None
+            self.conversacao.oferta = None
+            self.conversacao.quiz = None
+            self.motor_codigo.ultimo = None
+            self.planejador.ultimo = None
+            self.ultima_resposta_mostrada = resposta
+            self.conversacao.ultima_resposta_texto = resposta
+            self.ultimo_turno = {"pergunta": original_conteudo, "id": ident}
+            self.historico.append({"pergunta": original_conteudo, "id": ident,
+                                   "mecanismo": mecanismo})
+            self.historico = self.historico[-20:]
+            self.perfil.turno += 1
+            self.estado_interno = estado_interno.EstadoInterno(original_conteudo)
+            self.estado_interno.propor(mecanismo, ident, "responder")
+            self.estado_interno.decidir(mecanismo, "responder", "conteúdo enviado e regras explícitas")
+            self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
+                                   "motivo": "correcao_por_regras" if mecanismo == "correcao_texto" else "analise_extrativa", "tentativas": 0}
+            return ident, resposta
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
