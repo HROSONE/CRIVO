@@ -27,7 +27,8 @@ verificados no compositor e no gerador, com e sem NumPy. HTTP local conserva
 as evidências quando recua da geração e continua gerando no caso de DNA.
 
 As suítes amplas continuam em andamento. A primeira execução local iniciou
-antes das últimas correções e não representa aprovação da versão atual.
+antes das últimas correções, foi encerrada após o diagnóstico e não representa
+aprovação da versão atual.
 A nova varredura de 2.439 nomes/aliases usa a guarda corrigida. CI instala NumPy
 com uma thread de cálculo e mantém todos os testes; orçamentos de 240 minutos
 na matriz geral e 150 no interpretador refletem as medições em CPU. Execuções
