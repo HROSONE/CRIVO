@@ -42,6 +42,8 @@ def pedido(texto):
         return None
     n = normalizar(cab).strip(' .!?')
     n = re.sub(r'^(?:por favor[, ]+|voce pode |pode |me )', '', n)
+    if re.search(r'\brelato\b', n) and not re.search(r'\b(?:texto|conteudo|sequencia)\b', n):
+        return None  # Relatos pessoais conservam a operação de conversa.
     if re.match(r'^(?:corrija|corrigir|revise|revisar|faca a correcao|faca uma correcao|corrige)\b', n):
         modo = 'correcao'
     elif n in ('mostre as alteracoes', 'o que voce corrigiu', 'o que mudou', 'quais foram as correcoes'):
@@ -64,6 +66,8 @@ def pedido(texto):
         modo = 'analise'
     if modo == 'correcao' and re.search(r'\b(?:codigo|funcao|programa|script|javascript|python|js|ts|typescript)\b', n) and not re.search(r'\b(?:texto|redacao|paragrafo)\b', n):
         return None  # A correção de programação mantém o motor existente.
+    if modo == 'correcao' and re.fullmatch(r'corrija (?:a )?premissa', n):
+        return None  # A revisão lógica altera as premissas da sessão.
     # Citação também serve como entrada, sem exigir dois-pontos.
     if corte is None:
         citado = re.search(r'["“](.+)["”]\s*$', t, re.S)

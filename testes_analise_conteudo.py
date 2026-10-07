@@ -8,6 +8,14 @@ FONTE = ('O projeto depende de testes. Os testes reduzem erros. '
 
 
 class TestesAnaliseConteudo(unittest.TestCase):
+    def test_relato_preserva_conversa_e_texto_pessoal_aceita_analise(self):
+        relato = 'Fui ao ensaio cedo, mas o ônibus atrasou e perdi a primeira música.'
+        self.assertIsNone(pedido('Resuma este relato: ' + relato))
+        r = responder_web({'message': 'Resuma este relato: ' + relato})
+        self.assertEqual(r['id'], 'conversa:gerada_resumo')
+        r = responder_web({'message': 'Resuma este texto: ' + relato})
+        self.assertEqual(r['id'], 'texto:resumo')
+
     def test_resumo_preserva_fonte_offsets_e_negacoes(self):
         a = AnaliseConteudo()
         ident, resposta = a.responder('Resuma este texto em 2 frases: ' + FONTE)

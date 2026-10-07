@@ -6,6 +6,18 @@ from web_core import PedidoInvalido, responder_web
 
 
 class CorrecaoTexto(unittest.TestCase):
+    def test_correcao_de_premissa_preserva_revisao_logica(self):
+        self.assertIsNone(pedido('Corrija a premissa: o sensor não responde'))
+        self.assertIsNone(pedido('Corrija premissa: o sensor não responde'))
+        h = ['Considere estas premissas: o sensor responde; se o sensor responde, então o painel liga',
+             'Corrija a premissa: o sensor não responde']
+        r = responder_web({'message': 'Posso concluir que o painel liga?', 'history': h})
+        self.assertEqual(r['mechanism'], 'raciocinio_ativo')
+        self.assertEqual(r['reasoning']['status'], 'indeterminado')
+        r = responder_web({'message': 'Corrija este texto: o sensor nao responde'})
+        self.assertEqual(r['mechanism'], 'correcao_texto')
+        self.assertIn('não responde', r['text_correction']['corrigido'])
+
     def test_texto_sem_pontuacao(self):
         t = 'oi tudo bem eu nao vou hoje mas voces vai amanha'
         r = corrigir(t)
