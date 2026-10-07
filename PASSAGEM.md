@@ -12,6 +12,44 @@ Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais,
 ## Nova etapa: conhecimento bíblico TNM
 
 Branch `codex/biblia-tnm`, independente sobre a main: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
+## Experimento modular: avanço restrito, não aprovado
+
+Branch `codex/raciocinio-modular`, sobre o PR #109. Quatro tarefas com pesos
+próprios compartilhados; 800 atualizações em CPU, checkpoint 400 selecionado
+somente na validação. Novo teste congelado de 84 casos: 30 respostas corretas,
+5/42 provas completas, 27 passos aceitos; nenhuma das 18 provas necessárias
+nas estruturas reservadas. Piloto anterior no mesmo teste: 44 respostas e
+3/42 provas. Composição simbólica do modular: 40 respostas e 15/42 provas,
+também zero provas nas estruturas reservadas. Não promover ao chat.
+Torch e NumPy concordam caso a caso; 20 contratos passaram sem dependências.
+Dados e pesos isolados em `dados_modulares`/`pesos_modulares`, com aprovação
+falsa. Relatório `docs/raciocinio_modular_20261007.md`. Não voltar a ajustar
+usando este teste e chamá-lo de reservado. Não inferir raciocínio geral ou
+superioridade de arquitetura a partir deste resultado.
+
+## Piloto treinado: resultado negativo para geração de provas
+
+Branch `codex/piloto-raciocinio-generativo`, sobre a investigação do PR #108.
+Dois ajustes dos pesos próprios, 400 atualizações por variante em CPU. Controle
+direto: 50/56 classificações no teste. Modelo por passos: 27/56 classificações
+e 0/28 provas completas necessárias; nenhum passo aceito no teste selecionado.
+O executor NumPy reproduziu os resultados. Pesos experimentais preservados em
+`experimentos/raciocinio_generativo/pesos_piloto`, não aprovados para o chat.
+Oito contratos passaram. Dados, código e critérios de seleção estão registrados
+em `docs/piloto_raciocinio_generativo_20261007.md`. Não ajustar usando o teste
+deste piloto e continuar chamando-o de cego. O diagnóstico posterior aponta
+para avaliar seleção de regras/apoios separadamente de redação e término.
+
+## Investigação: geração e raciocínio aprendido
+
+Branch `codex/diagnostico-gerativo`: aplicação da skill fornecida pelo usuário,
+pesquisa em fontes primárias e seis sondas dos pesos atuais, incluindo ablação
+de restrições. Remover as restrições não demonstrou resolver a composição de
+dois passos ou resumo seletivo. Verificador experimental de passos com apoios
+explícitos passou em seis contratos, com e sem NumPy; ainda não há modelo
+treinado para gerar esses passos. Diagnóstico, evidências e critérios do
+próximo experimento em `docs/diagnostico_generativo_20261007.md`.
+Não altera o chat nem aprova novos pesos.
 
 ## Continuação: PR #104
 

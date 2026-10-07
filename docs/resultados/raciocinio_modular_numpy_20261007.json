@@ -1,0 +1,3813 @@
+{
+  "teste_numpy": {
+    "neural": {
+      "total": {
+        "n": 84,
+        "acertos": 30,
+        "provas_necessarias": 42,
+        "provas_completas": 5,
+        "passos_aceitos": 27,
+        "selecoes_validas": 53
+      },
+      "ood": {
+        "n": 36,
+        "acertos": 11,
+        "provas_necessarias": 18,
+        "provas_completas": 0,
+        "passos_aceitos": 9,
+        "selecoes_validas": 21
+      },
+      "casos": [
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9835984110832214,
+              "conclusao_proposta": "o rádio toca"
+            }
+          ],
+          "id": "modular-teste-0000",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "não é verdade que o botão acende"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9918730854988098,
+              "conclusao_proposta": "não é verdade que o botão acende"
+            }
+          ],
+          "id": "modular-teste-0001",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0002",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0003",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9994981288909912,
+              "conclusao_proposta": "o feixe feixo feixo feixo feixo feixo feixe"
+            }
+          ],
+          "id": "modular-teste-0004",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7817253470420837,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8536608219146729,
+              "conclusao_proposta": "não é verdade que o rádio toca"
+            }
+          ],
+          "id": "modular-teste-0005",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0006",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0007",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0008",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9996848106384277,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9276412725448608,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8768802285194397,
+              "conclusao_proposta": "não é verdade que a sirene soa sirene soa sirene soa sire"
+            }
+          ],
+          "id": "modular-teste-0009",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0010",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0011",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1",
+                "p0"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1",
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9868893623352051,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8771180510520935,
+              "conclusao_proposta": "a sirene soa sirene so"
+            }
+          ],
+          "id": "modular-teste-0012",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9265416860580444,
+              "conclusao_proposta": "o feixe feixo feixo feixo feixe"
+            }
+          ],
+          "id": "modular-teste-0013",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0014",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0015",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p5"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p5"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6792584657669067,
+              "conclusao_proposta": "o tubo abre"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.998934805393219,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9615026712417603,
+              "conclusao_proposta": "o radar gira"
+            }
+          ],
+          "id": "modular-teste-0016",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o tubo abre"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9663364291191101,
+              "conclusao_proposta": "o tubo abre"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992157220840454,
+              "conclusao_proposta": "a sirene soa sirene soa sire"
+            }
+          ],
+          "id": "modular-teste-0017",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0018",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0019",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9075522422790527,
+              "conclusao_proposta": "a sirene soa sirene soa sirene so"
+            }
+          ],
+          "id": "modular-teste-0020",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9972944855690002,
+              "conclusao_proposta": ""
+            }
+          ],
+          "id": "modular-teste-0021",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0022",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0023",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8845541477203369,
+              "conclusao_proposta": "o botão acende"
+            }
+          ],
+          "id": "modular-teste-0024",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0025",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0026",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0027",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9964687824249268,
+              "conclusao_proposta": "o relógio para o relógio para o relógio para o relógio"
+            }
+          ],
+          "id": "modular-teste-0028",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0029",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0030",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0031",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0032",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992727637290955,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9830096364021301,
+              "conclusao_proposta": "não é verdade que a sirene soa sirene soa sirene so"
+            }
+          ],
+          "id": "modular-teste-0033",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0034",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0035",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9934870004653931,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6078168749809265,
+              "conclusao_proposta": "o tubo abre"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9983787536621094,
+              "conclusao_proposta": "o rádio toca"
+            }
+          ],
+          "id": "modular-teste-0036",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9989286065101624,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7047891020774841,
+              "conclusao_proposta": "o feixe feix passa"
+            }
+          ],
+          "id": "modular-teste-0037",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0038",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0039",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p3",
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9944688081741333,
+              "conclusao_proposta": "a placa aquece placa aquece"
+            }
+          ],
+          "id": "modular-teste-0040",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p3",
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p3",
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7206517457962036,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8788110017776489,
+              "conclusao_proposta": ""
+            }
+          ],
+          "id": "modular-teste-0041",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0042",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0043",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.999168872833252,
+              "conclusao_proposta": "o feixe feixo feixo feixo feixo feixo feixe"
+            }
+          ],
+          "id": "modular-teste-0044",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0045",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0046",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0047",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992005228996277,
+              "conclusao_proposta": "o radar gira"
+            }
+          ],
+          "id": "modular-teste-0048",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p3"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o rádio toca"
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p3"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9996472597122192,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9135524034500122,
+              "conclusao_proposta": "o rádio toca"
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9723005890846252,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6572452187538147,
+              "conclusao_proposta": "o radar gira"
+            }
+          ],
+          "id": "modular-teste-0049",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0050",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0051",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9995449185371399,
+              "conclusao_proposta": "o rádio tensão"
+            }
+          ],
+          "id": "modular-teste-0052",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9988669157028198,
+              "conclusao_proposta": ""
+            }
+          ],
+          "id": "modular-teste-0053",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0054",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0055",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "proposto": "sustentado",
+          "passos": [],
+          "motivo": "termino_sem_prova",
+          "trace": [],
+          "id": "modular-teste-0056",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "não é verdade que o radar gira"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7767327427864075,
+              "conclusao_proposta": "não é verdade que o radar gira"
+            }
+          ],
+          "id": "modular-teste-0057",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0058",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0059",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0060",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9736577868461609,
+              "conclusao_proposta": "o relógio para o relógio para o relógio"
+            }
+          ],
+          "id": "modular-teste-0061",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0062",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0063",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9971504807472229,
+              "conclusao_proposta": "o tubo abre"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.998934805393219,
+              "conclusao_proposta": "o radar gira"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9615026712417603,
+              "conclusao_proposta": "o radar gira"
+            }
+          ],
+          "id": "modular-teste-0064",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9935259819030762,
+              "conclusao_proposta": "a sirene soa sirene soa sirene so"
+            }
+          ],
+          "id": "modular-teste-0065",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0066",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0067",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0",
+                "p1"
+              ],
+              "conclusao": "o tubo abre"
+            }
+          ],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0",
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9899438619613647,
+              "conclusao_proposta": "o tubo abre"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9964304566383362,
+              "conclusao_proposta": "a sirene soa sirene soa sire"
+            }
+          ],
+          "id": "modular-teste-0068",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p4"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9961363673210144,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9216686487197876,
+              "conclusao_proposta": ""
+            }
+          ],
+          "id": "modular-teste-0069",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0070",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0071",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8776280879974365,
+              "conclusao_proposta": "a placa aquece placa aquece"
+            }
+          ],
+          "id": "modular-teste-0072",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0073",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0074",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0075",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9994423985481262,
+              "conclusao_proposta": ""
+            }
+          ],
+          "id": "modular-teste-0076",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "redacao:formato_invalido",
+          "trace": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992727637290955,
+              "conclusao_proposta": "o botão acende"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8391858339309692,
+              "conclusao_proposta": "a placa aquece placa aquece placa aquece placa aquece placa aquece placa aquece placa aquece"
+            }
+          ],
+          "id": "modular-teste-0077",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0078",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0079",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "redacao:consequente_incorreto",
+          "trace": [
+            {
+              "regra": "p5",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9900004267692566,
+              "conclusao_proposta": "o rádio tensão"
+            }
+          ],
+          "id": "modular-teste-0080",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0081",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0082",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0083",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        }
+      ]
+    },
+    "simbolica": {
+      "total": {
+        "n": 84,
+        "acertos": 40,
+        "provas_necessarias": 42,
+        "provas_completas": 15,
+        "passos_aceitos": 66,
+        "selecoes_validas": 74
+      },
+      "ood": {
+        "n": 36,
+        "acertos": 11,
+        "provas_necessarias": 18,
+        "provas_completas": 0,
+        "passos_aceitos": 28,
+        "selecoes_validas": 33
+      },
+      "casos": [
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9835984110832214
+            }
+          ],
+          "id": "modular-teste-0000",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "não é verdade que o botão acende"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9918730854988098
+            }
+          ],
+          "id": "modular-teste-0001",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0002",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0003",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9994981288909912
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9991468191146851
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8074077367782593
+            }
+          ],
+          "id": "modular-teste-0004",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7817253470420837
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8536608219146729
+            }
+          ],
+          "id": "modular-teste-0005",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0006",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0007",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0008",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "não é verdade que a sirene soa"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9996848106384277
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9276412725448608
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8768802285194397
+            }
+          ],
+          "id": "modular-teste-0009",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0010",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0011",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1",
+                "p0"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p1",
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9868893623352051
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8771180510520935
+            }
+          ],
+          "id": "modular-teste-0012",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p2"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que a placa aquece"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9265416860580444
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9989012479782104
+            }
+          ],
+          "id": "modular-teste-0013",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0014",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0015",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p5"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p5"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6792584657669067
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.998934805393219
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9615026712417603
+            }
+          ],
+          "id": "modular-teste-0016",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9663364291191101
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992157220840454
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9596399068832397
+            }
+          ],
+          "id": "modular-teste-0017",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0018",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0019",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9075522422790527
+            }
+          ],
+          "id": "modular-teste-0020",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9972944855690002
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9948533177375793
+            }
+          ],
+          "id": "modular-teste-0021",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0022",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0023",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o botão acende"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8845541477203369
+            }
+          ],
+          "id": "modular-teste-0024",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0025",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0026",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0027",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o relógio para"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9964687824249268
+            }
+          ],
+          "id": "modular-teste-0028",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0029",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0030",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0031",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0032",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que a sirene soa"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992727637290955
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9830096364021301
+            }
+          ],
+          "id": "modular-teste-0033",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0034",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0035",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9934870004653931
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6078168749809265
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9983787536621094
+            }
+          ],
+          "id": "modular-teste-0036",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "não é verdade que a sirene soa"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9989286065101624
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7047891020774841
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9982424974441528
+            }
+          ],
+          "id": "modular-teste-0037",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0038",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0039",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "sustentado",
+          "passos": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p3",
+                "p1"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p2",
+              "apoios": [
+                "p3",
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9944688081741333
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9609236717224121
+            }
+          ],
+          "id": "modular-teste-0040",
+          "esperado": "sustentado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p3",
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que a placa aquece"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p3",
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7206517457962036
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8788110017776489
+            }
+          ],
+          "id": "modular-teste-0041",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0042",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0043",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s2"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.999168872833252
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9989590644836426
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8828909397125244
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6950068473815918
+            }
+          ],
+          "id": "modular-teste-0044",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0045",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0046",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0047",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p4",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992005228996277
+            }
+          ],
+          "id": "modular-teste-0048",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p3"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o rádio toca"
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p3"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9996472597122192
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9135524034500122
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9723005890846252
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6572452187538147
+            }
+          ],
+          "id": "modular-teste-0049",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0050",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0051",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9995449185371399
+            }
+          ],
+          "id": "modular-teste-0052",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "a placa aquece"
+            }
+          ],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9988669157028198
+            }
+          ],
+          "id": "modular-teste-0053",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0054",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0055",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "proposto": "sustentado",
+          "passos": [],
+          "motivo": "termino_sem_prova",
+          "trace": [],
+          "id": "modular-teste-0056",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "não é verdade que o radar gira"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p1",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.7767327427864075
+            }
+          ],
+          "id": "modular-teste-0057",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0058",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0059",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 1
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0060",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o relógio para"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que a placa aquece"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9736577868461609
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9666594862937927
+            }
+          ],
+          "id": "modular-teste-0061",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0062",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0063",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9971504807472229
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.998934805393219
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9615026712417603
+            }
+          ],
+          "id": "modular-teste-0064",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p4"
+              ],
+              "conclusao": "a sirene soa"
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o radar gira"
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "não é verdade que o tubo abre"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9935259819030762
+            },
+            {
+              "regra": "p2",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9739469289779663
+            },
+            {
+              "regra": "p0",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.6469962000846863
+            }
+          ],
+          "id": "modular-teste-0065",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0066",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0067",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0",
+                "p1"
+              ],
+              "conclusao": "o tubo abre"
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p3",
+              "apoios": [
+                "p0",
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9899438619613647
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9964304566383362
+            },
+            {
+              "regra": "p4",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9308573603630066
+            }
+          ],
+          "id": "modular-teste-0068",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "refutado",
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p4"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "não é verdade que a placa aquece"
+            }
+          ],
+          "motivo": "terminou",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1",
+                "p4"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9961363673210144
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9216686487197876
+            }
+          ],
+          "id": "modular-teste-0069",
+          "esperado": "refutado",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0070",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0071",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": false,
+          "profundidade": 2
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "a sirene soa"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8776280879974365
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9985904097557068
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9967526197433472
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9338341355323792
+            }
+          ],
+          "id": "modular-teste-0072",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0073",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0074",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0075",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 4
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "o feixe passa"
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o relógio para"
+            }
+          ],
+          "motivo": "passo_repetido",
+          "trace": [
+            {
+              "regra": "p0",
+              "apoios": [
+                "p1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9994423985481262
+            },
+            {
+              "regra": "p6",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9901008605957031
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9942300319671631
+            },
+            {
+              "regra": "p3",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.919891893863678
+            }
+          ],
+          "id": "modular-teste-0076",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p2"
+              ],
+              "conclusao": "o botão acende"
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "conclusao": "a placa aquece"
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "conclusao": "o radar gira"
+            }
+          ],
+          "motivo": "regra_nao_selecionada",
+          "trace": [
+            {
+              "regra": "p6",
+              "apoios": [
+                "p2"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9992727637290955
+            },
+            {
+              "regra": "p5",
+              "apoios": [
+                "s0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.8391858339309692
+            },
+            {
+              "regra": "p1",
+              "apoios": [
+                "s1"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9539192914962769
+            }
+          ],
+          "id": "modular-teste-0077",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "regra_nao_selecionada",
+          "trace": [],
+          "id": "modular-teste-0078",
+          "esperado": "indeterminado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0079",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 5
+        },
+        {
+          "status": null,
+          "passos": [
+            {
+              "regra": "p5",
+              "apoios": [
+                "p0"
+              ],
+              "conclusao": "o rádio toca"
+            }
+          ],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [
+            {
+              "regra": "p5",
+              "apoios": [
+                "p0"
+              ],
+              "selecao_valida": true,
+              "score_regra": 0.9900004267692566
+            }
+          ],
+          "id": "modular-teste-0080",
+          "esperado": "sustentado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": null,
+          "passos": [],
+          "motivo": "apoio_nao_selecionado",
+          "trace": [],
+          "id": "modular-teste-0081",
+          "esperado": "refutado",
+          "correto": false,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "indeterminado",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0082",
+          "esperado": "indeterminado",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        },
+        {
+          "status": "conflito",
+          "passos": [],
+          "motivo": "terminou",
+          "trace": [],
+          "id": "modular-teste-0083",
+          "esperado": "conflito",
+          "correto": true,
+          "ood": true,
+          "profundidade": 3
+        }
+      ]
+    }
+  },
+  "etapas_teste": {
+    "regra": {
+      "n": 48,
+      "acertos": 43,
+      "por_classe": {
+        "0": {
+          "n": 24,
+          "acertos": 22
+        },
+        "1": {
+          "n": 24,
+          "acertos": 21
+        }
+      }
+    },
+    "apoio": {
+      "n": 48,
+      "acertos": 48,
+      "por_classe": {
+        "0": {
+          "n": 24,
+          "acertos": 24
+        },
+        "1": {
+          "n": 24,
+          "acertos": 24
+        }
+      }
+    },
+    "estado": {
+      "n": 108,
+      "acertos": 82,
+      "por_classe": {
+        "A": {
+          "n": 21,
+          "acertos": 14
+        },
+        "B": {
+          "n": 21,
+          "acertos": 21
+        },
+        "C": {
+          "n": 21,
+          "acertos": 4
+        },
+        "D": {
+          "n": 21,
+          "acertos": 21
+        },
+        "E": {
+          "n": 24,
+          "acertos": 22
+        }
+      }
+    }
+  },
+  "pesos_sha256": "1c80c772fd7370c5dba14ed0009873978020a23a2923095a6f3af3c90db5b0f7",
+  "casos_sha256_canonico": "4ea8d5cc387111c882ba6559c6fbcfd88684d910549235cd2b094cf3904fa5f9",
+  "decodificacao": "greedy, 40 tokens, exige fim; sem máscaras lexicais ou penalidades de repetição"
+}

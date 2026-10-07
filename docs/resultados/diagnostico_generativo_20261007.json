@@ -1,0 +1,239 @@
+{
+  "versao": 1,
+  "base": {
+    "config": {
+      "vocabulario": 8192,
+      "dimensao": 384,
+      "camadas": 8,
+      "cabecas": 8,
+      "contexto": 256,
+      "dropout": 0.1
+    }
+  },
+  "treino": {
+    "exemplos": 1645,
+    "passos": 1500,
+    "lote": 16,
+    "lr": 5e-05,
+    "semente": 20261007
+  },
+  "proveniencia": {
+    "python": "3.12.14",
+    "sha256": {
+      "artefatos/geracao_pt/meta.json": "a95c72cfebdf82ef2abbcc147f1ab4d86dea371b6e32cc202a4d67b7b2d10098",
+      "artefatos/geracao_pt/pesos_numpy.npz": "7ac0f3be921e2221d7ca538d118077662cff4a9c0861f288db49edc360164ab8",
+      "artefatos/geracao_pt/tokenizer.json": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+      "geracao_ancorada.py": "5af940c6017468c56992b62594fc6619d6323b689159e11654d2e76454b01828",
+      "raciocinio_ativo.py": "b7f7bab43b99305504338818d34b87daf3c397de92e791ab68966a907d3a6207",
+      "experimentos/raciocinio_generativo/diagnosticar.py": "7be8686abc623eb76dbe01ba424c4d0445b34adb9b773fcb528c317087fba909"
+    }
+  },
+  "parametros": 17428224,
+  "sondas": [
+    {
+      "id": "copia",
+      "fatos": [
+        "A luz acende quando o sensor responde."
+      ],
+      "pergunta": "O que acontece quando o sensor responde?",
+      "candidato": "A luz acende quando o sensor responde.",
+      "candidato_valido": true,
+      "motivo_guarda": null,
+      "preserva_evidencia": true,
+      "candidato_aceito": true,
+      "saida_modelo": "A luz acende quando o sensor responde.",
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [],
+        "motivo": "gerada",
+        "prefixo_fonte": true
+      },
+      "tokens_prompt": 24,
+      "ablacao_conjunta": {
+        "saida": "A luz acende quando o sensor responde.",
+        "motivo_guarda": null,
+        "preserva_evidencia": true,
+        "aceito_guarda_atual": true
+      }
+    },
+    {
+      "id": "reordenacao",
+      "fatos": [
+        "A luz acende quando o sensor responde."
+      ],
+      "pergunta": "O que acontece quando o sensor responde?",
+      "candidato": "Quando o sensor responde, a luz acende.",
+      "candidato_valido": true,
+      "motivo_guarda": "comeco_inadequado",
+      "preserva_evidencia": true,
+      "candidato_aceito": false,
+      "saida_modelo": "A luz acende quando o sensor responde.",
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [],
+        "motivo": "gerada",
+        "prefixo_fonte": true
+      },
+      "tokens_prompt": 24,
+      "ablacao_conjunta": {
+        "saida": "A luz acende quando o sensor responde.",
+        "motivo_guarda": null,
+        "preserva_evidencia": true,
+        "aceito_guarda_atual": true
+      }
+    },
+    {
+      "id": "conclusao_dois_passos",
+      "fatos": [
+        "O sensor responde.",
+        "Se o sensor responde, então o painel liga.",
+        "Se o painel liga, então a luz acende."
+      ],
+      "pergunta": "O que podemos concluir?",
+      "candidato": "A luz acende.",
+      "candidato_valido": true,
+      "motivo_guarda": null,
+      "preserva_evidencia": false,
+      "candidato_aceito": false,
+      "saida_modelo": null,
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [
+          "evidencia_incompleta"
+        ],
+        "motivo": "guarda_rejeitou"
+      },
+      "tokens_prompt": 44,
+      "ablacao_conjunta": {
+        "saida": "Se o sensor responde, então o painel liga.",
+        "motivo_guarda": null,
+        "preserva_evidencia": false,
+        "aceito_guarda_atual": false
+      }
+    },
+    {
+      "id": "resumo_seletivo",
+      "fatos": [
+        "O sensor responde. O painel liga. A luz acende."
+      ],
+      "pergunta": "Resuma o estado da luz.",
+      "candidato": "A luz acende.",
+      "candidato_valido": true,
+      "motivo_guarda": null,
+      "preserva_evidencia": false,
+      "candidato_aceito": false,
+      "saida_modelo": "O sensor responde. O painel liga. A luz acende.",
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [],
+        "motivo": "gerada",
+        "prefixo_fonte": true
+      },
+      "tokens_prompt": 28,
+      "ablacao_conjunta": {
+        "saida": "Não. O sensor responde. O painel liga. A luz acende.",
+        "motivo_guarda": "polaridade_sem_suporte",
+        "preserva_evidencia": true,
+        "aceito_guarda_atual": false
+      }
+    },
+    {
+      "id": "inversao_invalida",
+      "fatos": [
+        "Se o sensor responde, então o painel liga."
+      ],
+      "pergunta": "Qual é a condição?",
+      "candidato": "Se o painel liga, então o sensor responde.",
+      "candidato_valido": false,
+      "motivo_guarda": "relacao_sem_suporte",
+      "preserva_evidencia": true,
+      "candidato_aceito": false,
+      "saida_modelo": "Se o sensor responde, então o painel liga.",
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [],
+        "motivo": "gerada",
+        "prefixo_fonte": true
+      },
+      "tokens_prompt": 23,
+      "ablacao_conjunta": {
+        "saida": "Se o sensor responde, então o painel liga.",
+        "motivo_guarda": null,
+        "preserva_evidencia": true,
+        "aceito_guarda_atual": true
+      }
+    },
+    {
+      "id": "negacao_invalida",
+      "fatos": [
+        "O painel não liga."
+      ],
+      "pergunta": "Qual é o estado do painel?",
+      "candidato": "O painel liga.",
+      "candidato_valido": false,
+      "motivo_guarda": "relacao_sem_suporte",
+      "preserva_evidencia": false,
+      "candidato_aceito": false,
+      "saida_modelo": "O painel não liga.",
+      "diagnostico_modelo": {
+        "tentativas": 1,
+        "rejeicoes": [],
+        "motivo": "gerada",
+        "prefixo_fonte": true
+      },
+      "tokens_prompt": 20,
+      "ablacao_conjunta": {
+        "saida": "O painel não liga.",
+        "motivo_guarda": null,
+        "preserva_evidencia": true,
+        "aceito_guarda_atual": true
+      }
+    }
+  ],
+  "verificador": [
+    {
+      "id": "cadeia_valida",
+      "aceito": true,
+      "motivo": "passos_verificados",
+      "esperado": true
+    },
+    {
+      "id": "apoio_futuro",
+      "aceito": false,
+      "motivo": "apoio_ausente_ou_futuro",
+      "esperado": false
+    },
+    {
+      "id": "salto_sem_painel",
+      "aceito": false,
+      "motivo": "antecedentes_nao_satisfeitos",
+      "esperado": false
+    },
+    {
+      "id": "conclusao_errada",
+      "aceito": false,
+      "motivo": "consequente_incorreto",
+      "esperado": false
+    },
+    {
+      "id": "conflito",
+      "aceito": false,
+      "motivo": "premissas_em_conflito",
+      "esperado": false
+    },
+    {
+      "id": "condicao_ausente",
+      "aceito": false,
+      "motivo": "apoio_ausente_ou_futuro",
+      "esperado": false
+    }
+  ],
+  "limites": [
+    "Sondas exploratórias de seis casos, não benchmark de capacidade geral.",
+    "Validade dos candidatos linguísticos foi anotada manualmente.",
+    "Aceitação da guarda não é acerto semântico.",
+    "Inferência direta do gerador, não avaliação completa do chat.",
+    "Ablação remove três restrições juntas; não isola seus efeitos individuais.",
+    "Verificador simbólico experimental não é raciocínio aprendido."
+  ]
+}
