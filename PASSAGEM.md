@@ -1,5 +1,20 @@
 # Passagem de trabalho — 07/10/2026
 
+## Consolidação das etapas pendentes e modelo base
+
+As branches dos PRs #105–#110 foram reunidas em `codex/consolidacao-generativa`.
+Análise, correção e Bíblia são funcionalidades; os três experimentos ficam como
+registros concluídos, sem aprovação dos pesos. Corrigidas regressões de
+continuação com artigo indefinido, preservação de sequências das evidências e
+planejamento de pedidos bíblicos compostos. O teste de contagem de fichas não
+congela mais o acervo. A matriz CI instala NumPy; os checks sem opcionais continuam.
+Modelo público Qwen2.5-1.5B-Instruct Q4_K_M executado via llama.cpp, fora do Git.
+`CRIVO_LLM_URL`/`CRIVO_LLM_MODEL`/`CRIVO_LLM_API_KEY` ligam o serviço ao chat.
+Modelo sem URL conserva a execução local. Não confundir geração livre com prova.
+Ver `docs/modelo_base_20261007.md` e o resultado HTTP registrado. A ativação no
+site público exige endpoint hospedado; a sessão local não constitui hospedagem.
+As notas históricas abaixo descrevem o estado antes da consolidação.
+
 ## Nova etapa: correção de texto
 
 Branch `codex/correcao-texto`, baseada na etapa do PR #105. Comandos `Corrija este texto:`, `Revise:` e `Corrija isso` propõem ajustes por regras limitadas; `Mostre as alterações` expõe o diff. O original continua sendo a fonte para análise e resumo. A API expõe `text_correction` e a interface identifica a revisão. Não há novo treino nem corretor gramatical completo: grafias ambíguas e divisões sem evidência permanecem para revisão. Veja `docs/correcao_texto_20261007.md` para contrato, exemplos e limites. A entrega está em branch separada até integração do PR.

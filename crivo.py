@@ -154,7 +154,9 @@ SINONIMOS_CONSULTA_TECNICA = {
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
                  usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                 usar_interpretador_perguntas=True, usar_geracao=True):
+                 usar_interpretador_perguntas=True, usar_geracao=True, modelo_base=None):
+        self.modelo_base = modelo_base
+        self.ultima_modelo_base = {'configured': modelo_base is not None, 'used': False, 'reason': 'not_used'}
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
         from programacao_chat import MotorCodigoChat
@@ -1439,6 +1441,7 @@ class Crivo:
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
+        self.ultima_modelo_base = {'configured': self.modelo_base is not None, 'used': False, 'reason': 'crisis_or_not_used'}
         original_conteudo = texto
         self.ultima_analise_conteudo = None
         self.ultima_correcao_texto = None
@@ -1481,7 +1484,7 @@ class Crivo:
             self.estado_interno.decidir(mecanismo, "responder", "conteúdo enviado e regras explícitas")
             self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                    "motivo": "correcao_por_regras" if mecanismo == "correcao_texto" else "analise_extrativa", "tentativas": 0}
-            return ident, resposta
+            return self._gerar_com_base(original_conteudo, ident, resposta)
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
@@ -1502,7 +1505,16 @@ class Crivo:
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
+        ident, resposta = self._gerar_com_base(texto, ident, resposta)
         return crise.ajustar(ident, resposta, self)
+
+    def _gerar_com_base(self, texto, ident, resposta):
+        if not isinstance(texto, str):
+            return ident, resposta
+        from modelo_base import aplicar
+        ident, resposta, trace = aplicar(self, texto, ident, resposta, self.modelo_base)
+        self.ultima_modelo_base = trace
+        return ident, resposta
 
     @property
     def leitura_ficha(self):
@@ -1707,6 +1719,19 @@ class Crivo:
             if not escrita:
                 trace["rejeicoes"] = rejeicoes
                 return recuar(diagnostico.get("motivo", "guarda_rejeitou"))
+            if composicao:
+                # Evidências prometidas pelo plano conservam também a ordem
+                # e multiplicidade de palavras (escalas, sequências, ressalvas).
+                # A guarda de raízes não detecta omissão de palavras repetidas.
+                def termos(t):
+                    import unicodedata
+                    t = ''.join(c for c in unicodedata.normalize('NFD', t.casefold())
+                                if unicodedata.category(c) != 'Mn')
+                    return re.findall(r'[a-z0-9]+', t)
+                if termos(escrita) != termos(' '.join(fatos)):
+                    return recuar('sequencia_de_evidencia_nao_preservada')
+                if normalizar(escrita) != normalizar(' '.join(fatos)):
+                    return recuar('formato_de_evidencia_nao_preservado')
             for e, i in grupo:
                 f = self.compositor.itens[e]['fatos'][i]
                 if f.get('natureza') == 'religioso':
@@ -1888,6 +1913,10 @@ class Crivo:
             texto = finalidade
         elif contato_completo is None:
             texto = conversa_assistente.preparar_conversa(texto)
+            elipse = re.fullmatch(r'e (?:um|uma) (.+)', normalizar(texto))
+            anterior = self.historico[-1].get('pergunta', '') if self.historico else ''
+            if elipse and self._alvo_definicao(anterior) and reconhecer(elipse[1]):
+                texto = 'O que é ' + elipse[1] + '?'
             if not contexto_completo:
                 texto = self._completar_linguagem(self._resolver_pronome(self._herdar_pergunta(texto)))
         if getattr(self, "perfil", None) is not None:

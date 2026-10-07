@@ -1,6 +1,6 @@
 """Vercel Python Function: POST /api/chat, GET /api/chat.
 
-Reutiliza o CRIVO em Python; não usa provedores externos de IA.
+Reutiliza o CRIVO em Python; modelo base opcional configurado no servidor.
 """
 import json
 import io
@@ -84,7 +84,9 @@ class handler(BaseHTTPRequestHandler):
                                     "error": "Arquivos de conhecimento ausentes."})
         from modelo_efeitos_chat import status_modelo
         from geracao_ancorada import geracao
+        from modelo_base import ModeloBase
         g = geracao()
+        base = ModeloBase.do_ambiente()
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "programming_active": True,
                                 "question_interpretation_active": True,
@@ -92,7 +94,9 @@ class handler(BaseHTTPRequestHandler):
                                 "knowledge_exploration_active": True,
                                 "build_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA"),
                                 "programming_effects_model": status_modelo(),
-                                "engine": "python-local", "external_ai": False,
+                                "engine": "python-local", "external_ai": base is not None,
+                                "base_generation": {"configured": base is not None,
+                                                    "model": base.modelo if base else None},
                                 "generation": {"enabled": getattr(self.server, "usar_geracao", True),
                                                "available": g.disponivel, "reason": g.motivo},
                                 "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)

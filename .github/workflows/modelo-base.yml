@@ -1,0 +1,30 @@
+name: Modelo base e funcionalidades consolidadas
+on:
+  pull_request:
+    paths:
+      - 'modelo_base.py'
+      - 'scripts/*modelo_base.py'
+      - 'testes_modelo_base.py'
+      - 'crivo.py'
+      - 'web_core.py'
+      - 'api/chat.py'
+      - '.github/workflows/modelo-base.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contratos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Contratos, indisponibilidade e proveniência
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+        run: python -m unittest testes_modelo_base testes_analise_conteudo testes_correcao_texto testes_biblia -v
+      - name: Modelo base sem dependências opcionais
+        run: python -S -m unittest testes_modelo_base -v

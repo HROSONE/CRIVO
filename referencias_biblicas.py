@@ -64,4 +64,6 @@ def responder(texto, compositor):
     ids = tuple(dict.fromkeys(indice[ref] for ref in refs))
     if len(ids) != 1:
         return ('fora', 'Envie uma referência por vez para eu apresentar a síntese cadastrada de cada trecho.', None)
+    if re.search(r';\s*(?:depois\s+)?(?:resuma|mostre|compare|explique)\b', literal(texto)):
+        return None  # Referência já validada; o planejador executa todas as tarefas.
     return compositor._conceito(ids[0])
