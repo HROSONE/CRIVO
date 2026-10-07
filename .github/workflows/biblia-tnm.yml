@@ -1,0 +1,31 @@
+name: Conhecimento bíblico TNM
+on:
+  pull_request:
+    paths:
+      - 'conhecimento_biblia.json'
+      - 'scripts/catalogos/biblia.py'
+      - 'curriculo_mundo.py'
+      - 'crivo.py'
+      - 'ecossistema.py'
+      - 'referencias_biblicas.py'
+      - 'testes_biblia.py'
+      - 'artefatos/sentido_pt/vetores_fatos.npz'
+      - '.github/workflows/biblia-tnm.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  biblia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest testes_biblia testes_conhecimento_mundo testes_catalogos_ampliados testes_codificador_sentido testes_geracao_ancorada testes_ecossistema -v
+      - run: python -S -m unittest testes_biblia -v
