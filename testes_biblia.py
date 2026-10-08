@@ -115,7 +115,8 @@ class BibliaTNM(unittest.TestCase):
 
     def test_gerador_nao_remove_atribuicao(self):
         def gerar(pergunta, fatos, **kwargs):
-            return fatos[0].removeprefix('Na TNM, ')
+            prefixo = 'Na TNM, '
+            return fatos[0][len(prefixo):] if fatos[0].startswith(prefixo) else fatos[0]
         g = SimpleNamespace(disponivel=True, gerar=gerar)
         with patch('geracao_ancorada.geracao', return_value=g):
             b = Crivo()
