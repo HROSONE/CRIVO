@@ -1,5 +1,7 @@
 """Contratos de orçamento, retração e isolamento das extensões estruturais."""
 import json
+import hashlib
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -46,8 +48,10 @@ class SinteseCompostaTestes(unittest.TestCase):
         self.assertFalse(r['atende_desenvolvimento'])
         self.assertIsNone(r['corpo'])
         self.assertLessEqual(r['verificadas'], 1000)
-        from scripts.experimento_diagnostico import congelada
-        self.assertTrue(congelada())
+        raiz = Path(__file__).resolve().parent
+        fontes = json.loads((raiz/'dados/estados/v3-congelada.json').read_text())['fontes_sha256']
+        for nome, esperado in fontes.items():
+            self.assertEqual(hashlib.sha256((raiz/nome).read_bytes()).hexdigest(), esperado, nome)
 
 
 class CorrecaoRelatosTestes(unittest.TestCase):
