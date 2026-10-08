@@ -1,5 +1,20 @@
 # Passagem de trabalho — 07/10/2026
 
+## Experimento modular: avanço restrito, não aprovado
+
+Branch `codex/raciocinio-modular`, sobre o PR #109. Quatro tarefas com pesos
+próprios compartilhados; 800 atualizações em CPU, checkpoint 400 selecionado
+somente na validação. Novo teste congelado de 84 casos: 30 respostas corretas,
+5/42 provas completas, 27 passos aceitos; nenhuma das 18 provas necessárias
+nas estruturas reservadas. Piloto anterior no mesmo teste: 44 respostas e
+3/42 provas. Composição simbólica do modular: 40 respostas e 15/42 provas,
+também zero provas nas estruturas reservadas. Não promover ao chat.
+Torch e NumPy concordam caso a caso; 20 contratos passaram sem dependências.
+Dados e pesos isolados em `dados_modulares`/`pesos_modulares`, com aprovação
+falsa. Relatório `docs/raciocinio_modular_20261007.md`. Não voltar a ajustar
+usando este teste e chamá-lo de reservado. Não inferir raciocínio geral ou
+superioridade de arquitetura a partir deste resultado.
+
 ## Piloto treinado: resultado negativo para geração de provas
 
 Branch `codex/piloto-raciocinio-generativo`, sobre a investigação do PR #108.

@@ -32,13 +32,13 @@ def oraculo(caso):
     return s.analisar(ler_literal(caso['objetivo']))['status']
 
 
-def gerar_casos(split, n=80):
+def gerar_casos(split, n=80, semente=None, vocabulario=None):
     """Split por linguagem; teste inclui profundidades e grafos inéditos.
 
     Famílias comuns são medidas à parte como transferência lexical. Não se
     afirma separação estrutural para todos os casos de teste.
     """
-    rng = random.Random({'treino': 8101, 'dev': 8102, 'teste': 8103}[split])
+    rng = random.Random(semente if semente is not None else {'treino': 8101, 'dev': 8102, 'teste': 8103}[split])
     familias = [('cadeia', 1), ('cadeia', 2), ('cadeia', 3), ('juncao', 2)]
     if split == 'teste':
         familias += [('cadeia', 4), ('cadeia', 5), ('diamante', 3)]
@@ -48,7 +48,7 @@ def gerar_casos(split, n=80):
         i = len(casos)
         familia, profundidade = familias[(i // len(modos)) % len(familias)]
         modo = modos[i % len(modos)]
-        nomes = rng.sample(NOMES[split], 8)
+        nomes = rng.sample(vocabulario if vocabulario is not None else NOMES[split], 8)
         if familia == 'cadeia':
             regras = [([j], j + 1) for j in range(profundidade)]
             base, destino = [0], profundidade
