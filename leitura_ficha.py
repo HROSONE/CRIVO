@@ -128,16 +128,18 @@ def tipo_pergunta(n):
 
 
 class LeituraFicha:
-    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO, transformer=None, busca=None):
+    def __init__(self, compositor, caminho_modelo=CAMINHO_MODELO, transformer=None, busca=None, resgate=None):
         """transformer: um LeitorTransformer para usar como traço a mais. Sem
         ele, o traço só entra se o modelo aprovado o pedir e o leitor aprovado
         existir (leitor_transformer.py). busca: idem com a busca aprendida
         (busca_semantica.py), cuja probabilidade para cada fato da ficha vira
-        o traço "busca"."""
+        o traço "busca". resgate: leitor calibrado para a recusa final;
+        None procura o artefato aprovado, False desliga essa tentativa."""
         self.c = compositor
         self.nomes = TRACOS
         self.transformer = transformer
         self.busca = busca
+        self.resgate_neural = resgate
         if transformer is not None:
             self.nomes = self.nomes + ("transformer",)
         if busca is not None:
@@ -323,6 +325,8 @@ class LeituraFicha:
         """'afirmar', 'aproximar' ou None, pela probabilidade da leitura."""
         if leitura is None:
             return None
+        if leitura.tracos.get("resgate_semantico"):
+            return "aproximar"
         # "Qual a temperatura de Netuno?" sem número no fato não é resposta:
         # quem/quando/quanto/onde exigem nome, data, número ou lugar.
         incompativel = leitura.tracos.get("tipo_sem_par")
@@ -336,7 +340,16 @@ class LeituraFicha:
 
     def afirma(self, leitura):
         """A leitura é forte o bastante para responder sem ressalva?"""
-        if leitura is None:
+        if leitura is None or leitura.tracos.get("resgate_semantico"):
             return False
         limiar = self.limiar if self.aprendida else 1.0
         return leitura.prob >= limiar
+
+    def resgatar(self, quadro, assunto=None):
+        """Tentativa separada: só o árbitro final chama após a recusa."""
+        if self.resgate_neural is False:
+            return None
+        if self.resgate_neural is None:
+            from resgate_leitor import resgate
+            self.resgate_neural = resgate()
+        return self.resgate_neural.sugerir(self, quadro, assunto)
