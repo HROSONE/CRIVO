@@ -88,6 +88,9 @@ class TestesQuadroSituado(unittest.TestCase):
     def test_sem_contexto_nao_inventa_relatos_para_reformular(self):
         d=DialogoSituado()
         self.assertIsNone(d.responder('Com suas palavras, o que eu quis dizer?',bot_fixture()))
+        for pedido in ('Queria entender o átomo invisível inventado',
+                       'Eu quero saber sobre a biologia de um cristal imaginário'):
+            self.assertIsNone(d.responder(pedido,bot_fixture(),apos_recusa=True))
 
     def test_feedback_passado_nao_e_pedido_de_pergunta_e_abertura_nativa(self):
         d=DialogoSituado();b=bot_fixture(['Quero tocar um instrumento'])

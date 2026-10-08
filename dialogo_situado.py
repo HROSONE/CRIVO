@@ -173,6 +173,11 @@ class DialogoSituado:
         n = ntexto(texto)
         conversa = bot.conversacao
         q = self.quadro(conversa)
+        pedido_conceito = re.match(r'(?:eu )?(?:quero|queria|gostaria de|pretendo) '
+                                   r'(?:entender|saber|compreender|aprender sobre)\b',n)
+        if pedido_conceito and not re.search(r'\b(?:meu|minha|meus|minhas|comigo|'
+                                              r'me sinto|antes de|conclusoes|intencao)\b',n):
+            return None
         contexto,fontes = self._contexto(q)
         ativos = bool(q['relatos'] or self.meta) and not self.suspenso
         # Tokens dentro de citações não autorizam uma operação. Uma

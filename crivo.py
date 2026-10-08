@@ -2006,7 +2006,8 @@ class Crivo:
             self.dialogo_situado.ultimo = quadro
         if resultado[0]=='conversa:abertura':
             alvo = abertura(texto)
-            self.conversacao.assunto = alvo.group(1) if alvo else texto.strip()
+            self.conversacao.assunto = re.sub(r'^(?:sobre|da|do|de|a respeito de)\s+','',
+                alvo.group(1),flags=re.I) if alvo else texto.strip()
             self.conversacao.dialogo.espera = 'detalhe'
         if not preparado:
             self.conversacao.turno += 1
