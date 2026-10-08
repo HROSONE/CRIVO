@@ -1,0 +1,314 @@
+[
+  {
+    "nome": "bordado e disponibilidade condicional",
+    "turnos": [
+      {
+        "pergunta": "Quero retomar o bordado e tenho 31 minutos por dia",
+        "grupos": [
+          [
+            "bordado"
+          ],
+          [
+            "31"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Tenho 85 minutos se minha reunião terminar cedo",
+        "grupos": [
+          [
+            "85"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Quanto tempo eu realmente disse que tenho?",
+        "grupos": [
+          [
+            "31"
+          ]
+        ],
+        "ausentes": [
+          "voce declarou 85"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "negação de crença não declara disponibilidade",
+    "turnos": [
+      {
+        "pergunta": "Quero praticar acordeão e tenho 43 minutos à tarde",
+        "grupos": [
+          [
+            "acordeao"
+          ],
+          [
+            "43"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Não consigo acreditar que tenho 95 minutos",
+        "grupos": [
+          [
+            "95"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Quantos minutos eu realmente tenho?",
+        "grupos": [
+          [
+            "43"
+          ]
+        ],
+        "ausentes": [
+          "voce declarou 95"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "circunstância inédita e limite de inferência",
+    "turnos": [
+      {
+        "pergunta": "Quando eu tento afinar meu bandolim eu fico inquieto",
+        "grupos": [
+          [
+            "bandolim"
+          ],
+          [
+            "inquieto"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Não sei por que isso mexeu comigo",
+        "grupos": [
+          [
+            "bandolim"
+          ]
+        ],
+        "pergunta_exploracao": true
+      },
+      {
+        "pergunta": "Você pode reformular o que eu quis dizer?",
+        "grupos": [
+          [
+            "bandolim"
+          ]
+        ],
+        "ausentes": [
+          "voce tem transtorno"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "rotina com fator alternativo novo",
+    "turnos": [
+      {
+        "pergunta": "Sempre que uso minha pulseira azul, a reunião melhora; ela dá sorte?",
+        "grupos": [
+          [
+            "pulseira"
+          ],
+          [
+            "concluir",
+            "causa",
+            "sorte"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Quando uso essa pulseira também reviso minhas anotações antes",
+        "grupos": [
+          [
+            "pulseira"
+          ],
+          [
+            "anotacoes"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Pode ser a revisão em vez da pulseira?",
+        "grupos": [
+          [
+            "hipotese",
+            "comparar"
+          ],
+          [
+            "revisao"
+          ]
+        ],
+        "ausentes": [
+          "com certeza"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "três alternativas e associação do receio",
+    "turnos": [
+      {
+        "pergunta": "Tenho três opções: encadernação, cerâmica ou astronomia",
+        "grupos": [
+          [
+            "encadernacao"
+          ],
+          [
+            "ceramica"
+          ],
+          [
+            "astronomia"
+          ]
+        ]
+      },
+      {
+        "pergunta": "A segunda me dá receio",
+        "grupos": [
+          [
+            "ceramica"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Qual era a opção que dava receio?",
+        "grupos": [
+          [
+            "ceramica"
+          ]
+        ],
+        "ausentes": [
+          "encadernacao",
+          "astronomia"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "mudança explícita não carrega assunto anterior",
+    "turnos": [
+      {
+        "pergunta": "Quero falar sobre meu coral",
+        "grupos": [
+          [
+            "coral"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Mudando de assunto, ontem recuperei minha bicicleta antiga",
+        "grupos": [
+          [
+            "bicicleta"
+          ]
+        ],
+        "ausentes": [
+          "coral"
+        ]
+      },
+      {
+        "pergunta": "Você pode reformular o que eu quis dizer?",
+        "grupos": [
+          [
+            "bicicleta"
+          ]
+        ],
+        "ausentes": [
+          "coral"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "definição citada preserva conhecimento próprio",
+    "turnos": [
+      {
+        "pergunta": "Quero conversar sobre minha rotina",
+        "grupos": [
+          [
+            "rotina"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Quando você diz \"RNA\", o que essa sigla significa?",
+        "grupos": [
+          [
+            "rna",
+            "ribonucleico"
+          ]
+        ],
+        "ids_excluir_prefixo": [
+          "conversa:situada_"
+        ]
+      },
+      {
+        "pergunta": "O que é fotossíntese?",
+        "grupos": [
+          [
+            "fotossintese",
+            "luz"
+          ]
+        ],
+        "ids_excluir_prefixo": [
+          "conversa:situada_"
+        ]
+      }
+    ]
+  },
+  {
+    "nome": "ficção explícita e reinício removem escopo",
+    "turnos": [
+      {
+        "pergunta": "Eu inventei o planeta Névia-86; ele não é real",
+        "grupos": [
+          [
+            "invencao",
+            "invent"
+          ],
+          [
+            "Nevia-86"
+          ]
+        ]
+      },
+      {
+        "pergunta": "Esse planeta existe de verdade?",
+        "grupos": [
+          [
+            "invencao",
+            "evidencia"
+          ]
+        ],
+        "ausentes": [
+          "foi descoberto"
+        ]
+      },
+      {
+        "pergunta": "Esqueça essa conversa",
+        "grupos": [
+          [
+            "conversa",
+            "comecar"
+          ]
+        ]
+      },
+      {
+        "pergunta": "O que você lembra do que eu contei?",
+        "grupos": [
+          [
+            "nao",
+            "ainda"
+          ]
+        ],
+        "ausentes": [
+          "Nevia",
+          "planeta"
+        ]
+      }
+    ]
+  }
+]

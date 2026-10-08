@@ -230,6 +230,12 @@ _LISTA = (
             ("programacao_neural.py",),
             ("motor_programacao_proprio", "catracas"),
             ("testes_programacao_profunda.py",)),
+    Especie("dialogo_situado_estrutural", "conversa",
+            "Conserva intenção, alternativas e escopos a partir das falas explícitas da sessão.",
+            "Diálogo pessoal, reformulação e referências com argumentos presentes na conversa.",
+            ("dialogo_situado.py", "linguagem_conversa.py"),
+            ("crise", "estado_conversa", "pessoa", "recusa", "catracas"),
+            ("testes_dialogo_situado.py",)),
     # --- programacao --------------------------------------------------------
     Especie("motor_programacao_proprio", "programacao",
             "Analisa e executa código com rastreio, sem modelo externo.",

@@ -1,0 +1,44 @@
+name: Continuidade e escopos do diálogo
+on:
+  pull_request:
+    paths:
+      - 'crivo.py'
+      - 'dialogo_situado.py'
+      - 'dialogo_aberto.py'
+      - 'geracao_conversa.py'
+      - 'pedidos_gerativos.py'
+      - 'linguagem_conversa.py'
+      - 'compreensao_intencao.py'
+      - 'testes_dialogo_situado.py'
+      - 'avaliar_dialogo_real.py'
+      - 'experimentos/dialogo_situado_20261008/**'
+      - '.github/workflows/dialogo-situado.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  dialogo:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'numpy>=1.24,<3'
+      - name: Escopos, memória e compatibilidade sem dependências opcionais
+        run: |
+          python -m unittest testes_dialogo_situado -v
+          python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
+      - name: Sonda pública original e desenvolvimento adicional
+        run: |
+          python avaliar_dialogo_real.py --saida /tmp/dialogo-original.json
+          python experimentos/dialogo_situado_20261008/avaliar.py desenvolvimento --exigir-todos --saida /tmp/dialogo-desenvolvimento.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: respostas-dialogo-situado
+          path: /tmp/dialogo-*.json

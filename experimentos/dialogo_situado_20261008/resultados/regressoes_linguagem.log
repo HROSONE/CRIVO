@@ -1,0 +1,72 @@
+.......................F................FF.FFF.........F........F.
+======================================================================
+FAIL: test_retomada_restaura_fontes_do_assunto_certo (testes_contexto_gerativo.ContextoGerativoTestes.test_retomada_restaura_fontes_do_assunto_certo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_contexto_gerativo.py", line 85, in test_retomada_restaura_fontes_do_assunto_certo
+    self.assertIn("flauta",p["slots"]["detalhe"])
+AssertionError: 'flauta' not found in 'Quero conversar sobre uma viagem'
+
+======================================================================
+FAIL: test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='escuta do relato')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_geracao.py", line 37, in test_sonda_completa_de_escrita_e_reparo
+    self.assertTrue(c["passou"],[t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Gostei da protagonista, mas o final me decepcionou', 'id': 'fora', 'resposta': 'Reconheci o assunto personagem, mas não tenho evidência cadastrada para essa pergunta completa.', 'passou': False, 'falhas': ['operação', 'argumentos']}, {'pergunta': 'Você entendeu o que me incomodou?', 'id': 'duvida', 'resposta': 'Qual relato pessoal você quer retomar? Ainda não tenho uma situação ativa para acompanhar.', 'passou': False, 'falhas': ['operação', 'argumentos', 'geração concluída']}]
+
+======================================================================
+FAIL: test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='reparo e restrição')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_geracao.py", line 37, in test_sonda_completa_de_escrita_e_reparo
+    self.assertTrue(c["passou"],[t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Você já me perguntou isso', 'id': 'conversa:situada_exploracao', 'resposta': 'Pensando em “Quero aprender a tocar flauta” e “Só tenho 15 minutos à noite”, qual parte você quer entender antes de decidir: o receio, a intenção ou a reação que imagina? Podemos começar pela que mais pesa agora.', 'passou': False, 'falhas': ['operação', 'ação pertinente', 'geração concluída']}]
+
+======================================================================
+FAIL: test_cenarios_publicos_de_conversa (testes_linguagem_conversa.TestesLinguagemConversa.test_cenarios_publicos_de_conversa) (pergunta='Quero conversar sobre trabalho', anteriores=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_linguagem_conversa.py", line 19, in test_cenarios_publicos_de_conversa
+    self.assertTrue(resultado["passou"], resultado)
+AssertionError: False is not true : {'pergunta': 'Quero conversar sobre trabalho', 'historico': [], 'esperado': 'conversa:abertura', 'obtido': 'conversa:abertura', 'passou': False, 'resposta': 'Você trouxe esta ideia: “Quero conversar sobre trabalho”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?'}
+
+======================================================================
+FAIL: test_cenarios_publicos_de_conversa (testes_linguagem_conversa.TestesLinguagemConversa.test_cenarios_publicos_de_conversa) (pergunta='Vamos voltar ao trabalho', anteriores=['Quero conversar sobre trabalho', 'Eu quero mudar de trabalho', 'O que é DNA?'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_linguagem_conversa.py", line 19, in test_cenarios_publicos_de_conversa
+    self.assertTrue(resultado["passou"], resultado)
+AssertionError: False is not true : {'pergunta': 'Vamos voltar ao trabalho', 'historico': ['Quero conversar sobre trabalho', 'Eu quero mudar de trabalho', 'O que é DNA?'], 'esperado': 'conversa:retomada', 'obtido': 'duvida', 'passou': False, 'resposta': 'Não encontrei esse assunto na memória recente. Qual tema você quer retomar?'}
+
+======================================================================
+FAIL: test_cenarios_publicos_de_conversa (testes_linguagem_conversa.TestesLinguagemConversa.test_cenarios_publicos_de_conversa) (pergunta='Queria entender a memória alienígena', anteriores=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_linguagem_conversa.py", line 19, in test_cenarios_publicos_de_conversa
+    self.assertTrue(resultado["passou"], resultado)
+AssertionError: False is not true : {'pergunta': 'Queria entender a memória alienígena', 'historico': [], 'esperado': 'fora', 'obtido': 'conversa:situada_relato', 'passou': False, 'resposta': 'Você trouxe “Queria entender a memória alienígena”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?'}
+
+======================================================================
+FAIL: test_pedido_novo_preserva_qualificadores_e_direcao (testes_linguagem_conversa.TestesLinguagemConversa.test_pedido_novo_preserva_qualificadores_e_direcao) (pergunta='Queria entender o DNA quântico inventado')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_linguagem_conversa.py", line 242, in test_pedido_novo_preserva_qualificadores_e_direcao
+    self.assertEqual(Crivo().responder(pergunta)[0], "fora")
+AssertionError: 'conversa:situada_relato' != 'fora'
+- conversa:situada_relato
++ fora
+
+
+======================================================================
+FAIL: test_troca_de_tema_pessoal_e_retomada (testes_linguagem_conversa.TestesLinguagemConversa.test_troca_de_tema_pessoal_e_retomada)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_linguagem_conversa.py", line 220, in test_troca_de_tema_pessoal_e_retomada
+    self.assertIn("mudar de trabalho", texto)
+AssertionError: 'mudar de trabalho' not found in 'Não encontrei esse assunto na memória recente. Qual tema você quer retomar?'
+
+----------------------------------------------------------------------
+Ran 63 tests in 741.977s
+
+FAILED (failures=8)

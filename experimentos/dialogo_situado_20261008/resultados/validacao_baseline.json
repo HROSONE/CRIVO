@@ -1,0 +1,475 @@
+{
+  "split": "validacao",
+  "mensagens": 47,
+  "acertos": 23,
+  "dialogos": 12,
+  "dialogos_completos": 2,
+  "casos": [
+    {
+      "nome": "restrições e síntese",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Seria bom ter um canto para desenhar mapas imaginários",
+          "id": "conversa:relato",
+          "resposta": "Certo, seria bom ter um canto para desenhar mapas imaginários. Desenho costuma melhorar bastante com prática de todo dia, mesmo que pouca. E o que mais?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "A dificuldade é que divido uma bancada pequena",
+          "id": "conversa:relato",
+          "resposta": "Entendo, você disse: “A dificuldade é que divido uma bancada pequena”. O que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "E não tenho como pagar novos materiais",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “E não tenho como pagar novos materiais”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quais coisas eu estou tentando conciliar?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: mapas",
+            "pertinência: bancada | pequena",
+            "pertinência: materiais | pagar"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "referência ordinal com três itens",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Tenho três opções: costura, origami ou escalada",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Tenho três opções: costura, origami ou escalada”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "A terceira me dá medo de começar",
+          "id": "conversa:relato",
+          "resposta": "Imagino, você disse: “A terceira me dá medo de começar”. O que você já tentou e como isso funcionou para você?",
+          "passou": false,
+          "falhas": [
+            "pertinência: escalada"
+          ]
+        },
+        {
+          "pergunta": "A segunda cabe melhor no meu orçamento",
+          "id": "conversa:relato",
+          "resposta": "Saquei, a segunda cabe melhor no seu orçamento. Segunda-feira costuma dar preguiça porque o fim de semana acabou. Tem muita coisa para fazer nesta semana?",
+          "passou": false,
+          "falhas": [
+            "pertinência: origami"
+          ]
+        },
+        {
+          "pergunta": "Qual era a opção que dava medo?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: escalada"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "hipótese não sobrescreve disponibilidade",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero retomar meu estudo de desenho e só tenho 31 minutos por dia",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer retomar seu estudo de desenho e só tenho 31 minutos por dia, que legal. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Se eu tivesse quatro horas livres, seria diferente",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: quatro horas | 4 horas"
+          ]
+        },
+        {
+          "pergunta": "Meu colega disse \"tenho 90 minutos\", mas essa fala era dele",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: colega | dele | cit"
+          ]
+        },
+        {
+          "pergunta": "Quantos minutos eu realmente tenho para isso?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “se eu tivesse quatro horas livres, seria diferente”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": false,
+          "falhas": [
+            "pertinência: 31"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "emoção sem diagnóstico",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Hoje consegui apresentar meu trabalho de mosaico",
+          "id": "nocao:observacao",
+          "resposta": "Que demais, parabéns, hoje você conseguiu apresentar seu trabalho de mosaico! Trabalho costuma cansar mais quando acumula muita coisa ao mesmo tempo. Como está o trabalho ultimamente?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mas quando meu vizinho entrou eu parei",
+          "id": "nocao:observacao",
+          "resposta": "Entendi. E o que mais?",
+          "passou": false,
+          "falhas": [
+            "pertinência: vizinho",
+            "pertinência: parei | parou"
+          ]
+        },
+        {
+          "pergunta": "Não sei por que a presença dele mexeu tanto comigo",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: vizinho | presenca | mexeu",
+            "falta pergunta para explorar o relato"
+          ]
+        },
+        {
+          "pergunta": "Talvez eu esperasse acertar tudo de primeira",
+          "id": "nocao:continuacao",
+          "resposta": "Certo, talvez você esperasse acertar tudo de primeira. Me conta mais.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "intenção de conversar não executa mensagem",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Pensei em escrever para Maelis, mas ainda não decidi",
+          "id": "conversa:relato",
+          "resposta": "Certo, você pensou em escrever para Maelis, mas ainda não decidiu. O que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não escreva nem envie nada, eu quero entender minha intenção",
+          "id": "conversa:cancelamento",
+          "resposta": "Pedido de escrita cancelado.",
+          "passou": false,
+          "falhas": [
+            "pertinência: intencao | pens | entender"
+          ]
+        },
+        {
+          "pergunta": "Me pergunte algo para decidir com calma",
+          "id": "conversa:relato",
+          "resposta": "Certo, você disse: “Me pergunte algo para decidir com calma”. O que você gostaria que fosse diferente nessa situação?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Queria proximidade, mas não pressionar uma resposta",
+          "id": "conversa:relato",
+          "resposta": "Legal! Você contou que quer proximidade, mas não pressionar uma resposta. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "correção e lacunas",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Meu projeto se chama Véspera",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: vespera"
+          ]
+        },
+        {
+          "pergunta": "Corrigindo, Véspera é minha oficina",
+          "id": "nocao:observacao",
+          "resposta": "Que chato, véspera é sua oficina. É, carro costuma dar problema na semana em que o dinheiro está curto. E você entende um pouco de carro?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que eu contei sobre Véspera?",
+          "id": "conversa:memoria",
+          "resposta": "Você contou: “Corrigindo, Véspera é minha oficina”.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quais detalhes você ainda não sabe sobre ela?",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "reset e nome novo",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Meu nome é Izara",
+          "id": "conversa:relato",
+          "resposta": "Prazer, Izara. Vou te chamar assim nesta conversa.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quero falar da minha oficina de cerâmica",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer falar da sua oficina de cerâmica, que legal. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Apague tudo que eu falei aqui",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que você lembra do que eu queria fazer?",
+          "id": "conversa:memoria",
+          "resposta": "Ainda não tenho relatos seus nesta conversa. Pode me contar algo.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "prioridade factual e fontes",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero conversar sobre minha rotina de estudos",
+          "id": "conversa:abertura",
+          "resposta": "Vamos conversar sobre “minha rotina de estudos”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que é fotossíntese?",
+          "id": "fotossintese",
+          "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual é a fonte dessa informação?",
+          "id": "escrita:fontes",
+          "resposta": "Fontes dos fatos usados:\n- NASA Earth Observatory; Holli Riebeek: The Carbon Cycle (2011): https://science.nasa.gov/earth/earth-observatory/the-carbon-cycle/",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Como usar print em Python?",
+          "id": "py_print",
+          "resposta": "Em Python, print mostra valores na saída padrão. Textos literais ficam entre aspas. O exemplo exibe uma mensagem; não cria uma interface gráfica.\n\nExemplo:\n```python\nprint(\"Aprendendo com o CRIVO\")\n```",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "metáfora e literalidade",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Às vezes falo \"minha cabeça está um labirinto\" e não é sobre construção",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: labirinto",
+            "pertinência: sentido | figur | confus | metafora"
+          ]
+        },
+        {
+          "pergunta": "Quero dizer que minhas escolhas ficaram confusas",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer dizer que suas escolhas ficaram confusas. Que bom! Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Você consegue reformular o que estou pedindo?",
+          "id": "social:nao_entendido",
+          "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+          "passou": false,
+          "falhas": [
+            "pertinência: escolhas | confus"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "ficção não vira notícia",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Eu inventei a ilha Aeruna-59; esse lugar não é real",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: aeruna | inventei | invent | real"
+          ]
+        },
+        {
+          "pergunta": "Podemos imaginar um cenário com esse nome, como ficção?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: aeruna",
+            "pertinência: ficcao"
+          ]
+        },
+        {
+          "pergunta": "E se lá chovesse areia azul?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: areia azul",
+            "pertinência: ficcao | hipotese | imagin"
+          ]
+        },
+        {
+          "pergunta": "Essa ilha existe de verdade?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "causa e fator alternativo",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Sempre que uso meu lápis novo, minha apresentação sai bem; ele dá sorte?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “sempre que uso meu lápis novo, minha apresentação sai bem”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mas quando uso esse lápis também preparo o roteiro antes",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: roteiro"
+          ]
+        },
+        {
+          "pergunta": "Pode ser o preparo em vez do lápis?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “sempre que uso meu lápis novo, minha apresentação sai bem”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": false,
+          "falhas": [
+            "pertinência: preparo"
+          ]
+        },
+        {
+          "pergunta": "Como eu verificaria sem assumir a conclusão?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: compar | observar | verificar | testar"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "comparação hipotética e adaptação",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Se eu treinar bordado cinco minutos por dia, será diferente de quarenta minutos no sábado?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: cinco minutos | 5 minutos",
+            "pertinência: quarenta minutos | 40 minutos",
+            "pertinência: sabado"
+          ]
+        },
+        {
+          "pergunta": "Minha dúvida é sobre frequência e não sobre somar minutos",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: frequencia"
+          ]
+        },
+        {
+          "pergunta": "E se nos dias cheios eu só fizer um ponto?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: um ponto"
+          ]
+        },
+        {
+          "pergunta": "Isso seria adaptar ou abandonar meu objetivo?",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "passou": false,
+          "falhas": [
+            "pertinência: adaptar | adapt",
+            "pertinência: abandonar | abandon"
+          ]
+        }
+      ]
+    }
+  ],
+  "casos_sha256": "7bb1c140e76d4bddb6deeaafd5e614fff207bce6447c5a961cfab3608b344e77",
+  "tempo_segundos": 108.766,
+  "limite": "Validação autoral de pertinência e contratos. Exige leitura das respostas; não demonstra compreensão geral."
+}

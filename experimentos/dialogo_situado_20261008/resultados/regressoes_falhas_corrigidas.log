@@ -1,0 +1,38 @@
+...F...FF......................
+======================================================================
+FAIL: test_disponibilidade_condicional_nao_vira_tempo_incondicional (testes_contexto_gerativo.ContextoGerativoTestes.test_disponibilidade_condicional_nao_vira_tempo_incondicional)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_contexto_gerativo.py", line 51, in test_disponibilidade_condicional_nao_vira_tempo_incondicional
+    self.assertEqual(b.conversacao.dialogo.dados.get("minutos"),"15")
+AssertionError: '45' != '15'
+- 45
++ 15
+
+
+======================================================================
+FAIL: test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado (testes_contexto_gerativo.ContextoGerativoTestes.test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado) (pergunta='Não consigo acreditar que tenho 45 minutos')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_contexto_gerativo.py", line 78, in test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado
+    self.assertEqual(b.conversacao.dialogo.dados.get("minutos"),"15")
+AssertionError: '45' != '15'
+- 45
++ 15
+
+
+======================================================================
+FAIL: test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado (testes_contexto_gerativo.ContextoGerativoTestes.test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado) (pergunta='Não posso afirmar que disponho de 45 minutos')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_contexto_gerativo.py", line 78, in test_negar_crenca_na_disponibilidade_nao_altera_tempo_declarado
+    self.assertEqual(b.conversacao.dialogo.dados.get("minutos"),"15")
+AssertionError: '45' != '15'
+- 45
++ 15
+
+
+----------------------------------------------------------------------
+Ran 30 tests in 215.990s
+
+FAILED (failures=3)

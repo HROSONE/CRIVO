@@ -517,6 +517,7 @@ class Conversacao:
             self.assunto = self.objetivo = None
             return Preparacao(ato)
         if ato.operacao == "cancelar":
+            bot.dialogo_situado.limpar()
             from presenca import Perfil
             from compreensao_intencao import EstadoConversa
             bot.perfil = Perfil()
