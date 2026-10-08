@@ -4,6 +4,11 @@ on:
     paths:
       - 'crivo.py'
       - 'dialogo_situado.py'
+      - 'raciocinio_conversa.py'
+      - 'web_core.py'
+      - 'ecossistema.py'
+      - 'testes_raciocinio_conversa.py'
+      - 'experimentos/raciocinio_conversa_20261008/**'
       - 'dialogo_aberto.py'
       - 'geracao_conversa.py'
       - 'pedidos_gerativos.py'
@@ -33,6 +38,8 @@ jobs:
         run: |
           python -m unittest testes_dialogo_situado -v
           python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
+          python -m unittest testes_raciocinio_conversa -v
+          python -S -m unittest testes_raciocinio_conversa.TestesRaciocinioConversa -v
       - name: Sonda pública original e desenvolvimento adicional
         run: |
           python avaliar_dialogo_real.py --saida /tmp/dialogo-original.json

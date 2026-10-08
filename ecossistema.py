@@ -237,6 +237,12 @@ _LISTA = (
             ("crise", "estado_conversa", "pessoa", "recusa", "catracas"),
             ("testes_dialogo_situado.py",)),
     # --- programacao --------------------------------------------------------
+    Especie("raciocinio_conversa_verificavel", "raciocinio",
+            "Calcula custos, tempo, interseções de agenda e requisitos sob declarações da sessão.",
+            "Dados tipados explícitos, atualizações únicas e hipóteses isoladas da realidade.",
+            ("raciocinio_conversa.py", "raciocinio_ativo.py"),
+            ("crise", "fontes", "estado_conversa", "catracas"),
+            ("testes_raciocinio_conversa.py",)),
     Especie("motor_programacao_proprio", "programacao",
             "Analisa e executa código com rastreio, sem modelo externo.",
             "Pedidos com código ou sobre um programa.",

@@ -134,6 +134,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         if interpretacao is not None:
             extra["question_analysis"] = interpretacao
         for campo, publico in (("raciocinio_ativo", "reasoning"),
+                               ("raciocinio_conversa", "conversational_reasoning"),
                                ("exploracao_conhecimento", "knowledge_exploration"),
                                ("reinterpretacao", "neural_understanding"),
                                ("leitura", "card_reading"),
