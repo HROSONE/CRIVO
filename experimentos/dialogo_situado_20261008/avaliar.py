@@ -15,7 +15,7 @@ from avaliar_dialogo_real import falhas_turno
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('split', choices=('desenvolvimento','validacao'))
+    p.add_argument('split', choices=('desenvolvimento','validacao','validacao_temporal_nova'))
     p.add_argument('--saida', type=Path, required=True)
     args = p.parse_args()
     if args.saida.exists():
@@ -32,6 +32,8 @@ def main():
         for t in c['turnos']:
             ident, resposta = b.responder(t['pergunta'])
             falhas = falhas_turno(t, ident, resposta, anteriores, b)
+            if any(ident.startswith(prefixo) for prefixo in t.get('ids_excluir_prefixo',())):
+                falhas.append('rota factual substituída pelo diálogo')
             turnos.append(dict(pergunta=t['pergunta'], id=ident, resposta=resposta,
                                passou=not falhas, falhas=falhas))
             anteriores.append(resposta)
