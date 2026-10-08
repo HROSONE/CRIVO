@@ -1,0 +1,343 @@
+{
+  "casos": 12,
+  "acertos": 10,
+  "detalhes": [
+    {
+      "id": "executar_aritmetica",
+      "acao": "interpretar",
+      "passou": true,
+      "response_id": "programacao:motor_interpretacao",
+      "resposta": "Resultado: 13. Passos: 6.\n\nRede própria de efeitos: 2/2 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "interpretar",
+        "resultado": 13,
+        "erro": null,
+        "passos": 6,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 2,
+          "concordantes": 2,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 0
+    },
+    {
+      "id": "executar_soma",
+      "acao": "interpretar",
+      "passou": true,
+      "response_id": "programacao:motor_interpretacao",
+      "resposta": "Resultado: 6. Passos: 45.\n\nEstados observados:\n{\"entrada\": [2, 5, -1], \"total\": 0}\n{\"entrada\": [2, 5, -1], \"total\": 0, \"i\": 0}\n{\"entrada\": [2, 5, -1], \"total\": 6, \"i\": 3}\n\nRede própria de efeitos: 17/17 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "interpretar",
+        "resultado": 6,
+        "erro": null,
+        "passos": 45,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 17,
+          "concordantes": 17,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 0
+    },
+    {
+      "id": "executar_objeto",
+      "acao": "interpretar",
+      "passou": true,
+      "response_id": "programacao:motor_interpretacao",
+      "resposta": "Resultado: 28. Passos: 6.\n\nRede própria de efeitos: 1/1 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "interpretar",
+        "resultado": 28,
+        "erro": null,
+        "passos": 6,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 1,
+          "concordantes": 1,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 0
+    },
+    {
+      "id": "executar_string",
+      "acao": "interpretar",
+      "passou": true,
+      "response_id": "programacao:motor_interpretacao",
+      "resposta": "Resultado: \"bcd\". Passos: 5.",
+      "execucao": {
+        "acao": "interpretar",
+        "resultado": "bcd",
+        "erro": null,
+        "passos": 5,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 0,
+          "concordantes": 0,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 0
+    },
+    {
+      "id": "reparo_operador",
+      "acao": "diagnosticar",
+      "passou": true,
+      "response_id": "programacao:motor_diagnostico",
+      "resposta": "Reproduzi a falha. Entrada: 0. Esperado: 4. Observado: -4.\n\nEsta edição local passou nos 2 exemplos fornecidos:\nAntes: (entrada - 4)\nDepois: (entrada + 4)\n\n```javascript\nfunction resolver(entrada) {\nreturn (entrada + 4);\n}\n```\n\nÉ uma hipótese de correção; confira com novos exemplos antes de usar.\n\nRede própria de efeitos: 2/2 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "diagnosticar",
+        "atende_desenvolvimento": true,
+        "verificadas": 1,
+        "candidatos": 7,
+        "hipotese": {
+          "caminho_ast": [
+            0,
+            1
+          ],
+          "antes": "(entrada - 4)",
+          "depois": "(entrada + 4)",
+          "tipo": "operador",
+          "contexto": "bin",
+          "tamanho_delta": 2
+        },
+        "corpo_corrigido": "return (entrada + 4);",
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 2,
+          "concordantes": 2,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 2,
+      "reservados_total": 2
+    },
+    {
+      "id": "reparo_incremento",
+      "acao": "diagnosticar",
+      "passou": true,
+      "response_id": "programacao:motor_diagnostico",
+      "resposta": "Reproduzi a falha. Entrada: [1, 2]. Esperado: 3. Observado: Orçamento esgotado.\n\nEsta edição local passou nos 2 exemplos fornecidos:\nAntes: total += (entrada)[i];\nDepois: total += (entrada)[i]; i += 1;\n\n```javascript\nfunction resolver(entrada) {\nlet total = 0; let i = 0; while ((i < (entrada).length)) { total += (entrada)[i]; i += 1; } return total;\n}\n```\n\nÉ uma hipótese de correção; confira com novos exemplos antes de usar.\n\nEstados observados:\n{\"entrada\": [1, 2], \"total\": 0}\n{\"entrada\": [1, 2], \"total\": 0, \"i\": 0}\n{\"entrada\": [1, 2], \"total\": 56, \"i\": 0}\n\nRede própria de efeitos: 128/128 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "diagnosticar",
+        "atende_desenvolvimento": true,
+        "verificadas": 1,
+        "candidatos": 62,
+        "hipotese": {
+          "caminho_ast": [
+            2,
+            2
+          ],
+          "antes": "total += (entrada)[i];",
+          "depois": "total += (entrada)[i]; i += 1;",
+          "tipo": "inserir_incremento",
+          "contexto": "while",
+          "tamanho_delta": 14
+        },
+        "corpo_corrigido": "let total = 0; let i = 0; while ((i < (entrada).length)) { total += (entrada)[i]; i += 1; } return total;",
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 128,
+          "concordantes": 128,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 2,
+      "reservados_total": 2
+    },
+    {
+      "id": "reparo_limite_laco",
+      "acao": "diagnosticar",
+      "passou": true,
+      "response_id": "programacao:motor_diagnostico",
+      "resposta": "Reproduzi a falha. Entrada: [2, 4]. Esperado: 6. Observado: 2.\n\nEsta edição local passou nos 2 exemplos fornecidos:\nAntes: (i < ((entrada).length - 1))\nDepois: (i <= ((entrada).length - 1))\n\n```javascript\nfunction resolver(entrada) {\nlet total = 0; let i = 0; while ((i <= ((entrada).length - 1))) { total += (entrada)[i]; i += 1; } return total;\n}\n```\n\nÉ uma hipótese de correção; confira com novos exemplos antes de usar.\n\nEstados observados:\n{\"entrada\": [2, 4], \"total\": 0}\n{\"entrada\": [2, 4], \"total\": 0, \"i\": 0}\n{\"entrada\": [2, 4], \"total\": 2, \"i\": 1}\n\nRede própria de efeitos: 12/12 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "diagnosticar",
+        "atende_desenvolvimento": true,
+        "verificadas": 18,
+        "candidatos": 82,
+        "hipotese": {
+          "caminho_ast": [
+            2,
+            1
+          ],
+          "antes": "(i < ((entrada).length - 1))",
+          "depois": "(i <= ((entrada).length - 1))",
+          "tipo": "operador",
+          "contexto": "bin",
+          "tamanho_delta": 9
+        },
+        "corpo_corrigido": "let total = 0; let i = 0; while ((i <= ((entrada).length - 1))) { total += (entrada)[i]; i += 1; } return total;",
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 12,
+          "concordantes": 12,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 2,
+      "reservados_total": 2
+    },
+    {
+      "id": "sintese_soma",
+      "acao": "gerar",
+      "passou": true,
+      "response_id": "programacao:motor_sintese",
+      "resposta": "Montei uma função que passou nos 2 exemplos fornecidos:\n\n```javascript\nfunction resolver(entrada) {\nreturn (entrada + 5);\n}\n```\n\nA busca tem uma gramática limitada. Confira novos exemplos; eles podem exigir outra função.\n\nRede própria de efeitos: 2/2 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "gerar",
+        "corpo": "return (entrada + 5);",
+        "verificadas": 594,
+        "atende_desenvolvimento": true,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 2,
+          "concordantes": 2,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 2,
+      "reservados_total": 2
+    },
+    {
+      "id": "sintese_composicao",
+      "acao": "gerar",
+      "passou": false,
+      "response_id": "programacao:motor_sintese",
+      "resposta": "Não encontrei uma função que passe nos exemplos dentro do orçamento desta busca.",
+      "execucao": {
+        "acao": "gerar",
+        "corpo": null,
+        "verificadas": 768,
+        "atende_desenvolvimento": false,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 0,
+          "concordantes": 0,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 3
+    },
+    {
+      "id": "sintese_tamanho",
+      "acao": "gerar",
+      "passou": true,
+      "response_id": "programacao:motor_sintese",
+      "resposta": "Montei uma função que passou nos 3 exemplos fornecidos:\n\n```javascript\nfunction resolver(entrada) {\nreturn entrada.length;\n}\n```\n\nA busca tem uma gramática limitada. Confira novos exemplos; eles podem exigir outra função.\n\nRede própria de efeitos: 3/3 previsões concordaram com o executor exato.",
+      "execucao": {
+        "acao": "gerar",
+        "corpo": "return entrada.length;",
+        "verificadas": 254,
+        "atende_desenvolvimento": true,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 3,
+          "concordantes": 3,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 1,
+      "reservados_total": 1
+    },
+    {
+      "id": "sintese_maximo",
+      "acao": "gerar",
+      "passou": false,
+      "response_id": "programacao:motor_sintese",
+      "resposta": "Não encontrei uma função que passe nos exemplos dentro do orçamento desta busca.",
+      "execucao": {
+        "acao": "gerar",
+        "corpo": null,
+        "verificadas": 629,
+        "atende_desenvolvimento": false,
+        "efeitos_neurais": {
+          "ativo": true,
+          "parametros": 1679,
+          "comparados": 0,
+          "concordantes": 0,
+          "fora_dominio": 0,
+          "primeira_divergencia": null,
+          "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "casos_reservados_consultados": false,
+        "execucao": "executor_proprio_exato"
+      },
+      "reservados_corretos": 0,
+      "reservados_total": 2
+    },
+    {
+      "id": "limite_host",
+      "acao": "interpretar",
+      "passou": true,
+      "response_id": "programacao:motor_limite",
+      "resposta": "Não consegui analisar este pedido: Método não autorizado.\n\nPosso interpretar um corpo de função JavaScript, rastrear estados e tentar corrigir falhas usando exemplos de entrada e saída. Também posso montar funções simples a partir desses exemplos.\n\nEnvie o código entre três crases, com a linguagem javascript, e depois Exemplos: [{\"entrada\": 0, \"saida\": 2}, {\"entrada\": 3, \"saida\": 5}]. Para apenas executar, envie Entrada: 3. O motor aceita um subconjunto limitado; chamadas livres, imports e APIs externas não são suportados.",
+      "execucao": {},
+      "reservados_corretos": 0,
+      "reservados_total": 0
+    }
+  ],
+  "natureza": "12 problemas pequenos autorais; desenvolvimento, não benchmark externo; executor próprio, sem APIs do host; reservados só após a única resposta",
+  "tempo_segundos": 73.486,
+  "fonte_codigo_sha256": {
+    "crivo.py": "db0dfda63b7f22542dfb9da0596f1c69d4fdeefed7227549ae09d661ca8af24a",
+    "estado_interno.py": "b4a4914c217ca7fc6119fec0400b3d31d0a9497c056ddb3965aa48777fd45bdc",
+    "programacao_chat.py": "d79eef04ddd34ce2d2a2b7bf443f7389e248c6513928a67d4720b9392ed81ebc",
+    "raciocinio_ativo.py": "b7f7bab43b99305504338818d34b87daf3c397de92e791ab68966a907d3a6207"
+  },
+  "configuracao": "Crivo padrão, geração própria habilitada; nenhum candidato experimental instalado"
+}

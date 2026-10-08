@@ -1,0 +1,34 @@
+........E............
+
+
+.
+
+
+.
+
+
+.
+
+
+.......................
+======================================================================
+ERROR: setUpClass (testes_motor_programacao_chat.MotorChatHTTPTestes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-capacidades/testes_motor_programacao_chat.py", line 154, in setUpClass
+    cls.server = criar_servidor(port=0)
+                 ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/CRIVO-capacidades/web_local.py", line 61, in criar_servidor
+    server = ThreadingHTTPServer((host, port), LocalHandler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 453, in __init__
+    self.socket = socket.socket(self.address_family,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py", line 233, in __init__
+    _socket.socket.__init__(self, family, type, proto, fileno)
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 46 tests in 748.827s
+
+FAILED (errors=1)

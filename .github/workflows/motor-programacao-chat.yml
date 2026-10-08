@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - 'programacao_chat.py'
+      - 'sintese_composta.py'
+      - 'correcao_relatos.py'
+      - 'dialogo_aberto.py'
+      - 'linguagem_conversa.py'
+      - 'testes_capacidades_compostas.py'
       - 'modelo_efeitos_chat.py'
       - 'artefatos/efeitos_programacao/**'
       - 'crivo.py'
@@ -33,9 +38,9 @@ jobs:
       - name: Conversa, HTTP, replay, integridade dos pesos e regressões
         env:
           OPENBLAS_NUM_THREADS: '1'
-        run: python -m unittest testes_motor_programacao_chat testes_http_chunked testes_diagnostico_estados testes_web testes_programacao_profunda -v
+        run: python -m unittest testes_capacidades_compostas testes_motor_programacao_chat testes_http_chunked testes_diagnostico_estados testes_web testes_programacao_profunda -v
       - name: Motor sem dependências opcionais
-        run: python -S -m unittest testes_motor_programacao_chat -v
+        run: python -S -m unittest testes_capacidades_compostas testes_motor_programacao_chat -v
       - name: Sintaxe da interface e empacotamento dos pesos
         run: |
           node --check public/app.js

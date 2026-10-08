@@ -1,0 +1,76 @@
+{
+  "base_git": "809456a80c0d2ff8a325007f6e34fa8b1ecc44eb",
+  "controle_fixado_git": "39d2658aaa441b4d8675f31120836262b76a761c",
+  "produto_git": "57b80e8de4b17ce00f92eacd4d7d9a2e8a3b225b",
+  "pesos_modificados": false,
+  "entrada": "Somente sondas e controles autorais públicos; nenhum dado do Drive nem checkpoint privado.",
+  "metodo": "Crivo padrão com gerador próprio habilitado, uma única resposta por problema, execução própria; reserva consultada somente pelo avaliador.",
+  "fontes": {
+    "controle_memoria_baseline.json": "416db437d55edb8ca1b84bfdaa610d8d982b7c54cf318ad43a68af414614523e",
+    "controle_memoria_candidato.json": "8f0de43797e58a9130b936e86e5d3186477ef5f31eadd5d6eba14338718caebe",
+    "controle_memoria_final.json": "82989774820ad054a27fa6d631aa60a64b2f40b8bcb9d0c5fe99bb8e0578b79c",
+    "controle_programacao_baseline.json": "5ba2c0823fe1c843c3791d08dcae2c58b46130de73a841818e66fbd60b5bcb77",
+    "controle_programacao_candidato.json": "35b75417a2385bc1feebadb55943f2c6d34b396afbf40f76532120191974fdbc",
+    "controle_programacao_final.json": "0df2cc230d27556431aeaa50f645bd84fe090d23fa46678afffbdd32c7999fec",
+    "dialogo_real_baseline.json": "3a3580c12b3941df06b7a161cf3144b8b5627ff0a062fd2a3c7ed15ae0994d1a",
+    "dialogo_real_contextual.json": "5adf3a2d233d9271a5b6fa684a2da89c503d935201336c2c876991c28af36b81",
+    "dialogo_real_final.json": "6a0cd494c9e0c9bf534fc47093de26086695372ee03413555f9ac00a2a027641",
+    "geracao_baseline.json": "e8098cc5627d2e9ab0525cf69e4436faa91084c0fc289ab4d8219c7dc0b1f15c",
+    "geracao_final.json": "d633965f9ec275f27fd1e5ea264476283d3e9b876765a631a03cc52674f6e4ca",
+    "mundo_baseline.json": "5eda7dd2c507e16a7138d41ab38709a9007720176ed931441162ec07682c22e8",
+    "programacao_baseline.json": "f95d522518d362054dac7f72c2d5483a3e86174a3049328775241aed11704aeb",
+    "programacao_final.json": "9b56261e26cb1cfd7d2e6254dca5f999aef01d098a55b18eb67c01335a1754b2",
+    "raciocinio_ativo_baseline.json": "2cac4decf275a1cddd17fa5e14c0cdddf8f151684cbfda01ee9be2350ff934aa",
+    "resumo.json": "e697621dd31f3df1f2606214045e2893bb488621b29e1a4d51a67c2c476cec50"
+  },
+  "limites": [
+    "Sondas pequenas autorais, não benchmark externo nem evidência de inteligência geral.",
+    "Os controles foram fixados antes de alterar o produto, mas reutilizados após correções motivadas por contratos de unidade e integração HTTP. Não chamar a avaliação final de cega.",
+    "Não há medições posteriores completas de conhecimento ou raciocínio; os números iniciais dessas sondas são da main. Regressões de integração de raciocínio e fatos são verificadas separadamente.",
+    "Tempos incluem inicialização e concorrência distinta; não usar a diferença de tempo para afirmar aceleração ou regressão de latência.",
+    "A memória só corrige a relação nominal explícita com uma referência única. Casos ambíguos, condicionais, citados e negados não são promovidos por essa extensão.",
+    "Conversa espontânea continua limitada: somente 1/18 diálogos inteiro."
+  ],
+  "experimentos_rejeitados": [
+    {
+      "nome": "modulo_contextual_antigo",
+      "antes": "45/72",
+      "depois": "37/72",
+      "decisao": "não ativar"
+    },
+    {
+      "nome": "memoria_primeiro_candidato",
+      "antes": "2/6",
+      "depois": "2/6",
+      "decisao": "rejeitar e corrigir ordem do fluxo; não era melhora"
+    }
+  ],
+  "validacao_local": {
+    "contratos_novos_com_numpy": {
+      "total": 8,
+      "acertos": 8
+    },
+    "contratos_novos_python38_sem_numpy": {
+      "total": 8,
+      "acertos": 8
+    },
+    "http_real_aquecido": {
+      "total": 2,
+      "acertos": 2,
+      "segundos": 6.234
+    },
+    "http_real_frio_inicial": "Timeout de 8 s sob carga concorrente, registrado; repetição final passou sem aquecimento e sem alterar timeout.",
+    "suíte_regressoes": {
+      "testes_sem_socket": 46,
+      "acertos_sem_socket": 46,
+      "erros_infraestrutura": 1,
+      "motivo": "setUpClass HTTP: sandbox impediu socket; ambos os testes passaram na repetição com rede local"
+    },
+    "http_real_frio_final": {
+      "total": 2,
+      "acertos": 2,
+      "segundos": 10.178
+    },
+    "total_distintos_aprovados": 48
+  }
+}
