@@ -27,7 +27,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
                     for q in e['perguntas']}
         self.assertFalse(exemplos & {c[1].lower().strip(' .?!') for c in CASOS})
 
-    def test_todo_conceito_tem_definicao_e_fontes_cientificas(self):
+    def test_todo_conceito_tem_definicao_e_fontes_atribuidas(self):
         for item in self.curriculo['itens']:
             with self.subTest(conceito=item['nome']):
                 self.assertEqual(item['fatos'][0]['papel'], 'definicao')
@@ -47,12 +47,13 @@ class TestesConhecimentoMundo(unittest.TestCase):
                                 'tecnologia': ('social',), 'engenharia': ('social',),
                                 # Lacunas de 2026-10-06: esporte, alimentos e meio ambiente.
                                 'esporte': ('social',), 'alimentos': ('social',),
-                                'ambiente': ('social',)}.get(item['area'], ())
+                                'ambiente': ('social',), 'biblia': ('religioso',)}.get(item['area'], ())
                     self.assertIn(fato['natureza'], ('cientifico', 'psicologico', 'orientacao') + proprias)
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
                         metadata = self.curriculo['fontes'][fonte]
-                        self.assertIn(metadata['tipo'], ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico'))
+                        tipos = ('institucional_religiosa',) if fato['natureza'] == 'religioso' else ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico')
+                        self.assertIn(metadata['tipo'], tipos)
                         self.assertTrue(metadata['credito'])
                         self.assertTrue(metadata['direitos_url'].startswith('https://'))
                         self.assertIn(metadata['reutilizacao'],

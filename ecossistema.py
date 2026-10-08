@@ -76,10 +76,10 @@ _LISTA = (
     Especie("composicao_factual", "conhecimento",
             "Compõe a resposta a partir das fichas dos conceitos e dos catálogos; a voz própria "
             "(voz.py) dá forma de conversa à composição pura de um assunto.",
-            "Perguntas sobre conceitos com ficha (pessoas, história, ciência).",
-            ("curriculo_mundo.py", "composicao_textual.py", "voz.py", "artefatos/voz_pt"),
+            "Perguntas sobre conceitos com ficha e referências bíblicas exatas, com atribuição à tradução.",
+            ("curriculo_mundo.py", "composicao_textual.py", "voz.py", "artefatos/voz_pt", "referencias_biblicas.py", "conhecimento_biblia.json"),
             ("fontes", "recusa", "catracas"),
-            ("testes_composicao_textual.py", "testes_conhecimento_mundo.py", "testes_voz.py")),
+            ("testes_composicao_textual.py", "testes_conhecimento_mundo.py", "testes_voz.py", "testes_biblia.py")),
     Especie("composicao_definicional", "conhecimento",
             "Monta uma definição a partir de partes já documentadas.",
             "“O que é X?” quando X não tem entrada própria, mas as partes têm.",
