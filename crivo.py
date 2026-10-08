@@ -182,6 +182,8 @@ class Crivo:
         # Intenção e contexto da conversa antes das respostas cadastradas.
         from compreensao_intencao import ConsultaPratica, EstadoConversa, Inferencia, InvestigacaoChat
         self.estado_conversa = EstadoConversa()
+        from dialogo_situado import DialogoSituado
+        self.dialogo_situado = DialogoSituado()
         self.inferencia = Inferencia()
         self.investigacao = InvestigacaoChat()
         self.consulta_pratica = ConsultaPratica(self.programacao)
@@ -1503,6 +1505,7 @@ class Crivo:
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
+        self.dialogo_situado.observar(original_conteudo, ident, self)
         return crise.ajustar(ident, resposta, self)
 
     @property
@@ -1890,6 +1893,9 @@ class Crivo:
                 corrigir_relatos(texto, self.conversacao.relatos) is not None):
             self.perfil.turno += 1
             return self._responder_turno(texto)
+        situada = self.dialogo_situado.responder(texto, self)
+        if situada is not None:
+            return self._registrar_dialogo_situado(texto, situada)
         intencao = self._responder_intencao(texto)
         if intencao is not None:
             return intencao
@@ -1926,6 +1932,10 @@ class Crivo:
             if limite is not None:
                 return limite
             ident, resposta = self._responder_turno(texto)
+            if ident in ('fora','duvida','social:nao_entendido','conversa:esclarecer'):
+                situada = self.dialogo_situado.responder(original_usuario, self, apos_recusa=True)
+                if situada is not None:
+                    return self._registrar_dialogo_situado(original_usuario, situada, preparado=True)
             if ident in ("fora", "duvida", "social:nao_entendido"):
                 pratica = self.consulta_pratica.responder(original_usuario)
                 if pratica is not None:
@@ -1986,6 +1996,35 @@ class Crivo:
         mencionado = self.compositor.assunto_mencionado(texto)
         if mencionado is not None:
             self.assunto_conversa = mencionado
+
+    def _registrar_dialogo_situado(self, texto, resultado, preparado=False):
+        from dialogo_situado import ntexto, abertura
+        quadro = self.dialogo_situado.ultimo
+        if re.match(r'(?:ta )?vamos comecar de novo\b', ntexto(texto)):
+            from linguagem_conversa import Ato
+            self.conversacao.preparar_ato(Ato('reinicio_explicito','cancelar'),self)
+            self.dialogo_situado.ultimo = quadro
+        if resultado[0]=='conversa:abertura':
+            alvo = abertura(texto)
+            self.conversacao.assunto = alvo.group(1) if alvo else texto.strip()
+            self.conversacao.dialogo.espera = 'detalhe'
+        if not preparado:
+            self.conversacao.turno += 1
+            self.perfil.turno += 1
+        if self.historico and self.historico[-1].get('pergunta')==texto:
+            self.historico.pop()
+        saida = self._registrar_social(resultado,texto)
+        self.historico[-1].update(mecanismo='dialogo_situado_estrutural',
+                                  quadro_dialogo_situado=self.dialogo_situado.ultimo)
+        self.contexto_textual = self.ultima_resposta_mostrada = None
+        self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+        self.assunto_conversa = self.oferta_pendente = None
+        self.planejador.ultimo = None
+        self.ultimo_turno = dict(pergunta=texto,id=saida[0])
+        self.conversacao.dialogo.ativo = True
+        self.conversacao.dialogo.ultima_resposta = saida[1]
+        self.conversacao.geracao.registrar(saida[0],saida[1],self.conversacao,texto)
+        return saida
 
     @staticmethod
     def _pedido_sobre_comparacao(texto, contexto):
