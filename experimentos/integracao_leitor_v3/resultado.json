@@ -1,0 +1,110 @@
+{
+  "integracao_implementada": true,
+  "pesos_ativados": false,
+  "modelo_aprovado": false,
+  "candidato_final": "candidato_campo",
+  "comparacao_chat_completo": [
+    {
+      "conjunto": "teste",
+      "perguntas": 72,
+      "corretas_baseline": 33,
+      "corretas_candidato": 33,
+      "aproximacoes_erradas_baseline": 5,
+      "aproximacoes_erradas_candidato": 5,
+      "resgates": 0,
+      "respostas_aceitas_anteriores_alteradas": 0
+    },
+    {
+      "conjunto": "teste_v2",
+      "perguntas": 70,
+      "corretas_baseline": 22,
+      "corretas_candidato": 22,
+      "aproximacoes_erradas_baseline": 1,
+      "aproximacoes_erradas_candidato": 1,
+      "resgates": 0,
+      "respostas_aceitas_anteriores_alteradas": 0
+    },
+    {
+      "conjunto": "prospectivo",
+      "perguntas": 32,
+      "corretas_baseline": 3,
+      "corretas_candidato": 4,
+      "aproximacoes_erradas_baseline": 4,
+      "aproximacoes_erradas_candidato": 4,
+      "resgates": 1,
+      "respostas_aceitas_anteriores_alteradas": 0
+    },
+    {
+      "conjunto": "prospectivo_campo",
+      "perguntas": 32,
+      "corretas_baseline": 9,
+      "corretas_candidato": 9,
+      "aproximacoes_erradas_baseline": 0,
+      "aproximacoes_erradas_candidato": 0,
+      "resgates": 0,
+      "respostas_aceitas_anteriores_alteradas": 0
+    }
+  ],
+  "total": {
+    "perguntas": 206,
+    "corretas_baseline": 67,
+    "corretas_candidato": 68,
+    "aproximacoes_erradas_baseline": 10,
+    "aproximacoes_erradas_candidato": 10,
+    "respostas_aceitas_anteriores_alteradas": 0
+  },
+  "motivo": "Controles completos concluídos: nenhum erro adicional observado, mas apenas um acerto adicional em 206 perguntas e nenhuma melhoria nos dois congelados. Evidência insuficiente para promover os pesos ao chat.",
+  "limites": [
+    "A ausência de novos erros nesta amostra não garante ausência de erros fora dela.",
+    "Somente o segundo prospectivo é novo para a versão com verificador de campos; os três conjuntos anteriores já foram usados para diagnosticar a primeira versão.",
+    "Os quatro controles iniciais usaram o próprio PyTorch. O prospectivo inicial inteiro também foi repetido com inferência NumPy e teve métricas idênticas; não foi comparada a paridade dos escores de todas as perguntas.",
+    "O chat anterior já tinha erros: os controles não certificam o Crivo inteiro como livre de erros.",
+    "O ganho é uma aproximação correta; não há afirmações corretas adicionais.",
+    "O cache e o tutor são supervisão, não teste independente."
+  ],
+  "parametros": {
+    "base_total": 17428609,
+    "cabeca_ajustada": 385,
+    "calibrador": 21,
+    "backbone_congelado": true
+  },
+  "unidades": {
+    "pares_conferidos": 843,
+    "predicados_alterados_nos_controles": 0
+  },
+  "contratos": {
+    "python_38_numpy": {
+      "resgate": 23,
+      "regressoes_leitura_anterior": 15,
+      "total": 38,
+      "resultado": "OK"
+    },
+    "python_38_sem_numpy": {
+      "executados": 22,
+      "ignorados_numpy": 1,
+      "resultado": "OK"
+    },
+    "diagnostico_campo_historico": {
+      "casos_executados_apos_acrescimo_verified_field": 2,
+      "resultado": "OK"
+    }
+  },
+  "reproducao": {
+    "numerica": "Cabeça, 21 coeficientes e limiar reproduzidos exatamente com o cache público e CPU; reprodução nunca aprova instalação.",
+    "relatorio": "controle_evidencia.json",
+    "resultado": "Reprodução final executada: arrays da cabeça, 21 coeficientes e limiar idênticos; aprovação falsa preservada."
+  },
+  "descoberta": {
+    "total": 1205,
+    "novos": 23,
+    "falhas_importacao": 0,
+    "observacao": "Descoberta completa; não equivale a executar toda a suíte."
+  },
+  "verificacao_numpy": {
+    "conjunto": "prospectivo",
+    "perguntas": 32,
+    "metricas_identicas_ao_torch": true,
+    "relatorio": "controle_chat_numpy_prospectivo.json",
+    "pesos_instalados": false
+  }
+}

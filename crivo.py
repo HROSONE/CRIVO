@@ -1499,6 +1499,7 @@ class Crivo:
             ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
             ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
+        ident, resposta = estado_interno.resgatar(self, self.estado_interno, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)

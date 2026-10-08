@@ -1,0 +1,127 @@
+{
+  "versao": 2,
+  "escopo": "resgate_aproximacao",
+  "tracos": [
+    "vies",
+    "prob_transformer",
+    "margem_transformer",
+    "prob_lexical",
+    "margem_lexical",
+    "relacao",
+    "vetor",
+    "todas",
+    "nenhuma",
+    "uma_pista",
+    "falta_uma",
+    "faltam_duas",
+    "quem_nome",
+    "quando_data",
+    "quanto_numero",
+    "onde_lugar",
+    "porque_causa",
+    "como_funcionamento",
+    "simnao_negacao",
+    "definicao",
+    "numero_fatos"
+  ],
+  "pesos": [
+    -0.6496309275566334,
+    0.9976778753213978,
+    0.5358634127975648,
+    0.5449389374385442,
+    0.8148870048806894,
+    0.326106620002373,
+    0.874822606926921,
+    0.0,
+    -0.8014048789343019,
+    0.04697617952283906,
+    0.18418105513013233,
+    -0.18419421640706035,
+    0.27653983353685935,
+    -0.24407358145307945,
+    -0.3801125909665603,
+    -0.010773100010125705,
+    0.7781781880364348,
+    0.2729596569183963,
+    0.2253514842509836,
+    -0.6083106726406537,
+    0.037329010636332816
+  ],
+  "limiar": 0.65,
+  "regularizacao": 0.01,
+  "fontes": {
+    "base_sha256": "603ff3b6765d9fc82ff53517560ba3f1abca595e27f5a98c55911f1bb9a2b6dc",
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+    "cabeca_sha256": "0d139f56d232a47d5c6e7c4f322642a8aff252783c27430c1680bede7bb16bac"
+  },
+  "controle": {
+    "aprovado": false,
+    "motivo": "Controles completos concluídos: nenhum erro adicional observado, mas apenas um acerto adicional em 206 perguntas e nenhuma melhoria nos dois congelados. Evidência insuficiente para promover os pesos ao chat."
+  },
+  "desenvolvimento": {
+    "baseline": {
+      "afirmados_certos": 39,
+      "afirmados_errados": 1,
+      "aproximados_certos": 38,
+      "aproximados_errados": 8,
+      "aproximados_nulos": 7,
+      "resgates_certos": 0,
+      "resgates_errados": 0,
+      "resgates_nulos": 0,
+      "recusados": 96,
+      "certos_entregues": 77
+    },
+    "candidato": {
+      "afirmados_certos": 39,
+      "afirmados_errados": 1,
+      "aproximados_certos": 41,
+      "aproximados_errados": 8,
+      "aproximados_nulos": 7,
+      "resgates_certos": 3,
+      "resgates_errados": 0,
+      "resgates_nulos": 0,
+      "recusados": 93,
+      "certos_entregues": 80
+    },
+    "selecao": [
+      {
+        "bloco": 0,
+        "regularizacao": 0.1,
+        "limiar": 1.1,
+        "resgates_certos": 0,
+        "resgates_errados": 0
+      },
+      {
+        "bloco": 1,
+        "regularizacao": 0.01,
+        "limiar": 0.55,
+        "resgates_certos": 3,
+        "resgates_errados": 0
+      },
+      {
+        "bloco": 2,
+        "regularizacao": 0.03,
+        "limiar": 0.55,
+        "resgates_certos": 0,
+        "resgates_errados": 0
+      },
+      {
+        "bloco": 3,
+        "regularizacao": 0.01,
+        "limiar": 0.65,
+        "resgates_certos": 0,
+        "resgates_errados": 0
+      },
+      {
+        "bloco": 4,
+        "regularizacao": 0.01,
+        "limiar": 0.75,
+        "resgates_certos": 0,
+        "resgates_errados": 0
+      }
+    ],
+    "aprovado": false,
+    "observacao": "Avaliação aninhada do calibrador ANTES do verificador de campos. Não é resultado do candidato composto final nem teste independente."
+  },
+  "verificacao": "campo_explicito_v1"
+}

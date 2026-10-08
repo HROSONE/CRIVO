@@ -127,7 +127,7 @@ def recusou(ident, resposta):
 REVISAVEIS = frozenset(("fora", "social:nao_entendido"))
 
 
-def _pode_ler(estado):
+def _pode_ler(estado, autoria=False):
     """A leitura da ficha só entra numa pergunta factual sobre UMA entidade
     citada na fala, sem negação, pedido de escrita ou pergunta pessoal."""
     q = estado.quadro
@@ -139,7 +139,8 @@ def _pode_ler(estado):
     if e is None or e.origem != "fala" or e.id != q.assunto:
         return False
     n = normalizar(estado.fala)
-    return not (_ESCRITA.search(n) or _PESSOAL.search(n))
+    escrita = _PEDIDO_ESCRITA if autoria else _ESCRITA
+    return not (escrita.search(n) or _PESSOAL.search(n))
 
 
 def arbitrar(bot, estado, ident, resposta):
@@ -189,6 +190,23 @@ def arbitrar(bot, estado, ident, resposta):
         estado.decidir(especie, "recusar", "a leitura da ficha não achou evidência suficiente")
         return ident, resposta
     return _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia)
+
+
+def resgatar(bot, estado, ident, resposta):
+    """Última tentativa: conserva as respostas de todas as espécies anteriores."""
+    if (ident not in REVISAVEIS or not recusou(ident, resposta)
+            or not getattr(bot, "usar_leitura_ficha", True) or not _pode_ler(estado, autoria=True)):
+        return ident, resposta
+    leitura = bot.leitura_ficha.resgatar(estado.quadro, estado.entidade.id)
+    if leitura is None:
+        return ident, resposta
+    evidencia = {"fact": leitura.indice, "probability": leitura.prob, "margin": leitura.margem,
+                 "cues_covered": leitura.cobertura, "question_type": leitura.tipo,
+                 "semantic_rescue": True, "reader_probability": leitura.tracos["prob_transformer"],
+                 "verified_field": leitura.tracos.get("campo_verificado")}
+    estado.propor("leitura_ficha", None, "aproximar", evidencia)
+    return _responder_com_leitura(bot, estado, "política anterior", leitura, "aproximar", evidencia,
+                                  "recusa final; leitor próprio e evidência calibrada sugerem uma aproximação")
 
 
 def _responder_com_leitura(bot, estado, especie, leitura, decisao, evidencia, motivo=None):
