@@ -1,0 +1,53 @@
+{
+  "codigo_sha256": "b11d06165bdbe70c548fc99d6477feb5a4044990ed254a0153c3e98c27307f24",
+  "inicial_sha256": "3d47061b2563fb006d0c1189d3944d538a40d1027b46314b8a4edf02a048c42f",
+  "dados_sha256": {
+    "teste": "c5bb8c20eca299fe00086362d8b0114150b96d84fa1d918ea6935eed75a3bda8",
+    "replay_contextual": "bbc2ce565fd2fa74d3fd7bb1eb9ac717f41922cfd79842aa37b434775534bfed",
+    "replay_associacao": "2077c0052786fd935336313c4142a8099055401e247746468d60333964d50abc",
+    "dev": "6a3c2fc0d8c3252f872036b2a841a7135522a4a706415defd3712cec8ca95eee",
+    "treino": "8b0dee1a10ecb8c9ba91cfa5027598b9895e4b15591365db07a9ff87f111b65f"
+  },
+  "estatisticas": {
+    "treino": {
+      "prefixos": 9246,
+      "originais": 4623,
+      "aumentados": 4623,
+      "sessoes_rejeitadas_sem_truncar": 0
+    },
+    "dev": {
+      "prefixos": 738,
+      "originais": 369,
+      "aumentados": 369,
+      "sessoes_rejeitadas_sem_truncar": 0
+    },
+    "teste": {
+      "sessoes": 80,
+      "prefixos": 370,
+      "rejeitados_sem_truncar": 0,
+      "eventos": {
+        "declaracao": 80,
+        "correcao": 90,
+        "hipotese": 90,
+        "retorno": 70,
+        "consulta": 20,
+        "confirmacao": 20
+      }
+    }
+  },
+  "passos": 400,
+  "seed": 20261014,
+  "lr": 5e-05,
+  "lote": "8 críticos novos, 4 replay associação própria, 4 contextual próprio",
+  "distilacao": "Somente professor congelado INICIAL; KL de operação, escopo e ponteiros, peso .25 para cada, apenas no replay",
+  "perda_supervisionada": {
+    "operacao": 1.0,
+    "escopo": 0.2,
+    "pontos": 0.8,
+    "evento": 0.0
+  },
+  "selecao": ".5 macro eventos novo dev + .3 macro famílias dev associação antiga + .2 macro famílias dev contextual antigo",
+  "criterios": ">=80% em cada evento crítico e família; +20pp sessões completas versus anterior com mesmo preparo; regressão máxima 5pp nos dois painéis conhecidos.",
+  "limites": "Tentativa posterior aos testes anteriores, que passam a conhecidos. Corpus autoral sintético; regras compartilhadas; uma semente; não independente, não conversa livre. Este novo teste não é usado para selecionar ou mudar pesos.",
+  "pesos_ativos_sha256": "345008f7001ea17d3e3ab533d71cb7818820dcbfde246384c9a304a0b63f614d"
+}

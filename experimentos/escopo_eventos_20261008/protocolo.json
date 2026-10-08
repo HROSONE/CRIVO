@@ -1,0 +1,37 @@
+{
+  "codigo": {
+    "avaliar_eventos.py": "e5b9e25e0f9cc4eb2253ef28b85758c75abb1122c393810ae84fe538c40ebee6",
+    "base.py": "74683a7ff423503d4fe2d1a373cc832353f7f8b785c75994afb9d0b3e894c7b1",
+    "dados.py": "d73d3fa7264be41306d401e3c7fcd6adcc603c8976ce946bc705b2cfdecbb1f7",
+    "normalizacao.py": "60cd768fab8d2a0f61be4eb752143385ecf5ec58989838f0855112501738c802",
+    "rede_eventos.py": "cfcaef34ac975f7df4a1b9c9b7d332b88e2d70f2eaae7b9c57fb2f07af255ff1",
+    "test_contratos.py": "9b25ba2798ecfc3a223134ff75af39a0f7ed01491c8b780c5fff73c91be929ad",
+    "treino.py": "051a4370cc8a955ffc07ce7c019406b6de8ea44c829d7dd61b6b7fbbb845024b"
+  },
+  "manifesto_sha256": "4e4fbc4555c469c4926ff9bbb9ea4ab32351d70084f93faa11a6f4319bfc4854",
+  "inicial_sha256": "3d47061b2563fb006d0c1189d3944d538a40d1027b46314b8a4edf02a048c42f",
+  "pesos_ativos_sha256": "345008f7001ea17d3e3ab533d71cb7818820dcbfde246384c9a304a0b63f614d",
+  "parametros": 2948374,
+  "bracos": {
+    "controle": {
+      "escopo": 0.2,
+      "evento": 0.0
+    },
+    "eventos": {
+      "escopo": 1.0,
+      "evento": 0.5
+    }
+  },
+  "passos_por_braco": 600,
+  "seed": 20261012,
+  "lr": 0.0001,
+  "amostragem": "2 de cada evento novo + 4 exemplos de replay por lote, mesma sequência nos dois braços",
+  "selecao": "70% macro de seis eventos novo dev limitado + 30% macro famílias dev contextual limitado; escolher maior a cada 100 passos",
+  "criterios_antes_de_avaliar": {
+    "cada_evento_critico": 0.8,
+    "cada_familia": 0.8,
+    "aumento_sessoes_completas_sobre_anterior_com_mesmo_preparo": 0.2,
+    "queda_maxima_nos_dois_paineis_conhecidos": 0.05
+  },
+  "restricoes": "Sem modelos ou APIs externos; não ativa chat; nenhum teste para seleção; sem redação causal nesta rodada. Testes autorais sintéticos; uma semente; perdas de escopo e evento mudam conjuntamente."
+}

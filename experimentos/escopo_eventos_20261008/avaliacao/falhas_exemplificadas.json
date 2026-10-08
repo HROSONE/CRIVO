@@ -1,0 +1,742 @@
+[
+  {
+    "condicao": "controle",
+    "exemplo": {
+      "sessao": "eventos-teste-2",
+      "familia": "precos",
+      "etapa": 3,
+      "turnos": [
+        "O plano Avelã tem preço de 405 reais. A despesa com Pérola é de 492 reais. A entrega leva 386 dias. Qual tem custo menor, Pérola ou Avelã, e quanto?",
+        "Isto não aconteceu: num novo cenário fictício, Pérola custa 367 reais. Verifique a diferença entre Pérola e Avelã no cenário vigente.",
+        "Cancele o cenário fictício; a situação factual segue valendo. Verifique a diferença entre Pérola e Avelã no cenário vigente.",
+        "Houve um erro no dado real de Avelã; o custo corrigido é 481 reais. Verifique a diferença entre Pérola e Avelã no cenário vigente."
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 64,
+          "fim": 67,
+          "texto": "492"
+        },
+        {
+          "turno": 3,
+          "inicio": 57,
+          "fim": 60,
+          "texto": "481"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": false,
+      "classe": "custos",
+      "evento": "correcao",
+      "trajetoria": "hipotese>retorno>correcao"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-2",
+      "familia": "precos",
+      "etapa": 3,
+      "evento": "correcao",
+      "trajetoria": "hipotese>retorno>correcao",
+      "evento_previsto": "hipotese",
+      "operacao": true,
+      "argumentos": [
+        false,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": true,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.9978517293930054,
+        "argumentos": [
+          {
+            "turno": 1,
+            "inicio": 60,
+            "fim": 63,
+            "texto": "367"
+          },
+          {
+            "turno": 3,
+            "inicio": 57,
+            "fim": 60,
+            "texto": "481"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          1,
+          3
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            367,
+            481
+          ],
+          "menor": 0,
+          "diferenca": 114
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "controle",
+    "exemplo": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 2,
+      "turnos": [
+        "A despesa com Horizonte é de 424 reais. A despesa com Avelã é de 401 reais. A entrega leva 421 dias. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Houve um erro no dado real de Horizonte; o custo corrigido é 386 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Vamos testar outro cenário sem afirmar que ocorreu: Avelã a 522 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?"
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 2,
+          "inicio": 60,
+          "fim": 63,
+          "texto": "522"
+        },
+        {
+          "turno": 1,
+          "inicio": 61,
+          "fim": 64,
+          "texto": "386"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": true,
+      "classe": "custos",
+      "evento": "hipotese",
+      "trajetoria": "correcao>hipotese>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 2,
+      "evento": "hipotese",
+      "trajetoria": "correcao>hipotese>retorno",
+      "evento_previsto": "consulta",
+      "operacao": true,
+      "argumentos": [
+        true,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": false,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.8902521133422852,
+        "argumentos": [
+          {
+            "turno": 2,
+            "inicio": 60,
+            "fim": 63,
+            "texto": "522"
+          },
+          {
+            "turno": 1,
+            "inicio": 61,
+            "fim": 64,
+            "texto": "386"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          1,
+          2
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            522,
+            386
+          ],
+          "menor": 1,
+          "diferenca": 136
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "controle",
+    "exemplo": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 3,
+      "turnos": [
+        "A despesa com Horizonte é de 424 reais. A despesa com Avelã é de 401 reais. A entrega leva 421 dias. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Houve um erro no dado real de Horizonte; o custo corrigido é 386 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Vamos testar outro cenário sem afirmar que ocorreu: Avelã a 522 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Cancele o cenário fictício; a situação factual segue valendo. Qual tem custo menor, Avelã ou Horizonte, e quanto?"
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 65,
+          "fim": 68,
+          "texto": "401"
+        },
+        {
+          "turno": 1,
+          "inicio": 61,
+          "fim": 64,
+          "texto": "386"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": false,
+      "classe": "custos",
+      "evento": "retorno",
+      "trajetoria": "correcao>hipotese>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 3,
+      "evento": "retorno",
+      "trajetoria": "correcao>hipotese>retorno",
+      "evento_previsto": "consulta",
+      "operacao": true,
+      "argumentos": [
+        false,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": true,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.9056349992752075,
+        "argumentos": [
+          {
+            "turno": 2,
+            "inicio": 60,
+            "fim": 63,
+            "texto": "522"
+          },
+          {
+            "turno": 1,
+            "inicio": 61,
+            "fim": 64,
+            "texto": "386"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          1,
+          2
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            522,
+            386
+          ],
+          "menor": 1,
+          "diferenca": 136
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "controle",
+    "exemplo": {
+      "sessao": "eventos-teste-12",
+      "familia": "precos",
+      "etapa": 3,
+      "turnos": [
+        "A despesa com Névoa é de 453 reais. O plano Cedro tem preço de 446 reais. A entrega leva 449 dias. Qual tem custo menor, Cedro ou Névoa, e quanto?",
+        "A informação certa é esta: Névoa custa 493 reais, de fato. Verifique a diferença entre Cedro e Névoa no cenário vigente.",
+        "Considere como possibilidade imaginada, em vez de fato, Névoa por 426 reais. Qual tem custo menor, Cedro ou Névoa, e quanto?",
+        "O que era apenas uma possibilidade realmente ocorreu; trate como fato confirmado. Verifique a diferença entre Cedro e Névoa no cenário vigente."
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 63,
+          "fim": 66,
+          "texto": "446"
+        },
+        {
+          "turno": 2,
+          "inicio": 66,
+          "fim": 69,
+          "texto": "426"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": false,
+      "classe": "custos",
+      "evento": "confirmacao",
+      "trajetoria": "correcao>hipotese>confirmacao>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-12",
+      "familia": "precos",
+      "etapa": 3,
+      "evento": "confirmacao",
+      "trajetoria": "correcao>hipotese>confirmacao>retorno",
+      "evento_previsto": "hipotese",
+      "operacao": true,
+      "argumentos": [
+        true,
+        false,
+        true
+      ],
+      "referente": true,
+      "escopo": true,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.8711100816726685,
+        "argumentos": [
+          {
+            "turno": 0,
+            "inicio": 63,
+            "fim": 66,
+            "texto": "446"
+          },
+          {
+            "turno": 1,
+            "inicio": 39,
+            "fim": 42,
+            "texto": "493"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          0,
+          1
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            446,
+            493
+          ],
+          "menor": 0,
+          "diferenca": 47
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "eventos",
+    "exemplo": {
+      "sessao": "eventos-teste-1",
+      "familia": "requisitos",
+      "etapa": 1,
+      "turnos": [
+        "Nesse acesso são exigidos certificado e credencial. A informação sobre Helena é que tem credencial e certificado. O caso vigente de Helena satisfaz os requisitos de acesso?",
+        "Isto é factual, não simulado: Helena tem credencial e não tem certificado. O caso vigente de Helena satisfaz os requisitos de acesso?"
+      ],
+      "operacao": "verificar_requisitos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 26,
+          "fim": 50,
+          "texto": "certificado e credencial"
+        },
+        {
+          "turno": 1,
+          "inicio": 37,
+          "fim": 73,
+          "texto": "tem credencial e não tem certificado"
+        },
+        null
+      ],
+      "referente": {
+        "turno": 0,
+        "inicio": 71,
+        "fim": 77,
+        "texto": "Helena"
+      },
+      "hipotese": false,
+      "classe": "regra",
+      "evento": "correcao",
+      "trajetoria": "correcao>hipotese>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-1",
+      "familia": "requisitos",
+      "etapa": 1,
+      "evento": "correcao",
+      "trajetoria": "correcao>hipotese>retorno",
+      "evento_previsto": "correcao",
+      "operacao": true,
+      "argumentos": [
+        true,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": false,
+      "contrato": false,
+      "proposta": {
+        "operacao": "verificar_requisitos",
+        "confianca_operacao": 0.9999396800994873,
+        "argumentos": [
+          {
+            "turno": 0,
+            "inicio": 26,
+            "fim": 50,
+            "texto": "certificado e credencial"
+          },
+          {
+            "turno": 1,
+            "inicio": 37,
+            "fim": 73,
+            "texto": "tem credencial e não tem certificado"
+          },
+          null
+        ],
+        "referente": {
+          "turno": 0,
+          "inicio": 71,
+          "fim": 77,
+          "texto": "Helena"
+        },
+        "hipotese": true,
+        "fontes": [
+          0,
+          1
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "status": "refutado"
+        },
+        "hipotese": true,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "eventos",
+    "exemplo": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 2,
+      "turnos": [
+        "A despesa com Horizonte é de 424 reais. A despesa com Avelã é de 401 reais. A entrega leva 421 dias. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Houve um erro no dado real de Horizonte; o custo corrigido é 386 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Vamos testar outro cenário sem afirmar que ocorreu: Avelã a 522 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?"
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 2,
+          "inicio": 60,
+          "fim": 63,
+          "texto": "522"
+        },
+        {
+          "turno": 1,
+          "inicio": 61,
+          "fim": 64,
+          "texto": "386"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": true,
+      "classe": "custos",
+      "evento": "hipotese",
+      "trajetoria": "correcao>hipotese>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 2,
+      "evento": "hipotese",
+      "trajetoria": "correcao>hipotese>retorno",
+      "evento_previsto": "correcao",
+      "operacao": true,
+      "argumentos": [
+        true,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": false,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.9987201690673828,
+        "argumentos": [
+          {
+            "turno": 2,
+            "inicio": 60,
+            "fim": 63,
+            "texto": "522"
+          },
+          {
+            "turno": 1,
+            "inicio": 61,
+            "fim": 64,
+            "texto": "386"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          1,
+          2
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            522,
+            386
+          ],
+          "menor": 1,
+          "diferenca": 136
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "eventos",
+    "exemplo": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 3,
+      "turnos": [
+        "A despesa com Horizonte é de 424 reais. A despesa com Avelã é de 401 reais. A entrega leva 421 dias. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Houve um erro no dado real de Horizonte; o custo corrigido é 386 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Vamos testar outro cenário sem afirmar que ocorreu: Avelã a 522 reais. Qual tem custo menor, Avelã ou Horizonte, e quanto?",
+        "Cancele o cenário fictício; a situação factual segue valendo. Qual tem custo menor, Avelã ou Horizonte, e quanto?"
+      ],
+      "operacao": "comparar_custos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 65,
+          "fim": 68,
+          "texto": "401"
+        },
+        {
+          "turno": 1,
+          "inicio": 61,
+          "fim": 64,
+          "texto": "386"
+        },
+        null
+      ],
+      "referente": null,
+      "hipotese": false,
+      "classe": "custos",
+      "evento": "retorno",
+      "trajetoria": "correcao>hipotese>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-0",
+      "familia": "precos",
+      "etapa": 3,
+      "evento": "retorno",
+      "trajetoria": "correcao>hipotese>retorno",
+      "evento_previsto": "correcao",
+      "operacao": true,
+      "argumentos": [
+        false,
+        true,
+        true
+      ],
+      "referente": true,
+      "escopo": true,
+      "contrato": false,
+      "proposta": {
+        "operacao": "comparar_custos",
+        "confianca_operacao": 0.9934406876564026,
+        "argumentos": [
+          {
+            "turno": 2,
+            "inicio": 60,
+            "fim": 63,
+            "texto": "522"
+          },
+          {
+            "turno": 1,
+            "inicio": 61,
+            "fim": 64,
+            "texto": "386"
+          },
+          null
+        ],
+        "referente": null,
+        "hipotese": false,
+        "fontes": [
+          1,
+          2
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": true,
+        "resultado": {
+          "totais": [
+            522,
+            386
+          ],
+          "menor": 1,
+          "diferenca": 136
+        },
+        "hipotese": false,
+        "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+      },
+      "resultado_correto": false
+    }
+  },
+  {
+    "condicao": "eventos",
+    "exemplo": {
+      "sessao": "eventos-teste-13",
+      "familia": "requisitos",
+      "etapa": 3,
+      "turnos": [
+        "Nesse acesso são exigidos certificado e distintivo. A informação sobre Otávio é que tem distintivo e certificado. O caso vigente de Otávio satisfaz os requisitos de acesso?",
+        "Isto é factual, não simulado: Otávio tem distintivo e não tem certificado. O caso vigente de Otávio satisfaz os requisitos de acesso?",
+        "Isto não ocorreu: em outro cenário fictício, Otávio tem distintivo. O caso vigente de Otávio satisfaz os requisitos de acesso?",
+        "A simulação anterior foi verificada: aqueles valores agora são reais. O caso vigente de Otávio satisfaz os requisitos de acesso?"
+      ],
+      "operacao": "verificar_requisitos",
+      "argumentos": [
+        {
+          "turno": 0,
+          "inicio": 26,
+          "fim": 50,
+          "texto": "certificado e distintivo"
+        },
+        {
+          "turno": 2,
+          "inicio": 52,
+          "fim": 66,
+          "texto": "tem distintivo"
+        },
+        null
+      ],
+      "referente": {
+        "turno": 0,
+        "inicio": 71,
+        "fim": 77,
+        "texto": "Otávio"
+      },
+      "hipotese": false,
+      "classe": "regra",
+      "evento": "confirmacao",
+      "trajetoria": "correcao>hipotese>confirmacao>retorno"
+    },
+    "avaliacao": {
+      "sessao": "eventos-teste-13",
+      "familia": "requisitos",
+      "etapa": 3,
+      "evento": "confirmacao",
+      "trajetoria": "correcao>hipotese>confirmacao>retorno",
+      "evento_previsto": "retorno",
+      "operacao": true,
+      "argumentos": [
+        true,
+        false,
+        true
+      ],
+      "referente": true,
+      "escopo": true,
+      "contrato": false,
+      "proposta": {
+        "operacao": "verificar_requisitos",
+        "confianca_operacao": 0.9875084757804871,
+        "argumentos": [
+          {
+            "turno": 0,
+            "inicio": 26,
+            "fim": 50,
+            "texto": "certificado e distintivo"
+          },
+          null,
+          null
+        ],
+        "referente": {
+          "turno": 0,
+          "inicio": 71,
+          "fim": 77,
+          "texto": "Otávio"
+        },
+        "hipotese": false,
+        "fontes": [
+          0
+        ],
+        "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+        "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+      },
+      "execucao": {
+        "executavel": false,
+        "motivo": "Faltam regra ou inventário."
+      },
+      "resultado_correto": false
+    }
+  }
+]
