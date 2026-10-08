@@ -65,6 +65,19 @@ def fonte(texto):
     return '“'+texto.strip().strip(' .?!')[:360]+'”'
 
 
+def minutos_declarados(texto):
+    """Só disponibilidade afirmada, nunca crença, citação ou condição."""
+    n = ntexto(texto)
+    if citado(texto) or '?' in texto or re.search(r'\b(?:se|caso|quando|desde que)\b',n):
+        return None
+    inicio = r'(?:(?:so|apenas|mas|hoje|agora) )?(?:eu )?(?:so |apenas )?'
+    tempo = r'(?:tenho|disponho de|sobraram) (\d{1,4}) minutos?\b'
+    m = re.match(inicio+tempo,n)
+    if not m and re.match(r'(?:eu )?(?:quero|pretendo|queria|gostaria de)\b',n):
+        m = re.search(r'\b(?:e|mas) '+inicio+tempo,n)
+    return m.group(1) if m and 1 <= int(m.group(1)) <= 1440 else None
+
+
 class DialogoSituado:
     MAX_INTERVALO = 10
 
@@ -93,12 +106,13 @@ class DialogoSituado:
             if re.match(r'(?:eu )?(?:quero|queria|pretendo|ando querendo|gostaria de|'
                         r'seria (?:bom|legal|interessante))\b',n):
                 objetivo = texto
-            if re.search(r'\bnao (?:tenho|disponho de)\b.*\b(?:tempo|minutos|horas)\b',n):
+            from dialogo_aberto import disponibilidade_negada
+            if disponibilidade_negada(texto):
                 minutos = None
             else:
-                m = re.search(r'\b(?:tenho|disponho de) (\d{1,4}) minutos?\b',n)
-                if m and 1 <= int(m.group(1)) <= 1440:
-                    minutos = m.group(1)
+                valor = minutos_declarados(texto)
+                if valor:
+                    minutos = valor
             novas = extrair_opcoes(texto)
             if novas:
                 opcoes = novas
@@ -205,7 +219,8 @@ class DialogoSituado:
         # Uma circunstância vivida com “quando” não é automaticamente uma
         # hipótese. Perguntas e citações seguem seus protocolos existentes.
         if (re.match(r'(?:mas )?quando\b',n) and '?' not in texto and
-                (ativos or re.search(r'\beu\b',n))):
+                (ativos or re.search(r'\beu\b',n) or
+                 self.hipotese and conversa.turno-self.hipotese[1]<=self.MAX_INTERVALO)):
             return self._emitir('circunstancia',
                 'Você acrescentou esta circunstância: '+fonte(texto)+'. '+
                 ('Ela ajuda a entender o contexto de '+contexto+'. ' if contexto else '')+

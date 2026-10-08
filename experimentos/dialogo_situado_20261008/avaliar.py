@@ -15,7 +15,7 @@ from avaliar_dialogo_real import falhas_turno
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('split', choices=('desenvolvimento','validacao','validacao_temporal_nova'))
+    p.add_argument('split', choices=('desenvolvimento','validacao','validacao_temporal_nova','validacao_final_nova'))
     p.add_argument('--saida', type=Path, required=True)
     args = p.parse_args()
     if args.saida.exists():
@@ -43,6 +43,8 @@ def main():
              dialogos=len(resultados), dialogos_completos=sum(c['passou'] for c in resultados),
              casos=resultados, casos_sha256=h, tempo_segundos=round(time.monotonic()-inicio,3),
              limite='Validação autoral de pertinência e contratos. Exige leitura das respostas; não demonstra compreensão geral.')
+    r['fontes_codigo_sha256'] = {nome:hashlib.sha256((RAIZ/nome).read_bytes()).hexdigest()
+        for nome in ('crivo.py','dialogo_situado.py','linguagem_conversa.py','compreensao_intencao.py')}
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:v for k,v in r.items() if k!='casos'},ensure_ascii=False),flush=True)

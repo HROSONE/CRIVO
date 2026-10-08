@@ -637,6 +637,22 @@ _IDENTIDADE = (
 )
 
 
+def reformular_definicao_citada(texto, reconhecer):
+    """Um termo explicitamente citado não precisa de referente anterior.
+
+    Só consultas de significado e conceitos completos do acervo. A fala
+    não comprova que o assistente mencionou o termo nem fornece fatos novos.
+    """
+    if not isinstance(texto,str) or len(texto)>200:
+        return None
+    m = re.fullmatch(r'(?:Quando\s+(?:voc[eê]|se)\s+diz\s+)?["“]([^"“”]+)["”]\s*,?\s*'
+                     r'(?:o que|que)\s+(?:essa sigla|esse termo|essa palavra|isso)\s+significa\s*\??',
+                     texto.strip(),re.I)
+    if m and len(m.group(1).split())<=6 and reconhecer(m.group(1)):
+        return 'O que é '+m.group(1)+'?'
+    return None
+
+
 def reformular_identidade(texto, reconhecer):
     """“Quem foi Marie Curie?”, “O que foi a Revolução Francesa?” e “Quem
     escreveu Dom Casmurro?” pedem a ficha do alvo: viram “O que é X?”.

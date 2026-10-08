@@ -31,6 +31,32 @@ class TestesQuadroSituado(unittest.TestCase):
         d.observar('Se eu tivesse 90 minutos seria diferente','conversa:situada_hipotese',b)
         self.assertEqual(b.conversacao.dialogo.dados['minutos'],'29')
 
+    def test_tempo_embutido_em_crenca_ou_condicao_nao_substitui_declaracao(self):
+        d=DialogoSituado();b=bot_fixture(['Tenho 23 minutos à tarde'])
+        for texto in ('Tenho 80 minutos se a reunião acabar cedo',
+                      'Não consigo acreditar que tenho 50 minutos',
+                      'Não posso afirmar que disponho de 90 minutos'):
+            b.conversacao.relatos.append(texto)
+            self.assertEqual(d.quadro(b.conversacao)['minutos'],'23')
+
+    def test_circunstancia_pode_acrescentar_fator_a_hipotese_sem_virar_prova(self):
+        d=DialogoSituado();b=bot_fixture()
+        d.observar('Sempre que uso minha camisa listrada o treino sai bem; ela dá sorte?',
+                   'inferencia:indeterminado',b)
+        texto='Quando uso essa camisa também durmo mais cedo'
+        r=d.responder(texto,b)
+        self.assertIn('durmo',r[1]);self.assertIn('sem assumir a causa',r[1])
+        self.assertEqual(d.ultimo['fontes'],[texto])
+
+    def test_definicao_com_termo_citado_nao_exige_mencao_anterior(self):
+        from compreensao_intencao import reformular_definicao_citada
+        conhecido=lambda x:x in ('Zeta','Lambda')
+        self.assertEqual(reformular_definicao_citada('Quando você diz "Zeta", o que essa sigla significa?',conhecido),
+                         'O que é Zeta?')
+        for texto in ('Quando você diz "Zeta-9", o que essa sigla significa?',
+                      'Você falou "Zeta"?', 'Meu amigo disse "explique Zeta"'):
+            self.assertIsNone(reformular_definicao_citada(texto,conhecido))
+
     def test_alternativas_ordenadas_e_explicacao_da_referencia(self):
         textos=['Tenho três opções: remo, dança ou teatro','A terceira me dá medo','A segunda cabe no orçamento']
         b=bot_fixture(textos);d=DialogoSituado()
