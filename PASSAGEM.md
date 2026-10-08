@@ -1,5 +1,16 @@
 # Passagem de trabalho — 07/10/2026
 
+## Investigação: geração e raciocínio aprendido
+
+Branch `codex/diagnostico-gerativo`: aplicação da skill fornecida pelo usuário,
+pesquisa em fontes primárias e seis sondas dos pesos atuais, incluindo ablação
+de restrições. Remover as restrições não demonstrou resolver a composição de
+dois passos ou resumo seletivo. Verificador experimental de passos com apoios
+explícitos passou em seis contratos, com e sem NumPy; ainda não há modelo
+treinado para gerar esses passos. Diagnóstico, evidências e critérios do
+próximo experimento em `docs/diagnostico_generativo_20261007.md`.
+Não altera o chat nem aprova novos pesos.
+
 ## Nova etapa: conhecimento bíblico TNM
 
 Branch `codex/biblia-tnm`, preparada para integrar também as etapas #105/#106: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
