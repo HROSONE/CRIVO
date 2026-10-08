@@ -1,0 +1,272 @@
+{
+  "versao": 1,
+  "papel": "leitor: probabilidade de um fato da ficha responder à pergunta",
+  "base": {
+    "pasta": "/content/drive/MyDrive/CRIVO/transformer-leitor/base",
+    "pesos_sha256": "16102a72b21031b8bee2b4edfa633a359f7f08c5beab552b05f294e656b0cc67",
+    "config": {
+      "vocabulario": 8192,
+      "dimensao": 384,
+      "camadas": 8,
+      "cabecas": 8,
+      "contexto": 256,
+      "dropout": 0.1
+    },
+    "passo_pretreino": 20000
+  },
+  "treino": {
+    "passo": 1000,
+    "passos": 4000,
+    "lote": 64,
+    "lr": 5e-05,
+    "semente": 20261006,
+    "wikipedia": true,
+    "artigos": 60000,
+    "dados": "sintéticos das fichas (sem tutor, testes v1/v2, teste sem nome e astronomia), com e sem o nome do assunto; opcionalmente exercícios da Wikipédia"
+  },
+  "validacao_tutor": {
+    "acerto_fato": 0.6024844720496895,
+    "auc_respondivel": 0.757190635451505,
+    "certos": 97,
+    "respondiveis": 161,
+    "sem_resposta": 65
+  },
+  "controle": {
+    "aprovado": false,
+    "criterio": "Requer ganho end-to-end sem mais erros nos controles congelados."
+  },
+  "adaptacao_cabeca": {
+    "parametros_treinados": 385,
+    "l2": 0.1,
+    "dados": "tutor como supervisão, validação cruzada aninhada por assunto; base totalmente congelada",
+    "controle": {
+      "protocolo": "5 blocos externos por assunto; seleção L2 em 4 blocos internos; somente cabeça linear adaptada; tutor agora supervisão; testes congelados não usados",
+      "baseline": {
+        "acerto_fato": 0.5527950310559007,
+        "auc_respondivel": 0.713999044433827,
+        "certos": 89,
+        "respondiveis": 161,
+        "sem_resposta": 65
+      },
+      "validacao_externa": {
+        "acerto_fato": 0.6024844720496895,
+        "auc_respondivel": 0.757190635451505,
+        "certos": 97,
+        "respondiveis": 161,
+        "sem_resposta": 65
+      },
+      "selecao": [
+        {
+          "bloco": 0,
+          "l2": 0.03,
+          "validacao_interna": {
+            "acerto_fato": 0.656,
+            "auc_respondivel": 0.7675294117647059,
+            "certos": 82,
+            "respondiveis": 125,
+            "sem_resposta": 51
+          },
+          "assuntos_externos": [
+            "mundo_galileu",
+            "mundo_marie_curie",
+            "mundo_memoria",
+            "mundo_princesa_isabel",
+            "mundo_malala",
+            "mundo_dualidade_onda_particula",
+            "mundo_mutacao",
+            "mundo_efeito_estufa",
+            "mundo_estados_da_materia",
+            "mundo_memorias_postumas",
+            "mundo_pantanal",
+            "mundo_china_imperial",
+            "mundo_amazonia"
+          ]
+        },
+        {
+          "bloco": 1,
+          "l2": 0.1,
+          "validacao_interna": {
+            "acerto_fato": 0.6153846153846154,
+            "auc_respondivel": 0.7136094674556213,
+            "certos": 80,
+            "respondiveis": 130,
+            "sem_resposta": 52
+          },
+          "assuntos_externos": [
+            "mundo_constituicao_1988",
+            "mundo_codigo_genetico",
+            "mundo_neuroplasticidade",
+            "mundo_ceticismo",
+            "mundo_dogma_central",
+            "mundo_luta_classes",
+            "mundo_logica_dedutiva",
+            "mundo_ansiedade",
+            "mundo_independencia_eua",
+            "mundo_colisao",
+            "mundo_replicacao_dna",
+            "mundo_fato_social",
+            "mundo_filosofia"
+          ]
+        },
+        {
+          "bloco": 2,
+          "l2": 0.1,
+          "validacao_interna": {
+            "acerto_fato": 0.6,
+            "auc_respondivel": 0.7520361990950226,
+            "certos": 78,
+            "respondiveis": 130,
+            "sem_resposta": 51
+          },
+          "assuntos_externos": [
+            "mundo_pre_historia",
+            "mundo_urbanizacao_brasil",
+            "mundo_mercado",
+            "mundo_holocausto",
+            "mundo_inducao_eletromagnetica",
+            "mundo_adesao_lagartixa",
+            "mundo_onu",
+            "rede_neural",
+            "mundo_inercia",
+            "mundo_inflacao",
+            "mundo_fracao",
+            "mundo_difracao"
+          ]
+        },
+        {
+          "bloco": 3,
+          "l2": 0.1,
+          "validacao_interna": {
+            "acerto_fato": 0.5846153846153846,
+            "auc_respondivel": 0.7966618287373004,
+            "certos": 76,
+            "respondiveis": 130,
+            "sem_resposta": 53
+          },
+          "assuntos_externos": [
+            "mundo_populacao_mundial",
+            "mundo_relatividade_geral",
+            "mundo_isaac_newton",
+            "mundo_idealismo_transcendental",
+            "mundo_mnemonica",
+            "mundo_revolucao_cientifica",
+            "mundo_mil_e_uma_noites",
+            "vacuo",
+            "mundo_alexandre_magno",
+            "mundo_socializacao",
+            "mundo_equacao_schrodinger",
+            "mundo_estresse"
+          ]
+        },
+        {
+          "bloco": 4,
+          "l2": 0.03,
+          "validacao_interna": {
+            "acerto_fato": 0.6201550387596899,
+            "auc_respondivel": 0.7754863244112915,
+            "certos": 80,
+            "respondiveis": 129,
+            "sem_resposta": 53
+          },
+          "assuntos_externos": [
+            "mundo_spin",
+            "mundo_segunda_guerra",
+            "mundo_quark",
+            "mundo_falseabilidade",
+            "ser_humano",
+            "mundo_literatura_de_cordel",
+            "mundo_sono_rem",
+            "navegador",
+            "mundo_ligacao_quimica",
+            "mundo_sono",
+            "mundo_porcentagem",
+            "mundo_jornada_do_heroi"
+          ]
+        }
+      ],
+      "origem_sha256": "603ff3b6765d9fc82ff53517560ba3f1abca595e27f5a98c55911f1bb9a2b6dc",
+      "aprovado": false,
+      "pares_acerto": {
+        "ganhos": 26,
+        "perdas": 18
+      },
+      "corpus_sha256": "0ce87aafd46a9d1ce23445056b8e900300b6fd8312b9684c4ac4d66c54f77c54",
+      "fontes": {
+        "linguagem_profunda.py": "6654fc3e93c0d3d9adb1fa47e05fbdcd603a79beb4aac589e08b56c5c4b5c80c",
+        "leitor_transformer.py": "4ff88ec03cb44e0a4ef486f8e97ec6efa416d50eb1b304e874b3bfa5e3bc9871",
+        "experimentos/pesos_base/leitor_transformer/tokenizer.json": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+      },
+      "execucao": {
+        "torch": "2.14.1+cpu",
+        "numpy": "2.5.3",
+        "dispositivo": "cpu",
+        "semente": 20261008
+      }
+    }
+  },
+  "controle_congelado_leitor": {
+    "protocolo": "Pesos congelados antes de abrir controles; avaliação só em agregados; não usados para otimização",
+    "sha256": {
+      "original": "603ff3b6765d9fc82ff53517560ba3f1abca595e27f5a98c55911f1bb9a2b6dc",
+      "cabeca": "34a1d7e1a1e0170e9104d9459d65daf0a6dae7a8a6e7a0cdece4009c79fbc516",
+      "duas_camadas": "f1a4b516913d5d089fb3c27ac025cb6c7ee02e250f4d36304830d5e281e1a157"
+    },
+    "conjuntos": {
+      "v1": {
+        "casos": 72,
+        "avaliados": 72,
+        "metricas": {
+          "original": {
+            "acerto_fato": 0.44,
+            "auc_respondivel": 0.509090909090909,
+            "certos": 22,
+            "respondiveis": 50,
+            "sem_resposta": 22
+          },
+          "cabeca": {
+            "acerto_fato": 0.6,
+            "auc_respondivel": 0.6590909090909091,
+            "certos": 30,
+            "respondiveis": 50,
+            "sem_resposta": 22
+          },
+          "duas_camadas": {
+            "acerto_fato": 0.7,
+            "auc_respondivel": 0.6990909090909091,
+            "certos": 35,
+            "respondiveis": 50,
+            "sem_resposta": 22
+          }
+        }
+      },
+      "v2": {
+        "casos": 70,
+        "avaliados": 70,
+        "metricas": {
+          "original": {
+            "acerto_fato": 0.3541666666666667,
+            "auc_respondivel": 0.5729166666666666,
+            "certos": 17,
+            "respondiveis": 48,
+            "sem_resposta": 22
+          },
+          "cabeca": {
+            "acerto_fato": 0.5208333333333334,
+            "auc_respondivel": 0.7452651515151515,
+            "certos": 25,
+            "respondiveis": 48,
+            "sem_resposta": 22
+          },
+          "duas_camadas": {
+            "acerto_fato": 0.4375,
+            "auc_respondivel": 0.7017045454545454,
+            "certos": 21,
+            "respondiveis": 48,
+            "sem_resposta": 22
+          }
+        }
+      }
+    },
+    "aprovado_chat": false
+  }
+}
