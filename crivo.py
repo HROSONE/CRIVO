@@ -1898,16 +1898,18 @@ class Crivo:
             self.argumentos_conversa.limpar()
         calculada = self.raciocinio_conversa.responder(texto)
         if calculada is not None:
-            return self._registrar_conclusao_conversa(texto, calculada, 'raciocinio_conversa_verificavel',
-                                                     'raciocinio_conversa', self.raciocinio_conversa.ultimo)
+            return self._registrar_conclusao_conversa(texto, calculada,
+                                                     mecanismo='raciocinio_conversa_verificavel',
+                                                     campo='raciocinio_conversa', quadro=self.raciocinio_conversa.ultimo)
         if (pedido_reinicio(texto) or pedido_lembranca(texto) or
                 corrigir_relatos(texto, self.conversacao.relatos) is not None):
             self.perfil.turno += 1
             return self._responder_turno(texto)
         argumentos = self.argumentos_conversa.responder(texto)
         if argumentos is not None:
-            return self._registrar_conclusao_conversa(texto, argumentos, 'argumentos_conversa_estrutural',
-                                                     'argumentos_conversa', self.argumentos_conversa.ultimo)
+            return self._registrar_conclusao_conversa(texto, argumentos,
+                                                     mecanismo='argumentos_conversa_estrutural',
+                                                     campo='argumentos_conversa', quadro=self.argumentos_conversa.ultimo)
         situada = self.dialogo_situado.responder(texto, self)
         if situada is not None:
             return self._registrar_dialogo_situado(texto, situada)
