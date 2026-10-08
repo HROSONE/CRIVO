@@ -202,6 +202,8 @@ class TestesIntegracaoRaciocinioConversa(unittest.TestCase):
         self.assertNotEqual(ident,'conversa:raciocinio')
         self.assertNotIn('Sobram',resp)
         self.assertEqual(bot.raciocinio_conversa.disponivel,Decimal(45))
+        for s in ['Quanto tempo leva a digestão?', 'Em qual dia acontece um eclipse?']:
+            self.assertNotEqual(bot.responder(s)[0],'conversa:raciocinio')
 
 
 if __name__=='__main__':unittest.main()

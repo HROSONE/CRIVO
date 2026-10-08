@@ -135,11 +135,14 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             extra["question_analysis"] = interpretacao
         for campo, publico in (("raciocinio_ativo", "reasoning"),
                                ("raciocinio_conversa", "conversational_reasoning"),
+                               ("argumentos_conversa", "conversational_arguments"),
                                ("exploracao_conhecimento", "knowledge_exploration"),
                                ("reinterpretacao", "neural_understanding"),
                                ("leitura", "card_reading"),
                                ("voz", "voice")):
-            if bot.historico[-1].get(campo) is not None:
+            if (bot.historico[-1].get(campo) is not None and
+                    (campo != 'raciocinio_conversa' or identificador == 'conversa:raciocinio') and
+                    (campo != 'argumentos_conversa' or identificador == 'conversa:argumentos')):
                 extra[publico] = bot.historico[-1][campo]
     if bot.estado_interno is not None:
         extra["internal_state"] = bot.estado_interno.para_dict()

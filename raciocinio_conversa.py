@@ -69,7 +69,7 @@ class RaciocinioConversa:
         fonte=getattr(self,'_fonte_turno',fonte)
         repetidos=[e for e in self.eventos if e['turno']==self.turno and e['campo']==campo]
         revisao=re.search(r'\b(?:corrigindo|na verdade|ganhou|perdeu|recebeu|agora (?:tem|nao tem))\b',normalizar(fonte))
-        if repetidos and repetidos[-1]['valor']!=depois and not revisao:
+        if repetidos and repetidos[-1]['valor'] is not None and repetidos[-1]['valor']!=depois and not revisao:
             self._conflitos.append(campo)
         self.eventos.append(dict(turno=self.turno, campo=campo, anterior=antes,
                                  valor=depois, origem='hipotese' if hipotese else 'usuario',
@@ -96,11 +96,11 @@ class RaciocinioConversa:
         n = normalizar(texto)
         if re.search(r'\b(?:dolares|euros|centavos|iene|libras|dolar)\b',n):
             return False, None
-        if not (re.search(r'\b(?:custa|custam|custava|custar|preco|reais|r\$|taxa|passagem|material)\b',n)
+        if not (re.search(r'\b(?:custa|custam|custava|custar|cobra|cobre|preco|reais|r\$|taxa|passagem|material)\b',n)
                 or self.ativo=='custos'):
             return False, None
         # Valores cujo papel não está explicitado não são incorporados.
-        padrao = re.compile(r'([^.!?;]+?)\s+(?:custa|custava|custam|sai por|e|passou a custar|subiu para|passou para)\s+(?:r\$\s*)?('+NUM+r')\b([^.!?;]*)')
+        padrao = re.compile(r'([^.!?;]+?)\s+(?:custa|custava|custam|cobra|cobre|sai por|e|passou a custar|subiu para|passou para)\s+(?:r\$\s*)?('+NUM+r')\b([^.!?;]*)')
         novos = []; atualizados = False; ambiguo = None
         for m in padrao.finditer(n):
             nome = self._rotulo(m.group(1))
@@ -197,6 +197,7 @@ class RaciocinioConversa:
         n = normalizar(texto)
         mudou = False
         for clausula in re.split(r'[.!?;]',n):
+            clausula=re.sub(r',\s*(?:na verdade|corrigindo|agora)\s*,?',' ',clausula)
             participante = re.search(r'^\s*([\w ]{1,40}?)\s+(?:tambem participa|vai participar|participa)\b',clausula)
             if participante:
                 nome = self._rotulo(participante.group(1))
@@ -206,6 +207,8 @@ class RaciocinioConversa:
                         self._registrar('agenda:'+nome,None,None,texto,hipotese)
                     self.foco_agenda = nome
                     mudou = True
+                    resto=clausula[participante.end():].strip()
+                    if resto.startswith('e '):clausula=nome+' '+resto[2:]
             dias = set(_DIAS.findall(clausula))
             if not dias:
                 continue
@@ -423,11 +426,11 @@ class RaciocinioConversa:
         dominio=dominios[0] if dominios else None
         pergunta=bool('?' in texto or re.search(r'\b(?:resumo|resume|quanto|qual|e agora|o que muda)\b',n))
         if dominio is None and pergunta:
-            if alvo.custos and re.search(r'\b(?:preco|custo|custam|custava|valores|diferenca|economiz|empate|barato|taxa)\w*\b',n):
+            if alvo.custos and re.search(r'\b(?:precos|custo|custam|custava|valores|totais|diferenca|economiz|empate|barato|mais em conta|menor|taxa)\w*\b',n):
                 dominio='custos'
-            elif (alvo.tempos or alvo.disponivel is not None) and re.search(r'\b(?:tempo|saldo|sobra|sobraria|minutos|cabe|cabia)\w*\b',n):
+            elif (alvo.tempos or alvo.disponivel is not None) and re.search(r'\b(?:saldo|sobra|sobraria|cabe|cabia|meu tempo|quanto tempo eu|tempo (?:real|disponivel))\w*\b',n):
                 dominio='tempo'
-            elif alvo.agendas and re.search(r'\b(?:dia|dias|encontro|reunir|marcar)\b',n):
+            elif alvo.agendas and re.search(r'\b(?:em comum|encontro|reunir|marcar|qual dia (?:da|resta|serve)|quais dias.*(?:livres|comum))\b',n):
                 dominio='agenda'
             elif alvo.requisitos and re.search(r'\b(?:regra|requisitos|cumpre|situacao)\b',n):
                 dominio='regra'

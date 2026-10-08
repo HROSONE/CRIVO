@@ -186,6 +186,8 @@ class Crivo:
         self.dialogo_situado = DialogoSituado()
         from raciocinio_conversa import RaciocinioConversa
         self.raciocinio_conversa = RaciocinioConversa()
+        from argumentos_conversa import ArgumentosConversa
+        self.argumentos_conversa = ArgumentosConversa()
         self.inferencia = Inferencia()
         self.investigacao = InvestigacaoChat()
         self.consulta_pratica = ConsultaPratica(self.programacao)
@@ -1893,13 +1895,19 @@ class Crivo:
         from correcao_relatos import corrigir_relatos, pedido_lembranca, pedido_reinicio
         if pedido_reinicio(texto):
             self.raciocinio_conversa.limpar()
+            self.argumentos_conversa.limpar()
         calculada = self.raciocinio_conversa.responder(texto)
         if calculada is not None:
-            return self._registrar_raciocinio_conversa(texto, calculada)
+            return self._registrar_conclusao_conversa(texto, calculada, 'raciocinio_conversa_verificavel',
+                                                     'raciocinio_conversa', self.raciocinio_conversa.ultimo)
         if (pedido_reinicio(texto) or pedido_lembranca(texto) or
                 corrigir_relatos(texto, self.conversacao.relatos) is not None):
             self.perfil.turno += 1
             return self._responder_turno(texto)
+        argumentos = self.argumentos_conversa.responder(texto)
+        if argumentos is not None:
+            return self._registrar_conclusao_conversa(texto, argumentos, 'argumentos_conversa_estrutural',
+                                                     'argumentos_conversa', self.argumentos_conversa.ultimo)
         situada = self.dialogo_situado.responder(texto, self)
         if situada is not None:
             return self._registrar_dialogo_situado(texto, situada)
@@ -2007,12 +2015,12 @@ class Crivo:
         if mencionado is not None:
             self.assunto_conversa = mencionado
 
-    def _registrar_raciocinio_conversa(self, texto, resultado):
+    def _registrar_conclusao_conversa(self, texto, resultado, mecanismo, campo, quadro):
         self.perfil.turno += 1
         self.conversacao.turno += 1
         saida = self._registrar_social(resultado, texto)
-        self.historico[-1].update(mecanismo='raciocinio_conversa_verificavel',
-                                  raciocinio_conversa=self.raciocinio_conversa.ultimo)
+        self.historico[-1].update(mecanismo=mecanismo)
+        self.historico[-1][campo] = quadro
         self.contexto_textual = self.ultima_resposta_mostrada = None
         self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
         self.assunto_conversa = self.oferta_pendente = None

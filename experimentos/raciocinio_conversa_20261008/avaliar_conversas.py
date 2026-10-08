@@ -15,15 +15,15 @@ PASTA=Path(__file__).resolve().parent
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--raiz',type=Path,required=True);p.add_argument('--saida',type=Path,required=True);p.add_argument('--web',action='store_true');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--raiz',type=Path,required=True);p.add_argument('--saida',type=Path,required=True);p.add_argument('--web',action='store_true');p.add_argument('--conjunto',choices=['controle','transferencia'],default='controle');args=p.parse_args()
     if args.saida.exists():raise SystemExit('Não sobrescrever uma coleta anterior.')
     protocolo=json.loads((PASTA/'protocolo.json').read_text())
-    digest=hashlib.sha256((PASTA/'controle.json').read_bytes()).hexdigest()
-    assert digest==protocolo['controle_sha256']
+    digest=hashlib.sha256((PASTA/(args.conjunto+'.json')).read_bytes()).hexdigest()
+    assert digest==protocolo[args.conjunto+'_sha256']
     sys.path.insert(0,str(args.raiz.resolve()))
     from crivo import Crivo
     from web_core import responder_web
-    cs=json.loads((PASTA/'controle.json').read_text())['sessoes']
+    cs=json.loads((PASTA/(args.conjunto+'.json')).read_text())['sessoes']
     out=dict(controle_sha256=digest,commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=args.raiz,text=True).strip(),
              modo='web' if args.web else 'motor',limite='Controle autoral; não prova conversa livre ou generalização independente.',sessoes=[])
     for c in cs:
@@ -34,12 +34,14 @@ def main():
                 if args.web:
                     raw=responder_web(dict(message=t['texto'],history=hist[-10:]))
                     resposta=raw['response'];ident=raw['id'];r=raw.get('conversational_reasoning')
-                    geracao=raw.get('generation')
+                    geracao=raw.get('generation');argumentos=raw.get('conversational_arguments')
                 else:
                     ident,resposta=bot.responder(t['texto'])
-                    r=bot.historico[-1].get('raciocinio_conversa') if bot.historico else None
+                    atual=bot.historico[-1] if bot.historico and bot.historico[-1].get('pergunta')==t['texto'] else {}
+                    r=atual.get('raciocinio_conversa') if ident=='conversa:raciocinio' else None
+                    argumentos=atual.get('argumentos_conversa') if ident=='conversa:argumentos' else None
                     geracao=bot.ultima_geracao
-                s=dict(esperado=t,id=ident,resposta=resposta,raciocinio=r,geracao=geracao)
+                s=dict(esperado=t,id=ident,resposta=resposta,raciocinio=r,argumentos=argumentos,geracao=geracao)
                 if 'operacao' in t:
                     ok=r is not None and r.get('operacao')==t['operacao']
                     if 'resultado' in t:ok=ok and r.get('resultado')==t['resultado']
