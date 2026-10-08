@@ -1,5 +1,18 @@
 # Passagem de trabalho — 07/10/2026
 
+## Piloto treinado: resultado negativo para geração de provas
+
+Branch `codex/piloto-raciocinio-generativo`, sobre a investigação do PR #108.
+Dois ajustes dos pesos próprios, 400 atualizações por variante em CPU. Controle
+direto: 50/56 classificações no teste. Modelo por passos: 27/56 classificações
+e 0/28 provas completas necessárias; nenhum passo aceito no teste selecionado.
+O executor NumPy reproduziu os resultados. Pesos experimentais preservados em
+`experimentos/raciocinio_generativo/pesos_piloto`, não aprovados para o chat.
+Oito contratos passaram. Dados, código e critérios de seleção estão registrados
+em `docs/piloto_raciocinio_generativo_20261007.md`. Não ajustar usando o teste
+deste piloto e continuar chamando-o de cego. O diagnóstico posterior aponta
+para avaliar seleção de regras/apoios separadamente de redação e término.
+
 ## Investigação: geração e raciocínio aprendido
 
 Branch `codex/diagnostico-gerativo`: aplicação da skill fornecida pelo usuário,

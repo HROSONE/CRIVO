@@ -1,0 +1,4398 @@
+{
+  "corpus_sha256": {
+    "treino": "02b0cbe5e76f85a3349491e5eb745934db6851820c7d4fe42893d47ecd126b7c",
+    "dev": "1de1fce3ae5393d4dff07fbba787cb2733766e19274a49a9266e9cf2490a1668",
+    "teste": "a83c9d0a21f7cd1b5dc3595ee263cc994eba3f58b4c0fd4b25466c54f124942b"
+  },
+  "configuracao": {
+    "saida": "/workspace/crivo-piloto-20261007",
+    "passos": 400,
+    "lote": 6,
+    "lr": 0.00015,
+    "avaliar_a_cada": 100
+  },
+  "modelos": {
+    "direto": {
+      "antes_dev": {
+        "total": {
+          "n": 32,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 16,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "ood": {
+          "n": 0,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 0,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "negativo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "ausente": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "conflito": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          }
+        },
+        "casos": [
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A nuvem cresce"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0000",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A chuva começa\np1: A folha cai, então o cristal não brilha"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0001",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "O vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0002",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se o cristal brilha, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0003",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "O vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0004",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0005",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p1: Se o cristal brilha, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0006",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não cresce, então a pedra aquece, então a folha cai"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0007",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0008",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0009",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0010",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p4: Se a pedra aquece, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0011",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0012",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se o vento sopra e o cristal brilha, então o gelo derrete"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0013",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0014",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p5: A pedra aquece e a nuvem cresce, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0015",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0016",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não, o vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0017",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A água corre, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0018",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não. O gelo derrete, então a nuvem cresce"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0019",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p2: Se a água corre, então a água corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0020",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o gelo derrete"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0021",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0022",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a água corre, então a pedra aquece, então o cristal brilha"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0023",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a pedra aquece, então o vento sopra"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0024",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0025",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0026",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0027",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0028",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A água não corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0029",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0030",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a água corre e a pedra aquece, então a chuva começa\np4: A água não corre"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0031",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          }
+        ]
+      },
+      "historico": [
+        {
+          "passo": 100,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 24,
+            "contratos_completos": 8,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "perda": 0.04350834712386131
+        },
+        {
+          "passo": 200,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 28,
+            "contratos_completos": 16,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "perda": 0.12614361941814423
+        },
+        {
+          "passo": 300,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 31,
+            "contratos_completos": 16,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "perda": 8.09415814728709e-06
+        },
+        {
+          "passo": 400,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 28,
+            "contratos_completos": 12,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "perda": 4.669222835218534e-05
+        }
+      ],
+      "escolhido": 300,
+      "meta": {
+        "base": {
+          "config": {
+            "vocabulario": 8192,
+            "dimensao": 384,
+            "camadas": 8,
+            "cabecas": 8,
+            "contexto": 256,
+            "dropout": 0.1
+          }
+        },
+        "controle": {
+          "aprovado": false
+        },
+        "papel": "piloto de direto",
+        "corpus_sha256": {
+          "treino": "02b0cbe5e76f85a3349491e5eb745934db6851820c7d4fe42893d47ecd126b7c",
+          "dev": "1de1fce3ae5393d4dff07fbba787cb2733766e19274a49a9266e9cf2490a1668",
+          "teste": "a83c9d0a21f7cd1b5dc3595ee263cc994eba3f58b4c0fd4b25466c54f124942b"
+        },
+        "treino": {
+          "passos": 400,
+          "melhor_passo": 300,
+          "exemplos": 480,
+          "tokens_alvo": 12031,
+          "tokens_contexto": 159373,
+          "lr": 0.00015,
+          "lote": 6,
+          "semente": 8104
+        },
+        "pesos_externos": false
+      },
+      "dev": {
+        "total": {
+          "n": 32,
+          "classificacoes_corretas": 31,
+          "contratos_completos": 16,
+          "provas_necessarias": 16,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "ood": {
+          "n": 0,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 0,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 8,
+            "classificacoes_corretas": 7,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "negativo": {
+            "n": 8,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "ausente": {
+            "n": 8,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 8,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "conflito": {
+            "n": 8,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 8,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          }
+        },
+        "casos": [
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0000",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0001",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0002",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0003",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0004",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0005",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0006",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0007",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0008",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0009",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0010",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0011",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0012",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0013",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0014",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0015",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0016",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0017",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0018",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0019",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0020",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0021",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0022",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0023",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0024",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0025",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0026",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0027",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0028",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0029",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0030",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "dev-0031",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          }
+        ]
+      },
+      "teste": {
+        "total": {
+          "n": 56,
+          "classificacoes_corretas": 50,
+          "contratos_completos": 23,
+          "provas_necessarias": 28,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "ood": {
+          "n": 24,
+          "classificacoes_corretas": 18,
+          "contratos_completos": 7,
+          "provas_necessarias": 12,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 14,
+            "classificacoes_corretas": 13,
+            "contratos_completos": 0,
+            "provas_necessarias": 14,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "negativo": {
+            "n": 14,
+            "classificacoes_corretas": 14,
+            "contratos_completos": 0,
+            "provas_necessarias": 14,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "ausente": {
+            "n": 14,
+            "classificacoes_corretas": 9,
+            "contratos_completos": 9,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "conflito": {
+            "n": 14,
+            "classificacoes_corretas": 14,
+            "contratos_completos": 14,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          }
+        },
+        "casos": [
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0000",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0001",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0002",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0003",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0004",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0005",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0006",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0007",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0008",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0009",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0010",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0011",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0012",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0013",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0014",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0015",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0016",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0017",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "negativo"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0018",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0019",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0020",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0021",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "negativo"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0022",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0023",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0024",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0025",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0026",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0027",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0028",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0029",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0030",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0031",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0032",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0033",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0034",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0035",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0036",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0037",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0038",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0039",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0040",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0041",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0042",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0043",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0044",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0045",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "negativo"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0046",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0047",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "conflito"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0048",
+            "esperado": "sustentado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0049",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "negativo"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0050",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0051",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0052",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": "refutado",
+            "passos": [],
+            "saidas": [
+              "refutado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0053",
+            "esperado": "refutado",
+            "correto": true,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "sustentado",
+            "passos": [],
+            "saidas": [
+              "sustentado"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0054",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "resposta_direta",
+            "id": "teste-0055",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "conflito"
+          }
+        ]
+      }
+    },
+    "passos": {
+      "antes_dev": {
+        "total": {
+          "n": 32,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 16,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 32
+        },
+        "ood": {
+          "n": 0,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 0,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 8
+          },
+          "negativo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 8
+          },
+          "ausente": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 8
+          },
+          "conflito": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 8
+          }
+        },
+        "casos": [
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A nuvem cresce"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0000",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A chuva começa\np1: A folha cai, então o cristal não brilha"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0001",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "O vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0002",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se o cristal brilha, então a água corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0003",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "O vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0004",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0005",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p1: Se o cristal brilha, então a água corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0006",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não cresce, então a pedra aquece, então a folha cai"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0007",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não, o vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0008",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0009",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0010",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p4: Se a pedra aquece, então a água corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0011",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0012",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se o vento sopra e o cristal brilha, então o gelo derrete"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0013",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0014",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p5: A pedra aquece e a nuvem cresce, então a água corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0015",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0016",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não, o vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0017",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "É o cristal brilhante, que dá nome à superfície."
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0018",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Não. O gelo derrete, então a nuvem cresce"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0019",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "P2: Se a água corre, então a água corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0020",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "Sim, o gelo derrete"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0021",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0022",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a água corre, então a pedra aquece, então o cristal brilha"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0023",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a pedra aquece, então o vento sopra"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0024",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a nuvem cresce, então a folha cai"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0025",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0026",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0027",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0028",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "A água corre é o gelo derrete, então a água não corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0029",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "É a folha cai, então a folha cai\np2: Se a chuva começa, então a folha cai"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0030",
+            "esperado": "indeterminado",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p3: Se a água corre e a pedra aquece, então a chuva começa\np4: A água não corre"
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0031",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          }
+        ]
+      },
+      "historico": [
+        {
+          "passo": 100,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 8,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 4
+          },
+          "perda": 0.4594229757785797
+        },
+        {
+          "passo": 200,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 16,
+            "contratos_completos": 16,
+            "provas_necessarias": 16,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 3
+          },
+          "perda": 0.6224136352539062
+        },
+        {
+          "passo": 300,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 9,
+            "contratos_completos": 9,
+            "provas_necessarias": 16,
+            "provas_completas": 1,
+            "passos_aceitos": 1,
+            "falhas_protocolo": 5
+          },
+          "perda": 0.20344360172748566
+        },
+        {
+          "passo": 400,
+          "dev": {
+            "n": 32,
+            "classificacoes_corretas": 11,
+            "contratos_completos": 11,
+            "provas_necessarias": 16,
+            "provas_completas": 2,
+            "passos_aceitos": 2,
+            "falhas_protocolo": 7
+          },
+          "perda": 0.1831400990486145
+        }
+      ],
+      "escolhido": 200,
+      "meta": {
+        "base": {
+          "config": {
+            "vocabulario": 8192,
+            "dimensao": 384,
+            "camadas": 8,
+            "cabecas": 8,
+            "contexto": 256,
+            "dropout": 0.1
+          }
+        },
+        "controle": {
+          "aprovado": false
+        },
+        "papel": "piloto de passos",
+        "corpus_sha256": {
+          "treino": "02b0cbe5e76f85a3349491e5eb745934db6851820c7d4fe42893d47ecd126b7c",
+          "dev": "1de1fce3ae5393d4dff07fbba787cb2733766e19274a49a9266e9cf2490a1668",
+          "teste": "a83c9d0a21f7cd1b5dc3595ee263cc994eba3f58b4c0fd4b25466c54f124942b"
+        },
+        "treino": {
+          "passos": 400,
+          "melhor_passo": 200,
+          "exemplos": 960,
+          "tokens_alvo": 20851,
+          "tokens_contexto": 181091,
+          "lr": 0.00015,
+          "lote": 6,
+          "semente": 8104
+        },
+        "pesos_externos": false
+      },
+      "dev": {
+        "total": {
+          "n": 32,
+          "classificacoes_corretas": 16,
+          "contratos_completos": 16,
+          "provas_necessarias": 16,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 3
+        },
+        "ood": {
+          "n": 0,
+          "classificacoes_corretas": 0,
+          "contratos_completos": 0,
+          "provas_necessarias": 0,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 0
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 1
+          },
+          "negativo": {
+            "n": 8,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 8,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 2
+          },
+          "ausente": {
+            "n": 8,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 8,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "conflito": {
+            "n": 8,
+            "classificacoes_corretas": 8,
+            "contratos_completos": 8,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          }
+        },
+        "casos": [
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0000",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p2|p0|não é verdade que o cristal brilha"
+            ],
+            "motivo": "antecedentes_nao_satisfeitos",
+            "id": "dev-0001",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0002",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0003",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0004",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|não é verdade que a chuva começa"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "dev-0005",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0006",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0007",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0008",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0009",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0010",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0011",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0012",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o gelo derrete"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "dev-0013",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0014",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0015",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0016",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p1|p0|não é verdade que o vento"
+            ],
+            "motivo": "consequente_incorreto",
+            "id": "dev-0017",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0018",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0019",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0020",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0021",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0022",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0023",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0024",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o gelo derrete"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "dev-0025",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0026",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0027",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "dev-0028",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o gelo derrete"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "dev-0029",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0030",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "dev-0031",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          }
+        ]
+      },
+      "teste": {
+        "total": {
+          "n": 56,
+          "classificacoes_corretas": 27,
+          "contratos_completos": 27,
+          "provas_necessarias": 28,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 1
+        },
+        "ood": {
+          "n": 24,
+          "classificacoes_corretas": 11,
+          "contratos_completos": 11,
+          "provas_necessarias": 12,
+          "provas_completas": 0,
+          "passos_aceitos": 0,
+          "falhas_protocolo": 1
+        },
+        "por_modo": {
+          "positivo": {
+            "n": 14,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 14,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "negativo": {
+            "n": 14,
+            "classificacoes_corretas": 0,
+            "contratos_completos": 0,
+            "provas_necessarias": 14,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 1
+          },
+          "ausente": {
+            "n": 14,
+            "classificacoes_corretas": 14,
+            "contratos_completos": 14,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          },
+          "conflito": {
+            "n": 14,
+            "classificacoes_corretas": 13,
+            "contratos_completos": 13,
+            "provas_necessarias": 0,
+            "provas_completas": 0,
+            "passos_aceitos": 0,
+            "falhas_protocolo": 0
+          }
+        },
+        "casos": [
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0000",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|não é verdade que a chave primária"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0001",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0002",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0003",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0004",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|não é verdade que a ponte abre"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0005",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0006",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0007",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0008",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o pacote"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0009",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0010",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0011",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0012",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p4|p0|o motor é"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0013",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0014",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0015",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0016",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o motor é"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0017",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0018",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0019",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0020",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o painelado"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0021",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0022",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0023",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0024",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o paconde"
+            ],
+            "motivo": "regra_ausente_ou_nao_suportada",
+            "id": "teste-0025",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0026",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0027",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0028",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p2|p0|não é verdade que o mapaurs"
+            ],
+            "motivo": "antecedentes_nao_satisfeitos",
+            "id": "teste-0029",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0030",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0031",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 1,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0032",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o painelado"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0033",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0034",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0035",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0036",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o pacote é"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0037",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0038",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0039",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 3,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0040",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o motorista não é verdade que o sino toca"
+            ],
+            "motivo": "regra_ausente_ou_nao_suportada",
+            "id": "teste-0041",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0042",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0043",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": false,
+            "profundidade": 2,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0044",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o pacote"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0045",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0046",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "ausente"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o painelado"
+            ],
+            "motivo": "premissas_em_conflito",
+            "id": "teste-0047",
+            "esperado": "conflito",
+            "correto": false,
+            "prova_completa": null,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 4,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0048",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              "p0|p0|o painel ép0|o painel é"
+            ],
+            "motivo": "apoio_ausente_ou_futuro",
+            "id": "teste-0049",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0050",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0051",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 5,
+            "modo": "conflito"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0052",
+            "esperado": "sustentado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "positivo"
+          },
+          {
+            "status": null,
+            "passos": [],
+            "saidas": [
+              ""
+            ],
+            "motivo": "protocolo_invalido",
+            "id": "teste-0053",
+            "esperado": "refutado",
+            "correto": false,
+            "prova_completa": false,
+            "contrato": false,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "negativo"
+          },
+          {
+            "status": "indeterminado",
+            "passos": [],
+            "saidas": [
+              "indeterminado"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0054",
+            "esperado": "indeterminado",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "ausente"
+          },
+          {
+            "status": "conflito",
+            "passos": [],
+            "saidas": [
+              "conflito"
+            ],
+            "motivo": "terminou",
+            "id": "teste-0055",
+            "esperado": "conflito",
+            "correto": true,
+            "prova_completa": null,
+            "contrato": true,
+            "ood_estrutura": true,
+            "profundidade": 3,
+            "modo": "conflito"
+          }
+        ]
+      }
+    }
+  },
+  "base_sha256": "7ac0f3be921e2221d7ca538d118077662cff4a9c0861f288db49edc360164ab8",
+  "torch": "2.14.1+cpu",
+  "numpy": "2.3.5",
+  "semente": 8104
+}

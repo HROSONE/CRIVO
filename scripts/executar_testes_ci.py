@@ -34,9 +34,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--grupo", choices=GRUPOS, required=True)
     parser.add_argument("--listar", action="store_true")
+    parser.add_argument("--modulos", nargs="+", help="Suíte explícita de outro workflow")
     args = parser.parse_args()
     # O mesmo padrão da suíte anterior inclui automaticamente novos módulos.
-    suite = unittest.defaultTestLoader.discover(str(RAIZ), pattern="testes*.py")
+    if args.modulos:
+        suite = unittest.defaultTestLoader.loadTestsFromNames(args.modulos)
+    else:
+        suite = unittest.defaultTestLoader.discover(str(RAIZ), pattern="testes*.py")
     testes = [t for t in testes_individuais(suite) if grupo_do_teste(t) == args.grupo]
     if args.listar:
         print(json.dumps([t.id() for t in testes], ensure_ascii=False))

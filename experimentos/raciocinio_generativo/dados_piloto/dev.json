@@ -1,0 +1,522 @@
+[
+  {
+    "id": "dev-0000",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "O vento sopra",
+      "Se a folha cai, então a nuvem cresce",
+      "A folha cai"
+    ],
+    "objetivo": "A nuvem cresce",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0001",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "A chuva começa",
+      "A folha cai",
+      "Se a folha cai, então o cristal não brilha"
+    ],
+    "objetivo": "O cristal brilha",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0002",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "Se a nuvem cresce, então o vento sopra",
+      "A água corre"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0003",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "O cristal brilha",
+      "O cristal não brilha",
+      "A chuva começa",
+      "Se o cristal brilha, então a água corre"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0004",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "Se o cristal brilha, então o vento sopra",
+      "Se a água corre, então o cristal brilha",
+      "A água corre",
+      "O gelo derrete"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0005",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se a folha cai, então a pedra aquece",
+      "Se a pedra aquece, então a chuva não começa",
+      "A folha cai",
+      "O cristal brilha"
+    ],
+    "objetivo": "A chuva começa",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0006",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se o cristal brilha, então a água corre",
+      "A nuvem cresce",
+      "Se a água corre, então o vento sopra"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0007",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "A nuvem cresce",
+      "A nuvem não cresce",
+      "O cristal brilha",
+      "Se a nuvem cresce, então a pedra aquece",
+      "Se a pedra aquece, então a folha cai"
+    ],
+    "objetivo": "A folha cai",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0008",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "Se a chuva começa, então o cristal brilha",
+      "Se o cristal brilha, então o vento sopra",
+      "Se a pedra aquece, então a chuva começa",
+      "A pedra aquece",
+      "A nuvem cresce"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0009",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se o cristal brilha, então a chuva começa",
+      "O gelo derrete",
+      "A pedra aquece",
+      "Se a chuva começa, então a água não corre",
+      "Se a pedra aquece, então o cristal brilha"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0010",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se a nuvem cresce, então a chuva começa",
+      "A folha cai",
+      "Se o gelo derrete, então o cristal brilha",
+      "Se o cristal brilha, então a nuvem cresce"
+    ],
+    "objetivo": "A chuva começa",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0011",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "O vento sopra",
+      "Se o vento sopra, então a pedra aquece",
+      "Se a nuvem cresce, então a água corre",
+      "O cristal brilha",
+      "Se a pedra aquece, então a nuvem cresce",
+      "O vento não sopra"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0012",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "A chuva começa",
+      "A água corre",
+      "Se o gelo derrete, então o cristal brilha",
+      "A pedra aquece",
+      "Se a água corre e a chuva começa, então o gelo derrete"
+    ],
+    "objetivo": "O cristal brilha",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0013",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o vento sopra e o cristal brilha, então o gelo derrete",
+      "Se o gelo derrete, então a pedra não aquece",
+      "A água corre",
+      "O vento sopra",
+      "O cristal brilha"
+    ],
+    "objetivo": "A pedra aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0014",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "A nuvem cresce",
+      "Se a água corre, então o vento sopra",
+      "A pedra aquece",
+      "Se a chuva começa e a nuvem cresce, então a água corre"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0015",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "Se o gelo derrete, então a água corre",
+      "A pedra aquece",
+      "O vento sopra",
+      "A nuvem cresce",
+      "Se a pedra aquece e a nuvem cresce, então o gelo derrete",
+      "A pedra não aquece"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0016",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "positivo",
+    "premissas": [
+      "Se a chuva começa, então o vento sopra",
+      "A folha cai",
+      "A chuva começa"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0017",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "negativo",
+    "premissas": [
+      "O gelo derrete",
+      "Se o gelo derrete, então o vento não sopra",
+      "A pedra aquece"
+    ],
+    "objetivo": "O vento sopra",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0018",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "ausente",
+    "premissas": [
+      "Se a pedra aquece, então a água corre",
+      "O cristal brilha"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0019",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 1,
+    "modo": "conflito",
+    "premissas": [
+      "A água corre",
+      "O gelo não derrete",
+      "O gelo derrete",
+      "Se o gelo derrete, então a nuvem cresce"
+    ],
+    "objetivo": "A nuvem cresce",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0020",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "A nuvem cresce",
+      "Se a nuvem cresce, então a água corre",
+      "Se a água corre, então a pedra aquece",
+      "O vento sopra"
+    ],
+    "objetivo": "A pedra aquece",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0021",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se a chuva começa, então a pedra não aquece",
+      "A nuvem cresce",
+      "O gelo derrete",
+      "Se a nuvem cresce, então a chuva começa"
+    ],
+    "objetivo": "A pedra aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0022",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se a pedra aquece, então a chuva começa",
+      "A água corre",
+      "Se a chuva começa, então o gelo derrete"
+    ],
+    "objetivo": "O gelo derrete",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0023",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "Se a água corre, então a pedra aquece",
+      "O vento sopra",
+      "Se a pedra aquece, então o cristal brilha",
+      "A água não corre",
+      "A água corre"
+    ],
+    "objetivo": "O cristal brilha",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0024",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "positivo",
+    "premissas": [
+      "O cristal brilha",
+      "A nuvem cresce",
+      "Se a pedra aquece, então o vento sopra",
+      "Se a nuvem cresce, então a pedra aquece",
+      "Se o vento sopra, então o gelo derrete"
+    ],
+    "objetivo": "O gelo derrete",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0025",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "negativo",
+    "premissas": [
+      "Se a nuvem cresce, então a folha cai",
+      "Se o gelo derrete, então a pedra não aquece",
+      "Se a folha cai, então o gelo derrete",
+      "A nuvem cresce",
+      "O cristal brilha"
+    ],
+    "objetivo": "A pedra aquece",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0026",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "ausente",
+    "premissas": [
+      "Se a água corre, então o gelo derrete",
+      "Se o gelo derrete, então o cristal brilha",
+      "Se o cristal brilha, então a nuvem cresce",
+      "A pedra aquece"
+    ],
+    "objetivo": "A nuvem cresce",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0027",
+    "split": "dev",
+    "familia": "cadeia",
+    "profundidade": 3,
+    "modo": "conflito",
+    "premissas": [
+      "Se o vento sopra, então a chuva começa",
+      "Se a nuvem cresce, então a folha cai",
+      "O vento sopra",
+      "Se a chuva começa, então a nuvem cresce",
+      "A água corre",
+      "O vento não sopra"
+    ],
+    "objetivo": "A folha cai",
+    "ood_estrutura": false,
+    "status": "conflito"
+  },
+  {
+    "id": "dev-0028",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "positivo",
+    "premissas": [
+      "A folha cai",
+      "O vento sopra",
+      "Se o cristal brilha, então a pedra aquece",
+      "Se a folha cai e a água corre, então o cristal brilha",
+      "A água corre"
+    ],
+    "objetivo": "A pedra aquece",
+    "ood_estrutura": false,
+    "status": "sustentado"
+  },
+  {
+    "id": "dev-0029",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "negativo",
+    "premissas": [
+      "Se o gelo derrete, então a água não corre",
+      "Se a nuvem cresce e a folha cai, então o gelo derrete",
+      "A pedra aquece",
+      "A nuvem cresce",
+      "A folha cai"
+    ],
+    "objetivo": "A água corre",
+    "ood_estrutura": false,
+    "status": "refutado"
+  },
+  {
+    "id": "dev-0030",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "ausente",
+    "premissas": [
+      "Se a chuva começa, então a folha cai",
+      "Se o vento sopra e a nuvem cresce, então a chuva começa",
+      "A nuvem cresce",
+      "O cristal brilha"
+    ],
+    "objetivo": "A folha cai",
+    "ood_estrutura": false,
+    "status": "indeterminado"
+  },
+  {
+    "id": "dev-0031",
+    "split": "dev",
+    "familia": "juncao",
+    "profundidade": 2,
+    "modo": "conflito",
+    "premissas": [
+      "A água não corre",
+      "A pedra aquece",
+      "Se a chuva começa, então o cristal brilha",
+      "Se a água corre e a pedra aquece, então a chuva começa",
+      "O vento sopra",
+      "A água corre"
+    ],
+    "objetivo": "O cristal brilha",
+    "ood_estrutura": false,
+    "status": "conflito"
+  }
+]
