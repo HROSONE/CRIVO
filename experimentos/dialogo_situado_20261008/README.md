@@ -43,6 +43,10 @@ O workflow `dialogo-situado.yml` mantém contratos de escopo e as sondas origina
 
 ## Limites observados
 
+A suíte completa do GitHub no primeiro head do PR114 (`708354b`) encontrou regressões que a seleção local anterior não cobriu: esclarecimento de mensagem incompleta, operadores nativos de reformulação/exploração/plano, memória de disponibilidade, convite social, recusa de código não suportado e pergunta de diagnóstico individual. O job bíblico agregava testes do acervo, incluindo esse limite de saúde; a falha não estava nas referências bíblicas.
+
+A correção compartilha os reconhecedores puros das operações pessoais com o gerador nativo, preserva pedidos explícitos e convites e restringe o resgate genérico a declarações, sem converter perguntas recusadas em relatos. Os testes e oráculos existentes foram preservados. A reprodução após essa correção mantém 72/72 turnos originais, 20/20 adicionais e 25/25 do controle recente; este último já é reprodução, não controle inédito. Os logs da correção e dos demais contratos de ampliação estão publicados separadamente.
+
 Os critérios automáticos medem presença de argumentos pertinentes, continuidade e contratos. Todos os conjuntos novos são autorais, com avaliação automática e leitura técnica das respostas, sem avaliação humana independente. Não estimam desempenho em conversa livre nem compreensão geral.
 
 A leitura dos 25 turnos finais confirma referências e tempos corretos e ausência de ficção como prova. Mostra também respostas ainda formularizadas, repetição de perguntas de exploração e ecos pouco naturais, como misturar objetivo e disponibilidade na mesma oração. Passar nos critérios não garante resposta útil, natural ou raciocínio profundo. Permanecem necessárias avaliações independentes, diálogos mais longos, paráfrases mais amplas e trabalho no gerador próprio. Este experimento melhora a condução estrutural do diálogo; não comprova capacidade de um LLM geral.

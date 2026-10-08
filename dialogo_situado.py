@@ -192,6 +192,25 @@ class DialogoSituado:
         n = ntexto(texto)
         conversa = bot.conversacao
         q = self.quadro(conversa)
+        from conversa_assistente import identificar_contato
+        from geracao_conversa import operacao_pessoal_explicita
+        if identificar_contato(texto) is not None:
+            return None
+        # Produtos pedidos explicitamente e operadores do gerador próprio
+        # mantêm a rota nativa, inclusive esclarecimentos e argumentos inline.
+        if re.match(r'(?:eu )?(?:quero|queria|gostaria de) (?:um |uma )?'
+                    r'(?:historia|conto|poema|dialogo|mensagem|bilhete|email|e-mail|'
+                    r'funcao|codigo|programa|script|algoritmo)\b',n):
+            return None
+        op = operacao_pessoal_explicita(texto)
+        g = getattr(conversa,'geracao',None)
+        if op and ('slots' in op or op.get('explicito') or
+                   g is not None and (g._objetivo(conversa) if op['acao']=='plano' else g._relato(conversa))):
+            return None
+        if (re.search(r'\b(?:quanto tempo|quantos minutos)\b',n) and
+                re.search(r'\b(?:disse|falei)\b',n) and
+                not re.search(r'\b(?:realmente|verdade)\b',n)):
+            return None
         pedido_conceito = re.match(r'(?:eu )?(?:quero|queria|gostaria de|pretendo) '
                                    r'(?:entender|saber|compreender|aprender sobre)\b',n)
         if pedido_conceito and not re.search(r'\b(?:meu|minha|meus|minhas|comigo|'
@@ -368,7 +387,7 @@ class DialogoSituado:
             return self._emitir('sentimento',
                 'Você ligou esse sentimento à situação '+contexto+'. Agora acrescentou: '+fonte(texto)+
                 '. O que foi mais importante para você nessa experiência?',fontes+[texto])
-        if apos_recusa and pessoal(n) and not re.search(r'\b(?:o que e|como funciona|codigo|programa|script|defina|explique)\b',n):
+        if apos_recusa and '?' not in texto and pessoal(n) and not re.search(r'\b(?:o que e|como funciona|codigo|programa|script|defina|explique)\b',n):
             return self._emitir('relato',
                 'Você trouxe '+fonte(texto)+'. Posso conversar a partir disso. '
                 'O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?',[texto])

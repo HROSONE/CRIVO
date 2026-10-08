@@ -19,6 +19,36 @@ def geracao_valida(g, obrigatorios, acao=None):
     return len(set(ngramas))==len(ngramas)
 
 
+def operacao_pessoal_explicita(texto):
+    """Reconhece operadores nativos sem alterar pendências ou gerar texto."""
+    n=texto_pedido(texto)
+    m=re.fullmatch(r"(?:me )?(resuma|resumir|reformule|reformular|reescreva|reescrever) (?:o que (?:eu )?"
+                   r"(?:te |lhe )?(?:contei|disse)|meu relato|minha situacao|isso que contei|"
+                   r"o que acabei de contar)(?: (?:em poucas palavras|de outro jeito))?",n)
+    if m:
+        return {"acao":"resumo" if m.group(1).startswith("resum") else "reformulacao","explicito":True}
+    if re.fullmatch(r"(?:junte|junta|reuna) o que (?:eu )?(?:te )?contei (?:num|em um) resumo",n):
+        return {"acao":"resumo","explicito":True}
+    if n in ("dizer isso de outro jeito","diga isso de outro jeito","diz isso de outro jeito"):
+        return {"acao":"reformulacao"}
+    m=re.fullmatch(r"(?:me\s+)?(resuma|reformule|reescreva)\s*(?:este (?:texto|relato)\s*)?:\s*(.+)",texto.strip(),re.I)
+    if m and len(m.group(2))<=1000:
+        return {"acao":"resumo" if m.group(1).lower()=="resuma" else "reformulacao","slots":{"relato":m.group(2)}}
+    if re.fullmatch(r"(?:me )?(?:fa[cz]a|fazer) (?:uma|outra|mais uma) pergunta(?: (?:para (?:eu )?pensar(?: melhor)? (?:nisso|sobre isso)|"
+                   r"sobre (?:isso|o que contei|minha situacao|a historia)))?|"
+                   r"(?:quais|que) perguntas eu (?:deveria|posso) me fazer antes de decidir|"
+                   r"me ajude a (?:explorar|pensar melhor sobre) (?:isso|minha situacao)",n):
+        return {"acao":"exploracao","historia":"historia" in n}
+    if re.fullmatch(r"(?:me )?(?:ajude|ajuda|ajudar) a organizar (?:minhas ideias|meu objetivo|isso)|"
+                   r"organize (?:minhas ideias|um plano com o que contei)|"
+                   r"como posso comecar de um jeito diferente|me sugira (?:um )?proximo passo",n):
+        return {"acao":"plano"}
+    m=re.fullmatch(r"e se (?:eu )?(?:tiver|tivesse|so tiver|so tivesse) (?:so |apenas )?(\d{1,4}) minutos(?: (?:por dia|a noite))?",n)
+    if m and 1<=int(m.group(1))<=1440:
+        return {"acao":"plano","condicao":True}
+    return None
+
+
 class GeracaoConversa:
     MAX_INTERVALO=10
 
@@ -243,33 +273,19 @@ class GeracaoConversa:
                 if len(partes)!=2: return {"esclarecer":"Quais dois elementos você quer combinar? Escolha os elementos que devem aparecer."}
                 a,b=partes
             return {"acao":"ideia","slots":{"tema1":a[:400],"tema2":b[:400]}}
-        pessoal=re.fullmatch(r"(?:me )?(resuma|resumir|reformule|reformular|reescreva|reescrever) (?:o que (?:eu )?"
-                             r"(?:te |lhe )?(?:contei|disse)|meu relato|minha situacao|isso que contei|"
-                             r"o que acabei de contar)(?: (?:em poucas palavras|de outro jeito))?",n)
+        pessoal=operacao_pessoal_explicita(texto)
         if pessoal:
-            return self._pedido_pessoal("resumo" if pessoal.group(1).startswith("resum") else "reformulacao",conversa,explicito=True)
-        if re.fullmatch(r"(?:junte|junta|reuna) o que (?:eu )?(?:te )?contei (?:num|em um) resumo",n):
-            return self._pedido_pessoal("resumo",conversa,explicito=True)
-        if n in ("dizer isso de outro jeito","diga isso de outro jeito","diz isso de outro jeito"):
-            if bot.contexto_textual is not None: return None
-            return self._pedido_pessoal("reformulacao",conversa)
-        inline=re.fullmatch(r"(?:me\s+)?(resuma|reformule|reescreva)\s*(?:este (?:texto|relato)\s*)?:\s*(.+)",texto.strip(),re.I)
-        if inline and len(inline.group(2))<=1000:
-            return {"acao":"resumo" if inline.group(1).lower()=="resuma" else "reformulacao","slots":{"relato":inline.group(2)}}
-        if re.fullmatch(r"(?:me )?(?:fa[cz]a|fazer) (?:uma|outra|mais uma) pergunta(?: (?:para (?:eu )?pensar(?: melhor)? (?:nisso|sobre isso)|"
-                        r"sobre (?:isso|o que contei|minha situacao|a historia)))?|"
-                        r"(?:quais|que) perguntas eu (?:deveria|posso) me fazer antes de decidir|"
-                        r"me ajude a (?:explorar|pensar melhor sobre) (?:isso|minha situacao)",n):
-            if "historia" in n and self.ultima_criacao:
+            if "slots" in pessoal:
+                return {"acao":pessoal["acao"],"slots":pessoal["slots"]}
+            if pessoal.get("condicao"):
+                if conversa.dialogo.ativo and self._objetivo(conversa):
+                    return {"acao":"plano","slots":{"objetivo":self._objetivo(conversa),"restricao":texto.strip().rstrip("?")},"hipotese":True}
+            elif pessoal.get("historia") and self.ultima_criacao:
                 return {"acao":"exploracao","slots":{"relato":self.ultima_resposta[:600]}}
-            return self._pedido_pessoal("exploracao",conversa)
-        if re.fullmatch(r"(?:me )?(?:ajude|ajuda|ajudar) a organizar (?:minhas ideias|meu objetivo|isso)|"
-                        r"organize (?:minhas ideias|um plano com o que contei)|"
-                        r"como posso comecar de um jeito diferente|me sugira (?:um )?proximo passo",n):
-            return self._pedido_pessoal("plano",conversa)
-        condicao=re.fullmatch(r"e se (?:eu )?(?:tiver|tivesse|so tiver|so tivesse) (?:so |apenas )?(\d{1,4}) minutos(?: (?:por dia|a noite))?",n)
-        if condicao and conversa.dialogo.ativo and self._objetivo(conversa) and 1<=int(condicao.group(1))<=1440:
-            return {"acao":"plano","slots":{"objetivo":self._objetivo(conversa),"restricao":texto.strip().rstrip("?")},"hipotese":True}
+            elif pessoal.get("explicito") or pessoal["acao"]!="reformulacao" or bot.contexto_textual is None:
+                return self._pedido_pessoal(pessoal["acao"],conversa,explicito=pessoal.get("explicito",False))
+            else:
+                return None
         if n=="separe o que eu sei do que estou supondo":
             anterior=self.ultima_decisao
             if anterior and anterior["acao"]=="reflexao":
