@@ -1,0 +1,348 @@
+[
+  {
+    "mensagem": "Estou fazendo uma lista de livros para estudar desenho.",
+    "resposta": "Você quer aprender desenho de observação, personagens ou outra área?",
+    "historico": [],
+    "grupo": "autoral:esquecer_assunto",
+    "source_id": "autoral:23d60e3a360faffe3ba80905a69fdf2ef6ab23e08298d5b405201597c59aa57c",
+    "familia": "contexto",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Personagens. Mas primeiro vamos falar de música.",
+    "resposta": "Tudo bem. O que você quer conversar sobre música?",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Estou fazendo uma lista de livros para estudar desenho."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Você quer aprender desenho de observação, personagens ou outra área?"
+      }
+    ],
+    "grupo": "autoral:esquecer_assunto",
+    "source_id": "autoral:7dfc460d229986f029942cd20407ce5dffd5ce8122a81175175140145be2e3ec",
+    "familia": "contexto",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Voltando à lista: qual era o objetivo?",
+    "resposta": "A lista era de livros para aprender desenho de personagens.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Estou fazendo uma lista de livros para estudar desenho."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Você quer aprender desenho de observação, personagens ou outra área?"
+      },
+      {
+        "papel": "usuario",
+        "texto": "Personagens. Mas primeiro vamos falar de música."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Tudo bem. O que você quer conversar sobre música?"
+      }
+    ],
+    "grupo": "autoral:esquecer_assunto",
+    "source_id": "autoral:61cc720b5008a2cd8260334ce0a8dd962b0ecd67a1f86a1ad220c0d88acfe9b7",
+    "familia": "contexto",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Gosto de café, mas hoje não quero tomar.",
+    "resposta": "Gostar de café não significa querer beber agora. Podemos pensar em outra bebida para hoje.",
+    "historico": [],
+    "grupo": "autoral:preferencia_nao_ordem",
+    "source_id": "autoral:5b999bfd9b5816ddd8fb7c802110d68ad2e620cf077045c44d532d30ac3acb99",
+    "familia": "restricao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Não quero sugestão de bebida. Quero explicar isso a um amigo.",
+    "resposta": "Você pode dizer: Eu gosto de café, mas hoje prefiro não tomar.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Gosto de café, mas hoje não quero tomar."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Gostar de café não significa querer beber agora. Podemos pensar em outra bebida para hoje."
+      }
+    ],
+    "grupo": "autoral:preferencia_nao_ordem",
+    "source_id": "autoral:78a566d26bedbc8ef0a0e067ee1cc1ab386a98322fa7a7b88e3b1353084f1eae",
+    "familia": "restricao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "A sala abre se houver chave e autorização. Tenho a chave. Posso abrir?",
+    "resposta": "A regra exige as duas condições. Ter a chave não basta sem a autorização.",
+    "historico": [],
+    "grupo": "autoral:condicao_composta",
+    "source_id": "autoral:25af1d447e0a93ed0c6ec8f2e74823a505717428c02fbebc9b6f2ef5a69f167c",
+    "familia": "raciocinio",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Recebi autorização agora.",
+    "resposta": "Com chave e autorização, as duas condições informadas foram satisfeitas.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "A sala abre se houver chave e autorização. Tenho a chave. Posso abrir?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "A regra exige as duas condições. Ter a chave não basta sem a autorização."
+      }
+    ],
+    "grupo": "autoral:condicao_composta",
+    "source_id": "autoral:319e2306110dd6f486e43347dc03c1aa11f335e688f4584e8ac76626f73368c4",
+    "familia": "raciocinio",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Quero decorar uma parede sem furar nem gastar muito.",
+    "resposta": "Você pode usar desenhos apoiados num móvel, uma composição com tecidos ou elementos leves com fixação removível adequada à parede.",
+    "historico": [],
+    "grupo": "autoral:alternativas_restritas",
+    "source_id": "autoral:6ef6d7bee233c8ea4501f47ea82904b71b722836b7c1788c9e657f132d1a2972",
+    "familia": "ideias",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Também não quero colar nada.",
+    "resposta": "Então prefira objetos apoiados: quadros sobre uma estante ou um tecido preso a um suporte independente. Assim você evita furos e cola.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Quero decorar uma parede sem furar nem gastar muito."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Você pode usar desenhos apoiados num móvel, uma composição com tecidos ou elementos leves com fixação removível adequada à parede."
+      }
+    ],
+    "grupo": "autoral:alternativas_restritas",
+    "source_id": "autoral:d20b6fdc04b6007e588cf66339bab58fd49747f3d7766f982f477d48ee56db39",
+    "familia": "ideias",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Um índice de livro ajuda a entender um índice de banco de dados?",
+    "resposta": "Sim: ambos ajudam a localizar informação sem percorrer tudo. É uma analogia para busca, não uma descrição completa do funcionamento.",
+    "historico": [],
+    "grupo": "autoral:analogia_limites",
+    "source_id": "autoral:89b8669e1cff0f6f467a8b4b8a4a7bddc0ac9cb34a56b727a6ed65f4f4bb6493",
+    "familia": "compreensao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Eles são iguais então?",
+    "resposta": "Não. Um índice de banco de dados tem estruturas e custos próprios, inclusive atualizações quando os dados mudam. A analogia explica uma função em comum.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Um índice de livro ajuda a entender um índice de banco de dados?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Sim: ambos ajudam a localizar informação sem percorrer tudo. É uma analogia para busca, não uma descrição completa do funcionamento."
+      }
+    ],
+    "grupo": "autoral:analogia_limites",
+    "source_id": "autoral:c6f0473563f513fc14dc10f16f1c3eea8fbfccec2e055a54a9d203aac84c389b",
+    "familia": "compreensao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Leio um capítulo e acho que entendi, mas erro os exercícios.",
+    "resposta": "A leitura pode dar familiaridade sem garantir que você consiga aplicar a ideia. Tente resolver um exemplo sem consultar e examine onde travou.",
+    "historico": [],
+    "grupo": "autoral:aprender_ativo",
+    "source_id": "autoral:0ce13eba676516ac49468e945f6a07d7d0d2e80c7aab30203535cde5aa291a71",
+    "familia": "aprendizado",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Só tenho um exercício.",
+    "resposta": "Resolva esse exercício explicando cada passo. Depois altere um dado e veja se consegue adaptar a solução.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Leio um capítulo e acho que entendi, mas erro os exercícios."
+      },
+      {
+        "papel": "assistente",
+        "texto": "A leitura pode dar familiaridade sem garantir que você consiga aplicar a ideia. Tente resolver um exemplo sem consultar e examine onde travou."
+      }
+    ],
+    "grupo": "autoral:aprender_ativo",
+    "source_id": "autoral:05e38ad1dd454aab4a8eabba4c1eec0b90085cebf303bb83f54e5087d2d613f4",
+    "familia": "aprendizado",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Na regra deste jogo, cada chave abre só a porta da mesma cor. Tenho uma chave azul e uma porta vermelha.",
+    "resposta": "Pela regra informada, a chave azul não abre a porta vermelha.",
+    "historico": [],
+    "grupo": "autoral:fato_provided",
+    "source_id": "autoral:8e8b57be5c674c16acbe48b5176c4be7933ada95d255dfaf363ea82aecbc49f0",
+    "familia": "evidencia",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Mas em outro jogo qualquer chave serve.",
+    "resposta": "Aqui você definiu uma regra diferente. A regra de outro jogo não muda a resposta neste cenário.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Na regra deste jogo, cada chave abre só a porta da mesma cor. Tenho uma chave azul e uma porta vermelha."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Pela regra informada, a chave azul não abre a porta vermelha."
+      }
+    ],
+    "grupo": "autoral:fato_provided",
+    "source_id": "autoral:53e4cdb16d8dda60ea2a7ff8a2fecd257d03af8836edf584ffa397bd0720de4c",
+    "familia": "evidencia",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Quero melhorar um jogo de perguntas.",
+    "resposta": "Que parte precisa melhorar: variedade das perguntas, dificuldade ou experiência dos jogadores?",
+    "historico": [],
+    "grupo": "autoral:intencao_primeiro",
+    "source_id": "autoral:51a37a658db072dc5c85683097454202daab6eda72eb73f25f3245e6ea2a4ab0",
+    "familia": "ideias",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "As pessoas acertam tudo e perdem o interesse.",
+    "resposta": "Experimente perguntas que exijam aplicar uma ideia, além de reconhecer um fato. Também registre quais ficam fáceis demais para ajustar a dificuldade.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Quero melhorar um jogo de perguntas."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Que parte precisa melhorar: variedade das perguntas, dificuldade ou experiência dos jogadores?"
+      }
+    ],
+    "grupo": "autoral:intencao_primeiro",
+    "source_id": "autoral:da32a12dc12840254d28c935dcc36d819e54b13553bd5eee8a4ae26472214cef",
+    "familia": "ideias",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Crie uma função que organiza meus dados.",
+    "resposta": "Qual é a estrutura dos dados e o que você quer dizer com organizar: ordenar, agrupar ou remover duplicados?",
+    "historico": [],
+    "grupo": "autoral:codigo_sem_entrada",
+    "source_id": "autoral:cbf177cd098fb5e19dc5c65bdbdf9514f7e14548f74c4fb9ef546c4241fc1cf0",
+    "familia": "esclarecimento",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "São números e quero ordem crescente.",
+    "resposta": "Nesse caso, a operação é ordenar numericamente em ordem crescente. Em JavaScript, use uma comparação como (a, b) => a - b.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Crie uma função que organiza meus dados."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Qual é a estrutura dos dados e o que você quer dizer com organizar: ordenar, agrupar ou remover duplicados?"
+      }
+    ],
+    "grupo": "autoral:codigo_sem_entrada",
+    "source_id": "autoral:927cff093b0399a2b02958187d0a3c595655db8d2c1efa90e0cae89f06632f50",
+    "familia": "esclarecimento",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Por que testar se eu já li o código?",
+    "resposta": "A leitura ajuda a prever o comportamento; o teste observa o que acontece com entradas concretas. As duas atividades podem revelar problemas diferentes.",
+    "historico": [],
+    "grupo": "autoral:diferenca_objetivo",
+    "source_id": "autoral:aef7762d8e34fb9f437fe07c71feea35e67f296a33b0db5e795d84ba84324eb2",
+    "familia": "compreensao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "O teste pode estar errado?",
+    "resposta": "Sim. Um resultado esperado incorreto ou uma preparação ruim pode invalidar o teste. Por isso também precisamos revisar os testes.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Por que testar se eu já li o código?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "A leitura ajuda a prever o comportamento; o teste observa o que acontece com entradas concretas. As duas atividades podem revelar problemas diferentes."
+      }
+    ],
+    "grupo": "autoral:diferenca_objetivo",
+    "source_id": "autoral:6af78b3f56f6e4cd8c202c266884e6f7e860579209d8ef6bc8b67b437ab67218",
+    "familia": "compreensao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Um tipo de TypeScript existe como classe em execução?",
+    "resposta": "Não necessariamente. Tipos e interfaces são removidos na compilação; uma classe pode produzir um valor usado em execução.",
+    "historico": [],
+    "grupo": "autoral:nao_confundir_linguagem",
+    "source_id": "autoral:8ca1f74253f63a1d96ae880cce99e48988ad6ddfd1a8d9b820dfc555222adc99",
+    "familia": "programacao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Posso usar instanceof numa interface?",
+    "resposta": "Não. Uma interface não é um construtor disponível em execução. Para validar um objeto, verifique sua estrutura ou use um valor de execução apropriado.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Um tipo de TypeScript existe como classe em execução?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Não necessariamente. Tipos e interfaces são removidos na compilação; uma classe pode produzir um valor usado em execução."
+      }
+    ],
+    "grupo": "autoral:nao_confundir_linguagem",
+    "source_id": "autoral:7dede1fb296be1e796091788735b44c22462ed94b9321cdc13a84f4293218ca5",
+    "familia": "programacao",
+    "split": "validacao",
+    "origem": "sintetico_autoral_existente"
+  }
+]

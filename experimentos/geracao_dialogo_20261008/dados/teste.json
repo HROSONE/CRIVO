@@ -1,0 +1,290 @@
+[
+  {
+    "mensagem": "Meu amigo cancelou o passeio. Será que não quer mais me ver?",
+    "resposta": "Um cancelamento sozinho não mostra isso. Ele explicou o motivo ou sugeriu outra data?",
+    "historico": [],
+    "grupo": "autoral:amigo_incerto",
+    "source_id": "autoral:4df907b1ab0795736ca02b4c94afb6d722e2f3bb0a8976708f41cbfd4650ad88",
+    "familia": "incerteza",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Disse que precisava resolver algo em casa.",
+    "resposta": "Essa é a explicação que ele deu. Não temos evidência suficiente para concluir que perdeu o interesse em te ver.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Meu amigo cancelou o passeio. Será que não quer mais me ver?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Um cancelamento sozinho não mostra isso. Ele explicou o motivo ou sugeriu outra data?"
+      }
+    ],
+    "grupo": "autoral:amigo_incerto",
+    "source_id": "autoral:f0dfb532688bfe50109c1d5c06b225b4e649f597360b5ec737cb5e3f11926606",
+    "familia": "incerteza",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Então é certeza que está tudo bem?",
+    "resposta": "Também não dá para garantir isso. Podemos reconhecer a explicação dele e observar como vocês combinam os próximos encontros.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Meu amigo cancelou o passeio. Será que não quer mais me ver?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Um cancelamento sozinho não mostra isso. Ele explicou o motivo ou sugeriu outra data?"
+      },
+      {
+        "papel": "usuario",
+        "texto": "Disse que precisava resolver algo em casa."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Essa é a explicação que ele deu. Não temos evidência suficiente para concluir que perdeu o interesse em te ver."
+      }
+    ],
+    "grupo": "autoral:amigo_incerto",
+    "source_id": "autoral:5374ac85e519146b1bea0bcc93ad763e001ab3dab730aa33925a51bf738f224f",
+    "familia": "incerteza",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Você disse que nove mais quatro é doze.",
+    "resposta": "Essa soma estava errada. Nove mais quatro é treze.",
+    "historico": [],
+    "grupo": "autoral:rever_erro",
+    "source_id": "autoral:59e8be5bd16f9ad97109f14a7f6d8b7132ed03787d9feb62606f9a7448877e48",
+    "familia": "correcao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Como confiro?",
+    "resposta": "Some um a nove para chegar a dez e depois os três restantes: dez mais três é treze.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Você disse que nove mais quatro é doze."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Essa soma estava errada. Nove mais quatro é treze."
+      }
+    ],
+    "grupo": "autoral:rever_erro",
+    "source_id": "autoral:b61352e224adadcab7004a3ce4f1f288dca0e900c117da61fd1dedd45b361a88",
+    "familia": "correcao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Minha página demora para abrir.",
+    "resposta": "A demora acontece antes de aparecer qualquer conteúdo ou depois, ao carregar imagens e dados?",
+    "historico": [],
+    "grupo": "autoral:descobrir_gargalo",
+    "source_id": "autoral:ba25dadca4a81b2c34b4f6be60eab28eed2177a13a6e193f2560c3965e0bba98",
+    "familia": "diagnostico",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "O texto aparece rápido, as fotos demoram.",
+    "resposta": "Isso aponta para o carregamento das imagens, não para toda a página. Confira tamanho dos arquivos e tempo de download antes de mudar o servidor inteiro.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Minha página demora para abrir."
+      },
+      {
+        "papel": "assistente",
+        "texto": "A demora acontece antes de aparecer qualquer conteúdo ou depois, ao carregar imagens e dados?"
+      }
+    ],
+    "grupo": "autoral:descobrir_gargalo",
+    "source_id": "autoral:ba2e1a6c441d43c10cb75c8056c606431e1d794d3666a91509d6238e6677129f",
+    "familia": "diagnostico",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Meu reduce falha quando a lista fica vazia.",
+    "resposta": "Se você não passou um valor inicial, reduce não tem de onde começar numa lista vazia. Qual operação você está fazendo?",
+    "historico": [],
+    "grupo": "autoral:js_reduce_vazio",
+    "source_id": "autoral:e4948953f6521c0fafeeb09942ce3709e251d32d0c2fa799acbf1585bb850a8b",
+    "familia": "programacao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Somar números.",
+    "resposta": "Use um acumulador inicial igual a zero: numeros.reduce((total, n) => total + n, 0). Uma lista vazia então resulta em 0.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Meu reduce falha quando a lista fica vazia."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Se você não passou um valor inicial, reduce não tem de onde começar numa lista vazia. Qual operação você está fazendo?"
+      }
+    ],
+    "grupo": "autoral:js_reduce_vazio",
+    "source_id": "autoral:807644590fe404f50a152038ef9601659eb0f31cc6537007f2e0bc3d1ccef2b9",
+    "familia": "programacao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Não é verdade que todos os livros são caros. Então todos são baratos?",
+    "resposta": "Não. Negar que todos são caros exige apenas que exista algum que não seja caro; não afirma que todos sejam baratos.",
+    "historico": [],
+    "grupo": "autoral:duvida_negacao",
+    "source_id": "autoral:88f30e39f5f22b69a772804271860678be3a771815b2431cd1d50245e5421596",
+    "familia": "raciocinio",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Pode haver baratos e caros?",
+    "resposta": "Sim. Uma coleção com livros baratos e caros é compatível com essa negação.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Não é verdade que todos os livros são caros. Então todos são baratos?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Não. Negar que todos são caros exige apenas que exista algum que não seja caro; não afirma que todos sejam baratos."
+      }
+    ],
+    "grupo": "autoral:duvida_negacao",
+    "source_id": "autoral:53f38417540f71da7299730665236bf637dc6f2797da415d5c355b78ffe15253",
+    "familia": "raciocinio",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "O aviso diz aberto até 18h, mas outro diz fecha às 17h. Qual vale?",
+    "resposta": "Os avisos divergem. Precisamos verificar qual está atualizado antes de escolher um horário como certo.",
+    "historico": [],
+    "grupo": "autoral:contradicao_local",
+    "source_id": "autoral:bb6d136e73a695a951ebc02b62b8ff5cdc5529b63748691d4fa0b91b1244232f",
+    "familia": "evidencia",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "O das 17h foi publicado hoje; o outro é do ano passado.",
+    "resposta": "O aviso publicado hoje oferece uma indicação mais recente de fechamento às 17h. Ainda assim, uma confirmação direta é útil se isso afetar seu deslocamento.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "O aviso diz aberto até 18h, mas outro diz fecha às 17h. Qual vale?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Os avisos divergem. Precisamos verificar qual está atualizado antes de escolher um horário como certo."
+      }
+    ],
+    "grupo": "autoral:contradicao_local",
+    "source_id": "autoral:6787fdcf213b73e69d7b6162a4b44577bedf6a3af3e21368f79ebbfa6d454ee2",
+    "familia": "evidencia",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Me dê duas ideias para uma feira de ciências sem eletricidade.",
+    "resposta": "Uma demonstração de filtragem com materiais simples e uma experiência sobre capilaridade com papel e água.",
+    "historico": [],
+    "grupo": "autoral:seguir_contexto_restrito",
+    "source_id": "autoral:83d40ddf56972d8d1a801cc7966eb6d0dad506dd2cbb7ff0bda43f538b628350",
+    "familia": "restricao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Escolha a segunda e explique brevemente.",
+    "resposta": "Use tiras de papel ligando recipientes com água para observar como o líquido se desloca pelo papel. A atividade dispensa eletricidade.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Me dê duas ideias para uma feira de ciências sem eletricidade."
+      },
+      {
+        "papel": "assistente",
+        "texto": "Uma demonstração de filtragem com materiais simples e uma experiência sobre capilaridade com papel e água."
+      }
+    ],
+    "grupo": "autoral:seguir_contexto_restrito",
+    "source_id": "autoral:43b7a52091e88c9be6c8ba28bfb7c3f070235e503582d0ffb42aa84e811c047c",
+    "familia": "restricao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Uma função que não retorna nada devolve o quê em JavaScript?",
+    "resposta": "Ela retorna undefined quando termina sem um return com valor.",
+    "historico": [],
+    "grupo": "autoral:tipo_retorno",
+    "source_id": "autoral:731822a742aba19218551fa4471bef8fa201e46aa45c49d86af3a23a831a1c7f",
+    "familia": "programacao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Então posso somar esse resultado como um número?",
+    "resposta": "Não sem definir o comportamento desejado. Somar undefined a um número produz NaN. Talvez a função devesse retornar um número explicitamente.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Uma função que não retorna nada devolve o quê em JavaScript?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Ela retorna undefined quando termina sem um return com valor."
+      }
+    ],
+    "grupo": "autoral:tipo_retorno",
+    "source_id": "autoral:9ce87e5cefbaa99025355a54e61e4edd9677878ce33095db5fef5ccc75d9af18",
+    "familia": "programacao",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Se uma máquina falhasse durante uma apresentação, o que eu poderia fazer?",
+    "resposta": "Nesse cenário, você poderia usar um resumo impresso ou explicar os pontos principais sem a máquina. A melhor alternativa depende do conteúdo.",
+    "historico": [],
+    "grupo": "autoral:hipotese_sem_detalhe",
+    "source_id": "autoral:b42589e5a6d0bdd17d36ef76e345e993d6741115a84c2820c0937c7bf9276e83",
+    "familia": "hipotese",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  },
+  {
+    "mensagem": "Não tenho apresentação marcada.",
+    "resposta": "A apresentação era parte de uma hipótese. Não há uma apresentação confirmada sobre você nessa conversa.",
+    "historico": [
+      {
+        "papel": "usuario",
+        "texto": "Se uma máquina falhasse durante uma apresentação, o que eu poderia fazer?"
+      },
+      {
+        "papel": "assistente",
+        "texto": "Nesse cenário, você poderia usar um resumo impresso ou explicar os pontos principais sem a máquina. A melhor alternativa depende do conteúdo."
+      }
+    ],
+    "grupo": "autoral:hipotese_sem_detalhe",
+    "source_id": "autoral:e6d22ae4d42abbd84bba87cf55ac17db6e1e3efdc1d97b05f9e40aee1430a109",
+    "familia": "hipotese",
+    "split": "teste",
+    "origem": "sintetico_autoral_existente"
+  }
+]

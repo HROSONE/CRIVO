@@ -1,0 +1,829 @@
+{
+  "assinatura": {
+    "dados": {
+      "treino": "aba95de09d4918cbcda170554df63f8245b7a9e79775e55fb0a63b24855c4e64",
+      "dev": "449bc38e65e92157cf2e971dfc1fec839fe8f0d3075150891358b0c3ab750f45",
+      "teste": "6d01b9539e1c0deb43383b7b2be507927813485a43fd5f19ee8116ac48acbd70",
+      "replay": "3fd04f172c8a0b4ba30b7f57c3aaec1ba6fea949dcbb2f1ee00b33fe09c16d97"
+    },
+    "inicial": "ec1eba507d56b70f6335484c8a90672a8fe209fdd77d6dbee2c84ef7623d2d0f",
+    "codigo": {
+      "ajustar.py": "d82b2ca0cb1ac7d5d4d7c87ab6ae91918fdb3198e57ca050fe0f017a7ae57fb1",
+      "ajustar_normalizado.py": "75470012e3b13d8bfe1668764c1f3950191e9c1cda7fd101b98620a1e4d30e68",
+      "decodificar.py": "e85d87d317c73ba5c67419e7b3ecded6f7ffe6e10be1a6b4d92bcdf538b80194",
+      "comum.py": "ba5e3bb1d730cb7cdeb766b1b90007eb7504386c5f4f78083c2f982d6123d14f",
+      "normalizar.py": "91eae24dd486249192cab71a50fe0f8941c2c0c0103ea6bd30235d5388b6b93a"
+    },
+    "representacao": "simbolos_locais_com_fontes_originais",
+    "passos": 600,
+    "lote": 16,
+    "lr": 0.0001,
+    "seed": 20261010,
+    "selecionar": ".70 média famílias novo dev limitado + .30 média famílias dev anterior limitado"
+  },
+  "historico": [
+    {
+      "passo": 100,
+      "perda": 0.060696378350257874,
+      "nota_selecao": 0.8141714082503555,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 115,
+        "acuracia_contrato": 0.38333333333333336,
+        "sessoes": 75,
+        "sessoes_completas": 0,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 78,
+            "acuracia": 0.5131578947368421
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 37,
+            "acuracia": 0.25
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 220,
+        "acuracia_contrato": 0.7333333333333333,
+        "sessoes": 75,
+        "sessoes_completas": 18,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 98,
+            "acuracia": 0.6447368421052632
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 122,
+            "acuracia": 0.8243243243243243
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 220,
+        "acuracia_contrato": 0.7333333333333333,
+        "sessoes": 75,
+        "sessoes_completas": 48,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 11,
+            "acuracia": 0.25
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 41,
+            "acuracia": 0.9318181818181818
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 36,
+            "acuracia": 0.9
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 300,
+        "acuracia_contrato": 1.0,
+        "sessoes": 75,
+        "sessoes_completas": 75,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "segundos": 177.28
+    },
+    {
+      "passo": 200,
+      "perda": 0.09745632112026215,
+      "nota_selecao": 0.728351706970128,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 89,
+        "acuracia_contrato": 0.2966666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 2,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 48,
+            "acuracia": 0.3157894736842105
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 41,
+            "acuracia": 0.27702702702702703
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 183,
+        "acuracia_contrato": 0.61,
+        "sessoes": 75,
+        "sessoes_completas": 11,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 71,
+            "acuracia": 0.46710526315789475
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 112,
+            "acuracia": 0.7567567567567568
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 227,
+        "acuracia_contrato": 0.7566666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 52,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 14,
+            "acuracia": 0.3181818181818182
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 37,
+            "acuracia": 0.925
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 300,
+        "acuracia_contrato": 1.0,
+        "sessoes": 75,
+        "sessoes_completas": 75,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "segundos": 290.46
+    },
+    {
+      "passo": 300,
+      "perda": 0.007228062022477388,
+      "nota_selecao": 0.788823640797325,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 134,
+        "acuracia_contrato": 0.44666666666666666,
+        "sessoes": 75,
+        "sessoes_completas": 5,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 83,
+            "acuracia": 0.5460526315789473
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 51,
+            "acuracia": 0.34459459459459457
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 210,
+        "acuracia_contrato": 0.7,
+        "sessoes": 75,
+        "sessoes_completas": 17,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 94,
+            "acuracia": 0.618421052631579
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 116,
+            "acuracia": 0.7837837837837838
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 214,
+        "acuracia_contrato": 0.7133333333333334,
+        "sessoes": 75,
+        "sessoes_completas": 44,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 40,
+            "acuracia": 0.9090909090909091
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 8,
+            "acuracia": 0.18181818181818182
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 42,
+            "acuracia": 0.9545454545454546
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 42,
+            "acuracia": 0.9545454545454546
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 38,
+            "acuracia": 0.95
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 298,
+        "acuracia_contrato": 0.9933333333333333,
+        "sessoes": 75,
+        "sessoes_completas": 73,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 42,
+            "acuracia": 0.9545454545454546
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "segundos": 392.22
+    },
+    {
+      "passo": 400,
+      "perda": 0.008438941091299057,
+      "nota_selecao": 0.7721017069701279,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 133,
+        "acuracia_contrato": 0.44333333333333336,
+        "sessoes": 75,
+        "sessoes_completas": 0,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 83,
+            "acuracia": 0.5460526315789473
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 50,
+            "acuracia": 0.33783783783783783
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 202,
+        "acuracia_contrato": 0.6733333333333333,
+        "sessoes": 75,
+        "sessoes_completas": 5,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 90,
+            "acuracia": 0.5921052631578947
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 112,
+            "acuracia": 0.7567567567567568
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 227,
+        "acuracia_contrato": 0.7566666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 54,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 11,
+            "acuracia": 0.25
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 300,
+        "acuracia_contrato": 1.0,
+        "sessoes": 75,
+        "sessoes_completas": 75,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "segundos": 509.01
+    },
+    {
+      "passo": 500,
+      "perda": 0.006308891344815493,
+      "nota_selecao": 0.8140064149932571,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 119,
+        "acuracia_contrato": 0.39666666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 2,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 71,
+            "acuracia": 0.46710526315789475
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 48,
+            "acuracia": 0.32432432432432434
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 220,
+        "acuracia_contrato": 0.7333333333333333,
+        "sessoes": 75,
+        "sessoes_completas": 26,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 85,
+            "acuracia": 0.5592105263157895
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 135,
+            "acuracia": 0.9121621621621622
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 221,
+        "acuracia_contrato": 0.7366666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 53,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 6,
+            "acuracia": 0.13636363636363635
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 43,
+            "acuracia": 0.9772727272727273
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 299,
+        "acuracia_contrato": 0.9966666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 74,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 43,
+            "acuracia": 0.9772727272727273
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          }
+        }
+      },
+      "segundos": 638.28
+    },
+    {
+      "passo": 600,
+      "perda": 0.002877795835956931,
+      "nota_selecao": 0.7984347693558219,
+      "dev_bruto": {
+        "n": 300,
+        "contratos_corretos": 127,
+        "acuracia_contrato": 0.42333333333333334,
+        "sessoes": 75,
+        "sessoes_completas": 1,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 82,
+            "acuracia": 0.5394736842105263
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 45,
+            "acuracia": 0.30405405405405406
+          }
+        }
+      },
+      "dev_limitado": {
+        "n": 300,
+        "contratos_corretos": 215,
+        "acuracia_contrato": 0.7166666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 20,
+        "por_familia": {
+          "precos_nomeados": {
+            "n": 152,
+            "corretos": 92,
+            "acuracia": 0.6052631578947368
+          },
+          "requisitos_variados": {
+            "n": 148,
+            "corretos": 123,
+            "acuracia": 0.831081081081081
+          }
+        }
+      },
+      "dev_anterior_bruto": {
+        "n": 300,
+        "contratos_corretos": 222,
+        "acuracia_contrato": 0.74,
+        "sessoes": 75,
+        "sessoes_completas": 51,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 12,
+            "acuracia": 0.2727272727272727
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 0,
+            "acuracia": 0.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 34,
+            "acuracia": 0.85
+          }
+        }
+      },
+      "dev_anterior_limitado": {
+        "n": 300,
+        "contratos_corretos": 296,
+        "acuracia_contrato": 0.9866666666666667,
+        "sessoes": 75,
+        "sessoes_completas": 71,
+        "por_familia": {
+          "correcao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "referencia": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "requisitos": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "comparacao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "duracao": {
+            "n": 44,
+            "corretos": 44,
+            "acuracia": 1.0
+          },
+          "objetivo_restricao": {
+            "n": 40,
+            "corretos": 40,
+            "acuracia": 1.0
+          },
+          "esclarecimento": {
+            "n": 40,
+            "corretos": 36,
+            "acuracia": 0.9
+          }
+        }
+      },
+      "segundos": 755.82
+    }
+  ],
+  "passos_completos": 600,
+  "passo_escolhido": 100,
+  "tokens_apresentados": 844790,
+  "entradas_distintas_apresentadas": 4247,
+  "contagem_vistos_inclui_antes_de_retomada": true,
+  "segundos": 756.64,
+  "parametros": 2947216,
+  "pesos_sha256": "3d47061b2563fb006d0c1189d3944d538a40d1027b46314b8a4edf02a048c42f",
+  "teste_lido_no_treino": false,
+  "aprovado_para_chat": false,
+  "supervisao_causal_redacao": false
+}

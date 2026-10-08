@@ -1,0 +1,31 @@
+{
+  "registrado_antes_treino_normalizado_e_avaliacao_teste": true,
+  "motivacao": "Após passo 100 do braço bruto, novo dev teve 15,1% em preços e 72,3% em requisitos; testar representação abstrata sugerida na pesquisa. Nenhuma previsão do teste novo consultada.",
+  "codigo_sha256": {
+    "avaliar_rodada.py": "f088c5135ed3a45f8a12afb02db179547500341ddb196d6a3e598567b5039f04",
+    "avaliar_ablation.py": "b8a11808dba7fc7d23b7abfe1390ac904c210181adc9d5a85b15d14e19cbe3b0",
+    "ajustar_normalizado.py": "75470012e3b13d8bfe1668764c1f3950191e9c1cda7fd101b98620a1e4d30e68",
+    "decodificar.py": "e85d87d317c73ba5c67419e7b3ecded6f7ffe6e10be1a6b4d92bcdf538b80194",
+    "comum.py": "ba5e3bb1d730cb7cdeb766b1b90007eb7504386c5f4f78083c2f982d6123d14f",
+    "normalizar.py": "91eae24dd486249192cab71a50fe0f8941c2c0c0103ea6bd30235d5388b6b93a",
+    "testes_normalizacao.py": "6bd24d7b0dc420d6f8b57131a4cfafb12e397deaf5918ddffcaf1694a1367214",
+    "testes_dados.py": "71df5db92ddd24f0bce9c278bd84af3d7c4cddbd795b60f26788263d9456cba0",
+    "gerar.py": "a9c4a22b85dbd74296d11ec8a9c00c129ebe4811e1c4f93bc6fc2524c8ce03e5",
+    "ajustar.py": "d82b2ca0cb1ac7d5d4d7c87ab6ae91918fdb3198e57ca050fe0f017a7ae57fb1"
+  },
+  "protocolo_inicial_sha256": "cabe2f8d4f6d71edd99fd244ca194386a44f502978e1cb6b4617caf937be960b",
+  "passos_por_braco": 600,
+  "mesmo_checkpoint_inicial": true,
+  "mesmos_textos_e_stream_lotes": true,
+  "mesma_semente": 20261010,
+  "normalizacao": "Símbolos locais próprios para até oito nomes candidatos; prioriza a ordem explícita da última pergunta de dois nomes. Mapa retorna spans ao original. Sem números/gold/alvos na normalização.",
+  "comparacao": [
+    "anterior_bruto",
+    "anterior_normalizado",
+    "ajustado_bruto",
+    "ajustado_normalizado"
+  ],
+  "criterios_utilidade": "Mesmos limites .80 por família nova, +.20 de sessões versus checkpoint anterior com a mesma representação, queda máxima .05 no painel anterior conhecido.",
+  "promocao_automatica": false,
+  "limites": "Normalização guiada por capitalização e gramática; símbolos de consulta não são IDs persistentes de conversa. Não resolve nomes minúsculos/compostos ou redação livre."
+}
