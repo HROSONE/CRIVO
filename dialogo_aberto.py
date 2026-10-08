@@ -243,6 +243,40 @@ class DialogoAberto:
         conversa.situacoes.append((conversa.assunto, conversa.objetivo, tuple(conversa.relatos),
                                    conversa.etapa, conversa.turno))
 
+    def preparar_memoria_explicita(self, texto, conversa, bot=None):
+        """Memória pessoal explícita precede similaridade com perguntas factuais."""
+        from linguagem_conversa import Ato, Preparacao
+        from correcao_relatos import CORRECAO, corrigir_relatos, pedido_lembranca
+        if not isinstance(texto, str) or len(texto) > 600:
+            return None
+        corrigidos = corrigir_relatos(texto, conversa.relatos)
+        if corrigidos is not None:
+            conversa.relatos.clear()
+            conversa.relatos.extend(corrigidos)
+            # Uma retomada de assunto também precisa conservar a retração.
+            conversa.situacoes = type(conversa.situacoes)(
+                ((s[0], s[1], tuple(corrigir_relatos(texto, s[2]) or s[2]), s[3], s[4])
+                 for s in conversa.situacoes), maxlen=conversa.MAX_LEMBRANCAS)
+            self._guardar('ultimo_relato', texto.strip())
+            if bot is not None:
+                nome, relacao = CORRECAO.fullmatch(texto.strip()).groups()
+                antigos = [k for k,v in bot.perfil.nomes.items() if normalizar(v) == normalizar(nome)]
+                for k in antigos:
+                    bot.perfil.nomes.pop(k)
+                bot.perfil.temas = [t for t in bot.perfil.temas if t[1] not in antigos]
+                chave = normalizar(relacao)
+                if chave not in bot.perfil.nomes:
+                    bot.perfil.nomes[chave] = nome
+            resultado = ('conversa:correcao_memoria',
+                         'Registrei sua correção nesta conversa: “'+texto.strip()+'”.', None, '')
+            self.ativo = True
+        else:
+            if not pedido_lembranca(texto):
+                return None
+            resultado = self._lembrar(texto, conversa)
+        self.ultima_resposta = resultado[1]
+        return Preparacao(Ato('memoria_pessoal_explicita', 'dialogar'), resultado)
+
     def _relatar(self, texto, ato, conversa):
         era_ativo = self.ativo or bool(conversa.assunto)
         self.ativo = True

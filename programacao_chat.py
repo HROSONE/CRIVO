@@ -8,6 +8,7 @@ import json
 import re
 
 from busca_estados import buscar, validar_casos
+from sintese_composta import buscar_composta
 from diagnostico_estados import avaliar, diagnosticar, percorrer
 from execucao_rastreada import executar_rastreado
 from interpretacao_estruturas import analisar, javascript, validar_valor
@@ -252,11 +253,18 @@ class MotorCodigoChat:
             raise ValueError('Tipo informado difere das entradas')
         campos = sorted(set.intersection(*(set(x) for x in entradas)))[:8] if tipo=='objeto' else []
         r = buscar(c['desenvolvimento'], tipo, campos=campos, limite=1000, finalistas=128)
+        verificadas_inicial = r['verificadas']
+        origem = 'baseline_v3'
+        if not r['corpo'] and verificadas_inicial < 1000:
+            ampliada = buscar_composta(c['desenvolvimento'], tipo, limite=1000-verificadas_inicial)
+            r = dict(ampliada, verificadas=verificadas_inicial+ampliada['verificadas'])
+            origem = ampliada['origem']
         corpo = r['corpo']
         analises = avaliar(corpo, c['desenvolvimento'], guardar_tracos=True) if corpo else []
         rede = conferir_efeitos(analises, self.pasta_modelo)
         self.ultimo = dict(acao='gerar', corpo=corpo, verificadas=r['verificadas'],
                            atende_desenvolvimento=r['atende_desenvolvimento'], efeitos_neurais=rede,
+                           origem=origem, verificadas_inicial=verificadas_inicial, orcamento=1000,
                            casos_reservados_consultados=False, execucao='executor_proprio_exato')
         if corpo:
             return 'programacao:motor_sintese', ('Montei uma função que passou nos '+str(len(entradas))+

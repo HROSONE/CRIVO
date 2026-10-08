@@ -59,10 +59,13 @@ def main():
     if args.saida.exists():
         raise SystemExit("Use uma saída nova.")
     inicio = time.monotonic()
+    fontes = ("crivo.py", "programacao_chat.py", "dialogo_aberto.py", "linguagem_conversa.py",
+              "sintese_composta.py", "correcao_relatos.py")
+    hashes = {n: hashlib.sha256((RAIZ / n).read_bytes()).hexdigest() for n in fontes}
     r = avaliar(args.grupo)
     r["tempo_segundos"] = round(time.monotonic() - inicio, 3)
-    r["fontes_sha256"] = {n: hashlib.sha256((RAIZ / n).read_bytes()).hexdigest()
-                           for n in ("programacao_chat.py", "dialogo_aberto.py", "linguagem_conversa.py")}
+    assert hashes == {n: hashlib.sha256((RAIZ / n).read_bytes()).hexdigest() for n in fontes}, 'Código mudou durante avaliação'
+    r["fontes_sha256"] = hashes
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(json.dumps(r, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps({k:v for k,v in r.items() if k != "detalhes"}), flush=True)
