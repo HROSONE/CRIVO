@@ -1,0 +1,232 @@
+{
+  "split": "validacao_final_nova",
+  "mensagens": 25,
+  "acertos": 25,
+  "dialogos": 8,
+  "dialogos_completos": 8,
+  "casos": [
+    {
+      "nome": "bordado e disponibilidade condicional",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero retomar o bordado e tenho 31 minutos por dia",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Quero retomar o bordado e tenho 31 minutos por dia”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Tenho 85 minutos se minha reunião terminar cedo",
+          "id": "conversa:relato",
+          "resposta": "Entendi, você tem 85 minutos se sua reunião terminar cedo. E pensando em “retomar o bordado e tenho 31 minutos por dia”, o que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quanto tempo eu realmente disse que tenho?",
+          "id": "conversa:situada_disponibilidade",
+          "resposta": "Você declarou 31 minutos disponíveis. As hipóteses e falas citadas não substituem essa disponibilidade.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "negação de crença não declara disponibilidade",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero praticar acordeão e tenho 43 minutos à tarde",
+          "id": "conversa:relato",
+          "resposta": "Legal! Você contou que quer praticar acordeão e tenho 43 minutos à tarde. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não consigo acreditar que tenho 95 minutos",
+          "id": "conversa:relato",
+          "resposta": "Entendo, você não consegue acreditar que tem 95 minutos. E pensando em “praticar acordeão e tenho 43 minutos à tarde”, o que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quantos minutos eu realmente tenho?",
+          "id": "conversa:situada_disponibilidade",
+          "resposta": "Você declarou 43 minutos disponíveis. As hipóteses e falas citadas não substituem essa disponibilidade.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "circunstância inédita e limite de inferência",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quando eu tento afinar meu bandolim eu fico inquieto",
+          "id": "conversa:situada_circunstancia",
+          "resposta": "Você acrescentou esta circunstância: “Quando eu tento afinar meu bandolim eu fico inquieto”. O que percebe de diferente nesse momento? Podemos investigar a relação sem assumir a causa.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não sei por que isso mexeu comigo",
+          "id": "conversa:situada_exploracao",
+          "resposta": "Você contou “Quando eu tento afinar meu bandolim eu fico inquieto”. Podemos explorar o que essa situação mexeu em você, sem assumir uma causa ou diagnóstico. O que mudou no momento: como se sentiu, o que esperava de si ou a presença de outra pessoa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Você pode reformular o que eu quis dizer?",
+          "id": "conversa:situada_reformulacao",
+          "resposta": "Entendi seu pedido como uma conversa para compreender a situação e a sua perspectiva. O contexto que estou considerando é “Quando eu tento afinar meu bandolim eu fico inquieto” e “Não sei por que isso mexeu comigo”. Quer que eu explore uma escolha, uma dificuldade ou o sentido disso para você?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "rotina com fator alternativo novo",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Sempre que uso minha pulseira azul, a reunião melhora; ela dá sorte?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “sempre que uso minha pulseira azul, a reunião melhora”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quando uso essa pulseira também reviso minhas anotações antes",
+          "id": "conversa:situada_circunstancia",
+          "resposta": "Você acrescentou esta circunstância: “Quando uso essa pulseira também reviso minhas anotações antes”. O que percebe de diferente nesse momento? Podemos investigar a relação sem assumir a causa.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Pode ser a revisão em vez da pulseira?",
+          "id": "conversa:situada_hipotese",
+          "resposta": "É uma hipótese, não uma conclusão: “Pode ser a revisão em vez da pulseira”. Você trouxe “Sempre que uso minha pulseira azul, a reunião melhora; ela dá sorte”; “Quando uso essa pulseira também reviso minhas anotações antes”. Para comparar as possibilidades, observe o resultado e varie um fator de cada vez, mantendo os outros tão parecidos quanto puder. O que conseguiria registrar para não depender só da impressão?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "três alternativas e associação do receio",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Tenho três opções: encadernação, cerâmica ou astronomia",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Tenho três opções: encadernação, cerâmica ou astronomia”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "A segunda me dá receio",
+          "id": "conversa:situada_referencia",
+          "resposta": "A opção a que você se refere é “cerâmica”. Você está avaliando: “A segunda me dá receio”. Qual parte dela quer comparar ou tornar mais fácil?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual era a opção que dava receio?",
+          "id": "conversa:situada_referencia",
+          "resposta": "Você relacionou esse receio à opção “cerâmica”.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "mudança explícita não carrega assunto anterior",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero falar sobre meu coral",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Quero falar sobre meu coral”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mudando de assunto, ontem recuperei minha bicicleta antiga",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Mudando de assunto, ontem recuperei minha bicicleta antiga”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Você pode reformular o que eu quis dizer?",
+          "id": "conversa:situada_reformulacao",
+          "resposta": "Entendi seu pedido como uma conversa para compreender a situação e a sua perspectiva. O contexto que estou considerando é “ontem recuperei minha bicicleta antiga”. Quer que eu explore uma escolha, uma dificuldade ou o sentido disso para você?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "definição citada preserva conhecimento próprio",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero conversar sobre minha rotina",
+          "id": "conversa:abertura",
+          "resposta": "Vamos conversar sobre “minha rotina”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quando você diz \"RNA\", o que essa sigla significa?",
+          "id": "conhecimento:rna",
+          "resposta": "O RNA é uma molécula que participa de diferentes processos de uso da informação genética. Em geral, o RNA tem uma única fita e usa as bases A, U, C e G. Se quiser, explico como o RNA se formou.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que é fotossíntese?",
+          "id": "fotossintese",
+          "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "ficção explícita e reinício removem escopo",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Eu inventei o planeta Névia-86; ele não é real",
+          "id": "conversa:situada_ficcao_limite",
+          "resposta": "Você esclareceu que “Névia-86” é uma invenção. Não vou apresentar isso como fato confirmado. Podemos imaginar uma ficção e manter essa distinção.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Esse planeta existe de verdade?",
+          "id": "conversa:situada_ficcao_limite",
+          "resposta": "Nesta conversa, “Névia-86” foi apresentado como invenção. Não tenho evidência de que exista de verdade.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Esqueça essa conversa",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que você lembra do que eu contei?",
+          "id": "conversa:memoria",
+          "resposta": "Ainda não tenho relatos seus nesta conversa. Pode me contar algo.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "split": "desenvolvimento",
+  "mensagens": 20,
+  "acertos": 6,
+  "dialogos": 6,
+  "dialogos_completos": 0,
+  "casos": [
+    {
+      "nome": "objetivo e impedimentos inéditos",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Ando querendo montar um ateliê de gravura",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer montar um ateliê de gravura. Que bom! Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Meu problema é que só tenho uma mesa estreita",
+          "id": "conversa:relato",
+          "resposta": "Entendo, seu problema é que você só tem uma mesa estreita. E pensando em “montar um ateliê de gravura”, o que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Também não posso comprar ferramentas caras",
+          "id": "conversa:relato",
+          "resposta": "Entendi, você também não pode comprar ferramentas caras. E pensando em “montar um ateliê de gravura”, o que você gostaria que fosse diferente nessa situação?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que estou tentando equilibrar?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: gravura | atelie",
+            "pertinência: mesa | estreita",
+            "pertinência: ferrament | caras"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "duas alternativas e receio",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Estou entre começar jardinagem e retomar a natação",
+          "id": "duvida",
+          "resposta": "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?",
+          "passou": false,
+          "falhas": [
+            "pertinência: jardinagem",
+            "pertinência: natacao"
+          ]
+        },
+        {
+          "pergunta": "A segunda eu já abandonei antes",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, a segunda você já abandonou antes. Segunda-feira costuma dar preguiça porque o fim de semana acabou. Tem muita coisa para fazer nesta semana?",
+          "passou": false,
+          "falhas": [
+            "pertinência: natacao"
+          ]
+        },
+        {
+          "pergunta": "A primeira parece mais simples para começar",
+          "id": "nocao:continuacao",
+          "resposta": "Certo, a primeira parece mais simples para começar. E o que mais?",
+          "passou": false,
+          "falhas": [
+            "pertinência: jardinagem"
+          ]
+        },
+        {
+          "pergunta": "Qual das duas considerar com esse meu medo?",
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual meu você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "passou": false,
+          "falhas": [
+            "pertinência: jardinagem",
+            "pertinência: natacao",
+            "pertinência: medo | receio"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "tempo literal e hipótese",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero voltar a praticar flauta e só tenho 23 minutos por dia",
+          "id": "duvida",
+          "resposta": "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?",
+          "passou": false,
+          "falhas": [
+            "pertinência: flauta",
+            "pertinência: 23"
+          ]
+        },
+        {
+          "pergunta": "Se eu tivesse 80 minutos, daria para fazer mais",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Se eu tivesse 80 minutos, daria para fazer mais”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quanto tempo eu disse que tenho de verdade?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “se eu tivesse 80 minutos, daria para fazer mais”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": false,
+          "falhas": [
+            "pertinência: 23"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "decisão antes da escrita",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero conversar sobre visitar minha avó",
+          "id": "conversa:abertura",
+          "resposta": "Vamos conversar sobre “visitar minha avó”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não quero mensagem pronta; só pensar no que sinto",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: pens | sint"
+          ]
+        },
+        {
+          "pergunta": "Então me faça uma pergunta para explorar isso",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: avo | sint | pens"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "troca de tema sem mistura",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero falar da minha aula de dança",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer falar da sua aula de dança, que legal. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mudando de assunto, consegui arrumar meu rádio",
+          "id": "conversa:relato",
+          "resposta": "Entendi, mudando de assunto, você conseguiu arrumar seu rádio. E pensando em “falar da minha aula de dança”, o que você já tentou e como isso funcionou para você?",
+          "passou": false,
+          "falhas": [
+            "afirmação ou dado indevido"
+          ]
+        },
+        {
+          "pergunta": "Isso me deixou aliviado",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "passou": false,
+          "falhas": [
+            "pertinência: radio",
+            "pertinência: alivi | conseg"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "perspectiva e reformulação",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "O que é coragem, para você?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: coragem"
+          ]
+        },
+        {
+          "pergunta": "Estou falando de fazer uma escolha mesmo com receio",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: escolha | receio"
+          ]
+        },
+        {
+          "pergunta": "Com suas palavras, o que eu quis dizer?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: coragem | escolha",
+            "pertinência: receio | medo",
+            "repetição integral sem avançar"
+          ]
+        }
+      ]
+    }
+  ],
+  "casos_sha256": "3b625a0a276f375a5231753d2aefeacc5b419e1704ce24e75f12e7ac2e6a986b",
+  "tempo_segundos": 85.946,
+  "limite": "Validação autoral de pertinência e contratos. Exige leitura das respostas; não demonstra compreensão geral."
+}
