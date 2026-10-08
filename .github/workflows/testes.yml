@@ -72,10 +72,14 @@ jobs:
     # Com NumPy, a suíte também executa o gerador próprio: só a matriz
     # de pares e os 2.439 nomes/aliases somam mais de uma hora em CPU.
     # Mantemos todos os testes e orçamento para a validação completa.
+    # A descoberta completa agora roda em quatro grupos por versão, com
+    # composição e treino isolados. Uma falha não cancela os demais grupos.
     timeout-minutes: 240
     strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.8', '3.11', '3.13']
+        grupo: [composicao, treino, regressoes-a, regressoes-b]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -88,12 +92,14 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Compilar
         run: python -m compileall -q .
+      - name: Verificar compatibilidade dos testes bíblicos antes da suíte longa
+        run: python -m unittest testes_biblia -v
       - name: Testes originais
         run: python crivo.py --teste
       - name: Testes novos
-        run: python -m unittest discover -p 'testes*.py' -v
+        run: python scripts/executar_testes_ci.py --grupo '${{ matrix.grupo }}'
       - name: Sondas de conversacao e conhecimento cientifico
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         run: |
           python avaliar_conversacao.py
           python avaliar_mundo.py
@@ -101,21 +107,21 @@ jobs:
           python avaliar_geracao.py --saida /tmp/geracao.json
           python avaliar_ampliacao.py --saida /tmp/ampliacao.json
       - name: Avaliar familias de validacao reservadas
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         run: python avaliar_generalizacao.py --split validacao --saida /tmp/generalizacao.json
       - name: Avaliar extracao e retomadas (desenvolvimento)
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         run: python avaliar_retomada.py --saida /tmp/retomada.json
       - name: Avaliar planejamento, evidencias e dialogo integrado
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         run: python avaliar_evolucao_integrada.py --saida /tmp/evolucao-integrada.json
       - name: Diagnosticar Astronomia v1 congelada (sem promover certificacao)
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         run: |
           python scripts/avaliar_astronomia_independente.py > /tmp/astronomia-v1-saida.txt 2>&1 && echo 'Sonda passou' || echo 'Sonda nao atingiu gate; consultar artefato'
           cat /tmp/astronomia-v1-saida.txt
       - name: Publicar diagnostico de Astronomia
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         uses: actions/upload-artifact@v4
         with:
           name: diagnostico-astronomia-modulo1
@@ -124,7 +130,7 @@ jobs:
             /tmp/astronomia-v1-saida.txt
           if-no-files-found: error
       - name: Publicar resultado de validacao
-        if: matrix.python-version == '3.11'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         uses: actions/upload-artifact@v4
         with:
           name: generalizacao-validacao
@@ -136,32 +142,32 @@ jobs:
             /tmp/ampliacao.json
             /tmp/evolucao-integrada.json
       - name: Medir generalizacao (amostra de 8 epocas)
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
           python avaliar_rede.py --epocas 8
           python avaliar_rede.py --epocas 30
           python avaliar_rede.py --epocas 60
           python avaliar_rede.py --epocas 60 --ocultos 48
       - name: Validacao cruzada de todas as perguntas
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
           python avaliar_rede.py --cruzada --epocas 8
           python avaliar_rede.py --cruzada --epocas 30
           python avaliar_rede.py --cruzada --epocas 60
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48
       - name: Comparar representacoes de portugues
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
           python avaliar_rede.py --cruzada --epocas 30 --modo palavras
           python avaliar_rede.py --cruzada --epocas 30 --modo misto
           python avaliar_rede.py --cruzada --epocas 30 --modo misto --dimensao 512
       - name: Comparar treinamento e largura da rede mista de 512 dimensoes
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'historico'
         run: |
           python avaliar_rede.py --cruzada --epocas 60 --modo misto --dimensao 512
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
       - name: Comparar normalizacao linguistica em execucao sob demanda
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'portugues'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'portugues'
         run: |
           python avaliar_rede.py --cruzada --epocas 30 --modo portugues --dimensao 512
           python avaliar_rede.py --cruzada --epocas 30 --modo portugues_sem_filtro --dimensao 512
@@ -171,7 +177,7 @@ jobs:
           python avaliar_rede.py --cruzada --epocas 60 --ocultos 48 --modo misto --dimensao 512
 
       - name: Comparar ordem de palavras em dobras iguais
-        if: matrix.python-version == '3.11' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'ordem'
+        if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a' && github.event_name == 'workflow_dispatch' && inputs.benchmark == 'ordem'
         run: |
           python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.05
           python comparar_ordem.py --epocas 30 --ocultos 24 --dimensao 512 --peso-ordem 0.15
