@@ -102,6 +102,16 @@ class TestesQuadroSituado(unittest.TestCase):
         d.observar('Esqueça a conversa','conversa:reinicio',b)
         self.assertIsNone(d.hipotese);self.assertIsNone(d.ficcao);self.assertFalse(d.meta)
 
+    def test_abertura_nativa_delimita_escopos_e_consulta_factual_suspende_ficcao(self):
+        d=DialogoSituado();b=bot_fixture()
+        d.hipotese=('Se eu tivesse um telescópio',1);d.ficcao=('Planeta-9',1)
+        d.meta.append('perspectiva anterior')
+        d.observar('Quero conversar sobre minha pintura','conversa:abertura',b)
+        self.assertIsNone(d.hipotese);self.assertIsNone(d.ficcao);self.assertFalse(d.meta)
+        d.ficcao=('Planeta-9',1)
+        d.observar('O que é Júpiter?','conhecimento:jupiter',b)
+        self.assertIsNone(d.responder('Esse planeta existe de verdade?',b))
+
     def test_citacao_premissas_e_fontes_preservam_rota(self):
         d=DialogoSituado();b=bot_fixture(['Quero retomar um projeto'])
         for texto in ('Meu amigo disse "qual opção eu deveria escolher?"',
@@ -141,6 +151,55 @@ class TestesQuadroSituado(unittest.TestCase):
         r=d.responder('Esse planeta existe de verdade?',b)
         self.assertIn('invenção',r[1]);self.assertIn('Não tenho evidência',r[1])
         self.assertEqual(d.ultimo['origem'],'politica_estrutural_propria')
+
+
+class TestesIntegracaoSituada(unittest.TestCase):
+    def test_tempo_condicional_nao_muda_memoria_nem_plano_nativo(self):
+        from crivo import Crivo
+        b=Crivo()
+        b.responder('Quero retomar o desenho e tenho 19 minutos por dia')
+        b.responder('Tenho 70 minutos se terminar o trabalho cedo')
+        self.assertEqual(b.conversacao.dialogo.dados['minutos'],'19')
+        self.assertIn('19',b.responder('Quanto tempo eu realmente tenho?')[1])
+
+    def test_cada_resposta_consumiu_apenas_um_turno_inclusive_recusa_resgatada(self):
+        from crivo import Crivo
+        b=Crivo()
+        for texto in ('Quero falar sobre minha marcenaria','Era uma vontade antiga minha',
+                      'Quando eu tento lixar a peça eu fico inquieto'):
+            antes=b.conversacao.turno
+            b.responder(texto)
+            self.assertEqual(b.conversacao.turno,antes+1)
+
+    def test_definicao_citada_usa_acervo_sem_contaminar_relato_pessoal(self):
+        from crivo import Crivo
+        b=Crivo();b.responder('Quero falar sobre minha rotina')
+        ident,resposta=b.responder('Quando você diz "DNA", o que essa sigla significa?')
+        self.assertEqual(ident,'conhecimento:dna')
+        self.assertIn('DNA',resposta)
+        self.assertTrue(b.dialogo_situado.suspenso)
+        self.assertFalse(any('DNA' in t for t in b.conversacao.relatos))
+
+    def test_api_reconstroi_referencia_e_identifica_politica_sem_prova(self):
+        from web_core import responder_web
+        r=responder_web({'history':['Tenho três opções: remo, dança ou teatro',
+                                  'A terceira me dá medo'],
+                         'message':'Qual era a opção que dava medo?'})
+        self.assertIn('teatro',r['response'])
+        self.assertNotIn('remo',r['response'])
+        self.assertEqual(r['mechanism'],'dialogo_situado_estrutural')
+        self.assertEqual(r['ecosystem']['species'],r['mechanism'])
+        self.assertFalse(r['has_proof'])
+
+    def test_aberturas_situadas_trocam_fontes_mas_preservam_assunto_para_retomada(self):
+        from crivo import Crivo
+        b=Crivo();b.responder('Quero falar sobre minha horta')
+        b.responder('Tenho 21 minutos à tarde')
+        b.responder('Quero falar sobre minha coleção de fotografias')
+        self.assertFalse(any('horta' in t for t in b.conversacao.relatos))
+        self.assertNotIn('minutos',b.conversacao.dialogo.dados)
+        self.assertTrue(any(s[0]=='minha horta' and any('21' in t for t in s[2])
+                            for s in b.conversacao.situacoes))
 
 
 if __name__=='__main__':

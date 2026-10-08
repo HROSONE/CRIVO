@@ -2006,6 +2006,11 @@ class Crivo:
             self.conversacao.preparar_ato(Ato('reinicio_explicito','cancelar'),self)
             self.dialogo_situado.ultimo = quadro
         if resultado[0]=='conversa:abertura':
+            if self.conversacao.assunto and self.conversacao.relatos:
+                self.conversacao.dialogo._salvar_situacao(self.conversacao)
+            self.conversacao.dialogo.iniciar_assunto()
+            self.conversacao.relatos.clear()
+            self.conversacao.objetivo = None
             alvo = abertura(texto)
             self.conversacao.assunto = re.sub(r'^(?:sobre|da|do|de|a respeito de)\s+','',
                 alvo.group(1),flags=re.I) if alvo else texto.strip()

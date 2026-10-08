@@ -131,6 +131,11 @@ class DialogoSituado:
             return
         n = ntexto(texto)
         conversa = bot.conversacao
+        if ident == 'conversa:abertura':
+            # Uma abertura nativa também delimita um novo assunto. Escopos
+            # de ficção e hipótese não acompanham esse assunto por inércia.
+            self.meta.clear()
+            self.hipotese = self.ficcao = None
         if (ident.startswith(('conhecimento:','escrita:','programacao:','dyn:','logica:')) or
                 ident in (getattr(bot,'_ids_editoriais',None) or ())):
             self.suspenso = True
@@ -330,7 +335,7 @@ class DialogoSituado:
             return self._emitir('ficcao_limite',
                 'Você esclareceu que '+(fonte(nome) if nome else 'esse nome')+' é uma invenção. '
                 'Não vou apresentar isso como fato confirmado. Podemos imaginar uma ficção e manter essa distinção.',[texto])
-        if self.ficcao and conversa.turno-self.ficcao[1]<=self.MAX_INTERVALO:
+        if self.ficcao and not self.suspenso and conversa.turno-self.ficcao[1]<=self.MAX_INTERVALO:
             nome = self.ficcao[0]
             if re.search(r'\b(?:existe|verdade|real|confirmad\w*)\b',n) and not re.search(r'\b(?:imaginar|ficcao)\b',n):
                 return self._emitir('ficcao_limite',

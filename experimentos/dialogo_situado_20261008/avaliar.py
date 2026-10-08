@@ -17,6 +17,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('split', choices=('desenvolvimento','validacao','validacao_temporal_nova','validacao_final_nova'))
     p.add_argument('--saida', type=Path, required=True)
+    p.add_argument('--exigir-todos', action='store_true', help='Falhar quando algum contrato não passar.')
     args = p.parse_args()
     if args.saida.exists():
         raise SystemExit('Use saída nova.')
@@ -48,6 +49,8 @@ def main():
     args.saida.parent.mkdir(parents=True, exist_ok=True)
     args.saida.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({k:v for k,v in r.items() if k!='casos'},ensure_ascii=False),flush=True)
+    if args.exigir_todos and r['acertos'] != r['mensagens']:
+        raise SystemExit(1)
 
 
 if __name__=='__main__':
