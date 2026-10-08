@@ -135,7 +135,8 @@ class DialogoSituado:
         if hipotetico(n) or re.match(r'sempre que ',n):
             self.hipotese = (texto[:600],conversa.turno)
         if not citado(texto) and '?' not in texto and not hipotetico(n) and (
-                mudanca or pessoal(n) or extrair_opcoes(texto) or ordinal(n) is not None):
+                mudanca or pessoal(n) or extrair_opcoes(texto) or ordinal(n) is not None or
+                ident=='conversa:situada_circunstancia'):
             self.suspenso = False
             if not conversa.relatos or conversa.relatos[-1] != texto:
                 conversa.relatos.append(texto.strip()[:600])
@@ -196,6 +197,14 @@ class DialogoSituado:
                 'Entendi que você está usando uma expressão em sentido figurado: '+fonte(texto)+
                 '. Vou considerar o contexto e como você se sente, sem transformar isso numa descrição literal. '
                 'O que você quer expressar com essa imagem?',[texto])
+        # Uma circunstância vivida com “quando” não é automaticamente uma
+        # hipótese. Perguntas e citações seguem seus protocolos existentes.
+        if (re.match(r'(?:mas )?quando\b',n) and '?' not in texto and
+                (ativos or re.search(r'\beu\b',n))):
+            return self._emitir('circunstancia',
+                'Você acrescentou esta circunstância: '+fonte(texto)+'. '+
+                ('Ela ajuda a entender o contexto de '+contexto+'. ' if contexto else '')+
+                'O que percebe de diferente nesse momento? Podemos investigar a relação sem assumir a causa.',fontes+[texto])
         if re.search(r'\b(?:acompanhar|acompanha|entende|entender)\b',n) and re.search(
                 r'\b(?:bagunc\w*|jeito de falar|palavras soltas|meio confuso)\b',n):
             return self._emitir('entendimento',
