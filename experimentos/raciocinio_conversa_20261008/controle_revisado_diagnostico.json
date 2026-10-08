@@ -1,0 +1,3936 @@
+{
+  "controle_sha256": "855ec191df617c0ea9f14dc241f132d94e2dbab7db2bbf38f6c6938f04111507",
+  "commit": "a1b48d0b560b4c08c27d88e360e18fd6a1f67338",
+  "modo": "motor",
+  "limite": "Controle autoral; não prova conversa livre ou generalização independente.",
+  "sessoes": [
+    {
+      "id": "c01",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "83",
+                "67"
+              ],
+              "menor": 1,
+              "diferenca": "16"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, oficina: R$ 83; visita: R$ 67. Visita custa menos, com diferença de R$ 16.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "83",
+                "67"
+              ],
+              "menor": 1,
+              "diferenca": "16"
+            },
+            "entradas": [
+              {
+                "nome": "oficina",
+                "componentes": {
+                  "oficina": "83"
+                }
+              },
+              {
+                "nome": "visita",
+                "componentes": {
+                  "visita": "56",
+                  "passagem": "11"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "custos",
+                "anterior": null,
+                "valor": [
+                  "oficina",
+                  "visita"
+                ],
+                "origem": "usuario",
+                "fonte": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.091
+        },
+        {
+          "esperado": {
+            "texto": "A passagem passou a custar 34 reais. E agora?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "83",
+                "90"
+              ],
+              "menor": 0,
+              "diferenca": "7"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, oficina: R$ 83; visita: R$ 90. Oficina custa menos, com diferença de R$ 7.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "83",
+                "90"
+              ],
+              "menor": 0,
+              "diferenca": "7"
+            },
+            "entradas": [
+              {
+                "nome": "oficina",
+                "componentes": {
+                  "oficina": "83"
+                }
+              },
+              {
+                "nome": "visita",
+                "componentes": {
+                  "visita": "56",
+                  "passagem": "34"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "custo:passagem",
+                "anterior": "11",
+                "valor": "34",
+                "origem": "usuario",
+                "fonte": "A passagem passou a custar 34 reais. E agora?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?"
+              },
+              "custo:passagem": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "A passagem passou a custar 34 reais. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.756
+        },
+        {
+          "esperado": {
+            "texto": "Na verdade a oficina é 90 reais. Empatou?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "90",
+                "90"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, oficina: R$ 90; visita: R$ 90. Há empate no menor custo.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "90",
+                "90"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            },
+            "entradas": [
+              {
+                "nome": "oficina",
+                "componentes": {
+                  "oficina": "90"
+                }
+              },
+              {
+                "nome": "visita",
+                "componentes": {
+                  "visita": "56",
+                  "passagem": "34"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "custo:oficina",
+                "anterior": "83",
+                "valor": "90",
+                "origem": "usuario",
+                "fonte": "Na verdade a oficina é 90 reais. Empatou?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?"
+              },
+              "custo:passagem": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "A passagem passou a custar 34 reais. E agora?"
+              },
+              "custo:oficina": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Na verdade a oficina é 90 reais. Empatou?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.029
+        },
+        {
+          "esperado": {
+            "texto": "Se a passagem fosse 2 reais, seria diferente?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "90",
+                "58"
+              ],
+              "menor": 1,
+              "diferenca": "32"
+            },
+            "hipotese": true
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Nessa hipótese, oficina: R$ 90; visita: R$ 58. Visita custa menos, com diferença de R$ 32.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "90",
+                "58"
+              ],
+              "menor": 1,
+              "diferenca": "32"
+            },
+            "entradas": [
+              {
+                "nome": "oficina",
+                "componentes": {
+                  "oficina": "90"
+                }
+              },
+              {
+                "nome": "visita",
+                "componentes": {
+                  "visita": "56",
+                  "passagem": "2"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "custo:passagem",
+                "anterior": "34",
+                "valor": "2",
+                "origem": "hipotese",
+                "fonte": "Se a passagem fosse 2 reais, seria diferente?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?"
+              },
+              "custo:passagem": {
+                "turno": 4,
+                "origem": "hipotese",
+                "fonte": "Se a passagem fosse 2 reais, seria diferente?"
+              },
+              "custo:oficina": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Na verdade a oficina é 90 reais. Empatou?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.002
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "112.2"
+              ],
+              "menor": 1,
+              "diferenca": "17.3"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, curso presencial: R$ 129,5; curso remoto: R$ 112,2. Curso remoto custa menos, com diferença de R$ 17,3.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "112.2"
+              ],
+              "menor": 1,
+              "diferenca": "17.3"
+            },
+            "entradas": [
+              {
+                "nome": "curso presencial",
+                "componentes": {
+                  "curso presencial": "129.5"
+                }
+              },
+              {
+                "nome": "curso remoto",
+                "componentes": {
+                  "curso remoto": "99.9",
+                  "material": "12.3"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "custos",
+                "anterior": null,
+                "valor": [
+                  "curso presencial",
+                  "curso remoto"
+                ],
+                "origem": "usuario",
+                "fonte": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.054
+        },
+        {
+          "esperado": {
+            "texto": "Esqueça o preço do material, eu não sei quanto ele custa. Dá para decidir?",
+            "operacao": "comparar_custos",
+            "status": "incompleto"
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Para comparar, falta informar material.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "incompleto",
+            "faltam": [
+              "material"
+            ],
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "custo:material",
+                "anterior": "12.3",
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Esqueça o preço do material, eu não sei quanto ele custa. Dá para decidir?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?"
+              },
+              "custo:material": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Esqueça o preço do material, eu não sei quanto ele custa. Dá para decidir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.003
+        },
+        {
+          "esperado": {
+            "texto": "Agora sei: o material custa 40 reais. Qual é o mais barato?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, curso presencial: R$ 129,5; curso remoto: R$ 139,9. Curso presencial custa menos, com diferença de R$ 10,4.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            },
+            "entradas": [
+              {
+                "nome": "curso presencial",
+                "componentes": {
+                  "curso presencial": "129.5"
+                }
+              },
+              {
+                "nome": "curso remoto",
+                "componentes": {
+                  "curso remoto": "99.9",
+                  "material": "40"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "custo:material",
+                "anterior": null,
+                "valor": "40",
+                "origem": "usuario",
+                "fonte": "Agora sei: o material custa 40 reais. Qual é o mais barato?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?"
+              },
+              "custo:material": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Agora sei: o material custa 40 reais. Qual é o mais barato?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.039
+        },
+        {
+          "esperado": {
+            "texto": "Resumo dos custos, por favor.",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, curso presencial: R$ 129,5; curso remoto: R$ 139,9. Curso presencial custa menos, com diferença de R$ 10,4.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            },
+            "entradas": [
+              {
+                "nome": "curso presencial",
+                "componentes": {
+                  "curso presencial": "129.5"
+                }
+              },
+              {
+                "nome": "curso remoto",
+                "componentes": {
+                  "curso remoto": "99.9",
+                  "material": "40"
+                }
+              }
+            ],
+            "atualizacoes": [],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?"
+              },
+              "custo:material": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Agora sei: o material custa 40 reais. Qual é o mais barato?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.063
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "45",
+              "restante": "30"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 45 minutos, para 75 disponíveis. Sobram 30 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "caminhada": "28",
+              "banho": "17"
+            },
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "45",
+              "restante": "30"
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "tempo:disponivel",
+                "anterior": null,
+                "valor": "75",
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:caminhada",
+                "anterior": null,
+                "valor": "28",
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:banho",
+                "anterior": null,
+                "valor": "17",
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              "tempo:caminhada": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              "tempo:banho": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.017
+        },
+        {
+          "esperado": {
+            "texto": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "61",
+              "restante": "14"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 61 minutos, para 75 disponíveis. Sobram 14 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "caminhada": "44",
+              "banho": "17"
+            },
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "61",
+              "restante": "14"
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "tempo:caminhada",
+                "anterior": "28",
+                "valor": "44",
+                "origem": "usuario",
+                "fonte": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              "tempo:caminhada": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?"
+              },
+              "tempo:banho": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.028
+        },
+        {
+          "esperado": {
+            "texto": "O banho agora leva 35 minutos. Ultrapassa meu tempo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "79",
+              "restante": "-4"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 79 minutos, para 75 disponíveis. Faltam 4 minutos para caber tudo.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "caminhada": "44",
+              "banho": "35"
+            },
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "79",
+              "restante": "-4"
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "tempo:banho",
+                "anterior": "17",
+                "valor": "35",
+                "origem": "usuario",
+                "fonte": "O banho agora leva 35 minutos. Ultrapassa meu tempo?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?"
+              },
+              "tempo:caminhada": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?"
+              },
+              "tempo:banho": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "O banho agora leva 35 minutos. Ultrapassa meu tempo?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.056
+        },
+        {
+          "esperado": {
+            "texto": "Voltei a ter 90 minutos disponíveis. Quanto sobra agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "90",
+              "gasto": "79",
+              "restante": "11"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 79 minutos, para 90 disponíveis. Sobram 11 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "caminhada": "44",
+              "banho": "35"
+            },
+            "resultado": {
+              "disponivel": "90",
+              "gasto": "79",
+              "restante": "11"
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "tempo:disponivel",
+                "anterior": "75",
+                "valor": "90",
+                "origem": "usuario",
+                "fonte": "Voltei a ter 90 minutos disponíveis. Quanto sobra agora?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 4,
+                "origem": "usuario",
+                "fonte": "Voltei a ter 90 minutos disponíveis. Quanto sobra agora?"
+              },
+              "tempo:caminhada": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?"
+              },
+              "tempo:banho": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "O banho agora leva 35 minutos. Ultrapassa meu tempo?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.026
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "95",
+              "restante": "25"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 95 minutos, para 120 disponíveis. Sobram 25 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "trajeto": "53",
+              "tarefa": "42"
+            },
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "95",
+              "restante": "25"
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "tempo:disponivel",
+                "anterior": null,
+                "valor": "120",
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:trajeto",
+                "anterior": null,
+                "valor": "53",
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:tarefa",
+                "anterior": null,
+                "valor": "42",
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:trajeto": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.019
+        },
+        {
+          "esperado": {
+            "texto": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 133 minutos, para 120 disponíveis. Faltam 13 minutos para caber tudo.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "trajeto": "53",
+              "tarefa": "42",
+              "volta": "38"
+            },
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "tempo:volta",
+                "anterior": null,
+                "valor": "38",
+                "origem": "usuario",
+                "fonte": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:trajeto": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:volta": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.072
+        },
+        {
+          "esperado": {
+            "texto": "Se eu tivesse 3 horas, quanto sobraria?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "180",
+              "gasto": "133",
+              "restante": "47"
+            },
+            "hipotese": true
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Nessa hipótese, As atividades informadas somam 133 minutos, para 180 disponíveis. Sobram 47 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "trajeto": "53",
+              "tarefa": "42",
+              "volta": "38"
+            },
+            "resultado": {
+              "disponivel": "180",
+              "gasto": "133",
+              "restante": "47"
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "tempo:disponivel",
+                "anterior": "120",
+                "valor": "180",
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 3 horas, quanto sobraria?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 3,
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 3 horas, quanto sobraria?"
+              },
+              "tempo:trajeto": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:volta": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.001
+        },
+        {
+          "esperado": {
+            "texto": "Na situação real, eu ainda tenho duas horas. Qual era o saldo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 133 minutos, para 120 disponíveis. Faltam 13 minutos para caber tudo.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "trajeto": "53",
+              "tarefa": "42",
+              "volta": "38"
+            },
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "tempo:disponivel",
+                "anterior": "120",
+                "valor": "120",
+                "origem": "usuario",
+                "fonte": "Na situação real, eu ainda tenho duas horas. Qual era o saldo?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Na situação real, eu ainda tenho duas horas. Qual era o saldo?"
+              },
+              "tempo:trajeto": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?"
+              },
+              "tempo:volta": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.026
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sexta"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são sexta.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "sexta"
+              ]
+            },
+            "entradas": {
+              "helena": [
+                "segunda",
+                "sexta"
+              ],
+              "otavio": [
+                "sexta"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "agenda:helena",
+                "anterior": [],
+                "valor": [
+                  "segunda",
+                  "sexta"
+                ],
+                "origem": "usuario",
+                "fonte": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?"
+              },
+              {
+                "turno": 1,
+                "campo": "agenda:otavio",
+                "anterior": [],
+                "valor": [
+                  "sexta"
+                ],
+                "origem": "usuario",
+                "fonte": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?"
+              }
+            ],
+            "fontes": {
+              "agenda:helena": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?"
+              },
+              "agenda:otavio": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.081
+        },
+        {
+          "esperado": {
+            "texto": "Otávio também pode segunda agora. Ficou mais fácil marcar?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "segunda",
+                "sexta"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda e sexta.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda",
+                "sexta"
+              ]
+            },
+            "entradas": {
+              "helena": [
+                "segunda",
+                "sexta"
+              ],
+              "otavio": [
+                "segunda",
+                "sexta"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "agenda:otavio",
+                "anterior": [
+                  "sexta"
+                ],
+                "valor": [
+                  "segunda",
+                  "sexta"
+                ],
+                "origem": "usuario",
+                "fonte": "Otávio também pode segunda agora. Ficou mais fácil marcar?"
+              }
+            ],
+            "fontes": {
+              "agenda:helena": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?"
+              },
+              "agenda:otavio": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Otávio também pode segunda agora. Ficou mais fácil marcar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.027
+        },
+        {
+          "esperado": {
+            "texto": "Helena não pode mais sexta. Qual opção resta?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "helena": [
+                "segunda"
+              ],
+              "otavio": [
+                "segunda",
+                "sexta"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "agenda:helena",
+                "anterior": [
+                  "segunda",
+                  "sexta"
+                ],
+                "valor": [
+                  "segunda"
+                ],
+                "origem": "usuario",
+                "fonte": "Helena não pode mais sexta. Qual opção resta?"
+              }
+            ],
+            "fontes": {
+              "agenda:helena": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Helena não pode mais sexta. Qual opção resta?"
+              },
+              "agenda:otavio": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Otávio também pode segunda agora. Ficou mais fácil marcar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.001
+        },
+        {
+          "esperado": {
+            "texto": "Otávio agora só pode quarta. Temos um dia em comum?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Não há dia em comum entre os participantes com as disponibilidades que você informou.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": []
+            },
+            "entradas": {
+              "helena": [
+                "segunda"
+              ],
+              "otavio": [
+                "quarta"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "agenda:otavio",
+                "anterior": [
+                  "segunda",
+                  "sexta"
+                ],
+                "valor": [
+                  "quarta"
+                ],
+                "origem": "usuario",
+                "fonte": "Otávio agora só pode quarta. Temos um dia em comum?"
+              }
+            ],
+            "fontes": {
+              "agenda:helena": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Helena não pode mais sexta. Qual opção resta?"
+              },
+              "agenda:otavio": {
+                "turno": 4,
+                "origem": "usuario",
+                "fonte": "Otávio agora só pode quarta. Temos um dia em comum?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.025
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "domingo"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são domingo.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "domingo"
+              ]
+            },
+            "entradas": {
+              "rute": [
+                "sabado",
+                "domingo"
+              ],
+              "vicente": [
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "agenda:rute",
+                "anterior": [],
+                "valor": [
+                  "domingo",
+                  "sabado"
+                ],
+                "origem": "usuario",
+                "fonte": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?"
+              },
+              {
+                "turno": 1,
+                "campo": "agenda:vicente",
+                "anterior": [],
+                "valor": [
+                  "domingo"
+                ],
+                "origem": "usuario",
+                "fonte": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?"
+              }
+            ],
+            "fontes": {
+              "agenda:rute": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?"
+              },
+              "agenda:vicente": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.106
+        },
+        {
+          "esperado": {
+            "texto": "Rute, na verdade, só consegue sábado. Continua dando?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Não há dia em comum entre os participantes com as disponibilidades que você informou.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": []
+            },
+            "entradas": {
+              "rute": [
+                "sabado"
+              ],
+              "vicente": [
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "agenda:rute",
+                "anterior": [
+                  "domingo",
+                  "sabado"
+                ],
+                "valor": [
+                  "sabado"
+                ],
+                "origem": "usuario",
+                "fonte": "Rute, na verdade, só consegue sábado. Continua dando?"
+              }
+            ],
+            "fontes": {
+              "agenda:rute": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Rute, na verdade, só consegue sábado. Continua dando?"
+              },
+              "agenda:vicente": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.075
+        },
+        {
+          "esperado": {
+            "texto": "Vicente conseguiu liberar sábado também. O que muda?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sabado"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são sábado.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "sabado"
+              ]
+            },
+            "entradas": {
+              "rute": [
+                "sabado"
+              ],
+              "vicente": [
+                "sabado",
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "agenda:vicente",
+                "anterior": [
+                  "domingo"
+                ],
+                "valor": [
+                  "domingo",
+                  "sabado"
+                ],
+                "origem": "usuario",
+                "fonte": "Vicente conseguiu liberar sábado também. O que muda?"
+              }
+            ],
+            "fontes": {
+              "agenda:rute": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Rute, na verdade, só consegue sábado. Continua dando?"
+              },
+              "agenda:vicente": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Vicente conseguiu liberar sábado também. O que muda?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.065
+        },
+        {
+          "esperado": {
+            "texto": "E se Rute pudesse domingo também?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sabado",
+                "domingo"
+              ]
+            },
+            "hipotese": true
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Nessa hipótese, Os dias em comum são sábado e domingo.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "sabado",
+                "domingo"
+              ]
+            },
+            "entradas": {
+              "rute": [
+                "sabado",
+                "domingo"
+              ],
+              "vicente": [
+                "sabado",
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "agenda:rute",
+                "anterior": [
+                  "sabado"
+                ],
+                "valor": [
+                  "domingo",
+                  "sabado"
+                ],
+                "origem": "hipotese",
+                "fonte": "E se Rute pudesse domingo também?"
+              }
+            ],
+            "fontes": {
+              "agenda:rute": {
+                "turno": 4,
+                "origem": "hipotese",
+                "fonte": "E se Rute pudesse domingo também?"
+              },
+              "agenda:vicente": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Vicente conseguiu liberar sábado também. O que muda?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.001
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Bento não cumpre esses requisitos: não tem mapa.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "refutado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "bento cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "refutado",
+              "provas": [
+                {
+                  "indice": 2,
+                  "texto": "Cumprir exige bento tem mapa"
+                },
+                {
+                  "indice": 4,
+                  "texto": "não é verdade que bento tem mapa"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "bento",
+              "requisitos": [
+                "moeda",
+                "mapa"
+              ],
+              "operador": "e",
+              "posses": {
+                "moeda": true,
+                "mapa": false
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "regra",
+                "anterior": null,
+                "valor": {
+                  "itens": [
+                    "moeda",
+                    "mapa"
+                  ],
+                  "operador": "e"
+                },
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              {
+                "turno": 1,
+                "campo": "posse:bento:moeda",
+                "anterior": null,
+                "valor": true,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              {
+                "turno": 1,
+                "campo": "posse:bento:mapa",
+                "anterior": null,
+                "valor": false,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              "posse:bento:moeda": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              "posse:bento:mapa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.114
+        },
+        {
+          "esperado": {
+            "texto": "Bento ganhou um mapa. Agora pode abrir?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Bento cumpre os requisitos que você informou.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "bento cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: moeda e mapa"
+                },
+                {
+                  "indice": 3,
+                  "texto": "bento tem moeda"
+                },
+                {
+                  "indice": 4,
+                  "texto": "bento tem mapa"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "bento",
+              "requisitos": [
+                "moeda",
+                "mapa"
+              ],
+              "operador": "e",
+              "posses": {
+                "moeda": true,
+                "mapa": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "posse:bento:mapa",
+                "anterior": false,
+                "valor": true,
+                "origem": "usuario",
+                "fonte": "Bento ganhou um mapa. Agora pode abrir?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              "posse:bento:moeda": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              "posse:bento:mapa": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Bento ganhou um mapa. Agora pode abrir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.69
+        },
+        {
+          "esperado": {
+            "texto": "Ele perdeu a moeda. Ainda cumpre a regra?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Bento não cumpre esses requisitos: não tem moeda.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "refutado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "bento cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "refutado",
+              "provas": [
+                {
+                  "indice": 1,
+                  "texto": "Cumprir exige bento tem moeda"
+                },
+                {
+                  "indice": 3,
+                  "texto": "não é verdade que bento tem moeda"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "bento",
+              "requisitos": [
+                "moeda",
+                "mapa"
+              ],
+              "operador": "e",
+              "posses": {
+                "moeda": false,
+                "mapa": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "posse:bento:moeda",
+                "anterior": true,
+                "valor": false,
+                "origem": "usuario",
+                "fonte": "Ele perdeu a moeda. Ainda cumpre a regra?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?"
+              },
+              "posse:bento:moeda": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Ele perdeu a moeda. Ainda cumpre a regra?"
+              },
+              "posse:bento:mapa": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Bento ganhou um mapa. Agora pode abrir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.063
+        },
+        {
+          "esperado": {
+            "texto": "Mudei a regra: basta moeda ou mapa. E agora?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Bento cumpre os requisitos que você informou.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "bento cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: moeda e mapa"
+                },
+                {
+                  "indice": 3,
+                  "texto": "bento tem mapa"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "bento",
+              "requisitos": [
+                "moeda",
+                "mapa"
+              ],
+              "operador": "ou",
+              "posses": {
+                "moeda": false,
+                "mapa": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "regra",
+                "anterior": null,
+                "valor": {
+                  "itens": [
+                    "moeda",
+                    "mapa"
+                  ],
+                  "operador": "ou"
+                },
+                "origem": "usuario",
+                "fonte": "Mudei a regra: basta moeda ou mapa. E agora?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 4,
+                "origem": "usuario",
+                "fonte": "Mudei a regra: basta moeda ou mapa. E agora?"
+              },
+              "posse:bento:moeda": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Ele perdeu a moeda. Ainda cumpre a regra?"
+              },
+              "posse:bento:mapa": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Bento ganhou um mapa. Agora pode abrir?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.139
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "indeterminado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Ainda não dá para concluir: falta saber se celina tem convite.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "indeterminado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "celina cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 2,
+              "status": "indeterminado",
+              "provas": [],
+              "contraexemplos": [
+                {
+                  "celina tem pulseira": true,
+                  "celina tem convite": true,
+                  "celina cumpre os requisitos informados": true
+                },
+                {
+                  "celina tem pulseira": true,
+                  "celina tem convite": false,
+                  "celina cumpre os requisitos informados": false
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "celina",
+              "requisitos": [
+                "pulseira",
+                "convite"
+              ],
+              "operador": "e",
+              "posses": {
+                "pulseira": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "regra",
+                "anterior": null,
+                "valor": {
+                  "itens": [
+                    "pulseira",
+                    "convite"
+                  ],
+                  "operador": "e"
+                },
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              {
+                "turno": 1,
+                "campo": "posse:celina:pulseira",
+                "anterior": null,
+                "valor": true,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:pulseira": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.103
+        },
+        {
+          "esperado": {
+            "texto": "Descobri que Celina não tem convite. Então?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Celina não cumpre esses requisitos: não tem convite.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "refutado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "celina cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "refutado",
+              "provas": [
+                {
+                  "indice": 2,
+                  "texto": "Cumprir exige celina tem convite"
+                },
+                {
+                  "indice": 4,
+                  "texto": "não é verdade que celina tem convite"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "celina",
+              "requisitos": [
+                "pulseira",
+                "convite"
+              ],
+              "operador": "e",
+              "posses": {
+                "pulseira": true,
+                "convite": false
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "posse:celina:convite",
+                "anterior": null,
+                "valor": false,
+                "origem": "usuario",
+                "fonte": "Descobri que Celina não tem convite. Então?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:pulseira": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:convite": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Descobri que Celina não tem convite. Então?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.04
+        },
+        {
+          "esperado": {
+            "texto": "Se ela recebesse um convite, conseguiria entrar?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": true
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Nessa hipótese, Celina cumpre os requisitos que você informou.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "celina cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: pulseira e convite"
+                },
+                {
+                  "indice": 3,
+                  "texto": "celina tem pulseira"
+                },
+                {
+                  "indice": 4,
+                  "texto": "celina tem convite"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "celina",
+              "requisitos": [
+                "pulseira",
+                "convite"
+              ],
+              "operador": "e",
+              "posses": {
+                "pulseira": true,
+                "convite": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "posse:celina:convite",
+                "anterior": false,
+                "valor": true,
+                "origem": "hipotese",
+                "fonte": "Se ela recebesse um convite, conseguiria entrar?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:pulseira": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:convite": {
+                "turno": 3,
+                "origem": "hipotese",
+                "fonte": "Se ela recebesse um convite, conseguiria entrar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.004
+        },
+        {
+          "esperado": {
+            "texto": "Na realidade, ela ainda não tem convite. Qual é a situação?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Celina não cumpre esses requisitos: não tem convite.",
+          "raciocinio": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "refutado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "celina cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "refutado",
+              "provas": [
+                {
+                  "indice": 2,
+                  "texto": "Cumprir exige celina tem convite"
+                },
+                {
+                  "indice": 4,
+                  "texto": "não é verdade que celina tem convite"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "celina",
+              "requisitos": [
+                "pulseira",
+                "convite"
+              ],
+              "operador": "e",
+              "posses": {
+                "pulseira": true,
+                "convite": false
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "posse:celina:convite",
+                "anterior": false,
+                "valor": false,
+                "origem": "usuario",
+                "fonte": "Na realidade, ela ainda não tem convite. Qual é a situação?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:pulseira": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?"
+              },
+              "posse:celina:convite": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Na realidade, ela ainda não tem convite. Qual é a situação?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.007
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, considere este orcamento: a hospedagem: R$ 212; passeio: R$ 117. Passeio custa menos, com diferença de R$ 95.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            },
+            "entradas": [
+              {
+                "nome": "considere este orcamento: a hospedagem",
+                "componentes": {
+                  "considere este orcamento: a hospedagem": "212"
+                }
+              },
+              {
+                "nome": "passeio",
+                "componentes": {
+                  "passeio": "95",
+                  "transporte": "22"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "custos",
+                "anterior": null,
+                "valor": [
+                  "considere este orcamento: a hospedagem",
+                  "passeio"
+                ],
+                "origem": "usuario",
+                "fonte": "Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.023
+        },
+        {
+          "esperado": {
+            "texto": "O que é fotossíntese?",
+            "preservar_factual": true
+          },
+          "id": "fotossintese",
+          "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+          "raciocinio": null,
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 2,
+            "origem": "composicao_factual",
+            "modo": "factual",
+            "evidencias": [
+              {
+                "assunto": "mundo_fotossintese",
+                "fato": 0
+              },
+              {
+                "assunto": "mundo_fotossintese",
+                "fato": 1
+              }
+            ],
+            "rejeicoes": [],
+            "substituiu": "fotossintese",
+            "texto_alterado": false,
+            "copia_literal": true
+          },
+          "correto_estruturado": true,
+          "segundos": 9.595
+        },
+        {
+          "esperado": {
+            "texto": "Voltando aos valores da viagem, quanto dava a diferença?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, considere este orcamento: a hospedagem: R$ 212; passeio: R$ 117. Passeio custa menos, com diferença de R$ 95.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            },
+            "entradas": [
+              {
+                "nome": "considere este orcamento: a hospedagem",
+                "componentes": {
+                  "considere este orcamento: a hospedagem": "212"
+                }
+              },
+              {
+                "nome": "passeio",
+                "componentes": {
+                  "passeio": "95",
+                  "transporte": "22"
+                }
+              }
+            ],
+            "atualizacoes": [],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.12
+        },
+        {
+          "esperado": {
+            "texto": "Vamos começar de novo. Qual era a hospedagem?",
+            "memoria_apagada": true
+          },
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Vamos começar de novo. Qual era a hospedagem”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "raciocinio": null,
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.121
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 23 minutos, para 23 disponíveis. Sobram 0 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "preparar a mesa": "8",
+              "desenhar": "15"
+            },
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "tempo:disponivel",
+                "anterior": null,
+                "valor": "23",
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:preparar a mesa",
+                "anterior": null,
+                "valor": "8",
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:desenhar",
+                "anterior": null,
+                "valor": "15",
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:preparar a mesa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:desenhar": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.06
+        },
+        {
+          "esperado": {
+            "texto": "Meu vizinho disse: “desenhar leva 1 minuto”. Isso não é uma correção dos meus dados. Quanto sobra no meu plano?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 23 minutos, para 23 disponíveis. Sobram 0 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "preparar a mesa": "8",
+              "desenhar": "15"
+            },
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:preparar a mesa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:desenhar": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.008
+        },
+        {
+          "esperado": {
+            "texto": "Não sei mais quanto tempo tenho disponível. Ainda dá para afirmar que cabe?",
+            "operacao": "tempo_restante",
+            "status": "incompleto"
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Falta informar tempo disponível para calcular se cabe.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "incompleto",
+            "faltam": [
+              "tempo disponível"
+            ],
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "tempo:disponivel",
+                "anterior": "23",
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Não sei mais quanto tempo tenho disponível. Ainda dá para afirmar que cabe?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Não sei mais quanto tempo tenho disponível. Ainda dá para afirmar que cabe?"
+              },
+              "tempo:preparar a mesa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:desenhar": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.04
+        },
+        {
+          "esperado": {
+            "texto": "Agora tenho 26 minutos livres. E agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "26",
+              "gasto": "23",
+              "restante": "3"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 23 minutos, para 26 disponíveis. Sobram 3 minutos.",
+          "raciocinio": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "preparar a mesa": "8",
+              "desenhar": "15"
+            },
+            "resultado": {
+              "disponivel": "26",
+              "gasto": "23",
+              "restante": "3"
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "tempo:disponivel",
+                "anterior": null,
+                "valor": "26",
+                "origem": "usuario",
+                "fonte": "Agora tenho 26 minutos livres. E agora?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 4,
+                "origem": "usuario",
+                "fonte": "Agora tenho 26 minutos livres. E agora?"
+              },
+              "tempo:preparar a mesa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              },
+              "tempo:desenhar": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.116
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?",
+            "operacao": "intersecao_agendas",
+            "status": "incompleto"
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Preciso dos dias livres de outro participante para encontrar um dia em comum.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "incompleto",
+            "faltam": [
+              "disponibilidade de outro participante"
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "agenda:bruna",
+                "anterior": [],
+                "valor": [
+                  "domingo",
+                  "terca"
+                ],
+                "origem": "usuario",
+                "fonte": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?"
+              }
+            ],
+            "fontes": {
+              "agenda:bruna": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.087
+        },
+        {
+          "esperado": {
+            "texto": "Luís também participa. Ele pode terça. Qual dia dá?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são terça.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            },
+            "entradas": {
+              "bruna": [
+                "terca",
+                "domingo"
+              ],
+              "luis": [
+                "terca"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "agenda:luis",
+                "anterior": null,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Luís também participa. Ele pode terça. Qual dia dá?"
+              },
+              {
+                "turno": 2,
+                "campo": "agenda:luis",
+                "anterior": [],
+                "valor": [
+                  "terca"
+                ],
+                "origem": "usuario",
+                "fonte": "Luís também participa. Ele pode terça. Qual dia dá?"
+              }
+            ],
+            "fontes": {
+              "agenda:bruna": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?"
+              },
+              "agenda:luis": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Luís também participa. Ele pode terça. Qual dia dá?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.055
+        },
+        {
+          "esperado": {
+            "texto": "Carolina vai participar e só pode domingo. Dá para todos?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Não há dia em comum entre os participantes com as disponibilidades que você informou.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": []
+            },
+            "entradas": {
+              "bruna": [
+                "terca",
+                "domingo"
+              ],
+              "luis": [
+                "terca"
+              ],
+              "carolina": [
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "agenda:carolina",
+                "anterior": null,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Carolina vai participar e só pode domingo. Dá para todos?"
+              },
+              {
+                "turno": 3,
+                "campo": "agenda:carolina",
+                "anterior": [],
+                "valor": [
+                  "domingo"
+                ],
+                "origem": "usuario",
+                "fonte": "Carolina vai participar e só pode domingo. Dá para todos?"
+              }
+            ],
+            "fontes": {
+              "agenda:bruna": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?"
+              },
+              "agenda:luis": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Luís também participa. Ele pode terça. Qual dia dá?"
+              },
+              "agenda:carolina": {
+                "turno": 3,
+                "origem": "usuario",
+                "fonte": "Carolina vai participar e só pode domingo. Dá para todos?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.022
+        },
+        {
+          "esperado": {
+            "texto": "Carolina também liberou terça. E agora?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Os dias em comum são terça.",
+          "raciocinio": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            },
+            "entradas": {
+              "bruna": [
+                "terca",
+                "domingo"
+              ],
+              "luis": [
+                "terca"
+              ],
+              "carolina": [
+                "terca",
+                "domingo"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "agenda:carolina",
+                "anterior": [
+                  "domingo"
+                ],
+                "valor": [
+                  "domingo",
+                  "terca"
+                ],
+                "origem": "usuario",
+                "fonte": "Carolina também liberou terça. E agora?"
+              }
+            ],
+            "fontes": {
+              "agenda:bruna": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?"
+              },
+              "agenda:luis": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Luís também participa. Ele pode terça. Qual dia dá?"
+              },
+              "agenda:carolina": {
+                "turno": 4,
+                "origem": "usuario",
+                "fonte": "Carolina também liberou terça. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.02
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?",
+            "operacao": "comparar_custos",
+            "status": "incompleto"
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, Para comparar, falta informar taxa.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "incompleto",
+            "faltam": [
+              "taxa"
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "custos",
+                "anterior": null,
+                "valor": [
+                  "ingresso",
+                  "pacote"
+                ],
+                "origem": "usuario",
+                "fonte": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.056
+        },
+        {
+          "esperado": {
+            "texto": "Descobri: a taxa é 5 reais. E agora?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, ingresso: R$ 18; pacote: R$ 18. Há empate no menor custo.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            },
+            "entradas": [
+              {
+                "nome": "ingresso",
+                "componentes": {
+                  "ingresso": "18"
+                }
+              },
+              {
+                "nome": "pacote",
+                "componentes": {
+                  "pacote": "13",
+                  "taxa": "5"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "custo:taxa",
+                "anterior": null,
+                "valor": "5",
+                "origem": "usuario",
+                "fonte": "Descobri: a taxa é 5 reais. E agora?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?"
+              },
+              "custo:taxa": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Descobri: a taxa é 5 reais. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.025
+        },
+        {
+          "esperado": {
+            "texto": "Se a taxa fosse 8 reais, haveria empate?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "21"
+              ],
+              "menor": 0,
+              "diferenca": "3"
+            },
+            "hipotese": true
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Nessa hipótese, ingresso: R$ 18; pacote: R$ 21. Ingresso custa menos, com diferença de R$ 3.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "18",
+                "21"
+              ],
+              "menor": 0,
+              "diferenca": "3"
+            },
+            "entradas": [
+              {
+                "nome": "ingresso",
+                "componentes": {
+                  "ingresso": "18"
+                }
+              },
+              {
+                "nome": "pacote",
+                "componentes": {
+                  "pacote": "13",
+                  "taxa": "8"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "custo:taxa",
+                "anterior": "5",
+                "valor": "8",
+                "origem": "hipotese",
+                "fonte": "Se a taxa fosse 8 reais, haveria empate?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?"
+              },
+              "custo:taxa": {
+                "turno": 3,
+                "origem": "hipotese",
+                "fonte": "Se a taxa fosse 8 reais, haveria empate?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.001
+        },
+        {
+          "esperado": {
+            "texto": "Sem essa hipótese, quanto custam as duas opções?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "conversa:raciocinio",
+          "resposta": "Pelos dados que você informou, ingresso: R$ 18; pacote: R$ 18. Há empate no menor custo.",
+          "raciocinio": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            },
+            "entradas": [
+              {
+                "nome": "ingresso",
+                "componentes": {
+                  "ingresso": "18"
+                }
+              },
+              {
+                "nome": "pacote",
+                "componentes": {
+                  "pacote": "13",
+                  "taxa": "5"
+                }
+              }
+            ],
+            "atualizacoes": [],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?"
+              },
+              "custo:taxa": {
+                "turno": 2,
+                "origem": "usuario",
+                "fonte": "Descobri: a taxa é 5 reais. E agora?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "argumentos": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.001
+        }
+      ]
+    },
+    {
+      "id": "livre01",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Você ligou “escuto chuva na varanda” à lembrança de “férias na casa da minha tia”.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "relacionar_memoria_declarada",
+            "objetivos": [],
+            "dilema": [],
+            "impedimentos": [],
+            "nao_principal": [],
+            "associacao": {
+              "gatilho": "escuto chuva na varanda",
+              "lembranca": "férias na casa da minha tia",
+              "declaracao": "Quando escuto chuva na varanda penso nas férias na casa da minha tia"
+            },
+            "sentimento": null,
+            "recusado": null,
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_ficha_elegivel",
+            "tentativas": 0
+          },
+          "segundos": 0.05
+        },
+        {
+          "esperado": {
+            "texto": "Não é tristeza. É uma sensação de segurança. Você entendeu?",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Entendi a correção: você descreve segurança, não tristeza. Você ligou “escuto chuva na varanda” à lembrança de “férias na casa da minha tia”.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "relacionar_memoria_declarada",
+            "objetivos": [],
+            "dilema": [],
+            "impedimentos": [],
+            "nao_principal": [],
+            "associacao": {
+              "gatilho": "escuto chuva na varanda",
+              "lembranca": "férias na casa da minha tia",
+              "declaracao": "Quando escuto chuva na varanda penso nas férias na casa da minha tia"
+            },
+            "sentimento": "segurança",
+            "recusado": "tristeza",
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "Não é tristeza. É uma sensação de segurança. Você entendeu?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.004
+        },
+        {
+          "esperado": {
+            "texto": "Queria transformar essa memória numa pequena cena de conto. Tenta.",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Parei por um instante para prestar atenção. Quando escutava chuva na varanda pensava nas férias na casa da minha tia. Não era tristeza; era segurança. Fiquei ali mais um pouco, guardando aquela lembrança.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "cena_ficcional_estrutural",
+            "objetivos": [],
+            "dilema": [],
+            "impedimentos": [],
+            "nao_principal": [],
+            "associacao": {
+              "gatilho": "escuto chuva na varanda",
+              "lembranca": "férias na casa da minha tia",
+              "declaracao": "Quando escuto chuva na varanda penso nas férias na casa da minha tia"
+            },
+            "sentimento": "segurança",
+            "recusado": "tristeza",
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "Não é tristeza. É uma sensação de segurança. Você entendeu?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false,
+            "escopo": "ficcao",
+            "narrador": "primeira_pessoa"
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.483
+        },
+        {
+          "esperado": {
+            "texto": "Agora muda o narrador para uma criança curiosa, mantendo a chuva e a tia.",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Eu queria descobrir por que aquele momento fazia uma lembrança aparecer. Quando escutava chuva na varanda pensava nas férias na casa da minha tia. Não era tristeza; era segurança. Fiquei ali mais um pouco, guardando aquela lembrança.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "cena_ficcional_estrutural",
+            "objetivos": [],
+            "dilema": [],
+            "impedimentos": [],
+            "nao_principal": [],
+            "associacao": {
+              "gatilho": "escuto chuva na varanda",
+              "lembranca": "férias na casa da minha tia",
+              "declaracao": "Quando escuto chuva na varanda penso nas férias na casa da minha tia"
+            },
+            "sentimento": "segurança",
+            "recusado": "tristeza",
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "Não é tristeza. É uma sensação de segurança. Você entendeu?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false,
+            "escopo": "ficcao",
+            "narrador": "primeira_pessoa_curiosa"
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.025
+        }
+      ]
+    },
+    {
+      "id": "livre02",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Você está tentando conciliar “aceitar mais projetos” e “preservar meu tempo”.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "resumir_argumentos_pessoais",
+            "objetivos": [
+              "aceitar mais projetos",
+              "preservar meu tempo"
+            ],
+            "dilema": [
+              "aceitar mais projetos",
+              "preservar meu tempo"
+            ],
+            "impedimentos": [],
+            "nao_principal": [],
+            "associacao": null,
+            "sentimento": null,
+            "recusado": null,
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.089
+        },
+        {
+          "esperado": {
+            "texto": "O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado.",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Você está tentando conciliar “aceitar mais projetos” e “preservar meu tempo”. Também mencionou querer “descobrir coisas novas”. A dificuldade que você trouxe foi “estou cansado”. Você esclareceu que pagamento não é o principal.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "resumir_argumentos_pessoais",
+            "objetivos": [
+              "aceitar mais projetos",
+              "preservar meu tempo",
+              "descobrir coisas novas"
+            ],
+            "dilema": [
+              "aceitar mais projetos",
+              "preservar meu tempo"
+            ],
+            "impedimentos": [
+              "estou cansado"
+            ],
+            "nao_principal": [
+              "pagamento"
+            ],
+            "associacao": null,
+            "sentimento": null,
+            "recusado": null,
+            "alternativa": null,
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado."
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.033
+        },
+        {
+          "esperado": {
+            "texto": "E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo?",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Você está tentando conciliar “aceitar mais projetos” e “preservar meu tempo”. Também mencionou querer “descobrir coisas novas”. A dificuldade que você trouxe foi “estou cansado”. Você esclareceu que pagamento não é o principal. A alternativa que propôs foi “aceitasse apenas um projeto curto para começar”, como hipótese, ainda sem decidir por ela. Ao propor apenas uma experiência, você limita o compromisso inicial. Para comparar melhor, ainda faltam a duração e o custo reais dessa alternativa, junto do limite que você quer preservar.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "comparar_alternativa_pessoal",
+            "objetivos": [
+              "aceitar mais projetos",
+              "preservar meu tempo",
+              "descobrir coisas novas"
+            ],
+            "dilema": [
+              "aceitar mais projetos",
+              "preservar meu tempo"
+            ],
+            "impedimentos": [
+              "estou cansado"
+            ],
+            "nao_principal": [
+              "pagamento"
+            ],
+            "associacao": null,
+            "sentimento": null,
+            "recusado": null,
+            "alternativa": "aceitasse apenas um projeto curto para começar",
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado."
+              },
+              {
+                "origem": "hipotese",
+                "texto": "E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.001
+        },
+        {
+          "esperado": {
+            "texto": "Resume meu dilema e essa alternativa, sem inventar um diagnóstico.",
+            "livre": true
+          },
+          "id": "conversa:argumentos",
+          "resposta": "Você está tentando conciliar “aceitar mais projetos” e “preservar meu tempo”. Também mencionou querer “descobrir coisas novas”. A dificuldade que você trouxe foi “estou cansado”. Você esclareceu que pagamento não é o principal. A alternativa que propôs foi “aceitasse apenas um projeto curto para começar”, como hipótese, ainda sem decidir por ela.",
+          "raciocinio": null,
+          "argumentos": {
+            "operacao": "resumir_argumentos_pessoais",
+            "objetivos": [
+              "aceitar mais projetos",
+              "preservar meu tempo",
+              "descobrir coisas novas"
+            ],
+            "dilema": [
+              "aceitar mais projetos",
+              "preservar meu tempo"
+            ],
+            "impedimentos": [
+              "estou cansado"
+            ],
+            "nao_principal": [
+              "pagamento"
+            ],
+            "associacao": null,
+            "sentimento": null,
+            "recusado": null,
+            "alternativa": "aceitasse apenas um projeto curto para começar",
+            "fontes": [
+              {
+                "origem": "usuario",
+                "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?"
+              },
+              {
+                "origem": "usuario",
+                "texto": "O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado."
+              },
+              {
+                "origem": "hipotese",
+                "texto": "E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo?"
+              }
+            ],
+            "redacao": "estrutural",
+            "prova_logica": false
+          },
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.006
+        }
+      ]
+    }
+  ],
+  "resumo": {
+    "turnos_avaliados": 48,
+    "corretos": 48,
+    "erros": 0
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "modelo": "modular_17m",
+  "parametros": 17428224,
+  "pesos_sha256": "1c80c772fd7370c5dba14ed0009873978020a23a2923095a6f3af3c90db5b0f7",
+  "adaptacao": "Mesmos arrays; configuração externa copiada para meta do executor.",
+  "casos": [
+    {
+      "id": "precos",
+      "turnos": [
+        {
+          "texto": "1",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Um passeio custa 47 reais no parque. O outro custa 31 reais mais 9 de condução. Qual custa menos?",
+          "segundos": 0.296
+        },
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "A condução subiu para 18 reais. Ainda escolheria o mesmo pelo preço?",
+          "segundos": 0.208
+        }
+      ]
+    },
+    {
+      "id": "agenda",
+      "turnos": [
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Iara consegue terça ou quinta. Caio só consegue quinta. Em que dia podem se encontrar?",
+          "segundos": 0.135
+        },
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Caio agora também consegue terça. Quinta continua sendo a única opção?",
+          "segundos": 0.607
+        }
+      ]
+    },
+    {
+      "id": "correcao",
+      "turnos": [
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Eu queria estudar toda noite, mas cuido da minha irmã na quarta. Como considerar isso?",
+          "segundos": 0.128
+        },
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Corrigindo: é na quinta que cuido dela, não na quarta. O que muda?",
+          "segundos": 0.26
+        }
+      ]
+    },
+    {
+      "id": "regra",
+      "turnos": [
+        {
+          "texto": "não é verdade que a roda",
+          "completa": true,
+          "tokens": 7,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Neste jogo só recebe uma medalha quem tem ficha e selo. Davi tem ficha, mas não tem selo. Ele recebe?",
+          "segundos": 0.176
+        },
+        {
+          "texto": "0",
+          "completa": true,
+          "tokens": 1,
+          "passo": 400,
+          "modelo": "transformer_causal_do_zero",
+          "runtime": "numpy",
+          "temperatura": 0.0,
+          "pergunta": "Ele ganhou um selo agora. Pela regra que eu disse, muda alguma coisa?",
+          "segundos": 0.084
+        }
+      ]
+    }
+  ]
+}

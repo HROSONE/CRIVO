@@ -184,6 +184,10 @@ class Crivo:
         self.estado_conversa = EstadoConversa()
         from dialogo_situado import DialogoSituado
         self.dialogo_situado = DialogoSituado()
+        from raciocinio_conversa import RaciocinioConversa
+        self.raciocinio_conversa = RaciocinioConversa()
+        from argumentos_conversa import ArgumentosConversa
+        self.argumentos_conversa = ArgumentosConversa()
         self.inferencia = Inferencia()
         self.investigacao = InvestigacaoChat()
         self.consulta_pratica = ConsultaPratica(self.programacao)
@@ -1889,10 +1893,23 @@ class Crivo:
         # Operações explícitas sobre memória usam a mensagem original antes
         # de noções cotidianas ou resolução de pronomes reaproveitarem relatos.
         from correcao_relatos import corrigir_relatos, pedido_lembranca, pedido_reinicio
+        if pedido_reinicio(texto):
+            self.raciocinio_conversa.limpar()
+            self.argumentos_conversa.limpar()
+        calculada = self.raciocinio_conversa.responder(texto)
+        if calculada is not None:
+            return self._registrar_conclusao_conversa(texto, calculada,
+                                                     mecanismo='raciocinio_conversa_verificavel',
+                                                     campo='raciocinio_conversa', quadro=self.raciocinio_conversa.ultimo)
         if (pedido_reinicio(texto) or pedido_lembranca(texto) or
                 corrigir_relatos(texto, self.conversacao.relatos) is not None):
             self.perfil.turno += 1
             return self._responder_turno(texto)
+        argumentos = self.argumentos_conversa.responder(texto)
+        if argumentos is not None:
+            return self._registrar_conclusao_conversa(texto, argumentos,
+                                                     mecanismo='argumentos_conversa_estrutural',
+                                                     campo='argumentos_conversa', quadro=self.argumentos_conversa.ultimo)
         situada = self.dialogo_situado.responder(texto, self)
         if situada is not None:
             return self._registrar_dialogo_situado(texto, situada)
@@ -1999,6 +2016,22 @@ class Crivo:
         mencionado = self.compositor.assunto_mencionado(texto)
         if mencionado is not None:
             self.assunto_conversa = mencionado
+
+    def _registrar_conclusao_conversa(self, texto, resultado, mecanismo, campo, quadro):
+        self.perfil.turno += 1
+        self.conversacao.turno += 1
+        saida = self._registrar_social(resultado, texto)
+        self.historico[-1].update(mecanismo=mecanismo)
+        self.historico[-1][campo] = quadro
+        self.contexto_textual = self.ultima_resposta_mostrada = None
+        self.contexto_frutas = self.contexto_consulta = self.contexto_geral = None
+        self.assunto_conversa = self.oferta_pendente = None
+        self.planejador.ultimo = None
+        self.ultimo_turno = dict(pergunta=texto,id=saida[0])
+        self.conversacao.dialogo.ativo = True
+        self.conversacao.dialogo.ultima_resposta = saida[1]
+        self.conversacao.geracao.registrar(saida[0],saida[1],self.conversacao,texto)
+        return saida
 
     def _registrar_dialogo_situado(self, texto, resultado, preparado=False):
         from dialogo_situado import ntexto, abertura

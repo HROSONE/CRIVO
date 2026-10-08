@@ -1,0 +1,1278 @@
+{
+  "controle_sha256": "855ec191df617c0ea9f14dc241f132d94e2dbab7db2bbf38f6c6938f04111507",
+  "commit": "cb3b256555db53f794f8e6b67e56219ac4bbce3f",
+  "modo": "motor",
+  "limite": "Controle autoral; não prova conversa livre ou generalização independente.",
+  "sessoes": [
+    {
+      "id": "c01",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "83",
+                "67"
+              ],
+              "menor": 1,
+              "diferenca": "16"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 2.756
+        },
+        {
+          "esperado": {
+            "texto": "A passagem passou a custar 34 reais. E agora?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "83",
+                "90"
+              ],
+              "menor": 0,
+              "diferenca": "7"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.396
+        },
+        {
+          "esperado": {
+            "texto": "Na verdade a oficina é 90 reais. Empatou?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "90",
+                "90"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.822
+        },
+        {
+          "esperado": {
+            "texto": "Se a passagem fosse 2 reais, seria diferente?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "90",
+                "58"
+              ],
+              "menor": 1,
+              "diferenca": "32"
+            },
+            "hipotese": true
+          },
+          "id": "conversa:situada_hipotese",
+          "resposta": "Na hipótese “Se a passagem fosse 2 reais, seria diferente”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.007
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "112.2"
+              ],
+              "menor": 1,
+              "diferenca": "17.3"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 4.671
+        },
+        {
+          "esperado": {
+            "texto": "Esqueça o preço do material, eu não sei quanto ele custa. Dá para decidir?",
+            "operacao": "comparar_custos",
+            "status": "incompleto"
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.99
+        },
+        {
+          "esperado": {
+            "texto": "Agora sei: o material custa 40 reais. Qual é o mais barato?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 2.199
+        },
+        {
+          "esperado": {
+            "texto": "Resumo dos custos, por favor.",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "129.5",
+                "139.9"
+              ],
+              "menor": 0,
+              "diferenca": "10.4"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 2.337
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "45",
+              "restante": "30"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.9
+        },
+        {
+          "esperado": {
+            "texto": "Corrigindo: a caminhada demora 44 minutos. Ainda cabe?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "61",
+              "restante": "14"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.034
+        },
+        {
+          "esperado": {
+            "texto": "O banho agora leva 35 minutos. Ultrapassa meu tempo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "75",
+              "gasto": "79",
+              "restante": "-4"
+            }
+          },
+          "id": "duvida",
+          "resposta": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. quanto tempo a luz do sol leva para chegar à terra\n2. quanto tempo a terra leva para dar uma volta no sol\nResponda com o número, o nome da opção ou 'nenhuma'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.844
+        },
+        {
+          "esperado": {
+            "texto": "Voltei a ter 90 minutos disponíveis. Quanto sobra agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "90",
+              "gasto": "79",
+              "restante": "11"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.931
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "95",
+              "restante": "25"
+            }
+          },
+          "id": "rotacao_translacao",
+          "resposta": "Rotação é a volta da Terra em torno de si mesma (cerca de 24 horas). Translação é a volta em torno do Sol (cerca de 365 dias e 6 horas).",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 3.422
+        },
+        {
+          "esperado": {
+            "texto": "Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            }
+          },
+          "id": "rotacao_translacao",
+          "resposta": "Rotação é a volta da Terra em torno de si mesma (cerca de 24 horas). Translação é a volta em torno do Sol (cerca de 365 dias e 6 horas).",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.181
+        },
+        {
+          "esperado": {
+            "texto": "Se eu tivesse 3 horas, quanto sobraria?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "180",
+              "gasto": "133",
+              "restante": "47"
+            },
+            "hipotese": true
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.424
+        },
+        {
+          "esperado": {
+            "texto": "Na situação real, eu ainda tenho duas horas. Qual era o saldo?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "133",
+              "restante": "-13"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.996
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sexta"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.755
+        },
+        {
+          "esperado": {
+            "texto": "Otávio também pode segunda agora. Ficou mais fácil marcar?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "segunda",
+                "sexta"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.038
+        },
+        {
+          "esperado": {
+            "texto": "Helena não pode mais sexta. Qual opção resta?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            }
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.366
+        },
+        {
+          "esperado": {
+            "texto": "Otávio agora só pode quarta. Temos um dia em comum?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.896
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "domingo"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.302
+        },
+        {
+          "esperado": {
+            "texto": "Rute, na verdade, só consegue sábado. Continua dando?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.86
+        },
+        {
+          "esperado": {
+            "texto": "Vicente conseguiu liberar sábado também. O que muda?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sabado"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.089
+        },
+        {
+          "esperado": {
+            "texto": "E se Rute pudesse domingo também?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "sabado",
+                "domingo"
+              ]
+            },
+            "hipotese": true
+          },
+          "id": "conversa:situada_hipotese",
+          "resposta": "Na hipótese “E se Rute pudesse domingo também”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.001
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.476
+        },
+        {
+          "esperado": {
+            "texto": "Bento ganhou um mapa. Agora pode abrir?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.802
+        },
+        {
+          "esperado": {
+            "texto": "Ele perdeu a moeda. Ainda cumpre a regra?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.332
+        },
+        {
+          "esperado": {
+            "texto": "Mudei a regra: basta moeda ou mapa. E agora?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.78
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "indeterminado"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.76
+        },
+        {
+          "esperado": {
+            "texto": "Descobri que Celina não tem convite. Então?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.367
+        },
+        {
+          "esperado": {
+            "texto": "Se ela recebesse um convite, conseguiria entrar?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": true
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.605
+        },
+        {
+          "esperado": {
+            "texto": "Na realidade, ela ainda não tem convite. Qual é a situação?",
+            "operacao": "verificar_requisitos",
+            "resultado": {
+              "status": "refutado"
+            }
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.597
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.399
+        },
+        {
+          "esperado": {
+            "texto": "O que é fotossíntese?",
+            "preservar_factual": true
+          },
+          "id": "fotossintese",
+          "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 2,
+            "origem": "composicao_factual",
+            "modo": "factual",
+            "evidencias": [
+              {
+                "assunto": "mundo_fotossintese",
+                "fato": 0
+              },
+              {
+                "assunto": "mundo_fotossintese",
+                "fato": 1
+              }
+            ],
+            "rejeicoes": [],
+            "substituiu": "fotossintese",
+            "texto_alterado": false,
+            "copia_literal": true
+          },
+          "correto_estruturado": true,
+          "segundos": 3.648
+        },
+        {
+          "esperado": {
+            "texto": "Voltando aos valores da viagem, quanto dava a diferença?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "212",
+                "117"
+              ],
+              "menor": 1,
+              "diferenca": "95"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.907
+        },
+        {
+          "esperado": {
+            "texto": "Vamos começar de novo. Qual era a hospedagem?",
+            "memoria_apagada": true
+          },
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Vamos começar de novo. Qual era a hospedagem”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": true,
+          "segundos": 0.026
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            }
+          },
+          "id": "conversa:abertura",
+          "resposta": "Vamos conversar sobre “desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe”. Você quer entender uma ideia, contar uma situação ou pensar numa decisão?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.578
+        },
+        {
+          "esperado": {
+            "texto": "Meu vizinho disse: “desenhar leva 1 minuto”. Isso não é uma correção dos meus dados. Quanto sobra no meu plano?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "23",
+              "gasto": "23",
+              "restante": "0"
+            }
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.673
+        },
+        {
+          "esperado": {
+            "texto": "Não sei mais quanto tempo tenho disponível. Ainda dá para afirmar que cabe?",
+            "operacao": "tempo_restante",
+            "status": "incompleto"
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.415
+        },
+        {
+          "esperado": {
+            "texto": "Agora tenho 26 minutos livres. E agora?",
+            "operacao": "tempo_restante",
+            "resultado": {
+              "disponivel": "26",
+              "gasto": "23",
+              "restante": "3"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.606
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?",
+            "operacao": "intersecao_agendas",
+            "status": "incompleto"
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 1.125
+        },
+        {
+          "esperado": {
+            "texto": "Luís também participa. Ele pode terça. Qual dia dá?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.334
+        },
+        {
+          "esperado": {
+            "texto": "Carolina vai participar e só pode domingo. Dá para todos?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": []
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.444
+        },
+        {
+          "esperado": {
+            "texto": "Carolina também liberou terça. E agora?",
+            "operacao": "intersecao_agendas",
+            "resultado": {
+              "dias": [
+                "terca"
+              ]
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.332
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?",
+            "operacao": "comparar_custos",
+            "status": "incompleto"
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.283
+        },
+        {
+          "esperado": {
+            "texto": "Descobri: a taxa é 5 reais. E agora?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.594
+        },
+        {
+          "esperado": {
+            "texto": "Se a taxa fosse 8 reais, haveria empate?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "21"
+              ],
+              "menor": 0,
+              "diferenca": "3"
+            },
+            "hipotese": true
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.501
+        },
+        {
+          "esperado": {
+            "texto": "Sem essa hipótese, quanto custam as duas opções?",
+            "operacao": "comparar_custos",
+            "resultado": {
+              "totais": [
+                "18",
+                "18"
+              ],
+              "menor": null,
+              "diferenca": "0"
+            }
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "correto_estruturado": false,
+          "segundos": 0.376
+        }
+      ]
+    },
+    {
+      "id": "livre01",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?",
+            "livre": true
+          },
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual ligação você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_ficha_elegivel",
+            "tentativas": 0
+          },
+          "segundos": 0.552
+        },
+        {
+          "esperado": {
+            "texto": "Não é tristeza. É uma sensação de segurança. Você entendeu?",
+            "livre": true
+          },
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.22
+        },
+        {
+          "esperado": {
+            "texto": "Queria transformar essa memória numa pequena cena de conto. Tenta.",
+            "livre": true
+          },
+          "id": "conversa:situada_relato",
+          "resposta": "Você trouxe “Queria transformar essa memória numa pequena cena de conto. Tenta”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.439
+        },
+        {
+          "esperado": {
+            "texto": "Agora muda o narrador para uma criança curiosa, mantendo a chuva e a tia.",
+            "livre": true
+          },
+          "id": "fora",
+          "resposta": "Reconheci o assunto narrador, mas não tenho evidência cadastrada para essa pergunta completa.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.674
+        }
+      ]
+    },
+    {
+      "id": "livre02",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?",
+            "livre": true
+          },
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 3.61
+        },
+        {
+          "esperado": {
+            "texto": "O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado.",
+            "livre": true
+          },
+          "id": "nocao:observacao",
+          "resposta": "Que ótimo, o pagamento não é o principal! Dia de pagamento costuma ser o mais animado do mês. Já tem planos para ele?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 1.824
+        },
+        {
+          "esperado": {
+            "texto": "E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo?",
+            "livre": true
+          },
+          "id": "conversa:situada_hipotese",
+          "resposta": "Na hipótese “E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 0.011
+        },
+        {
+          "esperado": {
+            "texto": "Resume meu dilema e essa alternativa, sem inventar um diagnóstico.",
+            "livre": true
+          },
+          "id": "nocao:continuacao",
+          "resposta": "Resume seu dilema e essa alternativa? Boa! Que bom saber disso. O que mais aconteceu?",
+          "raciocinio": null,
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "segundos": 1.093
+        }
+      ]
+    }
+  ],
+  "resumo": {
+    "turnos_avaliados": 48,
+    "corretos": 2,
+    "erros": 0
+  }
+}

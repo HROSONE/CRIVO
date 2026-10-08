@@ -1,0 +1,53 @@
+{
+ "limite":"Transferência autoral fixada após diagnosticar o primeiro controle e antes das correções. Nomes, números e falas diferentes; não é avaliação independente. Casos pessoais e criativos exigem leitura humana.",
+ "sessoes":[
+  {"id":"t01","turnos":[
+   {"texto":"A loja laranja cobra 74 reais. A loja violeta cobra 38 reais mais 16 de entrega. Qual custa menos?","operacao":"comparar_custos","resultado":{"totais":["74","54"],"menor":1,"diferenca":"20"}},
+   {"texto":"A entrega custa 42 reais agora. Qual é a opção menor?","operacao":"comparar_custos","resultado":{"totais":["74","80"],"menor":0,"diferenca":"6"}},
+   {"texto":"Se a entrega custasse 19 reais, qual ficaria menor?","operacao":"comparar_custos","resultado":{"totais":["74","57"],"menor":1,"diferenca":"17"},"hipotese":true},
+   {"texto":"Fora da hipótese, quanto dá a diferença dos preços?","operacao":"comparar_custos","resultado":{"totais":["74","80"],"menor":0,"diferenca":"6"}}
+  ]},
+  {"id":"t02","turnos":[
+   {"texto":"A primeira opção custa 64 reais mais 8 de taxa. A segunda opção custa 51 reais mais 6 de taxa. Qual é menor?","operacao":"comparar_custos","resultado":{"totais":["72","57"],"menor":1,"diferenca":"15"}},
+   {"texto":"A taxa custa 17 reais. E agora?","operacao":"comparar_custos","status":"ambiguo"},
+   {"texto":"Qual era a diferença dos custos antes dessa correção ambígua?","operacao":"comparar_custos","resultado":{"totais":["72","57"],"menor":1,"diferenca":"15"}},
+   {"texto":"Se a primeira opção custasse 49 reais, quanto seriam os totais?","operacao":"comparar_custos","resultado":{"totais":["57","57"],"menor":null,"diferenca":"0"},"hipotese":true}
+  ]},
+  {"id":"t03","turnos":[
+   {"texto":"Tenho 110 minutos. O atendimento leva 46 minutos e o deslocamento leva 37 minutos. Quanto sobra?","operacao":"tempo_restante","resultado":{"disponivel":"110","gasto":"83","restante":"27"}},
+   {"texto":"O atendimento demora 69 minutos agora. E agora?","operacao":"tempo_restante","resultado":{"disponivel":"110","gasto":"106","restante":"4"}},
+   {"texto":"Se eu tivesse 80 minutos, quanto faltaria?","operacao":"tempo_restante","resultado":{"disponivel":"80","gasto":"106","restante":"-26"},"hipotese":true},
+   {"texto":"Qual é o saldo de tempo real?","operacao":"tempo_restante","resultado":{"disponivel":"110","gasto":"106","restante":"4"}}
+  ]},
+  {"id":"t04","turnos":[
+   {"texto":"Yasmin pode quarta ou sexta. Raul está livre sexta. Quando podemos marcar?","operacao":"intersecao_agendas","resultado":{"dias":["sexta"]}},
+   {"texto":"Yasmin, na verdade, só consegue quarta. E agora?","operacao":"intersecao_agendas","resultado":{"dias":[]}},
+   {"texto":"Raul também liberou quarta. Qual dia está livre para os dois?","operacao":"intersecao_agendas","resultado":{"dias":["quarta"]}},
+   {"texto":"Se Yasmin pudesse sexta também, quais seriam os dias em comum?","operacao":"intersecao_agendas","resultado":{"dias":["quarta","sexta"]},"hipotese":true}
+  ]},
+  {"id":"t05","turnos":[
+   {"texto":"Mauro pode segunda ou quinta. Sofia pode quinta. Qual dia dá?","operacao":"intersecao_agendas","resultado":{"dias":["quinta"]}},
+   {"texto":"Olívia também participa. Ela pode segunda. Quando podemos reunir?","operacao":"intersecao_agendas","resultado":{"dias":[]}},
+   {"texto":"Sofia também pode segunda. E agora?","operacao":"intersecao_agendas","resultado":{"dias":["segunda"]}},
+   {"texto":"Dênis vai participar e só pode quinta. Temos dia em comum?","operacao":"intersecao_agendas","resultado":{"dias":[]}}
+  ]},
+  {"id":"t06","turnos":[
+   {"texto":"Para abrir a porta precisa de distintivo e senha. Tomás tem distintivo, mas não tem senha. Cumpre os requisitos?","operacao":"verificar_requisitos","resultado":{"status":"refutado"}},
+   {"texto":"Tomás ganhou uma senha. E agora?","operacao":"verificar_requisitos","resultado":{"status":"sustentado"}},
+   {"texto":"Ele perdeu o distintivo. Cumpre a regra?","operacao":"verificar_requisitos","resultado":{"status":"refutado"}},
+   {"texto":"A regra mudou: basta distintivo ou senha. E agora?","operacao":"verificar_requisitos","resultado":{"status":"sustentado"}}
+  ]},
+  {"id":"pessoal01","turnos":[
+   {"texto":"Quando ouço um trem distante, lembro das viagens com meu padrinho. O que essa associação sugere?","livre":true},
+   {"texto":"Não é nostalgia triste. É uma sensação de liberdade. Entendeu?","livre":true},
+   {"texto":"Escreva uma cena curta baseada nessa memória.","livre":true},
+   {"texto":"Reescreva com um narrador criança que quer descobrir de onde vem o trem.","livre":true}
+  ]},
+  {"id":"pessoal02","turnos":[
+   {"texto":"Estou dividido entre viajar para aprender e guardar dinheiro para uma reforma. Pode pensar comigo?","livre":true},
+   {"texto":"A fama não é o principal. Quero conhecer outras culturas, mas estou preocupado com as despesas.","livre":true},
+   {"texto":"E se eu fizesse apenas uma viagem curta primeiro? Que troca isso propõe?","livre":true},
+   {"texto":"Resume meus objetivos, a preocupação e essa alternativa sem escolher por mim.","livre":true}
+  ]}
+ ]
+}
