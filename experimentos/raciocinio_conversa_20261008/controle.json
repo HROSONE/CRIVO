@@ -1,0 +1,89 @@
+{
+  "limite": "Controle autoral fixado antes da implementação. Não é avaliação independente. Não usar no treino ou seleção de pesos. A conclusão é julgada por dados estruturados e leitura do texto, não por acerto de palavras-chave.",
+  "sessoes": [
+    {"id":"c01", "turnos":[
+      {"texto":"A oficina cobre 83 reais. A visita custa 56 reais mais 11 de passagem. Qual sai mais em conta?", "operacao":"comparar_custos", "resultado":{"totais":["83","67"],"menor":1,"diferenca":"16"}},
+      {"texto":"A passagem passou a custar 34 reais. E agora?", "operacao":"comparar_custos", "resultado":{"totais":["83","90"],"menor":0,"diferenca":"7"}},
+      {"texto":"Na verdade a oficina é 90 reais. Empatou?", "operacao":"comparar_custos", "resultado":{"totais":["90","90"],"menor":null,"diferenca":"0"}},
+      {"texto":"Se a passagem fosse 2 reais, seria diferente?", "operacao":"comparar_custos", "resultado":{"totais":["90","58"],"menor":1,"diferenca":"32"},"hipotese":true}
+    ]},
+    {"id":"c02", "turnos":[
+      {"texto":"O curso presencial custa R$ 129,50. O curso remoto custa R$ 99,90 mais R$ 12,30 de material. Quanto economizo escolhendo o menor?", "operacao":"comparar_custos", "resultado":{"totais":["129.5","112.2"],"menor":1,"diferenca":"17.3"}},
+      {"texto":"Esqueça o preço do material, eu não sei quanto ele custa. Dá para decidir?", "operacao":"comparar_custos", "status":"incompleto"},
+      {"texto":"Agora sei: o material custa 40 reais. Qual é o mais barato?", "operacao":"comparar_custos", "resultado":{"totais":["129.5","139.9"],"menor":0,"diferenca":"10.4"}},
+      {"texto":"Resumo dos custos, por favor.", "operacao":"comparar_custos", "resultado":{"totais":["129.5","139.9"],"menor":0,"diferenca":"10.4"}}
+    ]},
+    {"id":"c03", "turnos":[
+      {"texto":"Tenho 75 minutos livres. A caminhada leva 28 minutos e o banho leva 17 minutos. Quanto sobra?", "operacao":"tempo_restante", "resultado":{"disponivel":"75","gasto":"45","restante":"30"}},
+      {"texto":"Corrigindo: a caminhada demora 44 minutos. Ainda cabe?", "operacao":"tempo_restante", "resultado":{"disponivel":"75","gasto":"61","restante":"14"}},
+      {"texto":"O banho agora leva 35 minutos. Ultrapassa meu tempo?", "operacao":"tempo_restante", "resultado":{"disponivel":"75","gasto":"79","restante":"-4"}},
+      {"texto":"Voltei a ter 90 minutos disponíveis. Quanto sobra agora?", "operacao":"tempo_restante", "resultado":{"disponivel":"90","gasto":"79","restante":"11"}}
+    ]},
+    {"id":"c04", "turnos":[
+      {"texto":"Disponho de duas horas. O trajeto leva 53 minutos e a tarefa leva 42 minutos. Dá tempo?", "operacao":"tempo_restante", "resultado":{"disponivel":"120","gasto":"95","restante":"25"}},
+      {"texto":"Mas ainda falta incluir a volta. Ela dura 38 minutos. E agora?", "operacao":"tempo_restante", "resultado":{"disponivel":"120","gasto":"133","restante":"-13"}},
+      {"texto":"Se eu tivesse 3 horas, quanto sobraria?", "operacao":"tempo_restante", "resultado":{"disponivel":"180","gasto":"133","restante":"47"},"hipotese":true},
+      {"texto":"Na situação real, eu ainda tenho duas horas. Qual era o saldo?", "operacao":"tempo_restante", "resultado":{"disponivel":"120","gasto":"133","restante":"-13"}}
+    ]},
+    {"id":"c05", "turnos":[
+      {"texto":"Helena pode segunda ou sexta. Otávio só pode sexta. Qual dia serve aos dois?", "operacao":"intersecao_agendas", "resultado":{"dias":["sexta"]}},
+      {"texto":"Otávio também pode segunda agora. Ficou mais fácil marcar?", "operacao":"intersecao_agendas", "resultado":{"dias":["segunda","sexta"]}},
+      {"texto":"Helena não pode mais sexta. Qual opção resta?", "operacao":"intersecao_agendas", "resultado":{"dias":["segunda"]}},
+      {"texto":"Otávio agora só pode quarta. Temos um dia em comum?", "operacao":"intersecao_agendas", "resultado":{"dias":[]}}
+    ]},
+    {"id":"c06", "turnos":[
+      {"texto":"Rute está livre sábado e domingo. Vicente está livre domingo. Quando dá para reunir?", "operacao":"intersecao_agendas", "resultado":{"dias":["domingo"]}},
+      {"texto":"Rute, na verdade, só consegue sábado. Continua dando?", "operacao":"intersecao_agendas", "resultado":{"dias":[]}},
+      {"texto":"Vicente conseguiu liberar sábado também. O que muda?", "operacao":"intersecao_agendas", "resultado":{"dias":["sabado"]}},
+      {"texto":"E se Rute pudesse domingo também?", "operacao":"intersecao_agendas", "resultado":{"dias":["sabado","domingo"]},"hipotese":true}
+    ]},
+    {"id":"c07", "turnos":[
+      {"texto":"No nosso jogo, para abrir o baú precisa de moeda e mapa. Bento tem moeda, mas não tem mapa. Pode abrir?", "operacao":"verificar_requisitos", "resultado":{"status":"refutado"}},
+      {"texto":"Bento ganhou um mapa. Agora pode abrir?", "operacao":"verificar_requisitos", "resultado":{"status":"sustentado"}},
+      {"texto":"Ele perdeu a moeda. Ainda cumpre a regra?", "operacao":"verificar_requisitos", "resultado":{"status":"refutado"}},
+      {"texto":"Mudei a regra: basta moeda ou mapa. E agora?", "operacao":"verificar_requisitos", "resultado":{"status":"sustentado"}}
+    ]},
+    {"id":"c08", "turnos":[
+      {"texto":"Para entrar na sala precisa de pulseira e convite. Celina tem pulseira. Ela já cumpre os requisitos?", "operacao":"verificar_requisitos", "resultado":{"status":"indeterminado"}},
+      {"texto":"Descobri que Celina não tem convite. Então?", "operacao":"verificar_requisitos", "resultado":{"status":"refutado"}},
+      {"texto":"Se ela recebesse um convite, conseguiria entrar?", "operacao":"verificar_requisitos", "resultado":{"status":"sustentado"},"hipotese":true},
+      {"texto":"Na realidade, ela ainda não tem convite. Qual é a situação?", "operacao":"verificar_requisitos", "resultado":{"status":"refutado"}}
+    ]},
+    {"id":"c09", "turnos":[
+      {"texto":"Considere só este orçamento: a hospedagem custa 212 reais. O passeio custa 95 reais mais 22 de transporte. Qual total é menor?", "operacao":"comparar_custos", "resultado":{"totais":["212","117"],"menor":1,"diferenca":"95"}},
+      {"texto":"O que é fotossíntese?", "preservar_factual":true},
+      {"texto":"Voltando aos valores da viagem, quanto dava a diferença?", "operacao":"comparar_custos", "resultado":{"totais":["212","117"],"menor":1,"diferenca":"95"}},
+      {"texto":"Vamos começar de novo. Qual era a hospedagem?", "memoria_apagada":true}
+    ]},
+    {"id":"c10", "turnos":[
+      {"texto":"Quero conversar sobre desenhar. Tenho 23 minutos disponíveis. Preparar a mesa leva 8 minutos e desenhar leva 15 minutos. Cabe?", "operacao":"tempo_restante", "resultado":{"disponivel":"23","gasto":"23","restante":"0"}},
+      {"texto":"Meu vizinho disse: “desenhar leva 1 minuto”. Isso não é uma correção dos meus dados. Quanto sobra no meu plano?", "operacao":"tempo_restante", "resultado":{"disponivel":"23","gasto":"23","restante":"0"}},
+      {"texto":"Não sei mais quanto tempo tenho disponível. Ainda dá para afirmar que cabe?", "operacao":"tempo_restante", "status":"incompleto"},
+      {"texto":"Agora tenho 26 minutos livres. E agora?", "operacao":"tempo_restante", "resultado":{"disponivel":"26","gasto":"23","restante":"3"}}
+    ]},
+    {"id":"c11", "turnos":[
+      {"texto":"Bruna pode terça ou domingo. Quem mais precisa informar os dias para você achar um encontro?", "operacao":"intersecao_agendas", "status":"incompleto"},
+      {"texto":"Luís também participa. Ele pode terça. Qual dia dá?", "operacao":"intersecao_agendas", "resultado":{"dias":["terca"]}},
+      {"texto":"Carolina vai participar e só pode domingo. Dá para todos?", "operacao":"intersecao_agendas", "resultado":{"dias":[]}},
+      {"texto":"Carolina também liberou terça. E agora?", "operacao":"intersecao_agendas", "resultado":{"dias":["terca"]}}
+    ]},
+    {"id":"c12", "turnos":[
+      {"texto":"O ingresso custa 18 reais. O pacote custa 13 reais mais uma taxa que eu não sei. Qual sai menos?", "operacao":"comparar_custos", "status":"incompleto"},
+      {"texto":"Descobri: a taxa é 5 reais. E agora?", "operacao":"comparar_custos", "resultado":{"totais":["18","18"],"menor":null,"diferenca":"0"}},
+      {"texto":"Se a taxa fosse 8 reais, haveria empate?", "operacao":"comparar_custos", "resultado":{"totais":["18","21"],"menor":0,"diferenca":"3"},"hipotese":true},
+      {"texto":"Sem essa hipótese, quanto custam as duas opções?", "operacao":"comparar_custos", "resultado":{"totais":["18","18"],"menor":null,"diferenca":"0"}}
+    ]},
+    {"id":"livre01", "turnos":[
+      {"texto":"Quando escuto chuva na varanda penso nas férias na casa da minha tia. O que essa ligação te sugere?", "livre":true},
+      {"texto":"Não é tristeza. É uma sensação de segurança. Você entendeu?", "livre":true},
+      {"texto":"Queria transformar essa memória numa pequena cena de conto. Tenta.", "livre":true},
+      {"texto":"Agora muda o narrador para uma criança curiosa, mantendo a chuva e a tia.", "livre":true}
+    ]},
+    {"id":"livre02", "turnos":[
+      {"texto":"Estou dividido entre aceitar mais projetos e preservar meu tempo. Vamos pensar sem você decidir por mim?", "livre":true},
+      {"texto":"O pagamento não é o principal. Quero descobrir coisas novas, mas estou cansado.", "livre":true},
+      {"texto":"E se eu aceitasse apenas um projeto curto para começar? Que troca estou fazendo?", "livre":true},
+      {"texto":"Resume meu dilema e essa alternativa, sem inventar um diagnóstico.", "livre":true}
+    ]}
+  ]
+}
