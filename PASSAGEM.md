@@ -1,5 +1,24 @@
 # Passagem de trabalho — 07/10/2026
 
+## Atualização da fila — 08/10/2026
+
+Os PRs #103–#109 estão mesclados. As correções dessas entregas foram
+validadas na main ou no head específico antes do merge. O PR #110 está
+em validação remota; o #111 preserva os commits da consolidação e incorpora
+o head publicado do #110, sem substituir os PRs originais. A ordem de merge
+continua #110 antes de #111, somente após os checks aplicáveis concluírem
+sem erros. Os números e estados nas notas abaixo são registros históricos.
+
+A descoberta completa conserva 1.182 testes, distribuídos em quatro grupos
+nas versões Python 3.8, 3.11 e 3.13. O interpretador conserva seus 163 testes,
+divididos em três grupos, e executa as duas avaliações congeladas em um
+quarto job. Não há cortes de cobertura ou cancelamento em cascata. O teste
+bíblico foi ajustado para compatibilidade com Python 3.8.
+
+Somente arquitetura, tokenizadores e pesos próprios do Crivo. Os experimentos
+do piloto e da etapa modular permanecem isolados e não aprovados para o chat.
+Esta consolidação não altera os pesos nem sua aprovação.
+
 ## Restauração dos PRs originais e validação própria
 
 Restrição do projeto: somente modelos próprios do Crivo. Não baixar, executar
