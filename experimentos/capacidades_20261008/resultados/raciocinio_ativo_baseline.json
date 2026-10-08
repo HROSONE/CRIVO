@@ -1,0 +1,604 @@
+{
+  "natureza": "desenvolvimento autoral, contrato explícito e limitado, sem certificação de inteligência geral",
+  "casos": 15,
+  "corretos": 15,
+  "dataset_sha256": "dcb0937287a103660a6a755b722ec75a7c902e5f39dd02a68c77669fd6208881",
+  "codigo_sha256": {
+    "raciocinio_ativo.py": "b7f7bab43b99305504338818d34b87daf3c397de92e791ab68966a907d3a6207",
+    "exploracao_conhecimento.py": "2a73f2a9e344b0a9b9c9a796242017fc946d1e84a8ff2facab20370a4e834612",
+    "crivo.py": "db0dfda63b7f22542dfb9da0596f1c69d4fdeefed7227549ae09d661ca8af24a",
+    "linguagem_conversa.py": "edb922b66b83d0fe4546733a401600242e868365b78c81c39f0735fa4c836937",
+    "web_core.py": "5a5202b84651c29615ce963a52972dd178391f84abbd47c110bda214244f64e1"
+  },
+  "detalhes": [
+    {
+      "id": "cadeia",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Sim, a conclusão decorre das premissas que você pediu para assumir.\nPremissas usadas:\n- chove\n- se chove, então a rua molha\n- se a rua molha, então o chão fica escorregadio\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "chao fica escorregadio",
+          "negativo": false,
+          "texto": "o chão fica escorregadio"
+        },
+        "mundos_compativeis": 1,
+        "status": "sustentado",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "se chove, então a rua molha"
+          },
+          {
+            "indice": 2,
+            "texto": "se a rua molha, então o chão fica escorregadio"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "se chove, então a rua molha"
+          },
+          {
+            "indice": 2,
+            "texto": "se a rua molha, então o chão fica escorregadio"
+          }
+        ]
+      }
+    },
+    {
+      "id": "condicao_conjunta",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Não é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "luz acende",
+          "negativo": false,
+          "texto": "a luz acende"
+        },
+        "mundos_compativeis": 3,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "a bateria tem carga": true,
+            "o circuito está fechado": false,
+            "a luz acende": true
+          },
+          {
+            "a bateria tem carga": true,
+            "o circuito está fechado": false,
+            "a luz acende": false
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "a bateria tem carga"
+          },
+          {
+            "indice": 1,
+            "texto": "se a bateria tem carga e o circuito está fechado, então a luz acende"
+          }
+        ]
+      }
+    },
+    {
+      "id": "conjuncao_completa",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Sim, a conclusão decorre das premissas que você pediu para assumir.\nPremissas usadas:\n- a bateria tem carga\n- o circuito está fechado\n- se a bateria tem carga e o circuito está fechado, então a luz acende\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "luz acende",
+          "negativo": false,
+          "texto": "a luz acende"
+        },
+        "mundos_compativeis": 1,
+        "status": "sustentado",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "a bateria tem carga"
+          },
+          {
+            "indice": 1,
+            "texto": "o circuito está fechado"
+          },
+          {
+            "indice": 2,
+            "texto": "se a bateria tem carga e o circuito está fechado, então a luz acende"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "a bateria tem carga"
+          },
+          {
+            "indice": 1,
+            "texto": "o circuito está fechado"
+          },
+          {
+            "indice": 2,
+            "texto": "se a bateria tem carga e o circuito está fechado, então a luz acende"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contrapositiva",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Sim, a conclusão decorre das premissas que você pediu para assumir.\nPremissas usadas:\n- a luz não acende\n- se o circuito está fechado, então a luz acende\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "circuito esta fechado",
+          "negativo": true,
+          "texto": "não é verdade que o circuito está fechado"
+        },
+        "mundos_compativeis": 1,
+        "status": "sustentado",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "a luz não acende"
+          },
+          {
+            "indice": 1,
+            "texto": "se o circuito está fechado, então a luz acende"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "a luz não acende"
+          },
+          {
+            "indice": 1,
+            "texto": "se o circuito está fechado, então a luz acende"
+          }
+        ]
+      }
+    },
+    {
+      "id": "inversao_indevida",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Não é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "circuito esta fechado",
+          "negativo": false,
+          "texto": "o circuito está fechado"
+        },
+        "mundos_compativeis": 2,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "a luz acende": true,
+            "o circuito está fechado": true
+          },
+          {
+            "a luz acende": true,
+            "o circuito está fechado": false
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "a luz acende"
+          },
+          {
+            "indice": 1,
+            "texto": "se o circuito está fechado, então a luz acende"
+          }
+        ]
+      }
+    },
+    {
+      "id": "negacao",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Não: as premissas sustentam a negação dessa conclusão.\nPremissas usadas:\n- o sensor não responde\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "sensor responde",
+          "negativo": false,
+          "texto": "o sensor responde"
+        },
+        "mundos_compativeis": 2,
+        "status": "refutado",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "o sensor não responde"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "o sensor não responde"
+          },
+          {
+            "indice": 1,
+            "texto": "se o sensor responde, então o painel liga"
+          }
+        ]
+      }
+    },
+    {
+      "id": "conflito",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "As premissas entram em conflito; não vou tirar uma conclusão dessa hipótese.\nPremissas usadas:\n- chove\n- não chove\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "chove",
+          "negativo": false,
+          "texto": "chove"
+        },
+        "mundos_compativeis": 0,
+        "status": "conflito",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "não chove"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "não chove"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sem_explosao",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "As premissas entram em conflito; não vou tirar uma conclusão dessa hipótese.\nPremissas usadas:\n- chove\n- não chove\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "painel liga",
+          "negativo": false,
+          "texto": "o painel liga"
+        },
+        "mundos_compativeis": 0,
+        "status": "conflito",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "não chove"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "não chove"
+          }
+        ]
+      }
+    },
+    {
+      "id": "revisao",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Não é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "painel liga",
+          "negativo": false,
+          "texto": "o painel liga"
+        },
+        "mundos_compativeis": 2,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "o sensor responde": false,
+            "o painel liga": true
+          },
+          {
+            "o sensor responde": false,
+            "o painel liga": false
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "se o sensor responde, então o painel liga"
+          },
+          {
+            "indice": 1,
+            "texto": "o sensor não responde"
+          }
+        ]
+      }
+    },
+    {
+      "id": "retracao",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Não é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "rua molha",
+          "negativo": false,
+          "texto": "a rua molha"
+        },
+        "mundos_compativeis": 3,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "chove": false,
+            "a rua molha": true
+          },
+          {
+            "chove": false,
+            "a rua molha": false
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "se chove, então a rua molha"
+          }
+        ]
+      }
+    },
+    {
+      "id": "abducao",
+      "correto": true,
+      "response_id": "raciocinio:abducao",
+      "response": "Não é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.\nHipóteses suficientes para testar, sem afirmar que sejam verdadeiras:\n1. Assumir: o circuito está fechado.",
+      "reasoning": {
+        "alvo": {
+          "nome": "luz acende",
+          "negativo": false,
+          "texto": "a luz acende"
+        },
+        "mundos_compativeis": 3,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "a bateria tem carga": true,
+            "o circuito está fechado": false,
+            "a luz acende": true
+          },
+          {
+            "a bateria tem carga": true,
+            "o circuito está fechado": false,
+            "a luz acende": false
+          }
+        ],
+        "propostas": [
+          {
+            "suposicoes": [
+              {
+                "nome": "circuito esta fechado",
+                "negativo": false,
+                "texto": "o circuito está fechado"
+              }
+            ],
+            "alvo": {
+              "nome": "luz acende",
+              "negativo": false,
+              "texto": "a luz acende"
+            },
+            "mundos_compativeis": 1,
+            "comprovada_no_mundo": false
+          }
+        ],
+        "operacao": "abducao",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "a bateria tem carga"
+          },
+          {
+            "indice": 1,
+            "texto": "se a bateria tem carga e o circuito está fechado, então a luz acende"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contrafactual",
+      "correto": true,
+      "response_id": "raciocinio:contrafactual",
+      "response": "Testando temporariamente: não é verdade que chove.\nNão é possível concluir nem negar isso com as premissas atuais.\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.\nAs premissas originais continuam intactas.",
+      "reasoning": {
+        "alvo": {
+          "nome": "rua molha",
+          "negativo": false,
+          "texto": "a rua molha"
+        },
+        "mundos_compativeis": 2,
+        "status": "indeterminado",
+        "provas": [],
+        "contraexemplos": [
+          {
+            "chove": false,
+            "a rua molha": true
+          },
+          {
+            "chove": false,
+            "a rua molha": false
+          }
+        ],
+        "alteracao_temporaria": {
+          "nome": "chove",
+          "negativo": true,
+          "texto": "não é verdade que chove"
+        },
+        "operacao": "contrafactual",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "se chove, então a rua molha"
+          },
+          {
+            "indice": 1,
+            "texto": "não é verdade que chove"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contrafactual_nao_persiste",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Sim, a conclusão decorre das premissas que você pediu para assumir.\nPremissas usadas:\n- chove\n- se chove, então a rua molha\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.",
+      "reasoning": {
+        "alvo": {
+          "nome": "rua molha",
+          "negativo": false,
+          "texto": "a rua molha"
+        },
+        "mundos_compativeis": 1,
+        "status": "sustentado",
+        "provas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "se chove, então a rua molha"
+          }
+        ],
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "chove"
+          },
+          {
+            "indice": 1,
+            "texto": "se chove, então a rua molha"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ideias",
+      "correto": true,
+      "response_id": "raciocinio:explorar",
+      "response": "Hipóteses para explorar dentro das regras que você forneceu:\n1. Se assumirmos o sensor responde; o painel liga, podemos concluir: o alarme funciona.\nSão possibilidades para verificar, não fatos novos.",
+      "reasoning": {
+        "status": "consistente",
+        "propostas": [
+          {
+            "suposicoes": [
+              {
+                "nome": "sensor responde",
+                "negativo": false,
+                "texto": "o sensor responde"
+              },
+              {
+                "nome": "painel liga",
+                "negativo": false,
+                "texto": "o painel liga"
+              }
+            ],
+            "alvo": {
+              "nome": "alarme funciona",
+              "negativo": false,
+              "texto": "o alarme funciona"
+            },
+            "mundos_compativeis": 1,
+            "comprovada_no_mundo": false
+          }
+        ],
+        "operacao": "explorar",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": [
+          {
+            "indice": 0,
+            "texto": "se o sensor responde e o painel liga, então o alarme funciona"
+          }
+        ]
+      }
+    },
+    {
+      "id": "isolamento",
+      "correto": true,
+      "response_id": "raciocinio:concluir",
+      "response": "Quais premissas você quer assumir? Comece com “Considere estas premissas: …”.",
+      "reasoning": {
+        "status": "sem_premissas",
+        "operacao": "concluir",
+        "origem": "premissas_da_sessao",
+        "comprovado_no_mundo": false,
+        "premissas": []
+      }
+    }
+  ]
+}

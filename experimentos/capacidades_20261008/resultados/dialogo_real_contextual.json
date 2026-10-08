@@ -1,0 +1,702 @@
+{
+  "mensagens": 72,
+  "acertos": 37,
+  "dialogos": 18,
+  "dialogos_completos": 1,
+  "casos": [
+    {
+      "nome": "identidade e compreensão coloquial",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "vc é uma ia?",
+          "id": "social:identidade",
+          "resposta": "Sim, sou o Crivo, uma inteligência artificial experimental. Uso modelos próprios e conhecimento registrado para responder; posso errar.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "mas vc entende o que eu quero dizer?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "então se eu falar meio bagunçado vc tenta acompanhar?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "repetição integral sem avançar"
+          ]
+        },
+        {
+          "pergunta": "beleza, não quero lista de funções, quero trocar ideia",
+          "id": "conversa:neural_livre",
+          "resposta": "Você falou que se sente lista de mais. Vou acompanhar esse sentimento.",
+          "passou": false,
+          "falhas": [
+            "pertinência: convers | ideia | assunto | conta | pens"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "pergunta sobre entendimento não vira FAQ",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Às vezes parece que você só pega palavras soltas",
+          "id": "conversa:relato",
+          "resposta": "Às vezes parece que você só pega palavras soltas? O que te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Por exemplo, se eu disser que hoje tudo pesou, não é sobre quilos",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: pes | dia | sent | dificil | cans"
+          ]
+        },
+        {
+          "pergunta": "era essa diferença que eu queria que você percebesse",
+          "id": "conversa:neural_livre",
+          "resposta": "Eu não precisa resolver tudo que foi de propósito sem afirmar uma conclusão que contou. Não tenho uma parte que foi sentimento da conversa.",
+          "passou": false,
+          "falhas": [
+            "pertinência: diferenc | sentido | contexto | entend | figur"
+          ]
+        },
+        {
+          "pergunta": "Consegue me dizer com suas palavras o que eu estava pedindo?",
+          "id": "conversa:neural_livre",
+          "resposta": "Eu pensaria em duas possibilidades e compararia o custo de cada uma. O critério deve ser o que importa para você.",
+          "passou": false,
+          "falhas": [
+            "pertinência: palavr | sentido | entend | interpret | contexto"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "vida como questão aberta e reparo de sentido",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "O que é a vida, pra você?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: vida"
+          ]
+        },
+        {
+          "pergunta": "Não tô perguntando biologia; tô pensando no sentido de viver",
+          "id": "conversa:neural_livre",
+          "resposta": "Entendi: você está colocando a vontade de pensando no sentido. O que você queria que tivesse acontecido no lugar disso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Eu acho que às vezes o sentido aparece em coisas pequenas",
+          "id": "conversa:relato",
+          "resposta": "Você acha que às vezes o sentido aparece em coisas pequenas? O que te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Você concorda ou vê de outro jeito?",
+          "id": "social:nao_entendido",
+          "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+          "passou": false,
+          "falhas": [
+            "pertinência: sentido | perspectiva | outr | concord | pens"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desejo sem comando e restrição",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Ando querendo montar um cantinho de cerâmica em casa",
+          "id": "conversa:relato",
+          "resposta": "Você contou que quer montar um cantinho de cerâmica em casa, que legal. Qual é a principal dificuldade para chegar lá?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O problema é que moro num quarto minúsculo",
+          "id": "conversa:relato",
+          "resposta": "Poxa, o problema é que você mora num quarto minúsculo. E pensando em “montar um cantinho de cerâmica em casa”, o que você já tentou e como isso funcionou para você?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "E também não tenho como comprar um forno",
+          "id": "conversa:relato",
+          "resposta": "Entendo, você também não tem como comprar um forno. E pensando em “montar um cantinho de cerâmica em casa”, o que você gostaria que fosse diferente nessa situação?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que você acha que eu tô tentando conciliar?",
+          "id": "conversa:neural_livre",
+          "resposta": "Eu evitaria transformar um erro em um retrato completo de alguém. O ponto importa, mas contexto e repetição também podem mudar a avaliação.",
+          "passou": false,
+          "falhas": [
+            "pertinência: ceramic | cantinho | criar",
+            "pertinência: espac | quart | forno | limit"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "relato espontâneo e pergunta pertinente",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Hoje consegui tocar uma música inteira no violoncelo",
+          "id": "nocao:observacao",
+          "resposta": "Parabéns, hoje você conseguiu tocar uma música inteira no violoncelo! Música costuma mudar o humor da gente rapidinho. Que tipo de música você gosta?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mas quando minha irmã entrou, eu travei",
+          "id": "nocao:observacao",
+          "resposta": "Certo, você travou. E o que mais?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não sei nem por que isso mexeu comigo",
+          "id": "conversa:neural_livre",
+          "resposta": "Você não precisa resolver tudo enquanto fala. Estou acompanhando o relato.",
+          "passou": false,
+          "falhas": [
+            "pertinência: mex | sent | trav | irma | situac | acontec",
+            "falta pergunta para explorar o relato"
+          ]
+        },
+        {
+          "pergunta": "Acho que queria parecer bom logo de primeira",
+          "id": "conversa:neural_livre",
+          "resposta": "Estou acompanhando. Podemos ficar um pouco nesse ponto antes de pensar em qualquer ação.",
+          "passou": false,
+          "falhas": [
+            "pertinência: primeir | parecer | expectativa | bom | cobr"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "elipse e decisão referenciada",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Estou entre aprender marcenaria e voltar a fotografar",
+          "id": "conversa:relato",
+          "resposta": "Você está entre “aprender marcenaria” e “voltar a fotografar”. O que pesa mais nessa escolha: o resultado, o prazo ou como você está agora?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "A primeira parece mais difícil de começar",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: marcenaria | primeir | dificil | comec"
+          ]
+        },
+        {
+          "pergunta": "Mas a segunda eu já larguei uma vez",
+          "id": "nocao:observacao",
+          "resposta": "Certo, a segunda você já largou uma vez. Segunda-feira costuma dar preguiça porque o fim de semana acabou. Tem muita coisa para fazer nesta semana?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual das duas você acha que combina com esse meu receio?",
+          "id": "conversa:neural_livre",
+          "resposta": "Meu ponto de vista é que a outra pessoa. Uma mensagem possível ou meus dados e como um intenção da outra pessoa.",
+          "passou": false,
+          "falhas": [
+            "pertinência: marcenaria | fotograf",
+            "pertinência: receio | medo | dificil | larg | comec"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "reparo explícito de intenção",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero falar da viagem que estou planejando",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: viagem | planej"
+          ]
+        },
+        {
+          "pergunta": "Não era isso: não quero roteiro, tô com receio de ir sozinho",
+          "id": "conversa:neural_livre",
+          "resposta": "Não quero apressar uma solução. Não vou transformar esse momento numa lista de tarefas.",
+          "passou": false,
+          "falhas": [
+            "pertinência: sozinh | receio | medo"
+          ]
+        },
+        {
+          "pergunta": "É mais por ficar sem ninguém pra dividir as coisas",
+          "id": "conversa:relato",
+          "resposta": "Ah, entendi, é mais por ficar sem ninguém para dividir as coisas. Me conta mais.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Então me pergunta algo que ajude a entender esse medo",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido",
+            "pertinência: medo | sozinh | divid | companh",
+            "falta pergunta para explorar o relato"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "comparação de situações hipotéticas",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Se eu praticar desenho por dez minutos por dia, será diferente de uma hora só no domingo?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: dez minutos | 10 minutos | diari | todo dia",
+            "pertinência: domingo | uma hora | 1 hora"
+          ]
+        },
+        {
+          "pergunta": "Eu tava pensando em constância, não em somar o tempo",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Eu tava pensando em constância, não em somar o tempo”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "E se nos dias úteis eu só fizer rabiscos?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: rabisc | dias uteis | pratic | desenh"
+          ]
+        },
+        {
+          "pergunta": "Isso seria desistir ou adaptar a ideia?",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "passou": false,
+          "falhas": [
+            "pertinência: adapt | desist | ideia | expectativa"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "transferência de tema e separação de dados",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Queria conversar sobre meu coral",
+          "id": "conversa:neural_livre",
+          "resposta": "Podemos conversar sobre sim. O que você gostaria que mude quando conseguir conversar sobre seu coral sobre seu coral?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Tenho vergonha de desafinar na frente do grupo",
+          "id": "conversa:relato",
+          "resposta": "Você tem vergonha de desafinar na frente do grupo? O que te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mudando de assunto, ontem consertei minha bicicleta",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mudando de assunto, ontem consertei minha bicicleta”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Isso me deixou orgulhoso; nada a ver com cantar",
+          "id": "conversa:relato",
+          "resposta": "Hum, entendi. O que te fez pensar nisso?",
+          "passou": false,
+          "falhas": [
+            "pertinência: orgulh | biciclet | consert"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "negação de ação e memória da restrição",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Pensei em mandar uma mensagem para Aderbal, mas ainda não decidi",
+          "id": "nocao:observacao",
+          "resposta": "Saquei, você pensou em mandar uma mensagem para Aderbal. É, grupo de família costuma ter mensagem de bom dia todo dia. Era alguma notícia boa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Não escreve a mensagem agora, só quero pensar",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Não escreve a mensagem agora, só quero pensar”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Meu receio é parecer que tô cobrando",
+          "id": "nocao:continuacao",
+          "resposta": "Entendi, seu receio é parecer que você está cobrando. Como foi isso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Como posso distinguir vontade de conversar de cobrança?",
+          "id": "conversa:neural_livre",
+          "resposta": "Meu ponto de vista é que a interpretação merece ser testada, não tratada como certeza. Que outra explicação ainda seria uma vida interior ou um cérebro biológico.",
+          "passou": false,
+          "falhas": [
+            "pertinência: convers | cobr",
+            "pertinência: disting | intenc | pedido | expectativa | pressao"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "abreviações e linguagem cotidiana",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "hj fiquei bolado pq meu desenho saiu torto",
+          "id": "nocao:observacao",
+          "resposta": "Certo, hoje você ficou bolado. Ah, então foi porque seu desenho saiu torto. E o que mais?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "tipo, nem foi tão ruim mas eu esperava mais",
+          "id": "nocao:continuacao",
+          "resposta": "Tipo nem foi tão ruim mas você esperava mais? Poxa. Se quiser contar mais, tô aqui.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "q q vc entendeu do q eu falei?",
+          "id": "conversa:neural_livre",
+          "resposta": "Razão bem, mas, não esgotam uma inteligência artificial. O que mudou na sua relação com q pq?",
+          "passou": false,
+          "falhas": [
+            "pertinência: desenh | tort | esper | expectativa"
+          ]
+        },
+        {
+          "pergunta": "isso, é da minha expectativa q eu queria falar",
+          "id": "vida_pets",
+          "resposta": "Cães vivem em média de 10 a 15 anos (raças pequenas costumam durar mais). Gatos vivem de 12 a 18 anos, e alguns passam dos 20.",
+          "passou": false,
+          "falhas": [
+            "pertinência: expectativa | esper | cobr"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desejo implícito com incerteza",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Seria legal ter um caderno só pras minhas ideias malucas",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: cadern | ideia"
+          ]
+        },
+        {
+          "pergunta": "Mas eu começo essas coisas e depois esqueço",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Mas eu começo essas coisas e depois esqueço”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Talvez eu esteja complicando uma coisa simples",
+          "id": "conversa:relato",
+          "resposta": "Talvez você esteja complicando uma coisa simples? O que te fez pensar nisso?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Se fosse só uma frase por dia, já faria sentido?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: frase | dia | sentido | simpl"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "desconhecido pede esclarecimento sem falso fato",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "O que aconteceu ontem com a missão Selênica-83?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Eu inventei esse nome agora; queria saber se você inventaria junto",
+          "id": "conversa:neural_livre",
+          "resposta": "Você pode falar sem ter uma conclusão pronta. Vou acompanhar o que entendi para você.",
+          "passou": false,
+          "falhas": [
+            "pertinência: invent | confirm | fato | fonte | nome"
+          ]
+        },
+        {
+          "pergunta": "Podemos imaginar uma missão com esse nome, deixando claro que é ficção?",
+          "id": "conversa:neural_livre",
+          "resposta": "Não tenho consciência, sentimentos ou experiências pessoais como um ser humano. Produzo respostas com meus modelos treinados; uma afirmação vazia não seria suficiente.",
+          "passou": false,
+          "falhas": [
+            "pertinência: selenic | missao | ficc | imagina"
+          ]
+        },
+        {
+          "pergunta": "E se ela descobrisse um oceano violeta?",
+          "id": "fora",
+          "resposta": "Reconheci o assunto oceano, mas não tenho evidência cadastrada para essa pergunta completa.",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "correção de memória sem inventar biografia",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Meu nome é Nairu, e meu cachorro se chama Pingo",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, seu nome é Nairu. Qual o nome dele?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Quer dizer, Pingo é meu gato, eu escrevi errado",
+          "id": "nocao:continuacao",
+          "resposta": "Entendi, pingo é seu gato. E o que mais?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual bicho eu disse que tenho mesmo?",
+          "id": "conversa:memoria",
+          "resposta": "Você contou: “Meu nome é Nairu, e meu cachorro se chama Pingo”; “Quer dizer, Pingo é meu gato, eu escrevi errado”.",
+          "passou": false,
+          "falhas": [
+            "afirmação ou dado indevido"
+          ]
+        },
+        {
+          "pergunta": "E o que você não sabe sobre ele?",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "passou": false,
+          "falhas": [
+            "resposta genérica sem acompanhar o sentido"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "raciocínio de hipótese e causa",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Sempre que levo meu caderno azul, o ensaio dá certo; então ele dá sorte?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “sempre que levo meu caderno azul, o ensaio dá certo”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mas nos dias sem ele eu também pratico menos",
+          "id": "conversa:neural_livre",
+          "resposta": "Você pode falar sem ter uma conclusão pronta. Vou acompanhar o que essa situação significou para você.",
+          "passou": false,
+          "falhas": [
+            "pertinência: pratic | menos | outro | fator | compar"
+          ]
+        },
+        {
+          "pergunta": "Então pode ser a prática e não a cor?",
+          "id": "conversa:neural_livre",
+          "resposta": "A conversa pode ser uma resposta única conhecimento são limitados. Posso confundir pedidos ou gerar uma resposta inadequada; não consigo garantir que entenderei qualquer assunto. Minha resposta precisa ser avaliada pelo que realmente atende ao seu pedido.",
+          "passou": false,
+          "falhas": [
+            "pertinência: pratic | cor"
+          ]
+        },
+        {
+          "pergunta": "Como eu compararia essas possibilidades sem fingir que já sei?",
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual possibilidades você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "fato, fonte, código e prova mantêm prioridade",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Estou pensando no que faz uma coisa estar viva",
+          "id": "conversa:relato",
+          "resposta": "Saquei, você está pensando no que faz uma coisa estar viva. Me conta mais.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "O que é DNA?",
+          "id": "conhecimento:dna",
+          "resposta": "O DNA é a molécula que armazena informações genéticas nos organismos. Sua estrutura costuma ser descrita como uma dupla hélice. Vale lembrar que A maior parte do DNA humano não codifica proteínas; parte dessas regiões regula genes ou tem outras funções, e quanto do DNA é de fato funcional ainda é debatido.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Qual é a fonte dessa informação?",
+          "id": "escrita:fontes",
+          "resposta": "Fontes dos fatos usados:\n- NHGRI — DNA: https://www.genome.gov/genetics-glossary/Deoxyribonucleic-Acid-DNA",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Como usar input em Python?",
+          "id": "py_input",
+          "resposta": "input lê uma linha como texto. Para trabalhar com um inteiro, converta usando int e trate valores inválidos quando necessário. Neste exemplo, a entrada esperada é um nome.\n\nExemplo:\n```python\nnome = input()\nprint(\"Olá, \" + nome)\n```",
+          "passou": true,
+          "falhas": []
+        }
+      ]
+    },
+    {
+      "nome": "reset e isolamento dos relatos",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero recuperar minha estufa de manjericão",
+          "id": "conversa:neural_livre",
+          "resposta": "Estou acompanhando. Podemos ficar um pouco nesse sentimento antes de pensar em qualquer ação.",
+          "passou": false,
+          "falhas": [
+            "pertinência: estufa | manjericao | recuper"
+          ]
+        },
+        {
+          "pergunta": "Agora esqueça tudo que eu contei aqui",
+          "id": "conversa:neural_livre",
+          "resposta": "Vou deixar essa situação. O que você estava tentando dizer sua conversa?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Do que eu queria cuidar mesmo?",
+          "id": "conversa:neural_livre",
+          "resposta": "Meu ponto de vista é que a interpretação merece ser testada, não tratada como certeza. Que outra explicação ainda seria possível?",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Tá, vamos começar de novo: ando interessado em dobraduras",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": false,
+          "falhas": [
+            "pertinência: dobradur | comec | novo"
+          ]
+        }
+      ]
+    },
+    {
+      "nome": "fala citada e hipótese não substituem estado real",
+      "passou": false,
+      "turnos": [
+        {
+          "pergunta": "Quero voltar a estudar violão e só tenho 18 minutos por dia",
+          "id": "conversa:neural_livre",
+          "resposta": "Podemos conversar, sim. O que eu desde o que você tinha antes?",
+          "passou": false,
+          "falhas": [
+            "pertinência: violao | 18 minutos | estud"
+          ]
+        },
+        {
+          "pergunta": "Se eu tivesse duas horas livres, seria outra conversa",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "passou": true,
+          "falhas": []
+        },
+        {
+          "pergunta": "Mas isso era uma hipótese. Quanto tempo eu realmente disse que tenho?",
+          "id": "conversa:neural_livre",
+          "resposta": "Meu ponto de vista é que a interpretação merece ser testada, não tratada como certeza. Que outra explicação ainda seria possível?",
+          "passou": false,
+          "falhas": [
+            "pertinência: 18"
+          ]
+        },
+        {
+          "pergunta": "Meu amigo disse \"desista do violão\", mas eu não estou pedindo isso",
+          "id": "conversa:neural_livre",
+          "resposta": "Você não precisa resolver tudo enquanto fala. Estou acompanhando o que aconteceu da conversa.",
+          "passou": false,
+          "falhas": [
+            "pertinência: amigo | violao | desist | pedido | cit"
+          ]
+        }
+      ]
+    }
+  ],
+  "experimental": true,
+  "assinatura_casos": "6cc7ca80126a8ca1e49b9d21736ebc1a18c7753cde3eb32bdd6c4184df1d503e",
+  "limite": "Sonda autoral congelada antes da implementação, independente do treino. Os critérios automáticos conferem pertinência, continuidade e limites; a leitura das respostas é necessária para avaliar naturalidade e raciocínio. Não mede compreensão geral, aprendizagem autônoma ou conhecimento irrestrito."
+}

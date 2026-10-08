@@ -1883,6 +1883,13 @@ class Crivo:
             self.planejador.ultimo = None
             self.ultimo_turno = {'pergunta': texto, 'id': ident}
             return resultado
+        # Operações explícitas sobre memória usam a mensagem original antes
+        # de noções cotidianas ou resolução de pronomes reaproveitarem relatos.
+        from correcao_relatos import corrigir_relatos, pedido_lembranca, pedido_reinicio
+        if (pedido_reinicio(texto) or pedido_lembranca(texto) or
+                corrigir_relatos(texto, self.conversacao.relatos) is not None):
+            self.perfil.turno += 1
+            return self._responder_turno(texto)
         intencao = self._responder_intencao(texto)
         if intencao is not None:
             return intencao

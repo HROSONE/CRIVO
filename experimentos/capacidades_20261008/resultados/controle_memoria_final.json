@@ -1,0 +1,138 @@
+{
+  "grupo": "memoria",
+  "casos": 6,
+  "acertos": 6,
+  "controle_sha256": "cd9a5d87cc8038fde03a4ed2ba53509a96509f90fa287a74a8407e6aeed7f605",
+  "detalhes": [
+    {
+      "id": "correcao_relacao",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Meu cachorro se chama Zélio",
+          "resposta": "Entendi, seu cachorro se chama Zélio. Qual o nome dele?",
+          "response_id": "nocao:observacao"
+        },
+        {
+          "pergunta": "Quer dizer, Zélio é meu gato, eu escrevi errado",
+          "resposta": "Registrei sua correção nesta conversa: “Quer dizer, Zélio é meu gato, eu escrevi errado”.",
+          "response_id": "conversa:correcao_memoria"
+        },
+        {
+          "pergunta": "O que eu disse que tenho mesmo?",
+          "resposta": "Você contou: “Quer dizer, Zélio é meu gato, eu escrevi errado”.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    },
+    {
+      "id": "correcao_projeto",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Meu projeto se chama Nuvora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "response_id": "fora"
+        },
+        {
+          "pergunta": "Corrigindo, Nuvora é minha oficina, eu escrevi errado",
+          "resposta": "Você contou: “Corrigindo, Nuvora é minha oficina, eu escrevi errado”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "response_id": "conversa:relato"
+        },
+        {
+          "pergunta": "O que eu contei mesmo?",
+          "resposta": "Você contou: “Corrigindo, Nuvora é minha oficina, eu escrevi errado”.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    },
+    {
+      "id": "correcao_composta",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Meu nome é Iren, e meu cachorro se chama Trevo",
+          "resposta": "Ah, entendi, seu nome é Iren. Qual o nome dele?",
+          "response_id": "nocao:observacao"
+        },
+        {
+          "pergunta": "Na verdade, Trevo é meu gato, eu escrevi errado",
+          "resposta": "Registrei sua correção nesta conversa: “Na verdade, Trevo é meu gato, eu escrevi errado”.",
+          "response_id": "conversa:correcao_memoria"
+        },
+        {
+          "pergunta": "O que eu falei mesmo?",
+          "resposta": "Você contou: “Meu nome é Iren”; “Na verdade, Trevo é meu gato, eu escrevi errado”.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    },
+    {
+      "id": "reset_cuidado",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero cuidar da minha horta de hortelã",
+          "resposta": "Você contou que quer cuidar da sua horta de hortelã. Que bom! Qual é a principal dificuldade para chegar lá?",
+          "response_id": "conversa:relato"
+        },
+        {
+          "pergunta": "Agora esqueça tudo que eu contei aqui",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "response_id": "conversa:reinicio"
+        },
+        {
+          "pergunta": "Do que eu queria cuidar mesmo?",
+          "resposta": "Ainda não tenho relatos seus nesta conversa. Pode me contar algo.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    },
+    {
+      "id": "reset_objetivo",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero organizar minha oficina de papel",
+          "resposta": "Você contou que quer organizar sua oficina de papel. Que bom! Qual é a principal dificuldade para chegar lá?",
+          "response_id": "conversa:relato"
+        },
+        {
+          "pergunta": "Agora esqueça tudo que eu contei aqui",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "response_id": "conversa:reinicio"
+        },
+        {
+          "pergunta": "O que eu queria organizar mesmo?",
+          "resposta": "Ainda não tenho relatos seus nesta conversa. Pode me contar algo.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    },
+    {
+      "id": "lembranca_objetivo",
+      "passou": true,
+      "turnos": [
+        {
+          "pergunta": "Quero organizar minha oficina de papel",
+          "resposta": "Legal! Você contou que quer organizar sua oficina de papel. Qual é a principal dificuldade para chegar lá?",
+          "response_id": "conversa:relato"
+        },
+        {
+          "pergunta": "O que eu queria organizar mesmo?",
+          "resposta": "Você quer “organizar minha oficina de papel”. Você contou: “Quero organizar minha oficina de papel”.",
+          "response_id": "conversa:memoria"
+        }
+      ]
+    }
+  ],
+  "tempo_segundos": 192.69,
+  "fontes_sha256": {
+    "crivo.py": "248a33fa5ae09f9dfc4c46d8dede57a7b517c6ceb5e43b0f0d81993a1a305c67",
+    "programacao_chat.py": "50d03a7e86f2e3634f229b9aee17ad3890c1bae8e20c6d9035e43015ea4043c9",
+    "dialogo_aberto.py": "b956b67a9b8828d9fd9070faf1ce4e0b3704188a568b2ce5af3c77ea32c9daa5",
+    "linguagem_conversa.py": "87fd9d3e8f069f3977e4b4ebf22623698a7fc7f10c96e37b7f4aa5ffef57042f",
+    "sintese_composta.py": "440929679a457c4872296be8d75ea06b97beb506a3613217be7996c97b581610",
+    "correcao_relatos.py": "e1dccc6dacd618e7bd230e8443eef788ba6a19b0894ded7f7e82cfd0d0666e2f"
+  }
+}

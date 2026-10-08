@@ -379,6 +379,13 @@ class Conversacao:
                 self.quiz = None
                 self.oferta = None
             return None
+        from correcao_relatos import pedido_reinicio
+        if pedido_reinicio(texto):
+            return self.preparar_ato(Ato('reinicio_explicito', 'cancelar'), bot)
+        memoria = self.dialogo.preparar_memoria_explicita(texto, self, bot)
+        if memoria is not None:
+            self.contextual.ultimo_quadro = None
+            return memoria
         from conversa_cotidiana import responder as responder_cotidiano
         cotidiano = responder_cotidiano(texto, bot)
         if cotidiano is not None:
@@ -510,6 +517,12 @@ class Conversacao:
             self.assunto = self.objetivo = None
             return Preparacao(ato)
         if ato.operacao == "cancelar":
+            from presenca import Perfil
+            from compreensao_intencao import EstadoConversa
+            bot.perfil = Perfil()
+            bot.estado_conversa = EstadoConversa()
+            bot.memoria_relatos = bot.nocao_conversa = None
+            bot.memoria_anterior = False
             self.dialogo.limpar()
             self.raciocinio_dialogo.limpar()
             self.raciocinio_ativo.limpar()
