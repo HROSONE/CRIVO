@@ -1933,10 +1933,6 @@ class Crivo:
             if limite is not None:
                 return limite
             ident, resposta = self._responder_turno(texto)
-            if ident in ('fora','duvida','social:nao_entendido','conversa:esclarecer'):
-                situada = self.dialogo_situado.responder(original_usuario, self, apos_recusa=True)
-                if situada is not None:
-                    return self._registrar_dialogo_situado(original_usuario, situada, preparado=True)
             if ident in ("fora", "duvida", "social:nao_entendido"):
                 pratica = self.consulta_pratica.responder(original_usuario)
                 if pratica is not None:
@@ -1957,7 +1953,13 @@ class Crivo:
                 from conversa_cotidiana import _presenca
                 resposta = de_volta(self, _presenca(self)) or resposta
             if ident == "fora" and resposta.startswith(self.NAO_ENTENDI):
-                return self._nao_entendi_com_presenca(texto, resposta)
+                # A presença própria pode refletir um evento que a rota de
+                # diálogo não reconheceu. O resgate estrutural vem depois.
+                ident, resposta = self._nao_entendi_com_presenca(texto, resposta)
+            if ident in ('fora','duvida','social:nao_entendido','conversa:esclarecer'):
+                situada = self.dialogo_situado.responder(original_usuario, self, apos_recusa=True)
+                if situada is not None:
+                    return self._registrar_dialogo_situado(original_usuario, situada, preparado=True)
             if ident == "conversa:planejamento" and getattr(self, "perfil", None) is not None and self.perfil.temas:
                 from conversa_cotidiana import _CURTAS, _presenca
                 if _CURTAS.fullmatch(normalizar(original_usuario).strip(" .!")):

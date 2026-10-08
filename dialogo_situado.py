@@ -196,6 +196,11 @@ class DialogoSituado:
         from geracao_conversa import operacao_pessoal_explicita
         if identificar_contato(texto) is not None:
             return None
+        # A reflexão nativa sobre uma opinião conserva também o motivo
+        # que será usado numa pergunta posterior de justificativa.
+        if (re.fullmatch(r'(?:voce )?concorda(?: comigo| com (?:isso|essa ideia))?',n) and
+                getattr(conversa.dialogo,'opiniao',None)):
+            return None
         # Produtos pedidos explicitamente e operadores do gerador próprio
         # mantêm a rota nativa, inclusive esclarecimentos e argumentos inline.
         if re.match(r'(?:eu )?(?:quero|queria|gostaria de) (?:um |uma )?'

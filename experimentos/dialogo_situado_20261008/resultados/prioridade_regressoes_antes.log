@@ -1,0 +1,24 @@
+test_reflete_lembra_nome_e_retoma (testes_presenca.TestesConversa.test_reflete_lembra_nome_e_retoma) ... FAIL
+test_dialogos_completos_com_criterios_independentes_do_treino (testes_bate_papo.TestesBatePapo.test_dialogos_completos_com_criterios_independentes_do_treino) ...
+  test_dialogos_completos_com_criterios_independentes_do_treino (testes_bate_papo.TestesBatePapo.test_dialogos_completos_com_criterios_independentes_do_treino) (dialogo='opinião e argumento') ... FAIL
+
+======================================================================
+FAIL: test_reflete_lembra_nome_e_retoma (testes_presenca.TestesConversa.test_reflete_lembra_nome_e_retoma)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_presenca.py", line 108, in test_reflete_lembra_nome_e_retoma
+    self.assertIn("você perdeu o ônibus", bot.responder("eu perdi o ônibus hoje")[1])
+AssertionError: 'você perdeu o ônibus' not found in 'Você trouxe “eu perdi o ônibus hoje”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?'
+
+======================================================================
+FAIL: test_dialogos_completos_com_criterios_independentes_do_treino (testes_bate_papo.TestesBatePapo.test_dialogos_completos_com_criterios_independentes_do_treino) (dialogo='opinião e argumento')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-dialogo-situado/testes_bate_papo.py", line 25, in test_dialogos_completos_com_criterios_independentes_do_treino
+    self.assertTrue(c["passou"], [t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Você concorda comigo?', 'esperado': 'conversa:reflexao', 'obtido': 'conversa:situada_perspectiva', 'passou': False, 'resposta': 'Uma perspectiva possível para “Acho que tecnologia deixa a gente mais sozinho” é comparar o que você valoriza com o que acontece na prática. Não precisamos encontrar uma resposta única para o sentido disso. Qual experiência apoia sua ideia, e qual faria você reconsiderar?'}, {'pergunta': 'Por quê?', 'esperado': 'conversa:justificativa', 'obtido': 'conversa:justificativa', 'passou': False, 'resposta': 'Parti do que você contou, sem assumir detalhes que você ainda não explicou. A pergunta ajuda a entender o que é mais importante para você.'}]
+
+----------------------------------------------------------------------
+Ran 2 tests in 91.619s
+
+FAILED (failures=2)
