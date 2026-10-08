@@ -1,5 +1,79 @@
 # Passagem de trabalho — 07/10/2026
 
+## Atualização da fila — 08/10/2026
+
+Os PRs #103–#109 estão mesclados. As correções dessas entregas foram
+validadas na main ou no head específico antes do merge. O PR #110 está
+em validação remota; o #111 preserva os commits da consolidação e incorpora
+o head publicado do #110, sem substituir os PRs originais. A ordem de merge
+continua #110 antes de #111, somente após os checks aplicáveis concluírem
+sem erros. Os números e estados nas notas abaixo são registros históricos.
+
+A descoberta completa conserva 1.182 testes, distribuídos em quatro grupos
+nas versões Python 3.8, 3.11 e 3.13. O interpretador conserva seus 163 testes,
+divididos em três grupos, e executa as duas avaliações congeladas em um
+quarto job. Não há cortes de cobertura ou cancelamento em cascata. O teste
+bíblico foi ajustado para compatibilidade com Python 3.8.
+
+Somente arquitetura, tokenizadores e pesos próprios do Crivo. Os experimentos
+do piloto e da etapa modular permanecem isolados e não aprovados para o chat.
+Esta consolidação não altera os pesos nem sua aprovação.
+
+## Restauração dos PRs originais e validação própria
+
+Restrição do projeto: somente modelos próprios do Crivo. Não baixar, executar
+ou integrar modelos externos, inclusive quando hospedados localmente.
+A integração Qwen introduzida nesta sessão foi retirada; serviço parado e
+pesos baixados removidos. A restrição está registrada em `AGENTS.md`.
+
+Os PRs #105–#110 foram reabertos e estão prontos para revisão. As descrições
+originais foram restauradas e os commits anteriores continuam ancestrais das
+respectivas branches; não houve reescrita nem descarte. Os conflitos entre
+Bíblia e conteúdo foram resolvidos; as etapas posteriores agora incluem
+essa combinação para validar a futura integração sem esperas sequenciais. As correções foram
+propagadas nas branches originais, mantendo as dependências #106→#105 e
+#110→#109→#108. O #111 permanece rascunho para comparação e não substitui
+os originais. Nenhuma destas entregas foi integrada à main.
+
+Corrigidos: retomadas com artigo indefinido, composição bíblica validada,
+identificação da busca aprendida, crescimento do acervo e preservação de
+sequências de evidência. A guarda do gerador agora confere palavras completas
+e multiplicidade, números e negações; os conjuntos de raízes deixavam passar
+omissões de governados, Mato Grosso e REM. Os pesos não foram alterados.
+
+Passaram 25 testes da geração (incluindo seis casos de omissão), nove contratos
+da guarda sem NumPy, 22 HTTP, 20 contratos dos experimentos e 68 contratos
+sem dependências opcionais (dois dispensados nesse modo). Nomes próprios foram
+verificados no compositor e no gerador, com e sem NumPy. HTTP local conserva
+as evidências quando recua da geração e continua gerando no caso de DNA.
+
+As suítes amplas continuam em andamento. A primeira execução local iniciou
+antes das últimas correções, foi encerrada após o diagnóstico e não representa
+aprovação da versão atual.
+A nova varredura de 2.439 nomes/aliases, cobrindo 977 conceitos, passou com a
+guarda corrigida em 2.514 segundos. CI instala NumPy
+com uma thread de cálculo e mantém todos os testes; orçamentos de 240 minutos
+na matriz geral e 150 no interpretador refletem as medições em CPU. Execuções
+substituídas/duplicadas foram retiradas da fila; as versões atuais são preservadas.
+A auditoria do PR #108 não iniciou: o GitHub informou cinco tentativas sem
+conseguir atribuir um executor. A repetição apenas dos jobs falhos foi solicitada
+no run 37638155372 (tentativa 2); não é falha de um teste executado.
+Experimentos próprios permanecem isolados, com aprovação falsa: não promover
+os pesos ao chat nem afirmar geração/raciocínio geral pelos resultados limitados.
+As notas históricas abaixo descrevem o estado anterior à restauração.
+
+## Nova etapa: correção de texto
+
+Branch `codex/correcao-texto`, baseada na etapa do PR #105. Comandos `Corrija este texto:`, `Revise:` e `Corrija isso` propõem ajustes por regras limitadas; `Mostre as alterações` expõe o diff. O original continua sendo a fonte para análise e resumo. A API expõe `text_correction` e a interface identifica a revisão. Não há novo treino nem corretor gramatical completo: grafias ambíguas e divisões sem evidência permanecem para revisão. Veja `docs/correcao_texto_20261007.md` para contrato, exemplos e limites. A entrega está em branch separada até integração do PR.
+
+## Nova etapa: análise de conteúdo enviado
+
+Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais, recorrências lexicais, conectores e hipóteses de oposição literal, com citações e offsets do documento enviado. As retomadas e a consulta de fonte funcionam pelo histórico do chat. A interface aceita mensagens de conteúdo de até 12 mil caracteres; perguntas comuns continuam com 1.200. O conteúdo não entra no acervo nem na memória pessoal.
+
+88 testes da suíte conjunta passaram; os testes específicos foram repetidos após os ajustes, inclusive sem NumPy. O navegador passou em conteúdo longo → análise → resumo → padrões → fonte, conferindo as citações. Veja `docs/analise_conteudo_20261007.md` para comandos, contrato e limites. Esta versão usa heurísticas extrativas; não é novo treino nem análise semântica irrestrita. A entrega desta etapa está em branch separada da main até a integração de seu PR.
+## Nova etapa: conhecimento bíblico TNM
+
+Branch `codex/biblia-tnm`, preparada para integrar também as etapas #105/#106: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
 ## Experimento modular: avanço restrito, não aprovado
 
 Branch `codex/raciocinio-modular`, sobre o PR #109. Quatro tarefas com pesos
@@ -38,20 +112,6 @@ explícitos passou em seis contratos, com e sem NumPy; ainda não há modelo
 treinado para gerar esses passos. Diagnóstico, evidências e critérios do
 próximo experimento em `docs/diagnostico_generativo_20261007.md`.
 Não altera o chat nem aprova novos pesos.
-
-## Nova etapa: conhecimento bíblico TNM
-
-Branch `codex/biblia-tnm`, preparada para integrar também as etapas #105/#106: 33 fichas e 66 sínteses próprias, com 22 referências oficiais da Tradução do Novo Mundo (Edição de Estudo), usando o nome Jeová. Inclui pessoas, relatos e ensinamentos; `Qual a fonte?` aponta ao capítulo usado. O currículo distingue fonte institucional religiosa e natureza religiosa. O resolvedor exige referência exata, sem substituir números por passagens próximas. A redação conserva atribuição e referência; 66 vetores de fatos adicionados ao cache, sem alterar pesos. Veja `docs/biblia_tnm_20261007.md` para uso, fontes e limites. Não contém a tradução integral. A entrega fica em branch separada até integração de seu PR.
-
-## Nova etapa: correção de texto
-
-Branch `codex/correcao-texto`, baseada na etapa do PR #105. Comandos `Corrija este texto:`, `Revise:` e `Corrija isso` propõem ajustes por regras limitadas; `Mostre as alterações` expõe o diff. O original continua sendo a fonte para análise e resumo. A API expõe `text_correction` e a interface identifica a revisão. Não há novo treino nem corretor gramatical completo: grafias ambíguas e divisões sem evidência permanecem para revisão. Veja `docs/correcao_texto_20261007.md` para contrato, exemplos e limites. A entrega está em branch separada até integração do PR.
-
-## Nova etapa: análise de conteúdo enviado
-
-Branch `codex/analise-conteudo`: resumo extrativo, seleção de ideias centrais, recorrências lexicais, conectores e hipóteses de oposição literal, com citações e offsets do documento enviado. As retomadas e a consulta de fonte funcionam pelo histórico do chat. A interface aceita mensagens de conteúdo de até 12 mil caracteres; perguntas comuns continuam com 1.200. O conteúdo não entra no acervo nem na memória pessoal.
-
-88 testes da suíte conjunta passaram; os testes específicos foram repetidos após os ajustes, inclusive sem NumPy. O navegador passou em conteúdo longo → análise → resumo → padrões → fonte, conferindo as citações. Veja `docs/analise_conteudo_20261007.md` para comandos, contrato e limites. Esta versão usa heurísticas extrativas; não é novo treino nem análise semântica irrestrita. A entrega desta etapa está em branch separada da main até a integração de seu PR.
 
 ## Continuação: PR #104
 
