@@ -1,0 +1,454 @@
+{
+  "session": "08_acervo",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:25:31.489427+00:00",
+      "request": {
+        "message": "O que é DNA?",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 2.229,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 2,
+          "origem": "composicao_factual",
+          "modo": "factual",
+          "evidencias": [
+            {
+              "assunto": "dna",
+              "fato": 0
+            },
+            {
+              "assunto": "dna",
+              "fato": 1
+            }
+          ],
+          "rejeicoes": [],
+          "substituiu": "conhecimento:dna",
+          "texto_alterado": false,
+          "copia_literal": true
+        },
+        "voice": "voz_propria",
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "dna",
+                "nome": "DNA",
+                "origem": "fala"
+              }
+            ],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {
+            "dna": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "composicao_factual",
+              "id": "conhecimento:dna",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "composicao_factual",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "geracao_ancorada",
+          "kingdom": "neural",
+          "role": "Escreve a resposta com o Transformer próprio a partir das evidências escolhidas pelo leitor/compositor; decodificação restrita aos tokens da fonte e da pergunta e guarda de fidelidade, números, nome próprio e repetição.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conhecimento:dna",
+        "response": "O DNA é a molécula que armazena informações genéticas nos organismos. Sua estrutura costuma ser descrita como uma dupla hélice. Vale lembrar que A maior parte do DNA humano não codifica proteínas; parte dessas regiões regula genes ou tem outras funções, e quanto do DNA é de fato funcional ainda é debatido.",
+        "mechanism": "geracao_ancorada",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:25:33.420223+00:00",
+      "request": {
+        "message": "E qual a diferença para o RNA?",
+        "history": [
+          "O que é DNA?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.93,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "rna",
+                "nome": "RNA",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "diferenca"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "DNA",
+            "previous_turn_id": "conhecimento:dna",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "rna": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:reflexao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:reflexao",
+        "response": "Posso ajudar a pensar. Qual é a situação e quais opções você está considerando?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:25:35.408331+00:00",
+      "request": {
+        "message": "Me explica DNA em três tópicos, para uma criança de dez anos.",
+        "history": [
+          "O que é DNA?",
+          "E qual a diferença para o RNA?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.986,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "dna",
+                "nome": "DNA",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "tres",
+              "topicos",
+              "crianca",
+              "dez",
+              "anos"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "DNA",
+            "previous_turn_id": "conversa:reflexao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "dna": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:25:37.506446+00:00",
+      "request": {
+        "message": "Mudando de assunto: quem foi Moisés?",
+        "history": [
+          "O que é DNA?",
+          "E qual a diferença para o RNA?",
+          "Me explica DNA em três tópicos, para uma criança de dez anos."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.097,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_biblia_moises",
+                "nome": "Moisés",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "mudando",
+              "assunto"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "DNA",
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_biblia_moises": {
+              "facts": 2,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "dialogo_situado_estrutural",
+              "id": "conversa:abertura",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "dialogo_situado_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "dialogo_situado_estrutural",
+          "kingdom": "conversa",
+          "role": "Conserva intenção, alternativas e escopos a partir das falas explícitas da sessão.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:abertura",
+        "response": "Você trouxe esta ideia: “Mudando de assunto: quem foi Moisés”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+        "mechanism": "dialogo_situado_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:25:39.809713+00:00",
+      "request": {
+        "message": "Como eu confiro a fonte dessa informação?",
+        "history": [
+          "O que é DNA?",
+          "E qual a diferença para o RNA?",
+          "Me explica DNA em três tópicos, para uma criança de dez anos.",
+          "Mudando de assunto: quem foi Moisés?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.302,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_ficha_elegivel",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "como",
+            "entities": [],
+            "cues": [
+              "eu",
+              "confiro",
+              "fonte",
+              "dessa",
+              "informacao"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:abertura",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "contexto:sem_referencia",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "contexto:sem_referencia",
+        "response": "Qual informação você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

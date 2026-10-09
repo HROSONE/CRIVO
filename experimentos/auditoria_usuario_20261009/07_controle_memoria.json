@@ -1,0 +1,863 @@
+{
+  "session": "07_controle_memoria",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:24:52.369930+00:00",
+      "request": {
+        "message": "Brena é minha irmã.",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 1.61,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Brena é minha irmã."
+            }
+          ],
+          "afirmacoes": [
+            0
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "brena",
+              "minha",
+              "irma"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Brena é sua irmã.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:24:54.072595+00:00",
+      "request": {
+        "message": "Tácio é meu primo.",
+        "history": [
+          "Brena é minha irmã."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.702,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Tácio é meu primo."
+            }
+          ],
+          "afirmacoes": [
+            1
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "tacio",
+              "meu"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Tácio é seu primo.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:24:55.760428+00:00",
+      "request": {
+        "message": "Brena prefere tapioca.",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.687,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Brena prefere tapioca."
+            }
+          ],
+          "afirmacoes": [
+            2
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "brena",
+              "prefere",
+              "tapioca"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Brena prefere tapioca.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:24:57.473392+00:00",
+      "request": {
+        "message": "Tácio prefere bolo de fubá.",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo.",
+          "Brena prefere tapioca."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.712,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Tácio prefere bolo de fubá."
+            }
+          ],
+          "afirmacoes": [
+            3
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "tacio",
+              "prefere",
+              "bolo",
+              "fuba"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Tácio prefere bolo de fubá.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:24:59.328436+00:00",
+      "request": {
+        "message": "Me sugira uma opção para Brena.",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo.",
+          "Brena prefere tapioca.",
+          "Tácio prefere bolo de fubá."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.854,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 2,
+              "sujeito": "pessoa:brena",
+              "relacao": "preferência",
+              "valor": "tapioca",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 3,
+                "texto": "Brena prefere tapioca."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Brena prefere tapioca.",
+              "prompt_sha256": "1ae46d9e31cf41e4bbe33be3ed02a42adcee19b2b74c5b7e8f16dc132f9d0052",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "sugerir",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "sugira",
+              "opcao",
+              "brena"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_sugerir",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_sessao",
+          "kingdom": "conversa",
+          "role": "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; o realizador próprio escreve as evidências com guarda literal.",
+          "regulated_by": [
+            "memoria_sessao_estrutural",
+            "crise",
+            "pessoa",
+            "recusa",
+            "fontes",
+            "catracas"
+          ]
+        },
+        "id": "conversa:sessao_sugerir",
+        "response": "Segundo o que você contou, Brena prefere tapioca. Uma opção é oferecer tapioca, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:25:01.010278+00:00",
+      "request": {
+        "message": "Corrigindo: Brena prefere cuscuz.",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo.",
+          "Brena prefere tapioca.",
+          "Tácio prefere bolo de fubá.",
+          "Me sugira uma opção para Brena."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.678,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 6,
+              "texto": "Corrigindo: Brena prefere cuscuz."
+            }
+          ],
+          "afirmacoes": [
+            4
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "corrigindo",
+              "brena",
+              "prefere",
+              "cuscuz"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:sessao_sugerir",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Brena prefere cuscuz.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 7,
+      "time_utc": "2026-10-09T21:25:02.749612+00:00",
+      "request": {
+        "message": "Como eu justifico a escolha para Brena?",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo.",
+          "Brena prefere tapioca.",
+          "Tácio prefere bolo de fubá.",
+          "Me sugira uma opção para Brena.",
+          "Corrigindo: Brena prefere cuscuz."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.738,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 4,
+              "sujeito": "pessoa:brena",
+              "relacao": "preferência",
+              "valor": "cuscuz",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 6,
+                "texto": "Corrigindo: Brena prefere cuscuz."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Brena prefere cuscuz.",
+              "prompt_sha256": "d067748866100f52ade866c07c57f215bd4ac0f29566c2b86718f71eb1131f8c",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "explicar",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "como",
+            "entities": [],
+            "cues": [
+              "eu",
+              "justifico",
+              "escolha",
+              "brena"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_explicar",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_sessao",
+          "kingdom": "conversa",
+          "role": "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; o realizador próprio escreve as evidências com guarda literal.",
+          "regulated_by": [
+            "memoria_sessao_estrutural",
+            "crise",
+            "pessoa",
+            "recusa",
+            "fontes",
+            "catracas"
+          ]
+        },
+        "id": "conversa:sessao_explicar",
+        "response": "Segundo o que você contou, Brena prefere cuscuz. Essa é a razão da escolha: usar a preferência que você relatou, sem supor um gosto diferente.",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 8,
+      "time_utc": "2026-10-09T21:25:04.643826+00:00",
+      "request": {
+        "message": "Me sugira algo que ele goste.",
+        "history": [
+          "Brena é minha irmã.",
+          "Tácio é meu primo.",
+          "Brena prefere tapioca.",
+          "Tácio prefere bolo de fubá.",
+          "Me sugira uma opção para Brena.",
+          "Corrigindo: Brena prefere cuscuz.",
+          "Como eu justifico a escolha para Brena?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.893,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 3,
+              "sujeito": "pessoa:tacio",
+              "relacao": "preferência",
+              "valor": "bolo de fubá",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 4,
+                "texto": "Tácio prefere bolo de fubá."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Tácio prefere bolo de fubá.",
+              "prompt_sha256": "8d0c1f7ca1e6a743375ac53d3dee16635421ade2648d35ae40164e109f1d908f",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "sugerir",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "sugira",
+              "goste"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:sessao_explicar",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_sugerir",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_sessao",
+          "kingdom": "conversa",
+          "role": "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; o realizador próprio escreve as evidências com guarda literal.",
+          "regulated_by": [
+            "memoria_sessao_estrutural",
+            "crise",
+            "pessoa",
+            "recusa",
+            "fontes",
+            "catracas"
+          ]
+        },
+        "id": "conversa:sessao_sugerir",
+        "response": "Segundo o que você contou, Tácio prefere bolo de fubá. Uma opção é oferecer bolo de fubá, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

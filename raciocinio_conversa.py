@@ -227,7 +227,7 @@ class RaciocinioConversa:
         n = normalizar(texto)
         mudou = False
         horas = {'uma':Decimal(60),'duas':Decimal(120),'tres':Decimal(180)}
-        m = re.search(r'\b(?:tenho|disponho de|tivesse|ter)\s+('+NUM+r'|uma|duas|tres)\s+(minutos?|horas?)\b',n)
+        m = re.search(r'\b(?:tenho|disponho de|tivesse|ter|sem passar dos|limite de)\s+(?:so |apenas )?('+NUM+r'|uma|duas|tres)\s+(minutos?|horas?)\b',n)
         if m and not re.search(r'\b(?:nao tenho|nao sei)\b',n):
             qtd = horas.get(m.group(1)) if m.group(2).startswith('hora') and m.group(1) in horas else numero(m.group(1))
             if qtd is not None:
@@ -252,11 +252,90 @@ class RaciocinioConversa:
                 continue
             antes = self.tempos.get(ref); self.tempos[ref] = qtd; mudou = True
             self._registrar('tempo:'+ref,None if antes is None else valor(antes),valor(qtd),texto,hipotese)
+        for m in re.finditer(r'\b(?:reservar|reservo|deixar|deixo|dedicar|separar)\s+('+NUM+r')\s+minutos?\s+(?:para|de)\s+([^.!?;,]+)',n):
+            nome = self._rotulo(m[2])
+            if nome == 'descansar':
+                nome = 'descanso'
+            if not nome or len(nome) > 90:
+                continue
+            qtd = numero(m[1]); antes = self.tempos.get(nome)
+            self.tempos[nome] = qtd; mudou = True
+            self._registrar('tempo:'+nome, None if antes is None else valor(antes), valor(qtd), texto, hipotese)
         if re.search(r'\b(?:nao sei|nao tenho)\b.+\b(?:tempo|disponivel)\b',n) and self.disponivel is not None:
             antes=self.disponivel
             self.disponivel = None; mudou = True
             self._registrar('tempo:disponivel',valor(antes),None,texto,hipotese)
         return mudou
+
+    def planejar_contexto(self, texto, historico, objetivos):
+        """Continuação explícita de tempo: calcula, sem transformar hipótese em fato."""
+        # Uma conta avulsa não atribui durações às atividades por adivinhação.
+        # Pode ser explicada condicionalmente quando há um orçamento explícito.
+        if re.search(r'\b(?:esse|este|o) resultado\b', normalizar(texto)) and historico:
+            from compreensao_intencao import calcular
+            conta = calcular(historico[-1]['pergunta'])
+            if conta and self.disponivel is not None and objetivos:
+                numero_resultado = conta[1].rsplit(' = ', 1)[-1]
+                r = dict(operacao='interpretar_resultado', hipotese=True, status='calculado',
+                         resultado=numero_resultado, conta=conta[1], fonte=historico[-1]['pergunta'])
+                frase = ('A conta ' + conta[1] + ' deixa ' + numero_resultado + ' minutos. '
+                         'No plano de ' + objetivos[-1] + ', esse saldo pode ir para a atividade restante, '
+                         'se os valores subtraídos forem as reservas das outras atividades. '
+                         'Confirme a que atividades correspondem essas reservas.')
+                return self._publicar(self, 'tempo', r, frase)
+        pendente = deepcopy(self._hipotese_pendente)
+        self.responder(texto)
+        alternativa = self._hipotese_pendente or pendente
+        alvo = deepcopy(self)
+        hip = bool(alternativa and alternativa['dominio'] == 'tempo')
+        if hip:
+            # Só correções reais DESTE turno prevalecem sobre a alternativa.
+            # Fatos antigos não podem apagar um orçamento hipotético novo.
+            reais = {k:deepcopy(v) for k,v in self.fontes.items()
+                     if k.startswith('tempo:') and v['origem'] == 'usuario' and v['fonte'] == texto}
+            disponivel, tempos = self.disponivel, deepcopy(self.tempos)
+            alvo._usar_hipotese(alternativa)
+            if 'tempo:disponivel' in reais:
+                alvo.disponivel = disponivel
+            for k,v in reais.items():
+                if k != 'tempo:disponivel':
+                    atividade = k[len('tempo:'):]
+                    if atividade in tempos:
+                        alvo.tempos[atividade] = tempos[atividade]
+                alvo.fontes[k] = v
+        fontes = [h['pergunta'] for h in historico[-3:]] + [texto]
+        destinos = []
+        for fala in fontes:
+            m = re.search(r'(?:tempo sobra|sobram?[^.!?]*minutos) para (?:o |a )?([^.!?]+)', fala, re.I)
+            if m:
+                destinos.append(m[1].strip())
+        if not destinos:
+            for objetivo in objetivos:
+                partes = re.split(r'\s+e\s+', objetivo)
+                destinos.extend(p for p in partes if not any(
+                    set(normalizar(k).split()) & set(normalizar(p).split()) for k in alvo.tempos))
+        destino = destinos[-1] if len(set(destinos)) == 1 else None
+        r, frase = alvo._concluir('tempo', hip)
+        conhecidos = '; '.join(k + ': ' + valor(v) + ' minutos' for k, v in alvo.tempos.items())
+        if r['status'] == 'incompleto':
+            if conhecidos:
+                frase = 'Durações informadas: ' + conhecidos + '. ' + frase
+            if destino:
+                frase += ' O restante seria para ' + destino + '.'
+            elif objetivos:
+                frase += ' Quais durações devo reservar para ' + objetivos[-1] + '?'
+        else:
+            resto = alvo.disponivel - sum(alvo.tempos.values(), Decimal(0))
+            frase = conhecidos + '; total disponível: ' + valor(alvo.disponivel) + ' minutos. '
+            if destino and resto >= 0:
+                frase += 'Restam ' + valor(resto) + ' minutos para ' + destino + '.'
+                r['alocacao_restante'] = dict(atividade=destino, minutos=valor(resto), fonte='objetivo_do_usuario')
+            else:
+                frase += 'Sobram ' + valor(resto) + ' minutos.' if resto >= 0 else 'Faltam ' + valor(-resto) + ' minutos.'
+        r['fontes'] = deepcopy(alvo.fontes)
+        if hip:
+            frase = 'Se mantivermos a reserva hipotética, ' + frase
+        return self._publicar(alvo, 'tempo', r, frase)
 
     def _agenda(self, texto, hipotese):
         n = normalizar(texto)

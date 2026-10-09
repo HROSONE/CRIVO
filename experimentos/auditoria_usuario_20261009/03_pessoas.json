@@ -1,0 +1,550 @@
+{
+  "session": "03_pessoas",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:21:19.079195+00:00",
+      "request": {
+        "message": "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 6.349,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "minha",
+              "irma",
+              "brena",
+              "prefere",
+              "tapioca",
+              "meu",
+              "tacio",
+              "bolo",
+              "fuba"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "nocao:observacao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "nocao:observacao",
+        "response": "Boa, sua irmã Brena prefere tapioca! Bolo caseiro costuma deixar a casa com cheiro bom. Qual é o seu bolo preferido?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:21:31.410737+00:00",
+      "request": {
+        "message": "Quero preparar um lanche para Brena. O que você sugere?",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá."
+        ]
+      },
+      "status": null,
+      "elapsed_seconds": 12.105,
+      "result": {
+        "error": "URLError: <urlopen error Tunnel connection failed: 502 Bad Gateway>"
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:21:35.542320+00:00",
+      "request": {
+        "message": "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 4.028,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "contexto"
+              }
+            ],
+            "cues": [
+              "mudou",
+              "agora",
+              "prefere",
+              "cuscuz"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "nocao:observacao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "nocao:continuacao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "nocao:continuacao",
+        "response": "Na verdade ela mudou de ideia? Olha só, que bom! E o que mais tem de novo?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:21:39.451376+00:00",
+      "request": {
+        "message": "E para ela, então, o que preparo?",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 3.908,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "contexto"
+              }
+            ],
+            "cues": [
+              "entao",
+              "preparo"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "nocao:continuacao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:24:39.258887+00:00",
+      "request": {
+        "message": "Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz.",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+          "E para ela, então, o que preparo?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 6.692,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": true
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou: “Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:24:44.233548+00:00",
+      "request": {
+        "message": "O que ofereço para Brena no lanche?",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+          "E para ela, então, o que preparo?",
+          "Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 4.95,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "ofereco",
+              "brena",
+              "lanche"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "git_intro",
+                "search_fact": 1,
+                "search_probability": 0.2757,
+                "fact": 1,
+                "probability": 0.56,
+                "margin": 0.4307,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou Git, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 7,
+      "time_utc": "2026-10-09T21:24:50.757919+00:00",
+      "request": {
+        "message": "E o Tácio, do que ele gosta?",
+        "history": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+          "E para ela, então, o que preparo?",
+          "Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz.",
+          "O que ofereço para Brena no lanche?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 6.518,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "contexto"
+              }
+            ],
+            "cues": [
+              "tacio",
+              "gosta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

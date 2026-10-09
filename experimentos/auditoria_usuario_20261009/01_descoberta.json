@@ -1,0 +1,556 @@
+{
+  "session": "01_descoberta",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:20:42.386502+00:00",
+      "request": {
+        "message": "Oi, nunca usei você. O que você consegue fazer por mim?",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 1.964,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": true
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "duvida",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "duvida",
+        "response": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:20:44.779352+00:00",
+      "request": {
+        "message": "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.392,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "ta",
+              "vou",
+              "perguntar",
+              "diretamente",
+              "ajudar"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "duvida",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:20:47.108824+00:00",
+      "request": {
+        "message": "Me dê três exemplos de perguntas que você consegue responder.",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?",
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.328,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "tres",
+              "exemplos",
+              "perguntas",
+              "consegue",
+              "responder"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:20:49.636412+00:00",
+      "request": {
+        "message": "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?",
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+          "Me dê três exemplos de perguntas que você consegue responder."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.527,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "consegue",
+              "conversar",
+              "comigo",
+              "meu",
+              "dia",
+              "ou",
+              "responde",
+              "perguntas",
+              "escola"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_assistente",
+              "id": "social:nao_entendido",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_assistente",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_assistente",
+          "kingdom": "conversa",
+          "role": "Cuida da parte social: cumprimentos, agradecimentos e o próprio CRIVO.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa"
+          ]
+        },
+        "id": "social:nao_entendido",
+        "response": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+        "mechanism": "conversa_assistente",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:22:35.642516+00:00",
+      "request": {
+        "message": "ajuda",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?",
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+          "Me dê três exemplos de perguntas que você consegue responder.",
+          "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.559,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "social:nao_entendido",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_assistente",
+              "id": "social:assuntos",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_assistente",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_assistente",
+          "kingdom": "conversa",
+          "role": "Cuida da parte social: cumprimentos, agradecimentos e o próprio CRIVO.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa"
+          ]
+        },
+        "id": "social:assuntos",
+        "response": "Posso explicar conceitos presentes na base; entender variações de pedidos, reformular explicações e retomar assuntos recentes; explorar situações que você contar com perguntas de continuidade; compor textos, resumos, tópicos e roteiros curtos com fatos cadastrados; consultar relações, combinar condições e mostrar as provas disponíveis; mostrar as fontes dos fatos usados quando elas estão cadastradas; consultar propriedades e classificações de frutas cadastradas; interpretar código JavaScript limitado, rastrear estados e testar correções com exemplos de entrada e saída; montar funções simples a partir desses exemplos.\n\nAssuntos desta instalação: animais; coisas de casa; clima; estações do ano; ciência e psicologia (cérebro, memória, sono, emoções, biologia e ambiente); plantas; programação (css, fundamentos, git, html, javascript, python, sql, web); sistema solar; tempo (horas, datas, calendário); alimentos (feijoada, arroz e feijão); ambiente (ciclo da água, evaporação); aprendizagem (mnemônica); artes (música, harmonia musical); astronomia (Andrômeda, galáxia); biblia (Bíblia, Tradução do Novo Mundo); biologia (DNA, RNA); computação (internet, API); direito (Estado de direito, direitos humanos); economia (economia, escassez); engenharia (transistor, circuito integrado); esporte (futebol, Copa do Mundo FIFA); estatistica (medidas de tendência central, desvio padrão); filosofia (filosofia, metafísica); fisica (leis de Newton, inércia); física (vácuo); geografia (geografia, continente); historia (historiografia, Pré-História); linguistica (aquisição da linguagem, fonema); literatura (narrativa, enredo); matematica (matemática, número primo); neurociencia (cérebro, neurônio); pessoas (Sócrates, Platão); politica (democracia, separação dos poderes); psicologia (ansiedade, transtorno de ansiedade); quimica (química, átomo); saude (sono, sono REM); sociologia (sociologia, imaginação sociológica); tecnologia (biomimética, lei de Moore).\n\nDiga 'só isso?' para ver mais detalhes, ou escolha um assunto.",
+        "mechanism": "conversa_assistente",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:22:38.517808+00:00",
+      "request": {
+        "message": "Você falou que explica como funciona. Me explica de um jeito simples.",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?",
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+          "Me dê três exemplos de perguntas que você consegue responder.",
+          "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?",
+          "ajuda"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.872,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "falou",
+              "funciona",
+              "jeito",
+              "simples"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "social:assuntos",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_assistente",
+              "id": "social:nao_entendido",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_assistente",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_assistente",
+          "kingdom": "conversa",
+          "role": "Cuida da parte social: cumprimentos, agradecimentos e o próprio CRIVO.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa"
+          ]
+        },
+        "id": "social:nao_entendido",
+        "response": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+        "mechanism": "conversa_assistente",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 7,
+      "time_utc": "2026-10-09T21:22:41.374928+00:00",
+      "request": {
+        "message": "Que tipo de coisa você ainda erra?",
+        "history": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?",
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+          "Me dê três exemplos de perguntas que você consegue responder.",
+          "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?",
+          "ajuda",
+          "Você falou que explica como funciona. Me explica de um jeito simples."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.855,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "tipo",
+              "erra"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "social:nao_entendido",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

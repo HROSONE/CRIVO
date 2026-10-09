@@ -83,6 +83,81 @@ class EstadoInterno:
         }
 
 
+def guardar_fidelidade(bot, rota, ident, resposta):
+    """Uma resposta de outra peça ou sem referente não chega ao usuário.
+
+    Aplica-se às operações contextuais escolhidas explicitamente, preservando
+    as verificações de segurança/fatos da entrada e os executores existentes.
+    """
+    peca = rota['peca']
+    aceitos = {'memoria': ('conversa:memoria_sessao', 'conversa:sessao_'),
+               'calculo': ('conversa:raciocinio', 'calculo:'),
+               'programacao': ('programacao:',),
+               'escrita': ('escrita:', 'conversa:gerada_'),
+               'esclarecimento': ('conversa:esclarecer',)}
+    motivos = []
+    n = normalizar(resposta)
+    if rota['status'] == 'executado':
+        if peca in aceitos and not ident.startswith(aceitos[peca]):
+            motivos.append('executor não entregou o tipo pedido')
+        if peca == 'fato' and bot.contexto_textual is None:
+            motivos.append('resposta factual sem unidades com fonte')
+        if peca == 'calculo':
+            q = bot.raciocinio_conversa.ultimo or {}
+            if 'minutos' not in n:
+                motivos.append('resposta não trata da unidade de tempo')
+            if q.get('operacao') == 'tempo_restante' and q.get('status') == 'calculado':
+                resultado = q['resultado']
+                for valor in (resultado['disponivel'], resultado['restante']):
+                    esperado = valor.lstrip('-') if valor.startswith('-') and 'faltam' in n else valor
+                    numero = re.escape(esperado).replace(r'\.', r'[.,]')
+                    if not re.search(r'(?<!\d)' + numero + r'(?!\d)', resposta):
+                        motivos.append('resultado calculado ausente')
+                for atividade in q.get('entradas', {}):
+                    if normalizar(atividade) not in n:
+                        motivos.append('atividade ausente: ' + atividade)
+        if peca in ('fato', 'escrita') and bot.contexto_textual is not None:
+            from curriculo_mundo import texto_fato
+            for e, i in bot.contexto_textual.exibidos:
+                if normalizar(texto_fato(bot.compositor.itens[e]['fatos'][i])) not in n:
+                    motivos.append('unidade factual selecionada ausente')
+        if peca == 'memoria':
+            q = (bot.historico[-1].get('memoria_sessao') or bot.historico[-1].get('conversa_sessao') or {})
+            for i in q.get('afirmacoes', ()):
+                f = bot.memoria_sessao.afirmacoes[i]
+                if f['relacao'] == 'preferência' and normalizar(f['valor']) not in n:
+                    motivos.append('preferência selecionada ausente')
+        if peca == 'memoria' or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir'):
+            for referente in rota['referentes']:
+                if normalizar(referente) not in n:
+                    motivos.append('referente ausente: ' + referente)
+        if rota.get('frases'):
+            corpo = resposta.split('\n', 1)[-1].strip()
+            frases = re.findall(r'[^.!?]+[.!?](?:\s|$)', corpo)
+            if len(frases) != rota['frases']:
+                motivos.append('quantidade de frases não atendida')
+    if motivos:
+        ident = 'conversa:esclarecer'
+        resposta = ('Não consegui atender esse pedido preservando a tarefa' +
+                    (' e ' + ', '.join(rota['referentes']) if rota['referentes'] else '') +
+                    '. Pode esclarecer o que devo fazer?')
+        if 'quantidade de frases não atendida' in motivos:
+            resposta = ('Não consegui escrever ' + str(rota['frases']) + ' frases com ' +
+                        ', '.join(rota['referentes']) + '. Quer um rascunho mais curto?')
+        if '_escrita_anterior' in rota:
+            bot.conversacao.geracao.ultima_escrita = rota['_escrita_anterior']
+            bot.conversacao.geracao.ultima_criacao = rota['_escrita_anterior']
+        rota['status'] = 'bloqueado_pela_guarda'
+        bot.contexto_textual = None
+        if bot.historico:
+            bot.historico[-1]['id'] = ident
+    rota['guarda'] = dict(aceita=not motivos, motivos=motivos)
+    if bot.historico:
+        bot.historico[-1]['natural_routing'] = {k:v for k,v in rota.items()
+                                               if not k.startswith('_') and k not in ('resultado', 'consulta', 'fatos')}
+    return ident, resposta
+
+
 def construir(bot, fala):
     """Estado inicial do turno, antes de qualquer espécie responder."""
     estado = EstadoInterno(fala)

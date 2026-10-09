@@ -146,6 +146,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                     (campo != 'raciocinio_conversa' or identificador == 'conversa:raciocinio') and
                     (campo != 'argumentos_conversa' or identificador == 'conversa:argumentos')):
                 extra[publico] = bot.historico[-1][campo]
+        rota = bot.historico[-1].get('natural_routing')
+        if rota is not None:
+            extra['natural_routing'] = rota
     if bot.estado_interno is not None:
         extra["internal_state"] = bot.estado_interno.para_dict()
     papel = descrever(mecanismo)

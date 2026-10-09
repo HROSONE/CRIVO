@@ -1,0 +1,189 @@
+{
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "comparação local de casos já observados, API pública auditada separadamente",
+  "cases": {
+    "descoberta": [
+      {
+        "message": "Oi, nunca usei você. O que você consegue fazer por mim?",
+        "id": "duvida",
+        "response": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        }
+      }
+    ],
+    "ciencia": [
+      {
+        "message": "Por que o céu fica vermelho quando o sol está se pondo?",
+        "id": "leitura:aproximacao",
+        "response": "Não tenho uma resposta exata para essa pergunta. O que a ficha de céu azul traz de mais próximo é:\n\nNo nascer e no pôr do sol, a luz atravessa uma camada maior de ar, o azul se perde pelo caminho e o céu fica alaranjado ou avermelhado.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "resposta_incerta",
+          "tentativas": 0
+        }
+      },
+      {
+        "message": "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+        "id": "conversa:relato",
+        "response": "Você contou: “Eu sou leigo. Explica isso com um exemplo do dia a dia.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        }
+      }
+    ],
+    "plano": [
+      {
+        "message": "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        }
+      },
+      {
+        "message": "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+        "id": "conversa:raciocinio",
+        "response": "Pelos dados que você informou, As atividades informadas somam 12 minutos, para 35 disponíveis. Sobram 23 minutos.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        }
+      },
+      {
+        "message": "E se eu deixar 5 minutos para descansar?",
+        "id": "arroz",
+        "response": "Refogue 1 xícara de arroz lavado com alho e óleo, junte 2 xícaras de água quente e sal e cozinhe em fogo baixo com a panela tampada por 15 a 20 minutos, sem mexer. Deixe descansar uns 5 minutos antes de servir.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        }
+      }
+    ],
+    "memoria": [
+      {
+        "message": "Brena é minha irmã.",
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Brena é sua irmã.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        }
+      },
+      {
+        "message": "Tácio é meu primo.",
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Tácio é seu primo.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        }
+      },
+      {
+        "message": "Brena prefere tapioca.",
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Brena prefere tapioca.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        }
+      },
+      {
+        "message": "Tácio prefere bolo de fubá.",
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Tácio prefere bolo de fubá.",
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        }
+      },
+      {
+        "message": "Me sugira uma opção para Brena.",
+        "id": "conversa:sessao_sugerir",
+        "response": "Segundo o que você contou, Brena prefere tapioca. Uma opção é oferecer tapioca, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 2,
+              "sujeito": "pessoa:brena",
+              "relacao": "preferência",
+              "valor": "tapioca",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 3,
+                "texto": "Brena prefere tapioca."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Brena prefere tapioca.",
+              "prompt_sha256": "1ae46d9e31cf41e4bbe33be3ed02a42adcee19b2b74c5b7e8f16dc132f9d0052",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "sugerir",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        }
+      }
+    ]
+  }
+}

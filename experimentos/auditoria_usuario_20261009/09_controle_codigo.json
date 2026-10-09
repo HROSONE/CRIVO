@@ -1,0 +1,523 @@
+{
+  "session": "09_controle_codigo",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:27:00.816791+00:00",
+      "request": {
+        "message": "Você consegue interpretar meu código JavaScript?",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 1.783,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "consegue",
+              "interpretar",
+              "meu",
+              "codigo",
+              "javascript"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "motor_programacao_proprio",
+              "id": "programacao:motor_ajuda",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "motor_programacao_proprio",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "motor_programacao_proprio",
+          "kingdom": "programacao",
+          "role": "Analisa e executa código com rastreio, sem modelo externo.",
+          "regulated_by": [
+            "catracas",
+            "recusa"
+          ]
+        },
+        "id": "programacao:motor_ajuda",
+        "response": "Posso interpretar um corpo de função JavaScript, rastrear estados e tentar corrigir falhas usando exemplos de entrada e saída. Também posso montar funções simples a partir desses exemplos.\n\nEnvie o código entre três crases, com a linguagem javascript, e depois Exemplos: [{\"entrada\": 0, \"saida\": 2}, {\"entrada\": 3, \"saida\": 5}]. Para apenas executar, envie Entrada: 3. O motor aceita um subconjunto limitado; chamadas livres, imports e APIs externas não são suportados.",
+        "mechanism": "motor_programacao_proprio",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:27:02.459981+00:00",
+      "request": {
+        "message": "Execute este código JavaScript:\n```javascript\nlet total = 0;\nfor (let i = 0; i < entrada.length; i++) {\n  total = entrada[i];\n}\nreturn total;\n```\nEntrada: [8, 12, 5]",
+        "history": [
+          "Você consegue interpretar meu código JavaScript?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 1.642,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "programacao:motor_ajuda",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "motor_programacao_proprio",
+              "id": "programacao:motor_limite",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "motor_programacao_proprio",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "motor_programacao_proprio",
+          "kingdom": "programacao",
+          "role": "Analisa e executa código com rastreio, sem modelo externo.",
+          "regulated_by": [
+            "catracas",
+            "recusa"
+          ]
+        },
+        "id": "programacao:motor_limite",
+        "response": "Não consegui analisar este pedido: Atribuição inválida.\n\nPosso interpretar um corpo de função JavaScript, rastrear estados e tentar corrigir falhas usando exemplos de entrada e saída. Também posso montar funções simples a partir desses exemplos.\n\nEnvie o código entre três crases, com a linguagem javascript, e depois Exemplos: [{\"entrada\": 0, \"saida\": 2}, {\"entrada\": 3, \"saida\": 5}]. Para apenas executar, envie Entrada: 3. O motor aceita um subconjunto limitado; chamadas livres, imports e APIs externas não são suportados.",
+        "mechanism": "motor_programacao_proprio",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:27:04.578735+00:00",
+      "request": {
+        "message": "Corrija esse código. Exemplos: [{\"entrada\": [8, 12, 5], \"saida\": 25}, {\"entrada\": [], \"saida\": 0}, {\"entrada\": [3, 7], \"saida\": 10}]",
+        "history": [
+          "Você consegue interpretar meu código JavaScript?",
+          "Execute este código JavaScript:\n```javascript\nlet total = 0;\nfor (let i = 0; i < entrada.length; i++) {\n  total = entrada[i];\n}\nreturn total;\n```\nEntrada: [8, 12, 5]"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.118,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "programacao:motor_limite",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "astro_meio_circumgalactico",
+                "search_fact": 1,
+                "search_probability": 0.4496,
+                "fact": 1,
+                "probability": 0.8084,
+                "margin": 0.4911,
+                "cues_covered": 2,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou meio circumgaláctico, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:27:07.068094+00:00",
+      "request": {
+        "message": "Execute o código corrigido. Entrada: []",
+        "history": [
+          "Você consegue interpretar meu código JavaScript?",
+          "Execute este código JavaScript:\n```javascript\nlet total = 0;\nfor (let i = 0; i < entrada.length; i++) {\n  total = entrada[i];\n}\nreturn total;\n```\nEntrada: [8, 12, 5]",
+          "Corrija esse código. Exemplos: [{\"entrada\": [8, 12, 5], \"saida\": 25}, {\"entrada\": [], \"saida\": 0}, {\"entrada\": [3, 7], \"saida\": 10}]"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.489,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "execute",
+              "codigo",
+              "corrigido",
+              "entrada"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "consulta_pratica",
+              "id": "pratica:linguagens_python",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "consulta_pratica",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "consulta_pratica",
+          "kingdom": "conhecimento",
+          "role": "Dá orientação prática do dia a dia quando o recuperador não entendeu.",
+          "regulated_by": [
+            "recusa",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "pratica:linguagens_python",
+        "response": "Python e modelo de execução: Python tem objetos, tipagem dinâmica e protocolos; annotations não validam runtime por padrão.\n\nIteradores, generators, context managers e dataclasses simplificam código; GIL e free threading dependem da implementação/versão.\n\nNa prática: Usar with para recursos, type hints mais checker e processos/native para CPU conforme medição.\nCuidados: Default mutável conserva objeto entre chamadas; copiar lista é superficial; thread não garante ganho CPU-bound.\nVerificação: Testar argumento default, alias, iterator esgotado e versão de runtime.\nFontes: https://docs.python.org/3/\nConsulta ao acervo autoral de programação; revisão editorial integral pendente.",
+        "mechanism": "consulta_pratica",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:28:34.488725+00:00",
+      "request": {
+        "message": "Execute este código JavaScript:\n```javascript\nreturn entrada + 2;\n```\nEntrada: 3",
+        "history": [
+          "Você consegue interpretar meu código JavaScript?",
+          "Execute este código JavaScript:\n```javascript\nlet total = 0;\nfor (let i = 0; i < entrada.length; i++) {\n  total = entrada[i];\n}\nreturn total;\n```\nEntrada: [8, 12, 5]",
+          "Corrija esse código. Exemplos: [{\"entrada\": [8, 12, 5], \"saida\": 25}, {\"entrada\": [], \"saida\": 0}, {\"entrada\": [3, 7], \"saida\": 10}]",
+          "Execute o código corrigido. Entrada: []"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.946,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "execute",
+              "este",
+              "codigo",
+              "javascript",
+              "return",
+              "entrada"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "pratica:linguagens_python",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "motor_programacao_proprio",
+              "id": "programacao:motor_interpretacao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "motor_programacao_proprio",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "motor_programacao_proprio",
+          "kingdom": "programacao",
+          "role": "Analisa e executa código com rastreio, sem modelo externo.",
+          "regulated_by": [
+            "catracas",
+            "recusa"
+          ]
+        },
+        "code_analysis": {
+          "acao": "interpretar",
+          "resultado": 5,
+          "erro": null,
+          "passos": 4,
+          "efeitos_neurais": {
+            "ativo": true,
+            "parametros": 1679,
+            "comparados": 1,
+            "concordantes": 1,
+            "fora_dominio": 0,
+            "primeira_divergencia": null,
+            "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+          },
+          "execucao": "executor_proprio_exato"
+        },
+        "id": "programacao:motor_interpretacao",
+        "response": "Resultado: 5. Passos: 4.\n\nRede própria de efeitos: 1/1 previsões concordaram com o executor exato.",
+        "mechanism": "motor_programacao_proprio",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:28:36.977622+00:00",
+      "request": {
+        "message": "Corrija este código JavaScript:\n```javascript\nreturn entrada - 2;\n```\nExemplos: [{\"entrada\": 1, \"saida\": 3}, {\"entrada\": 3, \"saida\": 5}]",
+        "history": [
+          "Você consegue interpretar meu código JavaScript?",
+          "Execute este código JavaScript:\n```javascript\nlet total = 0;\nfor (let i = 0; i < entrada.length; i++) {\n  total = entrada[i];\n}\nreturn total;\n```\nEntrada: [8, 12, 5]",
+          "Corrija esse código. Exemplos: [{\"entrada\": [8, 12, 5], \"saida\": 25}, {\"entrada\": [], \"saida\": 0}, {\"entrada\": [3, 7], \"saida\": 10}]",
+          "Execute o código corrigido. Entrada: []",
+          "Execute este código JavaScript:\n```javascript\nreturn entrada + 2;\n```\nEntrada: 3"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.487,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "programacao:motor_contexto",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "motor_programacao_proprio",
+              "id": "programacao:motor_diagnostico",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "motor_programacao_proprio",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "motor_programacao_proprio",
+          "kingdom": "programacao",
+          "role": "Analisa e executa código com rastreio, sem modelo externo.",
+          "regulated_by": [
+            "catracas",
+            "recusa"
+          ]
+        },
+        "code_analysis": {
+          "acao": "diagnosticar",
+          "atende_desenvolvimento": true,
+          "verificadas": 1,
+          "candidatos": 7,
+          "hipotese": {
+            "caminho_ast": [
+              0,
+              1
+            ],
+            "antes": "(entrada - 2)",
+            "depois": "(entrada + 2)",
+            "tipo": "operador",
+            "contexto": "bin",
+            "tamanho_delta": 2
+          },
+          "corpo_corrigido": "return (entrada + 2);",
+          "efeitos_neurais": {
+            "ativo": true,
+            "parametros": 1679,
+            "comparados": 2,
+            "concordantes": 2,
+            "fora_dominio": 0,
+            "primeira_divergencia": null,
+            "pesos_sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+          },
+          "casos_reservados_consultados": false,
+          "execucao": "executor_proprio_exato"
+        },
+        "id": "programacao:motor_diagnostico",
+        "response": "Reproduzi a falha. Entrada: 1. Esperado: 3. Observado: -1.\n\nEsta edição local passou nos 2 exemplos fornecidos:\nAntes: (entrada - 2)\nDepois: (entrada + 2)\n\n```javascript\nfunction resolver(entrada) {\nreturn (entrada + 2);\n}\n```\n\nÉ uma hipótese de correção; confira com novos exemplos antes de usar.\n\nRede própria de efeitos: 2/2 previsões concordaram com o executor exato.",
+        "mechanism": "motor_programacao_proprio",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

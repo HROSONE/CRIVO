@@ -1,0 +1,117 @@
+{
+  "natural": {
+    "mensagens": [
+      "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+      "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+    ],
+    "estado": {
+      "entidades": [],
+      "afirmacoes": [],
+      "correcoes": [],
+      "temas": [],
+      "turno": 2
+    }
+  },
+  "canonico": {
+    "mensagens": [
+      "Brena é minha irmã.",
+      "Tácio é meu primo.",
+      "Brena prefere tapioca.",
+      "Tácio prefere bolo de fubá.",
+      "Corrigindo: Brena prefere cuscuz."
+    ],
+    "estado": {
+      "entidades": [
+        {
+          "id": "pessoa:brena",
+          "nome": "Brena",
+          "tipo": "pessoa",
+          "genero": "f"
+        },
+        {
+          "id": "pessoa:tacio",
+          "nome": "Tácio",
+          "tipo": "pessoa",
+          "genero": "m"
+        }
+      ],
+      "afirmacoes": [
+        {
+          "id": 0,
+          "sujeito": "pessoa:brena",
+          "relacao": "vínculo",
+          "valor": "minha irmã",
+          "status": "ativo",
+          "escopo": "declarado",
+          "fonte": {
+            "origem": "usuario",
+            "turno": 1,
+            "texto": "Brena é minha irmã."
+          }
+        },
+        {
+          "id": 1,
+          "sujeito": "pessoa:tacio",
+          "relacao": "vínculo",
+          "valor": "meu primo",
+          "status": "ativo",
+          "escopo": "declarado",
+          "fonte": {
+            "origem": "usuario",
+            "turno": 2,
+            "texto": "Tácio é meu primo."
+          }
+        },
+        {
+          "id": 2,
+          "sujeito": "pessoa:brena",
+          "relacao": "preferência",
+          "valor": "tapioca",
+          "status": "substituido",
+          "escopo": "declarado",
+          "fonte": {
+            "origem": "usuario",
+            "turno": 3,
+            "texto": "Brena prefere tapioca."
+          }
+        },
+        {
+          "id": 3,
+          "sujeito": "pessoa:tacio",
+          "relacao": "preferência",
+          "valor": "bolo de fubá",
+          "status": "ativo",
+          "escopo": "declarado",
+          "fonte": {
+            "origem": "usuario",
+            "turno": 4,
+            "texto": "Tácio prefere bolo de fubá."
+          }
+        },
+        {
+          "id": 4,
+          "sujeito": "pessoa:brena",
+          "relacao": "preferência",
+          "valor": "cuscuz",
+          "status": "ativo",
+          "escopo": "declarado",
+          "fonte": {
+            "origem": "usuario",
+            "turno": 5,
+            "texto": "Corrigindo: Brena prefere cuscuz."
+          }
+        }
+      ],
+      "correcoes": [
+        {
+          "turno": 5,
+          "antes": 2,
+          "depois": 4,
+          "texto": "Corrigindo: Brena prefere cuscuz."
+        }
+      ],
+      "temas": [],
+      "turno": 5
+    }
+  }
+}

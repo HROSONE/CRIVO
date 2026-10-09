@@ -1,0 +1,730 @@
+{
+  "session": "04_plano",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:23:07.492221+00:00",
+      "request": {
+        "message": "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 2.228,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_futebol",
+                "search_fact": 1,
+                "search_probability": 0.4719,
+                "fact": 1,
+                "probability": 0.6919,
+                "margin": 0.142,
+                "cues_covered": 3,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou futebol, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:23:09.785891+00:00",
+      "request": {
+        "message": "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.293,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "conversational_reasoning": {
+          "operacao": "tempo_restante",
+          "hipotese": false,
+          "fonte": "declaracoes_da_sessao",
+          "status": "calculado",
+          "entradas": {
+            "louca": "12"
+          },
+          "resultado": {
+            "disponivel": "35",
+            "gasto": "12",
+            "restante": "23"
+          },
+          "atualizacoes": [
+            {
+              "turno": 2,
+              "campo": "tempo:louca",
+              "anterior": null,
+              "valor": "12",
+              "origem": "usuario",
+              "fonte": "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+            }
+          ],
+          "fontes": {
+            "tempo:disponivel": {
+              "turno": 1,
+              "origem": "usuario",
+              "fonte": "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?"
+            },
+            "tempo:louca": {
+              "turno": 2,
+              "origem": "usuario",
+              "fonte": "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+            }
+          },
+          "redacao": "estrutural_verificada"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "louca",
+              "12",
+              "minutos",
+              "tempo",
+              "sobra",
+              "ingles"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "raciocinio_conversa_verificavel",
+              "id": "conversa:raciocinio",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "raciocinio_conversa_verificavel",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "raciocinio_conversa_verificavel",
+          "kingdom": "raciocinio",
+          "role": "Calcula custos, tempo, interseções de agenda e requisitos sob declarações da sessão.",
+          "regulated_by": [
+            "crise",
+            "fontes",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:raciocinio",
+        "response": "Pelos dados que você informou, As atividades informadas somam 12 minutos, para 35 disponíveis. Sobram 23 minutos.",
+        "mechanism": "raciocinio_conversa_verificavel",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:23:12.286495+00:00",
+      "request": {
+        "message": "E se eu deixar 5 minutos para descansar?",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.5,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:raciocinio",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "arroz",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "arroz",
+        "response": "Refogue 1 xícara de arroz lavado com alho e óleo, junte 2 xícaras de água quente e sal e cozinhe em fogo baixo com a panela tampada por 15 a 20 minutos, sem mexer. Deixe descansar uns 5 minutos antes de servir.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:23:14.943613+00:00",
+      "request": {
+        "message": "Então organiza as três coisas sem passar dos 35 minutos.",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.655,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "arroz",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:23:17.717733+00:00",
+      "request": {
+        "message": "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça.",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?",
+          "Então organiza as três coisas sem passar dos 35 minutos."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.773,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "conversational_reasoning": {
+          "operacao": "tempo_restante",
+          "hipotese": false,
+          "fonte": "declaracoes_da_sessao",
+          "status": "calculado",
+          "entradas": {
+            "louca": "12"
+          },
+          "resultado": {
+            "disponivel": "20",
+            "gasto": "12",
+            "restante": "8"
+          },
+          "atualizacoes": [
+            {
+              "turno": 3,
+              "campo": "tempo:disponivel",
+              "anterior": "35",
+              "valor": "20",
+              "origem": "usuario",
+              "fonte": "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça."
+            }
+          ],
+          "fontes": {
+            "tempo:disponivel": {
+              "turno": 3,
+              "origem": "usuario",
+              "fonte": "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça."
+            },
+            "tempo:louca": {
+              "turno": 2,
+              "origem": "usuario",
+              "fonte": "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+            }
+          },
+          "redacao": "estrutural_verificada"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "agora",
+              "tenho",
+              "20",
+              "minutos",
+              "ajusta",
+              "plano",
+              "mantendo",
+              "12",
+              "louca"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "raciocinio_conversa_verificavel",
+              "id": "conversa:raciocinio",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "raciocinio_conversa_verificavel",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "raciocinio_conversa_verificavel",
+          "kingdom": "raciocinio",
+          "role": "Calcula custos, tempo, interseções de agenda e requisitos sob declarações da sessão.",
+          "regulated_by": [
+            "crise",
+            "fontes",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:raciocinio",
+        "response": "Pelos dados que você informou, As atividades informadas somam 12 minutos, para 20 disponíveis. Sobram 8 minutos.",
+        "mechanism": "raciocinio_conversa_verificavel",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:25:10.790416+00:00",
+      "request": {
+        "message": "Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?",
+          "Então organiza as três coisas sem passar dos 35 minutos.",
+          "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 3.071,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:raciocinio",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou: “Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 7,
+      "time_utc": "2026-10-09T21:25:13.849336+00:00",
+      "request": {
+        "message": "Quanto é 35 - 12 - 5?",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?",
+          "Então organiza as três coisas sem passar dos 35 minutos.",
+          "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça.",
+          "Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 3.057,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_ficha_elegivel",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "quanto",
+            "entities": [],
+            "cues": [
+              "35",
+              "12"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "calculo",
+              "id": "calculo:aritmetica",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "calculo",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "id": "calculo:aritmetica",
+        "response": "35 - 12 - 5 = 18",
+        "mechanism": "calculo",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 8,
+      "time_utc": "2026-10-09T21:25:17.423958+00:00",
+      "request": {
+        "message": "O que esse resultado representa no plano que a gente estava montando?",
+        "history": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?",
+          "Então organiza as três coisas sem passar dos 35 minutos.",
+          "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça.",
+          "Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.",
+          "Quanto é 35 - 12 - 5?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 3.572,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "esse",
+              "resultado",
+              "representa",
+              "plano",
+              "estava",
+              "montando"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "calculo:aritmetica",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_inclinacao_orbital",
+                "search_fact": 0,
+                "search_probability": 0.3,
+                "fact": 0,
+                "probability": 0.615,
+                "margin": -0.0636,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou inclinação orbital, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

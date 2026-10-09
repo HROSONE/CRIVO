@@ -1,0 +1,35 @@
+{
+  "method": "avaliação humana exploratória posterior; não benchmark cego",
+  "production_commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "sessions": 9,
+  "turns": 61,
+  "by_kind": {
+    "natural": {
+      "falhou": 34,
+      "parcial": 5,
+      "adequada": 7,
+      "nao_avaliavel": 1
+    },
+    "controle": {
+      "adequada": 11,
+      "parcial": 1,
+      "falhou": 2
+    }
+  },
+  "http": {
+    "200": 60,
+    "None": 1
+  },
+  "transformer_realizations": 4,
+  "latency_success_seconds": {
+    "median": 2.6205,
+    "max": 8.285
+  },
+  "limits": [
+    "Perguntas e controles autorais; continuações adaptadas após observar respostas.",
+    "Contagem por turno inclui atos pequenos como confirmações; não equivale a sucesso de sessões.",
+    "Uma repetição de transporte e 22 turnos de comparação local ficam fora dos 61 turnos principais.",
+    "generation.usada refere-se ao Transformer ancorado; não mede todas as redes, como a GRU antiga ou a rede de efeitos de código.",
+    "Não foi enviado histórico superior a dez mensagens; não foi testada memória longa."
+  ]
+}

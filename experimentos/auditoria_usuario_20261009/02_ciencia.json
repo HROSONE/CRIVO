@@ -1,0 +1,665 @@
+{
+  "session": "02_ciencia",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:20:54.399856+00:00",
+      "request": {
+        "message": "Por que o céu fica vermelho quando o sol está se pondo?",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 4.762,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "resposta_incerta",
+          "tentativas": 0
+        },
+        "card_reading": {
+          "search_subject": "mundo_ceu_azul",
+          "search_fact": 3,
+          "search_probability": 0.8788,
+          "fact": 3,
+          "probability": 0.9658,
+          "margin": 0.0098,
+          "cues_covered": 2,
+          "question_type": "porque",
+          "decision": "aproximar",
+          "subject": "mundo_ceu_azul"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "porque",
+            "entities": [
+              {
+                "id": "ceu_sol",
+                "nome": "Sol",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "ceu",
+              "vermelho",
+              "se",
+              "pondo"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {
+            "ceu_sol": {
+              "facts": 8,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "leitura_ficha",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "fact": 4,
+                "probability": 0.4996,
+                "margin": 0.0841,
+                "cues_covered": 0,
+                "question_type": "porque"
+              }
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "aproximar",
+              "evidence": {
+                "search_subject": "mundo_ceu_azul",
+                "search_fact": 3,
+                "search_probability": 0.8788,
+                "fact": 3,
+                "probability": 0.9658,
+                "margin": 0.0098,
+                "cues_covered": 2,
+                "question_type": "porque"
+              }
+            }
+          ],
+          "decision": {
+            "species": "busca_aprendida",
+            "action": "aproximar",
+            "reason": "recuperador recusou; a busca achou céu azul (p=0.88) e a leitura confirmou (p=0.97)"
+          }
+        },
+        "ecosystem": {
+          "species": "busca_aprendida",
+          "kingdom": "neural",
+          "role": "Procura no acervo inteiro o fato que responde, pesando evidências (palavras, sentido, tipo de pergunta e aspecto) com pesos aprendidos, mais a proximidade de sentido dada pelo Transformer próprio (codificador_sentido.py); a leitura da ficha confirma.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "leitura:aproximacao",
+        "response": "Não tenho uma resposta exata para essa pergunta. O que a ficha de céu azul traz de mais próximo é:\n\nNo nascer e no pôr do sol, a luz atravessa uma camada maior de ar, o azul se perde pelo caminho e o céu fica alaranjado ou avermelhado.",
+        "mechanism": "busca_aprendida",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:20:58.457343+00:00",
+      "request": {
+        "message": "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 4.057,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_ceu_azul",
+                "nome": "céu azul",
+                "origem": "contexto"
+              }
+            ],
+            "cues": [
+              "eu",
+              "sou",
+              "leigo",
+              "exemplo",
+              "dia"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "céu azul",
+            "previous_turn_id": "leitura:aproximacao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_ceu_azul": {
+              "facts": 5,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou: “Eu sou leigo. Explica isso com um exemplo do dia a dia.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:21:04.310339+00:00",
+      "request": {
+        "message": "E por que Marte tem cor de ferrugem?",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "Eu sou leigo. Explica isso com um exemplo do dia a dia."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 5.851,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_marte",
+                "nome": "Marte",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "cor",
+              "ferrugem"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "céu azul",
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_marte": {
+              "facts": 8,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "marte",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "marte",
+        "response": "Marte tem poeira e rochas ricas em óxido de ferro (ferrugem), que dão a cor avermelhada. Até hoje não há prova de vida lá, mas há sinais de que já teve água líquida.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:21:12.062824+00:00",
+      "request": {
+        "message": "Então é o mesmo motivo do pôr do sol?",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+          "E por que Marte tem cor de ferrugem?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 7.751,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "ceu_sol",
+                "nome": "Sol",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "entao",
+              "motivo"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "céu azul",
+            "previous_turn_id": "marte",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "ceu_sol": {
+              "facts": 8,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "leitura_ficha",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "fact": 7,
+                "probability": 0.3659,
+                "margin": 0.0407,
+                "cues_covered": 0,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a leitura da ficha não achou evidência suficiente"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto Sol, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:22:49.023306+00:00",
+      "request": {
+        "message": "Me explica a diferença entre a cor vermelha de Marte e a cor vermelha do céu no fim da tarde.",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+          "E por que Marte tem cor de ferrugem?",
+          "Então é o mesmo motivo do pôr do sol?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 7.647,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "Sol",
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "composicao_factual",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_atencao",
+                "search_fact": 3,
+                "search_probability": 0.093,
+                "fact": 3,
+                "probability": 0.6561,
+                "margin": 0.3477,
+                "cues_covered": 2,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "composicao_factual",
+            "action": "recusar",
+            "reason": "a busca achou atenção, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "composicao_factual",
+          "kingdom": "conhecimento",
+          "role": "Compõe a resposta a partir das fichas dos conceitos e dos catálogos; a voz própria (voz.py) dá forma de conversa à composição pura de um assunto.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "composicao_factual",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 6,
+      "time_utc": "2026-10-09T21:22:57.310730+00:00",
+      "request": {
+        "message": "Como você chegou nessa resposta?",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+          "E por que Marte tem cor de ferrugem?",
+          "Então é o mesmo motivo do pôr do sol?",
+          "Me explica a diferença entre a cor vermelha de Marte e a cor vermelha do céu no fim da tarde."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 8.285,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_ficha_elegivel",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "como",
+            "entities": [],
+            "cues": [
+              "chegou",
+              "nessa",
+              "resposta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "Marte",
+            "previous_turn_id": "fora",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:planejamento",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:planejamento",
+        "response": "Vamos montar um começo. Qual resultado você quer alcançar?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 7,
+      "time_utc": "2026-10-09T21:23:05.261644+00:00",
+      "request": {
+        "message": "Eu queria só uma comparação simples, em duas frases.",
+        "history": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+          "E por que Marte tem cor de ferrugem?",
+          "Então é o mesmo motivo do pôr do sol?",
+          "Me explica a diferença entre a cor vermelha de Marte e a cor vermelha do céu no fim da tarde.",
+          "Como você chegou nessa resposta?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 7.947,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "eu",
+              "queria",
+              "comparacao",
+              "simples",
+              "duas",
+              "frases"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "Marte",
+            "previous_turn_id": "conversa:planejamento",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou que quer só uma comparação simples, em duas frases, que legal. Qual é a principal dificuldade para chegar lá?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

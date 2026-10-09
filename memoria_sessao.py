@@ -140,20 +140,46 @@ class MemoriaSessao:
         # O valor sai literalmente da fala de origem, nunca do corpus de treino.
         return self._emitir('Segundo o que você contou, ' + self._frase(fato) + '.', [fato])
 
-    def _observar(self, texto):
+    def _observar(self, texto, fonte=None):
         s = texto.strip().rstrip('.!').strip()
         n = chave(s)
-        if ('?' in s or any(c in s for c in ('`', '"', '“', '”', '‘', '’')) or
+        fonte = texto if fonte is None else fonte
+        if (any(c in s for c in ('`', '"', '“', '”', '‘', '’')) or
                 re.search(r'\b(?:se|caso|talvez|suponha|imagine|hipoteticamente)\b', n)):
             return
         if re.match(r'(?:por favor )?(?:reformule|reescreva|resuma|traduza|escreva|'
                     r'crie|analise|compare|explique|corrija)\b', n):
             return  # Um texto enviado para uma operação não é uma declaração da sessão.
+        # Orações declarativas são fontes, perguntas não. Conserva a fala
+        # integral na proveniência, inclusive em declarações compostas.
+        partes = re.split(r'(?<=[.!?])\s+(?=\S)', texto.strip())
+        if len(partes) > 1:
+            for parte in partes[:8]:
+                self._observar(parte, fonte)
+            return
+        if '?' in s:
+            return
+        texto = fonte
         if n.startswith('mudando de assunto'):
             self.temas.append(dict(texto=texto, turno=self.turno))
             return  # Uma troca de tema não apaga entidades.
         corpo = re.sub(r'^(?:corrigindo|correção|correcao|na verdade|quer dizer)[:,]?\s*', '', s, flags=re.I)
         corpo = re.sub(r'^agora\s+', '', corpo, flags=re.I)
+        parentes = r'irmã|irmão|prima|primo|mãe|pai|tia|tio|amiga|amigo|filha|filho|sobrinha|sobrinho'
+        m = combinar(r'(Meu|Minha) (' + parentes + r') ([A-ZÀ-Ý][\wÀ-ÿ-]*(?: [A-ZÀ-Ý][\wÀ-ÿ-]*)*) (prefere .+)', corpo)
+        if m:
+            self._observar(m[3] + ' é ' + m[1].lower() + ' ' + m[2], fonte)
+            self._observar(m[3] + ' ' + m[4], fonte)
+            return
+        m = combinar(r'(.+?) é (meu|minha) (' + parentes + r') e (prefere .+)', corpo)
+        if m:
+            self._observar(m[1] + ' é ' + m[2] + ' ' + m[3], fonte)
+            self._observar(m[1] + ' ' + m[4], fonte)
+            return
+        m = combinar(r'(ele|ela) mudou de ideia:\s*agora (prefere .+)', corpo)
+        if m:
+            self._observar(m[1] + ' ' + m[2], fonte)
+            return
         m = combinar(r'Não era (.+?);\s*era (.+?) que prefere (.+)', corpo)
         if m:
             antes = self._pessoa(m[1]); depois = self._pessoa(m[2])

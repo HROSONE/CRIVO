@@ -232,6 +232,7 @@ class Crivo:
         self.analise_conteudo = AnaliseConteudo()
         self.ultima_analise_conteudo = None
         self.ultima_correcao_texto = None
+        self.ultima_rota_natural = None
         self._contexto_textual_anterior = None
         self.ultimo_ato_social = None
         self._ato_social_anterior = None
@@ -1495,6 +1496,7 @@ class Crivo:
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
+        self.estado_conversa.observar(original_conteudo)
         # A memória lê a grafia original: identificadores e valores inéditos
         # não passam pela correção ortográfica nem pelas respostas do modelo.
         sessao = self.memoria_sessao.processar(original_conteudo,
@@ -1505,8 +1507,15 @@ class Crivo:
             from correcao_relatos import corrigir_relatos
             if corrigir_relatos(original_conteudo, self.conversacao.relatos) is not None:
                 sessao = None
+        from compreensao_intencao import rotear_natural, executar_rota_natural
+        rota = rotear_natural(original_conteudo, self, sessao)
+        self.ultima_rota_natural = rota
         oferta, self.oferta_pendente = self.oferta_pendente, None
-        if oferta and isinstance(texto, str) and self._ACEITA_OFERTA.fullmatch(normalizar(texto).strip(" !.?")):
+        if rota is not None:
+            ident, resposta = executar_rota_natural(rota, original_conteudo, self)
+            self.estado_interno.propor(rota['executor'], ident, 'responder')
+            self.estado_interno.decidir(rota['executor'], 'responder', 'operação explícita e referentes da sessão')
+        elif oferta and isinstance(texto, str) and self._ACEITA_OFERTA.fullmatch(normalizar(texto).strip(" !.?")):
             ident, resposta = self._cumprir_oferta(oferta, texto)
         else:
             if sessao is not None:
@@ -1535,14 +1544,27 @@ class Crivo:
         if referencia_exata:
             self.estado_interno.propor('composicao_factual', ident, 'responder')
             self.estado_interno.decidir('composicao_factual', 'responder', 'referência bíblica exata')
-        else:
+        elif rota is None:
             ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
             ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
-        ident, resposta = estado_interno.resgatar(self, self.estado_interno, ident, resposta)
+        if rota is None:
+            ident, resposta = estado_interno.resgatar(self, self.estado_interno, ident, resposta)
         if self._ids_editoriais is None:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
+        if rota is not None:
+            ident, resposta = estado_interno.guardar_fidelidade(self, rota, ident, resposta)
+            self.ultimo_turno = dict(pergunta=original_conteudo, id=ident)
+            self.ultima_resposta_mostrada = resposta
+            self.conversacao.ultima_resposta_texto = resposta
+            self.conversacao.dialogo.ultima_resposta = resposta
+            self.conversacao.geracao.resposta_anterior = resposta[:2400]
+        quadro_factual = self.compositor.interpretar(original_conteudo)
+        assunto_editorial = quadro_factual.assunto if quadro_factual and ident in self._ids_editoriais else None
+        contexto = self.contexto_textual or self.compositor.contexto_editorial(ident, resposta, assunto_editorial)
+        if contexto is not None and self.historico:
+            self.historico[-1]['fatos_ativos'] = list(contexto.exibidos)
         self.dialogo_situado.observar(original_conteudo, ident, self)
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
