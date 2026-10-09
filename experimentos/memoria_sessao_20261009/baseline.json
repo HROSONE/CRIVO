@@ -1,0 +1,826 @@
+{
+  "commit": "aa34fcc23f2f2061969a771313e2581b1bceaa34",
+  "sha256_sessoes": "a94354a97fba30d4a09fd2012ee197839cdf545ada3af3fcda2e30b76295b8df",
+  "configuracao": {
+    "usar_linguagem_neural": false,
+    "usar_interpretador_perguntas": false
+  },
+  "adequadas": 1,
+  "total": 20,
+  "sessoes": [
+    {
+      "id": 1,
+      "titulo": "cores por pessoa",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-faa4239d8d13 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi-faa 4239 d. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-7b695f6379d3 é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, neruma 7 b 695 f 6379 d 3 é seu vizinho. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-00673f809662 de Elarvi-faa4239d8d13 é verde.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de vizinho? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-00673f809662 de Neruma-7b695f6379d3 é laranja.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-00673f809662 de Elarvi-faa4239d8d13?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-faa4239d8d13",
+            "ausente: verde"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 2,
+      "titulo": "dono corrigido",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bd43910b75d8 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, 43910 b. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-d37a8f53f73c é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Hum, sei, neruma-d 37 a 8 f 53 f 73 c é seu vizinho. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-dcf38544dc1c pertence a Elarvi-bd43910b75d8.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de vizinho? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: o estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "A quem pertence o estojo-dcf38544dc1c?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Neruma-d37a8f53f73c",
+            "ausente: estojo-dcf38544dc1c"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 3,
+      "titulo": "tempo de pessoas distintas",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Tenho 23 minutos disponíveis.",
+          "id": "conversa:situada_relato",
+          "resposta": "Você trouxe “Tenho 23 minutos disponíveis”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-6e40f519c072 tem 47 minutos disponíveis.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-25254b846a83 é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Saquei, neruma 25254 b 846 a 83 é seu vizinho. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Quantos minutos eu tenho disponíveis?",
+          "id": "conversa:situada_disponibilidade",
+          "resposta": "Você declarou 23 minutos disponíveis. As hipóteses e falas citadas não substituem essa disponibilidade.",
+          "erros": []
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 4,
+      "titulo": "preferências não intercambiáveis",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-74cda1796760 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, elarvi 74 cda 1796760 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6ac4da05cbc9 é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, neruma 6 ac 4 da 05 cbc 9 é seu vizinho. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-74cda1796760 prefere chá de vela-695d40caeab1.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6ac4da05cbc9 prefere bordado de espiral-793ed39c56bb.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-74cda1796760 prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-74cda1796760",
+            "ausente: chá de vela-695d40caeab1"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 5,
+      "titulo": "objetivo atualizado",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-0a5b4c160268 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi 0 a 5 b 4 c 160268 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-0a5b4c160268 quer concluir chá de vela-16d135bb41a9.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de irmão.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-da275f55beec quer concluir bordado de espiral-76044a2ef03a.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Elarvi-0a5b4c160268 quer revisar estojo-7bef9941f6ef.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é o objetivo de Elarvi-0a5b4c160268?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-0a5b4c160268",
+            "ausente: revisar estojo-7bef9941f6ef"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 6,
+      "titulo": "restrição por pessoa",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-221f5c8161b0 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi 221 f 5 c 8161 b 0 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-221f5c8161b0 não pode usar estojo-9c67257bede1.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-f1dcb269504a não pode usar chá de vela-9007c0d216db.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é a restrição de Elarvi-221f5c8161b0?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-221f5c8161b0",
+            "ausente: não pode usar estojo-9c67257bede1"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 7,
+      "titulo": "localização por proprietário",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bf912fcb329b é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, 912 fcb. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac2be41f31e é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, neruma-cac 2 be 41 f 31. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-ccec9910b3a8 de Elarvi-bf912fcb329b está na gaveta.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-ccec9910b3a8 de Neruma-cac2be41f31e está na varanda.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Onde está o estojo-ccec9910b3a8 de Neruma-cac2be41f31e?",
+          "id": "memoria:relato",
+          "resposta": "Você me contou isso, mas não disse onde: “Neruma-cac2be41f31e é meu vizinho.”.",
+          "erros": [
+            "ausente: estojo-ccec9910b3a8",
+            "ausente: varanda"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 8,
+      "titulo": "correção substitui somente um atributo",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-ecb08938f041 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi-ecb 08938 f 041 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é amarelo.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 está na varanda.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de irmão.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-ecb08938f041",
+            "ausente: roxo"
+          ]
+        },
+        {
+          "entrada": "Onde está o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-ecb08938f041",
+            "ausente: varanda"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 9,
+      "titulo": "retração sem valor substituto",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bf97aa289452 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi-bf 97 aa 289452 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-d69a7f69f56c de Elarvi-bf97aa289452 é azul.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-ffd80cce3c26 prefere bordado de espiral-3bbbc9f095c5.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: não sei a cor do estojo-d69a7f69f56c de Elarvi-bf97aa289452.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-d69a7f69f56c de Elarvi-bf97aa289452?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-bf97aa289452",
+            "ausente: estojo-d69a7f69f56c",
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 10,
+      "titulo": "hipótese não substitui realidade",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-2da88894ccec é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi 2 da 88894 ccec é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-5a5a30b234fc de Elarvi-2da88894ccec é verde.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Se o estojo-5a5a30b234fc de Elarvi-2da88894ccec fosse preto, seria diferente.",
+          "id": "conversa:situada_hipotese",
+          "resposta": "Na hipótese “Se o estojo-5a5a30b234fc de Elarvi-2da88894ccec fosse preto, seria diferente”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-0f36cd1b79ea prefere bordado de espiral-e0305098ff77.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-5a5a30b234fc de Elarvi-2da88894ccec?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-2da88894ccec",
+            "ausente: verde"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 11,
+      "titulo": "fala atribuída não vira preferência própria",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-263f2aeda258 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi 263 f 2 aeda 258 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Eu prefiro chá de vela-cee44a5dc003.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, você prefere chá de vela-cee 44 a 5 dc 003. É, chá quente costuma ser bom para relaxar antes de dormir. Qual chá você gosta mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-263f2aeda258 disse que prefere bordado de espiral-242e6b445d50.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "O que eu prefiro?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: chá de vela-cee44a5dc003"
+          ]
+        },
+        {
+          "entrada": "O que Elarvi-263f2aeda258 disse que prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-263f2aeda258",
+            "ausente: bordado de espiral-242e6b445d50"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 12,
+      "titulo": "pronome com antecedente único",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-418d9e3328fc é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Saquei, elarvi 418 d 9 e 3328 fc é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-418d9e3328fc prefere chá de vela-54b89e3a0bbc.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Ela quer concluir estojo-b69759cf3bd1.",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é o objetivo dela?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-418d9e3328fc",
+            "ausente: concluir estojo-b69759cf3bd1"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 13,
+      "titulo": "pronome ambíguo exige esclarecimento",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-3e0de74e9f1f é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac5bb1cdd67 é minha prima.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, neruma-cac 5 bb 1 cdd 67. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-3e0de74e9f1f prefere chá de vela-0c9b7813d3bd.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de tios.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac5bb1cdd67 prefere bordado de espiral-a651439f48ec.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de tios? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "O que ela prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 14,
+      "titulo": "mudança de tema conserva pessoas",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-09faacc5a07e é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-09faacc5a07e prefere chá de vela-42557e405685.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Mudando de assunto, quero falar sobre o tempo.",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Mudando de assunto, quero falar sobre o tempo”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6e77072d0483 é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, neruma 6 e 77072 d 0483 é seu vizinho. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-09faacc5a07e prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-09faacc5a07e",
+            "ausente: chá de vela-42557e405685"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 15,
+      "titulo": "troca de pessoa na correção",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-b116fe5137ec é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi-b 116 fe 5137 ec é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-8a78960960d8 é meu vizinho.",
+          "id": "nocao:observacao",
+          "resposta": "Saquei, neruma 8 a 78960960 d 8 é seu vizinho. Como foi isso?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-b116fe5137ec prefere chá de vela-c3a0a4f542ed.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "Não era Elarvi-b116fe5137ec; era Neruma-8a78960960d8 que prefere chá de vela-c3a0a4f542ed.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Neruma-8a78960960d8 prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Neruma-8a78960960d8",
+            "ausente: chá de vela-c3a0a4f542ed"
+          ]
+        },
+        {
+          "entrada": "O que Elarvi-b116fe5137ec prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-b116fe5137ec",
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 16,
+      "titulo": "objeto desconhecido sem empréstimo",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-a78270d9e1ca é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-f77b179080c7 de Elarvi-a78270d9e1ca é verde.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de irmão.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-af3c56f63f76 prefere bordado de espiral-c06dd61b2268.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o bolsa-daa05ed383c8 de Elarvi-a78270d9e1ca?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-a78270d9e1ca",
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 17,
+      "titulo": "restrição retirada explicitamente",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-42340fb0b9b5 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi 42340 fb 0 b 9 b 5 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-42340fb0b9b5 não pode usar estojo-8e75d5f1ac80.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-c60acf8449cd não pode usar chá de vela-7277ac3e7acb.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "Agora Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-42340fb0b9b5",
+            "ausente: estojo-8e75d5f1ac80"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 18,
+      "titulo": "negação não inventa alternativa",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-3e0ccde7c820 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi 3 e 0 ccde 7 c 820 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-3e0ccde7c820 prefere chá de vela-8b50fc208a05.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de irmão.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-c5bdca8911e6 prefere bordado de espiral-fa78e308cfa8.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Elarvi-3e0ccde7c820 não prefere chá de vela-8b50fc208a05.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-3e0ccde7c820 prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-3e0ccde7c820",
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 19,
+      "titulo": "resumo focado não mistura pessoas",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, elarvi-f 0 cfbe 2 d. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 prefere chá de vela-e6fcf6a20443.",
+          "id": "conversa:esclarecer",
+          "resposta": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 quer concluir estojo-895ffb211ded.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 tem 31 minutos disponíveis.",
+          "id": "conversa:esclarecer",
+          "resposta": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de irmão.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-9123a2805e1b prefere bordado de espiral-795c7f59adb5.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": []
+        },
+        {
+          "entrada": "Resuma o que eu disse sobre Elarvi-f0cfbe2d6ed3.",
+          "id": "conversa:situada_reformulacao",
+          "resposta": "Entendi seu pedido como uma conversa para compreender a situação e a sua perspectiva. O contexto que estou considerando é “Elarvi-f0cfbe2d6ed3 é minha irmã”. Quer que eu explore uma escolha, uma dificuldade ou o sentido disso para você?",
+          "erros": [
+            "ausente: chá de vela-e6fcf6a20443",
+            "ausente: estojo-895ffb211ded",
+            "ausente: 31"
+          ]
+        }
+      ],
+      "estado": null
+    },
+    {
+      "id": 20,
+      "titulo": "reinício apaga entidades",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Elarvi-310d4767b684 é minha irmã.",
+          "id": "nocao:observacao",
+          "resposta": "Ah, entendi, elarvi 310 d 4767 b 684 é sua irmã. E o que mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-310d4767b684 prefere chá de vela-a009df383895.",
+          "id": "conversa:esclarecer",
+          "resposta": "Não peguei bem essa. A gente ainda está falando de irmão? Me conta de outro jeito.",
+          "erros": []
+        },
+        {
+          "entrada": "Esqueça tudo que eu contei aqui.",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-310d4767b684 prefere?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "erros": [
+            "ausente: Elarvi-310d4767b684",
+            "não esclareceu desconhecimento/ambiguidade"
+          ]
+        }
+      ],
+      "estado": null
+    }
+  ]
+}
