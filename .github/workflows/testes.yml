@@ -101,7 +101,7 @@ jobs:
       - name: Exercitar também o gerador próprio ativo
         run: python -m pip install -r requirements.txt
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
-        run: python -m unittest testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
+        run: python -m unittest testes_autoconversa testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
   matematica-linguagem-profunda:
     needs: configuracao-ci
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.profunda == 'true')

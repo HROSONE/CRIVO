@@ -96,6 +96,8 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                'escrita': ('escrita:', 'conversa:gerada_'),
                'esclarecimento': ('conversa:esclarecer',)}
     motivos = []
+    if peca == 'esclarecimento' and rota['ato'] == 'capacidades':
+        aceitos['esclarecimento'] = ('social:assuntos',)
     n = normalizar(resposta)
     if rota['status'] == 'executado':
         if peca in aceitos and not ident.startswith(aceitos[peca]):
@@ -150,7 +152,17 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                     motivos.append('preferência selecionada ausente')
         if peca in ('memoria', 'esclarecimento', 'fato') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir'):
             for referente in rota['referentes']:
-                if normalizar(referente) not in n:
+                presente = normalizar(referente) in n
+                if not presente and peca == 'fato' and bot.contexto_textual is not None:
+                    # O nome da ficha pode ser composto ("céu azul"), enquanto
+                    # suas unidades citam o conceito por um alias ("céu").
+                    # Exigir ficha selecionada e alias, além das unidades
+                    # literais verificadas acima, preserva a prova do assunto.
+                    assunto = bot.compositor.resolver(referente)
+                    selecionados = {e for e, _ in bot.contexto_textual.exibidos}
+                    presente = (assunto in selecionados and
+                                bot.compositor._menciona_conceito(assunto, n))
+                if not presente:
                     motivos.append('referente ausente: ' + referente)
         if rota.get('frases'):
             corpo = resposta.split('\n', 1)[-1].strip()

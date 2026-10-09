@@ -105,6 +105,41 @@ class TestesRoteamentoNaturalV2(unittest.TestCase):
         self.assertIn('Marte na dimensão inventada', resposta)
         self.assertNotIn('avermelhada', resposta)
 
+    def test_capacidades_naturais_usam_catalogo_e_continuacao_expira(self):
+        for entrada in ('Nunca usei você. O que consegue fazer?',
+                        'Em que pode me ajudar?', 'Mostra o que sabe fazer.'):
+            with self.subTest(entrada=entrada):
+                bot = Crivo(usar_geracao=False)
+                ident, curto = bot.responder(entrada)
+                self.assertEqual('social:assuntos', ident)
+                self.assertTrue(bot.ultima_rota_natural['guarda']['aceita'])
+                ident, completo = bot.responder('Só isso?')
+                self.assertEqual('social:assuntos', ident)
+                self.assertGreater(len(completo), len(curto))
+                bot.responder('Minha amiga Ruvélia prefere chá.')
+                self.assertEqual('duvida', bot.responder('Só isso?')[0])
+
+    def test_alias_factual_exige_ficha_selecionada_e_unidade_inteira(self):
+        from curriculo_mundo import texto_fato
+        bot = Crivo(usar_geracao=False)
+        assunto = bot.compositor.resolver('céu azul')
+        fatos = bot.compositor.itens[assunto]['fatos']
+        indice = next(i for i, f in enumerate(fatos)
+                      if 'céu azul' not in texto_fato(f).lower()
+                      and bot.compositor._menciona_conceito(assunto, texto_fato(f).lower()))
+        fato = texto_fato(fatos[indice])
+        bot.contexto_textual = SimpleNamespace(exibidos=[(assunto, indice)])
+        bot.historico = [{'id': 'escrita:texto'}]
+        rota = dict(peca='fato', ato='consultar', referentes=['céu azul'], status='executado')
+        ident, _ = guardar_fidelidade(bot, rota, 'escrita:texto', fato)
+        self.assertEqual('escrita:texto', ident)
+        self.assertTrue(rota['guarda']['aceita'])
+        # Um alias ou um título certo não substitui a evidência selecionada.
+        rota = dict(peca='fato', ato='consultar', referentes=['céu azul'], status='executado')
+        ident, _ = guardar_fidelidade(bot, rota, 'escrita:texto', 'Céu azul. O céu parece azul.')
+        self.assertEqual('conversa:esclarecer', ident)
+        self.assertIn('unidade factual selecionada ausente', rota['guarda']['motivos'])
+
 
 if __name__ == '__main__':
     unittest.main()

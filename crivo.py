@@ -1561,6 +1561,9 @@ class Crivo:
             self.conversacao.ultima_resposta_texto = resposta
             self.conversacao.dialogo.ultima_resposta = resposta
             self.conversacao.geracao.resposta_anterior = resposta[:2400]
+        # O roteador e o caminho anterior compartilham o catálogo e a mesma
+        # continuação social. Qualquer outro assunto encerra essa continuação.
+        self.ultimo_ato_social = ident if ident in ('social:assuntos', 'social:pensamento') else None
         quadro_factual = self.compositor.interpretar(original_conteudo)
         assunto_editorial = quadro_factual.assunto if quadro_factual and ident in self._ids_editoriais else None
         contexto = self.contexto_textual or self.compositor.contexto_editorial(ident, resposta, assunto_editorial)

@@ -241,11 +241,12 @@ def executar_rota_natural(rota, texto, bot):
     quadro = {}
     if peca == 'esclarecimento':
         mecanismo = 'conversa_assistente'
+        identificador = 'conversa:esclarecer'
         if ato == 'capacidades':
-            resposta = ('Posso consultar fatos do meu acervo com fontes, calcular, usar informações que você declarou nesta sessão, '
-                        'escrever histórias curtas e analisar um subconjunto de JavaScript, rastrear estados '
-                        'e tentar corrigir funções simples usando exemplos de entrada e saída. '
-                        'Ainda tenho limites para conversa livre e para entender pedidos ambíguos. Qual dessas tarefas quer tentar?')
+            from conversa_assistente import capacidades
+            from crivo import TOPICOS
+            identificador = 'social:assuntos'
+            resposta = capacidades(bot, TOPICOS)
         elif ato == 'exemplos':
             resposta = '1. O que é uma célula?\n2. Quanto é 7 vezes 8?\n3. O que eu disse que prefiro? (Depois de você declarar sua preferência nesta sessão.)'
         elif ato == 'funcionamento':
@@ -262,7 +263,7 @@ def executar_rota_natural(rota, texto, bot):
             if not bot.conversacao.geracao.ultima_escrita and tentativa.get('status') == 'bloqueado_pela_guarda' and tentativa.get('peca') == 'escrita':
                 resposta = ('Tentei usar meu gerador próprio, uma GRU autoral. A guarda rejeitou o rascunho por não cumprir o pedido; '
                             'não entreguei uma história válida. Não busquei uma história de outro lugar.')
-        resultado = 'conversa:esclarecer', resposta
+        resultado = identificador, resposta
     elif peca == 'memoria':
         mecanismo = 'memoria_sessao_estrutural'
         resultado = rota.get('resultado')
