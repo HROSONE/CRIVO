@@ -73,7 +73,7 @@ class MemoriaSessao:
 
     def _guardar(self, sujeito, relacao, valor, texto, escopo='declarado'):
         anterior = self.indices.get((sujeito, relacao))
-        if anterior is not None:
+        if anterior is not None and self.afirmacoes[anterior]['status'] == 'ativo':
             self.afirmacoes[anterior]['status'] = 'substituido'
         idx = len(self.afirmacoes)
         self.afirmacoes.append(dict(id=idx, sujeito=sujeito, relacao=relacao, valor=valor,
