@@ -1,0 +1,526 @@
+{
+  "modelo_sha256": "b04a8999961084f8095e1e7ccb5ea92a95414dd3f919fe3a7b23776e8d9a32b4",
+  "casos_sha256": "9d8f6d991cbc8f63c47f94577b55b0b5d32890c865c7d92c50c3363c27752bf1",
+  "codigo_sha256": "585ee6b861c636322ca6384709464194566bcb6acf2510d79e54f7673d05ca27",
+  "temperatura": 0,
+  "max_tokens": 60,
+  "aprovado_para_chat": false,
+  "sessoes": [
+    {
+      "id": "vinculo_a",
+      "familia": "vinculo",
+      "rubrica": "Conservar os dois vínculos. No terceiro turno responder bege; no quarto não inventar cor da garrafa.",
+      "turnos": [
+        {
+          "usuario": "A mochila de Nora é rosa. A de Caio é bege.",
+          "resposta": "A mochila de Nora é rosa.",
+          "fim": true,
+          "tokens_entrada": 23,
+          "entrada_real": "<usuario>A mochila de Nora é rosa. A de Caio é bege.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Nora também tem uma garrafa. Não falei a cor dela.",
+          "resposta": "Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.",
+          "fim": true,
+          "tokens_entrada": 54,
+          "entrada_real": "<usuario>A mochila de Nora é rosa. A de Caio é bege.<fim><assistente>A mochila de Nora é rosa.<fim><usuario>Nora também tem uma garrafa. Não falei a cor dela.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "De que cor é a mochila de Caio?",
+          "resposta": "Não falei a cor dela. Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.",
+          "fim": true,
+          "tokens_entrada": 91,
+          "entrada_real": "<usuario>A mochila de Nora é rosa. A de Caio é bege.<fim><assistente>A mochila de Nora é rosa.<fim><usuario>Nora também tem uma garrafa. Não falei a cor dela.<fim><assistente>Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.<fim><usuario>De que cor é a mochila de Caio?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual é a cor da garrafa de Nora?",
+          "resposta": "Não falei a cor dela. Não falei a cor dela. Não falei a cor dela. Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.Não falei a cor dela.Não falei a cor dela.Não falei a",
+          "fim": false,
+          "tokens_entrada": 136,
+          "entrada_real": "<usuario>A mochila de Nora é rosa. A de Caio é bege.<fim><assistente>A mochila de Nora é rosa.<fim><usuario>Nora também tem uma garrafa. Não falei a cor dela.<fim><assistente>Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.<fim><usuario>De que cor é a mochila de Caio?<fim><assistente>Não falei a cor dela. Não falei a cor dela. Não falei a cor dela. Não falei a cor dela.<fim><usuario>Qual é a cor da garrafa de Nora?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "vinculo_b",
+      "familia": "vinculo",
+      "rubrica": "Responder Lia no terceiro turno, não trocar com Hugo; declarar cor do caderno desconhecida no quarto.",
+      "turnos": [
+        {
+          "usuario": "O guarda-chuva de Lia é vermelho. O de Hugo é preto.",
+          "resposta": "O guarda-chuva de Lia é vermelho.",
+          "fim": true,
+          "tokens_entrada": 22,
+          "entrada_real": "<usuario>O guarda-chuva de Lia é vermelho. O de Hugo é preto.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Hugo tem um caderno, cuja cor não foi informada.",
+          "resposta": "Hugo tem um caderno, cuja cor não foi informada.",
+          "fim": true,
+          "tokens_entrada": 54,
+          "entrada_real": "<usuario>O guarda-chuva de Lia é vermelho. O de Hugo é preto.<fim><assistente>O guarda-chuva de Lia é vermelho.<fim><usuario>Hugo tem um caderno, cuja cor não foi informada.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual guarda-chuva é vermelho?",
+          "resposta": "Hugo tem um caderno, cuja cor não foi informada.",
+          "fim": true,
+          "tokens_entrada": 84,
+          "entrada_real": "<usuario>O guarda-chuva de Lia é vermelho. O de Hugo é preto.<fim><assistente>O guarda-chuva de Lia é vermelho.<fim><usuario>Hugo tem um caderno, cuja cor não foi informada.<fim><assistente>Hugo tem um caderno, cuja cor não foi informada.<fim><usuario>Qual guarda-chuva é vermelho?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Agora me diga a cor do caderno de Hugo.",
+          "resposta": "Hugo tem um caderno, cuja cor não foi informada.",
+          "fim": true,
+          "tokens_entrada": 120,
+          "entrada_real": "<usuario>O guarda-chuva de Lia é vermelho. O de Hugo é preto.<fim><assistente>O guarda-chuva de Lia é vermelho.<fim><usuario>Hugo tem um caderno, cuja cor não foi informada.<fim><assistente>Hugo tem um caderno, cuja cor não foi informada.<fim><usuario>Qual guarda-chuva é vermelho?<fim><assistente>Hugo tem um caderno, cuja cor não foi informada.<fim><usuario>Agora me diga a cor do caderno de Hugo.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "correcao_a",
+      "familia": "correcao",
+      "rubrica": "Atualizar para bege; distinguir o relato de Dora; usar bege no final, não marrom nem roxo.",
+      "turnos": [
+        {
+          "usuario": "Meu casaco é marrom.",
+          "resposta": "Meu casaco é marrom.",
+          "fim": true,
+          "tokens_entrada": 11,
+          "entrada_real": "<usuario>Meu casaco é marrom.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Eu me enganei: meu casaco é bege.",
+          "resposta": "Não me enganei: meu casaco é marrom.",
+          "fim": true,
+          "tokens_entrada": 38,
+          "entrada_real": "<usuario>Meu casaco é marrom.<fim><assistente>Meu casaco é marrom.<fim><usuario>Eu me enganei: meu casaco é bege.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Dora contou que o casaco dela é roxo.",
+          "resposta": "Não me enganei: meu casaco é marrom.",
+          "fim": true,
+          "tokens_entrada": 68,
+          "entrada_real": "<usuario>Meu casaco é marrom.<fim><assistente>Meu casaco é marrom.<fim><usuario>Eu me enganei: meu casaco é bege.<fim><assistente>Não me enganei: meu casaco é marrom.<fim><usuario>Dora contou que o casaco dela é roxo.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual é a cor do meu casaco depois da correção?",
+          "resposta": "Não me enganei: meu casaco é marrom.",
+          "fim": true,
+          "tokens_entrada": 101,
+          "entrada_real": "<usuario>Meu casaco é marrom.<fim><assistente>Meu casaco é marrom.<fim><usuario>Eu me enganei: meu casaco é bege.<fim><assistente>Não me enganei: meu casaco é marrom.<fim><usuario>Dora contou que o casaco dela é roxo.<fim><assistente>Não me enganei: meu casaco é marrom.<fim><usuario>Qual é a cor do meu casaco depois da correção?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "correcao_b",
+      "familia": "correcao",
+      "rubrica": "Conservar cinza apesar de conferência e fala de terceiro; não assumir toda intervenção como mudança.",
+      "turnos": [
+        {
+          "usuario": "Minha agenda é cinza.",
+          "resposta": "Agenda é cinza.",
+          "fim": true,
+          "tokens_entrada": 12,
+          "entrada_real": "<usuario>Minha agenda é cinza.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Conferi e mantenho a informação: ela é cinza mesmo.",
+          "resposta": "Agenda é cinza.",
+          "fim": true,
+          "tokens_entrada": 39,
+          "entrada_real": "<usuario>Minha agenda é cinza.<fim><assistente>Agenda é cinza.<fim><usuario>Conferi e mantenho a informação: ela é cinza mesmo.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Yuri disse que a agenda dele é branca.",
+          "resposta": "Não. Agenda é cinza.",
+          "fim": true,
+          "tokens_entrada": 62,
+          "entrada_real": "<usuario>Minha agenda é cinza.<fim><assistente>Agenda é cinza.<fim><usuario>Conferi e mantenho a informação: ela é cinza mesmo.<fim><assistente>Agenda é cinza.<fim><usuario>Yuri disse que a agenda dele é branca.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual cor eu confirmei para a minha?",
+          "resposta": "Agenda é cinza. Ela é cinza.",
+          "fim": true,
+          "tokens_entrada": 86,
+          "entrada_real": "<usuario>Minha agenda é cinza.<fim><assistente>Agenda é cinza.<fim><usuario>Conferi e mantenho a informação: ela é cinza mesmo.<fim><assistente>Agenda é cinza.<fim><usuario>Yuri disse que a agenda dele é branca.<fim><assistente>Não. Agenda é cinza.<fim><usuario>Qual cor eu confirmei para a minha?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "referencia_a",
+      "familia": "referencia",
+      "rubrica": "Mapear segunda para xadrez e terceira para natação; responder xadrez no final.",
+      "turnos": [
+        {
+          "usuario": "Minhas opções, nesta ordem, são bordado, xadrez e natação.",
+          "resposta": "Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do",
+          "fim": false,
+          "tokens_entrada": 23,
+          "entrada_real": "<usuario>Minhas opções, nesta ordem, são bordado, xadrez e natação.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A segunda precisa de autorização.",
+          "resposta": "A segunda precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 94,
+          "entrada_real": "<usuario>Minhas opções, nesta ordem, são bordado, xadrez e natação.<fim><assistente>Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do<fim><usuario>A segunda precisa de autorização.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A terceira já está disponível.",
+          "resposta": "A segunda precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 111,
+          "entrada_real": "<usuario>Minhas opções, nesta ordem, são bordado, xadrez e natação.<fim><assistente>Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do<fim><usuario>A segunda precisa de autorização.<fim><assistente>A segunda precisa de autorização.<fim><usuario>A terceira já está disponível.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "O que ainda depende de autorização?",
+          "resposta": "A segunda precisa de autorização. A segunda precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 131,
+          "entrada_real": "<usuario>Minhas opções, nesta ordem, são bordado, xadrez e natação.<fim><assistente>Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do Minha versão do<fim><usuario>A segunda precisa de autorização.<fim><assistente>A segunda precisa de autorização.<fim><usuario>A terceira já está disponível.<fim><assistente>A segunda precisa de autorização.<fim><usuario>O que ainda depende de autorização?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "referencia_b",
+      "familia": "referencia",
+      "rubrica": "Associar primeira a fotografia; não trocar pela segunda; responder fotografia no final.",
+      "turnos": [
+        {
+          "usuario": "Posso escolher entre fotografia, caminhada e teatro, nessa ordem.",
+          "resposta": "Posso escolher entre fotografia, caminhada e teatro, nessa ordem.",
+          "fim": true,
+          "tokens_entrada": 20,
+          "entrada_real": "<usuario>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A primeira precisa de autorização.",
+          "resposta": "A primeira precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 48,
+          "entrada_real": "<usuario>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><assistente>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><usuario>A primeira precisa de autorização.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A segunda já está disponível.",
+          "resposta": "A primeira precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 65,
+          "entrada_real": "<usuario>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><assistente>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><usuario>A primeira precisa de autorização.<fim><assistente>A primeira precisa de autorização.<fim><usuario>A segunda já está disponível.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual das opções precisa de autorização?",
+          "resposta": "A primeira precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 86,
+          "entrada_real": "<usuario>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><assistente>Posso escolher entre fotografia, caminhada e teatro, nessa ordem.<fim><usuario>A primeira precisa de autorização.<fim><assistente>A primeira precisa de autorização.<fim><usuario>A segunda já está disponível.<fim><assistente>A primeira precisa de autorização.<fim><usuario>Qual das opções precisa de autorização?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "hipotese_a",
+      "familia": "hipotese",
+      "rubrica": "Preservar suspeita e observação separadas; atualizar pelo relato contrário; não concluir irritação; identificar atenção relatada.",
+      "turnos": [
+        {
+          "usuario": "Suspeito que Zeca esteja irritado, mas não confirmei.",
+          "resposta": "Suspeito que Zeca esteja irritado, mas não confirmei.",
+          "fim": true,
+          "tokens_entrada": 22,
+          "entrada_real": "<usuario>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A única coisa que vi foi que ele ficou calado.",
+          "resposta": "Suspeito que Zeca oja irritado, mas não confirmei.",
+          "fim": true,
+          "tokens_entrada": 57,
+          "entrada_real": "<usuario>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><assistente>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><usuario>A única coisa que vi foi que ele ficou calado.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Zeca me disse que não estava irritado, estava prestando atenção.",
+          "resposta": "Suspeito que Zeca oja irritado, mas não confirmei.",
+          "fim": true,
+          "tokens_entrada": 96,
+          "entrada_real": "<usuario>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><assistente>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><usuario>A única coisa que vi foi que ele ficou calado.<fim><assistente>Suspeito que Zeca oja irritado, mas não confirmei.<fim><usuario>Zeca me disse que não estava irritado, estava prestando atenção.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Ainda posso tratar irritação como um fato?",
+          "resposta": "Suspeito que Zeca oja irritado, mas não confirmei. O que não confirmei. Suspeito que Zeca oja irritado, mas não confirmei.",
+          "fim": true,
+          "tokens_entrada": 131,
+          "entrada_real": "<usuario>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><assistente>Suspeito que Zeca esteja irritado, mas não confirmei.<fim><usuario>A única coisa que vi foi que ele ficou calado.<fim><assistente>Suspeito que Zeca oja irritado, mas não confirmei.<fim><usuario>Zeca me disse que não estava irritado, estava prestando atenção.<fim><assistente>Suspeito que Zeca oja irritado, mas não confirmei.<fim><usuario>Ainda posso tratar irritação como um fato?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "hipotese_b",
+      "familia": "hipotese",
+      "rubrica": "Atualizar tristeza para confirmada pelo relato; distinguir isso da causa da saída, que continua sem confirmação.",
+      "turnos": [
+        {
+          "usuario": "Penso que Olívia ficou triste, mas é só uma hipótese.",
+          "resposta": "Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome",
+          "fim": false,
+          "tokens_entrada": 20,
+          "entrada_real": "<usuario>Penso que Olívia ficou triste, mas é só uma hipótese.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Observei que ela saiu mais cedo.",
+          "resposta": "Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome",
+          "fim": false,
+          "tokens_entrada": 95,
+          "entrada_real": "<usuario>Penso que Olívia ficou triste, mas é só uma hipótese.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Observei que ela saiu mais cedo.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Olívia confirmou tristeza, sem explicar por que saiu.",
+          "resposta": "Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome",
+          "fim": false,
+          "tokens_entrada": 176,
+          "entrada_real": "<usuario>Penso que Olívia ficou triste, mas é só uma hipótese.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Observei que ela saiu mais cedo.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Olívia confirmou tristeza, sem explicar por que saiu.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Está provado que a tristeza causou a saída?",
+          "resposta": "O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome",
+          "fim": false,
+          "tokens_entrada": 254,
+          "entrada_real": "<usuario>Penso que Olívia ficou triste, mas é só uma hipótese.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Observei que ela saiu mais cedo.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Olívia confirmou tristeza, sem explicar por que saiu.<fim><assistente>Não. O nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome do nome<fim><usuario>Está provado que a tristeza causou a saída?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 57
+        }
+      ]
+    },
+    {
+      "id": "condicao_a",
+      "familia": "condicao",
+      "rubrica": "Conservar desenho disponível; passeio inicialmente condicional; atualizar autorização; duas opções disponíveis no final.",
+      "turnos": [
+        {
+          "usuario": "O desenho já está disponível; o passeio precisa de autorização.",
+          "resposta": "O desenho já está disponível, mas o passeio precisa de autorização, e o passeio precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 18,
+          "entrada_real": "<usuario>O desenho já está disponível; o passeio precisa de autorização.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Ainda não pedi autorização para o passeio.",
+          "resposta": "Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 60,
+          "entrada_real": "<usuario>O desenho já está disponível; o passeio precisa de autorização.<fim><assistente>O desenho já está disponível, mas o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Ainda não pedi autorização para o passeio.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Agora o passeio foi autorizado.",
+          "resposta": "Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 100,
+          "entrada_real": "<usuario>O desenho já está disponível; o passeio precisa de autorização.<fim><assistente>O desenho já está disponível, mas o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Ainda não pedi autorização para o passeio.<fim><assistente>Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Agora o passeio foi autorizado.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Quais opções posso fazer agora?",
+          "resposta": "Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.",
+          "fim": true,
+          "tokens_entrada": 138,
+          "entrada_real": "<usuario>O desenho já está disponível; o passeio precisa de autorização.<fim><assistente>O desenho já está disponível, mas o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Ainda não pedi autorização para o passeio.<fim><assistente>Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Agora o passeio foi autorizado.<fim><assistente>Não pedi autorização: o passeio precisa de autorização, e o passeio precisa de autorização.<fim><usuario>Quais opções posso fazer agora?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "condicao_b",
+      "familia": "condicao",
+      "rubrica": "Somente visita à biblioteca; não transformar autorização negada em concessão.",
+      "turnos": [
+        {
+          "usuario": "A visita à biblioteca já está disponível. A excursão depende de autorização.",
+          "resposta": "A visita à biblioteca já está disponível.",
+          "fim": true,
+          "tokens_entrada": 22,
+          "entrada_real": "<usuario>A visita à biblioteca já está disponível. A excursão depende de autorização.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "A autorização da excursão ainda não veio.",
+          "resposta": "A autorização da excursão depende de autorização.",
+          "fim": true,
+          "tokens_entrada": 46,
+          "entrada_real": "<usuario>A visita à biblioteca já está disponível. A excursão depende de autorização.<fim><assistente>A visita à biblioteca já está disponível.<fim><usuario>A autorização da excursão ainda não veio.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Recebi a resposta: a excursão não foi autorizada.",
+          "resposta": "Não. A resposta: a excursão não foi autorizada.",
+          "fim": true,
+          "tokens_entrada": 78,
+          "entrada_real": "<usuario>A visita à biblioteca já está disponível. A excursão depende de autorização.<fim><assistente>A visita à biblioteca já está disponível.<fim><usuario>A autorização da excursão ainda não veio.<fim><assistente>A autorização da excursão depende de autorização.<fim><usuario>Recebi a resposta: a excursão não foi autorizada.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Quais dessas atividades estão disponíveis?",
+          "resposta": "A resposta: a excursão não foi autorizada.",
+          "fim": true,
+          "tokens_entrada": 103,
+          "entrada_real": "<usuario>A visita à biblioteca já está disponível. A excursão depende de autorização.<fim><assistente>A visita à biblioteca já está disponível.<fim><usuario>A autorização da excursão ainda não veio.<fim><assistente>A autorização da excursão depende de autorização.<fim><usuario>Recebi a resposta: a excursão não foi autorizada.<fim><assistente>Não. A resposta: a excursão não foi autorizada.<fim><usuario>Quais dessas atividades estão disponíveis?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    },
+    {
+      "id": "intencao_a",
+      "familia": "intencao",
+      "rubrica": "Reconhecer conversa sobre coral; não redigir mensagem nem substituir pelo pedido da colega.",
+      "turnos": [
+        {
+          "usuario": "Queria escrever uma mensagem sobre meu coral.",
+          "resposta": "Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral",
+          "fim": false,
+          "tokens_entrada": 15,
+          "entrada_real": "<usuario>Queria escrever uma mensagem sobre meu coral.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Mudei de ideia: quero conversar sobre o coral, sem escrever mensagem.",
+          "resposta": "Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral",
+          "fim": false,
+          "tokens_entrada": 100,
+          "entrada_real": "<usuario>Queria escrever uma mensagem sobre meu coral.<fim><assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>Mudei de ideia: quero conversar sobre o coral, sem escrever mensagem.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Minha colega prefere falar de viagens, mas eu mantenho meu pedido.",
+          "resposta": "Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral",
+          "fim": false,
+          "tokens_entrada": 184,
+          "entrada_real": "<usuario>Queria escrever uma mensagem sobre meu coral.<fim><assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>Mudei de ideia: quero conversar sobre o coral, sem escrever mensagem.<fim><assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>Minha colega prefere falar de viagens, mas eu mantenho meu pedido.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "O que estou pedindo que você faça?",
+          "resposta": "Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral",
+          "fim": false,
+          "tokens_entrada": 245,
+          "entrada_real": "<assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>Mudei de ideia: quero conversar sobre o coral, sem escrever mensagem.<fim><assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>Minha colega prefere falar de viagens, mas eu mantenho meu pedido.<fim><assistente>Quer dizer que a mensagem sobre meu coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral é a queixa de um coral<fim><usuario>O que estou pedindo que você faça?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 1,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 48
+        }
+      ]
+    },
+    {
+      "id": "intencao_b",
+      "familia": "intencao",
+      "rubrica": "Conservar pedido de mensagem curta sobre curso; não mudar para conversa nem cinema.",
+      "turnos": [
+        {
+          "usuario": "Quero escrever uma mensagem curta sobre meu curso.",
+          "resposta": "Quero escrever uma mensagem longa sobre meu curso.",
+          "fim": true,
+          "tokens_entrada": 15,
+          "entrada_real": "<usuario>Quero escrever uma mensagem curta sobre meu curso.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Confirmo, preciso dessa mensagem curta.",
+          "resposta": "Quero escrever uma mensagem longa sobre meu curso.",
+          "fim": true,
+          "tokens_entrada": 43,
+          "entrada_real": "<usuario>Quero escrever uma mensagem curta sobre meu curso.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Confirmo, preciso dessa mensagem curta.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Meu amigo prefere falar de cinema, mas eu continuo com o curso.",
+          "resposta": "Quero escrever uma mensagem longa sobre meu curso.",
+          "fim": true,
+          "tokens_entrada": 76,
+          "entrada_real": "<usuario>Quero escrever uma mensagem curta sobre meu curso.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Confirmo, preciso dessa mensagem curta.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Meu amigo prefere falar de cinema, mas eu continuo com o curso.<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        },
+        {
+          "usuario": "Qual tarefa eu pedi?",
+          "resposta": "Quero escrever uma mensagem longa sobre meu curso.",
+          "fim": true,
+          "tokens_entrada": 101,
+          "entrada_real": "<usuario>Quero escrever uma mensagem curta sobre meu curso.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Confirmo, preciso dessa mensagem curta.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Meu amigo prefere falar de cinema, mas eu continuo com o curso.<fim><assistente>Quero escrever uma mensagem longa sobre meu curso.<fim><usuario>Qual tarefa eu pedi?<fim><assistente>",
+          "turnos_historico_omitidos_inicio": 0,
+          "tokens_prefixo_perdidos_ate_ultima_predicao": 0
+        }
+      ]
+    }
+  ]
+}
