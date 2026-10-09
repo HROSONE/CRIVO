@@ -106,14 +106,38 @@ class MemoriaSessao:
         dono = e.get('dono')
         return e['nome'] + (' de ' + self.entidades[dono]['nome'] if dono else '')
 
+    def _frase(self, fato):
+        nome = self._nome(fato['sujeito'], '')
+        rel, valor = fato['relacao'], fato['valor']
+        if rel.startswith('permissão:'):
+            return nome + ' ' + valor
+        if rel == 'preferência':
+            return nome + ' prefere ' + valor
+        if rel == 'preferência relatada':
+            return nome + ' disse que prefere ' + valor
+        if rel == 'objetivo':
+            return 'o objetivo de ' + nome + ' é ' + valor
+        if rel == 'tempo disponível':
+            return nome + ' tem ' + valor + ' disponíveis'
+        if rel == 'dono':
+            return nome + ' pertence a ' + valor
+        if rel == 'localização':
+            return nome + ' está ' + valor
+        if rel == 'vínculo':
+            valor = re.sub(r'^minha\b', 'sua', valor, flags=re.I)
+            valor = re.sub(r'^meu\b', 'seu', valor, flags=re.I)
+        return nome + ' é ' + valor
+
     def _resposta_campo(self, sujeito, relacao, nome):
         fato = self._atual(sujeito, relacao)
         rotulo = self._nome(sujeito, nome)
         if fato is None:
+            if relacao.startswith('permissão:'):
+                return self._emitir('Não sei se ' + rotulo + ' pode ' + relacao.split(':', 1)[1] +
+                                    '; você não informou isso na sessão.')
             return self._emitir('Não tenho ' + relacao + ' de ' + rotulo + ' informada na sessão.')
         # O valor sai literalmente da fala de origem, nunca do corpus de treino.
-        return self._emitir('Segundo o que você contou, ' + rotulo + ': ' + relacao +
-                            ' = ' + fato['valor'] + '.', [fato])
+        return self._emitir('Segundo o que você contou, ' + self._frase(fato) + '.', [fato])
 
     def _observar(self, texto):
         s = texto.strip().rstrip('.!').strip()
@@ -260,9 +284,8 @@ class MemoriaSessao:
                               and f['valor'].startswith('não pode '))]
                 if not fatos:
                     return self._resposta_campo(p, rel, nome)
-                frases = [f['relacao'] + ' = ' + f['valor'] for f in fatos]
-                return self._emitir('Segundo o que você contou, ' + self._nome(p, nome) +
-                                    ': ' + '; '.join(frases) + '.', fatos)
+                return self._emitir('Segundo o que você contou, ' +
+                                    '; '.join(self._frase(f) for f in fatos) + '.', fatos)
             return self._resposta_campo(p, rel, nome)
         return None
 
@@ -294,6 +317,5 @@ class MemoriaSessao:
         nomeados = [f for f in novos if f['sujeito'] != 'pessoa:usuario']
         if nomeados:
             return self._emitir('Registrei seu relato: ' + '; '.join(
-                self._nome(f['sujeito'], '') + ': ' + f['relacao'] + ' = ' + f['valor']
-                for f in nomeados) + '.', nomeados, acao='registro')
+                self._frase(f) for f in nomeados) + '.', nomeados, acao='registro')
         return None
