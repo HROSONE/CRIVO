@@ -1,18 +1,9 @@
 name: Treinar cerebro original do Crivo
 
 on:
+  # Treinos são planejados explicitamente; um merge não retreina os pesos
+  # nem executa novamente toda a descoberta de testes.
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'rede_neural.py'
-      - 'conhecimento.json'
-      - 'conhecimento_mundo.json'
-      - 'curriculo_mundo.py'
-      - 'conhecimento_linguagem.json'
-      - 'linguagem_conversa.py'
-      - 'crivo.py'
-      - '.github/workflows/treinar-rede.yml'
 
 permissions:
   contents: read
