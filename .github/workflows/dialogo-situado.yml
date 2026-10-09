@@ -4,6 +4,9 @@ on:
     paths:
       - 'crivo.py'
       - 'dialogo_situado.py'
+      - 'memoria_sessao.py'
+      - 'testes_memoria_sessao.py'
+      - 'experimentos/memoria_sessao_20261009/**'
       - 'raciocinio_conversa.py'
       - 'argumentos_conversa.py'
       - 'web_core.py'
@@ -41,6 +44,8 @@ jobs:
       - name: Escopos, memória e compatibilidade sem dependências opcionais
         run: |
           python -m unittest testes_dialogo_situado -v
+          python -m unittest testes_memoria_sessao -v
+          python -S -m unittest testes_memoria_sessao.TestesMemoriaSessao -v
           python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
           python -m unittest testes_raciocinio_conversa -v
           python -m unittest testes_hipoteses_confirmadas -v
@@ -51,6 +56,7 @@ jobs:
       - name: Sonda pública original e desenvolvimento adicional
         run: |
           python avaliar_dialogo_real.py --saida /tmp/dialogo-original.json
+          python experimentos/memoria_sessao_20261009/avaliar.py --exigir-meta --saida /tmp/dialogo-memoria-sessao.json
           python experimentos/dialogo_situado_20261008/avaliar.py desenvolvimento --exigir-todos --saida /tmp/dialogo-desenvolvimento.json
           python experimentos/confirmacao_hipoteses_20261009/avaliar.py --raiz . --modo motor --exigir-todos --saida /tmp/dialogo-hipoteses-motor.json
           python experimentos/confirmacao_hipoteses_20261009/avaliar.py --raiz . --modo web --exigir-todos --saida /tmp/dialogo-hipoteses-web.json

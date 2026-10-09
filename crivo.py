@@ -184,6 +184,8 @@ class Crivo:
         self.estado_conversa = EstadoConversa()
         from dialogo_situado import DialogoSituado
         self.dialogo_situado = DialogoSituado()
+        from memoria_sessao import MemoriaSessao
+        self.memoria_sessao = MemoriaSessao()
         from raciocinio_conversa import RaciocinioConversa
         self.raciocinio_conversa = RaciocinioConversa()
         from argumentos_conversa import ArgumentosConversa
@@ -1491,11 +1493,26 @@ class Crivo:
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
+        # A memória lê a grafia original: identificadores e valores inéditos
+        # não passam pela correção ortográfica nem pelas respostas do modelo.
+        sessao = self.memoria_sessao.processar(original_conteudo,
+                                              ficcao=bool(self.dialogo_situado.ficcao))
+        if sessao is not None and self.memoria_sessao.ultimo['acao'] == 'registro':
+            # Uma correção nominal já reconhecida pela memória anterior deve
+            # atualizar também os relatos que as outras rotas ainda leem.
+            from correcao_relatos import corrigir_relatos
+            if corrigir_relatos(original_conteudo, self.conversacao.relatos) is not None:
+                sessao = None
         oferta, self.oferta_pendente = self.oferta_pendente, None
         if oferta and isinstance(texto, str) and self._ACEITA_OFERTA.fullmatch(normalizar(texto).strip(" !.?")):
             ident, resposta = self._cumprir_oferta(oferta, texto)
         else:
-            ident, resposta = self._responder_comum(texto)
+            if sessao is not None:
+                ident, resposta = self._registrar_conclusao_conversa(
+                    original_conteudo, sessao, mecanismo='memoria_sessao_estrutural',
+                    campo='memoria_sessao', quadro=self.memoria_sessao.ultimo)
+            else:
+                ident, resposta = self._responder_comum(texto)
         referencia_exata = bool(self.historico and self.historico[-1].get('pergunta') == texto and
                                 self.historico[-1].get('referencia_biblica_exata'))
         if referencia_exata:
@@ -1510,6 +1527,8 @@ class Crivo:
             self._ids_editoriais = frozenset(e["id"] for e in self.base)
         resposta = self.estado_conversa.aplicar(ident, resposta, self._ids_editoriais)
         self.dialogo_situado.observar(original_conteudo, ident, self)
+        if ident == 'conversa:reinicio':
+            self.memoria_sessao.limpar()
         return crise.ajustar(ident, resposta, self)
 
     @property

@@ -125,6 +125,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
     extra["generation"] = bot.ultima_geracao
+    if identificador == 'conversa:memoria_sessao':
+        extra['session_memory'] = bot.memoria_sessao.ultimo
     if bot.ultima_analise_conteudo is not None:
         extra["content_analysis"] = bot.ultima_analise_conteudo
     if bot.ultima_correcao_texto is not None:
