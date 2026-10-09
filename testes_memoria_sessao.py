@@ -130,6 +130,17 @@ class TestesMemoriaSessao(unittest.TestCase):
         m.processar('Lia prefere chá.')
         self.assertIn('chá', m.processar('Resuma o que eu disse sobre Lia.')[1])
 
+    def test_prefixos_da_primeira_pessoa_nao_criam_pessoas(self):
+        m = MemoriaSessao()
+        for texto in ('Hoje quero revisar o contrato.', 'Amanhã pretendo estudar.',
+                      'Ultimamente prefiro chá.', 'Hoje não posso sair.'):
+            with self.subTest(texto=texto):
+                self.assertIsNone(m.processar(texto))
+        self.assertEqual(m.exportar()['entidades'], [])
+        self.assertEqual(m.exportar()['afirmacoes'], [])
+        m.processar('Quero revisar o contrato.')
+        self.assertIn('revisar o contrato', m.processar('Qual é o objetivo de eu?')[1])
+
 
 class TestesIntegracaoMemoriaSessao(unittest.TestCase):
     def test_chat_preserva_vinte_minutos_e_mochila_da_lia(self):

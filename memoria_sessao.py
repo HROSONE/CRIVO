@@ -217,10 +217,17 @@ class MemoriaSessao:
         m = combinar(r'(?:(eu|.+?) )?(prefiro|prefere|não prefiro|não prefere|quero|quer|não quero|não quer|pretendo|pretende|'
                      r'não posso|não pode|posso|pode) (.+)', corpo)
         if m:
+            verbo, valor = chave(m[2]), m[3]
+            # Verbos em primeira pessoa não atribuem fatos a nomes próprios.
+            # Em "Hoje quero...", o prefixo é temporal; a rota anterior
+            # continua responsável por interpretar o objetivo do usuário.
+            primeira_pessoa = ('prefiro', 'nao prefiro', 'quero', 'nao quero',
+                               'pretendo', 'posso', 'nao posso')
+            if verbo in primeira_pessoa and chave(m[1] or 'eu') != 'eu':
+                return
             p = self._pessoa(m[1] or 'eu', criar=True)
             if not p:
                 return
-            verbo, valor = chave(m[2]), m[3]
             if verbo in ('nao prefere', 'nao prefiro'):
                 self._retirar(p, 'preferência', texto, valor)
             elif verbo in ('nao quero', 'nao quer'):
