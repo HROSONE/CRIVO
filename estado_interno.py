@@ -155,13 +155,16 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                 presente = normalizar(referente) in n
                 if not presente and peca == 'fato' and bot.contexto_textual is not None:
                     # O nome da ficha pode ser composto ("céu azul"), enquanto
-                    # suas unidades citam o conceito por um alias ("céu").
-                    # Exigir ficha selecionada e alias, além das unidades
+                    # suas unidades separam as palavras ("o azul ... o céu").
+                    # Exigir ficha selecionada e seus termos, além das unidades
                     # literais verificadas acima, preserva a prova do assunto.
                     assunto = bot.compositor.resolver(referente)
                     selecionados = {e for e, _ in bot.contexto_textual.exibidos}
+                    termos = re.findall(r'\w+', normalizar(referente))
                     presente = (assunto in selecionados and
-                                bot.compositor._menciona_conceito(assunto, n))
+                                (bot.compositor._menciona_conceito(assunto, n) or
+                                 bool(termos) and all(re.search(r'(?<!\w)' + re.escape(t) + r'(?!\w)', n)
+                                                    for t in termos)))
                 if not presente:
                     motivos.append('referente ausente: ' + referente)
         if rota.get('frases'):

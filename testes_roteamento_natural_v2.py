@@ -126,7 +126,8 @@ class TestesRoteamentoNaturalV2(unittest.TestCase):
         fatos = bot.compositor.itens[assunto]['fatos']
         indice = next(i for i, f in enumerate(fatos)
                       if 'céu azul' not in texto_fato(f).lower()
-                      and bot.compositor._menciona_conceito(assunto, texto_fato(f).lower()))
+                      and 'céu' in texto_fato(f).lower() and 'azul' in texto_fato(f).lower()
+                      and not bot.compositor._menciona_conceito(assunto, texto_fato(f).lower()))
         fato = texto_fato(fatos[indice])
         bot.contexto_textual = SimpleNamespace(exibidos=[(assunto, indice)])
         bot.historico = [{'id': 'escrita:texto'}]
