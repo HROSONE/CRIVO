@@ -154,7 +154,8 @@ SINONIMOS_CONSULTA_TECNICA = {
 class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
                  usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                 usar_interpretador_perguntas=True, usar_geracao=True):
+                 usar_interpretador_perguntas=True, usar_geracao=True,
+                 usar_geracao_sessao=True):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
         from programacao_chat import MotorCodigoChat
@@ -265,6 +266,7 @@ class Crivo:
         # busca escolhe o fato; o Transformer só escreve a resposta a partir
         # dele. O controle antigo é explícito: usar_geracao=False.
         self.usar_geracao = usar_geracao
+        self.usar_geracao_sessao = usar_geracao_sessao
         self.ultima_geracao = None
         # Leitura da ficha e estado interno do turno (estado_interno.py).
         self.usar_leitura_ficha = True
@@ -1674,6 +1676,23 @@ class Crivo:
             return recuar("desligada")
         if not isinstance(texto, str):
             return recuar("entrada_invalida")
+        if ident == 'conversa:memoria_sessao':
+            if not self.usar_geracao_sessao:
+                return recuar('realizacao_de_sessao_desligada')
+            import copy
+            from realizacao_memoria import realizar
+            pergunta_sessao = (self.ultimo_turno or {}).get('pergunta', texto)
+            escrita, estado_geracao = realizar(pergunta_sessao, self.memoria_sessao)
+            trace.update(estado_geracao)
+            if escrita is None:
+                return ident, resposta
+            trace.update(substituiu=ident, texto_alterado=escrita != resposta)
+            self.ultima_resposta_mostrada = escrita
+            self.conversacao.ultima_resposta_texto = escrita
+            self.conversacao.dialogo.ultima_resposta = escrita
+            if self.historico and self.historico[-1].get('pergunta') == pergunta_sessao:
+                self.historico[-1]['geracao'] = copy.deepcopy(trace)
+            return ident, escrita
         n = normalizar(texto).strip()
         ultimo = self.historico[-1] if self.historico and self.historico[-1].get("pergunta") == texto else {}
         ctx = self.contexto_textual
