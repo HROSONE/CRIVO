@@ -23,6 +23,102 @@ import re
 import unicodedata
 
 
+def frase_da_sessao(memoria, fato):
+    """Redação literal de relações declaradas, sem confundir gosto e preferência."""
+    nome = memoria._nome(fato['sujeito'], '')
+    if fato['relacao'] in ('gosto', 'não gosta'):
+        return nome + (' gosta de ' if fato['relacao'] == 'gosto' else ' não gosta de ') + fato['valor']
+    return memoria._frase(fato)
+
+
+def encaminhar_declaracao_natural(texto, bot, sessao):
+    """Ponte de linguagem para a memória existente; só declarações são fontes.
+
+    A relação literal de gostar não é convertida em preferência comparativa
+    nem em permissão. Valores, nomes e proveniência conservam a fala original.
+    """
+    if (not isinstance(texto, str) or len(texto) > 1200 or bot.dialogo_situado.ficcao
+            or '?' in texto or any(c in texto for c in ('`', '"', '“', '”', '‘', '’'))
+            or re.search(r'\b(?:se|caso|talvez|suponha|imagine|hipoteticamente)\b', dobrar(texto))):
+        return sessao
+    memoria = bot.memoria_sessao
+    antes = len(memoria.afirmacoes)
+    parentes = r'irmã|irmão|prima|primo|mãe|pai|tia|tio|amiga|amigo|filha|filho|sobrinha|sobrinho'
+    partes = re.split(r'(?<=[.!])\s+', texto.strip())
+    for parte in partes[:8]:
+        corpo = parte.strip().rstrip('.!')
+        corpo = re.sub(r'^(?:agora|corrigindo|na verdade)[:,]?\s+', '', corpo, flags=re.I)
+        corpo = re.sub(r'^(ele|ela) mudou de ideia:\s*agora\s+', r'\1 ', corpo, flags=re.I)
+        m = re.fullmatch(r'(?:(Meu|Minha) (' + parentes + r') )?(.+?) ((?:não )?gosta(?: mais)? de .+)', corpo, re.I)
+        if not m:
+            continue
+        nome = m[3]
+        if not m[1] and memoria._pessoa(nome) is None and bot.compositor.resolver(nome):
+            continue  # Um assunto do acervo não vira pessoa por capitalização.
+        segmentos = re.split(r'\s+e\s+(?=(?:não )?gosta(?: mais)? de )', m[4], flags=re.I)
+        gostos = []
+        for segmento in segmentos:
+            g = re.fullmatch(r'(não )?gosta(?: mais)? de (.+)', segmento, re.I)
+            if not g or re.search(r'[;!?]', g[2]):
+                gostos = []
+                break
+            gostos.append((bool(g[1]), g[2].strip()))
+        if not gostos:
+            continue
+        pessoa = memoria._pessoa(nome, criar=True)
+        if pessoa is None:
+            continue  # Pronomes ambíguos não atualizam nenhuma pessoa.
+        if m[1]:
+            memoria._observar(nome + ' é ' + m[1].lower() + ' ' + m[2], texto)
+        for negativo, valor in gostos:
+            rel = 'não gosta' if negativo else 'gosto'
+            memoria._retirar(pessoa, 'gosto' if negativo else 'não gosta', texto, valor)
+            memoria._guardar(pessoa, rel, valor, texto)
+    novos = memoria.afirmacoes[antes:]
+    if novos:
+        return memoria._emitir('Registrei seu relato: ' + '; '.join(
+            frase_da_sessao(memoria, f) for f in novos if f['status'] == 'ativo') + '.',
+            [f for f in novos if f['status'] == 'ativo'], acao='registro')
+    return sessao
+
+
+def _pedido_sessao(texto, bot):
+    """Resolve nomes, vínculos e pronomes; nunca escolhe entre duas pessoas."""
+    n = dobrar(texto).strip()
+    if (bot.dialogo_situado.ficcao or re.search(r'\b(?:se|caso|suponha|imagine|hipoteticamente)\b', n)
+            or not re.match(r'(?:(?:sem trocar a pessoa):\s*)?(?:o que|do que|de que|qual|resuma|'
+                            r'resumir|lembra|recorda|ele pode|ela pode)\b', n)):
+        return None
+    resumo = re.search(r'\b(?:guardou|registrou|lembra|recorda|resuma|resumir)\b', n)
+    negativo = re.search(r'\bnao (?:gosta|prefere)\b', n)
+    campo = ('resumo' if resumo else 'não gosta' if negativo else
+             'gosto' if re.search(r'\bgosta\b', n) else
+             'preferência' if re.search(r'\bprefere\b', n) else
+             'restrição' if re.search(r'\bpode\b', n) else None)
+    if campo is None:
+        return None
+    pessoas = [e for e in bot.memoria_sessao.entidades.values() if e['tipo'] == 'pessoa']
+    sujeitos = [e['id'] for e in pessoas if e['id'] != 'pessoa:usuario' and re.search(
+        r'(?<!\w)' + re.escape(dobrar(e['nome'])) + r'(?!\w)', n)]
+    vinculo = re.search(r'\b(?:meu|minha) (?:irma|irmao|prima|primo|mae|pai|tia|tio|amiga|amigo|filha|filho|sobrinha|sobrinho)\b', n)
+    if not sujeitos and vinculo:
+        sujeitos = [e['id'] for e in pessoas if (f := bot.memoria_sessao._atual(e['id'], 'vínculo'))
+                    and dobrar(f['valor']) == vinculo[0]]
+    pronome = re.search(r'\b(ele|ela|dele|dela)\b', n)
+    if not sujeitos and pronome:
+        genero = 'f' if pronome[0].endswith('la') else 'm'
+        sujeitos = [e['id'] for e in pessoas if e.get('genero') == genero]
+    pessoal = vinculo or pronome or sujeitos
+    if not pessoal:
+        return None
+    refs = [bot.memoria_sessao.entidades[p]['nome'] for p in sujeitos]
+    if len(sujeitos) != 1:
+        return dict(peca='esclarecimento', ato='referente', referentes=refs,
+                    candidatos=sujeitos, vinculo=vinculo[0] if vinculo else None)
+    return dict(peca='memoria', ato='resumir' if resumo else 'consultar', referentes=refs,
+                sujeitos=sujeitos, consulta_sessao=campo)
+
+
 def rotear_natural(texto, bot, sessao=None):
     """Escolhe operações explícitas antes da associação por palavras isoladas.
 
@@ -46,7 +142,8 @@ def rotear_natural(texto, bot, sessao=None):
         return None
     if re.search(r'\b(?:nao|nunca|jamais)\s+(?:escrev\w*|crie|invente|analise|calcule|execute)\b', n):
         return None  # Cancelamento permanece com o protocolo original.
-    if re.search(r'\b(?:o que voce (?:consegue|pode|sabe) fazer|em que voce pode me ajudar)\b', n):
+    if re.search(r'\b(?:o que (?:voce )?(?:consegue|pode|sabe) fazer|em que (?:voce )?pode me ajudar|'
+                 r'(?:mostra|mostre) o que (?:voce )?sabe fazer)\b', n):
         return rota('esclarecimento', 'capacidades')
     if re.search(r'\bexemplos de perguntas\b', n) and re.search(r'\bvoce\b', n):
         return rota('esclarecimento', 'exemplos')
@@ -57,6 +154,9 @@ def rotear_natural(texto, bot, sessao=None):
     escrita = bot.conversacao.geracao.ultima_escrita
     if re.search(r'\bhistoria\b', n) and re.search(r'\b(?:escreveu|pegou|fonte|autoria)\b', n):
         return rota('esclarecimento', 'autoria', tuple(escrita['slots'].values()) if escrita else ())
+    consulta_sessao = _pedido_sessao(texto, bot)
+    if consulta_sessao:
+        return consulta_sessao
     if sessao is not None:
         acao = bot.memoria_sessao.ultimo['acao']
         return rota('memoria', 'registrar' if acao == 'registro' else acao, resultado=sessao)
@@ -72,6 +172,11 @@ def rotear_natural(texto, bot, sessao=None):
         acao = 'sugerir' if re.search(r'\b(?:preparo|preparar|ofereco|oferecer|sugira)\b', n) else 'consultar'
         return rota('memoria', acao, [e['nome'] for e in citadas], sujeitos=[e['id'] for e in citadas])
     temporal = bot.raciocinio_conversa
+    reserva = re.fullmatch(r'(?:(?:desses|destes) (\d+) minutos,? )?(?:separa|separe) (\d+(?:[.,]\d+)?)( minutos?)? para ([^.!?;]+)[.!]?', texto, re.I)
+    if reserva and (reserva[1] or reserva[3]):
+        consulta = ('Tenho ' + reserva[1] + ' minutos. ' if reserva[1] else '')
+        consulta += 'Reservar ' + reserva[2] + ' minutos para ' + reserva[4].rstrip('.!')
+        return rota('calculo', 'planejar', consulta=consulta)
     tempo_explicito = re.search(r'\b(?:dividir|divisao|organiza\w*|ajusta\w*|plano|reserv\w*|deixar)\b', n)
     anterior = bot.historico[-1].get('id', '') if bot.historico else ''
     retoma_conta = (anterior == 'conversa:raciocinio' or
@@ -110,6 +215,11 @@ def rotear_natural(texto, bot, sessao=None):
         fatos.extend(tuple(p) for p in h.get('fatos_ativos', ()))
     fatos = list(dict.fromkeys(fatos))
     temas = list(dict.fromkeys(e for e, i in fatos))
+    pedido_factual = re.fullmatch(r'(?:Agora )?(?:me )?(?:diga|fale) (a cor de .+?)[.!?]?', texto, re.I)
+    if pedido_factual:
+        propriedade = pedido_factual[1].rstrip('.!?')
+        sujeito = re.sub(r'^a cor de ', '', propriedade, flags=re.I)
+        return rota('fato', 'consultar', [sujeito], consulta='Qual é ' + propriedade + '?')
     if re.search(r'\b(?:diferenca|mesmo motivo)\b', n) and temas:
         atual = bot.compositor.assunto_mencionado(texto)
         if atual and atual not in temas and len(temas) < 2:
@@ -142,6 +252,9 @@ def executar_rota_natural(rota, texto, bot):
             resposta = ('Seleciono uma peça para o pedido: fatos do acervo, memória declarada nesta sessão, cálculo ou escrita. '
                         'Uso redes e pesos próprios; não consulto uma IA externa. Quando falta informação, devo perguntar. '
                         'Ter essas peças não garante que eu entenda qualquer conversa.')
+        elif ato == 'referente':
+            resposta = ('De qual pessoa você está falando: ' + ' ou '.join(rota['referentes']) + '?') if rota['referentes'] else (
+                'Você não informou quem é ' + (rota.get('vinculo') or 'essa pessoa') + ' nesta sessão. Qual pessoa devemos considerar?')
         else:
             tentativa = bot.historico[-1].get('natural_routing', {}) if bot.historico else {}
             resposta = ('Essa história foi realizada pelo meu gerador próprio, uma GRU autoral, a partir do personagem pedido. '
@@ -153,6 +266,33 @@ def executar_rota_natural(rota, texto, bot):
     elif peca == 'memoria':
         mecanismo = 'memoria_sessao_estrutural'
         resultado = rota.get('resultado')
+        if rota.get('consulta_sessao'):
+            memoria = bot.memoria_sessao
+            sujeito = rota['sujeitos'][0]
+            campo = rota['consulta_sessao']
+            if campo == 'resumo':
+                selecionados = [f for f in memoria.afirmacoes if f['sujeito'] == sujeito
+                                and f['status'] == 'ativo' and f['relacao'] != 'vínculo']
+            elif campo == 'restrição':
+                selecionados = [f for f in memoria.afirmacoes if f['sujeito'] == sujeito
+                                and f['status'] == 'ativo' and f['relacao'].startswith('permissão:')]
+            else:
+                fato = memoria._atual(sujeito, campo)
+                if fato is None and campo == 'gosto':
+                    fato = memoria._atual(sujeito, 'preferência')
+                selecionados = [fato] if fato else []
+            rota['afirmacoes_esperadas'] = [f['id'] for f in selecionados]
+            rota['dado_desconhecido'] = not selecionados
+            if selecionados:
+                frase = 'Segundo o que você contou, ' + '; '.join(frase_da_sessao(memoria, f) for f in selecionados) + '.'
+            else:
+                frase = ('Não tenho esse dado sobre ' + rota['referentes'][0] + ': você não informou '
+                         + ('do que essa pessoa não gosta' if campo == 'não gosta' else 'isso') + ' na sessão.')
+            # O realizador atual conhece a gramática original da memória.
+            # Relações literais novas conservam a redação estrutural; não
+            # mudamos a rede, seu prompt, seus pesos ou seus interruptores.
+            acao = 'consulta_natural' if any(f['relacao'] in ('gosto', 'não gosta') for f in selecionados) else 'consulta'
+            resultado = memoria._emitir(frase, selecionados, acao=acao)
         if resultado is None and ato == 'sugerir':
             from conversa_sessao import responder
             aberto = responder(texto, bot)
@@ -179,7 +319,14 @@ def executar_rota_natural(rota, texto, bot):
             quadro = bot.memoria_sessao.ultimo
     elif peca == 'calculo':
         mecanismo = 'raciocinio_conversa_verificavel'
-        resultado = bot.raciocinio_conversa.planejar_contexto(texto, bot.historico, bot.estado_conversa.objetivos)
+        consulta = rota.get('consulta', texto)
+        resultado = bot.raciocinio_conversa.planejar_contexto(consulta, bot.historico, bot.estado_conversa.objetivos)
+        if consulta != texto:
+            # A paráfrase é uma operação do roteador, não a fonte do usuário.
+            r = bot.raciocinio_conversa
+            for fonte in list(r.fontes.values()) + list(r.eventos) + list((r.ultimo or {}).get('fontes', {}).values()) + (r.ultimo or {}).get('atualizacoes', []):
+                if fonte.get('fonte') == consulta:
+                    fonte['fonte'] = texto
         quadro = bot.raciocinio_conversa.ultimo
     elif peca == 'programacao':
         mecanismo = 'motor_programacao_proprio'
@@ -210,6 +357,17 @@ def executar_rota_natural(rota, texto, bot):
         c = bot.compositor
         if ato == 'consultar':
             composto = c.responder(rota['consulta'], None)
+            if composto is None:
+                composto = bot._buscar_fatos(rota['consulta'])
+            propriedade = re.fullmatch(r'Qual é a cor de (.+?)\?', rota['consulta'])
+            if composto is None and propriedade:
+                assunto = c.resolver(propriedade[1])
+                if assunto:
+                    from curriculo_mundo import texto_fato
+                    unidades = [(assunto, i) for i, f in enumerate(c.itens[assunto]['fatos'])
+                                if re.search(r'\b(?:cor|coloracao|aparencia|tonalidade)\b', dobrar(texto_fato(f)))]
+                    if unidades:
+                        composto = c.compor((assunto,), 'simples', selecionados=tuple(unidades[:1]), origem='conhecimento')
             nome = re.fullmatch(r'(?:quem (?:foi|é|e)|o que (?:é|e))\s+(.+?)[?!.]*', rota['consulta'], re.I)
             if (not composto or composto[0] == 'fora') and nome:
                 assunto = c.resolver(nome[1])

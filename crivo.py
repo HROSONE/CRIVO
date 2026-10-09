@@ -1501,13 +1501,14 @@ class Crivo:
         # não passam pela correção ortográfica nem pelas respostas do modelo.
         sessao = self.memoria_sessao.processar(original_conteudo,
                                               ficcao=bool(self.dialogo_situado.ficcao))
+        from compreensao_intencao import encaminhar_declaracao_natural, rotear_natural, executar_rota_natural
+        sessao = encaminhar_declaracao_natural(original_conteudo, self, sessao)
         if sessao is not None and self.memoria_sessao.ultimo['acao'] == 'registro':
             # Uma correção nominal já reconhecida pela memória anterior deve
             # atualizar também os relatos que as outras rotas ainda leem.
             from correcao_relatos import corrigir_relatos
             if corrigir_relatos(original_conteudo, self.conversacao.relatos) is not None:
                 sessao = None
-        from compreensao_intencao import rotear_natural, executar_rota_natural
         rota = rotear_natural(original_conteudo, self, sessao)
         self.ultima_rota_natural = rota
         oferta, self.oferta_pendente = self.oferta_pendente, None

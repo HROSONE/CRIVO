@@ -123,11 +123,32 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                     motivos.append('unidade factual selecionada ausente')
         if peca == 'memoria':
             q = (bot.historico[-1].get('memoria_sessao') or bot.historico[-1].get('conversa_sessao') or {})
+            if 'afirmacoes_esperadas' in rota and q.get('afirmacoes', []) != rota['afirmacoes_esperadas']:
+                motivos.append('seleção não corresponde à pergunta da sessão')
+            if rota.get('dado_desconhecido') and (q.get('afirmacoes') or not re.search(
+                    r'\b(?:nao tenho|nao sei|nao informou)\b', n)):
+                motivos.append('ausência de informação virou uma afirmação')
             for i in q.get('afirmacoes', ()):
+                if not isinstance(i, int) or not 0 <= i < len(bot.memoria_sessao.afirmacoes):
+                    motivos.append('referência de memória inválida')
+                    continue
                 f = bot.memoria_sessao.afirmacoes[i]
+                if (f['status'] != 'ativo' or f['fonte']['origem'] != 'usuario'
+                        or f.get('escopo') not in ('declarado', 'fala_reportada')):
+                    motivos.append('afirmação sem fonte ativa do usuário')
+                if rota.get('sujeitos') and f['sujeito'] not in rota['sujeitos']:
+                    motivos.append('afirmação de outra pessoa')
+                from compreensao_intencao import frase_da_sessao
+                if normalizar(frase_da_sessao(bot.memoria_sessao, f)) not in n:
+                    motivos.append('sujeito, relação ou polaridade da afirmação alterados')
+                nome = bot.memoria_sessao._nome(f['sujeito'], '')
+                inversa = {'gosto': ' não gosta de ', 'não gosta': ' gosta de ',
+                           'preferência': ' não prefere '}.get(f['relacao'])
+                if inversa and normalizar(nome + inversa + f['valor']) in n:
+                    motivos.append('resposta também contradiz a afirmação selecionada')
                 if f['relacao'] == 'preferência' and normalizar(f['valor']) not in n:
                     motivos.append('preferência selecionada ausente')
-        if peca == 'memoria' or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir'):
+        if peca in ('memoria', 'esclarecimento', 'fato') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir'):
             for referente in rota['referentes']:
                 if normalizar(referente) not in n:
                     motivos.append('referente ausente: ' + referente)
