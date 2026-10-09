@@ -34,13 +34,10 @@ def download(aid,path):
             f.write(b)
 
 def release():
-    matches=[r for r in api(f'repos/{REPO}/releases?per_page=100') if r['tag_name']==TAG]
-    if not matches:
-        notes=OUT/'notas.md';notes.write_text('Backup antes da limpeza autorizada do GitHub Actions. Arquivos de treinos antigos preservados dentro do mesmo repositório. Não promove modelos, não publica a release e não altera pesos ativos. A exclusão no Actions só pode ocorrer após verificar tamanho e checksum da cópia.\n')
-        gh('release','create',TAG,'--repo',REPO,'--draft','--target',os.environ['GITHUB_SHA'],'--title','Backup dos treinos antigos — limpeza Actions 2026-10-09','--notes-file',str(notes))
-        matches=[r for r in api(f'repos/{REPO}/releases?per_page=100') if r['tag_name']==TAG]
-    assert len(matches)==1 and matches[0]['draft'],'Destino deve ser DRAFT.'
-    return matches[0]
+    # A listagem pode ainda refletir a resposta anterior à criação da release.
+    existing=api(f'repos/{REPO}/releases/407413740')
+    assert existing['draft'] and existing['tag_name']==TAG,'Destino deve ser DRAFT.'
+    return existing
 
 def main():
     rel=release();manifest=[]
