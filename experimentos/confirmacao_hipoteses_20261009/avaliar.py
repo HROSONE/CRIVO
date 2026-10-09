@@ -13,6 +13,7 @@ def main():
     ap.add_argument('--raiz', type=Path, required=True)
     ap.add_argument('--saida', type=Path, required=True)
     ap.add_argument('--modo', choices=['componente', 'motor', 'web'], default='componente')
+    ap.add_argument('--exigir-todos', action='store_true')
     a = ap.parse_args()
     if a.saida.exists():
         raise SystemExit('Não sobrescrever resultados anteriores.')
@@ -24,7 +25,9 @@ def main():
         from crivo import Crivo
         from web_core import responder_web
     casos = json.loads((PASTA/'controle.json').read_text())['sessoes']
-    out = dict(controle_sha256=digest, modo=a.modo, sessoes=[])
+    out = dict(controle_sha256=digest, modo=a.modo, sessoes=[],
+               motor_sha256=hashlib.sha256((a.raiz/'raciocinio_conversa.py').read_bytes()).hexdigest(),
+               limite='Controle de desenvolvimento autoral; não mede geração livre ou raciocínio neural geral.')
     for c in casos:
         bot = RaciocinioConversa() if a.modo == 'componente' else Crivo(usar_linguagem_neural=False, usar_geracao=False)
         hist = []
@@ -59,6 +62,8 @@ def main():
     a.saida.parent.mkdir(parents=True, exist_ok=True)
     a.saida.write_text(json.dumps(out, ensure_ascii=False, indent=2)+'\n')
     print(json.dumps(out['resumo']))
+    if a.exigir_todos and out['resumo']['corretos'] != len(rows):
+        raise SystemExit(1)
 
 
 if __name__ == '__main__':

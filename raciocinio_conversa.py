@@ -2,7 +2,8 @@
 
 Não é um gerador irrestrito nem um banco de respostas de diálogos. Extrai
 argumentos tipados, conserva a fonte de cada atualização e calcula a conclusão.
-Uma hipótese opera numa cópia. Ausência de informação não significa negação.
+Uma hipótese permanece numa cópia até a confirmação explícita do usuário.
+Ausência de informação não significa negação.
 O verificador proposicional do projeto certifica apenas os requisitos declarados.
 """
 from copy import deepcopy
@@ -46,6 +47,12 @@ def limpar_citacoes(texto):
 
 class RaciocinioConversa:
     """Estado limitado por instância; não aprende fatos a partir da saída."""
+    _CAMPOS = {'custos': ('custos',), 'tempo': ('tempos', 'disponivel'),
+               'agenda': ('agendas', 'foco_agenda'),
+               'regra': ('requisitos', 'operador', 'posses', 'foco')}
+    _PREFIXOS = {'custos': ('custos', 'custo:'), 'tempo': ('tempo:',),
+                 'agenda': ('agenda:',), 'regra': ('regra', 'posse:')}
+
     def __init__(self):
         self.limpar()
 
@@ -64,6 +71,64 @@ class RaciocinioConversa:
         self.fontes = {}
         self.turno = 0
         self.ultimo = None
+        self._hipotese_pendente = None
+
+    @staticmethod
+    def _comando_hipotese(texto):
+        n = normalizar(texto).strip(' .!')
+        if re.fullmatch(r'(?:confirme|confirmo) (?:essa|esta|a ultima) hipotese(?: como (?:fato|real))?|(?:essa|esta) hipotese (?:aconteceu de verdade|se confirmou)', n):
+            return 'confirmacao'
+        if re.fullmatch(r'(?:descarte|descarto|abandone|abandono) (?:essa|esta|a ultima) hipotese|(?:volte|volto|retorne) aos fatos|sem essa hipotese', n):
+            return 'retorno'
+        return None
+
+    def _capturar_hipotese(self, dominio):
+        return dict(dominio=dominio, turno=self.turno,
+                    estado={k:deepcopy(getattr(self,k)) for k in self._CAMPOS[dominio]},
+                    fontes={k:deepcopy(v) for k,v in self.fontes.items()
+                            if k.startswith(self._PREFIXOS[dominio])})
+
+    def _usar_hipotese(self, pendente):
+        dominio=pendente['dominio']
+        for campo,v in pendente['estado'].items():
+            setattr(self,campo,deepcopy(v))
+        self.fontes={k:v for k,v in self.fontes.items()
+                     if not k.startswith(self._PREFIXOS[dominio])}
+        self.fontes.update(deepcopy(pendente['fontes']))
+
+    def _publicar(self, alvo, dominio, r, frase, evento=None):
+        r['atualizacoes']=[dict(e) for e in alvo.eventos if e['turno']==alvo.turno]
+        r['fontes']={k:deepcopy(v) for k,v in alvo.fontes.items()
+                     if k.startswith(self._PREFIXOS[dominio])}
+        r['redacao']='estrutural_verificada'
+        if evento:r['evento_memoria']=evento
+        self.ultimo=r
+        return 'conversa:raciocinio', ('Nessa hipótese, ' if r['hipotese'] else 'Pelos dados que você informou, ')+frase
+
+    def _gerenciar_hipotese(self, comando, texto):
+        pendente=self._hipotese_pendente
+        dominio=pendente['dominio'] if pendente else (self.ativo if comando=='retorno' else None)
+        if dominio is None:
+            self.ultimo=dict(operacao='gerenciar_hipotese',status='incompleto',
+                             hipotese=False,fonte='declaracoes_da_sessao',
+                             faltam=['hipótese pendente'],atualizacoes=[],fontes={},
+                             redacao='estrutural_verificada')
+            return 'conversa:raciocinio','Não há uma hipótese pendente para confirmar ou descartar. Qual hipótese você quer considerar?'
+        alvo=deepcopy(self);alvo.turno+=1
+        if comando=='confirmacao':
+            alvo._usar_hipotese(pendente)
+            for fonte in alvo.fontes.values():
+                if fonte['origem']=='hipotese':
+                    fonte.update(origem='usuario_confirmado',
+                                 confirmacao=dict(turno=alvo.turno,fonte=texto))
+        alvo._hipotese_pendente=None
+        alvo.ativo=dominio
+        alvo.eventos.append(dict(turno=alvo.turno,campo=comando+':'+dominio,
+                                 anterior=pendente['turno'] if pendente else None,
+                                 valor=None,origem='usuario',fonte=texto))
+        r,frase=alvo._concluir(dominio,False)
+        self.__dict__.update(alvo.__dict__)
+        return self._publicar(alvo,dominio,r,frase,comando)
 
     def _registrar(self, campo, antes, depois, fonte, hipotese):
         fonte=getattr(self,'_fonte_turno',fonte)
@@ -391,10 +456,20 @@ class RaciocinioConversa:
         limpo=limpar_citacoes(texto)
         if re.search(r'\b(?:acho que|nao posso afirmar|nao sei se|ouvi dizer|disse que|talvez)\b',normalizar(limpo)):
             return None
+        comando=self._comando_hipotese(limpo)
+        if comando:
+            return self._gerenciar_hipotese(comando,texto)
         hip=bool(re.search(r'\b(?:se .+? (?:fosse|custasse|tivesse|pudesse|recebesse)|e se)\b',normalizar(limpo)))
+        nova_hipotese=hip
+        if nova_hipotese:
+            # Uma alternativa nova substitui a anterior, inclusive quando não
+            # conseguimos interpretá-la. Não confirmar depois um cenário antigo
+            # como se fosse a tentativa mais recente.
+            self._hipotese_pendente=None
         if re.search(r'\bse\b[^.!?]+\bnao (?:fosse|custasse|tivesse|pudesse|recebesse)\b',normalizar(limpo)):
             return None
         if re.search(r'\b(?:se|caso|desde que)\b',normalizar(limpo)) and not hip:
+            self._hipotese_pendente=None
             return None
         if re.search(r'\b(?:dolares|euros|centavos|iene|libras|dolar)\b',normalizar(limpo)):
             return None
@@ -424,6 +499,11 @@ class RaciocinioConversa:
             # Não juntar unidades, pessoas ou operações diferentes à força.
             return None
         dominio=dominios[0] if dominios else None
+        # Uma declaração real encerra a alternativa anterior; consultar os
+        # fatos também abandona o cenário, sem desfazer confirmações anteriores.
+        retorno=bool(re.search(r'\b(?:fatos|(?:custos|precos|valores|dados|agendas) reais|tempo real|situacao real|fora (?:dessa|da) hipotese)\b',normalizar(limpo)))
+        if not hip and (dominios or retorno):
+            alvo._hipotese_pendente=None
         pergunta=bool('?' in texto or re.search(r'\b(?:resumo|resume|quanto|qual|e agora|o que muda)\b',n))
         if dominio is None and pergunta:
             if alvo.custos and re.search(r'\b(?:precos|custo|custam|custava|valores|totais|diferenca|economiz|empate|barato|mais em conta|menor|taxa)\w*\b',n):
@@ -438,6 +518,11 @@ class RaciocinioConversa:
                 dominio=alvo.ativo
         if dominio is None:
             return None
+        if nova_hipotese and not dominios:
+            return None
+        if not hip and not dominios and not retorno and alvo._hipotese_pendente is not None and dominio==alvo._hipotese_pendente['dominio']:
+            alvo._usar_hipotese(alvo._hipotese_pendente)
+            hip=True
         if dominio=='custos' and len(alvo.custos)<2:
             return None
         if dominio=='tempo' and not alvo.tempos and not re.search(r'\b(?:quanto|sobra|saldo|cabe|cabia)\w*\b',n):
@@ -461,13 +546,17 @@ class RaciocinioConversa:
             frase='Não consegui ligar esse valor a uma opção de forma única. Qual opção ou componente você está corrigindo?'
         else:
             r,frase=alvo._concluir(dominio,hip)
-        r['atualizacoes']=[dict(e) for e in alvo.eventos if e['turno']==alvo.turno]
-        prefixes={'custos':('custos','custo:'),'tempo':('tempo:',),'agenda':('agenda:',),'regra':('regra','posse:')}[dominio]
-        r['fontes']={k:dict(v) for k,v in alvo.fontes.items() if k.startswith(prefixes)}
-        r['redacao']='estrutural_verificada'
         del alvo._fonte_turno
         del alvo._conflitos
         if not hip and r['status']!='conflito':
             self.__dict__.update(alvo.__dict__)
-        self.ultimo=r
-        return 'conversa:raciocinio', ('Nessa hipótese, ' if hip else 'Pelos dados que você informou, ')+frase
+        elif hip and r['status'] not in ('conflito','ambiguo'):
+            # Só valores e fontes do domínio; não há snapshot recursivo da
+            # instância, nem cópia da resposta gerada para a memória factual.
+            self._hipotese_pendente=alvo._capturar_hipotese(dominio)
+            if not nova_hipotese:
+                self._hipotese_pendente['turno']=alvo._hipotese_pendente['turno']
+            self.turno=alvo.turno
+            self.ativo=dominio
+            self.eventos.extend(e for e in alvo.eventos if e['turno']==alvo.turno)
+        return self._publicar(alvo,dominio,r,frase)
