@@ -116,6 +116,8 @@ class TestesMemoriaSessao(unittest.TestCase):
         self.assertEqual(m.exportar()['afirmacoes'], [])
         self.assertIsNone(m.processar('Onde está o núcleo do átomo?'))
         self.assertIsNone(m.processar('De que cor é o sangue do sapo?'))
+        self.assertIsNone(m.processar('De que cor é o solo de Marte?'))
+        self.assertIsNone(m.processar('Onde está o núcleo do Átomo?'))
         self.assertIsNone(m.processar('A quem pertence a Argentina?'))
 
 

@@ -243,9 +243,9 @@ class MemoriaSessao:
                 p = self._pessoa(m[2])
                 if chave(m[2]) in ('ele', 'ela', 'dele', 'dela') and p is None:
                     return self._emitir('A qual pessoa você se refere?', acao='esclarecer')
-                if p is None and not m[2][:1].isupper():
-                    return None  # "núcleo do átomo" continua na rota factual.
-                o = self._objeto(m[1], p) if p else None
+                if p is None:
+                    return None  # "núcleo do Átomo" e "solo de Marte" são consultas factuais.
+                o = self._objeto(m[1], p)
                 return self._resposta_campo(o, rel, m[1] + ' de ' + m[2])
         m = combinar(r'A quem pertence (?:o|a) (.+)', s)
         if m:
