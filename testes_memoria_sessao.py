@@ -145,7 +145,7 @@ class TestesMemoriaSessao(unittest.TestCase):
 class TestesIntegracaoMemoriaSessao(unittest.TestCase):
     def test_chat_preserva_vinte_minutos_e_mochila_da_lia(self):
         from crivo import Crivo
-        b = Crivo()
+        b = Crivo(usar_geracao_sessao=False)
         for s in ('Lia é minha irmã.', 'Maria é minha prima.',
                   'Lia tem uma mochila azul.', 'Maria tem uma mochila verde.',
                   'Tenho 20 minutos disponíveis.', 'Maria tem 60 minutos disponíveis.'):
