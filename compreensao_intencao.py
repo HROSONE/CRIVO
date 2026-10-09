@@ -23,6 +23,231 @@ import re
 import unicodedata
 
 
+def rotear_natural(texto, bot, sessao=None):
+    """Escolhe operações explícitas antes da associação por palavras isoladas.
+
+    Referentes vêm das entidades, da última escrita ou das fichas mostradas.
+    Não usa IDs de testes, não coleta fatos e não consulta pesos externos.
+    """
+    if not isinstance(texto, str) or not texto.strip() or len(texto) > 1200:
+        return None
+    n = dobrar(texto)
+    def rota(peca, ato, refs=(), **dados):
+        return dict(peca=peca, ato=ato, referentes=list(refs), **dados)
+    if '```' in texto:
+        prefixo = texto.split('```', 1)[0]
+        comando = re.search(r'\b(?:analise|diagnostique|depure|interprete|execute|corrija)\b', dobrar(prefixo))
+        fonte_codigo = (re.search(r'```(?:javascript|typescript|js|ts|python)\b', texto, re.I) or
+                        re.search(r'\b(?:codigo|funcao|programa|javascript|typescript)\b', dobrar(prefixo)))
+        if fonte_codigo and comando and not re.search(r'\b(?:nao|nunca|jamais)\s+' + comando[0], dobrar(prefixo)):
+            return rota('programacao', 'analisar', consulta=texto[comando.start():])
+        return None
+    if any(c in texto for c in ('"', '“', '”', '`')):
+        return None
+    if re.search(r'\b(?:nao|nunca|jamais)\s+(?:escrev\w*|crie|invente|analise|calcule|execute)\b', n):
+        return None  # Cancelamento permanece com o protocolo original.
+    if re.search(r'\b(?:o que voce (?:consegue|pode|sabe) fazer|em que voce pode me ajudar)\b', n):
+        return rota('esclarecimento', 'capacidades')
+    if re.search(r'\bexemplos de perguntas\b', n) and re.search(r'\bvoce\b', n):
+        return rota('esclarecimento', 'exemplos')
+    if (re.search(r'\bexplica\w*\b', n) and
+            (re.search(r'\b(?:como (?:voce|o crivo) funciona|funcionamento do crivo)\b', n) or
+             re.search(r'\bjeito simples\b', n) and bot.historico and bot.historico[-1]['pergunta'].strip() == 'ajuda')):
+        return rota('esclarecimento', 'funcionamento')
+    escrita = bot.conversacao.geracao.ultima_escrita
+    if re.search(r'\bhistoria\b', n) and re.search(r'\b(?:escreveu|pegou|fonte|autoria)\b', n):
+        return rota('esclarecimento', 'autoria', tuple(escrita['slots'].values()) if escrita else ())
+    if sessao is not None:
+        acao = bot.memoria_sessao.ultimo['acao']
+        return rota('memoria', 'registrar' if acao == 'registro' else acao, resultado=sessao)
+    pessoas = [e for e in bot.memoria_sessao.entidades.values()
+               if e['tipo'] == 'pessoa' and e['id'] != 'pessoa:usuario']
+    citadas = [e for e in pessoas if re.search(r'(?<!\w)' + re.escape(dobrar(e['nome'])) + r'(?!\w)', n)]
+    pronome = re.search(r'\b(ele|ela|dele|dela)\b', n)
+    if pronome and not citadas:
+        p = bot.memoria_sessao._pessoa(pronome[0])
+        citadas = [e for e in pessoas if e['id'] == p]
+    pedido_pessoal = re.search(r'\b(?:preparo|preparar|ofereco|oferecer|sugira|prefere|gosta)\b', n)
+    if pedido_pessoal and (citadas or pronome and pessoas):
+        acao = 'sugerir' if re.search(r'\b(?:preparo|preparar|ofereco|oferecer|sugira)\b', n) else 'consultar'
+        return rota('memoria', acao, [e['nome'] for e in citadas], sujeitos=[e['id'] for e in citadas])
+    temporal = bot.raciocinio_conversa
+    tempo_explicito = re.search(r'\b(?:dividir|divisao|organiza\w*|ajusta\w*|plano|reserv\w*|deixar)\b', n)
+    if tempo_explicito and (re.search(r'\b(?:minutos?|horas?|tempo)\b', n) or
+                            temporal.ativo == 'tempo' or temporal.disponivel is not None):
+        return rota('calculo', 'planejar')
+    if (re.search(r'\b(?:historia|conto|narrativa)\b', n) and
+            re.search(r'\b(?:escrev\w*|crie|invente)\b', n) and
+            re.search(r'\b(?:essa|esta|a anterior) personagem\b', n)):
+        candidatos = []
+        if escrita and escrita['tipo'] == 'historia':
+            candidatos = [escrita['slots'].get('tema1')]
+        else:
+            for h in bot.historico[-3:]:
+                m = re.search(r'\bgosta de (?:um|uma) (.+?)(?:[.!?]|$)', h['pergunta'], re.I)
+                if m and re.search(r'\b(?:historia|historinha|conto|ficcao)\b', dobrar(h['pergunta'])):
+                    candidatos.append(m[1])
+        candidatos = list(dict.fromkeys(c for c in candidatos if c))
+        quantidade = re.search(r'\b(\d+|duas|tres|quatro|cinco|seis) frases\b', n)
+        contagens = {'duas':2, 'tres':3, 'quatro':4, 'cinco':5, 'seis':6}
+        limite = int(quantidade[1]) if quantidade and quantidade[1].isdigit() else contagens.get(quantidade[1]) if quantidade else None
+        return rota('escrita', 'historia', candidatos, personagem=candidatos[0] if len(candidatos) == 1 else None, frases=limite)
+    if re.match(r'(?:agora )?muda\w* o final\b', n):
+        refs = list(escrita['slots'].values()) if escrita else []
+        if not escrita:
+            for h in bot.historico[-3:]:
+                refs.extend(h.get('natural_routing', {}).get('referentes', ()))
+        detalhe = re.search(r'\b(?:ele|ela) (?:encontra|conhece|reencontra) (.+?)(?:,|[.!?]|$)', texto, re.I)
+        if detalhe:
+            refs.append(detalhe[1])
+        return rota('escrita', 'corrigir', list(dict.fromkeys(refs)))
+    fatos = []
+    for h in bot.historico[-2:]:
+        fatos.extend(tuple(p) for p in h.get('fatos_ativos', ()))
+    fatos = list(dict.fromkeys(fatos))
+    temas = list(dict.fromkeys(e for e, i in fatos))
+    if re.search(r'\b(?:diferenca|mesmo motivo)\b', n) and temas:
+        atual = bot.compositor.assunto_mencionado(texto)
+        if atual and atual not in temas and len(temas) < 2:
+            temas.append(atual)
+        return rota('fato', 'comparar', [bot.compositor.itens[e]['nome'] for e in temas], temas=temas, fatos=fatos)
+    if re.search(r'\b(?:explica\w*|explique)\b', n) and temas and re.search(r'\b(?:topicos|exemplo do dia a dia)\b', n):
+        formato = 'topicos' if 'topicos' in n else 'exemplo'
+        return rota('escrita', formato, [bot.compositor.itens[e]['nome'] for e in temas], temas=temas, fatos=fatos)
+    m = re.match(r'\s*mudando de assunto\s*:\s*(.+)', texto, re.I)
+    if m and re.match(r'(?:quem (?:foi|e)|o que e)\b', dobrar(m[1])):
+        return rota('fato', 'consultar', consulta=m[1])
+    return None
+
+
+def executar_rota_natural(rota, texto, bot):
+    """Despacha para peças existentes e registra o executor que realmente rodou."""
+    peca, ato = rota['peca'], rota['ato']
+    contexto = None
+    quadro = {}
+    if peca == 'esclarecimento':
+        mecanismo = 'conversa_assistente'
+        if ato == 'capacidades':
+            resposta = ('Posso consultar fatos do meu acervo com fontes, calcular, usar informações que você declarou nesta sessão, '
+                        'escrever histórias curtas e analisar um subconjunto de JavaScript. '
+                        'Ainda tenho limites para conversa livre e para entender pedidos ambíguos. Qual dessas tarefas quer tentar?')
+        elif ato == 'exemplos':
+            resposta = '1. O que é uma célula?\n2. Quanto é 7 vezes 8?\n3. O que eu disse que prefiro? (Depois de você declarar sua preferência nesta sessão.)'
+        elif ato == 'funcionamento':
+            resposta = ('Seleciono uma peça para o pedido: fatos do acervo, memória declarada nesta sessão, cálculo ou escrita. '
+                        'Uso redes e pesos próprios; não consulto uma IA externa. Quando falta informação, devo perguntar. '
+                        'Ter essas peças não garante que eu entenda qualquer conversa.')
+        else:
+            tentativa = bot.historico[-1].get('natural_routing', {}) if bot.historico else {}
+            resposta = ('Essa história foi realizada pelo meu gerador próprio, uma GRU autoral, a partir do personagem pedido. '
+                        'É ficção gerada, sem uma fonte factual para os acontecimentos.') if bot.conversacao.geracao.ultima_escrita else 'Não tenho uma história gerada ativa para identificar a autoria. Qual texto você quer verificar?'
+            if not bot.conversacao.geracao.ultima_escrita and tentativa.get('status') == 'bloqueado_pela_guarda' and tentativa.get('peca') == 'escrita':
+                resposta = ('Tentei usar meu gerador próprio, uma GRU autoral. A guarda rejeitou o rascunho por não cumprir o pedido; '
+                            'não entreguei uma história válida. Não busquei uma história de outro lugar.')
+        resultado = 'conversa:esclarecer', resposta
+    elif peca == 'memoria':
+        mecanismo = 'memoria_sessao_estrutural'
+        resultado = rota.get('resultado')
+        if resultado is None and ato == 'sugerir':
+            from conversa_sessao import responder
+            aberto = responder(texto, bot)
+            if aberto is None and len(rota['sujeitos']) == 1:
+                nome = bot.memoria_sessao.entidades[rota['sujeitos'][0]]['nome']
+                aberto = responder('Me sugira uma opção para ' + nome + '.', bot)
+            if aberto is not None:
+                resultado, quadro = aberto
+                mecanismo = 'conversa_sessao'
+                if not quadro.get('sujeitos') and rota['referentes']:
+                    resultado = resultado[0], resultado[1] + ' Referentes mencionados: ' + ', '.join(rota['referentes']) + '.'
+        if resultado is None:
+            sujeitos = rota['sujeitos']
+            if len(sujeitos) != 1:
+                resultado = bot.memoria_sessao._emitir('De qual pessoa você está falando?', acao='esclarecer')
+            else:
+                p = sujeitos[0]; nome = bot.memoria_sessao.entidades[p]['nome']
+                f = bot.memoria_sessao._atual(p, 'preferência')
+                if ato == 'sugerir' and f:
+                    resultado = bot.memoria_sessao._emitir('Para ' + nome + ', sugiro ' + f['valor'] + ', porque você contou que essa é a preferência atual.', [f], acao=ato)
+                else:
+                    resultado = bot.memoria_sessao._resposta_campo(p, 'preferência', nome)
+        if mecanismo == 'memoria_sessao_estrutural':
+            quadro = bot.memoria_sessao.ultimo
+    elif peca == 'calculo':
+        mecanismo = 'raciocinio_conversa_verificavel'
+        resultado = bot.raciocinio_conversa.planejar_contexto(texto, bot.historico, bot.estado_conversa.objetivos)
+        quadro = bot.raciocinio_conversa.ultimo
+    elif peca == 'programacao':
+        mecanismo = 'motor_programacao_proprio'
+        resultado = bot.motor_codigo.responder(rota['consulta'], gerador_experimental=bot.gerador_programacao is not None)
+        if resultado is not None and resultado[0].endswith('_limite'):
+            # O limite pertence ao código enviado, sem fingir que o laço foi
+            # executado. Identifica o alvo mencionado na própria pergunta.
+            alvo = re.search(r'\b(?:por que|porque) (?:o|a) ([\wÀ-ÿ]+)\b', texto, re.I)
+            if alvo:
+                resultado = resultado[0], 'Sobre ' + alvo[1] + ' no código enviado: ' + resultado[1]
+            declarados = list(dict.fromkeys(re.findall(r'\b(?:const|let|var)\s+([A-Za-z_][A-Za-z_0-9]*)', texto.split('```', 1)[-1])))
+            if declarados:
+                resultado = resultado[0], resultado[1] + '\nDeclarações no trecho enviado: ' + ', '.join(declarados) + '. Não executei esse código.'
+        quadro = bot.motor_codigo.ultimo
+    elif peca == 'escrita' and ato in ('historia', 'corrigir'):
+        mecanismo = 'linguagem_conversa'
+        import copy
+        rota['_escrita_anterior'] = copy.deepcopy(bot.conversacao.geracao.ultima_escrita)
+        if ato == 'historia':
+            consulta = 'Escreva uma história curta com ' + rota['personagem'] if rota['personagem'] else None
+        else:
+            consulta = texto
+        preparacao = bot.conversacao.geracao.preparar(consulta, bot, bot.conversacao) if consulta else None
+        resultado = preparacao.resultado[:2] if preparacao and preparacao.resultado else None
+        quadro = bot.conversacao.geracao.ultimo_quadro
+    else:
+        mecanismo = 'composicao_factual'
+        c = bot.compositor
+        if ato == 'consultar':
+            composto = c.responder(rota['consulta'], None)
+            nome = re.fullmatch(r'(?:quem (?:foi|é|e)|o que (?:é|e))\s+(.+?)[?!.]*', rota['consulta'], re.I)
+            if (not composto or composto[0] == 'fora') and nome:
+                assunto = c.resolver(nome[1])
+                if assunto:
+                    composto = c._conceito(assunto)
+        elif ato == 'comparar':
+            temas = rota['temas']
+            selecionados = list(rota['fatos'])
+            for e in temas:
+                if not any(a == e for a, i in selecionados):
+                    selecionados.extend((e, i) for i in range(min(2, len(c.itens[e]['fatos']))))
+            composto = c.compor(temas, 'comparacao', selecionados=tuple(selecionados), origem='conhecimento') if len(temas) == 2 else None
+        else:
+            temas = rota['temas']
+            composto = c.compor(temas, 'topicos', limite=3) if ato == 'topicos' else c.compor(temas, 'simples', selecionados=tuple(rota['fatos']), origem='conhecimento')
+            if ato == 'exemplo' and composto:
+                ident, resposta, contexto = composto
+                composto = ident, 'Exemplo cotidiano descrito na ficha: ' + resposta, contexto
+        if composto and composto[0] != 'fora':
+            resultado = composto[:2]; contexto = composto[2]
+            if ato == 'consultar' and contexto:
+                rota['referentes'] = [c.itens[e]['nome'] for e in contexto.temas]
+            quadro = dict(fatos=list(contexto.exibidos)) if contexto else {}
+        else:
+            resultado = None
+    if resultado is None:
+        resultado = 'conversa:esclarecer', 'Não consegui executar esse pedido com os dados atuais. Pode esclarecer a tarefa' + (' sobre ' + ', '.join(rota['referentes']) if rota['referentes'] else '') + '?'
+        rota['executor'] = mecanismo
+        rota['status'] = 'incompleto'
+    else:
+        rota['executor'] = mecanismo
+        rota['status'] = 'executado'
+    campo = {'memoria':'memoria_sessao', 'calculo':'raciocinio_conversa'}.get(peca, 'execucao_contextual')
+    if mecanismo == 'conversa_sessao':
+        campo = 'conversa_sessao'
+    saida = bot._registrar_conclusao_conversa(texto, resultado, mecanismo, campo, quadro)
+    if contexto is not None:
+        bot.contexto_textual = contexto
+        bot.ultima_resposta_mostrada = saida[1]
+    bot.historico[-1]['natural_routing'] = {k:v for k,v in rota.items() if not k.startswith('_') and k not in ('resultado', 'consulta', 'fatos')}
+    return saida
+
+
 def dobrar(texto):
     """Minúsculas sem acento, preservando o comprimento (spans valem no original)."""
     saida = []
@@ -156,6 +381,13 @@ class EstadoConversa:
         return None
 
     def observar(self, texto):
+        if isinstance(texto, str) and not re.search(r'[`"“”]|\b(?:se|caso|imagine|suponha)\b', dobrar(texto)):
+            partes = re.split(r'(?<=[.!?])\s+', texto.strip())
+            if len(partes) > 1:
+                ultimo = None
+                for parte in partes[:8]:
+                    ultimo = self.observar(parte) or ultimo
+                return ultimo
         achado = self.interpretar(texto)
         if achado is None:
             return None

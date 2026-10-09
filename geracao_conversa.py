@@ -124,6 +124,10 @@ class GeracaoConversa:
         pedido={"acao":operacao if operacao in ("final","continuacao") else tipo,
                 "estilo":mudanca.get("estilo",anterior["estilo"]),"slots":dict(anterior["slots"]),"tipo":tipo}
         pedido["slots"].pop("detalhe",None)
+        if mudanca.get('detalhe_final'):
+            detalhe = mudanca['detalhe_final']
+            encontro = re.fullmatch(r'(?:ele|ela|a personagem|o personagem) (?:encontra|conhece|reencontra) (.+)', detalhe, re.I)
+            pedido['slots']['tema2'] = encontro[1] if encontro else detalhe
         if operacao=="continuacao":
             cenas=re.split(r"(?<=[.!?])\s+",anterior["texto"])
             cena=cenas[-1].strip() if cenas else ""

@@ -102,6 +102,9 @@ def mensagem(texto):
 def revisao(texto):
     n=texto_pedido(texto)
     n=re.sub(r"^(?:agora|entao) ","",n)
+    final = re.fullmatch(r'(?:mude|muda|troque) o final(?: da história)?:\s*(.+?)(?:,? em vez de .+)?[.!?]*', texto.strip(), re.I)
+    if final:
+        return {"operacao":"final", "detalhe_final":final[1].strip()}
     if re.fullmatch(r"(?:me )?(?:de|invente|crie) (?:um )?outro (?:final|desfecho)|"
                     r"mude o final(?: da historia)?|como (?:essa|a) historia poderia terminar de outro jeito|"
                     r"queria outro final para esse conto|que outro final daria para imaginar",n):

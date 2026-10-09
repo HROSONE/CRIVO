@@ -357,9 +357,23 @@ class CompositorTextual:
         ids = tuple(dict.fromkeys(melhor.get(len(partes), ())))
         return ids if 1 <= len(ids) <= 3 else None
 
-    def contexto_editorial(self, identificador, resposta):
+    def contexto_editorial(self, identificador, resposta, assunto=None):
         if identificador not in self.itens:
-            return None
+            if assunto not in self.itens:
+                return None
+            # Algumas respostas editoriais antigas não têm ficha conceitual
+            # própria. Liga apenas ao assunto explícito e a uma unidade cujo
+            # texto compartilha conteúdo suficiente com a resposta mostrada.
+            from curriculo_mundo import texto_fato
+            primeira_frase = re.split(r'(?<=[.!?])\s+', resposta, maxsplit=1)[0]
+            palavras = {p for p in self._raizes(primeira_frase) if len(p) >= 4 and p not in _PALAVRAS_COMUNS}
+            pontuados = [(len(palavras & set(self._raizes(texto_fato(f)))), i)
+                         for i, f in enumerate(self.itens[assunto]['fatos'])]
+            melhor = max(pontuados, default=(0, 0), key=lambda p:p[0])
+            if melhor[0] < 3:
+                return None
+            refs = ((assunto, melhor[1]),)
+            return ContextoTexto((assunto,), refs, refs, 'texto', resposta, 'base')
         mostrados = tuple((identificador, i) for i, f in enumerate(self.itens[identificador]["fatos"])
                           if f["texto"] in resposta)
         if not mostrados:
