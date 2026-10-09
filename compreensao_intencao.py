@@ -73,8 +73,12 @@ def rotear_natural(texto, bot, sessao=None):
         return rota('memoria', acao, [e['nome'] for e in citadas], sujeitos=[e['id'] for e in citadas])
     temporal = bot.raciocinio_conversa
     tempo_explicito = re.search(r'\b(?:dividir|divisao|organiza\w*|ajusta\w*|plano|reserv\w*|deixar)\b', n)
+    anterior = bot.historico[-1].get('id', '') if bot.historico else ''
+    retoma_conta = (anterior == 'conversa:raciocinio' or
+                   anterior.startswith('calculo:') and temporal.disponivel is not None)
+    retomada = re.search(r'\b(?:(?:esse|este) resultado|(?:essas|estas) atividades|(?:tres|3) coisas|mesmo plano|essa divisao)\b', n)
     if tempo_explicito and (re.search(r'\b(?:minutos?|horas?|tempo)\b', n) or
-                            temporal.ativo == 'tempo' or temporal.disponivel is not None):
+                            retoma_conta and retomada):
         return rota('calculo', 'planejar')
     if (re.search(r'\b(?:historia|conto|narrativa)\b', n) and
             re.search(r'\b(?:escrev\w*|crie|invente)\b', n) and
@@ -129,7 +133,8 @@ def executar_rota_natural(rota, texto, bot):
         mecanismo = 'conversa_assistente'
         if ato == 'capacidades':
             resposta = ('Posso consultar fatos do meu acervo com fontes, calcular, usar informações que você declarou nesta sessão, '
-                        'escrever histórias curtas e analisar um subconjunto de JavaScript. '
+                        'escrever histórias curtas e analisar um subconjunto de JavaScript, rastrear estados '
+                        'e tentar corrigir funções simples usando exemplos de entrada e saída. '
                         'Ainda tenho limites para conversa livre e para entender pedidos ambíguos. Qual dessas tarefas quer tentar?')
         elif ato == 'exemplos':
             resposta = '1. O que é uma célula?\n2. Quanto é 7 vezes 8?\n3. O que eu disse que prefiro? (Depois de você declarar sua preferência nesta sessão.)'
