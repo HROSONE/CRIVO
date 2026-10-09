@@ -124,3 +124,13 @@ A correção de repetição pós-merge, já aplicada na main em 60fd187, foi
 incorporada à branch: PR continua com matriz completa e main tem apenas
 cinco contratos rápidos. O job pós-merge dessa correção passou em 20s;
 seu sucesso não constitui aprovação do PR 120.
+
+Uma segunda regressão foi reproduzida na validação do ecossistema: o
+mecanismo `conversa_sessao`, já usado pelo chamador, faltava no mapa de
+papéis, recursos, reguladores e testes. O registro foi adicionado com
+reguladores de memória, crise, pessoa, recusa, fontes e catracas. Passaram
+os sete contratos existentes do mapa/API e um novo contrato que verifica
+o mecanismo, reino, reguladores e ausência de prova factual na API pessoal.
+Os 65 testes originais passaram com o gerador próprio ativo; os seis
+contratos de prioridade e raciocínio ativo também passaram. Os checks do
+commit anterior que contém o registro incompleto não certificam esta versão.
