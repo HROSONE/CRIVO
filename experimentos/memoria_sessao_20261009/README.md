@@ -21,7 +21,7 @@ A base foi o `main` após o PR 116, `93b3f0a`. O SHA-256 do conjunto permanece
 | Meta mínima proposta | 12/20 |
 
 `baseline.json`, `candidato.json` e `web.json` contêm as respostas reais.
-As duas avaliações finais apontam para o código `d7c1f8c`; seus hashes de
+As duas avaliações finais apontam para o código `ce75e66`; seus hashes de
 fontes estão registrados. O par motor anterior/candidato desliga os
 classificadores opcionais de linguagem e interpretação de perguntas, para
 isolar a mudança. A avaliação web adicional usa os padrões de produção.
@@ -100,6 +100,17 @@ teste HTTP esbarrou na restrição de sockets do ambiente; a reexecução com
 sockets locais passou. A varredura ampliada de todos os conceitos científicos
 foi interrompida por sua duração, sem falhas anteriores; a suíte completa
 continua no CI. Nenhum teste foi removido do CI.
+
+O primeiro CI do PR 117 encontrou ainda uma operação de texto tratada como
+pessoa: `Reformule: Quero pedir ajuda...` criava o sujeito `Reformule:`.
+`ce75e66` valida os caracteres dos nomes e exclui pedidos de operação da
+coleta de declarações. A reprodução corrigida passou nos seis testes de
+prioridade e nos 88 testes restantes do check de conteúdo, incluindo HTTP;
+os 34 testes de correção/análise também passaram com `-S`, e o JavaScript
+passou em `node --check`. Os dez contratos atuais da memória passaram sem
+dependências e em Python 3.8. As duas avaliações congeladas foram repetidas
+em `ce75e66` e permaneceram em 20/20. Os logs desse CI e da correção estão
+preservados. A falha inicial não foi tratada como uma validação verde.
 
 Os hashes dos dois arquivos de pesos ativos foram conferidos e permanecem
 iguais. Não houve promoção de pesos nem aprovação neural nova.
