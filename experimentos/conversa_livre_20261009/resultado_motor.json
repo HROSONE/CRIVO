@@ -1,0 +1,1677 @@
+{
+  "commit": "5abcab785f0237ed8e473b08117d1e079db695a6",
+  "modo": "motor",
+  "sha256_sessoes": "b2f0d427b3a5387a10a6755b56f9ad4f3f74ebc4d193347d9d400c6d0a593501",
+  "adequadas": 11,
+  "total": 12,
+  "turnos_adequados": 23,
+  "turnos_avaliados": 25,
+  "respostas_neurais": 17,
+  "fontes_sha256": {
+    "crivo.py": "7e12b501e8d3ddfdcc7793197bad3d457609ac766c4cb4b407379b4527a56f36",
+    "memoria_sessao.py": "e6eb619ab671874b32b29f5f2290b19fe08292b249c32f6c1543f2fc9e6905a4",
+    "realizacao_memoria.py": "6bf1b8f75fe8688d3acc2ab4738be67b3f5ee63670c0b49daed3a6c4b3d27c75",
+    "geracao_conversa.py": "09290328fb2781ee473667237b072ab3469aa6d993916d2acdc2683c89069e78",
+    "web_core.py": "8d3f9cef82b21025c2a1f22e48710d6cbb4ea02d5ce379fe761270adf3f1d348",
+    "conversa_sessao.py": "9f2c58c3d4f480d241526a6e3379972f14eb27010317eda119cc98800cf20f5a"
+  },
+  "sessoes": [
+    {
+      "id": 1,
+      "titulo": "visita e preferência de outra pessoa",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Denore é meu primo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Denore é seu primo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Denore prefere chá de folhas de figueira.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Denore prefere chá de folhas de figueira.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Miralva prefere suco de umbu.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Miralva prefere suco de umbu.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Vou visitar Denore. Que bebida faz sentido levar?",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Denore prefere chá de folhas de figueira. Uma opção é oferecer chá de folhas de figueira, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:denore",
+                "relacao": "preferência",
+                "valor": "chá de folhas de figueira",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Denore prefere chá de folhas de figueira."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Denore prefere chá de folhas de figueira.",
+                "prompt_sha256": "1b19d2afdaacb765248d3758c94fb34268b8de92468439c663c17fe7474a2445",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Como eu explico essa escolha?",
+          "id": "conversa:sessao_explicar",
+          "resposta": "Segundo o que você contou, Denore prefere chá de folhas de figueira. Essa é a razão da escolha: usar a preferência que você relatou, sem supor um gosto diferente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:denore",
+                "relacao": "preferência",
+                "valor": "chá de folhas de figueira",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Denore prefere chá de folhas de figueira."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Denore prefere chá de folhas de figueira.",
+                "prompt_sha256": "76cd503ee9c22c7409559b01f8cad7a9a23851ebc8430980378dec26d3440ec6",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "explicar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "correção usada em sugestão",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Evioma é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Evioma prefere limonada de cravo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma prefere limonada de cravo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Evioma prefere infusão de capim dourado.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma prefere infusão de capim dourado.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Quero escolher algo para Evioma. Me dá uma sugestão usando o que contei?",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Evioma prefere infusão de capim dourado. Uma opção é oferecer infusão de capim dourado, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:evioma",
+                "relacao": "preferência",
+                "valor": "infusão de capim dourado",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Corrigindo: Evioma prefere infusão de capim dourado."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Evioma prefere infusão de capim dourado.",
+                "prompt_sha256": "bfd2ce86121609dd102a4b638822669a7cbd779b80cc45a453d812e0853b6b8b",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Resume a ideia em uma frase.",
+          "id": "conversa:sessao_resumir",
+          "resposta": "Segundo o que você contou, Evioma prefere infusão de capim dourado.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:evioma",
+                "relacao": "preferência",
+                "valor": "infusão de capim dourado",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Corrigindo: Evioma prefere infusão de capim dourado."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Evioma prefere infusão de capim dourado.",
+                "prompt_sha256": "9ebc53c3e0b6fc3fa82e8d05078622f682315c368ad6fd6f62a92d052745d2d3",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "resumir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "objetivo e limite em pedido aberto",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Kaureni é meu irmão.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Kaureni é seu irmão.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Kaureni quer concluir um mosaico de conchas.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Kaureni é concluir um mosaico de conchas.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Kaureni tem 18 minutos disponíveis.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Kaureni tem 18 minutos disponíveis.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira um próximo passo para Kaureni.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, o objetivo de Kaureni é concluir um mosaico de conchas; Kaureni tem 18 minutos disponíveis. Como próximo passo, escolha uma parte pequena desse objetivo que caiba no tempo disponível, respeitando as restrições informadas. Qual parte você consegue começar?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 4,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:kaureni",
+                "relacao": "objetivo",
+                "valor": "concluir um mosaico de conchas",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Kaureni quer concluir um mosaico de conchas."
+                }
+              },
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:kaureni",
+                "relacao": "tempo disponível",
+                "valor": "18 minutos",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Kaureni tem 18 minutos disponíveis."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "o objetivo de Kaureni é concluir um mosaico de conchas.",
+                "prompt_sha256": "c3c11b69982f031e046b24ff7edf3fabd472f5972dace3fa27e0c5eb2e13a666",
+                "diagnostico": {
+                  "tentativas": 3,
+                  "rejeicoes": [
+                    "relacao_sem_suporte",
+                    "resposta_incompleta"
+                  ],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              },
+              {
+                "fato": "Kaureni tem 18 minutos disponíveis.",
+                "prompt_sha256": "5cbc48382b62785fc7c5e2764b053f7fe0cf8655897bd759fb88bb5d4de1be1e",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "E qual limite eu preciso respeitar nessa sugestão?",
+          "id": "conversa:sessao_consultar",
+          "resposta": "Segundo o que você contou, Kaureni tem 18 minutos disponíveis.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:kaureni",
+                "relacao": "tempo disponível",
+                "valor": "18 minutos",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Kaureni tem 18 minutos disponíveis."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Kaureni tem 18 minutos disponíveis.",
+                "prompt_sha256": "3a3c4feca679b203022b7e39601e620fe2beea95ffcd3901157ecfa78a59651d",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "consultar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "titulo": "objeto e detalhe desconhecido",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Loméri é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Loméri é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Loméri tem uma mochila azul.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: mochila de Loméri é azul.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Rivama tem uma mochila verde.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: mochila de Rivama é verde.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a descrever a mochila de Loméri.",
+          "id": "conversa:sessao_resumir",
+          "resposta": "Segundo o que você contou, mochila de Loméri é azul.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "objeto:mochila:pessoa:lomeri",
+                "relacao": "cor",
+                "valor": "azul",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Loméri tem uma mochila azul."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "mochila de Loméri é azul.",
+                "prompt_sha256": "6e699b16c6a3fc2a92dd068223c1e343467c05bd5b8a1fbb14ea0a4129d8f816",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "resumir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "E onde eu encontro a mochila de Loméri?",
+          "id": "conversa:sessao_consultar",
+          "resposta": "Não sei esse dado: você não informou isso na sessão. Qual preferência, objetivo ou localização devemos considerar para Loméri?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "consulta_sem_fatos_ativos",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": [],
+            "ato": "consultar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "titulo": "pronome único em pedido aberto",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Aremi é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Aremi é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Aremi prefere compota de jambo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Aremi prefere compota de jambo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que ela goste.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Aremi prefere compota de jambo. Uma opção é oferecer compota de jambo, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:aremi",
+                "relacao": "preferência",
+                "valor": "compota de jambo",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Aremi prefere compota de jambo."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Aremi prefere compota de jambo.",
+                "prompt_sha256": "9cd468a9ef99110982324c50f281929b2892bc48e04cf19614f5c26e972aca2a",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Por que isso combina com ela?",
+          "id": "conversa:sessao_explicar",
+          "resposta": "Segundo o que você contou, Aremi prefere compota de jambo. Essa é a razão da escolha: usar a preferência que você relatou, sem supor um gosto diferente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:aremi",
+                "relacao": "preferência",
+                "valor": "compota de jambo",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Aremi prefere compota de jambo."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Aremi prefere compota de jambo.",
+                "prompt_sha256": "c43a59542ae6199cf969f6f6bfa32c548dc852cce12e01a212cacb7871ecd251",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "explicar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "titulo": "pronome ambíguo e esclarecimento",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Trovema é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Trovema é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Meluná é minha prima.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Meluná é sua prima.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Trovema prefere geleia de cambuci.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Trovema prefere geleia de cambuci.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Meluná prefere bolo de murici.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Meluná prefere bolo de murici.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que ela goste.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "De qual pessoa você está falando? Preciso esclarecer o referente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "consulta_sem_fatos_ativos",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": [],
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Quero uma sugestão para Trovema.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Trovema prefere geleia de cambuci. Uma opção é oferecer geleia de cambuci, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:trovema",
+                "relacao": "preferência",
+                "valor": "geleia de cambuci",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Trovema prefere geleia de cambuci."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Trovema prefere geleia de cambuci.",
+                "prompt_sha256": "e9b5667eb96fc7997c2a325b4e1ab7946e35f8e20936fbc117f927416eee5fa2",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "titulo": "resumo pedido com forma nova",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Iandrel é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Iandrel é seu vizinho.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Iandrel quer terminar uma maquete de farol.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Iandrel é terminar uma maquete de farol.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Iandrel não pode usar cola quente.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Iandrel não pode usar cola quente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Junta essas informações sobre Iandrel pra eu entender melhor.",
+          "id": "conversa:sessao_resumir",
+          "resposta": "Segundo o que você contou, o objetivo de Iandrel é terminar uma maquete de farol; Iandrel não pode usar cola quente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "guarda_rejeitou",
+            "tentativas": 3,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:iandrel",
+                "relacao": "objetivo",
+                "valor": "terminar uma maquete de farol",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Iandrel quer terminar uma maquete de farol."
+                }
+              },
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:iandrel",
+                "relacao": "permissão:usar cola quente",
+                "valor": "não pode usar cola quente",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Iandrel não pode usar cola quente."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "o objetivo de Iandrel é terminar uma maquete de farol.",
+                "prompt_sha256": "2b862d993fd315823df25db949f46aff490f219104742b72c750e3d4805920fb",
+                "diagnostico": {
+                  "tentativas": 3,
+                  "rejeicoes": [
+                    "resposta_incompleta",
+                    "resposta_incompleta",
+                    "resposta_incompleta"
+                  ],
+                  "motivo": "guarda_rejeitou"
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "ato": "resumir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "O que já sabemos e o que ainda falta perguntar?",
+          "id": "conversa:sessao_perguntar",
+          "resposta": "Segundo o que você contou, o objetivo de Iandrel é terminar uma maquete de farol; Iandrel não pode usar cola quente. Ainda falta perguntar qual parte precisa de ajuda e quais materiais ou condições estão disponíveis.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 2,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:iandrel",
+                "relacao": "objetivo",
+                "valor": "terminar uma maquete de farol",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Iandrel quer terminar uma maquete de farol."
+                }
+              },
+              {
+                "afirmacao": 2,
+                "sujeito": "pessoa:iandrel",
+                "relacao": "permissão:usar cola quente",
+                "valor": "não pode usar cola quente",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 3,
+                  "texto": "Iandrel não pode usar cola quente."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "o objetivo de Iandrel é terminar uma maquete de farol.",
+                "prompt_sha256": "ccdf88af864f3b1891bdc8abc2fdc10034f5cf4a6a35e855b055dc0346ec6299",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              },
+              {
+                "fato": "Iandrel não pode usar cola quente.",
+                "prompt_sha256": "da155c95688829cd6c6f1d5e42feaec22cfbeac5248ede0ba1b3bd983e635e2b",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "perguntar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "titulo": "preferência relatada sem promoção",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Nesori é meu colega.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Nesori é seu colega.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Nesori disse que prefere biscoito de erva cidreira.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Nesori disse que prefere biscoito de erva cidreira.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Eu prefiro fruta fresca.",
+          "id": "conversa:relato",
+          "resposta": "Que legal, você prefere fruta fresca! O que mais te chama a atenção nisso?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a pensar numa opção para Nesori.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Nesori disse que prefere biscoito de erva cidreira. Uma opção é oferecer biscoito de erva cidreira, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:nesori",
+                "relacao": "preferência relatada",
+                "valor": "biscoito de erva cidreira",
+                "escopo": "fala_reportada",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Nesori disse que prefere biscoito de erva cidreira."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Nesori disse que prefere biscoito de erva cidreira.",
+                "prompt_sha256": "7edf39a8585f2da41a36f5502c6c8db837e400b4b1490e6aeff703a3dd26c40f",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Isso era a preferência de quem?",
+          "id": "conversa:sessao_consultar",
+          "resposta": "Segundo o que você contou, Nesori disse que prefere biscoito de erva cidreira.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:nesori",
+                "relacao": "preferência relatada",
+                "valor": "biscoito de erva cidreira",
+                "escopo": "fala_reportada",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Nesori disse que prefere biscoito de erva cidreira."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Nesori disse que prefere biscoito de erva cidreira.",
+                "prompt_sha256": "981d045758c63de636ffc0975e32bdd2f3eafea20356a42d7d9491947a8f5d10",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "consultar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "titulo": "conversa causal sem certeza inventada",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Quando uso meu lápis laranja, meu desenho costuma ficar melhor.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_resposta_verificada",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Mas nesses dias eu também desenho com mais calma.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, mas nesses dias você também desenho com mais calma. Desenho costuma melhorar bastante com prática de todo dia, mesmo que pouca. O que você gosta de desenhar?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Então é o lápis que melhora o desenho?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: lápis / lapis / desenho"
+          ]
+        },
+        {
+          "entrada": "Como eu compararia essas possibilidades?",
+          "id": "conversa:ideias",
+          "resposta": "Vamos pensar em ideias. O que você está criando e o que gostaria de conseguir com isso?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: compar / calma / observar / teste / testar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "titulo": "mudança de assunto e prioridade factual",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Uverni prefere creme de graviola.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Uverni prefere creme de graviola.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a pensar numa opção para Uverni.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Uverni prefere creme de graviola. Uma opção é oferecer creme de graviola, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 0,
+                "sujeito": "pessoa:uverni",
+                "relacao": "preferência",
+                "valor": "creme de graviola",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 1,
+                  "texto": "Uverni prefere creme de graviola."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Uverni prefere creme de graviola.",
+                "prompt_sha256": "26e60ebae3b0af4d50e59700f2489d3dfd301a5c65fe1452407a2718eaf178fa",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Mudando de assunto: o que é DNA?",
+          "id": "conhecimento:dna",
+          "resposta": "O DNA é a molécula que armazena informações genéticas nos organismos. Sua estrutura costuma ser descrita como uma dupla hélice. Vale lembrar que A maior parte do DNA humano não codifica proteínas; parte dessas regiões regula genes ou tem outras funções, e quanto do DNA é de fato funcional ainda é debatido.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 2,
+            "origem": "composicao_factual",
+            "modo": "factual",
+            "evidencias": [
+              {
+                "assunto": "dna",
+                "fato": 0
+              },
+              {
+                "assunto": "dna",
+                "fato": 1
+              }
+            ],
+            "rejeicoes": [],
+            "substituiu": "conhecimento:dna",
+            "texto_alterado": false,
+            "copia_literal": true
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Qual é a fonte dessa informação?",
+          "id": "escrita:fontes",
+          "resposta": "Fontes dos fatos usados:\n- NHGRI — DNA: https://www.genome.gov/genetics-glossary/Deoxyribonucleic-Acid-DNA",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "consulta_de_fontes",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "titulo": "hipótese não substitui gosto real",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Soravina é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Soravina é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Soravina prefere chá de flor de maracujá.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Soravina prefere chá de flor de maracujá.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Se Soravina preferisse café de avelã, seria só uma hipótese.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Vamos usar o gosto real de Soravina para uma sugestão.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Segundo o que você contou, Soravina prefere chá de flor de maracujá. Uma opção é oferecer chá de flor de maracujá, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:soravina",
+                "relacao": "preferência",
+                "valor": "chá de flor de maracujá",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Soravina prefere chá de flor de maracujá."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Soravina prefere chá de flor de maracujá.",
+                "prompt_sha256": "66db216a2112ae6d7285515476c5e52b1e1e796613d1138bf1cdd1a2dffecff8",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "E o que eu disse que Soravina prefere?",
+          "id": "conversa:sessao_consultar",
+          "resposta": "Segundo o que você contou, Soravina prefere chá de flor de maracujá.",
+          "geracao": {
+            "habilitada": true,
+            "usada": true,
+            "motivo": "gerada",
+            "tentativas": 1,
+            "leu_memoria": true,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [
+              {
+                "afirmacao": 1,
+                "sujeito": "pessoa:soravina",
+                "relacao": "preferência",
+                "valor": "chá de flor de maracujá",
+                "escopo": "declarado",
+                "fonte": {
+                  "origem": "usuario",
+                  "turno": 2,
+                  "texto": "Soravina prefere chá de flor de maracujá."
+                }
+              }
+            ],
+            "passagens": [
+              {
+                "fato": "Soravina prefere chá de flor de maracujá.",
+                "prompt_sha256": "4401afd320cdbb5beb373809549e84d2902b913521d2212515a284d7f7c1ab63",
+                "diagnostico": {
+                  "tentativas": 1,
+                  "rejeicoes": [],
+                  "motivo": "gerada",
+                  "prefixo_fonte": true
+                }
+              }
+            ],
+            "modelo": "Transformer causal autoral ancorado",
+            "copia_literal": true,
+            "ato": "consultar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "titulo": "isolamento e informação ausente",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Keluno prefere pudim de pequi.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Keluno prefere pudim de pequi.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Agora esqueça tudo que eu contei aqui.",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que Keluno goste.",
+          "id": "conversa:sessao_sugerir",
+          "resposta": "Você não informou de quem se trata ou esse dado não está disponível. Preciso saber as preferências, o objetivo da escolha e quais limites devemos respeitar.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "consulta_sem_fatos_ativos",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": [],
+            "ato": "sugerir",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Então o que você precisa saber de mim?",
+          "id": "conversa:sessao_perguntar",
+          "resposta": "Você não informou de quem se trata ou esse dado não está disponível. Preciso saber as preferências, o objetivo da escolha e quais limites devemos respeitar.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "consulta_sem_fatos_ativos",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": [],
+            "ato": "perguntar",
+            "selecao": "estrutural",
+            "redacao_do_ato": "estrutural"
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    }
+  ],
+  "limites": [
+    "Sonda autoral congelada antes de editar o consumidor; não é amostra cega externa de diálogo livre.",
+    "Verificação textual sem avaliador LLM externo; presença de palavras não demonstra raciocínio geral.",
+    "Registros iniciais alimentam a memória existente; as solicitações incluem operações abertas e controles.",
+    "Nenhum novo coletor ou camada de memória nesta etapa."
+  ]
+}

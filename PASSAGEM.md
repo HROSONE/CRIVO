@@ -12,6 +12,34 @@ Os PRs recentes de memória e diálogo estão mesclados:
 | #116 | Preservar hipóteses confirmadas | 12/32 → **32/32** contratos | Mesclado |
 | #117 | Memória explícita de pessoas, objetos e correções | 1/20 → **20/20** sessões no motor e na API web | Mesclado |
 | #118 | Novas perguntas e correções compostas | 9/20 → **20/20** novas sessões no motor e na API web | Mesclado |
+| #119 | Transformer próprio lendo fatos ativos da sessão | **20/20** sessões; 16 realizações neurais e quatro recuos | Mesclado |
+
+O PR #119 foi mesclado em `ef2fafdb` em 09/10 às 17:11 UTC, com 34 checks
+aprovados e um treino opcional ignorado. As branches foram preservadas.
+
+**Revisão atual: pedidos abertos sobre o estado que já existe.**
+
+- Branch: `codex/conversa-livre-20261009`; base `ef2fafdb`.
+- Novo desenvolvimento congelado antes da implementação: **0/12 → 11/12
+  sessões**, **2/25 → 23/25 solicitações**, no motor e na API padrão.
+- O consumidor reconhece operações limitadas e usa os fatos ativos para
+  sugerir, justificar uma escolha, resumir e perguntar o que falta. Não
+  acrescenta outro coletor, gramática de declaração ou camada de memória.
+- Em cada modo: 16 realizações neurais da sessão aceitas, um recuo pela
+  guarda e quatro esclarecimentos sem evidência. A resposta factual de DNA
+  também usa a rede, mas não é realização da memória pessoal.
+- Replay HTTP adicional: oito mensagens, três consultas corretas e três
+  realizações neurais; correção preservada sem trocar as pessoas.
+- O novo roteador autoral de 56.406 parâmetros foi treinado, reprovou na
+  validação e permanece **desativado, aprovado=false**. Não reduza seu
+  limiar nem o promova com base nos acertos de treino.
+- Memória e checkpoints ativos permanecem iguais à base. Seleção e
+  complementos conversacionais são estruturais; somente os fatos têm
+  realização pelo Transformer ancorado. Ainda não é geração livre.
+- Falha restante explícita: conversa causal sobre lápis, desenho e calma.
+  Não alterar o conjunto para fazê-la desaparecer.
+- Evidências e limites: `experimentos/conversa_livre_20261009/README.md`.
+  A revisão ainda depende dos próprios checks antes de mesclar.
 
 O PR #117 foi mesclado em `b0fac387` após 34 checks aprovados, sem falhas.
 O único check ignorado foi o treino opcional, conforme a configuração.
@@ -27,7 +55,7 @@ completas tinham zero ocorrências em 1.023 arquivos textuais locais auditados;
 isso não certifica o corpus bruto indisponível. O trace dessa versão confirma
 que as respostas ainda vieram da política estruturada, sem realização neural.
 
-**Próxima revisão: o realizador lendo esse estado.**
+**Histórico da integração do realizador (#119, já mesclado).**
 
 - Branch de integração: `codex/realizador-sessao-20261009`.
 - O Transformer próprio já existente recebe cada fato ativo selecionado,
@@ -43,7 +71,7 @@ que as respostas ainda vieram da política estruturada, sem realização neural.
 - No replay HTTP das três consultas manuais, o candidato usou a rede em
   **3/3**, preservando texto e fontes do baseline, inclusive a correção.
 - Evidências: `experimentos/realizacao_memoria_20261009/README.md`.
-  A revisão do realizador depende dos próprios checks antes de mesclar.
+  A revisão do realizador foi mesclada após seus próprios checks aprovados.
 
 ## Restrição permanente
 
@@ -70,10 +98,11 @@ Evitar abrir novas frentes de memória até o gerador passar a ler o estado.
 
 ## Próximo passo técnico
 
-1. Integrar o consumidor neural já validado, após os checks da própria revisão.
-2. Medir uso real da memória pelo gerador, distinguindo leitura do prompt,
-   geração aceita e recuo. Conservação estrutural não é acerto neural.
-3. Investigar as rejeições do realizador e registrar os limites da conversa.
+1. Mesclar a revisão de pedidos abertos somente após seus próprios checks.
+2. Investigar a falha causal demonstrada e a generalização do roteamento,
+   preservando o conjunto e medindo cobertura e erro das aceitações.
+3. Distinguir operações estruturais, leitura e realização neural, mantendo
+   os recuos e os limites documentados.
    Não abrir outra frente de memória estruturada. Treinos de geração livre,
    ampliação do acervo, voz e microcircuitos continuam adiados nesta etapa.
 
