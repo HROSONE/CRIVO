@@ -605,8 +605,8 @@ class Conversacao:
         if objetivo:
             alvo = re.fullmatch(r"(?:eu )?(?:quero|pretendo|meu objetivo [eé]) (.+)", original.rstrip(" .!"), re.I)
             self.objetivo, self.etapa = (alvo.group(1) if alvo else objetivo.group(1)), 1
-            from dialogo_aberto import OBJETIVO_NOVO
-            resposta = _sortear(self, OBJETIVO_NOVO) % _voce(self.objetivo) + " Qual é a principal dificuldade para chegar lá?"
+            from dialogo_aberto import reacao_objetivo
+            resposta = reacao_objetivo(_voce(self.objetivo),self)
         elif self.etapa <= 1:
             self.etapa = 2
             pergunta = "O que você já tentou e como isso funcionou para você?"

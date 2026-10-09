@@ -19,6 +19,8 @@ on:
       - 'linguagem_conversa.py'
       - 'compreensao_intencao.py'
       - 'testes_dialogo_situado.py'
+      - 'testes_detalhes_conversa.py'
+      - 'experimentos/detalhes_conversa_20261009/**'
       - 'avaliar_dialogo_real.py'
       - 'experimentos/dialogo_situado_20261008/**'
       - '.github/workflows/dialogo-situado.yml'
@@ -41,6 +43,8 @@ jobs:
       - name: Escopos, memória e compatibilidade sem dependências opcionais
         run: |
           python -m unittest testes_dialogo_situado -v
+          python -m unittest testes_detalhes_conversa -v
+          python -S -m unittest testes_detalhes_conversa.TestesEscopoDetalhes -v
           python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
           python -m unittest testes_raciocinio_conversa -v
           python -m unittest testes_hipoteses_confirmadas -v

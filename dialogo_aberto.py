@@ -307,7 +307,7 @@ class DialogoAberto:
             conversa.objetivo, conversa.etapa = self.dados.get("objetivo"), 1
             self.espera = "obstaculo"
             alvo = _voce(conversa.objetivo or original)
-            resposta = (_sortear(conversa, OBJETIVO_NOVO) % alvo + " Qual é a principal dificuldade para chegar lá?")
+            resposta = reacao_objetivo(alvo, conversa)
         elif self.opcoes and re.match(r"(?:tenho (?:duas|2) opcoes|estou entre)\b", normalizar(texto)):
             self.espera = "criterio"
             resposta = "Você está entre “" + "” e “".join(self.opcoes) + "”. O que pesa mais nessa escolha: o resultado, o prazo ou como você está agora?"
@@ -604,6 +604,15 @@ class DialogoAberto:
 
 OBJETIVO_NOVO = ("Você contou que quer %s. Que bom!", "Você contou que quer %s, que legal.",
                  "Legal! Você contou que quer %s.")
+
+
+def reacao_objetivo(alvo, conversa):
+    """Uma preocupação declarada pede avaliação, sem celebrar o receio."""
+    if re.search(r'\b(?:medo|receio|arrepend\w*|preocupad\w*|nao consigo|triste|frustrad\w*)\b',normalizar(alvo)):
+        return ('Você está considerando “'+alvo+'”. '
+                'O que ajudaria você a avaliar essa possibilidade com mais clareza?')
+    return (_sortear(conversa,OBJETIVO_NOVO)%alvo +
+            ' Qual é a principal dificuldade para chegar lá?')
 
 
 def reacao_relato(texto, eco, objetivo, conversa):

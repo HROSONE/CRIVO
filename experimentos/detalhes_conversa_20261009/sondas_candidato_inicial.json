@@ -1,0 +1,440 @@
+{
+  "limite": "Sondas autorais de diagnóstico, agora conhecidas; não são validação independente nem prova de geração livre.",
+  "sondas_sha256": "dac429509afefa18c07ea20879aa01fdad9499efcb4256fdb9818ec677869744",
+  "codigo_sha256": {
+    "dialogo_situado.py": "3875de55c94c12cff47bd61510d06a8a1ac0d4c8fdf579d7492e3c50775ecf5c",
+    "dialogo_aberto.py": "89f7ae6364d72bcdf0c6838c040e8942bdd0cf5d24097bc17d2a2f78d463dacc",
+    "linguagem_conversa.py": "d29b8b5b5242d2c29e1cd49d5f4669d52c5539728d03202b7dc1e1ce97abb153"
+  },
+  "sessoes": [
+    {
+      "nome": "emprego",
+      "turnos": [
+        {
+          "entrada": "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+          "ident": "conversa:relato",
+          "resposta": "Você está considerando “trocar de emprego, mas tenho medo de me arrepender”. O que ajudaria você a avaliar essa possibilidade com mais clareza?",
+          "relatos": [
+            "Estou pensando em trocar de emprego, mas tenho medo de me arrepender."
+          ],
+          "quadro": {
+            "relatos": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender."
+            ],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "O emprego atual paga mais, o outro fica perto da minha família.",
+          "ident": "conversa:situada_detalhe_pessoal",
+          "resposta": "Você acrescentou “O emprego atual paga mais, o outro fica perto da minha família”. Vou considerar isso junto de “Estou pensando em trocar de emprego, mas tenho medo de me arrepender”. Qual desses aspectos pesa mais para você nessa situação?",
+          "relatos": [
+            "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+            "O emprego atual paga mais, o outro fica perto da minha família."
+          ],
+          "quadro": {
+            "relatos": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família."
+            ],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "detalhe_pessoal",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Dinheiro importa, mas eu perdi momentos importantes com eles.",
+          "ident": "conversa:situada_detalhe_pessoal",
+          "resposta": "Você acrescentou “Dinheiro importa, mas eu perdi momentos importantes com eles”. Vou considerar isso junto de “Estou pensando em trocar de emprego, mas tenho medo de me arrepender” e “O emprego atual paga mais, o outro fica perto da minha família”. Qual desses aspectos pesa mais para você nessa situação?",
+          "relatos": [
+            "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+            "O emprego atual paga mais, o outro fica perto da minha família.",
+            "Dinheiro importa, mas eu perdi momentos importantes com eles."
+          ],
+          "quadro": {
+            "relatos": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família.",
+              "Dinheiro importa, mas eu perdi momentos importantes com eles."
+            ],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "detalhe_pessoal",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família.",
+              "Dinheiro importa, mas eu perdi momentos importantes com eles."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Me ajuda a comparar sem decidir por mim?",
+          "ident": "conversa:situada_comparacao_criterios",
+          "resposta": "Você trouxe estes aspectos para a escolha: “Estou pensando em trocar de emprego, mas tenho medo de me arrepender”; “O emprego atual paga mais, o outro fica perto da minha família”; “Dinheiro importa, mas eu perdi momentos importantes com eles”. Para comparar, veja o que cada opção atende e do que teria de abrir mão. Defina quais condições são indispensáveis e quais aceita negociar. Qual delas você não gostaria de sacrificar?",
+          "relatos": [
+            "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+            "O emprego atual paga mais, o outro fica perto da minha família.",
+            "Dinheiro importa, mas eu perdi momentos importantes com eles."
+          ],
+          "quadro": {
+            "relatos": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família.",
+              "Dinheiro importa, mas eu perdi momentos importantes com eles."
+            ],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "comparacao_criterios",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+              "O emprego atual paga mais, o outro fica perto da minha família.",
+              "Dinheiro importa, mas eu perdi momentos importantes com eles."
+            ],
+            "pesos_promovidos": false
+          }
+        }
+      ]
+    },
+    {
+      "nome": "perfeccionismo",
+      "turnos": [
+        {
+          "entrada": "Se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro.",
+          "ident": "nocao:observacao",
+          "resposta": "Entendi, talvez você consiga terminar seu livro. Livro bom costuma fazer a gente perder a hora. Sobre o que é o livro?",
+          "relatos": [
+            "Se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro."
+          ],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "Mas entregar algo ruim me dá medo. Como distinguir cuidado de perfeccionismo?",
+          "ident": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "relatos": [
+            "Se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro."
+          ],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "Uma amiga disse que eu devia abandonar o projeto, mas não concordo.",
+          "ident": "conversa:situada_citacao",
+          "resposta": "Você relatou uma sugestão de outra pessoa e indicou sua posição: “Uma amiga disse que eu devia abandonar o projeto, mas não concordo”. A sugestão não substitui seu objetivo. O que faz você discordar dela?",
+          "relatos": [
+            "Se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro."
+          ],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "citacao",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Uma amiga disse que eu devia abandonar o projeto, mas não concordo."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Qual é a contradição entre o que eu quero e o que eu faço?",
+          "ident": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "relatos": [
+            "Se eu parar de tentar ser perfeito, talvez eu consiga terminar meu livro."
+          ],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        }
+      ]
+    },
+    {
+      "nome": "causas_bateria",
+      "turnos": [
+        {
+          "entrada": "A bateria acaba quando uso o aplicativo. Isso prova que ele está defeituoso?",
+          "ident": "fora",
+          "resposta": "Reconheci o assunto aplicativo, mas não tenho evidência cadastrada para essa pergunta completa.",
+          "relatos": [],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "O celular também é antigo e fica com a tela ligada.",
+          "ident": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "relatos": [],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "Como testar essas explicações separadamente?",
+          "ident": "contexto:sem_referencia",
+          "resposta": "Qual explicações você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "relatos": [],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "Se eu encontrar duas causas juntas, como você revisaria a conclusão?",
+          "ident": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "relatos": [],
+          "quadro": {
+            "relatos": [],
+            "objetivo": null,
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        }
+      ]
+    },
+    {
+      "nome": "moradia",
+      "turnos": [
+        {
+          "entrada": "Quero mudar de casa, mas tenho receio de me arrepender.",
+          "ident": "conversa:relato",
+          "resposta": "Você está considerando “mudar de casa, mas tenho receio de me arrepender”. O que ajudaria você a avaliar essa possibilidade com mais clareza?",
+          "relatos": [
+            "Quero mudar de casa, mas tenho receio de me arrepender."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero mudar de casa, mas tenho receio de me arrepender."
+            ],
+            "objetivo": "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+          "ident": "conversa:situada_detalhe_pessoal",
+          "resposta": "Você acrescentou “A casa menor fica perto dos meus amigos; a maior exige uma viagem longa”. Vou considerar isso junto de “Quero mudar de casa, mas tenho receio de me arrepender”. Qual desses aspectos pesa mais para você nessa situação?",
+          "relatos": [
+            "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa."
+            ],
+            "objetivo": "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "detalhe_pessoal",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito.",
+          "ident": "conversa:situada_detalhe_pessoal",
+          "resposta": "Você acrescentou “Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito”. Vou considerar isso junto de “Quero mudar de casa, mas tenho receio de me arrepender” e “A casa menor fica perto dos meus amigos; a maior exige uma viagem longa”. Qual desses aspectos pesa mais para você nessa situação?",
+          "relatos": [
+            "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+            "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+              "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+            ],
+            "objetivo": "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "detalhe_pessoal",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+              "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Compare essas opções sem escolher por mim.",
+          "ident": "conversa:situada_comparacao_criterios",
+          "resposta": "Você trouxe estes aspectos para a escolha: “Quero mudar de casa, mas tenho receio de me arrepender”; “A casa menor fica perto dos meus amigos; a maior exige uma viagem longa”; “Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito”. Para comparar, veja o que cada opção atende e do que teria de abrir mão. Defina quais condições são indispensáveis e quais aceita negociar. Qual delas você não gostaria de sacrificar?",
+          "relatos": [
+            "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+            "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+              "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+            ],
+            "objetivo": "Quero mudar de casa, mas tenho receio de me arrepender.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "comparacao_criterios",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Quero mudar de casa, mas tenho receio de me arrepender.",
+              "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+              "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+            ],
+            "pesos_promovidos": false
+          }
+        }
+      ]
+    },
+    {
+      "nome": "relato_indireto",
+      "turnos": [
+        {
+          "entrada": "Quero terminar minha pesquisa.",
+          "ident": "conversa:relato",
+          "resposta": "Você contou que quer terminar sua pesquisa, que legal. Qual é a principal dificuldade para chegar lá?",
+          "relatos": [
+            "Quero terminar minha pesquisa."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero terminar minha pesquisa."
+            ],
+            "objetivo": "Quero terminar minha pesquisa.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        },
+        {
+          "entrada": "Uma colega disse que eu devia desistir, mas não concordo.",
+          "ident": "conversa:situada_citacao",
+          "resposta": "Você relatou uma sugestão de outra pessoa e indicou sua posição: “Uma colega disse que eu devia desistir, mas não concordo”. A sugestão não substitui seu objetivo. O que faz você discordar dela?",
+          "relatos": [
+            "Quero terminar minha pesquisa."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero terminar minha pesquisa."
+            ],
+            "objetivo": "Quero terminar minha pesquisa.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": {
+            "acao": "citacao",
+            "origem": "politica_estrutural_propria",
+            "fontes": [
+              "Uma colega disse que eu devia desistir, mas não concordo."
+            ],
+            "pesos_promovidos": false
+          }
+        },
+        {
+          "entrada": "Resuma o que eu contei.",
+          "ident": "conversa:gerada_resumo",
+          "resposta": "O resumo do seu relato é: “Quero terminar minha pesquisa.”. Esses são os pontos que você declarou, sem acrescentar detalhes.",
+          "relatos": [
+            "Quero terminar minha pesquisa."
+          ],
+          "quadro": {
+            "relatos": [
+              "Quero terminar minha pesquisa."
+            ],
+            "objetivo": "Quero terminar minha pesquisa.",
+            "minutos": null,
+            "opcoes": [],
+            "referencias": {}
+          },
+          "politica": null
+        }
+      ]
+    }
+  ]
+}

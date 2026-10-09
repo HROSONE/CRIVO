@@ -38,6 +38,22 @@ def pessoal(n):
                          r'seria (?:bom|legal|interessante) |e mais por |era |talvez )',n))
 
 
+def fala_reportada(n):
+    return bool(re.match(r'(?!eu\b|voce\b)[\w ]{1,60}?\s+(?:disse|falou|sugeriu)\s+(?:que|para)\b',n))
+
+
+def detalhe_pessoal(texto):
+    """Uma declaração pode mencionar a pessoa sem começar por 'eu'."""
+    n=ntexto(texto)
+    return ('?' not in texto and not citado(texto) and not hipotetico(n)
+            and not fala_reportada(n)
+            and not re.search(r'\b(?:se|caso|talvez|desde que)\b',n)
+            and not re.match(r'(?:por favor )?(?:qual|quais|como|onde|quando|por que|'
+                             r'explique|defina|calcule|compare|escreva|crie|gere|'
+                             r'execute|analise|mostre|resuma|me ajud\w*)\b',n)
+            and bool(re.search(r'\b(?:eu|meu|minha|meus|minhas|comigo)\b',n)))
+
+
 def abertura(texto):
     return re.fullmatch(r'(?:eu\s+)?(?:quero|queria|gostaria de)\s+(?:falar|conversar|trocar ideia)'
                         r'\s+(.+)',texto.strip().strip(' .!'),re.I)
@@ -100,7 +116,7 @@ class DialogoSituado:
         referencias = {}
         for texto in conversa.relatos:
             n = ntexto(texto)
-            if citado(texto) or hipotetico(n) or '?' in texto:
+            if citado(texto) or fala_reportada(n) or hipotetico(n) or '?' in texto:
                 continue
             reais.append(texto)
             if re.match(r'(?:eu )?(?:quero|queria|pretendo|ando querendo|gostaria de|'
@@ -153,9 +169,9 @@ class DialogoSituado:
             n = ntexto(texto)
         if hipotetico(n) or re.match(r'sempre que ',n):
             self.hipotese = (texto[:600],conversa.turno)
-        if not citado(texto) and '?' not in texto and not hipotetico(n) and (
+        if not citado(texto) and not fala_reportada(n) and '?' not in texto and not hipotetico(n) and (
                 mudanca or pessoal(n) or extrair_opcoes(texto) or ordinal(n) is not None or
-                ident=='conversa:situada_circunstancia'):
+                ident in ('conversa:situada_circunstancia','conversa:situada_detalhe_pessoal')):
             self.suspenso = False
             if not conversa.relatos or conversa.relatos[-1] != texto:
                 conversa.relatos.append(texto.strip()[:600])
@@ -235,6 +251,12 @@ class DialogoSituado:
                     '. Ela não muda o que você está pedindo nem seu objetivo. '
                     'Você quer conversar sobre como recebeu essa fala?', [texto])
             return None
+        if fala_reportada(n):
+            if re.search(r'\b(?:nao concordo|discordo|nao (?:estou )?pedindo)\b',n):
+                return self._emitir('citacao',
+                    'Você relatou uma sugestão de outra pessoa e indicou sua posição: '+fonte(texto)+
+                    '. A sugestão não substitui seu objetivo. O que faz você discordar dela?', [texto])
+            return None
         if bot.contexto_textual is not None and re.fullmatch(
                 r'(?:qual (?:e )?a fonte(?: dessa informacao)?|fontes|resuma isso|mais simples)',n):
             return None
@@ -297,6 +319,17 @@ class DialogoSituado:
                 'Você está tentando conciliar o que deseja com as condições que contou: '+
                 '; '.join(fonte(p) for p in partes)+'. Qual desses limites pesa mais? '
                 'Podemos escolher um passo que caiba nele sem perder o objetivo.',partes)
+        comparar=bool(re.fullmatch(
+            r'(?:(?:entao|agora|por favor) )?(?:me ajud[ae] a comparar|compare|comparar)'
+            r'(?: (?:essas|estas|minhas|as) (?:opcoes|alternativas|escolhas|condicoes|criterios))?'
+            r'(?: sem (?:decidir|escolher) por mim)?',n))
+        if comparar and ativos and len(q['relatos'])>=2:
+            partes=q['relatos'][-4:]
+            return self._emitir('comparacao_criterios',
+                'Você trouxe estes aspectos para a escolha: '+ '; '.join(fonte(p) for p in partes)+
+                '. Para comparar, veja o que cada opção atende e do que teria de abrir mão. '
+                'Defina quais condições são indispensáveis e quais aceita negociar. '
+                'Qual delas você não gostaria de sacrificar?',partes)
         idx = ordinal(n)
         if idx is not None and q['opcoes'] and re.match(r'(?:mas )?(?:a|o) (?:primeir|segund|terceir|quart)[ao]\b',n):
             if idx >= len(q['opcoes']):
@@ -392,6 +425,12 @@ class DialogoSituado:
             return self._emitir('sentimento',
                 'Você ligou esse sentimento à situação '+contexto+'. Agora acrescentou: '+fonte(texto)+
                 '. O que foi mais importante para você nessa experiência?',fontes+[texto])
+        # Primeiro deixe as rotas nativas interpretar a declaração. Este
+        # resgate acrescenta contexto quando elas não a compreenderam.
+        if apos_recusa and ativos and detalhe_pessoal(texto) and not pessoal(n):
+            return self._emitir('detalhe_pessoal',
+                'Você acrescentou '+fonte(texto)+'. Vou considerar isso junto de '+contexto+
+                '. Qual desses aspectos pesa mais para você nessa situação?',fontes+[texto])
         if apos_recusa and '?' not in texto and pessoal(n) and not re.search(r'\b(?:o que e|como funciona|codigo|programa|script|defina|explique)\b',n):
             return self._emitir('relato',
                 'Você trouxe '+fonte(texto)+'. Posso conversar a partir disso. '
