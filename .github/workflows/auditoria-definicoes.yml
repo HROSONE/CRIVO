@@ -1,14 +1,15 @@
 name: Auditoria de definicoes
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
-      - 'crivo.py'
       - 'conversa_assistente.py'
       - 'testes_autoconversa.py'
       - 'testes_conversa_informal.py'
       - 'interpretacao_pedidos.py'
       - 'testes_interpretacao_pedidos.py'
-      - 'composicao_textual.py'
       - 'conhecimento_expandido.json'
       - 'testes_composicao_textual.py'
       - 'interpretacao_geral.py'
@@ -26,7 +27,6 @@ on:
       - 'frutas.py'
       - 'frutas.json'
       - 'testes_relacoes_frutas.py'
-      - '.github/workflows/auditoria-definicoes.yml'
   workflow_dispatch:
 jobs:
   recuperar:

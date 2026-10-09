@@ -1,10 +1,12 @@
 name: Contratos do piloto de raciocínio generativo
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'experimentos/raciocinio_generativo/**'
       - 'raciocinio_ativo.py'
-      - '.github/workflows/piloto-raciocinio-generativo.yml'
   workflow_dispatch:
 permissions:
   contents: read

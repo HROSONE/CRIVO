@@ -1,11 +1,12 @@
 name: Experimento cortical local sem APIs
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'cortex_associativo.py'
       - 'testes_cortex_associativo.py'
-      - 'composicao_textual.py'
-      - '.github/workflows/experimento-cortex-local.yml'
   push:
     branches: [exp/conhecimento-astronomia-basica-20261001]
     paths:

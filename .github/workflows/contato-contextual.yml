@@ -1,16 +1,17 @@
 name: Diálogo cotidiano e contexto
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'conversa_assistente.py'
       - 'conversa_cotidiana.py'
-      - 'crivo.py'
       - 'linguagem_conversa.py'
       - 'conhecimento_expandido.json'
       - 'testes_contato_contextual.py'
       - 'scripts/avaliar_contato_contextual.py'
       - 'avaliacoes/contato_contextual_v1/**'
-      - '.github/workflows/contato-contextual.yml'
   workflow_dispatch:
 permissions:
   contents: read

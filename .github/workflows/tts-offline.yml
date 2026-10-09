@@ -1,4 +1,7 @@
 name: TTS offline - contrato isolado
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   push:
     branches: [main]
@@ -10,7 +13,6 @@ on:
     paths:
       - "public/tts/**"
       - "tests/tts_offline.test.cjs"
-      - ".github/workflows/tts-offline.yml"
   workflow_dispatch:
 jobs:
   contract:

@@ -1,4 +1,7 @@
 name: Diagnóstico e reparos próprios
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -11,7 +14,6 @@ on:
       - 'dados/estados/benchmark-diagnostico.json'
       - 'dados/estados/v3-congelada.json'
       - 'exemplos/diagnostico-incremento.json'
-      - '.github/workflows/diagnostico-estados.yml'
   workflow_dispatch:
 permissions:
   contents: read

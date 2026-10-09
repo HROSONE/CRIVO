@@ -1,4 +1,7 @@
 name: Motor de programação no chat
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -10,15 +13,8 @@ on:
       - 'testes_capacidades_compostas.py'
       - 'modelo_efeitos_chat.py'
       - 'artefatos/efeitos_programacao/**'
-      - 'crivo.py'
-      - 'web_core.py'
-      - 'api/chat.py'
       - 'testes_motor_programacao_chat.py'
       - 'testes_http_chunked.py'
-      - 'public/app.js'
-      - 'public/index.html'
-      - 'vercel.json'
-      - '.github/workflows/motor-programacao-chat.yml'
   workflow_dispatch:
 permissions:
   contents: read

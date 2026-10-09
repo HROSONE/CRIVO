@@ -1,4 +1,7 @@
 name: Treinar checkpoint experimental 96
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   workflow_dispatch:
   pull_request:
@@ -8,7 +11,6 @@ on:
       - 'scripts/treinar_astronomia.py'
       - 'scripts/avaliar_astronomia_independente.py'
       - 'testes_avaliador_checkpoint_experimental.py'
-      - '.github/workflows/treinar-checkpoint-96.yml'
 jobs:
   treino:
     runs-on: ubuntu-latest

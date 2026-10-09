@@ -1,4 +1,7 @@
 name: Estados, estruturas e reparo próprios
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -10,7 +13,6 @@ on:
       - 'scripts/experimento_estados_v2.py'
       - 'scripts/interpretar_estruturas.py'
       - 'dados/estados/**'
-      - '.github/workflows/estados-estruturas.yml'
   workflow_dispatch:
 permissions:
   contents: read

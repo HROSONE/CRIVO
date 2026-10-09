@@ -1,4 +1,7 @@
 name: Auditoria de regras mistas
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -15,16 +18,13 @@ on:
       - 'coorte_geral_v04.json'
       - 'coorte_geral.py'
       - 'conhecimento.json'
-      - 'crivo.py'
       - 'conversa_assistente.py'
       - 'testes_autoconversa.py'
       - 'testes_conversa_informal.py'
       - 'interpretacao_pedidos.py'
       - 'testes_interpretacao_pedidos.py'
-      - 'composicao_textual.py'
       - 'conhecimento_expandido.json'
       - 'testes_composicao_textual.py'
-      - '.github/workflows/auditoria-regras.yml'
   workflow_dispatch:
 jobs:
   auditoria:

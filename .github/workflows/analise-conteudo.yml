@@ -1,16 +1,14 @@
 name: Análise de conteúdo enviado
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'analise_conteudo.py'
       - 'correcao_texto.py'
-      - 'crivo.py'
-      - 'web_core.py'
-      - 'api/chat.py'
-      - 'public/**'
       - 'testes_analise_conteudo.py'
       - 'testes_correcao_texto.py'
-      - '.github/workflows/analise-conteudo.yml'
   workflow_dispatch:
 permissions:
   contents: read
