@@ -142,6 +142,15 @@ class TestesConversaSessao(unittest.TestCase):
                   'Por que o céu é azul?', 'Onde fica o Japão?', 'Se A implica B e A, qual conclusão?'):
             self.assertIsNone(responder(t, b), t)
 
+    def test_nome_proprio_nao_cria_referente_pessoal(self):
+        for b in (self.bot(), self.bot('Daneli prefere suco.', 'Me sugira uma opção para Daneli.')):
+            for t in ('Por que Plutão não é mais planeta?',
+                      'por que Marte tem cor de ferrugem?',
+                      'Por que Urano tem estações extremas?',
+                      'Por que Vênus tem temperatura maior que Mercúrio?',
+                      'Onde nasceu Moisés?', 'Resuma a vida de Jesus.'):
+                self.assertIsNone(responder(t, b), t)
+
     def test_sem_geracao_consulta_preserva_memoria_ultimo(self):
         b = self.bot('Daneli prefere suco.')
         snapshot = copy.deepcopy(b.memoria_sessao.ultimo)

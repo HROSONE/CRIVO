@@ -51,11 +51,17 @@ def responder(texto, bot):
         r'(?<!\w)' + re.escape(normalizar(e['nome'])) + r'(?!\w)', n)]
     pr = re.search(r'\b(ele|ela|dele|dela)\b', n)
     nominal = re.search(r'\b(?:para|de|visitar|que)\s+[A-ZÀ-Ý][\wÀ-ÿ-]+', texto)
-    # Uma menção factual não basta: é preciso um referente pessoal ou uma
-    # continuação imediata. Não toma as conversas antigas sobre o usuário.
-    if not (sujeitos or pr or anterior or informar or nominal):
+    desconhecido_pessoal = (acao == 'sugerir' and nominal and
+                            re.search(r'\b(?:goste|gosto|preferencia|prefere)\b', n))
+    continuacao = anterior and re.search(
+        r'\b(?:isso|isto|essa|esse|escolha|ideia|sugestao|opcao|limite|'
+        r'preferencia|o que ja sabemos|ainda falta)\b', n)
+    # Capitalização não transforma um planeta ou personagem bíblico em
+    # pessoa da sessão. Só referentes existentes sustentam atos pessoais;
+    # uma preferência pessoal desconhecida pode pedir esclarecimento.
+    if not (sujeitos or pr and pessoas or continuacao or informar or desconhecido_pessoal):
         return None
-    if not (sujeitos or pr or anterior or informar):
+    if not (sujeitos or pr and pessoas or continuacao or informar):
         factual = bot.compositor.responder(texto, None)
         if factual is not None and factual[0] != 'fora':
             return None
