@@ -152,7 +152,7 @@ class MemoriaSessao:
         if n.startswith('mudando de assunto'):
             self.temas.append(dict(texto=texto, turno=self.turno))
             return  # Uma troca de tema não apaga entidades.
-        corpo = re.sub(r'^(?:corrigindo|na verdade|quer dizer)[:,]?\s*', '', s, flags=re.I)
+        corpo = re.sub(r'^(?:corrigindo|correção|correcao|na verdade|quer dizer)[:,]?\s*', '', s, flags=re.I)
         corpo = re.sub(r'^agora\s+', '', corpo, flags=re.I)
         m = combinar(r'Não era (.+?);\s*era (.+?) que prefere (.+)', corpo)
         if m:
@@ -161,6 +161,9 @@ class MemoriaSessao:
                 self._retirar(antes, 'preferência', texto, m[3])
                 self._guardar(depois, 'preferência', m[3], texto)
             return
+        if ';' in corpo:
+            self._observar_preferencias_compostas(corpo, texto)
+            return  # Não guarda outras orações como parte de um único valor.
         m = combinar(r'(?:não sei|não sabemos) a cor d[oa] (.+?) de (.+)', corpo)
         if m:
             p = self._pessoa(m[2])
@@ -181,6 +184,13 @@ class MemoriaSessao:
                 self._guardar(self._objeto(m[1], criar=True), 'dono',
                               self.entidades[p]['nome'], texto)
             return
+        m = combinar(r'(.+?) é don[oa] d[oa] (.+)', corpo)
+        if m:
+            p = self._pessoa(m[1], criar=True)
+            if p:
+                self._guardar(self._objeto(m[2], criar=True), 'dono',
+                              self.entidades[p]['nome'], texto)
+            return
         m = combinar(r'(?:o|a) (.+?) (?:de|da|do) (.+?) (é|está) (.+)', corpo)
         if m:
             p = self._pessoa(m[2], criar=True)
@@ -198,7 +208,7 @@ class MemoriaSessao:
             if p:
                 self._guardar(self._objeto(m[2], p, criar=True), 'cor', m[3], texto)
             return
-        m = combinar(r'(?:(eu|.+?) )?(tenho|tem|disponho de) (\d{1,4}) minutos(?: disponíveis)?', corpo)
+        m = combinar(r'(?:(eu|.+?) )?(tenho|tem|disponho de) (?:só |so |apenas )?(\d{1,4}) minutos(?: disponíveis)?', corpo)
         if m:
             p = self._pessoa(m[1] or 'eu', criar=True)
             if p:
@@ -209,6 +219,12 @@ class MemoriaSessao:
             p = self._pessoa(m[1], criar=True)
             if p:
                 self._guardar(p, 'preferência relatada', m[2], texto, 'fala_reportada')
+            return
+        m = combinar(r'(.+?) escolhe (.+?) em vez de (.+)', corpo)
+        if m:
+            p = self._pessoa(m[1], criar=True)
+            if p:
+                self._guardar(p, 'preferência', m[2], texto)
             return
         # Sem sujeito explícito, a negação pertence ao verbo, não a uma
         # suposta pessoa chamada "Não".
@@ -243,8 +259,43 @@ class MemoriaSessao:
                 self._guardar(p, 'permissão:' + acao,
                               ('não pode ' if verbo.startswith('nao') else 'pode ') + valor, texto)
 
+    def _observar_preferencias_compostas(self, corpo, texto):
+        partes = corpo.split(';')
+        if not 2 <= len(partes) <= 4:
+            return
+        registros = []
+        anterior = None
+        for parte in partes:
+            parte = parte.strip()
+            implicita = combinar(r'agora prefere (.+)', parte)
+            m = combinar(r'(.+?) (não prefere(?: mais)?|prefere) (.+)', parte)
+            if implicita and anterior is not None:
+                pessoa, negativo, valor = anterior, False, implicita[1]
+            elif m:
+                pessoa = self._pessoa(m[1])
+                negativo, valor = chave(m[2]).startswith('nao'), m[3]
+            else:
+                return
+            if pessoa is None:
+                return
+            registros.append((pessoa, negativo, valor))
+            anterior = pessoa
+        # Valida todas as referências antes de mudar qualquer declaração.
+        # Cada fato conserva a mensagem completa que lhe deu origem.
+        for pessoa, negativo, valor in registros:
+            if negativo:
+                self._retirar(pessoa, 'preferência', texto, valor)
+            else:
+                self._guardar(pessoa, 'preferência', valor, texto)
+
     def _consultar(self, texto):
         s = texto.strip().rstrip('?.!').strip()
+        s = re.sub(r'^(?:você|voce) (?:lembra|recorda)(?:-se)?\s+', '', s, flags=re.I)
+        s = re.sub(r'^do que\b', 'O que', s, flags=re.I)
+        s = re.sub(r'^Em que lugar está\b', 'Onde está', s, flags=re.I)
+        m = combinar(r'((?:o|a) .+?) é de que cor', s)
+        if m:
+            s = 'De que cor é ' + m[1]
         # As consultas de objetos citam proprietário e objeto explicitamente.
         for padrao, rel in ((r'De que cor é (?:o|a) (.+?) (?:de|da|do) (.+)', 'cor'),
                             (r'Qual é a cor d[oa] (.+?) (?:de|da|do) (.+)', 'cor'),
@@ -265,6 +316,8 @@ class MemoriaSessao:
         consultas = (
             (r'O que (.+?) disse que prefere', 'preferência relatada'),
             (r'O que (.+?) (?:prefere|prefiro)', 'preferência'),
+            (r'O que (.+?) (?:quer|pretende) fazer', 'objetivo'),
+            (r'O que (.+?) não pode fazer', 'restrição'),
             (r'Qual é o objetivo (?:de |d)(.+)', 'objetivo'),
             (r'Qual é a restrição (?:de |d)(.+)', 'restrição'),
             (r'Quantos minutos (.+?) (?:tenho|tem) disponíveis', 'tempo disponível'),
