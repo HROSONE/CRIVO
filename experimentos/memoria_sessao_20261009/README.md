@@ -21,8 +21,10 @@ A base foi o `main` após o PR 116, `93b3f0a`. O SHA-256 do conjunto permanece
 | Meta mínima proposta | 12/20 |
 
 `baseline.json`, `candidato.json` e `web.json` contêm as respostas reais.
-As duas avaliações finais apontam para o código `ce75e66`; seus hashes de
-fontes estão registrados. O par motor anterior/candidato desliga os
+Essas duas avaliações apontam para o código `ce75e66`; seus hashes de
+fontes estão registrados. As reavaliações após a correção da regressão de
+objetivos ficam em `candidato_pos_regressao.json` e `web_pos_regressao.json`,
+com a versão e os hashes próprios. O par motor anterior/candidato desliga os
 classificadores opcionais de linguagem e interpretação de perguntas, para
 isolar a mudança. A avaliação web adicional usa os padrões de produção.
 
@@ -111,6 +113,19 @@ passou em `node --check`. Os dez contratos atuais da memória passaram sem
 dependências e em Python 3.8. As duas avaliações congeladas foram repetidas
 em `ce75e66` e permaneceram em 20/20. Os logs desse CI e da correção estão
 preservados. A falha inicial não foi tratada como uma validação verde.
+
+O CI posterior identificou a mesma falha nas três versões do Python da
+bateria `regressoes-b`: `Hoje quero revisar o contrato.` criava uma pessoa
+chamada `Hoje`, desviando a rota que exporta o objetivo na memória opcional.
+`eb6882d` impede atribuir verbos em primeira pessoa a sujeitos nominais e
+mantém essas formulações temporais na rota existente. A reprodução da falha,
+os controles de memória entre conversas e os contratos da memória passaram
+em uma bateria de 19 testes. Os onze contratos puros passaram também em
+Python 3.8 sem dependências opcionais. A suíte completa de compreensão de
+intenção passou nos seus 32 testes. As vinte sessões congeladas foram
+reavaliadas no motor e na API web em `eb6882d`, com 20/20 em ambos.
+Os logs preservam a falha do GitHub e
+a reprodução corrigida; a aprovação da suíte completa depende do novo CI.
 
 Os hashes dos dois arquivos de pesos ativos foram conferidos e permanecem
 iguais. Não houve promoção de pesos nem aprovação neural nova.

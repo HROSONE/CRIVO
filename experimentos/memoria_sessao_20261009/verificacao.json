@@ -22,5 +22,23 @@
     "conteudo_passados": 88,
     "contratos_memoria_sem_dependencias": 10,
     "motivo": "Reformule: era tratado como nome próprio; nomes e pedidos de operação passaram a ter validação de escopo."
+  },
+  "correcao_regressoes_b": {
+    "commit_codigo": "eb6882dfc714a3218360eb81176696957c40a059",
+    "falhas_ci": {
+      "python_3.8": "objetivos ausente na memória opcional",
+      "python_3.11": "objetivos ausente na memória opcional",
+      "python_3.13": "objetivos ausente na memória opcional"
+    },
+    "teste_falho": "testes_compreensao_intencao.MemoriaEntreConversas.test_objetivos_e_preferencias_vao_para_a_memoria_opcional",
+    "causa": "Prefixo temporal Hoje interpretado como pessoa com objetivo em primeira pessoa.",
+    "testes_relacionados_passados": 19,
+    "suite_compreensao_intencao_passados": 32,
+    "contratos_memoria_python38_sem_dependencias": 11,
+    "avaliacao_motor": "candidato_pos_regressao.json",
+    "motor": 20,
+    "estado_ci": "Nova versão ainda precisa ser validada pelo CI completo.",
+    "avaliacao_web": "web_pos_regressao.json",
+    "web": 20
   }
 }
