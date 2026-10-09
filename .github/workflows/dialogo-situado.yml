@@ -6,6 +6,9 @@ on:
       - 'dialogo_situado.py'
       - 'memoria_sessao.py'
       - 'realizacao_memoria.py'
+      - 'conversa_sessao.py'
+      - 'testes_conversa_sessao.py'
+      - 'experimentos/conversa_livre_20261009/**'
       - 'geracao_ancorada.py'
       - 'testes_realizacao_memoria.py'
       - 'testes_memoria_sessao.py'
@@ -54,6 +57,8 @@ jobs:
           python -S -m unittest testes_memoria_parafrases -v
           python -S -m unittest testes_memoria_sessao.TestesMemoriaSessao -v
           python -m unittest testes_realizacao_memoria -v
+          python -m unittest testes_conversa_sessao -v
+          python -S -m unittest testes_conversa_sessao -v
           python -S -m unittest testes_realizacao_memoria.TestesFonteDoRealizador -v
           python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
           python -m unittest testes_raciocinio_conversa -v
@@ -65,6 +70,7 @@ jobs:
       - name: Sonda pública original e desenvolvimento adicional
         run: |
           python avaliar_dialogo_real.py --saida /tmp/dialogo-original.json
+          python experimentos/conversa_livre_20261009/avaliar.py --exigir-meta --saida /tmp/dialogo-conversa-livre.json
           python experimentos/memoria_sessao_20261009/avaliar.py --exigir-meta --saida /tmp/dialogo-memoria-sessao.json
           python experimentos/realizacao_memoria_20261009/avaliar.py --exigir-meta --exigir-realizacao --saida /tmp/dialogo-memoria-prospectiva.json
           python experimentos/realizacao_memoria_20261009/avaliar.py --modo web --exigir-meta --exigir-realizacao --saida /tmp/dialogo-memoria-prospectiva-web.json

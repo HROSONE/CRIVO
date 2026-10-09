@@ -16,6 +16,13 @@ def literal(texto):
 
 
 def realizar(pergunta, memoria, gerador=None):
+    quadro = memoria.ultimo or {}
+    ids = quadro.get('afirmacoes', []) if quadro.get('acao') == 'consulta' else None
+    return realizar_fatos(pergunta, memoria, ids, gerador)
+
+
+def realizar_fatos(pergunta, memoria, ids, gerador=None):
+    """Realiza uma seleção do consumidor sem alterar memoria.ultimo."""
     trace = dict(usada=False, leu_memoria=False, modo='sessao',
                  origem='memoria_estruturada_da_sessao', tentativas=0,
                  evidencias=[], passagens=[])
@@ -24,10 +31,8 @@ def realizar(pergunta, memoria, gerador=None):
         trace['motivo'] = motivo
         return None, trace
 
-    quadro = memoria.ultimo or {}
-    if quadro.get('acao') != 'consulta':
+    if ids is None:
         return recuar('turno_sem_consulta_de_memoria')
-    ids = quadro.get('afirmacoes', [])
     if not ids:
         return recuar('consulta_sem_fatos_ativos')
     if len(ids) > 4:

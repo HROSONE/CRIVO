@@ -14,6 +14,9 @@ from crivo import Crivo
 
 
 def avaliar(modo):
+    nomes = ('crivo.py', 'memoria_sessao.py', 'realizacao_memoria.py',
+             'geracao_conversa.py', 'web_core.py', 'conversa_sessao.py')
+    fontes = {n: hashlib.sha256((ROOT / n).read_bytes()).hexdigest() for n in nomes}
     bruto = (HERE / 'sessoes.json').read_bytes()
     protocolo = json.loads((HERE / 'protocolo.json').read_text())
     if hashlib.sha256(bruto).hexdigest() != protocolo['sha256_sessoes']:
@@ -44,15 +47,15 @@ def avaliar(modo):
                                adequada=not any(t['erros'] for t in turnos), turnos=turnos))
         print('Sessão', caso['id'], 'adequada:', resultados[-1]['adequada'], flush=True)
     avaliados = [t for s in resultados for t in s['turnos'] if t['avaliado']]
+    if fontes != {n: hashlib.sha256((ROOT / n).read_bytes()).hexdigest() for n in nomes}:
+        raise ValueError('Código mudou durante a avaliação; resultado não publicável')
     return dict(commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT,
                                                universal_newlines=True).strip(),
                 modo=modo, sha256_sessoes=protocolo['sha256_sessoes'],
                 adequadas=sum(s['adequada'] for s in resultados), total=len(resultados),
                 turnos_adequados=sum(not t['erros'] for t in avaliados), turnos_avaliados=len(avaliados),
                 respostas_neurais=sum(t['geracao'].get('usada', False) for t in avaliados),
-                fontes_sha256={n: hashlib.sha256((ROOT / n).read_bytes()).hexdigest()
-                               for n in ('crivo.py', 'memoria_sessao.py', 'realizacao_memoria.py',
-                                         'geracao_conversa.py', 'web_core.py')},
+                fontes_sha256=fontes,
                 sessoes=resultados, limites=protocolo['limites'])
 
 

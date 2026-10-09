@@ -1514,7 +1514,22 @@ class Crivo:
                     original_conteudo, sessao, mecanismo='memoria_sessao_estrutural',
                     campo='memoria_sessao', quadro=self.memoria_sessao.ultimo)
             else:
-                ident, resposta = self._responder_comum(texto)
+                from conversa_sessao import responder as responder_sessao
+                aberto = responder_sessao(original_conteudo, self)
+                if aberto is not None:
+                    resultado, quadro = aberto
+                    ident, resposta = self._registrar_conclusao_conversa(
+                        original_conteudo, resultado, mecanismo='conversa_sessao',
+                        campo='conversa_sessao', quadro=quadro)
+                else:
+                    # Uma mudança explícita de tema com pedido factual não é
+                    # uma nova declaração pessoal. Mantém a ficha e sua fonte.
+                    m = re.match(r'^mudando de assunto\s*:\s*(.+)', original_conteudo, re.I) if isinstance(original_conteudo, str) else None
+                    if m:
+                        factual = self.compositor.responder(m[1], None)
+                        if factual is not None and factual[0] != 'fora':
+                            texto = m[1]
+                    ident, resposta = self._responder_comum(texto)
         referencia_exata = bool(self.historico and self.historico[-1].get('pergunta') == texto and
                                 self.historico[-1].get('referencia_biblica_exata'))
         if referencia_exata:
@@ -1676,6 +1691,19 @@ class Crivo:
             return recuar("desligada")
         if not isinstance(texto, str):
             return recuar("entrada_invalida")
+        if ident.startswith('conversa:sessao_'):
+            if not self.usar_geracao_sessao:
+                return recuar('realizacao_de_sessao_desligada')
+            import copy
+            from conversa_sessao import realizar
+            pergunta = (self.ultimo_turno or {}).get('pergunta', texto)
+            resposta, estado_geracao = realizar(pergunta, self, resposta)
+            trace.update(estado_geracao)
+            self.conversacao.ultima_resposta_texto = resposta
+            self.conversacao.dialogo.ultima_resposta = resposta
+            self.ultima_resposta_mostrada = resposta
+            self.historico[-1]['geracao'] = copy.deepcopy(trace)
+            return ident, resposta
         if ident == 'conversa:memoria_sessao':
             if not self.usar_geracao_sessao:
                 return recuar('realizacao_de_sessao_desligada')
