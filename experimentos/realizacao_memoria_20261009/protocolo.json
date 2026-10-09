@@ -1,0 +1,22 @@
+{
+  "base_commit": "fad23426b61b5741191f28b1ee82c07319daf6cd",
+  "conjunto": "experimentos/memoria_prospectiva_20261009/sessoes.json",
+  "sha256_sessoes": "5998a9d490eb3095927e433eddce9764f38145d95ae85f929e3c6a6e4c5d5081",
+  "sonda_fatos_total": 20,
+  "sonda_fatos_fieis": 16,
+  "criterios": [
+    "Os registros lidos pelo gerador devem ser os ativos selecionados para a consulta atual.",
+    "O prompt deve incluir o fato inteiro com sujeito, relação e valor.",
+    "A geração só substitui a resposta quando conserva literalmente cada fato selecionado.",
+    "Valores retraídos e hipóteses nunca viram documentos do gerador.",
+    "Pergunta constante com estado corrigido deve trocar o valor gerado.",
+    "Recusa ou ambiguidade sem fato selecionado não chama a rede.",
+    "Recursos indisponíveis, limite de tokens ou guarda rejeitada preservam a resposta estrutural e registram o recuo."
+  ],
+  "limites": [
+    "O seletor de fatos ainda é a política estruturada; esta etapa conecta o realizador próprio, não aprende raciocínio livre.",
+    "O Transformer usa prefixo de duas palavras da fonte e prevê o restante; cópia literal é registrada.",
+    "Os conjuntos existentes são de desenvolvimento, não uma nova avaliação cega.",
+    "Nenhuma alteração nos pesos nem nova aprovação de pesos experimentais."
+  ]
+}
