@@ -60,6 +60,29 @@ class TestesRoteamentoNatural(unittest.TestCase):
         self.assertNotIn('arroz', resposta)
         self.assertFalse(rota['guarda']['aceita'])
 
+    def test_orcamento_hipotetico_nao_e_sobrescrito_pelo_real_antigo(self):
+        r = RaciocinioConversa()
+        falas = CASOS['real-14']['entrada']['anteriores']
+        for fala in falas:
+            r.responder(fala)
+        r.planejar_contexto('E se eu tivesse 20 minutos?',
+                           [{'pergunta':f} for f in falas], ['estudar inglês e lavar a louça'])
+        self.assertEqual('20', r.ultimo['resultado']['disponivel'])
+        self.assertEqual('8', r.ultimo['resultado']['restante'])
+        self.assertEqual(35, r.disponivel)
+        self.assertTrue(r.ultimo['hipotese'])
+
+    def test_guarda_aceita_falta_de_tempo_e_fracao_com_virgula(self):
+        q = dict(operacao='tempo_restante', status='calculado', entradas={'louça':'37.5'},
+                 resultado={'disponivel':'35','restante':'-2.5'})
+        bot = SimpleNamespace(raciocinio_conversa=SimpleNamespace(ultimo=q),
+                              contexto_textual=None, historico=[{'id':'conversa:raciocinio'}])
+        rota = dict(peca='calculo', ato='planejar', referentes=[], status='executado')
+        ident, _ = guardar_fidelidade(bot, rota, 'conversa:raciocinio',
+                                     'Louça: 37,5 minutos; total disponível: 35 minutos. Faltam 2,5 minutos.')
+        self.assertEqual('conversa:raciocinio', ident)
+        self.assertTrue(rota['guarda']['aceita'])
+
     def test_rejeicao_nao_publica_nem_retoma_historia_invalida(self):
         geracao = SimpleNamespace(ultima_escrita={'texto':'rascunho rejeitado'}, ultima_criacao={})
         bot = SimpleNamespace(conversacao=SimpleNamespace(geracao=geracao),

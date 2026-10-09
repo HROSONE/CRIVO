@@ -289,14 +289,20 @@ class RaciocinioConversa:
         alvo = deepcopy(self)
         hip = bool(alternativa and alternativa['dominio'] == 'tempo')
         if hip:
-            # Uma disponibilidade real corrigida prevalece sobre a da hipótese.
-            disponivel = self.disponivel
-            fonte_disponivel = deepcopy(self.fontes.get('tempo:disponivel'))
+            # Só correções reais DESTE turno prevalecem sobre a alternativa.
+            # Fatos antigos não podem apagar um orçamento hipotético novo.
+            reais = {k:deepcopy(v) for k,v in self.fontes.items()
+                     if k.startswith('tempo:') and v['origem'] == 'usuario' and v['fonte'] == texto}
+            disponivel, tempos = self.disponivel, deepcopy(self.tempos)
             alvo._usar_hipotese(alternativa)
-            if disponivel is not None:
+            if 'tempo:disponivel' in reais:
                 alvo.disponivel = disponivel
-                if fonte_disponivel is not None:
-                    alvo.fontes['tempo:disponivel'] = fonte_disponivel
+            for k,v in reais.items():
+                if k != 'tempo:disponivel':
+                    atividade = k[len('tempo:'):]
+                    if atividade in tempos:
+                        alvo.tempos[atividade] = tempos[atividade]
+                alvo.fontes[k] = v
         fontes = [h['pergunta'] for h in historico[-3:]] + [texto]
         destinos = []
         for fala in fontes:

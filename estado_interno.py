@@ -109,7 +109,9 @@ def guardar_fidelidade(bot, rota, ident, resposta):
             if q.get('operacao') == 'tempo_restante' and q.get('status') == 'calculado':
                 resultado = q['resultado']
                 for valor in (resultado['disponivel'], resultado['restante']):
-                    if not re.search(r'(?<!\d)' + re.escape(valor) + r'(?!\d)', n):
+                    esperado = valor.lstrip('-') if valor.startswith('-') and 'faltam' in n else valor
+                    numero = re.escape(esperado).replace(r'\.', r'[.,]')
+                    if not re.search(r'(?<!\d)' + numero + r'(?!\d)', resposta):
                         motivos.append('resultado calculado ausente')
                 for atividade in q.get('entradas', {}):
                     if normalizar(atividade) not in n:
