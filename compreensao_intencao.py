@@ -220,6 +220,12 @@ def rotear_natural(texto, bot, sessao=None):
         propriedade = pedido_factual[1].rstrip('.!?')
         sujeito = re.sub(r'^a cor de ', '', propriedade, flags=re.I)
         return rota('fato', 'consultar', [sujeito], consulta='Qual é ' + propriedade + '?')
+    definicao = re.fullmatch(r'o que (?:é|e|eh) (.+?)[.!?]*', texto.strip(), re.I)
+    if definicao and bot.compositor.resolver(definicao[1]):
+        # Um alias completo da ficha é uma definição, mesmo que contenha
+        # palavras como "diferença". O contexto anterior não muda seu ato.
+        # Mantém a definição no executor original e suas unidades com fonte.
+        return None
     if re.search(r'\b(?:diferenca|mesmo motivo)\b', n) and temas:
         atual = bot.compositor.assunto_mencionado(texto)
         if atual and atual not in temas and len(temas) < 2:

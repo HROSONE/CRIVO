@@ -141,6 +141,29 @@ class TestesRoteamentoNaturalV2(unittest.TestCase):
         self.assertEqual('conversa:esclarecer', ident)
         self.assertIn('unidade factual selecionada ausente', rota['guarda']['motivos'])
 
+    def test_definicao_de_alias_nao_vira_comparacao_com_fato_anterior(self):
+        from curriculo_mundo import texto_fato
+        bot = Crivo()
+        bot.responder('O que é potencial elétrico?')
+        ident, resposta = bot.responder('O que é diferença de potencial?')
+        self.assertEqual('conhecimento:mundo_potencial_eletrico', ident)
+        self.assertIsNone(bot.ultima_rota_natural)
+        assunto = bot.compositor.resolver('diferença de potencial')
+        self.assertIn(texto_fato(bot.compositor.itens[assunto]['fatos'][0]), resposta)
+
+    def test_comparacao_explicita_preserva_as_duas_fichas(self):
+        bot = Crivo()
+        bot.responder('O que é DNA?')
+        bot.responder('O que é RNA?')
+        ident, resposta = bot.responder('Qual é a diferença entre os dois?')
+        self.assertEqual('escrita:comparacao', ident)
+        rota = bot.ultima_rota_natural
+        self.assertEqual(('fato', 'comparar'), (rota['peca'], rota['ato']))
+        self.assertEqual({'DNA', 'RNA'}, set(rota['referentes']))
+        self.assertTrue(rota['guarda']['aceita'])
+        self.assertIn('DNA', resposta)
+        self.assertIn('RNA', resposta)
+
 
 if __name__ == '__main__':
     unittest.main()

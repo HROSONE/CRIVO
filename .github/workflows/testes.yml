@@ -15,6 +15,11 @@ on:
         type: choice
         options: [nenhum, portugues, historico, ordem]
         default: nenhum
+      grupos:
+        description: 'Baterias completas: todas ou somente composição e regressões-b'
+        type: choice
+        options: [todos, composicao-regressoes-b]
+        default: todos
 permissions:
   contents: read
 jobs:
@@ -22,6 +27,7 @@ jobs:
     outputs:
       geracao: ${{ steps.escopo.outputs.geracao }}
       profunda: ${{ steps.escopo.outputs.profunda }}
+      grupos: ${{ steps.escopo.outputs.grupos }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -104,7 +110,7 @@ jobs:
         run: python -m unittest testes_autoconversa testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
   matematica-linguagem-profunda:
     needs: configuracao-ci
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.profunda == 'true')
+    if: (github.event_name == 'workflow_dispatch' && inputs.grupos != 'composicao-regressoes-b') || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.profunda == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -120,7 +126,7 @@ jobs:
         run: python -m unittest testes_linguagem_profunda testes_backup_treino_drive testes_dialogo_integro testes_compreensao_contrastiva testes_transformer_16m testes_conversa_gerativa testes_dialogos_amplos testes_gerador_frases testes_codigo_real testes_logica_programacao -v
   matematica-geracao:
     needs: configuracao-ci
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.geracao == 'true')
+    if: (github.event_name == 'workflow_dispatch' && inputs.grupos != 'composicao-regressoes-b') || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.geracao == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -134,6 +140,7 @@ jobs:
           OMP_NUM_THREADS: '1'
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
+    needs: configuracao-ci
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     env:
@@ -157,7 +164,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ['3.8', '3.11', '3.13']
-        grupo: [composicao, treino, regressoes-a, regressoes-b]
+        grupo: ${{ fromJSON(needs.configuracao-ci.outputs.grupos) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

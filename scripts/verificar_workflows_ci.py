@@ -66,6 +66,14 @@ def publicar_escopo():
     # Fora de PRs, dispatch/schedule têm condições próprias nos jobs.
     # Nunca selecionar uma bateria neural somente porque houve push na main.
     selecao = {'geracao': False, 'profunda': False}
+    grupos = ['composicao', 'treino', 'regressoes-a', 'regressoes-b']
+    if os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch':
+        evento = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+        escolha = evento.get('inputs', {}).get('grupos', 'todos')
+        if escolha == 'composicao-regressoes-b':
+            grupos = ['composicao', 'regressoes-b']
+        elif escolha != 'todos':
+            raise ValueError('Seleção de grupos inválida: ' + escolha)
     if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
         evento = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
         pr = evento['pull_request']
@@ -77,6 +85,7 @@ def publicar_escopo():
     with open(caminho, 'a') as saida:
         for nome, ativo in selecao.items():
             saida.write(nome + '=' + str(ativo).lower() + '\n')
+        saida.write('grupos=' + json.dumps(grupos, separators=(',', ':')) + '\n')
     print('Escopo dos contratos neurais:', selecao)
 
 
@@ -90,13 +99,17 @@ def main():
     assert jobs['testes']['if'] == "github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'"
     for nome, escopo in [('matematica-geracao', 'geracao'), ('matematica-linguagem-profunda', 'profunda')]:
         assert jobs[nome]['needs'] == 'configuracao-ci'
-        esperado = ("github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || "
+        esperado = ("(github.event_name == 'workflow_dispatch' && inputs.grupos != 'composicao-regressoes-b') || github.event_name == 'schedule' || "
                     + "(github.event_name == 'pull_request' && needs.configuracao-ci.outputs."
                     + escopo + " == 'true')")
         assert jobs[nome]['if'] == esperado, nome
     matrix = jobs['testes']['strategy']['matrix']
     assert matrix['python-version'] == ['3.8', '3.11', '3.13']
-    assert matrix['grupo'] == ['composicao', 'treino', 'regressoes-a', 'regressoes-b']
+    assert jobs['testes']['needs'] == 'configuracao-ci'
+    assert matrix['grupo'] == '${{ fromJSON(needs.configuracao-ci.outputs.grupos) }}'
+    escolha = w['on']['workflow_dispatch']['inputs']['grupos']
+    assert escolha['default'] == 'todos'
+    assert escolha['options'] == ['todos', 'composicao-regressoes-b']
     assert acionados(['crivo.py', 'web_core.py']) == ['dialogo-situado.yml', 'testes.yml']
     assert acionados(['.github/workflows/biblia-tnm.yml', '.github/workflows/testes.yml', 'scripts/verificar_workflows_ci.py']) == ['testes.yml']
     assert 'biblia-tnm.yml' in acionados(['conhecimento_biblia.json'])
