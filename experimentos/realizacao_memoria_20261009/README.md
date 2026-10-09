@@ -67,6 +67,31 @@ Modelo indisponível ou recuo conserva a resposta anterior. Os pesos não foram
 alterados; SHA-256 do checkpoint NumPy:
 `7ac0f3be921e2221d7ca538d118077662cff4a9c0861f288db49edc360164ab8`.
 
+## Conversa manual após o merge do PR 118
+
+O PR 118 foi mesclado em `995df436` às 15:46 UTC depois dos dezenove checks
+aprovados. No main mesclado, enviamos individualmente oito mensagens pelo
+endpoint HTTP real, inspecionando cada resposta antes da próxima. Saelina e
+Ondravel mantiveram suas preferências; a correção de Saelina substituiu sua
+preferência anterior sem alterar a de Ondravel. As três consultas foram
+corretas e todas as oito chamadas retornaram HTTP 200. Nenhuma dessas respostas
+do main usou a rede. A conversa está em `manual_pos_merge_118.json`.
+
+Os nomes e as três expressões completas de preferência não aparecem em
+1.023 arquivos textuais locais versionados, auditados antes dessa conversa.
+`manual_auditoria.json` registra o manifesto e seus limites; o corpus bruto
+completo de treino não está disponível. As mensagens foram escritas pelo
+agente, não por participantes externos, e não constituem avaliação cega ou
+uma amostra representativa de conversa livre.
+
+Transportamos o consumidor para uma branch a partir desse main e verificamos
+igualdade dos hashes de todas as fontes avaliadas. No replay das três
+consultas pelo HTTP do candidato, **3/3 foram realizadas pelo Transformer**
+e conservaram texto, fontes e valores do baseline, incluindo a correção.
+`manual_replay_candidato_http.json` preserva os traces reais. O texto igual
+ao baseline não demonstra ganho de fluência: demonstra a ligação funcionando
+com fatos inéditos da sessão, sem alterar pesos ou a política de memória.
+
 ## Limites
 
 O seletor de fatos continua estruturado. Receber e realizar documentos da

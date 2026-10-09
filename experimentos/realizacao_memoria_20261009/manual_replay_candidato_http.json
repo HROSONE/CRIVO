@@ -1,0 +1,367 @@
+{
+  "commit": "99ab3daf6be1347ae51f3c35002fd9c3fe254efc",
+  "metodo": "Replay das três consultas da conversa manual já observada, pelo HTTP do candidato. Não é nova amostra cega.",
+  "consultas": [
+    {
+      "turno": 5,
+      "entrada": "O que Saelina prefere?",
+      "saida": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 2,
+              "sujeito": "pessoa:saelina",
+              "relacao": "preferência",
+              "valor": "chá de casca de lichia com baunilha",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 3,
+                "texto": "Saelina prefere chá de casca de lichia com baunilha."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Saelina prefere chá de casca de lichia com baunilha.",
+              "prompt_sha256": "42105a41f71119654b4824ca8119d7c2cb895eb32b3b505376062b3790c2c988",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "substituiu": "conversa:memoria_sessao",
+          "texto_alterado": false
+        },
+        "session_memory": {
+          "acao": "consulta",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Saelina prefere chá de casca de lichia com baunilha."
+            }
+          ],
+          "afirmacoes": [
+            2
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "saelina",
+              "prefere"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Segundo o que você contou, Saelina prefere chá de casca de lichia com baunilha.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      },
+      "http_status": 200,
+      "igual_ao_baseline": true,
+      "fonte_preservada": true
+    },
+    {
+      "turno": 7,
+      "entrada": "Você lembra o que Saelina prefere?",
+      "saida": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 4,
+              "sujeito": "pessoa:saelina",
+              "relacao": "preferência",
+              "valor": "chá de jasmim com casca de pera",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 6,
+                "texto": "Corrigindo: Saelina prefere chá de jasmim com casca de pera."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Saelina prefere chá de jasmim com casca de pera.",
+              "prompt_sha256": "4957bb30a0440a683ba4c620642747b8398a765a639520a4250ff6ee128afbbe",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "substituiu": "conversa:memoria_sessao",
+          "texto_alterado": false
+        },
+        "session_memory": {
+          "acao": "consulta",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 6,
+              "texto": "Corrigindo: Saelina prefere chá de jasmim com casca de pera."
+            }
+          ],
+          "afirmacoes": [
+            4
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "lembra",
+              "saelina",
+              "prefere"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Segundo o que você contou, Saelina prefere chá de jasmim com casca de pera.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      },
+      "http_status": 200,
+      "igual_ao_baseline": true,
+      "fonte_preservada": true
+    },
+    {
+      "turno": 8,
+      "entrada": "O que Ondravel prefere?",
+      "saida": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 3,
+              "sujeito": "pessoa:ondravel",
+              "relacao": "preferência",
+              "valor": "refresco de pitanga com manjericão",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 4,
+                "texto": "Ondravel prefere refresco de pitanga com manjericão."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Ondravel prefere refresco de pitanga com manjericão.",
+              "prompt_sha256": "7af4dac7369adbf812a4d4cd1df71a5440d22293dbcd385a87a449ab9c689ce4",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "substituiu": "conversa:memoria_sessao",
+          "texto_alterado": false
+        },
+        "session_memory": {
+          "acao": "consulta",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Ondravel prefere refresco de pitanga com manjericão."
+            }
+          ],
+          "afirmacoes": [
+            3
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "ondravel",
+              "prefere"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Segundo o que você contou, Ondravel prefere refresco de pitanga com manjericão.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      },
+      "http_status": 200,
+      "igual_ao_baseline": true,
+      "fonte_preservada": true
+    }
+  ],
+  "corretas": 3,
+  "neural": 3,
+  "total": 3
+}
