@@ -120,6 +120,16 @@ class TestesMemoriaSessao(unittest.TestCase):
         self.assertIsNone(m.processar('Onde está o núcleo do Átomo?'))
         self.assertIsNone(m.processar('A quem pertence a Argentina?'))
 
+    def test_pedidos_de_operacao_nao_inventam_pessoas_ou_objetivos(self):
+        m = MemoriaSessao()
+        for prefixo in ('Reformule:', 'Reformule', 'Reescreva:', 'Traduza:', 'Corrija:', 'Explique:'):
+            with self.subTest(prefixo=prefixo):
+                self.assertIsNone(m.processar(prefixo + ' Quero pedir ajuda sem cobrar uma resposta.'))
+        self.assertEqual(m.exportar()['entidades'], [])
+        self.assertEqual(m.exportar()['afirmacoes'], [])
+        m.processar('Lia prefere chá.')
+        self.assertIn('chá', m.processar('Resuma o que eu disse sobre Lia.')[1])
+
 
 class TestesIntegracaoMemoriaSessao(unittest.TestCase):
     def test_chat_preserva_vinte_minutos_e_mochila_da_lia(self):

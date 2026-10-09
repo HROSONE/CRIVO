@@ -57,6 +57,7 @@ class MemoriaSessao:
             nominal = (1 <= len(palavras) <= 4 and
                        all(p[:1].isupper() or p in ('de', 'da', 'do', 'das', 'dos')
                            for p in palavras) and
+                       all(re.fullmatch(r"[\wÀ-ÿ'-]+", p) for p in palavras) and
                        n.split()[0] not in ('nao', 'o', 'a', 'meu', 'minha', 'agora'))
             if not criar or not (n == 'usuario' or nominal):
                 return None
@@ -145,6 +146,9 @@ class MemoriaSessao:
         if ('?' in s or any(c in s for c in ('`', '"', '“', '”', '‘', '’')) or
                 re.search(r'\b(?:se|caso|talvez|suponha|imagine|hipoteticamente)\b', n)):
             return
+        if re.match(r'(?:por favor )?(?:reformule|reescreva|resuma|traduza|escreva|'
+                    r'crie|analise|compare|explique|corrija)\b', n):
+            return  # Um texto enviado para uma operação não é uma declaração da sessão.
         if n.startswith('mudando de assunto'):
             self.temas.append(dict(texto=texto, turno=self.turno))
             return  # Uma troca de tema não apaga entidades.
