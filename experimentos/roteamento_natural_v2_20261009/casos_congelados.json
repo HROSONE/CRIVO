@@ -1,0 +1,1205 @@
+{
+  "versao": 2,
+  "base": "ab157203cd559074b5319940fc6953b22a84bcc5",
+  "natureza": "25 regressões originais intactas + 3 falhas pós-merge já vistas + 7 novas falhas medidas no site; não teste cego",
+  "criterios": {
+    "peca_correta_minimo": 33,
+    "total": 35,
+    "novos_minimo": 10,
+    "desvios_permitidos": 0,
+    "referentes": "nenhum ausente",
+    "limites_anteriores": [
+      "real-19",
+      "real-20"
+    ]
+  },
+  "casos": [
+    {
+      "id": "real-01",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 1,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Oi, nunca usei você. O que você consegue fazer por mim?",
+        "anteriores": []
+      },
+      "usuario_queria": "Conhecer capacidades do produto",
+      "crivo_fez": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "negação com segurança"
+        ]
+      }
+    },
+    {
+      "id": "real-02",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 2,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+        "anteriores": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?"
+        ]
+      },
+      "usuario_queria": "Receber ajuda em linguagem natural",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      }
+    },
+    {
+      "id": "real-03",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 3,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Me dê três exemplos de perguntas que você consegue responder.",
+        "anteriores": [
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?"
+        ]
+      },
+      "usuario_queria": "Receber três exemplos concretos de perguntas",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "exemplos",
+        "referentes": [],
+        "conteudo_minimo": [
+          "1.",
+          "2.",
+          "3."
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      }
+    },
+    {
+      "id": "real-04",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 6,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Você falou que explica como funciona. Me explica de um jeito simples.",
+        "anteriores": [
+          "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?",
+          "ajuda"
+        ]
+      },
+      "usuario_queria": "Cumprir oferta de explicar o funcionamento",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "funcionamento",
+        "referentes": [],
+        "conteudo_minimo": [
+          "fatos",
+          "própr"
+        ],
+        "desvios_proibidos": [
+          "essa sobre mim"
+        ]
+      }
+    },
+    {
+      "id": "real-05",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 2,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?"
+        ]
+      },
+      "usuario_queria": "Explicar o pôr do sol com exemplo acessível",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Eu sou leigo. Explica isso com um exemplo do dia a dia.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "exemplo",
+        "referentes": [
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "você contou"
+        ]
+      }
+    },
+    {
+      "id": "real-06",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 4,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Então é o mesmo motivo do pôr do sol?",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "E por que Marte tem cor de ferrugem?"
+        ]
+      },
+      "usuario_queria": "Distinguir as causas das duas cores vermelhas",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto Sol, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "Marte",
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "reconheci o assunto"
+        ]
+      }
+    },
+    {
+      "id": "real-07",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 5,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Me explica a diferença entre a cor vermelha de Marte e a cor vermelha do céu no fim da tarde.",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "E por que Marte tem cor de ferrugem?"
+        ]
+      },
+      "usuario_queria": "Comparar explicitamente os mecanismos das cores",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "Marte",
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "não tenho evidência"
+        ]
+      }
+    },
+    {
+      "id": "real-08",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 1,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+        "anteriores": []
+      },
+      "usuario_queria": "Registrar as duas pessoas e preferências no relato composto",
+      "crivo_fez": {
+        "id": "nocao:observacao",
+        "resposta": "Boa, sua irmã Brena prefere tapioca! Bolo caseiro costuma deixar a casa com cheiro bom. Qual é o seu bolo preferido?"
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "registrar",
+        "referentes": [
+          "Brena",
+          "Tácio"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "Tácio"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "real-09",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 3,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá."
+        ]
+      },
+      "usuario_queria": "Atualizar a preferência feminina por pronome para cuscuz",
+      "crivo_fez": {
+        "id": "nocao:continuacao",
+        "resposta": "Na verdade ela mudou de ideia? Olha só, que bom! E o que mais tem de novo?"
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "corrigir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "que bom"
+        ]
+      }
+    },
+    {
+      "id": "real-10",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 4,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "E para ela, então, o que preparo?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Preparar o lanche segundo a preferência corrigida",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "sugerir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "tapioca"
+        ]
+      }
+    },
+    {
+      "id": "real-11",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 6,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "O que ofereço para Brena no lanche?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Retomar a pessoa após correção explícita de contexto",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "sugerir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "real-12",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 7,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "E o Tácio, do que ele gosta?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Consultar preferência do primo familiar",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Tácio"
+        ],
+        "conteudo_minimo": [
+          "Tácio",
+          "bolo de fubá"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "real-13",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 1,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+        "anteriores": []
+      },
+      "usuario_queria": "Dividir o orçamento de 35 minutos entre tarefas; pedir duração faltante",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça"
+        ],
+        "conteudo_minimo": [
+          "35",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      }
+    },
+    {
+      "id": "real-14",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 3,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "E se eu deixar 5 minutos para descansar?",
+        "anteriores": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+        ]
+      },
+      "usuario_queria": "Reservar cinco minutos de descanso sem mudar de domínio",
+      "crivo_fez": {
+        "id": "arroz",
+        "resposta": "Refogue 1 xícara de arroz lavado com alho e óleo, junte 2 xícaras de água quente e sal e cozinhe em fogo baixo com a panela tampada por 15 a 20 minutos, sem mexer. Deixe descansar uns 5 minutos antes de servir."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "hipotese",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "18",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      }
+    },
+    {
+      "id": "real-15",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 4,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Então organiza as três coisas sem passar dos 35 minutos.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Organizar três atividades dentro de 35 minutos",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "35",
+          "12",
+          "5",
+          "18"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      }
+    },
+    {
+      "id": "real-16",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 5,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Atualizar orçamento para 20 mantendo louça e descanso; inglês fica com 3",
+      "crivo_fez": {
+        "id": "conversa:raciocinio",
+        "resposta": "Pelos dados que você informou, As atividades informadas somam 12 minutos, para 20 disponíveis. Sobram 8 minutos."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "corrigir",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "20",
+          "12",
+          "5",
+          "3"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      }
+    },
+    {
+      "id": "real-17",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 6,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Reparar a tarefa após desvio para receita",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "louça",
+          "descanso"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue",
+          "você contou"
+        ]
+      }
+    },
+    {
+      "id": "real-18",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 8,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "O que esse resultado representa no plano que a gente estava montando?",
+        "anteriores": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "Quanto é 35 - 12 - 5?"
+        ]
+      },
+      "usuario_queria": "Relacionar os 18 minutos calculados à tarefa de inglês",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "explicar",
+        "referentes": [
+          "inglês"
+        ],
+        "conteudo_minimo": [
+          "18",
+          "inglês"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      }
+    },
+    {
+      "id": "real-19",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 2,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Escreve uma história curta com essa personagem, umas cinco frases.",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+        ]
+      },
+      "usuario_queria": "Escrever história curta com a personagem declarada anteriormente",
+      "crivo_fez": {
+        "id": "conversa:gerada_historia",
+        "resposta": "Ficção:\nNum lugar distante, essa personagem, umas cinco frases recebeu uma mensagem sem assinatura. Uma surpresa mostrou outra possibilidade. Juntos, descobriram que a resposta estava no que haviam deixado para trás."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "capivara astronauta"
+        ],
+        "conteudo_minimo": [
+          "capivara",
+          "astronauta"
+        ],
+        "desvios_proibidos": [
+          "essa personagem, umas cinco frases"
+        ]
+      }
+    },
+    {
+      "id": "real-20",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 3,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Muda o final: ela encontra um amigo, em vez de voltar sozinha.",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases."
+        ]
+      },
+      "usuario_queria": "Mudar o final para encontro com amigo e preservar personagem",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Poxa, você disse: “Muda o final: ela encontra um amigo, em vez de voltar sozinha”. E pensando em “inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta”, o que você já tentou e como isso funcionou para você?"
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "capivara astronauta",
+          "amigo"
+        ],
+        "conteudo_minimo": [
+          "capivara",
+          "amigo"
+        ],
+        "desvios_proibidos": [
+          "o que você já tentou"
+        ]
+      }
+    },
+    {
+      "id": "real-21",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 4,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Você escreveu essa história ou pegou de algum lugar?",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases."
+        ]
+      },
+      "usuario_queria": "Explicar a origem da história gerada, sem inventar fonte externa",
+      "crivo_fez": {
+        "id": "contexto:sem_referencia",
+        "resposta": "Qual história você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?"
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "autoria",
+        "referentes": [
+          "história"
+        ],
+        "conteudo_minimo": [
+          "gerador",
+          "própr"
+        ],
+        "desvios_proibidos": [
+          "qual história você quer dizer"
+        ]
+      }
+    },
+    {
+      "id": "real-22",
+      "origem": {
+        "sessao": "05_codigo",
+        "turno": 7,
+        "sha256": "34276614e2abf4c4d0538d13a371abfa31b4c5d174aee3793628ac93ad68fac0"
+      },
+      "entrada": {
+        "texto": "Você disse que interpreta JavaScript limitado. Analise este código JavaScript e explique por que o total sai 5, em vez de 25:\n```javascript\nconst precos = [8, 12, 5];\nlet total = 0;\nfor (let i = 0; i < precos.length; i++) {\n  total = precos[i];\n}\nconsole.log(total);\n```",
+        "anteriores": [
+          "Esse código em Python deveria somar três preços, mas está imprimindo 5. O que está errado?\n```python\nprecos = [8, 12, 5]\ntotal = 0\nfor p in precos:\n    total = p\nprint(total)\n```",
+          "nenhuma"
+        ]
+      },
+      "usuario_queria": "Acionar motor JS após preâmbulo; informar limites do subconjunto se necessário",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "programacao",
+        "ato": "analisar",
+        "referentes": [
+          "precos",
+          "total"
+        ],
+        "conteudo_minimo": [
+          "código"
+        ],
+        "desvios_proibidos": [
+          "gostos",
+          "vida fora da conversa"
+        ]
+      }
+    },
+    {
+      "id": "real-23",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 2,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "E qual a diferença para o RNA?",
+        "anteriores": [
+          "O que é DNA?"
+        ]
+      },
+      "usuario_queria": "Comparar DNA e RNA referindo-se ao conceito anterior",
+      "crivo_fez": {
+        "id": "conversa:reflexao",
+        "resposta": "Posso ajudar a pensar. Qual é a situação e quais opções você está considerando?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "DNA",
+          "RNA"
+        ],
+        "conteudo_minimo": [
+          "DNA",
+          "RNA"
+        ],
+        "desvios_proibidos": [
+          "quais opções"
+        ]
+      }
+    },
+    {
+      "id": "real-24",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 3,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "Me explica DNA em três tópicos, para uma criança de dez anos.",
+        "anteriores": [
+          "O que é DNA?"
+        ]
+      },
+      "usuario_queria": "Reformatar a explicação disponível em tópicos para criança",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "topicos",
+        "referentes": [
+          "DNA"
+        ],
+        "conteudo_minimo": [
+          "DNA"
+        ],
+        "desvios_proibidos": [
+          "não tenho uma definição"
+        ]
+      }
+    },
+    {
+      "id": "real-25",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 4,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "Mudando de assunto: quem foi Moisés?",
+        "anteriores": [
+          "O que é DNA?",
+          "Me explica DNA em três tópicos, para uma criança de dez anos."
+        ]
+      },
+      "usuario_queria": "Mudar explicitamente de tema para pergunta factual bíblica",
+      "crivo_fez": {
+        "id": "conversa:abertura",
+        "resposta": "Você trouxe esta ideia: “Mudando de assunto: quem foi Moisés”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "consultar",
+        "referentes": [
+          "Moisés"
+        ],
+        "conteudo_minimo": [
+          "Moisés"
+        ],
+        "desvios_proibidos": [
+          "ideia",
+          "vontade",
+          "próximo passo"
+        ]
+      }
+    },
+    {
+      "id": "pos-01",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-01",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Nunca usei você. O que consegue fazer?",
+        "anteriores": []
+      },
+      "usuario_queria": "capacidades na peça esclarecimento",
+      "crivo_fez": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "negação com segurança"
+        ]
+      }
+    },
+    {
+      "id": "pos-02",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-02",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo gosta?",
+        "anteriores": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Zaurélio"
+        ],
+        "conteudo_minimo": [
+          "kiwi"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "pos-03",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-03",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo gosta agora?",
+        "anteriores": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite.",
+          "Ele mudou de ideia: agora gosta de manga."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Zaurélio"
+        ],
+        "conteudo_minimo": [
+          "manga"
+        ],
+        "desvios_proibidos": [
+          "kiwi",
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "pos-04",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-04",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Em que pode me ajudar?",
+        "anteriores": []
+      },
+      "usuario_queria": "capacidades na peça esclarecimento",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      }
+    },
+    {
+      "id": "pos-06",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-06",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que ela não gosta?",
+        "anteriores": [
+          "Minha amiga Nerúbia prefere chá de hibisco."
+        ]
+      },
+      "usuario_queria": "consultar_negacao na peça memoria",
+      "crivo_fez": {
+        "id": "conversa:memoria_sessao",
+        "resposta": "Segundo o que você contou, Nerúbia prefere chá de hibisco."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar_negacao",
+        "referentes": [
+          "Nerúbia"
+        ],
+        "conteudo_minimo": [
+          "não",
+          "informou"
+        ],
+        "desvios_proibidos": [
+          "Nerúbia prefere chá de hibisco"
+        ]
+      }
+    },
+    {
+      "id": "pos-07",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-07",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo prefere?",
+        "anteriores": [
+          "Meu primo Talveno prefere chá. Meu primo Orestino prefere café."
+        ]
+      },
+      "usuario_queria": "referente na peça esclarecimento",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "referente",
+        "referentes": [
+          "Talveno",
+          "Orestino"
+        ],
+        "conteudo_minimo": [
+          "pessoa"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      }
+    },
+    {
+      "id": "pos-08",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-08",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que Véspera gosta?",
+        "anteriores": [
+          "Minha prima Véspera gosta de goiaba.",
+          "Ela não gosta mais de goiaba. Agora ela gosta de pêssego."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Véspera"
+        ],
+        "conteudo_minimo": [
+          "pêssego"
+        ],
+        "desvios_proibidos": [
+          "goiaba",
+          "hum, não entendi"
+        ]
+      }
+    },
+    {
+      "id": "pos-11",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-11",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Agora me diga a cor de Marte.",
+        "anteriores": [
+          "Minha prima Véspera prefere goiaba."
+        ]
+      },
+      "usuario_queria": "consultar na peça fato",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Agora me diga a cor de Marte.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "consultar",
+        "referentes": [
+          "Marte"
+        ],
+        "conteudo_minimo": [
+          "avermelhada"
+        ],
+        "desvios_proibidos": [
+          "você contou",
+          "quer me contar"
+        ]
+      }
+    },
+    {
+      "id": "pos-12",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-12",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Desses 30 minutos, separa 5 para descanso.",
+        "anteriores": [
+          "Tenho 30 minutos para estudar italiano."
+        ]
+      },
+      "usuario_queria": "planejar na peça calculo",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Ah, entendi, desses 30 minutos separa 5 para descanso. E o que mais?"
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [],
+        "conteudo_minimo": [
+          "30",
+          "25",
+          "5",
+          "descanso",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue",
+          "ah, entendi"
+        ]
+      }
+    },
+    {
+      "id": "pos-15",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-15",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que você guardou sobre meu tio?",
+        "anteriores": [
+          "Meu tio Caldrino prefere suco de umbu."
+        ]
+      },
+      "usuario_queria": "resumir na peça memoria",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "resumir",
+        "referentes": [
+          "Caldrino"
+        ],
+        "conteudo_minimo": [
+          "suco de umbu"
+        ],
+        "desvios_proibidos": [
+          "sobre mim",
+          "não tenho gostos",
+          "vida fora da conversa"
+        ]
+      }
+    }
+  ],
+  "originais_sha256": "c75845b1488ea1539fc4c69c5f5ccd9e74280a3a67ef4af9360f062f28836c2d"
+}

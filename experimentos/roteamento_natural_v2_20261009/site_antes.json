@@ -1,0 +1,1745 @@
+{
+  "url": "https://crivo-mauve.vercel.app/api/chat",
+  "health_antes": {
+    "status": "ok",
+    "name": "CRIVO",
+    "programming_active": true,
+    "question_interpretation_active": true,
+    "reasoning_active": true,
+    "knowledge_exploration_active": true,
+    "build_commit": "ab157203cd559074b5319940fc6953b22a84bcc5",
+    "programming_effects_model": {
+      "active": true,
+      "parameters": 1679,
+      "external_weights": false,
+      "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+    },
+    "engine": "python-local",
+    "external_ai": false,
+    "generation": {
+      "enabled": true,
+      "available": true,
+      "reason": ""
+    },
+    "experimental_dialogue": false,
+    "experimental_programming": false
+  },
+  "probes": [
+    {
+      "id": "pos-01",
+      "quando_utc": "2026-10-09T22:58:05.332418+00:00",
+      "pedido": {
+        "message": "Nunca usei você. O que consegue fazer?",
+        "history": []
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": true
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "duvida",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "duvida",
+        "response": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-02",
+      "quando_utc": "2026-10-09T22:58:05.336437+00:00",
+      "pedido": {
+        "message": "O que meu primo gosta?",
+        "history": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "meu",
+              "gosta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "nocao:observacao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "leitura_ficha",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "fact": 4,
+                "probability": 0.181,
+                "margin": 0.0189,
+                "cues_covered": 0,
+                "question_type": "qual"
+              }
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_metafora",
+                "search_fact": 1,
+                "search_probability": 1.0,
+                "fact": 1,
+                "probability": 0.6539,
+                "margin": 0.4698,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou metáfora, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-03",
+      "quando_utc": "2026-10-09T22:58:08.241971+00:00",
+      "pedido": {
+        "message": "O que meu primo gosta agora?",
+        "history": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite.",
+          "Ele mudou de ideia: agora gosta de manga."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "meu",
+              "gosta",
+              "agora"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "número primo",
+            "previous_turn_id": "nocao:continuacao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "leitura_ficha",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "fact": 4,
+                "probability": 0.198,
+                "margin": 0.0063,
+                "cues_covered": 0,
+                "question_type": "qual"
+              }
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_metafora",
+                "search_fact": 1,
+                "search_probability": 1.0,
+                "fact": 1,
+                "probability": 0.5973,
+                "margin": 0.3908,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou metáfora, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-04",
+      "quando_utc": "2026-10-09T22:58:18.808784+00:00",
+      "pedido": {
+        "message": "Em que pode me ajudar?",
+        "history": []
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "ajudar"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_luto",
+                "search_fact": 2,
+                "search_probability": 0.3278,
+                "fact": 2,
+                "probability": 0.9955,
+                "margin": 0.3598,
+                "cues_covered": 1,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou luto, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-05",
+      "quando_utc": "2026-10-09T22:58:18.813254+00:00",
+      "pedido": {
+        "message": "Mostra o que sabe fazer.",
+        "history": []
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "mostra"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "git_intro",
+                "search_fact": 3,
+                "search_probability": 0.173,
+                "fact": 3,
+                "probability": 0.9955,
+                "margin": 0.6702,
+                "cues_covered": 1,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou Git, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-06",
+      "quando_utc": "2026-10-09T22:58:22.165161+00:00",
+      "pedido": {
+        "message": "O que ela não gosta?",
+        "history": [
+          "Minha amiga Nerúbia prefere chá de hibisco."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 1,
+              "sujeito": "pessoa:nerubia",
+              "relacao": "preferência",
+              "valor": "chá de hibisco",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 1,
+                "texto": "Minha amiga Nerúbia prefere chá de hibisco."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Nerúbia prefere chá de hibisco.",
+              "prompt_sha256": "c6c906ef87d5bd034b59580712f65fbf2619badab56abbb37f13329858eeaf82",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "substituiu": "conversa:memoria_sessao",
+          "texto_alterado": false
+        },
+        "session_memory": {
+          "acao": "consulta",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Minha amiga Nerúbia prefere chá de hibisco."
+            }
+          ],
+          "afirmacoes": [
+            1
+          ],
+          "pesos_promovidos": false
+        },
+        "natural_routing": {
+          "peca": "memoria",
+          "ato": "consultar",
+          "referentes": [
+            "Nerúbia"
+          ],
+          "sujeitos": [
+            "pessoa:nerubia"
+          ],
+          "executor": "memoria_sessao_estrutural",
+          "status": "executado",
+          "guarda": {
+            "aceita": true,
+            "motivos": []
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [],
+            "negation": true
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Segundo o que você contou, Nerúbia prefere chá de hibisco.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-07",
+      "quando_utc": "2026-10-09T22:58:22.905209+00:00",
+      "pedido": {
+        "message": "O que meu primo prefere?",
+        "history": [
+          "Meu primo Talveno prefere chá. Meu primo Orestino prefere café."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "meu",
+              "prefere"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "leitura_ficha",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "fact": 7,
+                "probability": 0.1819,
+                "margin": 0.002,
+                "cues_covered": 0,
+                "question_type": "qual"
+              }
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_metafora",
+                "search_fact": 1,
+                "search_probability": 1.0,
+                "fact": 1,
+                "probability": 0.6453,
+                "margin": 0.4626,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou metáfora, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-08",
+      "quando_utc": "2026-10-09T22:58:24.789705+00:00",
+      "pedido": {
+        "message": "O que Véspera gosta?",
+        "history": [
+          "Minha prima Véspera gosta de goiaba.",
+          "Ela não gosta mais de goiaba. Agora ela gosta de pêssego."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "vespera",
+              "gosta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "nocao:continuacao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_imperativo_categorico",
+                "search_fact": 7,
+                "search_probability": 0.7193,
+                "fact": 7,
+                "probability": 0.8274,
+                "margin": 0.5714,
+                "cues_covered": 1,
+                "question_type": "qual"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou imperativo categórico, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-09",
+      "quando_utc": "2026-10-09T22:58:32.564135+00:00",
+      "pedido": {
+        "message": "O que ele gosta?",
+        "history": [
+          "Meu primo Talveno prefere chá. Meu primo Orestino prefere café."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "esclarecer",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [],
+          "afirmacoes": [],
+          "pesos_promovidos": false
+        },
+        "natural_routing": {
+          "peca": "memoria",
+          "ato": "consultar",
+          "referentes": [],
+          "sujeitos": [],
+          "executor": "memoria_sessao_estrutural",
+          "status": "executado",
+          "guarda": {
+            "aceita": true,
+            "motivos": []
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "gosta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "De qual pessoa você está falando?",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-10",
+      "quando_utc": "2026-10-09T22:58:32.599270+00:00",
+      "pedido": {
+        "message": "E o RNA?",
+        "history": [
+          "O que é DNA?"
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 3,
+          "modo": "composicao",
+          "evidencias": [
+            {
+              "assunto": "rna",
+              "fato": 0
+            },
+            {
+              "assunto": "rna",
+              "fato": 1
+            },
+            {
+              "assunto": "rna",
+              "fato": 2
+            }
+          ],
+          "rejeicoes": [],
+          "substituiu": "escrita:explicacao",
+          "texto_alterado": false,
+          "copia_literal": true
+        },
+        "voice": "voz_propria",
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "rna",
+                "nome": "RNA",
+                "origem": "fala"
+              }
+            ],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "DNA",
+            "previous_turn_id": "conhecimento:dna",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "rna": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "composicao_factual",
+              "id": "escrita:explicacao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "composicao_factual",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "geracao_ancorada",
+          "kingdom": "neural",
+          "role": "Escreve a resposta com o Transformer próprio a partir das evidências escolhidas pelo leitor/compositor; decodificação restrita aos tokens da fonte e da pergunta e guarda de fidelidade, números, nome próprio e repetição.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "escrita:explicacao",
+        "response": "O RNA é uma molécula que participa de diferentes processos de uso da informação genética. Em geral, o RNA tem uma única fita e usa as bases A, U, C e G. O RNA mensageiro leva informações usadas na produção de proteínas. Se quiser, explico como o RNA se formou.",
+        "mechanism": "geracao_ancorada",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-11",
+      "quando_utc": "2026-10-09T22:58:34.654614+00:00",
+      "pedido": {
+        "message": "Agora me diga a cor de Marte.",
+        "history": [
+          "Minha prima Véspera prefere goiaba."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_marte",
+                "nome": "Marte",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "agora",
+              "cor"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_marte": {
+              "facts": 8,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou: “Agora me diga a cor de Marte.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-12",
+      "quando_utc": "2026-10-09T22:58:37.216495+00:00",
+      "pedido": {
+        "message": "Desses 30 minutos, separa 5 para descanso.",
+        "history": [
+          "Tenho 30 minutos para estudar italiano."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "desses",
+              "30",
+              "minutos",
+              "separa",
+              "descanso"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Ah, entendi, desses 30 minutos separa 5 para descanso. E o que mais?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-13",
+      "quando_utc": "2026-10-09T22:58:38.124464+00:00",
+      "pedido": {
+        "message": "Quanto tempo sobrou?",
+        "history": [
+          "Tenho 30 minutos disponíveis.",
+          "Vou gastar 12 minutos na louça e 5 minutos no descanso."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "quanto",
+            "entities": [],
+            "cues": [
+              "tempo",
+              "sobrou"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_espaco_tempo",
+                "search_fact": 2,
+                "search_probability": 0.2955,
+                "fact": 2,
+                "probability": 0.411,
+                "margin": 0.2527,
+                "cues_covered": 0,
+                "question_type": "quanto"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou espaço-tempo, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-14",
+      "quando_utc": "2026-10-09T22:58:41.053190+00:00",
+      "pedido": {
+        "message": "Ela pode fazer o quê?",
+        "history": [
+          "Minha amiga Nerúbia não pode beber leite."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "esclarecer",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [],
+          "afirmacoes": [],
+          "pesos_promovidos": false
+        },
+        "natural_routing": {
+          "peca": "memoria",
+          "ato": "esclarecer",
+          "referentes": [],
+          "executor": "memoria_sessao_estrutural",
+          "status": "executado",
+          "guarda": {
+            "aceita": true,
+            "motivos": []
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "nocao:observacao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "A qual pessoa você se refere?",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-15",
+      "quando_utc": "2026-10-09T22:58:42.732169+00:00",
+      "pedido": {
+        "message": "O que você guardou sobre meu tio?",
+        "history": [
+          "Meu tio Caldrino prefere suco de umbu."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_resposta_verificada",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "guardou",
+              "meu",
+              "tio"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_assistente",
+              "id": "social:nao_entendido",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_assistente",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_assistente",
+          "kingdom": "conversa",
+          "role": "Cuida da parte social: cumprimentos, agradecimentos e o próprio CRIVO.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa"
+          ]
+        },
+        "id": "social:nao_entendido",
+        "response": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+        "mechanism": "conversa_assistente",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-16",
+      "quando_utc": "2026-10-09T22:58:43.037689+00:00",
+      "pedido": {
+        "message": "Sem trocar a pessoa: o que minha amiga prefere?",
+        "history": [
+          "Minha amiga Nerúbia prefere chá de hibisco."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-17",
+      "quando_utc": "2026-10-09T22:58:44.721552+00:00",
+      "pedido": {
+        "message": "Não quero uma receita. Quanto resta do tempo?",
+        "history": [
+          "Tenho 30 minutos disponíveis.",
+          "Vou gastar 12 minutos na louça e 5 minutos no descanso."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [],
+            "negation": true
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "duvida",
+              "action": "recusar",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "duvida",
+        "response": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "id": "pos-18",
+      "quando_utc": "2026-10-09T22:58:45.157675+00:00",
+      "pedido": {
+        "message": "Quero uma sugestão para ele respeitando a restrição.",
+        "history": [
+          "Meu primo Talveno prefere leite. Ele não pode beber leite."
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 2,
+              "sujeito": "pessoa:talveno",
+              "relacao": "permissão:beber leite",
+              "valor": "não pode beber leite",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 1,
+                "texto": "Meu primo Talveno prefere leite. Ele não pode beber leite."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Talveno não pode beber leite.",
+              "prompt_sha256": "37e754d8b328810ecc9271282a0f219da009a0a8aace4fd12e7b3401b45b824b",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "consultar",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "quero",
+              "sugestao",
+              "respeitando",
+              "restricao"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_consultar",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "conversa_sessao",
+          "kingdom": "conversa",
+          "role": "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; o realizador próprio escreve as evidências com guarda literal.",
+          "regulated_by": [
+            "memoria_sessao_estrutural",
+            "crise",
+            "pessoa",
+            "recusa",
+            "fontes",
+            "catracas"
+          ]
+        },
+        "id": "conversa:sessao_consultar",
+        "response": "Segundo o que você contou, Talveno não pode beber leite.",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ],
+  "health_depois": {
+    "status": "ok",
+    "name": "CRIVO",
+    "programming_active": true,
+    "question_interpretation_active": true,
+    "reasoning_active": true,
+    "knowledge_exploration_active": true,
+    "build_commit": "ab157203cd559074b5319940fc6953b22a84bcc5",
+    "programming_effects_model": {
+      "active": true,
+      "parameters": 1679,
+      "external_weights": false,
+      "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+    },
+    "engine": "python-local",
+    "external_ai": false,
+    "generation": {
+      "enabled": true,
+      "available": true,
+      "reason": ""
+    },
+    "experimental_dialogue": false,
+    "experimental_programming": false
+  }
+}
