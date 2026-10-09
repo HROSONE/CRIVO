@@ -102,3 +102,25 @@ O replay HTTP requer socket local. A reprodução do treino requer NumPy,
 Não inicia nenhum treino de geração livre. O CI descobre os 19 contratos
 na matriz existente e roda também a sonda congelada de motor. A aprovação
 da revisão depende dos próprios checks; não pressupõe os checks do #119.
+
+## Regressões encontradas pelo CI e corrigidas
+
+O candidato inicial a6aa22b falhou no CI completo. A reprodução do job de
+compreensão encontrou três falhas em 52 testes: perguntas sobre Plutão,
+Urano e Vênus entravam na rota pessoal porque a heurística tratava um nome
+capitalizado como possível pessoa. A pergunta original sobre Marte tinha
+esse mesmo desvio, reprovando a etapa comum à matriz de 12 jobs.
+
+A correção exige um sujeito já registrado ou uma continuação imediata
+ligada à resposta pessoal anterior. Apenas uma solicitação explicitamente
+pessoal de preferência desconhecida pode pedir esclarecimento sem sujeito
+registrado. Nomes de planetas e personagens bíblicos não criam referentes.
+Nenhum critério, caso original, peso ou teste existente foi removido.
+
+Passaram os 22 contratos direcionados (20 do consumidor e dois métodos
+factualmente reprovados) e os 12 testes bíblicos. Os logs estão em
+`correcao_ci/`. Isso não substitui a aprovação do CI completo do novo commit.
+A correção de repetição pós-merge, já aplicada na main em 60fd187, foi
+incorporada à branch: PR continua com matriz completa e main tem apenas
+cinco contratos rápidos. O job pós-merge dessa correção passou em 20s;
+seu sucesso não constitui aprovação do PR 120.
