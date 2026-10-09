@@ -9,8 +9,10 @@ on:
       - 'web_core.py'
       - 'ecossistema.py'
       - 'testes_raciocinio_conversa.py'
+      - 'testes_hipoteses_confirmadas.py'
       - 'testes_argumentos_conversa.py'
       - 'experimentos/raciocinio_conversa_20261008/**'
+      - 'experimentos/confirmacao_hipoteses_20261009/**'
       - 'dialogo_aberto.py'
       - 'geracao_conversa.py'
       - 'pedidos_gerativos.py'
@@ -41,13 +43,17 @@ jobs:
           python -m unittest testes_dialogo_situado -v
           python -S -m unittest testes_dialogo_situado.TestesQuadroSituado -v
           python -m unittest testes_raciocinio_conversa -v
+          python -m unittest testes_hipoteses_confirmadas -v
           python -m unittest testes_argumentos_conversa -v
           python -S -m unittest testes_raciocinio_conversa.TestesRaciocinioConversa -v
+          python -S -m unittest testes_hipoteses_confirmadas.TestesHipotesesConfirmadas -v
           python -S -m unittest testes_argumentos_conversa.TestesArgumentosConversa -v
       - name: Sonda pública original e desenvolvimento adicional
         run: |
           python avaliar_dialogo_real.py --saida /tmp/dialogo-original.json
           python experimentos/dialogo_situado_20261008/avaliar.py desenvolvimento --exigir-todos --saida /tmp/dialogo-desenvolvimento.json
+          python experimentos/confirmacao_hipoteses_20261009/avaliar.py --raiz . --modo motor --exigir-todos --saida /tmp/dialogo-hipoteses-motor.json
+          python experimentos/confirmacao_hipoteses_20261009/avaliar.py --raiz . --modo web --exigir-todos --saida /tmp/dialogo-hipoteses-web.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
