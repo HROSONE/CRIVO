@@ -1,0 +1,104 @@
+{
+  "identificador": "crivo_memoria_20261009_avaliacao_autoria_prospectiva",
+  "criado_utc": "2026-10-09T00:21:34.922715+00:00",
+  "semente_parametrizacao": 2026100947,
+  "uso": "Teste fechado. Não carregar casos.json nem gerar.py em treino/seleção. Abrir somente após congelar checkpoint escolhido por validação.",
+  "autoria": "Outro subagente de autoria nesta sessão, sem ver previsões, logs de erros ou casos de avaliação antigos. Interfaces e gramática executável foram lidas.",
+  "origem_dados": "Frases autorais e parametrização finita própria. Sem corpus externo, pesos externos, conversa privada ou API de modelos.",
+  "semantica_declarada": {
+    "hipotese": "Toda nova hipótese parte do último estado factual, não da hipótese anterior.",
+    "correcao": "Uma correção factual atualiza só a fonte citada e encerra a hipótese ativa.",
+    "consulta": "Consulta sem alteração preserva o estado ativo: factual ou hipotético.",
+    "confirmacao": "A última alternativa é incorporada aos fatos sem repetir seus alvos.",
+    "retorno": "Encerra a hipótese ainda ativa e preserva os fatos inclusive os confirmados.",
+    "ordem_preco": "Argumentos seguem a ordem dos dois nomes na consulta; distrator não responde.",
+    "requisitos": "Ausência de um item não prova negação. Quatro estados: provado, refutado, indeterminado e contraditório; outro sujeito é distrator."
+  },
+  "schema": {
+    "entrada_inferencia": [
+      "turnos"
+    ],
+    "gold_fora_da_inferencia": [
+      "operacao",
+      "argumentos",
+      "referente",
+      "hipotese",
+      "evento",
+      "resultado_gold",
+      "caracteristicas"
+    ],
+    "span": {
+      "turno": "índice da fala",
+      "inicio": "caractere inicial inclusivo",
+      "fim": "caractere final exclusivo",
+      "texto": "literal suportado na fala"
+    },
+    "metadados": [
+      "sessao",
+      "familia",
+      "etapa",
+      "split",
+      "classe",
+      "trajetoria",
+      "painel"
+    ]
+  },
+  "contagens": {
+    "sessoes": 80,
+    "exemplos": 408,
+    "tokens_entrada": 49372,
+    "max_tokens_por_exemplo": 226,
+    "familias": {
+      "precos": 204,
+      "requisitos": 204
+    },
+    "eventos": {
+      "declaracao": 80,
+      "correcao": 64,
+      "hipotese": 104,
+      "retorno": 88,
+      "consulta": 32,
+      "confirmacao": 40
+    },
+    "hipotese_ativa": {
+      "False": 288,
+      "True": 120
+    },
+    "trajetorias_sessoes": {
+      "correcao>hipotese>retorno": 8,
+      "hipotese>consulta>retorno>correcao": 8,
+      "hipotese>correcao>retorno": 8,
+      "hipotese>confirmacao>retorno": 8,
+      "correcao>hipotese>confirmacao>retorno": 8,
+      "hipotese>confirmacao>hipotese>retorno>correcao": 8,
+      "correcao>hipotese>consulta>retorno": 8,
+      "hipotese>retorno>hipotese>confirmacao>retorno": 8,
+      "correcao>correcao>hipotese>retorno>consulta": 8,
+      "hipotese>hipotese>confirmacao>consulta>retorno": 8
+    },
+    "tamanhos_sessoes": {
+      "4": 24,
+      "5": 24,
+      "6": 32
+    },
+    "verificacoes_gold_offsets_sem_truncamento": 408,
+    "rejeicoes_sessoes_inteiras": 0
+  },
+  "sha256": {
+    "casos.json": "e4d12906a5de5538312754ee63d0af079686fb86e4145116c2e7c8bcb1938235",
+    "gerar.py": "8b18ca6eb18283613615599b6cc74dc9248c7638c79353165039b2692c62e572",
+    "tokenizer_proprio": "a928cda393528d7f00b0441a8187dc6fa7485fcf73edb14e908b763ed2a4ca66",
+    "schema_corpus": "d50acfc6e06b46e7d8b8037e857f7d3aed8459d8d30d25fbc6c898e00f9f6bac",
+    "executor_gold": "462dc14572edb3dc17908d8a525d2962c02452e08293f179af668e6121e64250",
+    "normalizacao_vigente": "60cd768fab8d2a0f61be4eb752143385ecf5ec58989838f0855112501738c802",
+    "normalizacao_base": "91eae24dd486249192cab71a50fe0f8941c2c0c0103ea6bd30235d5388b6b93a"
+  },
+  "rejeicoes": [],
+  "limites": [
+    "Outra autoria dentro da mesma equipe de agentes e gramática, não avaliador externo independente.",
+    "80 sessões parametrizam somente dez trajetórias e quatro variantes de frases; exemplos não são amostras humanas independentes.",
+    "Nomes novos de uma palavra maiúscula, preços inteiros, duas entidades consultadas e requisitos de dois itens; não mede conversa livre, raciocínio geral ou longos contextos.",
+    "Não houve inferência, seleção de pesos, interpretação de previsões nem ajuste pós-teste.",
+    "Gold e eventos são exclusivos da medição; verificação de IDs mostrou independência da entrada em relação a todos os rótulos."
+  ]
+}

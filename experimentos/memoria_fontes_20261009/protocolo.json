@@ -1,0 +1,58 @@
+{
+  "codigo": {
+    "apoio.py": "f00b945d5e0de3058446503b38c92497999ed4669e94e23275328bd45530f4df",
+    "preparo.py": "5a743320348e72a76e96155da646bc5ad5333017176ecbf022d8fd423c58a7cc",
+    "rede.py": "5658531c6addd89783641a256fb5c9d491828d3dcb4b39d9c53f9fbe8d3c2bd9",
+    "corpus_memoria.py": "03de2a675d8a2a5b14ad521ab6f649943c8007f3c05103d3efc3204ddcda1a4a",
+    "treino_memoria.py": "275a883101124123c8ee7ee53dd76bb7cf19a8c172f38b60668b192cf33fa836"
+  },
+  "inicial_sha256": "9ced0f6c359a7c9a541d5117d6e5ef2ad8f46b8a7baef0704f50abe405ecde2a",
+  "pesos_ativos_sha256": "345008f7001ea17d3e3ab533d71cb7818820dcbfde246384c9a304a0b63f614d",
+  "dados_dir": "dados_validos",
+  "dados_sha256": {
+    "replay_contextual": "868bd8e3f2b5c4350dc6adc12dc0ef3753f38ef4e9dcb9d4d6fa2b6539bb07c4",
+    "replay_associacao": "6e17c1965430b5dfe2841e610fced9a30ea469a2b4b2818918e9ee602a0c4401",
+    "dev": "bc45efff991580bd6455907afceaf6e01b35fc4269208b0e3dc0cd5a80d31a00",
+    "treino": "98fe98a3af95de4703960acf59cdbe5deaa0c4cd6630f68f86eac868e202e655"
+  },
+  "passos": 400,
+  "seed": 20261015,
+  "lr": 0.0005,
+  "avaliacao_autoria": {
+    "casos_sha256": "e4d12906a5de5538312754ee63d0af079686fb86e4145116c2e7c8bcb1938235",
+    "protocolo_sha256": "a1c38076a0ffbf3c0e4b02e3fd2a8beb374c853b3726e24ffce4c53373df3faa"
+  },
+  "bracos": {
+    "controle": {
+      "BCE_bancos": 0.0
+    },
+    "fontes": {
+      "BCE_bancos": 0.3
+    }
+  },
+  "perdas_compartilhadas": {
+    "ponteiros": 0.8,
+    "escopo": 0.5,
+    "peso_escopo_classes": [
+      1.0,
+      2.0
+    ],
+    "evento": 0.2,
+    "KL_escopo_pontos_no_replay": 0.25
+  },
+  "lote": 20,
+  "amostragem": "12 novos, um de cada evento/domínio; quatro associação e quatro contextual. RNG/lotes iguais nos dois braços.",
+  "selecao": ".60 macro dos quatro eventos críticos por dois domínios novo dev + .25 macro famílias dev associação + .15 macro famílias dev contextual; avaliar a cada100; empates mantêm primeiro.",
+  "parametros": 3084066,
+  "parametros_treinaveis": 135692,
+  "arquitetura": "Corpo e cabeças antigas congelados, dropout desativado. Mesmo corpo próprio lê histórico e só última fala; MLP combina features. Delta escopo+evento no fuser. Três bancos/four roles com QK24. Fonte ativa apenas afeta ponteiros.",
+  "bias_fonte": "2*(logsigmoid(validade_ativo)+log2); zero inicial conserva logits. Aumento limitado +1.386, penalização negativa sem limite. Sem gate de escopo ou exclusão hard; decoder literal igual ao anterior.",
+  "criterios": {
+    "eventos_criticos_min": 0.8,
+    "familias_min": 0.8,
+    "aumento_sessoes_pp_min": 20.0,
+    "queda_paineis_conhecidos_pp_max": 5.0
+  },
+  "limites": "Outra autoria de agente dentro da mesma equipe, mesma gramática limitada, não independente externo. Uma semente; hipóteses e fontes em preço/requisitos, não conversa livre. Protocolo antes dos treinos e teste; pesos nunca ativados por aprovação falsa.",
+  "aprovado_para_chat": false
+}

@@ -1,0 +1,112 @@
+{
+  "identificador": "crivo_ledger_20261009_autoria_prospectiva_v1",
+  "criado_utc": "2026-10-09T00:50:38.776633+00:00",
+  "semente": 2026100993,
+  "uso": "Avaliação única fechada. Raiz e implementador não leem casos.json ou gerar.py até congelar o novo ledger e completar testes de contrato próprios.",
+  "autoria": "Outro subagente da equipe; não leu ledger.py, código da nova implementação, suas previsões ou exemplos de trabalho. Autoria conhece apenas métricas agregadas de falha da rodada anterior, interfaces/executor e contrato de estado declarado.",
+  "proveniencia": "Frases inteiramente novas em relação ao painel prospectivo anterior; novos nomes/objetos/valores e consultas de três entidades. Sem modelo/API/corpus externo.",
+  "semantica": {
+    "fatos": "Dicionário de fontes mais recentes por entidade, com regra de ingresso compartilhada.",
+    "hipotese": "Toda nova hipótese começa copiando fatos e muda somente a entidade citada.",
+    "correcao": "Atualização factual explícita muda a entidade citada e encerra qualquer hipótese.",
+    "confirmacao": "Promove todo o último cenário hipotético aos fatos sem repetir seus valores.",
+    "retorno": "Descarta só hipótese ainda não confirmada, preservando fatos inclusive confirmações.",
+    "consulta": "Não altera fatos ou hipótese. O escopo é o cenário ativo da conversa inteira.",
+    "ordem": "Nos custos, argumentos seguem os dois nomes da pergunta. Inventário segue o nome explícito consultado. Dados de outras entidades são distratores.",
+    "inventario": "Declarações completas com tem/não tem, duas condições; ausência não prova negação e conflito positivo/negativo é contraditório."
+  },
+  "schema": {
+    "entrada_inferencia": [
+      "turnos"
+    ],
+    "gold_exclusivo_medicao": [
+      "operacao",
+      "argumentos",
+      "referente",
+      "hipotese",
+      "evento",
+      "resultado_gold",
+      "consulta_entidades",
+      "atualizacao_outra_entidade"
+    ],
+    "span": "turno, inicio inclusivo, fim exclusivo, texto literal",
+    "metadados": [
+      "sessao",
+      "familia",
+      "etapa",
+      "split",
+      "classe",
+      "trajetoria",
+      "painel"
+    ]
+  },
+  "contagens": {
+    "sessoes": 72,
+    "exemplos": 368,
+    "max_tokens": 256,
+    "tokens_entrada": 48266,
+    "familias": {
+      "precos": 184,
+      "requisitos": 184
+    },
+    "eventos": {
+      "declaracao": 72,
+      "correcao": 56,
+      "hipotese": 96,
+      "retorno": 72,
+      "consulta": 32,
+      "confirmacao": 40
+    },
+    "hipotese_ativa": {
+      "False": 264,
+      "True": 104
+    },
+    "sessoes_por_trajetoria": {
+      "correcao>hipotese>retorno": 8,
+      "hipotese>consulta>retorno": 8,
+      "hipotese>confirmacao>retorno": 8,
+      "correcao>hipotese>confirmacao>retorno": 8,
+      "hipotese>correcao>consulta>retorno": 8,
+      "correcao>hipotese>hipotese>retorno>consulta": 8,
+      "hipotese>retorno>correcao>hipotese>confirmacao": 8,
+      "hipotese>confirmacao>correcao>hipotese>retorno": 8,
+      "correcao>consulta>hipotese>confirmacao>retorno": 8
+    },
+    "comprimentos_sessao": {
+      "4": 24,
+      "5": 16,
+      "6": 32
+    },
+    "atualizacoes_outra_entidade_que_a_consulta": 60,
+    "verificados_gold_fontes_offsets_sem_rotulos_no_input": 368,
+    "descartes_sessoes_inteiras": 2
+  },
+  "sha256": {
+    "casos.json": "3e214dc5cc897ccdfd1a45f9270aea4afa0a710e11cee13588901ebf323f7a1e",
+    "gerar.py": "3eb52f499d932bf6aedecaeacc9032bc0057a3e37b5c009c970608510a387209",
+    "tokenizer_proprio": "a928cda393528d7f00b0441a8187dc6fa7485fcf73edb14e908b763ed2a4ca66",
+    "schema_corpus": "d50acfc6e06b46e7d8b8037e857f7d3aed8459d8d30d25fbc6c898e00f9f6bac",
+    "executor_gold": "462dc14572edb3dc17908d8a525d2962c02452e08293f179af668e6121e64250",
+    "preparo": "5a743320348e72a76e96155da646bc5ad5333017176ecbf022d8fd423c58a7cc"
+  },
+  "descartes": [
+    {
+      "indice": 53,
+      "tentativa": 0,
+      "motivo": "Não truncar o contexto.",
+      "sessao_inteira_descartada": true
+    },
+    {
+      "indice": 61,
+      "tentativa": 0,
+      "motivo": "Não truncar o contexto.",
+      "sessao_inteira_descartada": true
+    }
+  ],
+  "limites": [
+    "Outra autoria de agente dentro da mesma equipe, mesma gramática/executor fechado; não avaliação humana ou externa independente.",
+    "72 sessões parametrizam nove trajetórias e quatro variantes; prefixos são correlacionados.",
+    "Perguntas explícitas, nomes de uma palavra, requisitos binários e preços inteiros. Não mede pronomes ambíguos, conversa livre, contexto longo ou raciocínio geral.",
+    "Sem inferência ou seleção por teste. Gold failures não foram omitidos; somente contextos inteiros acima de 256 tokens ou duplicados podem ser regenerados e são registrados."
+  ]
+}

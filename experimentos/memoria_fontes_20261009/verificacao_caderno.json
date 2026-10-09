@@ -1,0 +1,527 @@
+{
+  "runner_sha256": "b6c45da03897c7f7044c7ecd0512d6d6cd30ce6aca2001ab9d966d92904bbd33",
+  "ambiente": "CPU local; Colab real não executado",
+  "braco_escolhido_pelo_dev": "controle",
+  "falas": [
+    "O plano Azul custa 23 reais. O plano Verde custa 35 reais. Compare Azul e Verde.",
+    "Corrigindo Azul: o custo real é 41 reais. Compare Azul e Verde.",
+    "Imagine Azul por 19 reais, sem alterar os fatos. Compare Azul e Verde.",
+    "A última hipótese aconteceu de verdade. Agora ela é fato. Compare Azul e Verde.",
+    "Esqueça a simulação e use os preços reais corrigidos. Compare Azul e Verde."
+  ],
+  "resultados": {
+    "anterior": [
+      {
+        "turno": 1,
+        "evento_previsto": null,
+        "evento_turno_sem_treino": true,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9999880790710449,
+          "argumentos": [
+            {
+              "turno": 0,
+              "inicio": 19,
+              "fim": 21,
+              "texto": "23"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              23,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 12
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "23",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 2,
+        "evento_previsto": null,
+        "evento_turno_sem_treino": true,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9999797344207764,
+          "argumentos": [
+            {
+              "turno": 1,
+              "inicio": 32,
+              "fim": 34,
+              "texto": "41"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            1
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              41,
+              35
+            ],
+            "menor": 1,
+            "diferenca": 6
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "41",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 3,
+        "evento_previsto": null,
+        "evento_turno_sem_treino": true,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9998451471328735,
+          "argumentos": [
+            {
+              "turno": 2,
+              "inicio": 17,
+              "fim": 19,
+              "texto": "19"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": true,
+          "fontes": [
+            0,
+            2
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              19,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 16
+          },
+          "hipotese": true,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": true,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 4,
+        "evento_previsto": null,
+        "evento_turno_sem_treino": true,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.999948263168335,
+          "argumentos": [
+            {
+              "turno": 2,
+              "inicio": 17,
+              "fim": 19,
+              "texto": "19"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            2
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              19,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 16
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 5,
+        "evento_previsto": null,
+        "evento_turno_sem_treino": true,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9998480081558228,
+          "argumentos": [
+            {
+              "turno": 1,
+              "inicio": 32,
+              "fim": 34,
+              "texto": "41"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            1
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              41,
+              35
+            ],
+            "menor": 1,
+            "diferenca": 6
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": false,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": false
+      }
+    ],
+    "controle": [
+      {
+        "turno": 1,
+        "evento_previsto": "declaracao",
+        "evento_turno_sem_treino": false,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9999880790710449,
+          "argumentos": [
+            {
+              "turno": 0,
+              "inicio": 19,
+              "fim": 21,
+              "texto": "23"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              23,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 12
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "23",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 2,
+        "evento_previsto": "correcao",
+        "evento_turno_sem_treino": false,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9999797344207764,
+          "argumentos": [
+            {
+              "turno": 1,
+              "inicio": 32,
+              "fim": 34,
+              "texto": "41"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            1
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              41,
+              35
+            ],
+            "menor": 1,
+            "diferenca": 6
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "41",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 3,
+        "evento_previsto": "hipotese",
+        "evento_turno_sem_treino": false,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9998451471328735,
+          "argumentos": [
+            {
+              "turno": 2,
+              "inicio": 17,
+              "fim": 19,
+              "texto": "19"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": true,
+          "fontes": [
+            0,
+            2
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              19,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 16
+          },
+          "hipotese": true,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": true,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 4,
+        "evento_previsto": "confirmacao",
+        "evento_turno_sem_treino": false,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.999948263168335,
+          "argumentos": [
+            {
+              "turno": 2,
+              "inicio": 17,
+              "fim": 19,
+              "texto": "19"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            2
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              19,
+              35
+            ],
+            "menor": 0,
+            "diferenca": 16
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": true,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": true
+      },
+      {
+        "turno": 5,
+        "evento_previsto": "retorno",
+        "evento_turno_sem_treino": false,
+        "proposta": {
+          "operacao": "comparar_custos",
+          "confianca_operacao": 0.9998480081558228,
+          "argumentos": [
+            {
+              "turno": 1,
+              "inicio": 32,
+              "fim": 34,
+              "texto": "41"
+            },
+            {
+              "turno": 0,
+              "inicio": 49,
+              "fim": 51,
+              "texto": "35"
+            },
+            null
+          ],
+          "referente": null,
+          "hipotese": false,
+          "fontes": [
+            0,
+            1
+          ],
+          "decodificacao": "candidatos_da_gramatica_propria_com_escolha_neural",
+          "limite": "Ajuda determinística limitada à gramática declarada. Não extrai toda linguagem natural."
+        },
+        "execucao": {
+          "executavel": true,
+          "resultado": {
+            "totais": [
+              41,
+              35
+            ],
+            "menor": 1,
+            "diferenca": 6
+          },
+          "hipotese": false,
+          "limite": "Execução confere operação e cópia, mas não certifica o papel semântico dos argumentos."
+        },
+        "primeiro_preco_esperado": "19",
+        "escopo_hipotese_esperado": false,
+        "primeiro_preco_correto": false,
+        "segundo_preco_correto": true,
+        "escopo_correto": true,
+        "semantica_guiada_correta": false
+      }
+    ]
+  },
+  "aprovado_para_chat": false
+}
