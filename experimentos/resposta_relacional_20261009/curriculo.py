@@ -79,6 +79,9 @@ def gerar():
         sentimento, outro_estado = rng.choice([
             ('triste', 'concentrado'), ('irritado', 'cansado'),
             ('preocupado', 'atento'), ('animado', 'distraído')])
+        if outro in ('Mara', 'Cora', 'Nara', 'Eva'):
+            sentimento = sentimento[:-1] + 'a' if sentimento.endswith('o') else sentimento
+            outro_estado = outro_estado[:-1] + 'a' if outro_estado.endswith('o') else outro_estado
         observacao = rng.choice(['ficou em silêncio', 'saiu cedo', 'olhou para o chão', 'fechou o caderno'])
         yield add('hipotese', [
             (f'Acho que {outro} ficou {sentimento}, mas não tenho confirmação.', f'Isso é uma hipótese sobre {outro}, ainda não confirmada.'),
@@ -93,7 +96,7 @@ def gerar():
             (f'Ainda não pedi a autorização para {at2}.', f'Então a condição para {at2} ainda não foi atendida.'),
             (f'Recebi autorização para {at2}.' if liberado else f'A autorização para {at2} foi negada.',
              f'A condição para {at2} foi atendida.' if liberado else f'{at2} continua indisponível, pois a autorização foi negada.'),
-            ('Quais opções estão disponíveis agora?', f'Agora {at} e {at2} estão disponíveis.' if liberado else f'Apenas {at} está disponível agora. {at2} não foi autorizado.')])
+            ('Quais opções estão disponíveis agora?', f'Agora {at} e {at2} estão disponíveis.' if liberado else f'Apenas {at} está disponível agora. A opção {at2} não foi autorizada.')])
         mudou = i % 2 == 0
         yield add('intencao', [
             (f'Quero escrever uma mensagem sobre {at}.', f'Você quer escrever uma mensagem sobre {at}.'),
