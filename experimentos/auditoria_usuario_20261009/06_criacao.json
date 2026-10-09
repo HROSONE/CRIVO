@@ -1,0 +1,438 @@
+{
+  "session": "06_criacao",
+  "endpoint": "https://crivo-mauve.vercel.app/api/chat",
+  "commit": "1e40650f28b5feb236ff619a182e8c833fe9068f",
+  "method": "exploratório; continuidade escolhida após ler respostas; não avaliação cega",
+  "turns": [
+    {
+      "number": 1,
+      "time_utc": "2026-10-09T21:23:35.543687+00:00",
+      "request": {
+        "message": "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+        "history": []
+      },
+      "status": 200,
+      "elapsed_seconds": 1.934,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "quero",
+              "inventar",
+              "historinha",
+              "minha",
+              "sobrinha",
+              "seis",
+              "anos",
+              "gosta",
+              "capivara",
+              "astronauta"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Você contou que quer inventar uma historinha para sua sobrinha de seis anos. Ela gosta de uma capivara astronauta, que legal. Qual é a principal dificuldade para chegar lá?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 2,
+      "time_utc": "2026-10-09T21:23:37.751495+00:00",
+      "request": {
+        "message": "Escreve uma história curta com essa personagem, umas cinco frases.",
+        "history": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.207,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_personagem",
+                "nome": "personagem",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "escreve",
+              "historia",
+              "curta",
+              "essa",
+              "cinco",
+              "frases"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_personagem": {
+              "facts": 3,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "geracao_neural",
+              "id": "conversa:gerada_historia",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "geracao_neural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "geracao_neural",
+          "kingdom": "neural",
+          "role": "Escreve respostas com o gerador próprio (desligado por padrão).",
+          "regulated_by": [
+            "catracas",
+            "fontes"
+          ]
+        },
+        "id": "conversa:gerada_historia",
+        "response": "Ficção:\nNum lugar distante, essa personagem, umas cinco frases recebeu uma mensagem sem assinatura. Uma surpresa mostrou outra possibilidade. Juntos, descobriram que a resposta estava no que haviam deixado para trás.",
+        "mechanism": "geracao_neural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 3,
+      "time_utc": "2026-10-09T21:23:40.083874+00:00",
+      "request": {
+        "message": "Muda o final: ela encontra um amigo, em vez de voltar sozinha.",
+        "history": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.332,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "muda",
+              "final",
+              "encontra",
+              "amigo",
+              "vez",
+              "voltar",
+              "sozinha"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:gerada_historia",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:relato",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:relato",
+        "response": "Poxa, você disse: “Muda o final: ela encontra um amigo, em vez de voltar sozinha”. E pensando em “inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta”, o que você já tentou e como isso funcionou para você?",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 4,
+      "time_utc": "2026-10-09T21:23:42.763161+00:00",
+      "request": {
+        "message": "Você escreveu essa história ou pegou de algum lugar?",
+        "history": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases.",
+          "Muda o final: ela encontra um amigo, em vez de voltar sozinha."
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.676,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "escreveu",
+              "essa",
+              "historia",
+              "ou",
+              "pegou",
+              "lugar"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:relato",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "contexto:sem_referencia",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "contexto:sem_referencia",
+        "response": "Qual história você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "number": 5,
+      "time_utc": "2026-10-09T21:23:45.715779+00:00",
+      "request": {
+        "message": "E qual vai ser o resultado da loteria de amanhã?",
+        "history": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases.",
+          "Muda o final: ela encontra um amigo, em vez de voltar sozinha.",
+          "Você escreveu essa história ou pegou de algum lugar?"
+        ]
+      },
+      "status": 200,
+      "elapsed_seconds": 2.952,
+      "result": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "vai",
+              "ser",
+              "resultado",
+              "loteria",
+              "amanha"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "contexto:sem_referencia",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "recuperador",
+              "id": "fora",
+              "action": "recusar",
+              "evidence": {}
+            },
+            {
+              "species": "busca_aprendida",
+              "id": null,
+              "action": "calar",
+              "evidence": {
+                "search_subject": "mundo_acido_base",
+                "search_fact": 1,
+                "search_probability": 0.2565,
+                "fact": 1,
+                "probability": 0.5881,
+                "margin": 0.4411,
+                "cues_covered": 1,
+                "question_type": "simnao"
+              }
+            }
+          ],
+          "decision": {
+            "species": "recuperador",
+            "action": "recusar",
+            "reason": "a busca achou pH, mas a leitura não confirmou"
+          }
+        },
+        "ecosystem": {
+          "species": "recuperador",
+          "kingdom": "conhecimento",
+          "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+          "regulated_by": [
+            "compreensao_neural",
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "fora",
+        "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+        "mechanism": "recuperador",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

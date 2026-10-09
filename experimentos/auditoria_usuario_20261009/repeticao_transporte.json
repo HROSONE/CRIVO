@@ -1,0 +1,78 @@
+{
+  "metodo": "repetição exata após falha de túnel; falha original preservada; não é nova sessão independente",
+  "request": {
+    "message": "Quero preparar um lanche para Brena. O que você sugere?",
+    "history": [
+      "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá."
+    ]
+  },
+  "status": 200,
+  "seconds": 2.345,
+  "result": {
+    "generation": {
+      "habilitada": true,
+      "usada": false,
+      "motivo": "pedido_fora_do_escopo",
+      "tentativas": 0
+    },
+    "internal_state": {
+      "understanding": {
+        "question_type": "simnao",
+        "entities": [],
+        "cues": [
+          "quero",
+          "preparar",
+          "lanche",
+          "brena",
+          "sugere"
+        ],
+        "negation": false
+      },
+      "memory": {
+        "conversation_subject": "número primo",
+        "previous_turn_id": "nocao:observacao",
+        "pending_offer": false
+      },
+      "knowledge": {},
+      "proposals": [
+        {
+          "species": "recuperador",
+          "id": "fora",
+          "action": "recusar",
+          "evidence": {}
+        }
+      ],
+      "decision": {
+        "species": "recuperador",
+        "action": "recusar",
+        "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+      }
+    },
+    "ecosystem": {
+      "species": "recuperador",
+      "kingdom": "conhecimento",
+      "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+      "regulated_by": [
+        "compreensao_neural",
+        "fontes",
+        "recusa",
+        "catracas"
+      ]
+    },
+    "id": "fora",
+    "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+    "mechanism": "recuperador",
+    "neural_active": true,
+    "plan": null,
+    "experimental_dialogue": false,
+    "experimental_programming": false,
+    "programming_active": true,
+    "programming_effects_model": {
+      "active": true,
+      "parameters": 1679,
+      "external_weights": false,
+      "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+    },
+    "has_proof": false
+  }
+}
