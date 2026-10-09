@@ -1,0 +1,247 @@
+{
+  "limite": "Diagnóstico autoral de desenvolvimento; inclui sondas já conhecidas. Rubricas ficam fora das entradas dos modelos. Estado assistido é diagnóstico com interpretação fornecida, não avaliação de interpretação aprendida.",
+  "casos": [
+    {
+      "id": "escolha_emprego",
+      "familia": "escolhas",
+      "falas": [
+        "Estou pensando em trocar de emprego, mas tenho medo de me arrepender.",
+        "O emprego atual paga mais, o outro fica perto da minha família.",
+        "Dinheiro importa, mas eu perdi momentos importantes com eles."
+      ],
+      "pedido": "Me ajuda a comparar sem decidir por mim?",
+      "estado": [
+        "Quero avaliar uma troca de emprego.",
+        "O emprego atual paga mais.",
+        "O outro emprego fica perto da minha família.",
+        "Dinheiro e tempo com a família são aspectos declarados; tenho medo de arrependimento."
+      ],
+      "rubrica": [
+        "Considerar renda e família juntas.",
+        "Ajudar a comparar, sem impor uma escolha.",
+        "Não perguntar novamente quais opções foram dadas."
+      ]
+    },
+    {
+      "id": "escolha_moradia",
+      "familia": "escolhas",
+      "falas": [
+        "Quero mudar de casa, mas tenho receio de me arrepender.",
+        "A casa menor fica perto dos meus amigos; a maior exige uma viagem longa.",
+        "Espaço ajuda, mas minha prioridade é passar menos tempo no trânsito."
+      ],
+      "pedido": "Compare essas opções sem escolher por mim.",
+      "estado": [
+        "Quero avaliar uma mudança de casa.",
+        "A casa menor é perto dos meus amigos.",
+        "A maior exige viagem longa.",
+        "A prioridade declarada é menos tempo no trânsito; também valorizo espaço."
+      ],
+      "rubrica": [
+        "Usar proximidade, espaço e deslocamento.",
+        "Reconhecer a prioridade já declarada.",
+        "Não inventar preços ou decidir pela pessoa."
+      ]
+    },
+    {
+      "id": "tempo",
+      "familia": "planejamento",
+      "falas": [
+        "Tenho 70 minutos no total.",
+        "A ida leva 11 minutos.",
+        "A tarefa leva 19 minutos."
+      ],
+      "pedido": "Quanto tempo sobra depois da ida e da tarefa?",
+      "estado": [
+        "Tenho 70 minutos disponíveis.",
+        "A ida leva 11 minutos e a tarefa leva 19 minutos."
+      ],
+      "rubrica": [
+        "Resultado 40 minutos.",
+        "Somar os dois gastos e subtrair da disponibilidade.",
+        "Não alterar números nem incluir uma volta não declarada."
+      ]
+    },
+    {
+      "id": "orcamento",
+      "familia": "planejamento",
+      "falas": [
+        "Tenho 85 reais disponíveis.",
+        "O material custa 27 reais.",
+        "O transporte custa 13 reais."
+      ],
+      "pedido": "Quanto sobra depois dessas duas despesas?",
+      "estado": [
+        "Tenho 85 reais.",
+        "O material custa 27 reais e o transporte custa 13 reais."
+      ],
+      "rubrica": [
+        "Resultado 45 reais.",
+        "Considerar material e transporte.",
+        "Não supor outra despesa."
+      ]
+    },
+    {
+      "id": "correcao_preco",
+      "familia": "correcao",
+      "falas": [
+        "O ingresso custa 22 reais.",
+        "Corrigindo: o ingresso custa 31 reais.",
+        "Tenho 50 reais disponíveis."
+      ],
+      "pedido": "Quanto sobra depois de pagar o ingresso?",
+      "estado": [
+        "Tenho 50 reais disponíveis.",
+        "O preço atual do ingresso é 31 reais.",
+        "O preço de 22 reais foi corrigido e não é o preço atual."
+      ],
+      "rubrica": [
+        "Resultado 19 reais.",
+        "Usar o preço corrigido de 31 reais.",
+        "Não combinar os dois preços."
+      ]
+    },
+    {
+      "id": "correcao_intencao",
+      "familia": "correcao",
+      "falas": [
+        "Quero retomar meu desenho.",
+        "Não quero escrever uma mensagem para ninguém; quero pensar sobre o meu bloqueio.",
+        "O bloqueio aparece quando penso que tudo precisa ficar perfeito."
+      ],
+      "pedido": "O que você entende que eu estou pedindo?",
+      "estado": [
+        "Quero pensar sobre o bloqueio ao desenhar.",
+        "Relacionei o bloqueio à exigência de perfeição.",
+        "Esclareci que não estou pedindo uma mensagem para enviar."
+      ],
+      "rubrica": [
+        "Identificar uma conversa sobre bloqueio e perfeição.",
+        "Não produzir uma mensagem para outra pessoa.",
+        "Não diagnosticar doença."
+      ]
+    },
+    {
+      "id": "referencia_ordinal",
+      "familia": "referencia",
+      "falas": [
+        "Tenho três opções: remo, dança ou teatro.",
+        "A terceira me dá medo.",
+        "A segunda cabe no meu orçamento."
+      ],
+      "pedido": "Qual era a opção que dava medo?",
+      "estado": [
+        "As opções em ordem são remo, dança e teatro.",
+        "Associei medo à terceira opção.",
+        "Associei orçamento à segunda opção."
+      ],
+      "rubrica": [
+        "Identificar teatro como terceira opção.",
+        "Não atribuir o medo à dança.",
+        "Não presumir a razão do medo."
+      ]
+    },
+    {
+      "id": "referencia_restricao",
+      "familia": "referencia",
+      "falas": [
+        "Estou entre estudar de manhã e estudar à noite.",
+        "A primeira cabe na minha rotina.",
+        "A segunda só caberia se eu mudasse meu horário de trabalho."
+      ],
+      "pedido": "Qual opção cabe na rotina que eu tenho agora?",
+      "estado": [
+        "As opções são estudar de manhã e estudar à noite, nessa ordem.",
+        "A primeira cabe na rotina atual.",
+        "A segunda depende de uma mudança de horário não confirmada."
+      ],
+      "rubrica": [
+        "Identificar estudar de manhã.",
+        "Conservar a condição da alternativa noturna.",
+        "Não afirmar que o horário de trabalho já mudou."
+      ]
+    },
+    {
+      "id": "causas_bateria",
+      "familia": "causal",
+      "falas": [
+        "A bateria acaba quando uso o aplicativo. Isso prova que ele está defeituoso?",
+        "O celular também é antigo e fica com a tela ligada.",
+        "Quero separar essas explicações antes de concluir."
+      ],
+      "pedido": "Como testar essas explicações separadamente?",
+      "estado": [
+        "Observo descarga da bateria ao usar o aplicativo.",
+        "O celular é antigo.",
+        "A tela fica ligada durante o uso.",
+        "Quero testar essas possibilidades antes de concluir qual explica a descarga."
+      ],
+      "rubrica": [
+        "Não declarar defeito provado.",
+        "Propor comparação mantendo condições semelhantes e variando um fator.",
+        "Considerar aplicativo, tela e aparelho como explicações possíveis."
+      ]
+    },
+    {
+      "id": "causas_plantas",
+      "familia": "causal",
+      "falas": [
+        "Minhas plantas cresceram depois que troquei o adubo.",
+        "Na mesma semana também choveu mais.",
+        "Não sei qual mudança fez diferença."
+      ],
+      "pedido": "O que eu precisaria observar para separar essas duas explicações?",
+      "estado": [
+        "Observei crescimento depois de trocar o adubo.",
+        "Também houve mais chuva naquela semana.",
+        "Não identifiquei qual mudança explica o crescimento."
+      ],
+      "rubrica": [
+        "Preservar incerteza causal.",
+        "Propor comparar condições de adubo e água separadamente.",
+        "Não concluir que a troca de adubo foi a causa só pela sequência temporal."
+      ]
+    },
+    {
+      "id": "cotidiano_amiga",
+      "familia": "cotidiano_criacao",
+      "falas": [
+        "Minha amiga não respondeu à mensagem que mandei ontem.",
+        "Ela já me contou que estava ocupada esta semana.",
+        "Fico pensando que talvez eu tenha feito algo errado."
+      ],
+      "pedido": "Converse comigo sobre essa dúvida sem inventar o que ela pensa.",
+      "estado": [
+        "Enviei uma mensagem ontem e não recebi resposta.",
+        "Minha amiga disse antes que estava ocupada nesta semana.",
+        "Tenho dúvida de ter feito algo errado, não uma confirmação."
+      ],
+      "rubrica": [
+        "Distinguir receio de fato.",
+        "Usar a informação de que a amiga estava ocupada.",
+        "Não inventar rejeição, intenção ou certeza sobre o motivo do silêncio."
+      ]
+    },
+    {
+      "id": "criacao_cena",
+      "familia": "cotidiano_criacao",
+      "falas": [
+        "Quero criar uma cena curta de ficção.",
+        "A personagem se chama Lina e encontra uma chave sem saber o que ela abre.",
+        "A cena deve terminar com uma pergunta; não revele o que a chave abre."
+      ],
+      "pedido": "Escreva essa cena em até três frases.",
+      "estado": [
+        "É uma cena fictícia curta.",
+        "A personagem é Lina.",
+        "Ela encontra uma chave e não sabe o que a chave abre.",
+        "A cena deve terminar com uma pergunta e não revelar o que a chave abre."
+      ],
+      "rubrica": [
+        "Produzir uma cena coerente, não apenas repetir o pedido.",
+        "Manter Lina e a chave.",
+        "Até três frases; última frase interrogativa; não revelar a fechadura."
+      ]
+    }
+  ]
+}
