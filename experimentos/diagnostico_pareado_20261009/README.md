@@ -58,3 +58,25 @@ de tokens-alvo e replay humano. As 12 sondas deste diagnóstico ficam fora do
 treino e da escolha de pesos. Nenhum candidato será promovido por perda menor
 ou por palavras coincidentes. Se as novas sessões continuarem falhando, o
 piloto será rejeitado e registrado, sem integração ao chat.
+
+## Outros pesos disponíveis
+
+`ancorado_estado_assistido.json` acrescenta uma sonda do gerador próprio de
+17.428.224 parâmetros, ajustado para redação a partir de fatos. Recebe os
+mesmos estados manuais no formato de documentos em que foi supervisionado.
+A geração crua fica apenas no laboratório; a guarda do chat não foi alterada.
+A política gulosa é a mesma do gerador menor, sem vocabulário restrito ou
+penalidade de repetição. Todas as entradas e saídas cabem no contexto.
+
+As frases são em geral mais claras e reutilizam fatos, mas nenhuma das 12
+respostas executa completamente a tarefa. Por exemplo, repete os gastos sem
+calcular o saldo, ou identifica o bloqueio ao desenhar sem a relação com
+perfeição exigida. Reutilizar texto do estado assistido não demonstra extrair
+esse estado da conversa. Esta coleta usa outro tokenizer, treinamento e
+formato; não mede causalmente o efeito de aumentar parâmetros.
+
+`conversao_ancorado.json` registra conversão local dos tensores próprios para
+o executor Torch, verificando igualdade após recarga e a tokenização de 53
+textos contra o BPE próprio. A conversão não é treino, aprovação para conversa
+ou incorporação de pesos externos; serve para permitir um futuro ajuste
+controlado dos pesos já disponíveis, em vez de reiniciar uma base aleatória.

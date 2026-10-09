@@ -1,6 +1,7 @@
 # Piloto causal de resposta relacional
 
-Protocolo e entradas congelados em `f3adda3`, antes dos dois treinos. Não altera
+Primeira versão congelada em `f3adda3`; dados com concordância revisada e
+verificação congelados em `c9901d7`, antes do reinício dos dois treinos. Não altera
 o chat nem os pesos ativos. As regras do projeto continuam proibindo pesos,
 tokenizadores e APIs de inferência de terceiros.
 
@@ -54,6 +55,8 @@ comportamental, não integrar e não gastar três sementes ou avaliação final 
 
 Os relatórios, hashes e respostas são versionados. Pesos candidatos continuam
 locais e experimentais; `.gitignore` evita acumular cópias não aprovadas no Git.
+Os registros da rodada interrompida também são mantidos; ela não é apresentada
+como treino concluído. A versão original dos dados permanece no histórico Git.
 
 ## Reproduzir
 
@@ -63,7 +66,9 @@ Com as dependências opcionais de treino instaladas e os pesos próprios dispon�
 python experimentos/resposta_relacional_20261009/curriculo.py
 python experimentos/resposta_relacional_20261009/piloto.py treino --braco controle --antigo /caminho/para/dados_anteriores
 python experimentos/resposta_relacional_20261009/piloto.py treino --braco relacional --antigo /caminho/para/dados_anteriores
-python experimentos/resposta_relacional_20261009/piloto.py avaliar
+python experimentos/resposta_relacional_20261009/coletar_sessoes.py --modelo artefatos/linguagem_profunda --saida experimentos/resposta_relacional_20261009/avaliacao/base.json
+python experimentos/resposta_relacional_20261009/coletar_sessoes.py --modelo experimentos/resposta_relacional_20261009/controle --saida experimentos/resposta_relacional_20261009/avaliacao/controle.json
+python experimentos/resposta_relacional_20261009/coletar_sessoes.py --modelo experimentos/resposta_relacional_20261009/relacional --saida experimentos/resposta_relacional_20261009/avaliacao/relacional.json
 ```
 
 O gerador de dados recusa sobrescrever a pasta; o treino recusa sobrescrever
