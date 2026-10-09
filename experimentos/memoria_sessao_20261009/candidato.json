@@ -1,0 +1,2129 @@
+{
+  "commit": "ce75e66d5e93f24371bcd657d5da26bdd7e6bcef",
+  "sha256_sessoes": "a94354a97fba30d4a09fd2012ee197839cdf545ada3af3fcda2e30b76295b8df",
+  "configuracao": {
+    "usar_linguagem_neural": false,
+    "usar_interpretador_perguntas": false
+  },
+  "modo": "motor",
+  "fontes_sha256": {
+    "crivo.py": "afccff3c7bbc526b5a24a5f4f05a244446cb2b239c9f4d0e0dc8cf98de5edd03",
+    "memoria_sessao.py": "f07035ffb359c8481bc80c0a7ee096a8b42cc9b557865e1586ceed2113e7221f",
+    "web_core.py": "8d3f9cef82b21025c2a1f22e48710d6cbb4ea02d5ce379fe761270adf3f1d348",
+    "ecossistema.py": "7db1e5ae8193046bea8a56e640299c764d3df0c6ed6fc535f2950e58e9d75e60",
+    "experimentos/memoria_sessao_20261009/avaliar.py": "28b73a616881098b5a3c7986671158d4c0f01c23e0aaa9e0fa3576f1c0703206"
+  },
+  "adequadas": 20,
+  "total": 20,
+  "sessoes": [
+    {
+      "id": 1,
+      "titulo": "cores por pessoa",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-faa4239d8d13 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-faa4239d8d13 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-7b695f6379d3 é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-7b695f6379d3 é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-00673f809662 de Elarvi-faa4239d8d13 é verde.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-00673f809662 de Elarvi-faa4239d8d13 é verde.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-00673f809662 de Neruma-7b695f6379d3 é laranja.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-00673f809662 de Neruma-7b695f6379d3 é laranja.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-00673f809662 de Elarvi-faa4239d8d13?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-00673f809662 de Elarvi-faa4239d8d13 é verde.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-faa4239d8d13",
+            "nome": "Elarvi-faa4239d8d13",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-7b695f6379d3",
+            "nome": "Neruma-7b695f6379d3",
+            "tipo": "pessoa",
+            "genero": "m"
+          },
+          {
+            "id": "objeto:estojo-00673f809662:pessoa:elarvi-faa4239d8d13",
+            "nome": "estojo-00673f809662",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-faa4239d8d13"
+          },
+          {
+            "id": "objeto:estojo-00673f809662:pessoa:neruma-7b695f6379d3",
+            "nome": "estojo-00673f809662",
+            "tipo": "objeto",
+            "dono": "pessoa:neruma-7b695f6379d3"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-faa4239d8d13",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-faa4239d8d13 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-7b695f6379d3",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-7b695f6379d3 é meu vizinho."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "objeto:estojo-00673f809662:pessoa:elarvi-faa4239d8d13",
+            "relacao": "cor",
+            "valor": "verde",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "O estojo-00673f809662 de Elarvi-faa4239d8d13 é verde."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "objeto:estojo-00673f809662:pessoa:neruma-7b695f6379d3",
+            "relacao": "cor",
+            "valor": "laranja",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "O estojo-00673f809662 de Neruma-7b695f6379d3 é laranja."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 2,
+      "titulo": "dono corrigido",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bd43910b75d8 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-bd43910b75d8 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-d37a8f53f73c é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-d37a8f53f73c é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-dcf38544dc1c pertence a Elarvi-bd43910b75d8.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-dcf38544dc1c pertence a Elarvi-bd43910b75d8.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: o estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c.",
+          "erros": []
+        },
+        {
+          "entrada": "A quem pertence o estojo-dcf38544dc1c?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-bd43910b75d8",
+            "nome": "Elarvi-bd43910b75d8",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-d37a8f53f73c",
+            "nome": "Neruma-d37a8f53f73c",
+            "tipo": "pessoa",
+            "genero": "m"
+          },
+          {
+            "id": "objeto:estojo-dcf38544dc1c",
+            "nome": "estojo-dcf38544dc1c",
+            "tipo": "objeto",
+            "dono": null
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-bd43910b75d8",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-bd43910b75d8 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-d37a8f53f73c",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-d37a8f53f73c é meu vizinho."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "objeto:estojo-dcf38544dc1c",
+            "relacao": "dono",
+            "valor": "Elarvi-bd43910b75d8",
+            "status": "substituido",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "O estojo-dcf38544dc1c pertence a Elarvi-bd43910b75d8."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "objeto:estojo-dcf38544dc1c",
+            "relacao": "dono",
+            "valor": "Neruma-d37a8f53f73c",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Corrigindo: o estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 2,
+            "depois": 3,
+            "texto": "Corrigindo: o estojo-dcf38544dc1c pertence a Neruma-d37a8f53f73c."
+          }
+        ],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 3,
+      "titulo": "tempo de pessoas distintas",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Tenho 23 minutos disponíveis.",
+          "id": "conversa:situada_relato",
+          "resposta": "Você trouxe “Tenho 23 minutos disponíveis”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-6e40f519c072 tem 47 minutos disponíveis.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-6e40f519c072 tem 47 minutos disponíveis.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-25254b846a83 é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-25254b846a83 é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "Quantos minutos eu tenho disponíveis?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, você tem 23 minutos disponíveis.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:usuario",
+            "nome": "você",
+            "tipo": "pessoa"
+          },
+          {
+            "id": "pessoa:elarvi-6e40f519c072",
+            "nome": "Elarvi-6e40f519c072",
+            "tipo": "pessoa"
+          },
+          {
+            "id": "pessoa:neruma-25254b846a83",
+            "nome": "Neruma-25254b846a83",
+            "tipo": "pessoa",
+            "genero": "m"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:usuario",
+            "relacao": "tempo disponível",
+            "valor": "23 minutos",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Tenho 23 minutos disponíveis."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-6e40f519c072",
+            "relacao": "tempo disponível",
+            "valor": "47 minutos",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-6e40f519c072 tem 47 minutos disponíveis."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-25254b846a83",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-25254b846a83 é meu vizinho."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 4
+      }
+    },
+    {
+      "id": 4,
+      "titulo": "preferências não intercambiáveis",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-74cda1796760 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-74cda1796760 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6ac4da05cbc9 é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-6ac4da05cbc9 é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-74cda1796760 prefere chá de vela-695d40caeab1.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-74cda1796760 prefere chá de vela-695d40caeab1.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6ac4da05cbc9 prefere bordado de espiral-793ed39c56bb.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-6ac4da05cbc9 prefere bordado de espiral-793ed39c56bb.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-74cda1796760 prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-74cda1796760 prefere chá de vela-695d40caeab1.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-74cda1796760",
+            "nome": "Elarvi-74cda1796760",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-6ac4da05cbc9",
+            "nome": "Neruma-6ac4da05cbc9",
+            "tipo": "pessoa",
+            "genero": "m"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-74cda1796760",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-74cda1796760 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-6ac4da05cbc9",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-6ac4da05cbc9 é meu vizinho."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-74cda1796760",
+            "relacao": "preferência",
+            "valor": "chá de vela-695d40caeab1",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Elarvi-74cda1796760 prefere chá de vela-695d40caeab1."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:neruma-6ac4da05cbc9",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-793ed39c56bb",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Neruma-6ac4da05cbc9 prefere bordado de espiral-793ed39c56bb."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 5,
+      "titulo": "objetivo atualizado",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-0a5b4c160268 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-0a5b4c160268 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-0a5b4c160268 quer concluir chá de vela-16d135bb41a9.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Elarvi-0a5b4c160268 é concluir chá de vela-16d135bb41a9.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-da275f55beec quer concluir bordado de espiral-76044a2ef03a.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Neruma-da275f55beec é concluir bordado de espiral-76044a2ef03a.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Elarvi-0a5b4c160268 quer revisar estojo-7bef9941f6ef.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Elarvi-0a5b4c160268 é revisar estojo-7bef9941f6ef.",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é o objetivo de Elarvi-0a5b4c160268?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, o objetivo de Elarvi-0a5b4c160268 é revisar estojo-7bef9941f6ef.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-0a5b4c160268",
+            "nome": "Elarvi-0a5b4c160268",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-da275f55beec",
+            "nome": "Neruma-da275f55beec",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-0a5b4c160268",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-0a5b4c160268 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-0a5b4c160268",
+            "relacao": "objetivo",
+            "valor": "concluir chá de vela-16d135bb41a9",
+            "status": "substituido",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-0a5b4c160268 quer concluir chá de vela-16d135bb41a9."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-da275f55beec",
+            "relacao": "objetivo",
+            "valor": "concluir bordado de espiral-76044a2ef03a",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-da275f55beec quer concluir bordado de espiral-76044a2ef03a."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:elarvi-0a5b4c160268",
+            "relacao": "objetivo",
+            "valor": "revisar estojo-7bef9941f6ef",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Corrigindo: Elarvi-0a5b4c160268 quer revisar estojo-7bef9941f6ef."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 1,
+            "depois": 3,
+            "texto": "Corrigindo: Elarvi-0a5b4c160268 quer revisar estojo-7bef9941f6ef."
+          }
+        ],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 6,
+      "titulo": "restrição por pessoa",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-221f5c8161b0 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-221f5c8161b0 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-221f5c8161b0 não pode usar estojo-9c67257bede1.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-221f5c8161b0 não pode usar estojo-9c67257bede1.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-f1dcb269504a não pode usar chá de vela-9007c0d216db.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-f1dcb269504a não pode usar chá de vela-9007c0d216db.",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é a restrição de Elarvi-221f5c8161b0?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-221f5c8161b0 não pode usar estojo-9c67257bede1.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-221f5c8161b0",
+            "nome": "Elarvi-221f5c8161b0",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-f1dcb269504a",
+            "nome": "Neruma-f1dcb269504a",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-221f5c8161b0",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-221f5c8161b0 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-221f5c8161b0",
+            "relacao": "permissão:usar estojo-9c67257bede1",
+            "valor": "não pode usar estojo-9c67257bede1",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-221f5c8161b0 não pode usar estojo-9c67257bede1."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-f1dcb269504a",
+            "relacao": "permissão:usar cha de vela-9007c0d216db",
+            "valor": "não pode usar chá de vela-9007c0d216db",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-f1dcb269504a não pode usar chá de vela-9007c0d216db."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 4
+      }
+    },
+    {
+      "id": 7,
+      "titulo": "localização por proprietário",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bf912fcb329b é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-bf912fcb329b é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac2be41f31e é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-cac2be41f31e é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-ccec9910b3a8 de Elarvi-bf912fcb329b está na gaveta.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-ccec9910b3a8 de Elarvi-bf912fcb329b está na gaveta.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-ccec9910b3a8 de Neruma-cac2be41f31e está na varanda.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-ccec9910b3a8 de Neruma-cac2be41f31e está na varanda.",
+          "erros": []
+        },
+        {
+          "entrada": "Onde está o estojo-ccec9910b3a8 de Neruma-cac2be41f31e?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-ccec9910b3a8 de Neruma-cac2be41f31e está na varanda.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-bf912fcb329b",
+            "nome": "Elarvi-bf912fcb329b",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-cac2be41f31e",
+            "nome": "Neruma-cac2be41f31e",
+            "tipo": "pessoa",
+            "genero": "m"
+          },
+          {
+            "id": "objeto:estojo-ccec9910b3a8:pessoa:elarvi-bf912fcb329b",
+            "nome": "estojo-ccec9910b3a8",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-bf912fcb329b"
+          },
+          {
+            "id": "objeto:estojo-ccec9910b3a8:pessoa:neruma-cac2be41f31e",
+            "nome": "estojo-ccec9910b3a8",
+            "tipo": "objeto",
+            "dono": "pessoa:neruma-cac2be41f31e"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-bf912fcb329b",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-bf912fcb329b é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-cac2be41f31e",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-cac2be41f31e é meu vizinho."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "objeto:estojo-ccec9910b3a8:pessoa:elarvi-bf912fcb329b",
+            "relacao": "localização",
+            "valor": "na gaveta",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "O estojo-ccec9910b3a8 de Elarvi-bf912fcb329b está na gaveta."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "objeto:estojo-ccec9910b3a8:pessoa:neruma-cac2be41f31e",
+            "relacao": "localização",
+            "valor": "na varanda",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "O estojo-ccec9910b3a8 de Neruma-cac2be41f31e está na varanda."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 8,
+      "titulo": "correção substitui somente um atributo",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-ecb08938f041 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-ecb08938f041 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é amarelo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é amarelo.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 está na varanda.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 está na varanda.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo.",
+          "erros": []
+        },
+        {
+          "entrada": "Onde está o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 está na varanda.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-ecb08938f041",
+            "nome": "Elarvi-ecb08938f041",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "objeto:estojo-e1b3ff6cacbc:pessoa:elarvi-ecb08938f041",
+            "nome": "estojo-e1b3ff6cacbc",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-ecb08938f041"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-ecb08938f041",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-ecb08938f041 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "objeto:estojo-e1b3ff6cacbc:pessoa:elarvi-ecb08938f041",
+            "relacao": "cor",
+            "valor": "amarelo",
+            "status": "substituido",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é amarelo."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "objeto:estojo-e1b3ff6cacbc:pessoa:elarvi-ecb08938f041",
+            "relacao": "localização",
+            "valor": "na varanda",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "O estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 está na varanda."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "objeto:estojo-e1b3ff6cacbc:pessoa:elarvi-ecb08938f041",
+            "relacao": "cor",
+            "valor": "roxo",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Corrigindo: o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 1,
+            "depois": 3,
+            "texto": "Corrigindo: o estojo-e1b3ff6cacbc de Elarvi-ecb08938f041 é roxo."
+          }
+        ],
+        "temas": [],
+        "turno": 6
+      }
+    },
+    {
+      "id": 9,
+      "titulo": "retração sem valor substituto",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-bf97aa289452 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-bf97aa289452 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-d69a7f69f56c de Elarvi-bf97aa289452 é azul.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-d69a7f69f56c de Elarvi-bf97aa289452 é azul.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-ffd80cce3c26 prefere bordado de espiral-3bbbc9f095c5.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-ffd80cce3c26 prefere bordado de espiral-3bbbc9f095c5.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: não sei a cor do estojo-d69a7f69f56c de Elarvi-bf97aa289452.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-d69a7f69f56c de Elarvi-bf97aa289452?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Não tenho cor de estojo-d69a7f69f56c de Elarvi-bf97aa289452 informada na sessão.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-bf97aa289452",
+            "nome": "Elarvi-bf97aa289452",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "objeto:estojo-d69a7f69f56c:pessoa:elarvi-bf97aa289452",
+            "nome": "estojo-d69a7f69f56c",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-bf97aa289452"
+          },
+          {
+            "id": "pessoa:neruma-ffd80cce3c26",
+            "nome": "Neruma-ffd80cce3c26",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-bf97aa289452",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-bf97aa289452 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "objeto:estojo-d69a7f69f56c:pessoa:elarvi-bf97aa289452",
+            "relacao": "cor",
+            "valor": "azul",
+            "status": "retirado",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "O estojo-d69a7f69f56c de Elarvi-bf97aa289452 é azul."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-ffd80cce3c26",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-3bbbc9f095c5",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-ffd80cce3c26 prefere bordado de espiral-3bbbc9f095c5."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 1,
+            "depois": null,
+            "texto": "Corrigindo: não sei a cor do estojo-d69a7f69f56c de Elarvi-bf97aa289452."
+          }
+        ],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 10,
+      "titulo": "hipótese não substitui realidade",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-2da88894ccec é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-2da88894ccec é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-5a5a30b234fc de Elarvi-2da88894ccec é verde.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-5a5a30b234fc de Elarvi-2da88894ccec é verde.",
+          "erros": []
+        },
+        {
+          "entrada": "Se o estojo-5a5a30b234fc de Elarvi-2da88894ccec fosse preto, seria diferente.",
+          "id": "conversa:situada_hipotese",
+          "resposta": "Na hipótese “Se o estojo-5a5a30b234fc de Elarvi-2da88894ccec fosse preto, seria diferente”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-0f36cd1b79ea prefere bordado de espiral-e0305098ff77.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-0f36cd1b79ea prefere bordado de espiral-e0305098ff77.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o estojo-5a5a30b234fc de Elarvi-2da88894ccec?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, estojo-5a5a30b234fc de Elarvi-2da88894ccec é verde.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-2da88894ccec",
+            "nome": "Elarvi-2da88894ccec",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "objeto:estojo-5a5a30b234fc:pessoa:elarvi-2da88894ccec",
+            "nome": "estojo-5a5a30b234fc",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-2da88894ccec"
+          },
+          {
+            "id": "pessoa:neruma-0f36cd1b79ea",
+            "nome": "Neruma-0f36cd1b79ea",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-2da88894ccec",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-2da88894ccec é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "objeto:estojo-5a5a30b234fc:pessoa:elarvi-2da88894ccec",
+            "relacao": "cor",
+            "valor": "verde",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "O estojo-5a5a30b234fc de Elarvi-2da88894ccec é verde."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-0f36cd1b79ea",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-e0305098ff77",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Neruma-0f36cd1b79ea prefere bordado de espiral-e0305098ff77."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 11,
+      "titulo": "fala atribuída não vira preferência própria",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-263f2aeda258 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-263f2aeda258 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Eu prefiro chá de vela-cee44a5dc003.",
+          "id": "nocao:observacao",
+          "resposta": "Entendi, você prefere chá de vela-cee 44 a 5 dc 003. É, chá quente costuma ser bom para relaxar antes de dormir. Qual chá você gosta mais?",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-263f2aeda258 disse que prefere bordado de espiral-242e6b445d50.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-263f2aeda258 disse que prefere bordado de espiral-242e6b445d50.",
+          "erros": []
+        },
+        {
+          "entrada": "O que eu prefiro?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, você prefere chá de vela-cee44a5dc003.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-263f2aeda258 disse que prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-263f2aeda258 disse que prefere bordado de espiral-242e6b445d50.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-263f2aeda258",
+            "nome": "Elarvi-263f2aeda258",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:usuario",
+            "nome": "você",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-263f2aeda258",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-263f2aeda258 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:usuario",
+            "relacao": "preferência",
+            "valor": "chá de vela-cee44a5dc003",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Eu prefiro chá de vela-cee44a5dc003."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-263f2aeda258",
+            "relacao": "preferência relatada",
+            "valor": "bordado de espiral-242e6b445d50",
+            "status": "ativo",
+            "escopo": "fala_reportada",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Elarvi-263f2aeda258 disse que prefere bordado de espiral-242e6b445d50."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 12,
+      "titulo": "pronome com antecedente único",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-418d9e3328fc é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-418d9e3328fc é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-418d9e3328fc prefere chá de vela-54b89e3a0bbc.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-418d9e3328fc prefere chá de vela-54b89e3a0bbc.",
+          "erros": []
+        },
+        {
+          "entrada": "Ela quer concluir estojo-b69759cf3bd1.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Elarvi-418d9e3328fc é concluir estojo-b69759cf3bd1.",
+          "erros": []
+        },
+        {
+          "entrada": "Qual é o objetivo dela?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, o objetivo de Elarvi-418d9e3328fc é concluir estojo-b69759cf3bd1.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-418d9e3328fc",
+            "nome": "Elarvi-418d9e3328fc",
+            "tipo": "pessoa",
+            "genero": "f"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-418d9e3328fc",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-418d9e3328fc é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-418d9e3328fc",
+            "relacao": "preferência",
+            "valor": "chá de vela-54b89e3a0bbc",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-418d9e3328fc prefere chá de vela-54b89e3a0bbc."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-418d9e3328fc",
+            "relacao": "objetivo",
+            "valor": "concluir estojo-b69759cf3bd1",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Ela quer concluir estojo-b69759cf3bd1."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 4
+      }
+    },
+    {
+      "id": 13,
+      "titulo": "pronome ambíguo exige esclarecimento",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-3e0de74e9f1f é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-3e0de74e9f1f é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac5bb1cdd67 é minha prima.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-cac5bb1cdd67 é sua prima.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-3e0de74e9f1f prefere chá de vela-0c9b7813d3bd.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-3e0de74e9f1f prefere chá de vela-0c9b7813d3bd.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-cac5bb1cdd67 prefere bordado de espiral-a651439f48ec.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-cac5bb1cdd67 prefere bordado de espiral-a651439f48ec.",
+          "erros": []
+        },
+        {
+          "entrada": "O que ela prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "A qual pessoa você se refere?",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-3e0de74e9f1f",
+            "nome": "Elarvi-3e0de74e9f1f",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-cac5bb1cdd67",
+            "nome": "Neruma-cac5bb1cdd67",
+            "tipo": "pessoa",
+            "genero": "f"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-3e0de74e9f1f",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-3e0de74e9f1f é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-cac5bb1cdd67",
+            "relacao": "vínculo",
+            "valor": "minha prima",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-cac5bb1cdd67 é minha prima."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-3e0de74e9f1f",
+            "relacao": "preferência",
+            "valor": "chá de vela-0c9b7813d3bd",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Elarvi-3e0de74e9f1f prefere chá de vela-0c9b7813d3bd."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:neruma-cac5bb1cdd67",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-a651439f48ec",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Neruma-cac5bb1cdd67 prefere bordado de espiral-a651439f48ec."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 14,
+      "titulo": "mudança de tema conserva pessoas",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-09faacc5a07e é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-09faacc5a07e é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-09faacc5a07e prefere chá de vela-42557e405685.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-09faacc5a07e prefere chá de vela-42557e405685.",
+          "erros": []
+        },
+        {
+          "entrada": "Mudando de assunto, quero falar sobre o tempo.",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Mudando de assunto, quero falar sobre o tempo”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-6e77072d0483 é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-6e77072d0483 é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-09faacc5a07e prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-09faacc5a07e prefere chá de vela-42557e405685.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-09faacc5a07e",
+            "nome": "Elarvi-09faacc5a07e",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-6e77072d0483",
+            "nome": "Neruma-6e77072d0483",
+            "tipo": "pessoa",
+            "genero": "m"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-09faacc5a07e",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-09faacc5a07e é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-09faacc5a07e",
+            "relacao": "preferência",
+            "valor": "chá de vela-42557e405685",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-09faacc5a07e prefere chá de vela-42557e405685."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-6e77072d0483",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Neruma-6e77072d0483 é meu vizinho."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [
+          {
+            "texto": "Mudando de assunto, quero falar sobre o tempo.",
+            "turno": 3
+          }
+        ],
+        "turno": 5
+      }
+    },
+    {
+      "id": 15,
+      "titulo": "troca de pessoa na correção",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-b116fe5137ec é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-b116fe5137ec é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-8a78960960d8 é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-8a78960960d8 é seu vizinho.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-b116fe5137ec prefere chá de vela-c3a0a4f542ed.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-b116fe5137ec prefere chá de vela-c3a0a4f542ed.",
+          "erros": []
+        },
+        {
+          "entrada": "Não era Elarvi-b116fe5137ec; era Neruma-8a78960960d8 que prefere chá de vela-c3a0a4f542ed.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-8a78960960d8 prefere chá de vela-c3a0a4f542ed.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Neruma-8a78960960d8 prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Neruma-8a78960960d8 prefere chá de vela-c3a0a4f542ed.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-b116fe5137ec prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Não tenho preferência de Elarvi-b116fe5137ec informada na sessão.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-b116fe5137ec",
+            "nome": "Elarvi-b116fe5137ec",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-8a78960960d8",
+            "nome": "Neruma-8a78960960d8",
+            "tipo": "pessoa",
+            "genero": "m"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-b116fe5137ec",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-b116fe5137ec é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:neruma-8a78960960d8",
+            "relacao": "vínculo",
+            "valor": "meu vizinho",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Neruma-8a78960960d8 é meu vizinho."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-b116fe5137ec",
+            "relacao": "preferência",
+            "valor": "chá de vela-c3a0a4f542ed",
+            "status": "retirado",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Elarvi-b116fe5137ec prefere chá de vela-c3a0a4f542ed."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:neruma-8a78960960d8",
+            "relacao": "preferência",
+            "valor": "chá de vela-c3a0a4f542ed",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Não era Elarvi-b116fe5137ec; era Neruma-8a78960960d8 que prefere chá de vela-c3a0a4f542ed."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 2,
+            "depois": null,
+            "texto": "Não era Elarvi-b116fe5137ec; era Neruma-8a78960960d8 que prefere chá de vela-c3a0a4f542ed."
+          }
+        ],
+        "temas": [],
+        "turno": 6
+      }
+    },
+    {
+      "id": 16,
+      "titulo": "objeto desconhecido sem empréstimo",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-a78270d9e1ca é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-a78270d9e1ca é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "O estojo-f77b179080c7 de Elarvi-a78270d9e1ca é verde.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: estojo-f77b179080c7 de Elarvi-a78270d9e1ca é verde.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-af3c56f63f76 prefere bordado de espiral-c06dd61b2268.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-af3c56f63f76 prefere bordado de espiral-c06dd61b2268.",
+          "erros": []
+        },
+        {
+          "entrada": "De que cor é o bolsa-daa05ed383c8 de Elarvi-a78270d9e1ca?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Não tenho cor de bolsa-daa05ed383c8 de Elarvi-a78270d9e1ca informada na sessão.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-a78270d9e1ca",
+            "nome": "Elarvi-a78270d9e1ca",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "objeto:estojo-f77b179080c7:pessoa:elarvi-a78270d9e1ca",
+            "nome": "estojo-f77b179080c7",
+            "tipo": "objeto",
+            "dono": "pessoa:elarvi-a78270d9e1ca"
+          },
+          {
+            "id": "pessoa:neruma-af3c56f63f76",
+            "nome": "Neruma-af3c56f63f76",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-a78270d9e1ca",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-a78270d9e1ca é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "objeto:estojo-f77b179080c7:pessoa:elarvi-a78270d9e1ca",
+            "relacao": "cor",
+            "valor": "verde",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "O estojo-f77b179080c7 de Elarvi-a78270d9e1ca é verde."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-af3c56f63f76",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-c06dd61b2268",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-af3c56f63f76 prefere bordado de espiral-c06dd61b2268."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 4
+      }
+    },
+    {
+      "id": 17,
+      "titulo": "restrição retirada explicitamente",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-42340fb0b9b5 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-42340fb0b9b5 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-42340fb0b9b5 não pode usar estojo-8e75d5f1ac80.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-42340fb0b9b5 não pode usar estojo-8e75d5f1ac80.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-c60acf8449cd não pode usar chá de vela-7277ac3e7acb.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-c60acf8449cd não pode usar chá de vela-7277ac3e7acb.",
+          "erros": []
+        },
+        {
+          "entrada": "Agora Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-42340fb0b9b5",
+            "nome": "Elarvi-42340fb0b9b5",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-c60acf8449cd",
+            "nome": "Neruma-c60acf8449cd",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-42340fb0b9b5",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-42340fb0b9b5 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-42340fb0b9b5",
+            "relacao": "permissão:usar estojo-8e75d5f1ac80",
+            "valor": "não pode usar estojo-8e75d5f1ac80",
+            "status": "substituido",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-42340fb0b9b5 não pode usar estojo-8e75d5f1ac80."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-c60acf8449cd",
+            "relacao": "permissão:usar cha de vela-7277ac3e7acb",
+            "valor": "não pode usar chá de vela-7277ac3e7acb",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-c60acf8449cd não pode usar chá de vela-7277ac3e7acb."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:elarvi-42340fb0b9b5",
+            "relacao": "permissão:usar estojo-8e75d5f1ac80",
+            "valor": "pode usar estojo-8e75d5f1ac80",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Agora Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 1,
+            "depois": 3,
+            "texto": "Agora Elarvi-42340fb0b9b5 pode usar estojo-8e75d5f1ac80."
+          }
+        ],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 18,
+      "titulo": "negação não inventa alternativa",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-3e0ccde7c820 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-3e0ccde7c820 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-3e0ccde7c820 prefere chá de vela-8b50fc208a05.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-3e0ccde7c820 prefere chá de vela-8b50fc208a05.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-c5bdca8911e6 prefere bordado de espiral-fa78e308cfa8.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-c5bdca8911e6 prefere bordado de espiral-fa78e308cfa8.",
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Elarvi-3e0ccde7c820 não prefere chá de vela-8b50fc208a05.",
+          "id": "duvida",
+          "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-3e0ccde7c820 prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Não tenho preferência de Elarvi-3e0ccde7c820 informada na sessão.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-3e0ccde7c820",
+            "nome": "Elarvi-3e0ccde7c820",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-c5bdca8911e6",
+            "nome": "Neruma-c5bdca8911e6",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-3e0ccde7c820",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-3e0ccde7c820 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-3e0ccde7c820",
+            "relacao": "preferência",
+            "valor": "chá de vela-8b50fc208a05",
+            "status": "retirado",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-3e0ccde7c820 prefere chá de vela-8b50fc208a05."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:neruma-c5bdca8911e6",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-fa78e308cfa8",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Neruma-c5bdca8911e6 prefere bordado de espiral-fa78e308cfa8."
+            }
+          }
+        ],
+        "correcoes": [
+          {
+            "turno": 4,
+            "antes": 1,
+            "depois": null,
+            "texto": "Corrigindo: Elarvi-3e0ccde7c820 não prefere chá de vela-8b50fc208a05."
+          }
+        ],
+        "temas": [],
+        "turno": 5
+      }
+    },
+    {
+      "id": 19,
+      "titulo": "resumo focado não mistura pessoas",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-f0cfbe2d6ed3 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 prefere chá de vela-e6fcf6a20443.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-f0cfbe2d6ed3 prefere chá de vela-e6fcf6a20443.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 quer concluir estojo-895ffb211ded.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Elarvi-f0cfbe2d6ed3 é concluir estojo-895ffb211ded.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-f0cfbe2d6ed3 tem 31 minutos disponíveis.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-f0cfbe2d6ed3 tem 31 minutos disponíveis.",
+          "erros": []
+        },
+        {
+          "entrada": "Neruma-9123a2805e1b prefere bordado de espiral-795c7f59adb5.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Neruma-9123a2805e1b prefere bordado de espiral-795c7f59adb5.",
+          "erros": []
+        },
+        {
+          "entrada": "Resuma o que eu disse sobre Elarvi-f0cfbe2d6ed3.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Segundo o que você contou, Elarvi-f0cfbe2d6ed3 é sua irmã; Elarvi-f0cfbe2d6ed3 prefere chá de vela-e6fcf6a20443; o objetivo de Elarvi-f0cfbe2d6ed3 é concluir estojo-895ffb211ded; Elarvi-f0cfbe2d6ed3 tem 31 minutos disponíveis.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [
+          {
+            "id": "pessoa:elarvi-f0cfbe2d6ed3",
+            "nome": "Elarvi-f0cfbe2d6ed3",
+            "tipo": "pessoa",
+            "genero": "f"
+          },
+          {
+            "id": "pessoa:neruma-9123a2805e1b",
+            "nome": "Neruma-9123a2805e1b",
+            "tipo": "pessoa"
+          }
+        ],
+        "afirmacoes": [
+          {
+            "id": 0,
+            "sujeito": "pessoa:elarvi-f0cfbe2d6ed3",
+            "relacao": "vínculo",
+            "valor": "minha irmã",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Elarvi-f0cfbe2d6ed3 é minha irmã."
+            }
+          },
+          {
+            "id": 1,
+            "sujeito": "pessoa:elarvi-f0cfbe2d6ed3",
+            "relacao": "preferência",
+            "valor": "chá de vela-e6fcf6a20443",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Elarvi-f0cfbe2d6ed3 prefere chá de vela-e6fcf6a20443."
+            }
+          },
+          {
+            "id": 2,
+            "sujeito": "pessoa:elarvi-f0cfbe2d6ed3",
+            "relacao": "objetivo",
+            "valor": "concluir estojo-895ffb211ded",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Elarvi-f0cfbe2d6ed3 quer concluir estojo-895ffb211ded."
+            }
+          },
+          {
+            "id": 3,
+            "sujeito": "pessoa:elarvi-f0cfbe2d6ed3",
+            "relacao": "tempo disponível",
+            "valor": "31 minutos",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Elarvi-f0cfbe2d6ed3 tem 31 minutos disponíveis."
+            }
+          },
+          {
+            "id": 4,
+            "sujeito": "pessoa:neruma-9123a2805e1b",
+            "relacao": "preferência",
+            "valor": "bordado de espiral-795c7f59adb5",
+            "status": "ativo",
+            "escopo": "declarado",
+            "fonte": {
+              "origem": "usuario",
+              "turno": 5,
+              "texto": "Neruma-9123a2805e1b prefere bordado de espiral-795c7f59adb5."
+            }
+          }
+        ],
+        "correcoes": [],
+        "temas": [],
+        "turno": 6
+      }
+    },
+    {
+      "id": 20,
+      "titulo": "reinício apaga entidades",
+      "adequada": true,
+      "turnos": [
+        {
+          "entrada": "Elarvi-310d4767b684 é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-310d4767b684 é sua irmã.",
+          "erros": []
+        },
+        {
+          "entrada": "Elarvi-310d4767b684 prefere chá de vela-a009df383895.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Elarvi-310d4767b684 prefere chá de vela-a009df383895.",
+          "erros": []
+        },
+        {
+          "entrada": "Esqueça tudo que eu contei aqui.",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "erros": []
+        },
+        {
+          "entrada": "O que Elarvi-310d4767b684 prefere?",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Não tenho preferência de Elarvi-310d4767b684 informada na sessão.",
+          "erros": []
+        }
+      ],
+      "estado": {
+        "entidades": [],
+        "afirmacoes": [],
+        "correcoes": [],
+        "temas": [],
+        "turno": 1
+      }
+    }
+  ]
+}

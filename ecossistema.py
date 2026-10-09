@@ -236,6 +236,12 @@ _LISTA = (
             ("dialogo_situado.py", "linguagem_conversa.py"),
             ("crise", "estado_conversa", "pessoa", "recusa", "catracas"),
             ("testes_dialogo_situado.py",)),
+    Especie("memoria_sessao_estrutural", "conversa",
+            "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+            "Consultas explícitas a atributos, preferências, objetivos e restrições declaradas.",
+            ("memoria_sessao.py",),
+            ("crise", "pessoa", "recusa", "catracas"),
+            ("testes_memoria_sessao.py",)),
     # --- programacao --------------------------------------------------------
     Especie("raciocinio_conversa_verificavel", "raciocinio",
             "Calcula custos, tempo, interseções de agenda e requisitos sob declarações da sessão.",
