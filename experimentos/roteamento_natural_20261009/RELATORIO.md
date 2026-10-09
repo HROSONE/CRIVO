@@ -16,7 +16,7 @@ O candidato aciona a peça correta com evidência de resposta pertinente em **23
 - SHA-256 do conjunto: `c75845b1488ea1539fc4c69c5f5ccd9e74280a3a67ef4af9360f062f28836c2d`.
 - Cada entrada usa o turno atual e até dois turnos anteriores de usuário, pelo adaptador HTTP padrão, sem memória preenchida pelo avaliador. Não se infere informação eliminada pelo recorte de contexto.
 - O baseline original permanece em `baseline.json`. `baseline_reavaliada.json` aplica às mesmas respostas a correção do radical `própr` (próprio/próprios) e as métricas adicionais. Os casos e seu SHA não mudaram. O score principal continua 0/25.
-- `candidato.json` identifica o código medido: `8734914f13117dcfe61a65a225117f26e7e7f277`. Os commits posteriores de resultados não alteram esse motor.
+- `candidato.json` identifica o código medido: `8734914f13117dcfe61a65a225117f26e7e7f277`. `candidato_corrigido_ci.json` mede o ajuste de prioridade e de descrição das capacidades, no commit `ca69a49ece5f67b4e99949b0a7d168eb1b2bbcfd`, com os mesmos 23/25 e zero desvios. Os dois snapshots foram preservados.
 - Rótulos de rota não bastam: o avaliador exige executor efetivo, estado executado, guarda aceita, conteúdo mínimo e ausência de desvios proibidos. Esclarecimentos da guarda não recebem ponto como escrita.
 
 ## O que mudou
@@ -53,3 +53,9 @@ OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 python experimentos/roteamento_natural_
 ```
 
 O próximo trabalho, após integração validada, é a realização supervisionada de tarefa e referentes, especialmente esses dois pedidos de escrita. Esta etapa não inicia esse treinamento.
+
+## Regressões encontradas pelo primeiro CI
+
+O job de conteúdo revelou que “organizar minhas ideias” era interceptado pelo cálculo só por haver tempo disponível. A rota temporal agora exige pedido explícito de tempo ou retomada de resultado/atividades calculadas. O job de programação e a regressão B revelaram a omissão de “rastrear estados” na descrição das capacidades ativas; a descrição foi corrigida, sem ampliar o motor.
+
+As duas causas foram reproduzidas e corrigidas antes de atualizar o PR. Passaram 13 testes de prioridades/hipóteses/guarda, um contrato de capacidades e 67 testes de conteúdo e proveniência. O mesmo conjunto congelado foi reproduzido novamente: 23/25, zero desvios e zero referentes ausentes. Isso não substitui a validação completa do novo commit no CI.
