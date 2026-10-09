@@ -77,5 +77,10 @@ Ainda há limites de gramática, homônimos, referências indiretas e relações
 não declaradas. O consumidor é a política estruturada; o gerador neural
 continua sem ler este estado e seus pesos permanecem iguais.
 
-A versão do PR 117 continua isolada durante seus checks; esta rodada não a
-modifica e não abre um segundo PR enquanto o primeiro aguarda aprovação.
+O PR 117 foi mesclado em `b0fac387` após 34 checks aprovados, sem falhas;
+o treino opcional foi ignorado conforme a configuração. Esta melhoria foi
+transportada para `codex/memoria-transferencia-20261009`, a partir desse main.
+As fontes avaliadas continuam idênticas, verificadas por seus hashes. A branch
+experimental e os commits citados nas medições permanecem preservados.
+A próxima revisão contém somente a melhoria de transferência e suas evidências;
+sua aprovação remota ainda depende dos próprios checks.

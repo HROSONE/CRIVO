@@ -10,14 +10,22 @@ Os PRs recentes de memória e diálogo estão mesclados:
 | #114 | Conservar intenção, referências e escopos | 47/72 → **72/72** turnos; 1/18 → **18/18** conversas | Mesclado |
 | #115 | Memória de trabalho + raciocínio verificável | 24/24 contratos de transferência | Mesclado |
 | #116 | Preservar hipóteses confirmadas | 12/32 → **32/32** contratos | Mesclado |
+| #117 | Memória explícita de pessoas, objetos e correções | 1/20 → **20/20** sessões no motor e na API web | Mesclado |
 
-**Aberto agora:**
+O PR #117 foi mesclado em `b0fac387` após 34 checks aprovados, sem falhas.
+O único check ignorado foi o treino opcional, conforme a configuração.
 
-- **PR #117** — Memória explícita de pessoas, objetos e correções  
-  Branch: `codex/memoria-sessao-20261009`  
-  Resultado: 1/20 → **20/20** sessões (motor e API web)  
-  Estado: aberto, `mergeable_state: unstable` (aguardar CI verde)  
-  Limite declarado: o gerador neural ainda **não lê** esse estado.
+**Próxima revisão preparada:**
+
+- Memória em novas formulações e preferências compostas.
+  Branch: `codex/memoria-transferencia-20261009`.
+  Resultado: **9/20 → 20/20** nas vinte novas sessões, no motor e na API web.
+  A bateria anterior conserva 20/20; 59 regressões relacionadas passaram,
+  assim como 17 contratos puros em Python 3.8 sem dependências opcionais.
+  Os resultados, fontes e limites estão em
+  `experimentos/memoria_prospectiva_20261009/README.md`.
+  Estado: a integração depende dos checks desta revisão.
+  Limite: gramática explícita; o gerador neural ainda não lê o estado.
 
 ## Restrição permanente
 
@@ -33,20 +41,23 @@ permanecem **desativados** e com aprovação falsa. Não promover ao chat.
 O foco saiu de “tentar ser generativo” e entrou em  
 **“fazer a conversa não esquecer quem é quem”**.
 
-Camadas de estado que existem agora na main (após #114–#116):
+Camadas de estado que existem agora na main (após #114–#117):
 - intenção e escopos
 - memória de trabalho
 - hipóteses confirmáveis
-- (em #117) pessoas, objetos e correções explícitas
+- pessoas, objetos e correções explícitas
 
 Risco conhecido: várias camadas de memória estruturada podem se sobrepor.  
 Evitar abrir novas frentes de memória até o gerador passar a ler o estado.
 
-## Próximo passo técnico (depois do #117)
+## Próximo passo técnico
 
-1. Estabilizar e mesclar o PR #117 (CI verde + teste manual rápido).
-2. Fazer o **realizador / gerador de linguagem** ler e respeitar a memória explícita de sessão.
-3. Só então voltar a qualquer experimentação de geração mais livre.
+1. Validar e mesclar a melhoria de transferência com os próprios checks verdes.
+2. Continuar medindo conservação de pessoas, objetos, restrições e correções
+   em formulações novas, com critérios congelados antes de ajustar o motor.
+3. Registrar as falhas e limites da conversa real. O foco autorizado continua
+   na memória de sessão; treinos de geração livre e novas frentes generativas
+   permanecem adiados durante essa etapa.
 
 ## Regras de administração a partir de agora
 
