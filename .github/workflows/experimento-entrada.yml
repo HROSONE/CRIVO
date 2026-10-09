@@ -1,18 +1,18 @@
 name: Diagnostico entrada do usuario
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'experimento_entrada_usuario.py'
-      - 'crivo.py'
       - 'conversa_assistente.py'
       - 'testes_autoconversa.py'
       - 'testes_conversa_informal.py'
       - 'interpretacao_pedidos.py'
       - 'testes_interpretacao_pedidos.py'
-      - 'composicao_textual.py'
       - 'conhecimento_expandido.json'
       - 'testes_composicao_textual.py'
-      - '.github/workflows/experimento-entrada.yml'
   workflow_dispatch:
 jobs:
   avaliar:

@@ -1,4 +1,7 @@
 name: Compreensão e raciocínio ativo
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -7,16 +10,11 @@ on:
       - 'testes_correcao_texto.py'
       - 'raciocinio_ativo.py'
       - 'exploracao_conhecimento.py'
-      - 'crivo.py'
       - 'linguagem_conversa.py'
-      - 'web_core.py'
-      - 'api/chat.py'
-      - 'public/**'
       - 'testes*raciocinio_ativo.py'
       - 'testes_exploracao_conhecimento.py'
       - 'scripts/avaliar_raciocinio_ativo.py'
       - 'avaliacoes/raciocinio_ativo_v1/**'
-      - '.github/workflows/raciocinio-ativo.yml'
   workflow_dispatch:
 permissions:
   contents: read

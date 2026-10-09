@@ -1,4 +1,7 @@
 name: Continuidade e escopos do diálogo
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
@@ -33,7 +36,6 @@ on:
       - 'testes_dialogo_situado.py'
       - 'avaliar_dialogo_real.py'
       - 'experimentos/dialogo_situado_20261008/**'
-      - '.github/workflows/dialogo-situado.yml'
   workflow_dispatch:
 permissions:
   contents: read

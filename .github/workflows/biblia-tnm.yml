@@ -1,16 +1,17 @@
 name: Conhecimento bíblico TNM
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - 'conhecimento_biblia.json'
       - 'scripts/catalogos/biblia.py'
       - 'curriculo_mundo.py'
-      - 'crivo.py'
       - 'ecossistema.py'
       - 'referencias_biblicas.py'
       - 'testes_biblia.py'
       - 'artefatos/sentido_pt/vetores_fatos.npz'
-      - '.github/workflows/biblia-tnm.yml'
   workflow_dispatch:
 permissions:
   contents: read

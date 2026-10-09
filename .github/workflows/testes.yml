@@ -1,11 +1,13 @@
 name: Testes Crivo
 concurrency:
   group: testes-crivo-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   push:
     branches: [main, melhorias-crivo-v02]
   pull_request:
+  schedule:
+    - cron: '0 3 * * 0'
   workflow_dispatch:
     inputs:
       benchmark:
@@ -13,9 +15,37 @@ on:
         type: choice
         options: [nenhum, portugues, historico, ordem]
         default: nenhum
+permissions:
+  contents: read
 jobs:
+  configuracao-ci:
+    outputs:
+      geracao: ${{ steps.escopo.outputs.geracao }}
+      profunda: ${{ steps.escopo.outputs.profunda }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install 'PyYAML==6.0.3'
+      - id: escopo
+        run: python scripts/verificar_workflows_ci.py
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          cache: false
+      - name: Validar sintaxe, expressões e dependências dos jobs
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.7
+          "$(go env GOPATH)/bin/actionlint" -shellcheck= -pyflakes=
   roteamento-natural:
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -32,7 +62,7 @@ jobs:
       - name: Reproduzir os 25 casos reais congelados pelo adaptador HTTP
         run: python experimentos/roteamento_natural_20261009/avaliar.py --saida /tmp/roteamento-natural.json --exigir-meta
   verificacao-pos-merge:
-    # A bateria completa já é executada no PR. O push na main verifica
+    # O PR executa roteamento e contratos essenciais. O push na main verifica
     # somente se o código integrado ainda inicia e atende ao contrato HTTP.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -57,7 +87,7 @@ jobs:
             testes_web.TestesWebHTTP.test_http_post_retorna_resposta_real \
             testes_memoria_sessao.TestesMemoriaSessao.test_copia_isolamento_reinicio_e_mudanca_de_tema -v
   compreensao-chat:
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -71,9 +101,10 @@ jobs:
       - name: Exercitar também o gerador próprio ativo
         run: python -m pip install -r requirements.txt
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
-        run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_voz testes_web -v
+        run: python -m unittest testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
   matematica-linguagem-profunda:
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    needs: configuracao-ci
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || needs.configuracao-ci.outputs.profunda == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -88,7 +119,8 @@ jobs:
           OMP_NUM_THREADS: '1'
         run: python -m unittest testes_linguagem_profunda testes_backup_treino_drive testes_dialogo_integro testes_compreensao_contrastiva testes_transformer_16m testes_conversa_gerativa testes_dialogos_amplos testes_gerador_frases testes_codigo_real testes_logica_programacao -v
   matematica-geracao:
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    needs: configuracao-ci
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || needs.configuracao-ci.outputs.geracao == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -102,7 +134,7 @@ jobs:
           OMP_NUM_THREADS: '1'
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
-    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     env:
       OPENBLAS_NUM_THREADS: '1'
@@ -174,11 +206,13 @@ jobs:
           path: |
             resultado_astronomia_independente_v1.json
             /tmp/astronomia-v1-saida.txt
+          retention-days: 7
           if-no-files-found: error
       - name: Publicar resultado de validacao
         if: matrix.python-version == '3.11' && matrix.grupo == 'regressoes-a'
         uses: actions/upload-artifact@v4
         with:
+          retention-days: 7
           name: generalizacao-validacao
           path: |
             /tmp/generalizacao.json

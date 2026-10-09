@@ -1,20 +1,20 @@
 name: Programação - recuperação e laboratório
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
       - '*programacao*.py'
       - 'verificacao_codigo.py'
-      - 'crivo.py'
       - 'conversa_cotidiana.py'
       - 'testes_conversa_laboratorio.py'
-      - 'web_core.py'
       - 'scripts/*programacao*.py'
       - 'scripts/*codigo_real.py'
       - 'testes_codigo_real.py'
       - 'scripts/treinar_linguagem_profunda.py'
       - 'dados/programacao/**'
       - 'docs/pesquisa_conhecimento/programacao/**'
-      - '.github/workflows/programacao.yml'
   workflow_dispatch:
     inputs:
       perfil:

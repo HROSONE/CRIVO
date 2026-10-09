@@ -1,6 +1,14 @@
 name: Laboratório de projetos JS e TS
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
+    paths:
+      - 'laboratorio_projetos.py'
+      - 'testes_laboratorio_projetos.py'
+      - 'scripts/avaliar_projetos.py'
+      - 'dados/programacao/projetos/**'
   workflow_run:
     workflows: ["Treino nativo JS e TS com código real"]
     types: [completed]

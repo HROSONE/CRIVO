@@ -1,22 +1,20 @@
 name: Geração ancorada no CRIVO completo
+concurrency:
+  group: dominio-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 on:
   pull_request:
     paths:
-      - 'crivo.py'
       - 'geracao_ancorada.py'
-      - 'api/chat.py'
-      - 'web_core.py'
       - 'web_local.py'
       - 'busca_semantica.py'
       - 'codificador_sentido.py'
       - 'artefatos/geracao_pt/**'
       - 'testes_geracao_ancorada.py'
-      - 'composicao_textual.py'
       - 'conversa_cotidiana.py'
       - 'testes_conversa_estudo.py'
       - 'testes_linguagem_conversa.py'
       - 'scripts/avaliar_geracao_ancorada.py'
-      - '.github/workflows/geracao-ancorada.yml'
   workflow_dispatch:
 permissions:
   contents: read
