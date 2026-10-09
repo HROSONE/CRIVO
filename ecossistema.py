@@ -242,6 +242,14 @@ _LISTA = (
             ("memoria_sessao.py",),
             ("crise", "pessoa", "recusa", "catracas"),
             ("testes_memoria_sessao.py",)),
+    Especie("conversa_sessao", "conversa",
+            "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; "
+            "o realizador próprio escreve as evidências com guarda literal.",
+            "Pedidos pessoais com referente existente ou continuação imediata vinculada; "
+            "preferência pessoal desconhecida pede esclarecimento.",
+            ("conversa_sessao.py", "realizacao_memoria.py", "memoria_sessao.py"),
+            ("memoria_sessao_estrutural", "crise", "pessoa", "recusa", "fontes", "catracas"),
+            ("testes_conversa_sessao.py", "testes_realizacao_memoria.py")),
     # --- programacao --------------------------------------------------------
     Especie("raciocinio_conversa_verificavel", "raciocinio",
             "Calcula custos, tempo, interseções de agenda e requisitos sob declarações da sessão.",

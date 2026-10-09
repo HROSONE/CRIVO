@@ -1,18 +1,17 @@
 # Prioridades ativas do CRIVO
 
-1. **Integrar o realizador próprio à memória existente.** O PR #118 foi
-   mesclado verde e a conversa manual pós-merge passou nas três consultas.
-   O consumidor neural preparado conserva 20/20 sessões no motor e na API
-   web: 16 respostas neurais aceitas e quatro recuos em cada modo. Mesclar
-   a revisão do consumidor somente com seus próprios checks aprovados.
-2. **Medir uso do estado, correções e fontes na geração.** Distinguir leitura
-   da memória, realização neural e resposta estrutural. Preservar pessoas,
-   valores, atribuições e retrações em conversas novas, com critérios claros
-   e resultados reais registrados. Não confundir cópia ancorada com raciocínio.
-3. **Corrigir falhas demonstradas do realizador.** Investigar as quatro
-   rejeições sem alterar critérios para aumentar a nota. O seletor continua
-   estruturado e a conversa livre limitada. Outra frente de memória, treino
-   de geração livre, ampliação do acervo, voz e microcircuitos ficam adiados.
+1. **Validar e integrar os pedidos abertos sobre a sessão.** O #119 está
+   mesclado. A revisão atual melhora de 0/12 para 11/12 sessões novas no
+   motor e na API, com 23/25 solicitações atendidas. Mesclar somente depois
+   dos próprios checks; preservar os conjuntos e os limites das métricas.
+2. **Atacar a falha causal e o roteamento demonstrados.** A conversa sobre
+   lápis, desenho e calma ainda falha. O roteador novo reprovou e permanece
+   desativado. Medir erro nas aceitações e cobertura antes de qualquer
+   ativação; não diminuir limiares para disfarçar erros de domínio.
+3. **Preservar a ligação entre linguagem, fatos atuais e fontes.** Separar
+   seleção e complementos estruturais da realização pelo Transformer.
+   Não confundir cópia ancorada com raciocínio. Outra camada de memória,
+   treino de geração livre, acervo, voz e microcircuitos continuam adiados.
 
 Somente arquitetura, tokenizadores e pesos próprios. A situação dos PRs e
 as evidências estão em `PASSAGEM.md` e nos relatórios dos experimentos.

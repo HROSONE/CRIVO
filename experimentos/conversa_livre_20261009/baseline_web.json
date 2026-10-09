@@ -1,0 +1,1042 @@
+{
+  "commit": "adb6017a8a6db4bed2e6ca1f46ae1addeaa3094b",
+  "modo": "web",
+  "sha256_sessoes": "b2f0d427b3a5387a10a6755b56f9ad4f3f74ebc4d193347d9d400c6d0a593501",
+  "adequadas": 0,
+  "total": 12,
+  "turnos_adequados": 2,
+  "turnos_avaliados": 25,
+  "respostas_neurais": 0,
+  "fontes_sha256": {
+    "crivo.py": "48f9cd8632dabf6cc6eded20f782a00653447254af71096026ed589158d216a0",
+    "memoria_sessao.py": "e6eb619ab671874b32b29f5f2290b19fe08292b249c32f6c1543f2fc9e6905a4",
+    "realizacao_memoria.py": "c9f8fe4b55cff5e0184a5ed595455cbe18abd6400d0f667992a1b748cb24a62d",
+    "geracao_conversa.py": "09290328fb2781ee473667237b072ab3469aa6d993916d2acdc2683c89069e78",
+    "web_core.py": "8d3f9cef82b21025c2a1f22e48710d6cbb4ea02d5ce379fe761270adf3f1d348"
+  },
+  "sessoes": [
+    {
+      "id": 1,
+      "titulo": "visita e preferência de outra pessoa",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Denore é meu primo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Denore é seu primo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Denore prefere chá de folhas de figueira.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Denore prefere chá de folhas de figueira.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Miralva prefere suco de umbu.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Miralva prefere suco de umbu.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Vou visitar Denore. Que bebida faz sentido levar?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: chá de folhas de figueira",
+            "ausente: denore"
+          ]
+        },
+        {
+          "entrada": "Como eu explico essa escolha?",
+          "id": "contexto:sem_referencia",
+          "resposta": "Qual escolha você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_ficha_elegivel",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: chá de folhas de figueira",
+            "ausente: prefere / preferência / preferencia"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "correção usada em sugestão",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Evioma é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Evioma prefere limonada de cravo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma prefere limonada de cravo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Corrigindo: Evioma prefere infusão de capim dourado.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Evioma prefere infusão de capim dourado.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Quero escolher algo para Evioma. Me dá uma sugestão usando o que contei?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: infusão de capim dourado",
+            "ausente: evioma"
+          ]
+        },
+        {
+          "entrada": "Resume a ideia em uma frase.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: infusão de capim dourado"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "objetivo e limite em pedido aberto",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Kaureni é meu irmão.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Kaureni é seu irmão.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Kaureni quer concluir um mosaico de conchas.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Kaureni é concluir um mosaico de conchas.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Kaureni tem 18 minutos disponíveis.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Kaureni tem 18 minutos disponíveis.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira um próximo passo para Kaureni.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: mosaico de conchas",
+            "ausente: 18",
+            "ausente: passo / parte / começar / comece / pequeno"
+          ]
+        },
+        {
+          "entrada": "E qual limite eu preciso respeitar nessa sugestão?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: 18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "titulo": "objeto e detalhe desconhecido",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Loméri é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Loméri é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Loméri tem uma mochila azul.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: mochila de Loméri é azul.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Rivama tem uma mochila verde.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: mochila de Rivama é verde.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a descrever a mochila de Loméri.",
+          "id": "conversa:relato",
+          "resposta": "Você contou: “Me ajude a descrever a mochila de Loméri.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: azul"
+          ]
+        },
+        {
+          "entrada": "E onde eu encontro a mochila de Loméri?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "titulo": "pronome único em pedido aberto",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Aremi é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Aremi é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Aremi prefere compota de jambo.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Aremi prefere compota de jambo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que ela goste.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: compota de jambo",
+            "ausente: aremi"
+          ]
+        },
+        {
+          "entrada": "Por que isso combina com ela?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_resposta_verificada",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: compota de jambo",
+            "ausente: prefere / preferência / preferencia"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "titulo": "pronome ambíguo e esclarecimento",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Trovema é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Trovema é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Meluná é minha prima.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Meluná é sua prima.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Trovema prefere geleia de cambuci.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Trovema prefere geleia de cambuci.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Meluná prefere bolo de murici.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Meluná prefere bolo de murici.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que ela goste.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: quem / qual / pessoa / ambígu / ambigu"
+          ]
+        },
+        {
+          "entrada": "Quero uma sugestão para Trovema.",
+          "id": "conversa:planejamento",
+          "resposta": "Vamos montar um começo. Qual resultado você quer alcançar?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: geleia de cambuci"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "titulo": "resumo pedido com forma nova",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Iandrel é meu vizinho.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Iandrel é seu vizinho.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Iandrel quer terminar uma maquete de farol.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: o objetivo de Iandrel é terminar uma maquete de farol.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Iandrel não pode usar cola quente.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Iandrel não pode usar cola quente.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Junta essas informações sobre Iandrel pra eu entender melhor.",
+          "id": "fora",
+          "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: iandrel",
+            "ausente: maquete de farol",
+            "ausente: não pode usar cola quente / nao pode usar cola quente"
+          ]
+        },
+        {
+          "entrada": "O que já sabemos e o que ainda falta perguntar?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_resposta_verificada",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: maquete de farol"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "titulo": "preferência relatada sem promoção",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Nesori é meu colega.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Nesori é seu colega.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Nesori disse que prefere biscoito de erva cidreira.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Nesori disse que prefere biscoito de erva cidreira.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Eu prefiro fruta fresca.",
+          "id": "conversa:relato",
+          "resposta": "Que legal, você prefere fruta fresca! O que mais te chama a atenção nisso?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a pensar numa opção para Nesori.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: biscoito de erva cidreira",
+            "ausente: disse / relatou / segundo"
+          ]
+        },
+        {
+          "entrada": "Isso era a preferência de quem?",
+          "id": "duvida",
+          "resposta": "De qual assunto você está falando? Preciso de uma referência única na resposta anterior.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: nesori"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "titulo": "conversa causal sem certeza inventada",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Quando uso meu lápis laranja, meu desenho costuma ficar melhor.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_resposta_verificada",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Mas nesses dias eu também desenho com mais calma.",
+          "id": "nocao:observacao",
+          "resposta": "Certo, mas nesses dias você também desenho com mais calma. Desenho costuma melhorar bastante com prática de todo dia, mesmo que pouca. O que você gosta de desenhar?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Então é o lápis que melhora o desenho?",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: lápis / lapis / desenho"
+          ]
+        },
+        {
+          "entrada": "Como eu compararia essas possibilidades?",
+          "id": "conversa:ideias",
+          "resposta": "Vamos pensar em ideias. O que você está criando e o que gostaria de conseguir com isso?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: compar / calma / observar / teste / testar"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "titulo": "mudança de assunto e prioridade factual",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Uverni prefere creme de graviola.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Uverni prefere creme de graviola.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me ajude a pensar numa opção para Uverni.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: graviola"
+          ]
+        },
+        {
+          "entrada": "Mudando de assunto: o que é DNA?",
+          "id": "conversa:abertura",
+          "resposta": "Você trouxe esta ideia: “Mudando de assunto: o que é DNA”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: genétic / genetic"
+          ]
+        },
+        {
+          "entrada": "Qual é a fonte dessa informação?",
+          "id": "duvida",
+          "resposta": "Minha última resposta não veio de uma ficha com fonte cadastrada. Sobre qual informação você quer a fonte?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "sem_resposta_verificada",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: genome.gov"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "titulo": "hipótese não substitui gosto real",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Soravina é minha irmã.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Soravina é sua irmã.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Soravina prefere chá de flor de maracujá.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Soravina prefere chá de flor de maracujá.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Se Soravina preferisse café de avelã, seria só uma hipótese.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Vamos usar o gosto real de Soravina para uma sugestão.",
+          "id": "conversa:relato",
+          "resposta": "Saquei, vamos usar o gosto real de Soravina para uma sugestão. Como foi isso?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: chá de flor de maracujá"
+          ]
+        },
+        {
+          "entrada": "E o que eu disse que Soravina prefere?",
+          "id": "inferencia:indeterminado",
+          "resposta": "Não dá para concluir isso só com as premissas “se Soravina preferisse café de avelã, seria só uma hipótese”. Faltam informações para decidir.\nEssa conclusão vale sob as premissas que você deu; não verifica se elas são verdadeiras no mundo.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: chá de flor de maracujá",
+            "indevido: café de avelã"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "titulo": "isolamento e informação ausente",
+      "adequada": false,
+      "turnos": [
+        {
+          "entrada": "Keluno prefere pudim de pequi.",
+          "id": "conversa:memoria_sessao",
+          "resposta": "Registrei seu relato: Keluno prefere pudim de pequi.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "turno_sem_consulta_de_memoria",
+            "tentativas": 0,
+            "leu_memoria": false,
+            "modo": "sessao",
+            "origem": "memoria_estruturada_da_sessao",
+            "evidencias": [],
+            "passagens": []
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Agora esqueça tudo que eu contei aqui.",
+          "id": "conversa:reinicio",
+          "resposta": "Vamos começar outra conversa. Que assunto você quer trazer?",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": false,
+          "erros": []
+        },
+        {
+          "entrada": "Me sugira algo que Keluno goste.",
+          "id": "fora",
+          "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": []
+        },
+        {
+          "entrada": "Então o que você precisa saber de mim?",
+          "id": "sol_sombra",
+          "resposta": "Depende da espécie: suculentas e ervas como manjericão pedem sol direto; samambaia, zamioculca e espada-de-são-jorge aguentam pouca luz. Sol forte demais em planta de sombra queima as folhas.",
+          "geracao": {
+            "habilitada": true,
+            "usada": false,
+            "motivo": "pedido_fora_do_escopo",
+            "tentativas": 0
+          },
+          "avaliado": true,
+          "erros": [
+            "ausente: preferência / preferencia / objetivo / gosto / inform / qual / conte"
+          ]
+        }
+      ]
+    }
+  ],
+  "limites": [
+    "Sonda autoral congelada antes de editar o consumidor; não é amostra cega externa de diálogo livre.",
+    "Verificação textual sem avaliador LLM externo; presença de palavras não demonstra raciocínio geral.",
+    "Registros iniciais alimentam a memória existente; as solicitações incluem operações abertas e controles.",
+    "Nenhum novo coletor ou camada de memória nesta etapa."
+  ]
+}

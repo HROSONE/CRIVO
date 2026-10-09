@@ -1,0 +1,767 @@
+{
+  "total": 3,
+  "acertos": 3,
+  "realizacoes_neurais": 3,
+  "fontes_sha256": {
+    "crivo.py": "7e12b501e8d3ddfdcc7793197bad3d457609ac766c4cb4b407379b4527a56f36",
+    "conversa_sessao.py": "9f2c58c3d4f480d241526a6e3379972f14eb27010317eda119cc98800cf20f5a",
+    "realizacao_memoria.py": "6bf1b8f75fe8688d3acc2ab4738be67b3f5ee63670c0b49daed3a6c4b3d27c75",
+    "memoria_sessao.py": "e6eb619ab671874b32b29f5f2290b19fe08292b249c32f6c1543f2fc9e6905a4",
+    "web_core.py": "8d3f9cef82b21025c2a1f22e48710d6cbb4ea02d5ce379fe761270adf3f1d348"
+  },
+  "turnos": [
+    {
+      "entrada": "Melorina é minha irmã.",
+      "status": 200,
+      "avaliado": false,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 1,
+              "texto": "Melorina é minha irmã."
+            }
+          ],
+          "afirmacoes": [
+            0
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "melorina",
+              "minha",
+              "irma"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": null,
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Melorina é sua irmã.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Renavo é meu primo.",
+      "status": 200,
+      "avaliado": false,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 2,
+              "texto": "Renavo é meu primo."
+            }
+          ],
+          "afirmacoes": [
+            1
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [
+              {
+                "id": "mundo_numero_primo",
+                "nome": "número primo",
+                "origem": "fala"
+              }
+            ],
+            "cues": [
+              "renavo",
+              "meu"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {
+            "mundo_numero_primo": {
+              "facts": 9,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Renavo é seu primo.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Melorina prefere doce de guabiroba.",
+      "status": 200,
+      "avaliado": false,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 3,
+              "texto": "Melorina prefere doce de guabiroba."
+            }
+          ],
+          "afirmacoes": [
+            2
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "melorina",
+              "prefere",
+              "doce",
+              "guabiroba"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Melorina prefere doce de guabiroba.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Renavo prefere torta de cagaita.",
+      "status": 200,
+      "avaliado": false,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 4,
+              "texto": "Renavo prefere torta de cagaita."
+            }
+          ],
+          "afirmacoes": [
+            3
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "renavo",
+              "prefere",
+              "torta",
+              "cagaita"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Renavo prefere torta de cagaita.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Me sugira uma opção para Melorina.",
+      "status": 200,
+      "avaliado": true,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 2,
+              "sujeito": "pessoa:melorina",
+              "relacao": "preferência",
+              "valor": "doce de guabiroba",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 3,
+                "texto": "Melorina prefere doce de guabiroba."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Melorina prefere doce de guabiroba.",
+              "prompt_sha256": "ebfcf1f0f65dc4cf348bf22ce3e635770c8ba16f3edbccd55d1e04052e89b34d",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "sugerir",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "sugira",
+              "opcao",
+              "melorina"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_sugerir",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "id": "conversa:sessao_sugerir",
+        "response": "Segundo o que você contou, Melorina prefere doce de guabiroba. Uma opção é oferecer doce de guabiroba, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Corrigindo: Melorina prefere mingau de castanha de baru.",
+      "status": 200,
+      "avaliado": false,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "turno_sem_consulta_de_memoria",
+          "tentativas": 0,
+          "leu_memoria": false,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [],
+          "passagens": []
+        },
+        "session_memory": {
+          "acao": "registro",
+          "origem": "memoria_estruturada_da_sessao",
+          "fontes": [
+            {
+              "origem": "usuario",
+              "turno": 6,
+              "texto": "Corrigindo: Melorina prefere mingau de castanha de baru."
+            }
+          ],
+          "afirmacoes": [
+            4
+          ],
+          "pesos_promovidos": false
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "corrigindo",
+              "melorina",
+              "prefere",
+              "mingau",
+              "castanha",
+              "baru"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:sessao_sugerir",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "memoria_sessao_estrutural",
+              "id": "conversa:memoria_sessao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "memoria_sessao_estrutural",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "memoria_sessao_estrutural",
+          "kingdom": "conversa",
+          "role": "Preserva pessoas, objetos e relações literais da sessão, com correções e fontes.",
+          "regulated_by": [
+            "crise",
+            "pessoa",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:memoria_sessao",
+        "response": "Registrei seu relato: Melorina prefere mingau de castanha de baru.",
+        "mechanism": "memoria_sessao_estrutural",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Como eu justifico a escolha para Melorina?",
+      "status": 200,
+      "avaliado": true,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 4,
+              "sujeito": "pessoa:melorina",
+              "relacao": "preferência",
+              "valor": "mingau de castanha de baru",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 6,
+                "texto": "Corrigindo: Melorina prefere mingau de castanha de baru."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Melorina prefere mingau de castanha de baru.",
+              "prompt_sha256": "b09cc7daa3deaffcbfab89693b566205325fcd279bb97f9bc93a56f5b08d0142",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "explicar",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "como",
+            "entities": [],
+            "cues": [
+              "eu",
+              "justifico",
+              "escolha",
+              "melorina"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:memoria_sessao",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_explicar",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "id": "conversa:sessao_explicar",
+        "response": "Segundo o que você contou, Melorina prefere mingau de castanha de baru. Essa é a razão da escolha: usar a preferência que você relatou, sem supor um gosto diferente.",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "entrada": "Me sugira algo que ele goste.",
+      "status": 200,
+      "avaliado": true,
+      "erros": [],
+      "resultado": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 1,
+          "leu_memoria": true,
+          "modo": "sessao",
+          "origem": "memoria_estruturada_da_sessao",
+          "evidencias": [
+            {
+              "afirmacao": 3,
+              "sujeito": "pessoa:renavo",
+              "relacao": "preferência",
+              "valor": "torta de cagaita",
+              "escopo": "declarado",
+              "fonte": {
+                "origem": "usuario",
+                "turno": 4,
+                "texto": "Renavo prefere torta de cagaita."
+              }
+            }
+          ],
+          "passagens": [
+            {
+              "fato": "Renavo prefere torta de cagaita.",
+              "prompt_sha256": "f8bb96caab7f42fbf20f35ccd879335d57d662f96481b7282f7388d6fe33359f",
+              "diagnostico": {
+                "tentativas": 1,
+                "rejeicoes": [],
+                "motivo": "gerada",
+                "prefixo_fonte": true
+              }
+            }
+          ],
+          "modelo": "Transformer causal autoral ancorado",
+          "copia_literal": true,
+          "ato": "sugerir",
+          "selecao": "estrutural",
+          "redacao_do_ato": "estrutural"
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "simnao",
+            "entities": [],
+            "cues": [
+              "sugira",
+              "goste"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:sessao_explicar",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "conversa_sessao",
+              "id": "conversa:sessao_sugerir",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "conversa_sessao",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "id": "conversa:sessao_sugerir",
+        "response": "Segundo o que você contou, Renavo prefere torta de cagaita. Uma opção é oferecer torta de cagaita, porque corresponde à preferência relatada. Você quer levar isso ou precisa considerar alguma restrição?",
+        "mechanism": "conversa_sessao",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ],
+  "limite": "Replay autoral complementar de oito mensagens; não teste cego de conversa livre."
+}

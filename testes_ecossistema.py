@@ -82,6 +82,16 @@ class MapaDasEspecies(unittest.TestCase):
 
 
 class EcossistemaNaApi(unittest.TestCase):
+    def test_consumidor_de_sessao_informa_papel_e_reguladores(self):
+        r = responder_web({'message': 'Me sugira uma opção para Daneli.',
+                           'history': ['Daneli prefere suco de araçá.']})
+        self.assertEqual(r['mechanism'], 'conversa_sessao')
+        self.assertEqual(r['ecosystem']['species'], 'conversa_sessao')
+        self.assertEqual(r['ecosystem']['kingdom'], 'conversa')
+        self.assertIn('memoria_sessao_estrutural', r['ecosystem']['regulated_by'])
+        self.assertIn('recusa', r['ecosystem']['regulated_by'])
+        self.assertFalse(r['has_proof'])
+
     def test_resposta_informa_a_especie(self):
         r = responder_web({"message": "Oi"})
         self.assertIn(r["mechanism"], ecossistema.ESPECIES)
