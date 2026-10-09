@@ -1,0 +1,58 @@
+{
+  "codigo_candidato": "af3c9e39b8cf7b8a783ebc6de2d290cfceb36a42",
+  "metrica": {
+    "pecas_corretas_com_evidencia": 33,
+    "total": 35,
+    "desvios": 0,
+    "trocas_dominio": 0,
+    "casos_com_referentes_ausentes": 0
+  },
+  "novos": {
+    "pecas_corretas_com_evidencia": 10,
+    "total": 10,
+    "desvios": 0,
+    "trocas_dominio": 0,
+    "casos_com_referentes_ausentes": 0
+  },
+  "casos_sha256": "3f69ee2a6827ba1eaeb614dd914803c88a82a6eda3e360489a805cb9d8640a28",
+  "execucoes_locais": [
+    {
+      "grupo": "catalogo_e_contratos",
+      "testes": 23,
+      "segundos": 212.623,
+      "resultado": "OK"
+    },
+    {
+      "grupo": "contratos_novos",
+      "testes": 9,
+      "segundos": 14.863,
+      "resultado": "OK"
+    },
+    {
+      "grupo": "termos_ficha_factual",
+      "testes": 1,
+      "segundos": 8.906,
+      "resultado": "OK"
+    },
+    {
+      "grupo": "memoria_e_raciocinio",
+      "testes": 93,
+      "segundos": 116.112,
+      "resultado": "OK"
+    },
+    {
+      "grupo": "chat_api_gerador_existente",
+      "testes": 76,
+      "segundos": 278.186,
+      "resultado": "OK"
+    }
+  ],
+  "nota": "Grupos se sobrepõem: não somar seus totais. Memória/raciocínio medidos antes da correção de catálogo; contratos do catálogo e chat/API medidos após essa correção. A correção final dos termos factuais foi validada por contrato específico e pelo replay integral de 35 casos no commit indicado. O CI deve executar novamente os contratos no HEAD do PR.",
+  "politica_ci": "OK",
+  "actionlint": "OK",
+  "pesos_sem_alteracao": {
+    "artefatos/geracao_pt/pesos_numpy.npz": "7ac0f3be921e2221d7ca538d118077662cff4a9c0861f288db49edc360164ab8",
+    "rede_geracao.json": "1b7ae5ad291c28e21b0fa2292cc88909ca383a9c6fefe20575394f5a070bd7c8",
+    "rede_intencao_gerativa.json": "f0a40405088436cffc3eca830320a2a080c0eb25b26c1c84dbdb8a8ff75cc6c8"
+  }
+}
