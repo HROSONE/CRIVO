@@ -63,7 +63,9 @@ def publicar_escopo():
     caminho = os.environ.get('GITHUB_OUTPUT')
     if not caminho:
         return
-    selecao = {'geracao': True, 'profunda': True}
+    # Fora de PRs, dispatch/schedule têm condições próprias nos jobs.
+    # Nunca selecionar uma bateria neural somente porque houve push na main.
+    selecao = {'geracao': False, 'profunda': False}
     if os.environ.get('GITHUB_EVENT_NAME') == 'pull_request':
         evento = json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())
         pr = evento['pull_request']
@@ -88,7 +90,10 @@ def main():
     assert jobs['testes']['if'] == "github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'"
     for nome, escopo in [('matematica-geracao', 'geracao'), ('matematica-linguagem-profunda', 'profunda')]:
         assert jobs[nome]['needs'] == 'configuracao-ci'
-        assert 'needs.configuracao-ci.outputs.' + escopo in jobs[nome]['if']
+        esperado = ("github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || "
+                    + "(github.event_name == 'pull_request' && needs.configuracao-ci.outputs."
+                    + escopo + " == 'true')")
+        assert jobs[nome]['if'] == esperado, nome
     matrix = jobs['testes']['strategy']['matrix']
     assert matrix['python-version'] == ['3.8', '3.11', '3.13']
     assert matrix['grupo'] == ['composicao', 'treino', 'regressoes-a', 'regressoes-b']

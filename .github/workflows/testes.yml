@@ -104,7 +104,7 @@ jobs:
         run: python -m unittest testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
   matematica-linguagem-profunda:
     needs: configuracao-ci
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || needs.configuracao-ci.outputs.profunda == 'true'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.profunda == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
         run: python -m unittest testes_linguagem_profunda testes_backup_treino_drive testes_dialogo_integro testes_compreensao_contrastiva testes_transformer_16m testes_conversa_gerativa testes_dialogos_amplos testes_gerador_frases testes_codigo_real testes_logica_programacao -v
   matematica-geracao:
     needs: configuracao-ci
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || needs.configuracao-ci.outputs.geracao == 'true'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || (github.event_name == 'pull_request' && needs.configuracao-ci.outputs.geracao == 'true')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
