@@ -14,7 +14,33 @@ on:
         options: [nenhum, portugues, historico, ordem]
         default: nenhum
 jobs:
+  verificacao-pos-merge:
+    # A bateria completa já é executada no PR. O push na main verifica
+    # somente se o código integrado ainda inicia e atende ao contrato HTTP.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -r requirements.txt
+      - name: Compilar o código integrado
+        run: python -m compileall -q .
+      - name: Conferir funcionamento, memória, fatos e HTTP
+        run: |
+          python -m unittest \
+            testes_web.TestesWebCore.test_reconstroi_contexto_em_vez_de_salvar_no_servidor \
+            testes_web.TestesWebCore.test_conhecimento_e_provas_de_fatos \
+            testes_web.TestesWebHTTP.test_home_assets_and_health \
+            testes_web.TestesWebHTTP.test_http_post_retorna_resposta_real \
+            testes_memoria_sessao.TestesMemoriaSessao.test_copia_isolamento_reinicio_e_mudanca_de_tema -v
   compreensao-chat:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -30,6 +56,7 @@ jobs:
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
         run: python -m unittest testes_funcoes_contextuais testes_busca_factual testes_voz testes_web -v
   matematica-linguagem-profunda:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -44,6 +71,7 @@ jobs:
           OMP_NUM_THREADS: '1'
         run: python -m unittest testes_linguagem_profunda testes_backup_treino_drive testes_dialogo_integro testes_compreensao_contrastiva testes_transformer_16m testes_conversa_gerativa testes_dialogos_amplos testes_gerador_frases testes_codigo_real testes_logica_programacao -v
   matematica-geracao:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -57,6 +85,7 @@ jobs:
           OMP_NUM_THREADS: '1'
         run: python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v
   testes:
+    if: github.event_name != 'push' || github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     env:
       OPENBLAS_NUM_THREADS: '1'
