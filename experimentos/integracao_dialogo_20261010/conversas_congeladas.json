@@ -1,0 +1,129 @@
+{
+  "versao": 1,
+  "origem": "Dez sessões de revisão manual pelo agente como usuário, congeladas antes da integração e sem usar alvos no treino. Não são conversas humanas gravadas.",
+  "criterio": "Pelo menos seis sessões mantêm tarefa e referentes em todos os turnos pertinentes; revisão qualitativa das respostas, não pontuação só por palavra. Falhas ficam registradas.",
+  "sessoes": [
+    {
+      "id": "descoberta",
+      "turnos": [
+        "Nunca usei você. O que consegue fazer?",
+        "Só isso?",
+        "Me dê exemplos de perguntas que você consegue responder.",
+        "Me explica de um jeito simples como você funciona.",
+        "O que é uma célula?",
+        "Qual é a fonte?"
+      ],
+      "criterio": "Capacidades sem recusa; exemplos e funcionamento; fato com fonte, sem alegar pesquisa externa."
+    },
+    {
+      "id": "prima_gosto",
+      "turnos": [
+        "Minha prima Pernélia gosta de tamarindo.",
+        "O que minha prima gosta?",
+        "Pernélia não gosta de leite.",
+        "Do que minha prima não gosta?",
+        "Pernélia mudou de ideia: agora gosta de graviola.",
+        "O que Pernélia gosta agora?",
+        "Do que Pernélia não gosta?"
+      ],
+      "criterio": "Preservar Pernélia, corrigir tamarindo para graviola, manter negação sobre leite; primo não vira número."
+    },
+    {
+      "id": "duas_preferencias",
+      "turnos": [
+        "Minha amiga Ovrélia prefere pão de centeio. Meu amigo Davrino prefere tapioca.",
+        "O que Ovrélia prefere?",
+        "O que Davrino prefere?",
+        "Ovrélia prefere creme de abóbora.",
+        "O que Ovrélia prefere agora?",
+        "O que Davrino prefere agora?"
+      ],
+      "criterio": "Correção só de Ovrélia; Davrino conserva tapioca."
+    },
+    {
+      "id": "tempo",
+      "turnos": [
+        "Tenho 47 minutos para estudar francês e lavar a louça.",
+        "Reservar 13 minutos para lavar a louça.",
+        "Separa 6 minutos para descanso.",
+        "Quanto tempo sobra para estudar francês?",
+        "E se eu tivesse 25 minutos?",
+        "Quanto tempo tenho de verdade?"
+      ],
+      "criterio": "Mesma tarefa e minutos; descanso não vira receita; distinguir hipótese do orçamento real."
+    },
+    {
+      "id": "fatos",
+      "turnos": [
+        "O que é potencial elétrico?",
+        "O que é diferença de potencial?",
+        "Qual é a fonte?",
+        "O que é DNA?",
+        "O que é RNA?",
+        "Qual é a diferença entre os dois?"
+      ],
+      "criterio": "Definição do alias, fontes e comparação DNA/RNA; manter guarda factual."
+    },
+    {
+      "id": "historia_direta",
+      "turnos": [
+        "Escreva uma história curta com uma ariranha cartógrafa.",
+        "Continue a história.",
+        "Agora muda o final: ela encontra um amigo.",
+        "Foi você que escreveu essa história?",
+        "Mudando de assunto: o que é DNA?",
+        "Qual é a fonte?"
+      ],
+      "criterio": "Narrativa, continuação e final com ariranha cartógrafa; autoria própria honesta; mudança factual com fonte."
+    },
+    {
+      "id": "historia_indireta",
+      "turnos": [
+        "Eu gosto de histórias sobre um tatu violinista.",
+        "Escreva uma história com essa personagem em 5 frases.",
+        "Continue a história.",
+        "Agora muda o final: ele encontra um amigo.",
+        "Você escreveu essa história ou pegou de outro lugar?",
+        "Mudando de assunto: o que é uma célula?"
+      ],
+      "criterio": "Preservar tatu violinista na narrativa, continuação e final; não transformar ficção em fato do acervo."
+    },
+    {
+      "id": "conversa_desenho",
+      "turnos": [
+        "Quero aprender a desenhar, mas só tenho um caderno.",
+        "Quero desenhar uma mariposa jardineira.",
+        "Como eu começo?",
+        "Vou descansar um pouco.",
+        "Voltei. O que estávamos fazendo?",
+        "Pode sugerir o próximo passo?"
+      ],
+      "criterio": "Preservar tarefa de desenho, caderno e mariposa jardineira; sem desvio para receita ou fatos alheios."
+    },
+    {
+      "id": "pronome_ambiguo",
+      "turnos": [
+        "Meu primo Dorlécio gosta de guabiroba. Meu primo Elvrino gosta de araçá.",
+        "O que ele gosta?",
+        "Quero saber de Dorlécio.",
+        "O que Dorlécio gosta?",
+        "Elvrino mudou de ideia: agora gosta de cambuci.",
+        "O que Elvrino gosta?",
+        "O que Dorlécio gosta?"
+      ],
+      "criterio": "Esclarecer pronome ambíguo, não trocar os dois gostos nem o domínio de pessoa."
+    },
+    {
+      "id": "historia_restricoes",
+      "turnos": [
+        "Escreva uma história curta com uma coruja engenheira e um jardim suspenso.",
+        "Continue a história.",
+        "Agora muda o final: ela encontra um amigo.",
+        "Não invente um nome para a personagem.",
+        "Escreva a história em 5 frases.",
+        "Você escreveu essa história ou pegou de outro lugar?"
+      ],
+      "criterio": "Preservar coruja e jardim e instruções de estilo/contagem; esclarecer limite em vez de trocar personagem."
+    }
+  ]
+}

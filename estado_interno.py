@@ -150,7 +150,7 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                     motivos.append('resposta também contradiz a afirmação selecionada')
                 if f['relacao'] == 'preferência' and normalizar(f['valor']) not in n:
                     motivos.append('preferência selecionada ausente')
-        if peca in ('memoria', 'esclarecimento', 'fato') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir'):
+        if peca in ('memoria', 'esclarecimento', 'fato') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir', 'continuar'):
             for referente in rota['referentes']:
                 presente = normalizar(referente) in n
                 if not presente and peca == 'fato' and bot.contexto_textual is not None:
@@ -187,7 +187,11 @@ def guardar_fidelidade(bot, rota, ident, resposta):
         bot.contexto_textual = None
         if bot.historico:
             bot.historico[-1]['id'] = ident
-    rota['guarda'] = dict(aceita=not motivos, motivos=motivos)
+    rota['guarda'] = dict(aceita=not motivos, motivos=motivos,
+                         politica='conversa' if rota.get('dialogo', {}).get('usada') else 'rigida')
+    if motivos and getattr(bot, 'dialogo_conversa', None) is not None and bot.dialogo_conversa.trace['usada']:
+        bot.dialogo_conversa.trace.update(usada=False, recuou=True, motivo='guarda_de_fidelidade_rejeitou')
+        rota['dialogo'] = dict(bot.dialogo_conversa.trace)
     if bot.historico:
         bot.historico[-1]['natural_routing'] = {k:v for k,v in rota.items()
                                                if not k.startswith('_') and k not in ('resultado', 'consulta', 'fatos')}
