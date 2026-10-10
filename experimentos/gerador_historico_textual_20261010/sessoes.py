@@ -51,15 +51,21 @@ def treino():
     p=protocolo();destino=DIR/'checkpoint_sessoes.json.gz'
     if destino.exists():raise ValueError('Preservar pesos anteriores')
     estat=ler_json(DIR/'corpus_sessoes_estatisticas.json');corpus=DIR/'corpus_sessoes.json.gz'
+    preparo=ler_json(DIR/'preparacao_sessoes.json')
+    inicial=DIR/preparo['checkpoint_inicial_realocado']
+    if sha(inicial)!=preparo['checkpoint_realocado_sha256'] or sha(corpus)!=preparo['corpus_sha256']:
+        raise ValueError('Preparação lexical alterada')
     if sha(corpus)!=estat['sha256_corpus']:raise ValueError('Corpus alterado')
     temp=DIR/'checkpoint_sessoes.tmp.json'
-    r=treinar(corpus,temp,checkpoint_inicial=DIR/p['checkpoint_inicial'],**p['hiperparametros'])
+    r=treinar(corpus,temp,checkpoint_inicial=inicial,**p['hiperparametros'])
     c=ler_json(temp);c.update(aprovado=False,ativo_no_chat=False,experimento='sessoes-textuais-20261010',
         sha256_corpus=estat['sha256_corpus'],sha256_avaliacao_reservada=p['avaliacao_sha256'])
     if c['treino']['parametros']!=p['parametros']:raise ValueError('Capacidade alterada')
     destino.write_bytes(gzip.compress((json.dumps(c,ensure_ascii=False,separators=(',',':'))+'\n').encode(),mtime=0));temp.unlink()
     r['manifesto']=dict(checkpoint_sha256=sha(destino),corpus_sha256=sha(corpus),
-        checkpoint_inicial_sha256=p['checkpoint_inicial_sha256'],avaliacao_sha256=p['avaliacao_sha256'],
+        checkpoint_inicial_sha256=preparo['checkpoint_realocado_sha256'],
+        checkpoint_antes_realocacao_sha256=p['checkpoint_inicial_sha256'],
+        preparacao_sha256=sha(DIR/'preparacao_sessoes.json'),avaliacao_sha256=p['avaliacao_sha256'],
         protocolo_sha256=sha(DIR/'protocolo_sessoes.json'),script_sha256=sha(__file__),
         treinador_sha256=sha(RAIZ/'treinar_dialogo_seq2seq.py'),arquitetura_sha256=sha(RAIZ/'dialogo_seq2seq.py'),
         numpy=__import__('numpy').__version__,threads={k:os.environ.get(k) for k in ['OPENBLAS_NUM_THREADS','OMP_NUM_THREADS']},
