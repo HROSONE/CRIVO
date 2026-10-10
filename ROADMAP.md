@@ -1,40 +1,30 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-1. **Estado publicado:** #130 mesclado e validado no site, 79/79 casos
-   anteriores; orientação prática autoral limitada, diálogo próprio ativo
-   para ficção no recorte aprovado. Não é conversa livre geral.
-2. **Próximo passo único:** corrigir interpretação e realização de acontecimentos
-   e restrições enquanto a escrita permanece ativa. Preservar os 114 casos
-   congelados e usar os 35 novos como teste; supervisionar novos enredos,
-   eventos e finais autorais sem copiar respostas do teste. Não promover
-   o candidato atual: 96/114, 16 casos perdem referentes e 1/10 sessões
-   novas mantém o fio. Meta: ≥103/114, referentes/domínio sem erros,
-   ≥6/10 sessões e HTTP real validado antes do merge de integração.
-3. **Medir também o que falta:** tutoria mais clara, exemplos diferentes,
-   bicicleta em vez do peixe conhecido, observações da horta, troca/retomada
-   de tarefa e histórico longo. As quatro sondas práticas novas falham;
-   este experimento de escrita não as resolve. Não contar 79/79 antigo
-   ou cópia de evento como generalização/utilidade geral.
+1. **Recorte de escrita aprovado:** GRU própria realiza acontecimentos,
+   recuperação, ajuda, retorno e finais com argumentos da sessão;
+   80 → 110/114 no motor, 110/114 HTTP local, 79/79 antigos preservados,
+   zero domínio/referentes/desvios nos 114. Seis de dez sessões autorais
+   atendem critérios mínimos de escrita; não diálogo humano/generalização.
+2. **Próximo passo único:** congelar as falhas das quatro sessões práticas
+   novas e corrigir utilidade: frações/tempo disponível, bicicleta/rodas,
+   horta/condições declaradas e troca/retomada de tarefa. Manter os 114
+   e a escrita aprovados. Medir antes/depois no motor e HTTP público.
+3. **Limites a continuar medindo:** transições genéricas, declarações
+   repetidas e episódios reutilizados; oito etapas e doze classes autorais
+   não demonstram planejamento nem fôlego indefinido. Simplificação sem
+   alterar conteúdo ainda esclarece limite. Histórico HTTP até vinte
+   mensagens; não memória infinita. As quatro sessões práticas falham.
 
-Experimento próprio isolado: **80/114 → 96/114**, novos **1/35 → 17/35**;
-79 antigos preservados. Dez sondas novas: 104 mensagens no motor e site,
-congeladas antes da mudança; revisão pelo agente **0/10 → 1/10** no piloto
-local. Não participantes humanos nem melhoria publicada no site.
+Checkpoint original isolado false/false; cópia de integração aprovada,
+SHA `4e5894e2…`. Pesos factuais e 35 arquivos anteriores preservados;
+checkpoint anterior de diálogo arquivado. GRU 85.581 → 85.130 parâmetros,
+9.024 exemplos próprios e reprodução byte a byte. Validação controlada
+2.048/2.048 tem padrões/vetores compartilhados, não generalização de nomes.
 
-GRU existente, **85.581 → 85.453 parâmetros**, 4.928 exemplos combinados,
-reprodução de treino byte a byte. 512/512 etapas controladas com trecho
-anterior versus 0/512 sem ele; oito etapas autorais compartilhadas em
-treino e validação. Isso comprova dependência desse contexto no recorte,
-não compreensão geral, diversidade ou planejamento.
+Um PR de capacidade por vez, CI por escopo; bateria de escrita não dispara
+após merge. Matriz completa manual/semanal. Sem outra memória, acervo,
+arquitetura, aumento de parâmetros, espécies/microcircuitos ou modelos externos.
+Fatos/cálculos/fontes mantêm guarda rígida. Confirmar publicação pelo
+commit/checkpoint do HTTP público, não apenas pelo merge/CI.
 
-Checkpoint e piloto continuam **desativados/reprovados**. Runtime, pesos
-fatuais e diálogo aprovado do #130 preservados. HTTP conserva limite de
-dez mensagens anteriores; fôlego longo nesse caminho ainda não aprovado.
-
-Um PR de capacidade por vez. CI por escopo; matriz completa manual/semanal.
-Sem nova memória, acervo, arquitetura, aumento de parâmetros ou modelos externos.
-Fatos/cálculo/fontes conservam guarda rígida. O CI verifica os contratos do
-experimento e os casos do chat aprovado; não marca o piloto como aprovado.
-
-Evidências: [generalização e limites](experimentos/generalizacao_dialogo_20261010/README.md).
-Produção: [orientação prática](experimentos/orientacao_pratica_20261010/README.md).
+Evidências: [acontecimentos, aprovação e limites](experimentos/escrita_acontecimentos_20261010/README.md).

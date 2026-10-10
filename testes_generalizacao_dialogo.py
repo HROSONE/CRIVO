@@ -27,8 +27,9 @@ class TestesGeneralizacaoDialogo(unittest.TestCase):
         adulterado['controle'] = base['controle']
         adulterado['aprovacao'] = base['aprovacao']
         self.assertFalse(aprovacao_valida(adulterado))
-        self.assertEqual((H / 'checkpoint_base_130.json.gz').read_bytes(),
-                         (ROOT / 'rede_dialogo_conversa.json.gz').read_bytes())
+        self.assertEqual('0873ad29e80433d8ff032231302e70654b0f479f09627f7d04f7d0511d57c382',
+                         hashlib.sha256((H / 'checkpoint_base_130.json.gz').read_bytes()).hexdigest())
+        self.assertTrue(aprovacao_valida(json.loads(gzip.decompress((ROOT / 'rede_dialogo_conversa.json.gz').read_bytes()))))
         self.assertLessEqual(self.dados['treino']['parametros'], 85581)
 
     def test_particoes_inteiras_e_entidades_novas_fora_do_corpus(self):
@@ -77,7 +78,8 @@ class TestesGeneralizacaoDialogo(unittest.TestCase):
         for nome, esperado in manifesto['arquivos_sha256'].items():
             self.assertEqual(esperado, hashlib.sha256((H / nome).read_bytes()).hexdigest(), nome)
         for nome, esperado in manifesto['pesos_preservados_sha256'].items():
-            self.assertEqual(esperado, hashlib.sha256((ROOT / nome).read_bytes()).hexdigest(), nome)
+            arquivo = H / 'checkpoint_base_130.json.gz' if nome == 'rede_dialogo_conversa.json.gz' else ROOT / nome
+            self.assertEqual(esperado, hashlib.sha256(arquivo.read_bytes()).hexdigest(), nome)
         resultado = json.loads((H / 'piloto_final_congelados_motor.json').read_text())
         self.assertFalse(manifesto['promocao']['aprovada'])
         self.assertGreater(resultado['resumo']['casos_com_referentes_ausentes'], 0)

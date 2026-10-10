@@ -5,40 +5,41 @@ tokenizadores e pesos próprios. O plano do dono de 09/10 substitui a
 prioridade anterior de adiar treino de diálogo. Não criar outra memória,
 ampliar acervo, aumentar parâmetros ou abrir outra frente nesta etapa.
 
-## Estado mais recente — generalização medida, candidato reprovado
+## Estado mais recente — escrita condicionada aprovada no recorte
 
-#130 mesclado em `431191b34e767a672921b0d0b79070ff8dd8293e` e validado
-publicamente: 79/79, orientação prática autoral limitada, checkpoint de
-diálogo `0873ad29…` ativo. Esse é o estado do chat; não confundir com os
-ensaios abaixo nem com conversa livre geral.
+[Experimento de acontecimentos](experimentos/escrita_acontecimentos_20261010/README.md),
+base #131 `ed2bf1a7…`: mesmos 114 casos, **80 → 110/114** no motor;
+**110/114 HTTP local real**, 79/79 antigos preservados nos dois modos,
+zero troca de domínio, referente ausente e desvio proibido nesses 114.
+52/52 histórias entregues. Quatro casos de metadados/restrição usam
+esclarecimento em vez da peça escrita esperada; critérios não alterados.
 
-Novo [experimento de generalização](experimentos/generalizacao_dialogo_20261010/README.md):
-dez sondas autorais inéditas, 104 turnos no motor e site, congeladas antes
-da mudança. 35 pedidos de escrita observados ampliam o conjunto sem
-alterar os 79 anteriores. Baseline **80/114**; piloto final **96/114**,
-novos **1/35 → 17/35**, antigos 79/79 preservados. Ainda há **16 casos
-com referentes ausentes** e cinco desvios proibidos. Zero troca de domínio
-detectada nesses 114, não nos 104 turnos completos.
+Mesmas dez sessões autorais, 104 turnos por modo: **0/10 → 6/10** atendem
+critérios mínimos de escrita, segundo leitura do agente. Não participantes
+humanos nem avaliação cega. As quatro práticas novas continuam falhando;
+transições genéricas, episódios reutilizados e simplificação limitada.
+Não declarar conversa livre geral ou raciocínio neural demonstrado.
 
-Treino próprio realmente executado: 4.928 exemplos autorais combinados,
-4.096 treino e 832 validação. GRU existente, **85.581 → 85.453 parâmetros**,
-109,29 segundos CPU e repetição byte a byte. Nas 64 sequências controladas
-com oito etapas compartilhadas: antigo 0/512, candidato 512/512;
-retirando trecho anterior do candidato, 0/512. Isso mede uso do contexto
-nos padrões treinados, não raciocínio/generalização. Dez sessões novas
-completas: revisão pelo agente **0/10 → 1/10**, não participantes humanos.
+GRU própria existente: **85.581 → 85.130 parâmetros**, 9.024 exemplos
+combinados (6.144 treino / 2.880 validação), 32 épocas finais, repetição
+byte a byte. 2.048/2.048 saídas controladas de acontecimentos em padrões
+compartilhados; não prova generalização. Seleção de reação/transição é
+estrutural; a rede realiza o contexto. Sem modelo externo.
 
-**Não ativado.** O checkpoint e seu patch de piloto ficam apenas no
-experimento. Runtime e checkpoint de produção iguais à base; 35 arquivos
-anteriores de pesos/metadados e diálogo ativo intactos. Sem HTTP longo
-aprovado: contrato atual reconstrói até dez mensagens anteriores.
-Isolamento e medição são verificáveis; o CI não declara a integração verde.
+Candidato original `a042a271…` continua false/false. Cópia de integração
+`4e5894e2fe4a23bab63cb3a6b8a69da023a2b07b43829a7e706e6528bd1e780d`
+aprovada e habilitada após gates. Checkpoint anterior `0873ad29…` arquivado,
+35 pesos/metadados anteriores intactos. Fatos/cálculos/fontes continuam
+rígidos. API e navegador: histórico de vinte mensagens, 24.000 caracteres;
+doze turnos reais reconstruídos sem truncar abertura. Não memória infinita.
 
-Próximo passo único: corrigir interpretação/realização de acontecimentos
-e restrições enquanto a escrita está ativa, medindo nos mesmos 35 pedidos.
-Finais com evento, narrativa cotidiana e tom ainda falham. Utilidade nova
-(bicicleta, horta, reformulação de frações, troca de tarefa) permanece
-documentada nas sondas; sem alegar que esse treino a resolveu.
+CI de escrita por escopo: contratos HTTP + conjunto congelado, sem push
+após merge; matriz completa manual/semanal. Após merge, confirmar commit
+atual e checkpoint acima no site e executar smoke com entidades inéditas.
+
+Próximo passo único: corrigir as quatro falhas práticas observadas
+(frações/tempo, bicicleta/rodas, horta/condições, troca/retomada), congelando
+antes e preservando os 114. Não abrir nova memória ou ampliar acervo/modelos.
 
 ## Fase 0 concluída
 

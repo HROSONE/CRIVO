@@ -110,7 +110,7 @@ def main():
     escolha = w['on']['workflow_dispatch']['inputs']['grupos']
     assert escolha['default'] == 'todos'
     assert escolha['options'] == ['todos', 'composicao-regressoes-b']
-    assert acionados(['crivo.py', 'web_core.py']) == ['dialogo-situado.yml', 'testes.yml']
+    assert acionados(['crivo.py', 'web_core.py']) == ['dialogo-situado.yml', 'escrita-acontecimentos.yml', 'testes.yml']
     assert acionados(['.github/workflows/biblia-tnm.yml', '.github/workflows/testes.yml', 'scripts/verificar_workflows_ci.py']) == ['testes.yml']
     assert 'biblia-tnm.yml' in acionados(['conhecimento_biblia.json'])
     assert 'motor-programacao-chat.yml' in acionados(['programacao_chat.py'])
@@ -121,8 +121,12 @@ def main():
     assert selecionar(['linguagem_gerativa.py']) == {'geracao': True, 'profunda': False}
     assert selecionar(['scripts/treinar_linguagem_profunda.py']) == {'geracao': False, 'profunda': True}
     assert selecionar(['requirements.txt']) == {'geracao': True, 'profunda': True}
+    escrita = yaml.load((WORKFLOWS / 'escrita-acontecimentos.yml').read_text(), Loader=yaml.BaseLoader)
+    assert 'push' not in escrita['on'], 'A bateria de escrita não deve recomeçar após o merge'
+    assert 'pull_request' in escrita['on'] and 'workflow_dispatch' in escrita['on']
+    assert 'escrita-acontecimentos.yml' in acionados(['conversa_dialogo.py'])
     publicar_escopo()
-    print('Política de CI válida: núcleo → 2 workflows; CI isolado → 1; baterias completas preservadas.')
+    print('Política de CI válida: chat/HTTP → 3 workflows por escopo; CI isolado → 1; baterias completas preservadas.')
 
 
 if __name__ == '__main__':

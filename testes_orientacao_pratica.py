@@ -116,6 +116,6 @@ class TestesOrientacaoPratica(unittest.TestCase):
         raiz=Path(__file__).parent;h=raiz/'experimentos/orientacao_pratica_20261010'
         antigo=json.loads((raiz/'experimentos/dialogo_continuidade_20261010/casos_congelados.json').read_text())['casos']
         self.assertEqual(antigo,json.loads((h/'casos_congelados.json').read_text())['casos'][:61])
-        self.assertEqual('0873ad29e80433d8ff032231302e70654b0f479f09627f7d04f7d0511d57c382',hashlib.sha256((raiz/'rede_dialogo_conversa.json.gz').read_bytes()).hexdigest())
+        self.assertEqual('0873ad29e80433d8ff032231302e70654b0f479f09627f7d04f7d0511d57c382',hashlib.sha256((raiz/'experimentos/generalizacao_dialogo_20261010/checkpoint_base_130.json.gz').read_bytes()).hexdigest())
 
 if __name__=='__main__':unittest.main()

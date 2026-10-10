@@ -51,7 +51,7 @@
     atualizarContagem();
   }
   const API = "/api/chat";
-  const MAX_HISTORY = 10;
+  const MAX_HISTORY = 20;
 
   function setStatus(kind, label) {
     ui.status.className = "status status-" + kind;
