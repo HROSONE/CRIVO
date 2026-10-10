@@ -1,0 +1,68 @@
+{
+  "base_commit": "f1b3a0ded7ba8240aa8ada946b1ea96446f87862",
+  "objetivo": "Medir o efeito da dose de replay na estabilidade da adaptacao mantendo lexico, arquitetura, corpus novo, seed e hiperparametros fixos.",
+  "doses": [0, 1, 2],
+  "dose_nova_a_treinar": 2,
+  "definicao_dose": "1x = os 999 exemplos replay_legado do corpus de sessoes. 2x repete deterministamente os mesmos 999 exemplos duas vezes; nao adiciona conhecimento novo.",
+  "entradas": {
+    "corpus_sessoes": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+    "inicializacao_realocada": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+    "checkpoint_0x": "experimentos/ablacao_lexico_replay_20261010/checkpoint_realocado_sem_replay.json.gz",
+    "checkpoint_1x": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz"
+  },
+  "sha256_congelados": {
+    "corpus_sessoes": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+    "inicializacao_realocada": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78"
+  },
+  "contagens_esperadas": {
+    "treino_novo_sem_replay": 2700,
+    "replay_unico": 999,
+    "treino_0x": 2700,
+    "treino_1x": 3699,
+    "treino_2x": 4698,
+    "validacao_antiga": 334,
+    "validacao_nova": 94,
+    "validacao_total": 428
+  },
+  "modelo": {
+    "parametros": 81433,
+    "vocabulario": 720,
+    "realocacoes_lexicais": 151
+  },
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "avaliacao": {
+    "grupos": ["antiga", "nova", "total"],
+    "metricas": ["entropia_cruzada", "perplexidade", "correspondencia_literal_em_geracao_livre"],
+    "comparacao_entre_doses": "valida porque todas usam exatamente o mesmo vocabulario realocado",
+    "holdout_final_10_sessoes_pr137": "EXCLUIDO: conhecido e proibido para selecao"
+  },
+  "criterio_precongelado_2x_vs_1x": {
+    "reter_antigo": "exatas antigas 2x >= exatas antigas 1x e CE antiga 2x <= CE antiga 1x",
+    "nao_regredir_novo": "exatas novas 2x >= exatas novas 1x",
+    "melhorar_novo": "CE nova 2x < CE nova 1x",
+    "sucesso_conjunto": "reter_antigo AND nao_regredir_novo AND melhorar_novo"
+  },
+  "promocao": {
+    "permitida": false,
+    "aprovado": false,
+    "ativo_no_chat": false
+  },
+  "limite": "Oversampling aumenta tambem o numero de atualizacoes por epoca. Esta fase mede dose efetiva de replay no procedimento atual; nao separa peso estatistico de compute adicional."
+}
