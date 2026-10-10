@@ -1,6 +1,23 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-## Rodada seguinte — objetos e correções na escrita
+## Prioridade atual — gerador lendo histórico textual
+
+A etapa de diálogo limitado (#136) foi publicada. O trabalho atual é
+[corpus variado + treino textual isolado](experimentos/gerador_historico_textual_20261010/README.md),
+sem nova memória, acervo, guarda, orientação ou CI lateral.
+Avaliação nova congelada antes do corpus/treino: 12 sessões/36 turnos e
+uma pergunta real do dono reservada. Rede própria Seq2Seq já existente,
+pesos aleatórios novos, entrada somente texto/papéis, nenhuma resposta
+correta inserida no rollout. Checkpoints permanecem false/false.
+Piloto reprovado no desenvolvimento; rodada 2 treina 3.707 exemplos,
+100 operações autorais, 81.433 parâmetros, sem aumento sobre a GRU ativa.
+Validação interna reformulada compartilha operações/saídas; não demonstra
+conversa natural. Resultado final e controles serão registrados ao terminar.
+Próximo passo único: terminar a avaliação inédita e revisar respostas
+livres antes de qualquer integração no chat.
+
+
+## Histórico — objetos e correções na escrita
 
 [Experimento de referências](experimentos/referentes_escrita_20261010/README.md),
 base pública #135 (`ca31090f6ce0…`): **52 turnos / 11 sessões** congelados
