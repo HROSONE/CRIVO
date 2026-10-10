@@ -1,0 +1,94 @@
+diff --git a/conversa_dialogo.py b/conversa_dialogo.py
+index 3a54051..d9e569a 100644
+--- a/conversa_dialogo.py
++++ b/conversa_dialogo.py
+@@ -21,6 +21,8 @@ ORIGEM_V2_SHA256 = 'd6dec80197b3d6d000dfa97ec1bc1bc4831e058732fce3e9bb3e0b03c70f
+ PESOS_V3_SHA256 = '26832d836402cc431b033519df7d31efb8e59e599a85b821b94a4fddea813285'
+ ORIGEM_V3_SHA256 = 'f8977db9bb3dadc8094eef18af20e4a24d8fc6f357d55198beab2a375ca1fc60'
+ CORPUS_V3_SHA256 = '26a843db812568221660d104c48a9735eff6e74a82ba14d31fad7281cc3da350'
++PESOS_V4_SHA256 = 'de4214c36b178a2cee8a59036a9a31f73d65394916999142e59ec9bf8461dab0'
++CORPUS_V4_SHA256 = 'b7d5a085fb56ab55ad4fc82823547d5abe0466383a1c7609cb07c97729f795c6'
+ ATOS = frozenset(('historia', 'continuar', 'corrigir'))
+ 
+ 
+@@ -72,6 +74,31 @@ def rotear_escrita(texto, bot):
+         return None
+     if bot.conversacao.turno - escrita['turno'] > bot.conversacao.geracao.MAX_INTERVALO:
+         return None
++    n=normalizar(texto)
++    if re.fullmatch(r'o que acontece em seguida|continue mais um pouco|continue de onde parou|nao repita a cena anterior|continue a partir (?:dessa situacao|da resposta)|continue sem separar os dois',n):
++        return dict(peca='escrita',ato='continuar',referentes=list(escrita['slots'].values()),
++                    personagem=escrita['slots']['tema1'],slots=dict(escrita['slots']))
++    # Eventos só entram quando já existe uma história, sem confundir fato real.
++    evento=re.fullmatch(r'(.+?)[.!]\s*(?:Continue\b.*|Use isso na história|Mostre a reação dos dois|Mostre o primeiro problema|Faça a personagem responder)[.!]?',texto,re.I)
++    direto=re.fullmatch(r'Agora (?:a|o) personagem (.+?)[.!]?',texto,re.I)
++    if direto: evento=(None,'A personagem '+direto[1])
++    volta=re.fullmatch(r'Faça a personagem voltar (.+?)[.!]?',texto,re.I)
++    if volta:evento=(None,'A personagem volta '+volta[1])
++    conserto=re.fullmatch(r'Continue com ela tentando (.+?)[.!]?',texto,re.I)
++    if conserto:evento=(None,'A personagem tenta '+conserto[1])
++    plural=re.fullmatch(r'Agora os dois (.+?)[.!]?',texto,re.I)
++    if plural:evento=(None,'Os dois '+plural[1])
++    companhia=re.fullmatch(r'Faça aparecer (.+?)[.!]?',texto,re.I)
++    if companhia:
++        slots=dict(escrita['slots']);slots['detalhe']=companhia[1]
++        return dict(peca='escrita',ato='continuar',referentes=list(slots.values()),personagem=slots['tema1'],slots=slots)
++    if evento and not re.search(r'\b(?:meu|minha|eu|na vida real)\b',n):
++        slots=dict(escrita['slots']);slots['relato']=evento[1].strip().rstrip('.!')
++        return dict(peca='escrita',ato='continuar',referentes=list(slots.values()),
++                    personagem=slots['tema1'],slots=slots,evento_usuario=True)
++    if re.fullmatch(r'(?:conclua|termine) a historia|faca um final tranquilo|termine a historia',n):
++        return dict(peca='escrita',ato='corrigir',referentes=list(escrita['slots'].values()),
++                    personagem=escrita['slots']['tema1'],slots=dict(escrita['slots']))
+     mudanca = revisao(texto)
+     if not mudanca and re.fullmatch(r'(?:continue|continua|prossiga) (?:depois (?:desse|deste|do) final|a historia mais uma vez)[.!]?', normalizar(texto)):
+         mudanca = {'operacao':'continuacao'}
+@@ -87,7 +114,7 @@ def carregar(caminho, mtime):
+     raw = Path(caminho).read_bytes()
+     dados = json.loads(gzip.decompress(raw))
+     digest = hashlib.sha256(json.dumps(dados['pesos'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
+-    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256):
++    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256,PESOS_V4_SHA256):
+         raise ValueError('Pesos diferentes do checkpoint próprio avaliado')
+     return GeradorGRU(dados), dados, hashlib.sha256(raw).hexdigest()
+ 
+@@ -171,8 +198,8 @@ class DialogoConversa:
+         if not slots.get('tema1'):
+             self.trace.update(recuou=True, motivo='referente_ambiguo_ou_ausente', confianca_roteamento='baixa')
+             return ('conversa:esclarecer', 'Qual personagem devo usar? Preciso desse referente para continuar a história.')
+-        if (rota.get('estilo', 'neutro') != 'neutro' or len(slots) > 3 or
+-                not set(slots)<= {'tema1','tema2','detalhe'}):
++        if (rota.get('estilo', 'neutro') != 'neutro' or len(slots) > 4 or
++                not set(slots)<= {'tema1','tema2','detalhe','relato'}):
+             self.trace.update(motivo='pedido_fora_do_escopo_validado', recuou=True)
+             return None
+         # Pedidos factuais e estilos/instruções fora do treino não ganham uma
+@@ -186,7 +213,8 @@ class DialogoConversa:
+             if not self.candidato and not aprovacao_valida(dados):
+                 self.trace.update(recuou=True, motivo='checkpoint_sem_aprovacao')
+                 return None
+-            v3=dados.get('corpus_sha256')==CORPUS_V3_SHA256
++            v4=dados.get('corpus_sha256')==CORPUS_V4_SHA256
++            v3=v4 or dados.get('corpus_sha256')==CORPUS_V3_SHA256
+             v2=v3 or dados.get('corpus_sha256')=='e2e33fe41cceeb27f2839572003210af2ecc315d87e0f889cb41c9cc9701dd45'
+             if v3 and detalhe_final:
+                 if not escrita or not escrita['slots'].get('tema2'):
+@@ -212,7 +240,7 @@ class DialogoConversa:
+             # nova cena com companhia pode avançar no checkpoint de continuidade.
+             variante=(escrita.get('variante',1) if escrita and (rota['ato']!='historia' or rota.get('reescrita'))
+                       else (bot.conversacao.geracao.variante+1)%8) if v2 else 0
+-            if v3 and rota['ato']=='continuar' and slots.get('detalhe') and escrita and escrita['acao']=='continuacao':
++            if v3 and not v4 and rota['ato']=='continuar' and slots.get('detalhe') and escrita and escrita['acao']=='continuacao':
+                 # Uma nova cena da mesma viagem, com os mesmos participantes.
+                 # A reescrita conserva esta cena; não reinicia o enredo.
+                 variante=(variante+1)%8
+@@ -227,6 +255,9 @@ class DialogoConversa:
+                 contexto.update(mensagem='',historico=[])
+                 self.trace['contexto_textual_neutralizado']=True
+                 self.trace['contexto_selecionado']={'acao':contexto['acao'],'cena':variante,'slots':dict(slots)}
++            if v4 and rota['ato']=='continuar' and escrita and escrita['acao']=='continuacao':
++                contexto['resposta_anterior']=escrita['texto']
++                self.trace.update(usa_trecho_anterior=True,trecho_anterior=escrita['texto'])
+             gerada = modelo.gerar(contexto, max_tokens=96)
+             resposta, guarda = conferir(gerada, contexto, set(modelo.vocabulario), rota.get('frases'))
+             if v2 and not guarda['aceita']:

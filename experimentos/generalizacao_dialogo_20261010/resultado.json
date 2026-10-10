@@ -1,0 +1,53 @@
+{
+  "base_commit": "431191b34e767a672921b0d0b79070ff8dd8293e",
+  "patch_piloto_sha256": "998e9a84e8554913a9e578c2c16b46d765271136ab195937bb68cbfa6d27c1e6",
+  "checkpoint_sha256": "b224d0ff250f267f60238989832de9d0ca1f175f27207ae43acd19326f206126",
+  "antes": {
+    "pecas_corretas_com_evidencia": 80,
+    "total": 114,
+    "desvios": 8,
+    "trocas_dominio": 0,
+    "casos_com_referentes_ausentes": 30
+  },
+  "depois": {
+    "pecas_corretas_com_evidencia": 96,
+    "total": 114,
+    "desvios": 5,
+    "trocas_dominio": 0,
+    "casos_com_referentes_ausentes": 16
+  },
+  "antigos_79_preservados": true,
+  "novos_35_antes": 1,
+  "novos_35_depois": 17,
+  "promocao": {
+    "aprovada": false,
+    "ativo_no_chat": false,
+    "motivos": [
+      "96/114 é inferior à meta 103/114",
+      "16 casos perdem referentes",
+      "Revisão de sessões longas: 1/10, abaixo da meta 6/10",
+      "HTTP público longo não aprovado; contrato limita histórico a dez mensagens"
+    ]
+  },
+  "metodo": "79 antigos mais 35 pedidos observados nas novas sondas. Antes reaproveita resultados #130 para 79; depois reexecuta todos com piloto. As dez sessões completas são outra avaliação qualitativa. Sem promoção nem mudança no runtime.",
+  "casos_reprovados": [
+    "novo-escrita_sem_companhia-11",
+    "novo-escrita_companhia-10",
+    "novo-escrita_divertida-4",
+    "novo-escrita_divertida-5",
+    "novo-escrita_divertida-6",
+    "novo-escrita_divertida-7",
+    "novo-escrita_divertida-8",
+    "novo-escrita_divertida-9",
+    "novo-escrita_divertida-10",
+    "novo-escrita_cotidiana-2",
+    "novo-escrita_cotidiana-3",
+    "novo-escrita_cotidiana-4",
+    "novo-escrita_cotidiana-5",
+    "novo-escrita_cotidiana-6",
+    "novo-escrita_cotidiana-7",
+    "novo-escrita_cotidiana-8",
+    "novo-escrita_cotidiana-9",
+    "novo-escrita_cotidiana-10"
+  ]
+}

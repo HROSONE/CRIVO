@@ -5,6 +5,41 @@ tokenizadores e pesos próprios. O plano do dono de 09/10 substitui a
 prioridade anterior de adiar treino de diálogo. Não criar outra memória,
 ampliar acervo, aumentar parâmetros ou abrir outra frente nesta etapa.
 
+## Estado mais recente — generalização medida, candidato reprovado
+
+#130 mesclado em `431191b34e767a672921b0d0b79070ff8dd8293e` e validado
+publicamente: 79/79, orientação prática autoral limitada, checkpoint de
+diálogo `0873ad29…` ativo. Esse é o estado do chat; não confundir com os
+ensaios abaixo nem com conversa livre geral.
+
+Novo [experimento de generalização](experimentos/generalizacao_dialogo_20261010/README.md):
+dez sondas autorais inéditas, 104 turnos no motor e site, congeladas antes
+da mudança. 35 pedidos de escrita observados ampliam o conjunto sem
+alterar os 79 anteriores. Baseline **80/114**; piloto final **96/114**,
+novos **1/35 → 17/35**, antigos 79/79 preservados. Ainda há **16 casos
+com referentes ausentes** e cinco desvios proibidos. Zero troca de domínio
+detectada nesses 114, não nos 104 turnos completos.
+
+Treino próprio realmente executado: 4.928 exemplos autorais combinados,
+4.096 treino e 832 validação. GRU existente, **85.581 → 85.453 parâmetros**,
+109,29 segundos CPU e repetição byte a byte. Nas 64 sequências controladas
+com oito etapas compartilhadas: antigo 0/512, candidato 512/512;
+retirando trecho anterior do candidato, 0/512. Isso mede uso do contexto
+nos padrões treinados, não raciocínio/generalização. Dez sessões novas
+completas: revisão pelo agente **0/10 → 1/10**, não participantes humanos.
+
+**Não ativado.** O checkpoint e seu patch de piloto ficam apenas no
+experimento. Runtime e checkpoint de produção iguais à base; 35 arquivos
+anteriores de pesos/metadados e diálogo ativo intactos. Sem HTTP longo
+aprovado: contrato atual reconstrói até dez mensagens anteriores.
+Isolamento e medição são verificáveis; o CI não declara a integração verde.
+
+Próximo passo único: corrigir interpretação/realização de acontecimentos
+e restrições enquanto a escrita está ativa, medindo nos mesmos 35 pedidos.
+Finais com evento, narrativa cotidiana e tom ainda falham. Utilidade nova
+(bicicleta, horta, reformulação de frações, troca de tarefa) permanece
+documentada nas sondas; sem alegar que esse treino a resolveu.
+
 ## Fase 0 concluída
 
 O #125 está mesclado em `9ed051bf2b74668073e0ac480b43c652314b88e7`.
