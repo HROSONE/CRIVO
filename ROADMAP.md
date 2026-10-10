@@ -1,17 +1,25 @@
-# Prioridades ativas do CRIVO
+# Prioridades ativas do CRIVO — 10/10/2026
 
-1. **Validar e integrar os pedidos abertos sobre a sessão.** O #119 está
-   mesclado. A revisão atual melhora de 0/12 para 11/12 sessões novas no
-   motor e na API, com 23/25 solicitações atendidas. Mesclar somente depois
-   dos próprios checks; preservar os conjuntos e os limites das métricas.
-2. **Atacar a falha causal e o roteamento demonstrados.** A conversa sobre
-   lápis, desenho e calma ainda falha. O roteador novo reprovou e permanece
-   desativado. Medir erro nas aceitações e cobertura antes de qualquer
-   ativação; não diminuir limiares para disfarçar erros de domínio.
-3. **Preservar a ligação entre linguagem, fatos atuais e fontes.** Separar
-   seleção e complementos estruturais da realização pelo Transformer.
-   Não confundir cópia ancorada com raciocínio. Outra camada de memória,
-   treino de geração livre, acervo, voz e microcircuitos continuam adiados.
+1. **Encerramento das Fases 0 e 1.** #125 verde e mesclado; seis smokes
+   preservaram domínio/referentes. Congelados 37 casos reais, produzido
+   corpus autoral de 5.760 turnos e treinados dois checkpoints próprios.
+   A GRU condicionada fez 0/10 → 7/10 e entregou duas histórias; a
+   reprodução gerou pesos idênticos. Ambos continuam desativados e
+   sem aprovação. Isso ainda não melhorou o site.
+2. **Próximo passo único: Fase 2, rota de conversa.** Integrar de forma
+   seletiva, com estado da sessão já existente, guarda que permita
+   paráfrase e proíba invenção de dados da sessão; conservar guarda
+   rígida para fatos/cálculos/fontes. Preservar o percurso atual onde
+   o candidato falha. Não ligar geração indiscriminadamente.
+3. **Medir antes de promover.** No motor e HTTP, ≥34/37 com peça certa,
+   zero troca de domínio e 100% dos referentes exigidos; ≥6/10 conversas
+   reais de 6–8 turnos mantendo o fio; história e final com personagem.
+   Registrar falhas restantes e validar o commit no site após merge.
 
-Somente arquitetura, tokenizadores e pesos próprios. A situação dos PRs e
-as evidências estão em `PASSAGEM.md` e nos relatórios dos experimentos.
+Máximo um PR grande de capacidade por vez, com checks relevantes verdes.
+CI por escopo; matriz completa manual/semanal. Nenhuma mudança lateral
+em CI, acervo, parâmetros, memória ou microcircuitos nesta frente.
+
+Somente arquitetura, tokenizadores e pesos próprios. O relatório contém
+números, dados, limites e comandos reproduzíveis:
+[diálogo 20261010](experimentos/dialogo_20261010/README.md).
