@@ -110,6 +110,18 @@ existente antes de esclarecer; após fato, pede contexto. Contrato adicional
 passou, registro antes/depois em `regressao_prioridade_pratica.json`.
 Pesos e corpus não mudaram.
 
+## Regressão de hipótese encontrada pelo CI
+
+A bateria congelada de confirmação de hipóteses acusou 30/32 turnos:
+“E agora?” interrompia custos e agenda para pedir contexto genérico.
+Preservamos a prioridade do executor de raciocínio apenas quando ele respondeu
+no turno imediatamente anterior. Após mudança para pergunta factual, a elipse
+continua pedindo esclarecimento. Entradas e juiz históricos não foram alterados;
+um contrato adicional verifica resultado, hipótese e fronteira factual.
+Após a correção: **32/32 motor e 32/32 web**, quatro sessões completas
+em cada modo. Os registros antes/depois ficam em `regressao_prioridade_hipoteses_*.json`.
+Pesos e corpus permanecem idênticos.
+
 ## Reproduzir e integrar
 
 ```bash

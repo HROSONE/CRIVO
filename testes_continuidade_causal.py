@@ -28,6 +28,21 @@ class TestesContinuidadeCausal(unittest.TestCase):
   b.responder('O que é diferença de potencial?')
   _,r=b.responder('E agora?')
   self.assertEqual('continuidade_incerta',b.ultima_rota_natural['ato']);self.assertIn('?',r)
+ def test_elipse_preserva_calculo_e_hipotese_ativos(self):
+  from crivo import Crivo
+  for abertura,hipotese,resultado in (
+   ('O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?',
+    'Se o frete fosse 3 reais, qual seria menor?',{'totais':['48','42'],'menor':1,'diferenca':'6'}),
+   ('Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?',
+    'Se Ravi pudesse segunda, qual dia daria?',{'dias':['segunda']})):
+   with self.subTest(abertura=abertura):
+    b=Crivo();b.responder(abertura);b.responder(hipotese)
+    ident,_=b.responder('E agora?')
+    self.assertEqual('conversa:raciocinio',ident)
+    self.assertEqual(resultado,b.raciocinio_conversa.ultimo['resultado'])
+    self.assertTrue(b.raciocinio_conversa.ultimo['hipotese'])
+    b.responder('O que é diferença de potencial?');b.responder('E agora?')
+    self.assertEqual('continuidade_incerta',b.ultima_rota_natural['ato'])
  def test_quinto_passo_esclarece_sem_reiniciar_arco(self):
   b=self.bot(passo=4);r=cd.contexto_escrita('Mais um passo.',b)
   self.assertEqual('esclarecimento',r['peca'])

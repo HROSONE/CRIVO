@@ -146,6 +146,11 @@ def rotear_natural(texto, bot, sessao=None):
     if contextual:
         return contextual
     if re.fullmatch(r'e (?:depois|agora)[?!.]?', n):
+        # A elipse continua a operação verificada do último turno. Deixar
+        # o executor existente responder preserva também a hipótese pendente;
+        # uma operação antiga não deve reaparecer após mudança de assunto.
+        if bot.historico and bot.historico[-1].get('id') == 'conversa:raciocinio':
+            return None
         from orientacao_pratica import rotear as rotear_pratica
         pratica = rotear_pratica(texto, bot)
         if pratica:
