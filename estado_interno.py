@@ -93,6 +93,7 @@ def guardar_fidelidade(bot, rota, ident, resposta):
     aceitos = {'memoria': ('conversa:memoria_sessao', 'conversa:sessao_'),
                'calculo': ('conversa:raciocinio', 'calculo:'),
                'programacao': ('programacao:',),
+               'orientacao': ('conversa:orientacao_',),
                'escrita': ('escrita:', 'conversa:gerada_'),
                'esclarecimento': ('conversa:esclarecer',)}
     motivos = []
@@ -100,6 +101,9 @@ def guardar_fidelidade(bot, rota, ident, resposta):
         aceitos['esclarecimento'] = ('social:assuntos',)
     n = normalizar(resposta)
     if rota['status'] == 'executado':
+        if peca == 'orientacao':
+            from orientacao_pratica import conferir
+            motivos.extend(conferir(rota, resposta)['motivos'])
         if peca in aceitos and not ident.startswith(aceitos[peca]):
             motivos.append('executor não entregou o tipo pedido')
         if peca == 'fato' and bot.contexto_textual is None:
@@ -150,7 +154,7 @@ def guardar_fidelidade(bot, rota, ident, resposta):
                     motivos.append('resposta também contradiz a afirmação selecionada')
                 if f['relacao'] == 'preferência' and normalizar(f['valor']) not in n:
                     motivos.append('preferência selecionada ausente')
-        if peca in ('memoria', 'esclarecimento', 'fato') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir', 'continuar'):
+        if peca in ('memoria', 'esclarecimento', 'fato', 'orientacao') or peca == 'escrita' and rota['ato'] in ('historia', 'corrigir', 'continuar'):
             for referente in rota['referentes']:
                 presente = normalizar(referente) in n
                 if not presente and peca == 'fato' and bot.contexto_textual is not None:
@@ -188,7 +192,7 @@ def guardar_fidelidade(bot, rota, ident, resposta):
         if bot.historico:
             bot.historico[-1]['id'] = ident
     rota['guarda'] = dict(aceita=not motivos, motivos=motivos,
-                         politica='conversa' if rota.get('dialogo', {}).get('usada') else 'rigida')
+                         politica='orientacao_contextual' if peca=='orientacao' else 'conversa' if rota.get('dialogo', {}).get('usada') else 'rigida')
     if motivos and getattr(bot, 'dialogo_conversa', None) is not None and bot.dialogo_conversa.trace['usada']:
         bot.dialogo_conversa.trace.update(usada=False, recuou=True, motivo='guarda_de_fidelidade_rejeitou')
         rota['dialogo'] = dict(bot.dialogo_conversa.trace)

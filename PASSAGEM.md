@@ -120,13 +120,50 @@ Merge só com checks relevantes verdes; confirmar publicação e repetir no site
 
 Evidências: [continuidade](experimentos/dialogo_continuidade_20261010/README.md).
 
+## Orientação prática após #129
+
+#129 mesclado e validado publicamente em
+`d62d19a694154b49fdb05a67bb299544cce89b39`: 61/61 casos e três novas sessões
+de escrita resolvidas. As três sessões práticas ainda falhavam.
+
+Os 18 turnos práticos realmente observados no site foram congelados, sem
+alterar os 61 anteriores: **66/79 → 79/79** no motor e HTTP real, zero troca
+de domínio e zero referente ausente. Nos novos casos: **5/18 → 18/18**;
+os cinco acertos anteriores eram reconhecimento de objetivo/restrição/memória,
+não ajuda concreta. Revisão das três sessões no motor: **0/3 → 3/3** para
+ajuda ou esclarecimento específico. Não são participantes humanos.
+
+O executor autoral usa histórico/tarefa já existentes. Desenho propõe traço e
+ajuste da cauda, respeita material/tempo e condiciona o próximo passo à forma
+relatada. Estudo pergunta o tópico ou propõe frações com cálculo exato,
+reformulação e conferência do resultado anterior. Horta começa por observação
+da luz e perguntas de condições, sem inventar cultivo. Hipótese não vira fato.
+Cancelamento e tarefas posteriores suspendem o objetivo anterior.
+
+**Não houve treino nem mudança de pesos.** Os 35 pesos anteriores e a GRU
+de produção do #129 continuam intactos, com 85.581 parâmetros. Trace registra
+`orientacao`, ato, fontes do usuário, cálculo e `gerador_neural_usado=false`.
+Guardas de fatos/fontes continuam rígidas. Nove contratos adicionais cobrem
+variações inéditas, correções, origem, HTTP e tentativa de adulteração.
+
+Limites: três tarefas explícitas, histórico de vinte mensagens, instruções
+de desenho em grande parte voltadas a peixe, operações restritas de frações
+e esclarecimento inicial de horta. Há repetição; não é planejamento geral
+nem compreensão neural livre. As dez sessões anteriores mantêm critérios
+restritos; lembrar não certifica utilidade em outras tarefas.
+
+O job de roteamento existente verifica os 79 casos por HTTP e os nove
+contratos adicionais. Matriz completa manual/semanal. Publicação requer
+checks relevantes verdes e replay público do commit integrado.
+
+Evidências: [orientação prática](experimentos/orientacao_pratica_20261010/README.md).
+
 ## Próximo passo único
 
-Corrigir as três conversas práticas observadas — desenho, estudo e horta —
-para que pedidos de primeiro passo, exemplo, correção e continuação cheguem
-na peça apropriada e produzam ajuda concreta ou esclarecimento específico.
-Usar os 18 turnos reais registrados, medir antes/depois e preservar fatos/fontes.
-Não ampliar acervo, criar memória ou aumentar parâmetros.
+Medir novas conversas sem seguir estes três roteiros, conservando a bateria
+congelada. Registrar onde o CRIVO ainda repete orientação ou perde a tarefa,
+e usar essas falhas reais na próxima iteração do diálogo próprio. Não tomar
+79/79 nesta bateria como aprovação de conversa livre geral.
 
 ## Histórico
 
