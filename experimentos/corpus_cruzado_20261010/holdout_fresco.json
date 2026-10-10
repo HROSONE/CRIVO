@@ -1,0 +1,1057 @@
+{
+  "criado_antes_do_treino": true,
+  "descricao": "8 sessões inéditas, 64 turnos. O histórico é reconstruído em ordem pelo avaliador.",
+  "familias_reservadas": [
+    "farol",
+    "jardim",
+    "estudio",
+    "arquivo",
+    "trilha",
+    "mercado",
+    "terraco",
+    "laboratorio"
+  ],
+  "sessoes": [
+    {
+      "familia": "farol",
+      "id": "fresh-farol",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o mapa para o farol amanhã.",
+            "Entendi. O mapa é sua escolha para o farol."
+          ],
+          "mensagem": "Vou levar o mapa para o farol amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "mapa"
+            ]
+          },
+          "resposta": "Certo. Você vai levar o mapa para o farol amanhã.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o câmera.",
+            "Certo. Você mudou a escolha para o câmera."
+          ],
+          "mensagem": "Corrigindo: não vou levar o mapa; vou levar o câmera.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "câmera"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o câmera.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o câmera amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. O prazo continua amanhã.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Nara ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. O silêncio sozinho não confirma uma recusa.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o câmera.",
+            "A escolha atual é o câmera."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "câmera"
+            ]
+          },
+          "resposta": "Você vai levar o câmera.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Nara, pode me ajudar com o câmera, por favor?",
+            "Nara, você pode me ajudar com o câmera?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Nara pedir ajuda com o câmera, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Nara",
+              "câmera"
+            ]
+          },
+          "resposta": "Nara, você pode me ajudar com o câmera?",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em fotografia?",
+            "Claro. Qual parte de fotografia foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei fotografia. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em fotografia?",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar fotografia amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "jardim",
+      "id": "fresh-jardim",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o caderno para o jardim amanhã.",
+            "Entendi. O caderno é sua escolha para o jardim."
+          ],
+          "mensagem": "Vou levar o caderno para o jardim amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "caderno"
+            ]
+          },
+          "resposta": "Entendi. O caderno é sua escolha para o jardim.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Davi ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não dá para concluir isso só pelo silêncio.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o lanterna.",
+            "Certo. Você mudou a escolha para o lanterna."
+          ],
+          "mensagem": "Corrigindo: não vou levar o caderno; vou levar o lanterna.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "lanterna"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o lanterna.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Davi, pode me ajudar com o lanterna, por favor?",
+            "Davi, você pode me ajudar com o lanterna?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Davi pedir ajuda com o lanterna, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Davi",
+              "lanterna"
+            ]
+          },
+          "resposta": "Davi, pode me ajudar com o lanterna, por favor?",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o lanterna amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa não muda o prazo de amanhã.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o lanterna.",
+            "A escolha atual é o lanterna."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "lanterna"
+            ]
+          },
+          "resposta": "Você vai levar o lanterna.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar desenho amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em desenho?",
+            "Claro. Qual parte de desenho foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei desenho. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em desenho?",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "estudio",
+      "id": "fresh-estudio",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o livro para o estúdio amanhã.",
+            "Entendi. O livro é sua escolha para o estúdio."
+          ],
+          "mensagem": "Vou levar o livro para o estúdio amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "livro"
+            ]
+          },
+          "resposta": "Certo. Você vai levar o livro para o estúdio amanhã.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o livro amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa não muda o prazo de amanhã.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o violão.",
+            "Certo. Você mudou a escolha para o violão."
+          ],
+          "mensagem": "Corrigindo: não vou levar o livro; vou levar o violão.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "violão"
+            ]
+          },
+          "resposta": "Entendi. A escolha agora é o violão.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o violão.",
+            "A escolha atual é o violão."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "violão"
+            ]
+          },
+          "resposta": "A escolha atual é o violão.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em leitura?",
+            "Claro. Qual parte de leitura foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei leitura. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em leitura?",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Lia ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. O silêncio sozinho não confirma uma recusa.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Lia, pode me ajudar com o violão, por favor?",
+            "Lia, você pode me ajudar com o violão?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Lia pedir ajuda com o violão, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Lia",
+              "violão"
+            ]
+          },
+          "resposta": "Lia, pode me ajudar com o violão, por favor?",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar leitura amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "arquivo",
+      "id": "fresh-arquivo",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o pacote para o arquivo amanhã.",
+            "Entendi. O pacote é sua escolha para o arquivo."
+          ],
+          "mensagem": "Vou levar o pacote para o arquivo amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "pacote"
+            ]
+          },
+          "resposta": "Entendi. O pacote é sua escolha para o arquivo.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em escrita?",
+            "Claro. Qual parte de escrita foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei escrita. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em escrita?",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o chave.",
+            "Certo. Você mudou a escolha para o chave."
+          ],
+          "mensagem": "Corrigindo: não vou levar o pacote; vou levar o chave.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "chave"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o chave.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Rui ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não dá para concluir isso só pelo silêncio.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o chave.",
+            "A escolha atual é o chave."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "chave"
+            ]
+          },
+          "resposta": "A escolha atual é o chave.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o chave amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. O prazo continua amanhã.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar escrita amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Rui, pode me ajudar com o chave, por favor?",
+            "Rui, você pode me ajudar com o chave?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Rui pedir ajuda com o chave, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Rui",
+              "chave"
+            ]
+          },
+          "resposta": "Rui, pode me ajudar com o chave, por favor?",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "trilha",
+      "id": "fresh-trilha",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o mochila para o trilha amanhã.",
+            "Entendi. O mochila é sua escolha para o trilha."
+          ],
+          "mensagem": "Vou levar o mochila para o trilha amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "mochila"
+            ]
+          },
+          "resposta": "Certo. Você vai levar o mochila para o trilha amanhã.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o garrafa.",
+            "Certo. Você mudou a escolha para o garrafa."
+          ],
+          "mensagem": "Corrigindo: não vou levar o mochila; vou levar o garrafa.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "garrafa"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o garrafa.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o garrafa.",
+            "A escolha atual é o garrafa."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "garrafa"
+            ]
+          },
+          "resposta": "Você vai levar o garrafa.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar caminhada amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Bia ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não dá para concluir isso só pelo silêncio.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o garrafa amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa não muda o prazo de amanhã.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em caminhada?",
+            "Claro. Qual parte de caminhada foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei caminhada. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em caminhada?",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Bia, pode me ajudar com o garrafa, por favor?",
+            "Bia, você pode me ajudar com o garrafa?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Bia pedir ajuda com o garrafa, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Bia",
+              "garrafa"
+            ]
+          },
+          "resposta": "Bia, você pode me ajudar com o garrafa?",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "mercado",
+      "id": "fresh-mercado",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o receita para o mercado amanhã.",
+            "Entendi. O receita é sua escolha para o mercado."
+          ],
+          "mensagem": "Vou levar o receita para o mercado amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "receita"
+            ]
+          },
+          "resposta": "Entendi. O receita é sua escolha para o mercado.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Caio ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não dá para concluir isso só pelo silêncio.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o receita amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa não muda o prazo de amanhã.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o cesta.",
+            "Certo. Você mudou a escolha para o cesta."
+          ],
+          "mensagem": "Corrigindo: não vou levar o receita; vou levar o cesta.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "cesta"
+            ]
+          },
+          "resposta": "Entendi. A escolha agora é o cesta.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Caio, pode me ajudar com o cesta, por favor?",
+            "Caio, você pode me ajudar com o cesta?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Caio pedir ajuda com o cesta, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Caio",
+              "cesta"
+            ]
+          },
+          "resposta": "Caio, você pode me ajudar com o cesta?",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o cesta.",
+            "A escolha atual é o cesta."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "cesta"
+            ]
+          },
+          "resposta": "Você vai levar o cesta.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em cozinha?",
+            "Claro. Qual parte de cozinha foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei cozinha. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Claro. Qual parte de cozinha foi mais tranquila para você?",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar cozinha amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Você só decidiu continuar amanhã.",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "terraco",
+      "id": "fresh-terraco",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o planta para o terraço amanhã.",
+            "Entendi. O planta é sua escolha para o terraço."
+          ],
+          "mensagem": "Vou levar o planta para o terraço amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "planta"
+            ]
+          },
+          "resposta": "Certo. Você vai levar o planta para o terraço amanhã.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o planta amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa não muda o prazo de amanhã.",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em jardinagem?",
+            "Claro. Qual parte de jardinagem foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei jardinagem. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em jardinagem?",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o vaso.",
+            "Certo. Você mudou a escolha para o vaso."
+          ],
+          "mensagem": "Corrigindo: não vou levar o planta; vou levar o vaso.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "vaso"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o vaso.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar jardinagem amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Você só decidiu continuar amanhã.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o vaso.",
+            "A escolha atual é o vaso."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "vaso"
+            ]
+          },
+          "resposta": "A escolha atual é o vaso.",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Iara ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não dá para concluir isso só pelo silêncio.",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Iara, pode me ajudar com o vaso, por favor?",
+            "Iara, você pode me ajudar com o vaso?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Iara pedir ajuda com o vaso, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Iara",
+              "vaso"
+            ]
+          },
+          "resposta": "Iara, você pode me ajudar com o vaso?",
+          "turno": 8
+        }
+      ]
+    },
+    {
+      "familia": "laboratorio",
+      "id": "fresh-laboratorio",
+      "turnos": [
+        {
+          "alternativas_validas": [
+            "Certo. Você vai levar o relatório para o laboratório amanhã.",
+            "Entendi. O relatório é sua escolha para o laboratório."
+          ],
+          "mensagem": "Vou levar o relatório para o laboratório amanhã.",
+          "operacao": "registrar_estado",
+          "regras": {
+            "contem": [
+              "relatório"
+            ]
+          },
+          "resposta": "Entendi. O relatório é sua escolha para o laboratório.",
+          "turno": 1
+        },
+        {
+          "alternativas_validas": [
+            "Tudo bem. O que você mais gostou em estudo?",
+            "Claro. Qual parte de estudo foi mais tranquila para você?"
+          ],
+          "mensagem": "Hoje pratiquei estudo. Foi tranquilo. Só quero conversar, sem dicas.",
+          "operacao": "conversa_sem_dicas",
+          "regras": {
+            "nao_contem": [
+              "deve",
+              "faça primeiro"
+            ]
+          },
+          "resposta": "Tudo bem. O que você mais gostou em estudo?",
+          "turno": 2
+        },
+        {
+          "alternativas_validas": [
+            "Não dá para concluir isso só pelo silêncio.",
+            "Não. O silêncio sozinho não confirma uma recusa."
+          ],
+          "mensagem": "Theo ficou em silêncio quando pedi ajuda. Isso quer dizer que recusou?",
+          "operacao": "incerteza",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. O silêncio sozinho não confirma uma recusa.",
+          "turno": 3
+        },
+        {
+          "alternativas_validas": [
+            "Não. O prazo continua amanhã.",
+            "Não. Fazer uma pausa não muda o prazo de amanhã."
+          ],
+          "mensagem": "Preciso entregar o relatório amanhã. Se eu parar por uma hora, o prazo muda?",
+          "operacao": "prazo",
+          "regras": {
+            "contem": [
+              "amanhã"
+            ]
+          },
+          "resposta": "Não. O prazo continua amanhã.",
+          "turno": 4
+        },
+        {
+          "alternativas_validas": [
+            "Entendi. A escolha agora é o tablet.",
+            "Certo. Você mudou a escolha para o tablet."
+          ],
+          "mensagem": "Corrigindo: não vou levar o relatório; vou levar o tablet.",
+          "operacao": "correcao",
+          "regras": {
+            "contem": [
+              "tablet"
+            ]
+          },
+          "resposta": "Certo. Você mudou a escolha para o tablet.",
+          "turno": 5
+        },
+        {
+          "alternativas_validas": [
+            "Theo, pode me ajudar com o tablet, por favor?",
+            "Theo, você pode me ajudar com o tablet?"
+          ],
+          "mensagem": "Escreva uma pergunta curta para Theo pedir ajuda com o tablet, sem soar como ordem.",
+          "operacao": "pedido_educado",
+          "regras": {
+            "contem": [
+              "Theo",
+              "tablet"
+            ]
+          },
+          "resposta": "Theo, pode me ajudar com o tablet, por favor?",
+          "turno": 6
+        },
+        {
+          "alternativas_validas": [
+            "Não. Você só decidiu continuar amanhã.",
+            "Não. Fazer uma pausa agora não significa desistir."
+          ],
+          "mensagem": "Vou parar agora e continuar estudo amanhã. Isso quer dizer que desisti?",
+          "operacao": "adiar_sem_abandonar",
+          "regras": {
+            "contem_um_de": [
+              "não",
+              "Não"
+            ]
+          },
+          "resposta": "Não. Fazer uma pausa agora não significa desistir.",
+          "turno": 7
+        },
+        {
+          "alternativas_validas": [
+            "Você vai levar o tablet.",
+            "A escolha atual é o tablet."
+          ],
+          "mensagem": "Qual objeto eu vou levar agora?",
+          "operacao": "recordar",
+          "regras": {
+            "contem": [
+              "tablet"
+            ]
+          },
+          "resposta": "Você vai levar o tablet.",
+          "turno": 8
+        }
+      ]
+    }
+  ],
+  "versao": "fresh-cross-dialogue-v1"
+}
