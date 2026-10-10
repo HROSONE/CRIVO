@@ -66,25 +66,34 @@ CASOS = [
 ]
 
 
+def _trace_dialogico_valido(trace):
+    return bool(trace and trace.get("usada") is True and
+                trace.get("tokens", 0) >= 6 and
+                (trace.get("guarda") or {}).get("aceita") is True)
+
+
 def geracao_concluida(bot):
     """Aceita somente uma geração neural própria registrada no turno atual.
 
-    O caminho legado grava ``quadro_geracao``. A rota natural mais nova grava
-    o trace de ``DialogoConversa`` em ``execucao_contextual`` e também em
-    ``natural_routing.dialogo``. Em qualquer trace dialógico exigimos uso real
-    da GRU, guarda aceita e pelo menos seis tokens. Fallbacks estruturais não
-    satisfazem este contrato.
+    O gerador legado expõe ``ultimo_quadro``/``quadro_geracao``. O gerador de
+    diálogo mantém um trace vivo durante o turno e também o persiste na rota.
+    Para o caminho dialógico exigimos uso real da GRU, guarda aceita e pelo
+    menos seis tokens; fallbacks estruturais nunca satisfazem o contrato.
     """
+    geracao = getattr(getattr(bot, "conversacao", None), "geracao", None)
+    quadro_atual = getattr(geracao, "ultimo_quadro", None) or {}
+    if quadro_atual.get("tokens", 0) >= 6:
+        return True
+    trace_atual = getattr(getattr(bot, "dialogo_conversa", None), "trace", None) or {}
+    if _trace_dialogico_valido(trace_atual):
+        return True
     registro = bot.historico[-1] if bot.historico else {}
     quadro = registro.get("quadro_geracao") or {}
     if quadro.get("tokens", 0) >= 6:
         return True
     rota = registro.get("natural_routing") or {}
     traces = (registro.get("execucao_contextual") or {}, rota.get("dialogo") or {})
-    return any(trace.get("usada") is True and
-               trace.get("tokens", 0) >= 6 and
-               (trace.get("guarda") or {}).get("aceita") is True
-               for trace in traces)
+    return any(_trace_dialogico_valido(trace) for trace in traces)
 
 
 def avaliar(classe):
