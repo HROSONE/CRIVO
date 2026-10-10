@@ -1,5 +1,33 @@
 # Passagem de trabalho — 10/10/2026
 
+## Rodada seguinte — objetos e correções na escrita
+
+[Experimento de referências](experimentos/referentes_escrita_20261010/README.md),
+base pública #135 (`ca31090f6ce0…`): **52 turnos / 11 sessões** congelados
+antes da mudança. Site e motor: 0/6 referências/correções e 0/5 fronteiras;
+depois, **6/6 e 5/5 no motor e HTTP**, zero violação de objeto/estado/domínio
+nos critérios limitados. Sondas autorais do agente, não sessões do dono nem
+avaliação humana/cega.
+
+O objeto do acontecimento ativo chega ao gerador mesmo após pronome; uma
+correção explícita substitui o objeto em vez de acumulá-lo como novo fato.
+Ambiguidade, negação e história antiga depois de pergunta factual pedem
+esclarecimento. A fonte da resolução aparece no trace. Usa a última escrita
+existente, sem nova memória, acervo, arquitetura ou parâmetros.
+
+Não houve treino nesta rodada. Checkpoint próprio aprovado `28d05179e4dd…`
+permanece idêntico; todos os dados/juízes/checkpoints anteriores preservados.
+Exigir regressões históricas e checks relevantes verdes antes do merge,
+confirmar commit/checkpoint no site e repetir os 52 turnos antes de publicar.
+A matriz completa segue manual/semanal; pós-merge somente verificação curta.
+
+Limites: apenas objeto único com artigo explícito, poucos verbos de pronome e
+correção do trecho inteiro. Não resolve qualquer pronome ou correção livre;
+negação não é realizada como cena nova. Concordância, transições genéricas,
+dez classes e quatro passos permanecem. Não alegar generalização geral.
+Próximo passo único após publicação: melhorar a naturalidade da realização
+com corpus próprio, preservando estes casos e os gates anteriores.
+
 ## Integração medida — ligação entre acontecimentos e continuação
 
 [Experimento causal](experimentos/continuidade_causal_20261010/README.md),

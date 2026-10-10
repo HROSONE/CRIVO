@@ -326,6 +326,10 @@ def executar_rota_natural(rota, texto, bot):
         elif ato == 'referente':
             resposta = ('De qual pessoa você está falando: ' + ' ou '.join(rota['referentes']) + '?') if rota['referentes'] else (
                 'Você não informou quem é ' + (rota.get('vinculo') or 'essa pessoa') + ' nesta sessão. Qual pessoa devemos considerar?')
+        elif ato == 'objeto_historia_incerto':
+            resposta = 'Qual objeto da história você quer usar ou corrigir? Diga o objeto completo e o que aconteceu com ele.'
+            if rota['referentes']:
+                resposta += ' Referentes da história: ' + ', '.join(rota['referentes']) + '.'
         elif ato == 'continuidade_incerta':
             resposta = ('Você quer continuar a história ou o assunto mais recente? '
                         'Diga qual situação e o próximo acontecimento que devo usar.') if rota['referentes'] else (
