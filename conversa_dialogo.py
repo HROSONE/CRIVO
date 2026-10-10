@@ -80,9 +80,72 @@ def reacao_adequada(tokens, classe):
     return classe not in sinais or bool(re.search(sinais[classe], normalizar(' '.join(t for t in tokens if not t.startswith('@')))))
 
 
+def resolver_objeto_escrita(texto, escrita, ativo):
+    """Resolve pronomes e substituições literais só no objeto ficcional ativo.
+
+    Não infere gênero de nomes, não escolhe entre objetos coordenados e não
+    muda o estado em uma negação. A resolução conserva a fonte do usuário.
+    """
+    trecho = re.split(r'[.!]\s*(?=Continue\b)', texto.strip(), maxsplit=1, flags=re.I)[0].strip('.! ')
+    pronome = re.fullmatch(r'(?:Ela|Ele|[AO] personagem)\s+(?:(não)\s+)?([oa])\s+'
+                          r'(recuperou|encontrou(?: novamente)?|achou)', trecho, re.I)
+    clitico = re.fullmatch(r'(?:Ela|Ele|[AO] personagem)\s+tenta\s+consert[áa]-(la|lo)', trecho, re.I)
+    correcao = re.fullmatch(r'(?:(?:Corrigindo|Na verdade)[:,]?\s*)?não era\s+(.+?)'
+                           r'(?:,\s*era|\.\s*Era)\s+(.+)', trecho, re.I)
+    if not (pronome or clitico or correcao):
+        return None
+    if correcao and not ativo:
+        return None  # Correções fora da escrita permanecem com a memória real.
+    slots = dict((escrita or {}).get('slots', {}))
+    refs = [slots[k] for k in ('tema1', 'tema2', 'detalhe') if slots.get(k)]
+    def esclarecer():
+        return dict(peca='esclarecimento', ato='objeto_historia_incerto', referentes=refs)
+    if not ativo:
+        return esclarecer()
+    classe = escrita.get('classe_escrita')
+    anterior = escrita.get('evento_escrita') or slots.get('relato', '')
+    objeto = referente_acontecimento(anterior, classe)
+    if (not objeto or not re.match(r'^(?:um|uma|o|a)\s+\S', objeto, re.I)
+            or re.search(r'\b(?:e|ou|com|que|mas|enquanto|porque)\b|[,;.!?]', objeto, re.I)):
+        return esclarecer()
+    if pronome:
+        feminino = bool(re.match(r'^(?:uma|a)\s', objeto, re.I))
+        if pronome[1] or (pronome[2].casefold() == 'a') != feminino:
+            return esclarecer()
+        classe = 'recuperacao'
+        evento = objeto + (' já foi recuperada' if feminino else ' já foi recuperado')
+        novo = objeto
+    elif clitico:
+        feminino = bool(re.match(r'^(?:uma|a)\s', objeto, re.I))
+        if clitico[1].casefold().endswith('a') != feminino:
+            return esclarecer()
+        classe = 'conserto'
+        evento = 'A personagem tenta consertar ' + objeto
+        novo = objeto
+    else:
+        velho, novo = (p.strip() for p in correcao.groups())
+        # A correção precisa identificar o trecho inteiro. “Era azul” pode
+        # designar personagem, lugar ou outro objeto; não escolher por cor.
+        if (normalizar(velho) != normalizar(objeto) or not re.fullmatch(r'(?:um|uma|o|a)\s+[\wÀ-ÿ -]{1,120}', novo, re.I)
+                or re.search(r'\b(?:e|ou|não)\b', novo, re.I)):
+            return esclarecer()
+        evento = anterior.replace(objeto, novo, 1)
+    slots['relato'] = evento
+    return dict(peca='escrita', ato='continuar', slots=slots, personagem=slots.get('tema1'),
+                referentes=list(slots.values()), classe_escrita=classe, evento_escrita=evento,
+                resolucao_objeto=dict(fonte=texto, objeto_anterior=objeto, objeto=novo,
+                                     operacao='correcao' if correcao else 'pronome'))
+
+
 def contexto_escrita(texto, bot):
     """Resolve apenas operadores de uma ficção ativa; não registra fatos reais."""
     escrita = bot.conversacao.geracao.ultima_escrita
+    ativo = bool(escrita and escrita['tipo'] == 'historia'
+                 and bot.conversacao.turno - escrita['turno'] <= bot.conversacao.geracao.MAX_INTERVALO
+                 and bot.historico and bot.historico[-1].get('id', '').startswith('conversa:gerada_'))
+    resolvida = resolver_objeto_escrita(texto, escrita, ativo)
+    if resolvida:
+        return resolvida
     if not escrita or escrita['tipo'] != 'historia':
         return None
     if bot.conversacao.turno - escrita['turno'] > bot.conversacao.geracao.MAX_INTERVALO:
@@ -446,6 +509,8 @@ class DialogoConversa:
             self.trace.update(checkpoint_sha256=sha, experimental=bool(self.candidato),
                               memoria_usada=bool(escrita or not rota.get('slots')),
                               argumentos=dict(slots), confianca_roteamento='explicita')
+            if rota.get('resolucao_objeto'):
+                self.trace['resolucao_objeto'] = dict(rota['resolucao_objeto'])
             # Mantém o mesmo arco durante continuação, final e reescrita. A
             # nova cena com companhia pode avançar no checkpoint de continuidade.
             variante=(escrita.get('variante',1) if escrita and (rota['ato']!='historia' or rota.get('reescrita'))

@@ -3,6 +3,8 @@ on:
   pull_request:
     paths:
       - 'conversa_dialogo.py'
+      - 'testes_referentes_escrita.py'
+      - 'experimentos/referentes_escrita_20261010/**'
       - 'orientacao_pratica.py'
       - 'dialogo_situado.py'
       - 'testes_contexto_pratico.py'
@@ -39,7 +41,7 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install 'numpy>=1.24,<3'
       - name: Aprovação, papéis, corpus e HTTP
-        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico testes_diversidade_dialogo testes_continuidade_causal -v
+        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico testes_diversidade_dialogo testes_continuidade_causal testes_referentes_escrita -v
       - name: Mesmos 114 casos no chat aprovado
         run: |
           python experimentos/escrita_acontecimentos_20261010/avaliar.py --modo motor --saida /tmp/dialogo-congelado.json --so-congelado --exigir-meta
@@ -64,3 +66,7 @@ jobs:
         run: |
           python experimentos/continuidade_causal_20261010/sondar.py --modo http --aliases --saida /tmp/aliases-http.json
           python experimentos/continuidade_causal_20261010/avaliar_aliases.py --arquivo /tmp/aliases-http.json --saida /tmp/aliases-metricas.json --exigir-meta
+      - name: Referências e correções nos mesmos 52 turnos por HTTP
+        run: |
+          python experimentos/referentes_escrita_20261010/sondar.py --modo http --saida /tmp/referentes-http.json
+          python experimentos/referentes_escrita_20261010/avaliar.py --arquivo /tmp/referentes-http.json --saida /tmp/referentes-metricas.json --exigir-meta
