@@ -1,0 +1,31 @@
+{
+  "preparado_em_utc": "2026-10-10T17:16:30.362968+00:00",
+  "checkpoint_inicial": "checkpoint_rodada3.json.gz",
+  "checkpoint_inicial_sha256": "3b81f5a47b59f394402551d166994027ff4e224c4e8730631f58cd9f81c46473",
+  "corpus": "corpus_contrastes.json.gz",
+  "corpus_sha256": "a3170c2259b3608af3ce9d60bb88f79817e5b552ef361f83c43a14946e0b0881",
+  "desenvolvimento_sha256": "884458a0ce4d3b97ec9139782b009fc3001fac1109167a595590cdc0f410bfe9",
+  "avaliacao_final_sha256": "5ba9c48eebac0b461fb115ca368ec6e9cfc6a4f8fc79c0847e20aedfd33f9f0b",
+  "hiperparametros": {
+    "epocas": 12,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 173,
+    "taxa": 0.0006,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.1,
+    "dropout_tokens": 0.05,
+    "amostragem": 0.1,
+    "aquecimento": 3
+  },
+  "selecao": "Antes de abrir a avaliação final: melhoria literal em sondas contrastivas e entropia de desenvolvimento não mais de 10% pior; se não, conservar rodada 3.",
+  "limite": "Continuação supervisionada própria com novo Adam; não retomada exata. Sem nova capacidade de arquitetura ou regra no chat.",
+  "aprovado": false,
+  "ativo_no_chat": false
+}
