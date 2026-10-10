@@ -1,0 +1,40 @@
+{
+  "base_commit": "3d56a0f6a2d0dcc5530c93b88b6e298322e98e1b",
+  "objetivo": "Localizar por que o gerador 1x quase nao transfere para as familias novas antes de qualquer novo treino.",
+  "checkpoint": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz",
+  "corpus": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+  "recorte": {
+    "grupo": "sessao_completa",
+    "split": "validacao",
+    "exemplos_esperados": 94,
+    "familias_esperadas": ["correcao_autoria", "esperar_sem_garantia", "moradia_e_tarefas", "pessoa_silencio"]
+  },
+  "analises": [
+    "CE por familia e posicao do turno",
+    "CE por exemplo com historico completo e sem historico",
+    "geracao livre e primeiro token divergente",
+    "NLL por token separado em vocab+fonte, geracao_lexical, copia_oov, impossivel e EOS",
+    "vizinho de treino mais proximo usando somente entrada por Jaccard de tokens da mensagem e da fonte completa",
+    "concentracao da falha por familia, turno, historico e categoria de token"
+  ],
+  "regras": {
+    "nenhum_treino": true,
+    "nenhuma_alteracao_de_pesos": true,
+    "nenhuma_promocao": true,
+    "holdout_final_10_sessoes_pr137": "PROIBIDO e nao lido",
+    "alvo_nao_entra_na_busca_de_vizinhos": true,
+    "desenvolvimento_conhecido": true
+  },
+  "flags_descritivas_precongeladas": {
+    "historico_prejudica": "nos turnos 2-6, CE sem historico pelo menos 0.50 menor que CE com historico",
+    "gap_geracao_vs_copia": "NLL media de geracao_lexical pelo menos 0.75 maior que a media das categorias que podem usar a fonte",
+    "divergencia_muito_cedo": "pelo menos 60% das respostas nao-exatas divergem ate o terceiro token (indice 0, 1 ou 2)",
+    "erro_cresce_com_turno": "CE media dos turnos 5-6 pelo menos 0.75 maior que a CE dos turnos 1-2"
+  },
+  "limites": [
+    "Flags sao diagnosticas e nao criterios de aprovacao.",
+    "CE token a token usa teacher forcing e nao mede sozinho conversa natural.",
+    "Jaccard lexical e uma medida simples de proximidade de entrada, nao semelhanca semantica profunda.",
+    "Este recorte ja e conhecido e nao pode certificar generalizacao."
+  ]
+}
