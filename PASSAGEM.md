@@ -63,20 +63,42 @@ Relatório: [integração do diálogo](experimentos/integracao_dialogo_20261010/
 
 ## Limites atuais
 
-O candidato ainda falha em explicar funcionamento e autoria; não entrega
+Os geradores isolados da Fase 1 ainda falham em explicar funcionamento e autoria; não entregam
 as perguntas enumeradas pedidas. Histórias são genéricas e capacidades
 repetitivas. A GRU precisa receber ato/argumentos corretos; não interpreta
 livremente o histórico. Métricas lexicais não certificam coerência humana.
 
-Ainda falham a retomada do desenho depois de pausa, a resposta natural
-“Quero saber de Dorlécio” a um esclarecimento e a história com cenário/
-restrições compostas. São três sessões reprovadas, mantidas no conjunto.
+## Fase 3 — segundo treino e falhas públicas
+
+#127 mesclado e validado no site: 37/37 e 7/10 sessões, commit
+`044ed446afd1c9b66c3b1ddd11b087c5c5a23658`. Seis turnos das três sessões
+reprovadas foram congelados antes da mudança: **37/43 → 43/43** no motor/HTTP,
+zero troca de domínio e referente ausente. Dez sessões intactas:
+**7/10 → 10/10**, revisão pelo agente, não dez participantes humanos.
+Orientação prática ainda genérica; não certifica conversa livre geral.
+
+Segundo treino próprio: oito arcos, **4 → 52 padrões de ficção**, 384 diálogos
+novos, 8.064 turnos com o corpus anterior. Treino focalizado: 1.216 respostas
+e validação em 256, entidades separadas e arcos compartilhados.
+**88.969 → 85.581 parâmetros**, reprodução byte a byte. Experimentos anteriores,
+factual e 35 pesos intactos. Final isolado desativado; cópia de produção
+aprovada somente após os gates. Dados/pesos preliminares preservados.
+
+Retomada e esclarecimento nominal usam os estados existentes. Restrição de
+nome preserva escrita; cinco frases conservam personagem, cenário e amigo.
+Trace registra neutralização do texto residual quando interfere no ato.
+34 contratos e sonda anotada de 48 contextos passaram; CI HTTP verifica 43 casos.
+Limites: oito arcos, conselhos genéricos, contagens/estilos arbitrários e
+continuação após final podem exigir esclarecimento. Publicação requer
+checks verdes e replay público do commit integrado.
+
+Evidências: [segundo treino](experimentos/dialogo_v2_20261010/README.md).
 
 ## Próximo passo único
 
-Depois de confirmar a publicação e os testes no site, iniciar a Fase 3
-incorporando essas três falhas e aumentando a diversidade do corpus
-antes do segundo treino. Não abrir nova memória, acervo ou parâmetros.
+Depois da publicação e dos testes no site, medir novos diálogos reais variados,
+principalmente orientação prática e continuações fora dos oito arcos, para
+selecionar a próxima ampliação do corpus. Não abrir nova memória/acervo/parâmetros.
 
 ## Histórico
 

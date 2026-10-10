@@ -64,11 +64,11 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install -r requirements.txt
       - name: Conferir fontes e impedir entrega de outro domínio
-        run: python -m unittest testes_roteamento_natural testes_roteamento_natural_v2 testes_conversa_dialogo -v
+        run: python -m unittest testes_roteamento_natural testes_roteamento_natural_v2 testes_conversa_dialogo testes_dialogo_v2 -v
       - name: Reproduzir os 35 casos reais congelados pelo adaptador HTTP
         run: python experimentos/roteamento_natural_v2_20261009/avaliar.py --saida /tmp/roteamento-natural.json --exigir-meta
-      - name: Verificar diálogo integrado nos 37 casos congelados por HTTP real
-        run: python experimentos/integracao_dialogo_20261010/avaliar.py --modo http --so-congelado --saida /tmp/dialogo-integrado.json --exigir-meta
+      - name: Verificar diálogo integrado nos 43 casos congelados por HTTP real
+        run: python experimentos/dialogo_v2_20261010/avaliar.py --modo http --so-congelado --saida /tmp/dialogo-integrado.json --exigir-meta
   verificacao-pos-merge:
     # O PR executa roteamento e contratos essenciais. O push na main verifica
     # somente se o código integrado ainda inicia e atende ao contrato HTTP.

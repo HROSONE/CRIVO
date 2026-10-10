@@ -16,18 +16,24 @@ RAIZ = Path(__file__).resolve().parent
 CHECKPOINT = RAIZ / 'rede_dialogo_conversa.json.gz'
 ORIGEM_SHA256 = '823c44965cb7d9e3ec3830555b100aec373443e3b778cd719cc9804bc9e4ba47'
 PESOS_SHA256 = '3b20dcdac656a93d61a958715978b7f5a1f45a7980492b8be637e60aa611b27b'
+PESOS_V2_SHA256 = '05bbf93b1190c817fd7c621ed82bf4f5fd25ce33e85011a536ffcb7bb213aef0'
+ORIGEM_V2_SHA256 = 'd6dec80197b3d6d000dfa97ec1bc1bc4831e058732fce3e9bb3e0b03c70f1399'
 ATOS = frozenset(('historia', 'continuar', 'corrigir'))
 
 
 def aprovacao_valida(dados):
     a = dados.get('aprovacao', {})
     m = a.get('metricas', {})
+    origem=a.get('checkpoint_origem_sha256')
+    pesos_esperados={ORIGEM_SHA256:PESOS_SHA256,ORIGEM_V2_SHA256:PESOS_V2_SHA256}.get(origem)
+    if not pesos_esperados or hashlib.sha256(json.dumps(dados.get('pesos'),sort_keys=True,separators=(',',':')).encode()).hexdigest()!=pesos_esperados:
+        return False
+    v2=origem==ORIGEM_V2_SHA256
     return (dados.get('controle') == {'aprovado': True, 'ativo_no_chat': True} and
-            a.get('checkpoint_origem_sha256') == ORIGEM_SHA256 and
             set(a.get('atos', [])) == ATOS and
-            all(m.get(k, 0) >= 34 for k in ('casos_motor', 'casos_http')) and
+            all(m.get(k, 0) >= (43 if v2 else 34) for k in ('casos_motor', 'casos_http')) and
             m.get('trocas_dominio') == m.get('referentes_ausentes') == 0 and
-            m.get('historias_entregues') == 2 and m.get('conversas_mantem_fio', 0) >= 6)
+            m.get('historias_entregues') == (4 if v2 else 2) and m.get('conversas_mantem_fio', 0) >= (8 if v2 else 6))
 
 
 def status_dialogo():
@@ -64,7 +70,7 @@ def carregar(caminho, mtime):
     raw = Path(caminho).read_bytes()
     dados = json.loads(gzip.decompress(raw))
     digest = hashlib.sha256(json.dumps(dados['pesos'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    if digest != PESOS_SHA256:
+    if digest not in (PESOS_SHA256,PESOS_V2_SHA256):
         raise ValueError('Pesos diferentes do checkpoint próprio avaliado')
     return GeradorGRU(dados), dados, hashlib.sha256(raw).hexdigest()
 
@@ -142,12 +148,12 @@ class DialogoConversa:
                 slots['tema1'] = rota['personagem']
             detalhe = re.search(r'\b(?:ele|ela) (?:encontra|conhece|reencontra) (.+?)(?:,|[.!?]|$)', texto, re.I)
             if detalhe:
-                slots['tema2'] = detalhe[1]
+                slots['detalhe' if slots.get('tema2') else 'tema2'] = detalhe[1]
         if not slots.get('tema1'):
             self.trace.update(recuou=True, motivo='referente_ambiguo_ou_ausente', confianca_roteamento='baixa')
             return ('conversa:esclarecer', 'Qual personagem devo usar? Preciso desse referente para continuar a história.')
-        if (rota['ato'] in ('historia', 'continuar') and set(slots) != {'tema1'} or
-                rota.get('estilo', 'neutro') != 'neutro' or len(slots) > 2):
+        if (rota.get('estilo', 'neutro') != 'neutro' or len(slots) > 3 or
+                not set(slots)<= {'tema1','tema2','detalhe'}):
             self.trace.update(motivo='pedido_fora_do_escopo_validado', recuou=True)
             return None
         # Pedidos factuais e estilos/instruções fora do treino não ganham uma
@@ -161,15 +167,41 @@ class DialogoConversa:
             if not self.candidato and not aprovacao_valida(dados):
                 self.trace.update(recuou=True, motivo='checkpoint_sem_aprovacao')
                 return None
+            v2=dados.get('corpus_sha256')=='e2e33fe41cceeb27f2839572003210af2ecc315d87e0f889cb41c9cc9701dd45'
+            if v2 and rota['ato']=='continuar' and escrita and escrita['acao']=='final' and slots.get('tema2') and not slots.get('detalhe'):
+                self.trace.update(recuou=True,motivo='amigo_do_final_nao_e_cenario')
+                return ('conversa:esclarecer','Ainda não consigo continuar esse final preservando todos os papéis de '+', '.join(slots.values())+'. Qual deve ser a próxima ação?')
+            if v2 and slots.get('tema2') and (rota['ato']!='corrigir' and not rota.get('repetir_final') or slots.get('detalhe')):
+                # O treino ampliado cobre lugares, não duas personagens.
+                # Temas de papel incerto conservam o executor anterior.
+                lugar=re.match(r'(?:(?:um|uma|o|a) )?(?:ilha|bosque|estacao|vale|praca|torre|jardim|floresta|casa|farol|ponte|castelo)\b',normalizar(slots['tema2']))
+                if not lugar:
+                    self.trace.update(recuou=True,motivo='segundo_tema_sem_papel_de_cenario')
+                    return None
+            if not v2 and (rota['ato'] in ('historia','continuar') and set(slots)!={'tema1'} or len(slots)>2):
+                self.trace.update(motivo='pedido_fora_do_escopo_validado',recuou=True)
+                return None
             self.trace.update(checkpoint_sha256=sha, experimental=bool(self.candidato),
                               memoria_usada=bool(escrita or not rota.get('slots')),
                               argumentos=dict(slots), confianca_roteamento='explicita')
-            contexto = dict(acao={'historia':'historia', 'continuar':'continuacao', 'corrigir':'final'}[rota['ato']],
-                            slots=slots, estilo=rota.get('estilo', 'neutro'), variante=0,
+            # Mantém o mesmo arco durante continuação, final e reescrita. A
+            # rotação só escolhe o arco de uma história nova.
+            variante=(escrita.get('variante',1) if escrita and (rota['ato']!='historia' or rota.get('reescrita'))
+                      else (bot.conversacao.geracao.variante+1)%8) if v2 else 0
+            contexto = dict(acao='final' if rota.get('repetir_final') else {'historia':'historia', 'continuar':'continuacao', 'corrigir':'final'}[rota['ato']],
+                            slots=slots, estilo=rota.get('estilo', 'neutro'), variante=variante,
                             mensagem=texto, historico=[h['pergunta'] for h in bot.historico[-3:]],
                             resposta_anterior='')
             gerada = modelo.gerar(contexto, max_tokens=96)
             resposta, guarda = conferir(gerada, contexto, set(modelo.vocabulario), rota.get('frases'))
+            if v2 and not guarda['aceita']:
+                # Texto residual pode sugerir o ato do turno anterior. Uma
+                # segunda realização conserva ação, arco e argumentos; só
+                # neutraliza esse texto. Ambas passam pela mesma guarda.
+                estruturado=dict(contexto,mensagem='',historico=[],resposta_anterior='')
+                gerada=modelo.gerar(estruturado,max_tokens=96)
+                resposta,guarda=conferir(gerada,estruturado,set(modelo.vocabulario),rota.get('frases'))
+                self.trace['contexto_textual_neutralizado']=True
             self.trace['guarda'] = guarda
             if not guarda['aceita']:
                 self.trace.update(recuou=True, motivo='guarda_de_conversa_rejeitou')
@@ -178,8 +210,10 @@ class DialogoConversa:
             self.trace.update(usada=True, motivo='realizacao_dialogica_aceita', tokens=gerada['quantidade_tokens'])
             g = bot.conversacao.geracao
             g.ultima_escrita = {'acao':contexto['acao'], 'tipo':'historia', 'slots':slots,
-                                'estilo':contexto['estilo'], 'turno':bot.conversacao.turno, 'texto':resposta}
+                                'estilo':contexto['estilo'], 'turno':bot.conversacao.turno, 'texto':resposta,
+                                'variante':contexto['variante']}
             g.ultima_criacao = g.ultima_escrita
+            if v2 and rota['ato']=='historia' and not rota.get('reescrita'):g.variante=contexto['variante']
             g.ultimo_quadro = {'modelo':'GRU de diálogo própria', 'acao':contexto['acao'],
                                'slots_copiados':sorted(slots), 'checkpoint_sha256':sha}
             return 'conversa:gerada_' + contexto['acao'], resposta
