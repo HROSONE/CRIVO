@@ -1,11 +1,38 @@
 # Passagem de trabalho — 10/10/2026
 
+## Estado atual — continuidade prática medida
+
+[Experimento de contexto prático](experimentos/contexto_pratico_20261010/README.md):
+mesmos 40 turnos das quatro falhas após #132, **15/40 → 40/40** no motor
+ e HTTP real (antes público, depois local); sessões mínimas **0/4 → 4/4**,
+zero desvio proibido no conjunto. Quatro sondas adicionais autorais,
+29 turnos, **0/4 → 4/4** segundo leitura do agente; sem humanos/avaliação
+cega. Referentes, restrições e tempo declarados entram na tarefa correta.
+Fatos hipotéticos não substituem observações. Guarda rejeita troca de
+minutos/vasos; não cria memória nem aprende modelos novos.
+
+**110/114** anteriores preservados no motor/HTTP, 79/79 antigos,
+52/52 histórias, zero domínio/referente ausente. Os quatro antigos não
+pontuados continuam documentados. Checkpoint aprovado `4e5894e2…`,
+35 pesos anteriores e experimento #132 intactos. Orientação prática é
+estrutural/autoral, não geração neural ou planejamento geral; linguagem
+repetitiva, regras limitadas e janela de vinte mensagens permanecem.
+
+CI existente por escopo inclui contratos + 40 HTTP + 114, sem bateria
+completa ou repetição depois do merge. Confirmar commit/checkpoint e
+os mesmos 40 casos no site após publicar antes de declarar concluído.
+
+Próximo passo único: diversificar a realização do contexto correto com
+corpus próprio de diálogo e falhas novas medidas no site, mantendo
+estes gates; sem nova memória/acervo/arquitetura/parâmetros externos.
+
+
 O objetivo vigente é diálogo utilizável em português, com arquitetura,
 tokenizadores e pesos próprios. O plano do dono de 09/10 substitui a
 prioridade anterior de adiar treino de diálogo. Não criar outra memória,
 ampliar acervo, aumentar parâmetros ou abrir outra frente nesta etapa.
 
-## Estado mais recente — escrita condicionada aprovada no recorte
+## Estado anterior — escrita condicionada aprovada no #132
 
 [Experimento de acontecimentos](experimentos/escrita_acontecimentos_20261010/README.md),
 base #131 `ed2bf1a7…`: mesmos 114 casos, **80 → 110/114** no motor;
@@ -37,7 +64,7 @@ CI de escrita por escopo: contratos HTTP + conjunto congelado, sem push
 após merge; matriz completa manual/semanal. Após merge, confirmar commit
 atual e checkpoint acima no site e executar smoke com entidades inéditas.
 
-Próximo passo único: corrigir as quatro falhas práticas observadas
+Etapa seguinte do #132, atendida no experimento de contexto prático: corrigir as quatro falhas observadas
 (frações/tempo, bicicleta/rodas, horta/condições, troca/retomada), congelando
 antes e preservando os 114. Não abrir nova memória ou ampliar acervo/modelos.
 

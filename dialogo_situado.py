@@ -71,11 +71,13 @@ def minutos_declarados(texto):
     if citado(texto) or '?' in texto or re.search(r'\b(?:se|caso|quando|desde que)\b',n):
         return None
     inicio = r'(?:(?:so|apenas|mas|hoje|agora) )?(?:eu )?(?:so |apenas )?'
-    tempo = r'(?:tenho|disponho de|sobraram) (\d{1,4}) minutos?\b'
+    numeros={'um':1,'dois':2,'tres':3,'quatro':4,'cinco':5,'dez':10,'quinze':15,'vinte':20,'trinta':30}
+    tempo = r'(?:tenho|disponho de|sobraram) (\d{1,4}|'+ '|'.join(numeros)+r') minutos?\b'
     m = re.match(inicio+tempo,n)
     if not m and re.match(r'(?:eu )?(?:quero|pretendo|queria|gostaria de)\b',n):
         m = re.search(r'\b(?:e|mas) '+inicio+tempo,n)
-    return m.group(1) if m and 1 <= int(m.group(1)) <= 1440 else None
+    valor=numeros.get(m.group(1),m.group(1)) if m else None
+    return str(valor) if valor is not None and 1 <= int(valor) <= 1440 else None
 
 
 class DialogoSituado:
