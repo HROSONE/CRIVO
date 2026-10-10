@@ -66,6 +66,26 @@ CASOS = [
 ]
 
 
+def geracao_concluida(bot):
+    """Aceita somente uma geração neural própria registrada no turno atual.
+
+    O caminho legado grava ``quadro_geracao``. A rota natural mais nova pode
+    usar ``DialogoConversa`` e grava o trace em ``execucao_contextual``; nesse
+    caso exigimos que a GRU tenha sido realmente usada, que sua guarda tenha
+    aceitado a saída e que haja pelo menos seis tokens gerados. Um fallback
+    estrutural ou ``conversa_assistente`` não satisfaz este contrato.
+    """
+    registro = bot.historico[-1] if bot.historico else {}
+    quadro = registro.get("quadro_geracao") or {}
+    legado = quadro.get("tokens", 0) >= 6
+    dialogo = registro.get("execucao_contextual") or {}
+    dialogico = (registro.get("mecanismo") == "dialogo_gerativo_proprio" and
+                 dialogo.get("usada") is True and
+                 dialogo.get("tokens", 0) >= 6 and
+                 (dialogo.get("guarda") or {}).get("aceita") is True)
+    return legado or dialogico
+
+
 def avaliar(classe):
     casos=[]
     for nome, perguntas in CASOS:
@@ -79,8 +99,7 @@ def avaliar(classe):
             if c.get("algum") and not any(t in resposta for t in c["algum"]): falhas.append("ação pertinente")
             if c.get("diferente") and resposta==anterior: falhas.append("repetição integral")
             if c.get("linhas") and len(resposta.splitlines()[1:])!=c["linhas"]: falhas.append("formato")
-            quadro=(bot.historico[-1].get("quadro_geracao") or {}) if bot.historico else {}
-            if c.get("gerada") and (not quadro or quadro.get("tokens",0)<6): falhas.append("geração concluída")
+            if c.get("gerada") and not geracao_concluida(bot): falhas.append("geração concluída")
             if c.get("gerada") and (bot.contexto_textual is not None or "prova_origem" in (bot.ultimo_turno or {})):
                 falhas.append("proveniência fictícia")
             turnos.append(dict(pergunta=c["pergunta"],id=ident,resposta=resposta,passou=not falhas,falhas=falhas))
