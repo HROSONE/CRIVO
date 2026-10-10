@@ -1,37 +1,51 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-## Prioridade atual — generalização do gerador textual (experimento reprovado)
+## Prioridade atual — corpus e generalização do gerador textual
 
-A etapa de diálogo limitado (#136) está publicada. No
-[experimento textual](experimentos/gerador_historico_textual_20261010/README.md),
-a rede Seq2Seq própria já existente recebeu somente texto/histórico com
-papéis, sem slots ou intenção pronta. Pesos aleatórios novos, 81.433
-parâmetros/720 tokens, 3.707 treino + 334 desenvolvimento, 100 padrões
-em dez grupos. Treino efetivo: 20 épocas/330,13 s, melhor época 12.
+No mesmo experimento/PR #137, foram concluídos dois treinos próprios com
+histórico textual, sem slots ou intenção pronta. [Relatório atual](experimentos/gerador_historico_textual_20261010/RELATORIO_RODADA3.md).
+Mesma capacidade: **81.433 parâmetros / 720 tokens**, pesos iniciais próprios
+preservados e Adam novo; arquitetura, matemática e inferência intactas.
+Treinador ganhou apenas continuação opcional com os IDs de vocabulário
+preservados. Não baixou, executou ou integrou modelos externos.
 
-Avaliação nova congelada antes dos dados: 12 sessões/36 turnos mais uma
-pergunta real do dono. Resultado: **0/12 mantêm o fio**; controle sem
-histórico também 0/12. Houve inversões de correção (domingo→quarta,
-caleidoscópio→bússola) e respostas malformadas; não alegar zero invenção.
-Pedido real dinossauros/IA também reprovado. Juiz lexical não aprova
-naturalidade; revisão do agente, não avaliação humana independente/cega.
+Corpus: 100 → **400 formulações deslexicalizadas de pedido**, 6.731 exemplos
+de treino, depois **7.202** com contrastes de correção/autoria/hipótese/ausência.
+**334 exemplos de desenvolvimento anteriores preservados**. As 100 famílias
+originais de resposta ainda são estreitas; novas formulações e nomes não
+representam novas capacidades. Dados e revisão autorais do agente, não
+conversas humanas observadas ou avaliação independente/cega.
 
-Nos 100 pedidos vistos no treino: 87 alvos literais com histórico, 32 sem;
-4/4 nomes novos copiados com a mesma pergunta treinada. Mostra leitura
-textual em padrões conhecidos, sem generalização da linguagem. Perda de
-treino 0,1195 contra desenvolvimento 2,3756; não confundir memorização com
-avanço em conversa natural. Famílias/saídas de desenvolvimento da rodada 2
-compartilhadas; piloto com famílias separadas e alvos impossíveis preservado.
+Desenvolvimento: entropia **2,3756 → 0,6390 → 0,5271**; gerações iguais aos
+alvos **26 → 75 → 107/334**. Sondas contrastivas: **4 → 9/32**. Treinos reais:
+24 épocas/791,37 s e 12 épocas/408,61 s. Isso mede reprodução interna, não
+compreensão geral. Seleção dos pesos em `910dc91`, antes de abrir o teste final.
 
-Checkpoint `1027f94344ca…` continua false/false; não entrou no chat.
-Pesos, arquitetura, treinador e runtime da produção #136 permanecem
-intactos. PR experimental #137 em rascunho, sem nova memória/acervo,
-orientação, guardas, parâmetros ampliados ou CI lateral.
+Nova avaliação congelada antes dos dados, `a09c13e`: **12 sessões / 48 turnos**,
+SHA `5ba9c48eebac…`. Resultado: **0/12 mantêm o fio antes e depois**; triagem
+11 → 9/48. Mesmo checkpoint sem histórico: 12/48; invertido: 11/48; ambos
+0/12. Sem fonte truncada; EOS em todas. Frases quebradas, referentes perdidos,
+tarefas trocadas e pelo menos três violações confirmadas, apesar de zero
+termos proibidos na triagem. Não demonstrou melhora de conversa natural.
 
-Próximo passo único: mais formulações de entrada por ato no corpus
-próprio e outra avaliação congelada antes do próximo treino. Estes casos
-são regressão conhecida; não chamá-los inéditos depois de usá-los para
-preparar a próxima rodada. Não promover este checkpoint por CI verde.
+Os checkpoints `3b81f5a47b59…` e `a18055611310…` continuam **false/false**,
+fora do chat. O ativo #136 `28d05179e4dd…` e os oito pesos de raiz auditados
+são idênticos à base. Não promover por perda menor ou por CI verde.
+Regressão anterior e pergunta dinossauros/IA continuam reprovadas; são
+casos conhecidos, não avaliação inédita desta rodada. Piloto e rodadas
+anteriores preservados.
+
+Verificações: Seq2Seq **21/21**, integridade **10/10**. Bateria por escopo:
+78 testes, um falha em três subcasos da sonda antiga de escrita. Falhas e
+respostas idênticas reproduzidas na base `b0bdb055…`; documentação/logs no
+experimento. Sem enfraquecer teste, mudar workflow/matriz, incluir correção
+lateral de CI ou mesclar com check relevante vermelho. PR permanece em
+rascunho; falha lateral não impediu concluir os treinos isolados.
+
+Próximo trabalho único: diversificar **respostas completas e sessões**, além
+de reformular os mesmos padrões, com texto/histórico e outro teste congelado
+antes do treino. Os 12 casos novos agora viram regressão conhecida. Sem
+nova memória, acervo, orientação, guardas ou parâmetros ampliados.
 
 ## Histórico — objetos e correções na escrita
 

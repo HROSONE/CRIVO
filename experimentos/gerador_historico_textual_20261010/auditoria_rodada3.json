@@ -1,0 +1,119 @@
+{
+  "base_commit": "b0bdb05569a3b3c89380e9ffd84493cd1427cd6b",
+  "pesos_raiz_preservados": {
+    "rede_compreensao.json.gz": "94a4e0d99b952fac439fe9d4b1ebdd6cd149179e2cd20e56a7e049f9305f506b",
+    "rede_crivo.json": "5cb749de8a9eb480f253accddb41888418a5a171626e55726e641dfa73f37d6d",
+    "rede_dialogo.json": "d849ae7c337270ac43d2ed9f85d2b97ff340238d9f393c145bb427974f4cab7c",
+    "rede_dialogo_conversa.json.gz": "28d05179e4dda05473a5bdb0a3963d8e032b3d3e9c5d6d60a77404310545d4e8",
+    "rede_dialogo_seq2seq.json.gz": "62cdeb27d012918fac475dd532039ed54552c27aa8fb59ea98612d7d2393c351",
+    "rede_geracao.json": "1b7ae5ad291c28e21b0fa2292cc88909ca383a9c6fefe20575394f5a070bd7c8",
+    "rede_intencao_gerativa.json": "f0a40405088436cffc3eca830320a2a080c0eb25b26c1c84dbdb8a8ff75cc6c8",
+    "rede_linguagem.json": "ba83045bf1f9ee887bbd50681cf8373a0bdb8c993789f0ef21d74cbb6fe93615"
+  },
+  "quantidade_pesos_auditados": 8,
+  "arquivos_preservados": {
+    "dialogo_seq2seq.py": true,
+    "linguagem_gerativa.py": true,
+    "conversa_dialogo.py": true,
+    "web_core.py": true,
+    "crivo.py": true,
+    "vercel.json": true,
+    ".github/workflows/testes.yml": true
+  },
+  "treinador_alterado": "Somente inicialização opcional pelos próprios pesos e preservação dos IDs; Adam reiniciado. Matemática de BPTT, arquitetura e inferência intactas.",
+  "manifestos": {
+    "treino_rodada3.json": {
+      "checkpoint_sha256": "3b81f5a47b59f394402551d166994027ff4e224c4e8730631f58cd9f81c46473",
+      "parametros": 81433,
+      "vocabulario": 720,
+      "origem_sha256": "1027f94344ca2f0853a7dbecf709f797757763cf89bc219625448771c8d6d080",
+      "aprovado": false,
+      "ativo_no_chat": false
+    },
+    "treino_contrastes.json": {
+      "checkpoint_sha256": "a180556113106ca125f0420cc80227a6703908678babe7725cda40fafb62ffaa",
+      "parametros": 81433,
+      "vocabulario": 720,
+      "origem_sha256": "3b81f5a47b59f394402551d166994027ff4e224c4e8730631f58cd9f81c46473",
+      "aprovado": false,
+      "ativo_no_chat": false
+    }
+  },
+  "avaliacao_nova_sha256": "5ba9c48eebac0b461fb115ca368ec6e9cfc6a4f8fc79c0847e20aedfd33f9f0b",
+  "selecao_antes_avaliacao": {
+    "selecionado_em_utc": "2026-10-10T17:24:04.466215+00:00",
+    "checkpoint": "checkpoint_contrastes.json.gz",
+    "checkpoint_sha256": "a180556113106ca125f0420cc80227a6703908678babe7725cda40fafb62ffaa",
+    "criterio": "Antes de abrir a avaliação final: melhoria literal em sondas contrastivas e entropia de desenvolvimento não mais de 10% pior; se não, conservar rodada 3.",
+    "contrastes_antes": 4,
+    "contrastes_depois": 9,
+    "desenvolvimento_total": 32,
+    "entropia_antes": 0.6390353862867855,
+    "entropia_depois": 0.5270724734568638,
+    "avaliacao_final_ainda_nao_executada": true,
+    "aprovado": false,
+    "ativo_no_chat": false
+  },
+  "validacao_local": {
+    "matematica_seq2seq": "21 testes passaram.",
+    "matematica_inferencia_escopo": {
+      "base_commit": "b0bdb05569a3b3c89380e9ffd84493cd1427cd6b",
+      "comando_escopo": "python -m unittest testes_geracao testes_intencao_gerativa testes_compreensao testes_seq2seq testes_treino_numpy -v",
+      "testes": 78,
+      "testes_falhando": 1,
+      "subcasos_falhando": 3,
+      "teste": "testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo",
+      "comando_base": "python -m unittest testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo -v",
+      "reproduzido_na_base": true,
+      "falhas_e_respostas_identicas": true,
+      "falhas": [
+        [
+          {
+            "pergunta": "Invente uma história curta sobre um farol e um robô",
+            "id": "conversa:gerada_historia",
+            "resposta": "Ficção:\nNum lugar distante, um farol recebeu uma mensagem sem assinatura. Então um robô trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.",
+            "passou": false,
+            "falhas": [
+              "geração concluída"
+            ]
+          }
+        ],
+        [
+          {
+            "pergunta": "Imagine uma narrativa breve sobre Névia-27 e um relógio de água",
+            "id": "conversa:gerada_historia",
+            "resposta": "Ficção:\nNum lugar distante, Névia-27 recebeu uma mensagem sem assinatura. Então um relógio de água trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.",
+            "passou": false,
+            "falhas": [
+              "geração concluída"
+            ]
+          },
+          {
+            "pergunta": "Escreva uma história simples sobre uma constelação de papel",
+            "id": "conversa:gerada_historia",
+            "resposta": "Ficção: A história de uma constelação de papel começou com uma viagem. Uma chuva começou durante a viagem. A personagem procurou abrigo. Esperou a chuva passar. Depois retomou o caminho.",
+            "passou": false,
+            "falhas": [
+              "geração concluída"
+            ]
+          }
+        ],
+        [
+          {
+            "pergunta": "Conte uma história sobre um sino e uma cidade flutuante",
+            "id": "conversa:gerada_historia",
+            "resposta": "Ficção:\nNum lugar distante, um sino recebeu uma mensagem sem assinatura. Então uma cidade flutuante trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.",
+            "passou": false,
+            "falhas": [
+              "geração concluída"
+            ]
+          }
+        ]
+      ],
+      "limite": "Dívida existente também na base. Não foi enfraquecido o teste nem alterado CI/runtime para esconder o vermelho. Não mesclar com check relevante vermelho; trabalho de corpus/treino continua isolado.",
+      "correcao_lateral_incluida": false
+    },
+    "integridade_dados_isolamento": "10 testes passaram; não certifica conversa."
+  },
+  "limite": "Auditoria verifica os oito pesos listados e arquivos críticos; não declara auditoria de todos os modelos existentes. Nenhum checkpoint deste experimento entrou no chat."
+}

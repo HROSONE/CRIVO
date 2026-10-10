@@ -7,7 +7,29 @@ experimento testa diretamente a arquitetura **própria já existente** em
 Ela recebe somente mensagens e papéis; nenhuma intenção, ação, slot ou
 resposta do avaliador entra na inferência. Não há alteração no chat.
 
-## Separação antes do treino
+## Resultado atual — rodada 3 e contrastes
+
+[Relatório e reprodução da rodada atual](RELATORIO_RODADA3.md): dois treinos
+próprios concluídos, **7.202 treino + 334 desenvolvimento**, mesma rede de
+**81.433 parâmetros / 720 tokens**. Formulações deslexicalizadas de pedido:
+100 → 400; as 100 famílias originais de resposta continuam estreitas.
+Desenvolvimento: 26 → 107/334 alvos literais; entropia 2,3756 → 0,5271.
+
+**Nas 12 conversas novas: 0/12 antes e depois**, triagem 11 → 9/48.
+Frases quebradas, referentes ausentes e pelo menos três violações de sessão
+confirmadas. Não demonstrou melhora de conversa natural. Ambos os novos
+pesos continuam false/false, fora do chat, no mesmo PR #137 em rascunho.
+O treinador ganhou continuação opcional pelos pesos próprios sem alterar
+IDs, matemática ou inferência. Integridade 10/10 e Seq2Seq 21/21; uma sonda
+da bateria antiga falha em três subcasos também na base, com respostas
+idênticas. Documentada, sem correção lateral de CI ou merge com vermelho.
+
+Os resultados das rodadas 1–2 abaixo são históricos. A sua avaliação agora
+é regressão conhecida, inclusive a pergunta do dono; não entra como inédita
+nos números da rodada 3. Próximo trabalho: diversidade de respostas e
+sessões completas, além das reformulações das mesmas famílias.
+
+## Histórico — separação antes dos treinos 1–2
 
 `avaliacao_congelada.json` e `protocolo.json` foram registrados primeiro,
 no commit `9b9eac9`. São 12 sessões de três turnos (36 respostas livres),
@@ -110,9 +132,11 @@ e ordem diferente dá 0/2: respostas distintas não bastam para acertar.
 
 O checkpoint experimental `1027f94344ca2f0853a7dbecf709f797757763cf89bc219625448771c8d6d080`
 continua `aprovado: false`, `ativo_no_chat: false`. O piloto
-`e993b0aa…` também foi preservado. A auditoria confirma pesos de raiz,
-arquitetura, treinador, motor, integração e configuração de publicação
-idênticos à base; somente experimentos e passagem/roadmap mudam.
+`e993b0aa…` também foi preservado. A auditoria histórica `auditoria.json`
+confirmava os oito pesos de raiz, arquitetura, treinador, motor,
+integração e publicação idênticos à base naquele estágio. Na rodada 3,
+somente o treinador ganhou continuação opcional; arquitetura, runtime,
+pesos de raiz e CI seguem intactos, conforme `auditoria_rodada3.json`.
 
 O site público foi consultado nos 36 turnos mais o pedido real:
 `antes_site.json`. O contrato público recebe somente mensagens anteriores
@@ -145,10 +169,11 @@ prefixos repetidos podem favorecer memorização. Rede pequena, respostas
 curtas, vocabulário restrito e nenhuma garantia geral de verdade, gramática,
 referentes, opinião contextual ou longas sessões. Não há integração no
 site, nem nova memória, regra de orientação, guarda ou workflow de CI.
-**Portão falhou: não integrar nem promover.** O próximo trabalho único é
+**Portão das rodadas 1–2 falhou: não integrar nem promover.** O próximo trabalho então era
 variar as formulações de entrada por ato no corpus próprio, além das
 trocas de nomes e prefixos, e congelar outra avaliação antes de novo treino.
 Estes 12 casos viram regressão conhecida, não holdout inédito novamente.
 Não aumentar parâmetros para tentar compensar a memorização observada.
-Validação local: 19 testes da matemática/inferência e cinco de integridade
-dos dados/isolamento verdes. CI por escopo existente; nenhuma matriz nova.
+Validação local das rodadas 1–2: 19 testes da matemática/inferência e cinco
+de integridade dos dados/isolamento verdes. Verificação da rodada 3 no
+relatório atual acima. CI por escopo existente; nenhuma matriz nova.
