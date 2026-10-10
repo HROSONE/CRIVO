@@ -146,6 +146,10 @@ def rotear_natural(texto, bot, sessao=None):
     if contextual:
         return contextual
     if re.fullmatch(r'e (?:depois|agora)[?!.]?', n):
+        from orientacao_pratica import rotear as rotear_pratica
+        pratica = rotear_pratica(texto, bot)
+        if pratica:
+            return pratica
         return rota('esclarecimento', 'continuidade_incerta')
     if escrita and escrita['tipo'] == 'historia' and re.fullmatch(
             r'nao (?:invente|crie|coloque|adicione) (?:um )?nome (?:para|na) (?:a )?personagem[.!]?', n):

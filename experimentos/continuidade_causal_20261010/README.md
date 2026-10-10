@@ -98,11 +98,17 @@ Nenhum modelo externo foi baixado, executado ou chamado.
 
 ## Contratos e integração aprovada
 
-**32 contratos locais passaram**: estado, guardas, proveniência, aprovação,
+**32 contratos locais passaram**, mais um contrato de prioridade prática: estado, guardas, proveniência, aprovação,
 regressões dos checkpoints antigos e contexto prático. Smoke nativo de sete
 turnos usa a cópia aprovada, sem modo experimental, com o SHA esperado.
 Manifesto preserva 38 arquivos anteriores de pesos/arquivos e evidências
 históricas. CI/merge/publicação são verificados antes de declarar entrega.
+
+Uma revisão adicional durante CI detectou que a nova elipse global “E agora?”
+roubava uma tarefa prática ativa. A ponte agora consulta o executor prático
+existente antes de esclarecer; após fato, pede contexto. Contrato adicional
+passou, registro antes/depois em `regressao_prioridade_pratica.json`.
+Pesos e corpus não mudaram.
 
 ## Reproduzir e integrar
 

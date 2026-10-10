@@ -19,6 +19,15 @@ class TestesContinuidadeCausal(unittest.TestCase):
  def test_nao_retoma_historia_antiga_apos_fato(self):
   r=cd.contexto_escrita('E depois?',self.bot(ident='fisica:potencial'))
   self.assertEqual('esclarecimento',r['peca']);self.assertEqual('continuidade_incerta',r['ato']);self.assertNotIn('slots',r)
+ def test_elipse_pratica_usa_objetivo_atual_antes_de_esclarecer(self):
+  from crivo import Crivo
+  b=Crivo();b.responder('Quero aprender a desenhar um peixe com lápis e papel.')
+  _,r=b.responder('E agora?')
+  self.assertEqual('orientacao',b.ultima_rota_natural['peca']);self.assertIn('qual parte do peixe',r)
+  self.assertFalse(b.dialogo_conversa.trace['usada'])
+  b.responder('O que é diferença de potencial?')
+  _,r=b.responder('E agora?')
+  self.assertEqual('continuidade_incerta',b.ultima_rota_natural['ato']);self.assertIn('?',r)
  def test_quinto_passo_esclarece_sem_reiniciar_arco(self):
   b=self.bot(passo=4);r=cd.contexto_escrita('Mais um passo.',b)
   self.assertEqual('esclarecimento',r['peca'])

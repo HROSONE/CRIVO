@@ -1,0 +1,40 @@
+{
+  "origem": "Revisão manual adicional durante CI; antes “E agora?” após tarefa declarada caía em esclarecimento genérico.",
+  "antes": {
+    "entrada": "Quero aprender a desenhar um peixe com lápis e papel.",
+    "turno": "E agora?",
+    "peca": "esclarecimento",
+    "resposta": "Qual situação você quer continuar? Conte o que aconteceu ou indique a tarefa."
+  },
+  "depois": [
+    {
+      "usuario": "Quero aprender a desenhar um peixe com lápis e papel.",
+      "id": "conversa:orientacao_registrar",
+      "response": "Para “aprender a desenhar um peixe com lápis e papel”, registrei essa tarefa e as condições que você contou.",
+      "peca": "orientacao",
+      "ato": "registrar"
+    },
+    {
+      "usuario": "E agora?",
+      "id": "conversa:orientacao_proximo",
+      "response": "Para “aprender a desenhar um peixe com lápis e papel”, qual parte do peixe você já desenhou? Se o corpo estiver pronto, uma opção é acrescentar uma cauda triangular e um ponto para o olho.",
+      "peca": "orientacao",
+      "ato": "proximo"
+    },
+    {
+      "usuario": "O que é diferença de potencial?",
+      "id": "conhecimento:mundo_potencial_eletrico",
+      "response": "Potencial elétrico é a energia potencial elétrica por unidade de carga em um ponto. A diferença de potencial entre dois pontos, medida em volts, é o que impulsiona a corrente num circuito. Se quiser, explico como funciona o potencial elétrico.",
+      "peca": null,
+      "ato": null
+    },
+    {
+      "usuario": "E agora?",
+      "id": "conversa:esclarecer",
+      "response": "Qual situação você quer continuar? Conte o que aconteceu ou indique a tarefa.",
+      "peca": "esclarecimento",
+      "ato": "continuidade_incerta"
+    }
+  ],
+  "correcao": "Elipse consulta o executor prático existente antes de pedir contexto; após mudança factual, esclarece. Pesos/corpus intactos."
+}
