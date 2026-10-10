@@ -1,0 +1,167 @@
+{
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "base_commit": "a0a598eb74c4a3cfe3c896d806ca4cacc25d1e2a",
+  "candidato": {
+    "avaliacao": {
+      "antiga": {
+        "completas": 334,
+        "entropia_cruzada": 0.8374500278059519,
+        "exemplos": 334,
+        "iguais_ao_alvo": 41,
+        "perplexidade": 2.3104678299258437,
+        "tokens": 5475
+      },
+      "nova": {
+        "completas": 94,
+        "entropia_cruzada": 5.017282280599624,
+        "exemplos": 94,
+        "iguais_ao_alvo": 0,
+        "perplexidade": 151.00036901194056,
+        "tokens": 846
+      },
+      "total": {
+        "completas": 428,
+        "entropia_cruzada": 1.396877030790202,
+        "exemplos": 428,
+        "iguais_ao_alvo": 41,
+        "perplexidade": 4.04255545669334,
+        "tokens": 6321
+      }
+    },
+    "checkpoint": "experimentos/saida_lexical_20261010/checkpoint_saida_lexical.json.gz",
+    "checkpoint_sha256": "c48530b9527a229895a41005c45d15416335772beae326b019cea3cc103fc72e",
+    "diagnostico": {
+      "erros_ate_token2": 92,
+      "erros_token0": 81,
+      "fracao_erros_ate_token2": 0.9787234042553191,
+      "nao_exatas": 94,
+      "nll_geracao_lexical": 7.042288965162943,
+      "primeiros_tokens_gerados": {
+        "a": 8,
+        "atualmente": 11,
+        "ficou": 3,
+        "morasse": 1,
+        "nubira-21": 1,
+        "não": 11,
+        "o": 1,
+        "ocrélio-32": 1,
+        "podemos": 2,
+        "qual": 12,
+        "se": 2,
+        "sozinho": 6,
+        "sua": 2,
+        "você": 33
+      },
+      "tokens_geracao_lexical": 371
+    },
+    "treino": {
+      "auditoria_loss": {
+        "batches": 1160,
+        "soma_pesos": 643322.5,
+        "tokens_base": 412210.0,
+        "tokens_inicio": 110890,
+        "tokens_inicio_e_lexicais": 58700,
+        "tokens_lexicais": 197260
+      },
+      "epoca_selecionada": 4,
+      "reutilizado": false,
+      "segundos": 70.641,
+      "validacao_nao_ponderada": {
+        "alvos_desconhecidos_nao_copiaveis": 0,
+        "alvos_ineditos_copiaveis": 304,
+        "entropia_cruzada": 1.3968769882009808,
+        "exemplos": 428,
+        "perplexidade": 4.042555284524055,
+        "tokens": 6321
+      }
+    }
+  },
+  "controle": {
+    "avaliacao": {
+      "antiga": {
+        "completas": 334,
+        "entropia_cruzada": 0.9434810539897929,
+        "exemplos": 334,
+        "iguais_ao_alvo": 47,
+        "perplexidade": 2.5689083804633728,
+        "tokens": 5475
+      },
+      "nova": {
+        "completas": 94,
+        "entropia_cruzada": 4.262216848936583,
+        "exemplos": 94,
+        "iguais_ao_alvo": 1,
+        "perplexidade": 70.96713261441283,
+        "tokens": 846
+      },
+      "total": {
+        "completas": 428,
+        "entropia_cruzada": 1.3876592666974317,
+        "exemplos": 428,
+        "iguais_ao_alvo": 48,
+        "perplexidade": 4.005463349940397,
+        "tokens": 6321
+      }
+    },
+    "checkpoint": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz",
+    "diagnostico": {
+      "erros_ate_token2": 93,
+      "erros_token0": 84,
+      "fracao_erros_ate_token2": 1.0,
+      "nao_exatas": 93,
+      "nll_geracao_lexical": 6.048171706367918,
+      "primeiros_tokens_gerados": {
+        "a": 1,
+        "atualmente": 15,
+        "morasse": 4,
+        "nubira-21": 1,
+        "não": 10,
+        "o": 6,
+        "por": 1,
+        "qual": 12,
+        "quem": 2,
+        "se": 1,
+        "sozinho": 5,
+        "sua": 1,
+        "você": 35
+      },
+      "tokens_geracao_lexical": 371
+    },
+    "reproducao": {
+      "antiga_ce": true,
+      "antiga_exatas": true,
+      "erros_token0": true,
+      "nll_lexical": true,
+      "nova_ce": true,
+      "nova_exatas": true
+    }
+  },
+  "criterio": {
+    "melhorar_abertura": true,
+    "melhorar_novo": false,
+    "melhorar_saida_lexical": false,
+    "reter_antigo": false,
+    "sucesso_conjunto": false
+  },
+  "holdout_final_lido": false,
+  "integridade": {
+    "checkpoint_publico_alterado": false,
+    "parametros": 81433,
+    "treino_exemplos": 3699,
+    "um_unico_candidato": true,
+    "validacao_antiga": 334,
+    "validacao_nova": 94,
+    "vocabulario": 720
+  },
+  "perda_ponderada": {
+    "base": 1.0,
+    "bonus_geracao_lexical": 0.75,
+    "bonus_primeiros_tokens": 0.75,
+    "definicao_geracao_lexical": "alvo esta no vocabulario, nao e EOS e nao aparece na fonte copiavel",
+    "peso_maximo": 2.5,
+    "quantidade_primeiros_tokens": 3,
+    "somente_treino": true,
+    "validacao_permanece_nao_ponderada": true
+  }
+}
