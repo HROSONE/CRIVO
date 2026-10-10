@@ -145,6 +145,17 @@ def rotear_natural(texto, bot, sessao=None):
     contextual = contexto_escrita(texto, bot)
     if contextual:
         return contextual
+    if re.fullmatch(r'e (?:depois|agora)[?!.]?', n):
+        # A elipse continua a operação verificada do último turno. Deixar
+        # o executor existente responder preserva também a hipótese pendente;
+        # uma operação antiga não deve reaparecer após mudança de assunto.
+        if bot.historico and bot.historico[-1].get('id') == 'conversa:raciocinio':
+            return None
+        from orientacao_pratica import rotear as rotear_pratica
+        pratica = rotear_pratica(texto, bot)
+        if pratica:
+            return pratica
+        return rota('esclarecimento', 'continuidade_incerta')
     if escrita and escrita['tipo'] == 'historia' and re.fullmatch(
             r'nao (?:invente|crie|coloque|adicione) (?:um )?nome (?:para|na) (?:a )?personagem[.!]?', n):
         return rota('esclarecimento','restricao',escrita['slots'].values())
@@ -315,6 +326,10 @@ def executar_rota_natural(rota, texto, bot):
         elif ato == 'referente':
             resposta = ('De qual pessoa você está falando: ' + ' ou '.join(rota['referentes']) + '?') if rota['referentes'] else (
                 'Você não informou quem é ' + (rota.get('vinculo') or 'essa pessoa') + ' nesta sessão. Qual pessoa devemos considerar?')
+        elif ato == 'continuidade_incerta':
+            resposta = ('Você quer continuar a história ou o assunto mais recente? '
+                        'Diga qual situação e o próximo acontecimento que devo usar.') if rota['referentes'] else (
+                        'Qual situação você quer continuar? Conte o que aconteceu ou indique a tarefa.')
         elif ato == 'retomar':
             resposta='Estávamos falando do seu objetivo: '+rota['objetivo']+'.'
             if rota['fontes']:

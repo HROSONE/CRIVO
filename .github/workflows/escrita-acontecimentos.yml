@@ -9,6 +9,8 @@ on:
       - 'experimentos/contexto_pratico_20261010/**'
       - 'experimentos/diversidade_dialogo_20261010/**'
       - 'testes_diversidade_dialogo.py'
+      - 'testes_continuidade_causal.py'
+      - 'experimentos/continuidade_causal_20261010/**'
       - 'compreensao_intencao.py'
       - 'web_core.py'
       - 'public/app.js'
@@ -37,7 +39,7 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install 'numpy>=1.24,<3'
       - name: Aprovação, papéis, corpus e HTTP
-        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico testes_diversidade_dialogo -v
+        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico testes_diversidade_dialogo testes_continuidade_causal -v
       - name: Mesmos 114 casos no chat aprovado
         run: |
           python experimentos/escrita_acontecimentos_20261010/avaliar.py --modo motor --saida /tmp/dialogo-congelado.json --so-congelado --exigir-meta
@@ -50,3 +52,15 @@ jobs:
         run: |
           python experimentos/diversidade_dialogo_20261010/sondar.py --modo http --saida /tmp/diversidade-http.json
           python experimentos/diversidade_dialogo_20261010/avaliar.py --arquivo /tmp/diversidade-http.json --saida /tmp/diversidade-metricas.json --exigir-meta
+      - name: Continuidade e esclarecimento nos mesmos 88 turnos por HTTP
+        run: |
+          python experimentos/continuidade_causal_20261010/sondar.py --modo http --saida /tmp/causal-http.json
+          python experimentos/continuidade_causal_20261010/avaliar.py --arquivo /tmp/causal-http.json --saida /tmp/causal-metricas.json --exigir-meta
+      - name: Três estados encadeados em conversas de dezoito turnos
+        run: |
+          python experimentos/continuidade_causal_20261010/sondar.py --modo http --novas --saida /tmp/folego-http.json
+          python experimentos/continuidade_causal_20261010/avaliar_folego.py --arquivo /tmp/folego-http.json --saida /tmp/folego-metricas.json --exigir-meta
+      - name: Continuação comum usa o mesmo acontecimento em 24 turnos HTTP
+        run: |
+          python experimentos/continuidade_causal_20261010/sondar.py --modo http --aliases --saida /tmp/aliases-http.json
+          python experimentos/continuidade_causal_20261010/avaliar_aliases.py --arquivo /tmp/aliases-http.json --saida /tmp/aliases-metricas.json --exigir-meta

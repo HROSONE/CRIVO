@@ -1,6 +1,38 @@
 # Passagem de trabalho — 10/10/2026
 
-## Estado atual — variedade da realização própria medida
+## Integração medida — ligação entre acontecimentos e continuação
+
+[Experimento causal](experimentos/continuidade_causal_20261010/README.md),
+base #134: 88 turnos novos congelados, **0/10 → 10/10** no motor e HTTP
+local real; **0/2 → 2/2** esclarecimentos, zero troca de domínio,
+referente exigido ausente ou inversão de estado nos critérios limitados.
+Sondas autorais do agente, não participantes humanos/avaliação cega.
+Objeto literal e estado da escrita entram na mesma GRU própria; não
+recopia o relato inteiro. Seleção do estado/passo é estrutural.
+
+Treino real, 20 épocas, mesma rede de **85.130 parâmetros / 321 tokens**;
+9.024 exemplos anteriores intactos + 1.280 supervisões próprias. Treino e
+validação compartilham padrões/vetores: não demonstra compreensão neural
+geral. Repetição byte a byte. Original `adf0fa8c…` permanece false/false;
+#134 arquivado. Cópia aprovada após todos os gates motor + HTTP; original continua isolado.
+
+Motor já preservou **110/114**, 79 antigos, 52 histórias; **40/40** práticos,
+**8/8** diversidade, **2/2** sondas prospectivas de 18 turnos. Todos esses gates passaram também no HTTP. Formas comuns de continuação:
+0/3 → 3/3 nos dois modos, 24 turnos, regressão 114 repetida sem perda.
+Cópia aprovada `28d05179e4dd…`; original false/false.
+Publicação exige CI relevante verde e confirmação do commit/checkpoint no site.
+
+Ainda dez classes/quatro passos, extração limitada, cabeçalhos genéricos,
+artigos/concordância imperfeitos, episódios clássicos. Não fôlego infinito,
+planejamento livre, generalização irrestrita ou diálogo humano geral.
+A rodada atende corpus/segundo treino/esclarecimento/guarda da Fase 3
+no recorte medido. Depois de CI verde, merge e validação pública, as
+Fases 0–3 atendem o plano mínimo de diálogo limitado. O objetivo de
+conversa humana geral continua não demonstrado. Não abrir outra frente
+para substituir esse limite por uma alegação de capacidade não medida.
+
+
+## Estado anterior — variedade da realização própria medida (#134)
 
 [Experimento de diversidade](experimentos/diversidade_dialogo_20261010/README.md):
 os mesmos 48 turnos em oito sessões autorais passaram de **0/8 → 8/8**

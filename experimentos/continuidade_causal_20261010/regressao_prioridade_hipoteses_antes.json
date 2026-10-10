@@ -1,0 +1,2087 @@
+{
+  "controle_sha256": "43ba48a8c1401c9bd1bf92b1fa84aa7611634b102a86fb688998b251f3ec8aa2",
+  "modo": "motor",
+  "sessoes": [
+    {
+      "id": "custos",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?",
+            "resultado": {
+              "totais": [
+                "48",
+                "51"
+              ],
+              "menor": 0,
+              "diferenca": "3"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, curso: R$ 48; livro: R$ 51. Curso custa menos, com diferença de R$ 3.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "51"
+              ],
+              "menor": 0,
+              "diferenca": "3"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "12"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "custos",
+                "anterior": null,
+                "valor": [
+                  "curso",
+                  "livro"
+                ],
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se o frete fosse 3 reais, qual seria menor?",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, curso: R$ 48; livro: R$ 42. Livro custa menos, com diferença de R$ 6.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "3"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "custo:frete",
+                "anterior": "12",
+                "valor": "3",
+                "origem": "hipotese",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "E agora?",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": true
+          },
+          "resposta": "Qual situação você quer continuar? Conte o que aconteceu ou indique a tarefa.",
+          "analise": null,
+          "correto": false
+        },
+        {
+          "esperado": {
+            "texto": "Confirmo essa hipótese como fato.",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, curso: R$ 48; livro: R$ 42. Livro custa menos, com diferença de R$ 6.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "3"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "confirmacao:custos",
+                "anterior": 2,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Confirmo essa hipótese como fato."
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "confirmacao"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Qual é a diferença dos custos reais?",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, curso: R$ 48; livro: R$ 42. Livro custa menos, com diferença de R$ 6.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "3"
+                }
+              }
+            ],
+            "atualizacoes": [],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se o frete fosse 8 reais, qual seria menor?",
+            "resultado": {
+              "totais": [
+                "48",
+                "47"
+              ],
+              "menor": 1,
+              "diferenca": "1"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, curso: R$ 48; livro: R$ 47. Livro custa menos, com diferença de R$ 1.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "47"
+              ],
+              "menor": 1,
+              "diferenca": "1"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "8"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 5,
+                "campo": "custo:frete",
+                "anterior": "3",
+                "valor": "8",
+                "origem": "hipotese",
+                "fonte": "Se o frete fosse 8 reais, qual seria menor?"
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 5,
+                "origem": "hipotese",
+                "fonte": "Se o frete fosse 8 reais, qual seria menor?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Descarte essa hipótese.",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, curso: R$ 48; livro: R$ 42. Livro custa menos, com diferença de R$ 6.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "3"
+                }
+              }
+            ],
+            "atualizacoes": [
+              {
+                "turno": 6,
+                "campo": "retorno:custos",
+                "anterior": 5,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Descarte essa hipótese."
+              }
+            ],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "retorno"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Qual é a diferença dos custos reais?",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, curso: R$ 48; livro: R$ 42. Livro custa menos, com diferença de R$ 6.",
+          "analise": {
+            "operacao": "comparar_custos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "totais": [
+                "48",
+                "42"
+              ],
+              "menor": 1,
+              "diferenca": "6"
+            },
+            "entradas": [
+              {
+                "nome": "curso",
+                "componentes": {
+                  "curso": "48"
+                }
+              },
+              {
+                "nome": "livro",
+                "componentes": {
+                  "livro": "39",
+                  "frete": "3"
+                }
+              }
+            ],
+            "atualizacoes": [],
+            "fontes": {
+              "custos": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "O curso custa 48 reais. O livro custa 39 reais mais 12 de frete. Qual custa menos?"
+              },
+              "custo:frete": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se o frete fosse 3 reais, qual seria menor?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        }
+      ]
+    },
+    {
+      "id": "tempo",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?",
+            "resultado": {
+              "disponivel": "80",
+              "gasto": "26",
+              "restante": "54"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 26 minutos, para 80 disponíveis. Sobram 54 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "80",
+              "gasto": "26",
+              "restante": "54"
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "tempo:disponivel",
+                "anterior": null,
+                "valor": "80",
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:ida",
+                "anterior": null,
+                "valor": "12",
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              {
+                "turno": 1,
+                "campo": "tempo:tarefa",
+                "anterior": null,
+                "valor": "14",
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se eu tivesse 32 minutos, caberia?",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "tempo:disponivel",
+                "anterior": "80",
+                "valor": "32",
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 32 minutos, caberia?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 32 minutos, caberia?"
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Quanto sobraria?",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 32 minutos, caberia?"
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Essa hipótese aconteceu de verdade.",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "confirmacao:tempo",
+                "anterior": 2,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Essa hipótese aconteceu de verdade."
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se eu tivesse 32 minutos, caberia?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Essa hipótese aconteceu de verdade."
+                }
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "confirmacao"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Quanto tempo real sobra?",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se eu tivesse 32 minutos, caberia?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Essa hipótese aconteceu de verdade."
+                }
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se eu tivesse 120 minutos, caberia?",
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "26",
+              "restante": "94"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, As atividades informadas somam 26 minutos, para 120 disponíveis. Sobram 94 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "120",
+              "gasto": "26",
+              "restante": "94"
+            },
+            "atualizacoes": [
+              {
+                "turno": 6,
+                "campo": "tempo:disponivel",
+                "anterior": "32",
+                "valor": "120",
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 120 minutos, caberia?"
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 6,
+                "origem": "hipotese",
+                "fonte": "Se eu tivesse 120 minutos, caberia?"
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Volte aos fatos.",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [
+              {
+                "turno": 7,
+                "campo": "retorno:tempo",
+                "anterior": 6,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Volte aos fatos."
+              }
+            ],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se eu tivesse 32 minutos, caberia?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Essa hipótese aconteceu de verdade."
+                }
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "retorno"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Quanto tempo real sobra?",
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, As atividades informadas somam 26 minutos, para 32 disponíveis. Sobram 6 minutos.",
+          "analise": {
+            "operacao": "tempo_restante",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "entradas": {
+              "ida": "12",
+              "tarefa": "14"
+            },
+            "resultado": {
+              "disponivel": "32",
+              "gasto": "26",
+              "restante": "6"
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "tempo:disponivel": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se eu tivesse 32 minutos, caberia?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Essa hipótese aconteceu de verdade."
+                }
+              },
+              "tempo:ida": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              },
+              "tempo:tarefa": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Tenho 80 minutos. A ida leva 12 minutos e a tarefa leva 14 minutos. Quanto sobra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        }
+      ]
+    },
+    {
+      "id": "agenda",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?",
+            "resultado": {
+              "dias": [
+                "sabado"
+              ]
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Os dias em comum são sábado.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "sabado"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "sabado"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "agenda:nina",
+                "anterior": [],
+                "valor": [
+                  "sabado",
+                  "segunda"
+                ],
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              {
+                "turno": 1,
+                "campo": "agenda:ravi",
+                "anterior": [],
+                "valor": [
+                  "sabado"
+                ],
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              }
+            ],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se Ravi pudesse segunda, qual dia daria?",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, Os dias em comum são segunda.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "agenda:ravi",
+                "anterior": [
+                  "sabado"
+                ],
+                "valor": [
+                  "segunda"
+                ],
+                "origem": "hipotese",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?"
+              }
+            ],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "E agora?",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": true
+          },
+          "resposta": "Qual situação você quer continuar? Conte o que aconteceu ou indique a tarefa.",
+          "analise": null,
+          "correto": false
+        },
+        {
+          "esperado": {
+            "texto": "Confirme essa hipótese como fato.",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 3,
+                "campo": "confirmacao:agenda",
+                "anterior": 2,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Confirme essa hipótese como fato."
+              }
+            ],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirme essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "confirmacao"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Qual dia resta em comum?",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirme essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se Nina pudesse quarta, qual dia daria?",
+            "resultado": {
+              "dias": []
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, Não há dia em comum entre os participantes com as disponibilidades que você informou.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": []
+            },
+            "entradas": {
+              "nina": [
+                "quarta"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 5,
+                "campo": "agenda:nina",
+                "anterior": [
+                  "sabado",
+                  "segunda"
+                ],
+                "valor": [
+                  "quarta"
+                ],
+                "origem": "hipotese",
+                "fonte": "Se Nina pudesse quarta, qual dia daria?"
+              }
+            ],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 5,
+                "origem": "hipotese",
+                "fonte": "Se Nina pudesse quarta, qual dia daria?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirme essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Sem essa hipótese.",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [
+              {
+                "turno": 6,
+                "campo": "retorno:agenda",
+                "anterior": 5,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Sem essa hipótese."
+              }
+            ],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirme essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "retorno"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Qual dia resta em comum?",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Os dias em comum são segunda.",
+          "analise": {
+            "operacao": "intersecao_agendas",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "dias": [
+                "segunda"
+              ]
+            },
+            "entradas": {
+              "nina": [
+                "segunda",
+                "sabado"
+              ],
+              "ravi": [
+                "segunda"
+              ]
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "agenda:nina": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Nina pode segunda ou sábado. Ravi pode sábado. Qual dia dá?"
+              },
+              "agenda:ravi": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se Ravi pudesse segunda, qual dia daria?",
+                "confirmacao": {
+                  "turno": 3,
+                  "fonte": "Confirme essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        }
+      ]
+    },
+    {
+      "id": "requisitos",
+      "turnos": [
+        {
+          "esperado": {
+            "texto": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?",
+            "resultado": {
+              "status": "refutado"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Ravi não cumpre esses requisitos: não tem chave.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "refutado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "refutado",
+              "provas": [
+                {
+                  "indice": 2,
+                  "texto": "Cumprir exige ravi tem chave"
+                },
+                {
+                  "indice": 4,
+                  "texto": "não é verdade que ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": false
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 1,
+                "campo": "regra",
+                "anterior": null,
+                "valor": {
+                  "itens": [
+                    "selo",
+                    "chave"
+                  ],
+                  "operador": "e"
+                },
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              {
+                "turno": 1,
+                "campo": "posse:ravi:selo",
+                "anterior": null,
+                "valor": true,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              {
+                "turno": 1,
+                "campo": "posse:ravi:chave",
+                "anterior": null,
+                "valor": false,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se ele recebesse uma chave, conseguiria entrar?",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 2,
+                "campo": "posse:ravi:chave",
+                "anterior": false,
+                "valor": true,
+                "origem": "hipotese",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Ele cumpre a regra?",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "hipotese",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Confirmo essa hipótese como fato.",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 4,
+                "campo": "confirmacao:regra",
+                "anterior": 2,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Confirmo essa hipótese como fato."
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "confirmacao"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Ravi cumpre a regra?",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Se Nina recebesse uma chave, conseguiria entrar?",
+            "resultado": {
+              "status": "indeterminado"
+            },
+            "hipotese": true
+          },
+          "resposta": "Nessa hipótese, Ainda não dá para concluir: falta saber se nina tem selo.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": true,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "indeterminado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "nina cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 2,
+              "status": "indeterminado",
+              "provas": [],
+              "contraexemplos": [
+                {
+                  "nina tem selo": true,
+                  "nina tem chave": true,
+                  "nina cumpre os requisitos informados": true
+                },
+                {
+                  "nina tem selo": false,
+                  "nina tem chave": true,
+                  "nina cumpre os requisitos informados": false
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "nina",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "chave": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 6,
+                "campo": "posse:nina:chave",
+                "anterior": null,
+                "valor": true,
+                "origem": "hipotese",
+                "fonte": "Se Nina recebesse uma chave, conseguiria entrar?"
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              },
+              "posse:nina:chave": {
+                "turno": 6,
+                "origem": "hipotese",
+                "fonte": "Se Nina recebesse uma chave, conseguiria entrar?"
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Descarte essa hipótese.",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [
+              {
+                "turno": 7,
+                "campo": "retorno:regra",
+                "anterior": 6,
+                "valor": null,
+                "origem": "usuario",
+                "fonte": "Descarte essa hipótese."
+              }
+            ],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada",
+            "evento_memoria": "retorno"
+          },
+          "correto": true
+        },
+        {
+          "esperado": {
+            "texto": "Ravi cumpre a regra?",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "hipotese": false
+          },
+          "resposta": "Pelos dados que você informou, Ravi cumpre os requisitos que você informou.",
+          "analise": {
+            "operacao": "verificar_requisitos",
+            "hipotese": false,
+            "fonte": "declaracoes_da_sessao",
+            "status": "calculado",
+            "resultado": {
+              "status": "sustentado"
+            },
+            "prova": {
+              "alvo": {
+                "nome": "cumpre",
+                "negativo": false,
+                "texto": "ravi cumpre os requisitos informados"
+              },
+              "mundos_compativeis": 1,
+              "status": "sustentado",
+              "provas": [
+                {
+                  "indice": 0,
+                  "texto": "Requisitos informados: selo e chave"
+                },
+                {
+                  "indice": 3,
+                  "texto": "ravi tem selo"
+                },
+                {
+                  "indice": 4,
+                  "texto": "ravi tem chave"
+                }
+              ]
+            },
+            "entradas": {
+              "pessoa": "ravi",
+              "requisitos": [
+                "selo",
+                "chave"
+              ],
+              "operador": "e",
+              "posses": {
+                "selo": true,
+                "chave": true
+              }
+            },
+            "atualizacoes": [],
+            "fontes": {
+              "regra": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:selo": {
+                "turno": 1,
+                "origem": "usuario",
+                "fonte": "Para entrar precisa de selo e chave. Ravi tem selo, mas não tem chave. Cumpre a regra?"
+              },
+              "posse:ravi:chave": {
+                "turno": 2,
+                "origem": "usuario_confirmado",
+                "fonte": "Se ele recebesse uma chave, conseguiria entrar?",
+                "confirmacao": {
+                  "turno": 4,
+                  "fonte": "Confirmo essa hipótese como fato."
+                }
+              }
+            },
+            "redacao": "estrutural_verificada"
+          },
+          "correto": true
+        }
+      ]
+    }
+  ],
+  "motor_sha256": "2a177b2d7c0a314ddd0c3ca71907f4739734b2748de43627b8e98d064055014f",
+  "limite": "Controle de desenvolvimento autoral; não mede geração livre ou raciocínio neural geral.",
+  "resumo": {
+    "n": 32,
+    "corretos": 30,
+    "sessoes_completas": 2,
+    "erros": 0
+  }
+}
