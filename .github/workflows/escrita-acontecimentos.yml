@@ -7,6 +7,8 @@ on:
       - 'dialogo_situado.py'
       - 'testes_contexto_pratico.py'
       - 'experimentos/contexto_pratico_20261010/**'
+      - 'experimentos/diversidade_dialogo_20261010/**'
+      - 'testes_diversidade_dialogo.py'
       - 'compreensao_intencao.py'
       - 'web_core.py'
       - 'public/app.js'
@@ -24,7 +26,7 @@ permissions:
 jobs:
   contratos-e-congelados:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     env:
       OPENBLAS_NUM_THREADS: '1'
       OMP_NUM_THREADS: '1'
@@ -35,10 +37,16 @@ jobs:
           python-version: '3.11'
       - run: python -m pip install 'numpy>=1.24,<3'
       - name: Aprovação, papéis, corpus e HTTP
-        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico -v
+        run: python -m unittest testes_escrita_acontecimentos testes_web testes_contexto_pratico testes_diversidade_dialogo -v
       - name: Mesmos 114 casos no chat aprovado
-        run: python experimentos/escrita_acontecimentos_20261010/avaliar.py --modo motor --saida /tmp/dialogo-congelado.json --so-congelado --exigir-meta
+        run: |
+          python experimentos/escrita_acontecimentos_20261010/avaliar.py --modo motor --saida /tmp/dialogo-congelado.json --so-congelado --exigir-meta
+          python experimentos/diversidade_dialogo_20261010/verificar_114.py --arquivo /tmp/dialogo-congelado.json
       - name: Utilidade prática nos mesmos 40 turnos por HTTP real
         run: |
           python experimentos/contexto_pratico_20261010/sondar.py --modo http --saida /tmp/pratico-http.json
           python experimentos/contexto_pratico_20261010/avaliar.py --arquivo /tmp/pratico-http.json --saida /tmp/pratico-metricas.json --exigir-meta
+      - name: Diversidade sem trocar argumentos nos mesmos 48 turnos por HTTP
+        run: |
+          python experimentos/diversidade_dialogo_20261010/sondar.py --modo http --saida /tmp/diversidade-http.json
+          python experimentos/diversidade_dialogo_20261010/avaliar.py --arquivo /tmp/diversidade-http.json --saida /tmp/diversidade-metricas.json --exigir-meta

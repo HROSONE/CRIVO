@@ -83,6 +83,6 @@ class TestesContextoPratico(unittest.TestCase):
         self.assertEqual(40,sum(len(s['turnos']) for s in json.loads((h/'sondas.json').read_text())['sessoes']))
         for f,sha in [('sondas.json','SHA256'),('criterios.json','SHA256-criterios')]:
             self.assertEqual((h/sha).read_text().split()[0],hashlib.sha256((h/f).read_bytes()).hexdigest())
-        self.assertEqual('4e5894e2fe4a23bab63cb3a6b8a69da023a2b07b43829a7e706e6528bd1e780d',hashlib.sha256((h.parent.parent/'rede_dialogo_conversa.json.gz').read_bytes()).hexdigest())
+        self.assertEqual('4e5894e2fe4a23bab63cb3a6b8a69da023a2b07b43829a7e706e6528bd1e780d',hashlib.sha256((h.parent/'diversidade_dialogo_20261010/checkpoint_base_133.json.gz').read_bytes()).hexdigest())
 
 if __name__=='__main__':unittest.main()
