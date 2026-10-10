@@ -1,21 +1,37 @@
 # Passagem de trabalho — 10/10/2026
 
-## Prioridade atual — gerador lendo histórico textual
+## Prioridade atual — generalização do gerador textual (experimento reprovado)
 
-A etapa de diálogo limitado (#136) foi publicada. O trabalho atual é
-[corpus variado + treino textual isolado](experimentos/gerador_historico_textual_20261010/README.md),
-sem nova memória, acervo, guarda, orientação ou CI lateral.
-Avaliação nova congelada antes do corpus/treino: 12 sessões/36 turnos e
-uma pergunta real do dono reservada. Rede própria Seq2Seq já existente,
-pesos aleatórios novos, entrada somente texto/papéis, nenhuma resposta
-correta inserida no rollout. Checkpoints permanecem false/false.
-Piloto reprovado no desenvolvimento; rodada 2 treina 3.707 exemplos,
-100 operações autorais, 81.433 parâmetros, sem aumento sobre a GRU ativa.
-Validação interna reformulada compartilha operações/saídas; não demonstra
-conversa natural. Resultado final e controles serão registrados ao terminar.
-Próximo passo único: terminar a avaliação inédita e revisar respostas
-livres antes de qualquer integração no chat.
+A etapa de diálogo limitado (#136) está publicada. No
+[experimento textual](experimentos/gerador_historico_textual_20261010/README.md),
+a rede Seq2Seq própria já existente recebeu somente texto/histórico com
+papéis, sem slots ou intenção pronta. Pesos aleatórios novos, 81.433
+parâmetros/720 tokens, 3.707 treino + 334 desenvolvimento, 100 padrões
+em dez grupos. Treino efetivo: 20 épocas/330,13 s, melhor época 12.
 
+Avaliação nova congelada antes dos dados: 12 sessões/36 turnos mais uma
+pergunta real do dono. Resultado: **0/12 mantêm o fio**; controle sem
+histórico também 0/12. Houve inversões de correção (domingo→quarta,
+caleidoscópio→bússola) e respostas malformadas; não alegar zero invenção.
+Pedido real dinossauros/IA também reprovado. Juiz lexical não aprova
+naturalidade; revisão do agente, não avaliação humana independente/cega.
+
+Nos 100 pedidos vistos no treino: 87 alvos literais com histórico, 32 sem;
+4/4 nomes novos copiados com a mesma pergunta treinada. Mostra leitura
+textual em padrões conhecidos, sem generalização da linguagem. Perda de
+treino 0,1195 contra desenvolvimento 2,3756; não confundir memorização com
+avanço em conversa natural. Famílias/saídas de desenvolvimento da rodada 2
+compartilhadas; piloto com famílias separadas e alvos impossíveis preservado.
+
+Checkpoint `1027f94344ca…` continua false/false; não entrou no chat.
+Pesos, arquitetura, treinador e runtime da produção #136 permanecem
+intactos. PR experimental #137 em rascunho, sem nova memória/acervo,
+orientação, guardas, parâmetros ampliados ou CI lateral.
+
+Próximo passo único: mais formulações de entrada por ato no corpus
+próprio e outra avaliação congelada antes do próximo treino. Estes casos
+são regressão conhecida; não chamá-los inéditos depois de usá-los para
+preparar a próxima rodada. Não promover este checkpoint por CI verde.
 
 ## Histórico — objetos e correções na escrita
 

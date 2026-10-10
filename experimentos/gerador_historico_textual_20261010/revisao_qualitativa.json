@@ -1,0 +1,36 @@
+{
+  "avaliador": "agente que também escreveu o corpus; revisão informada, não humana independente/cega",
+  "fonte": "rodada2_depois_com_historico.json: todas as 36 respostas livres revisadas",
+  "sessoes_mantem_fio": 0,
+  "sessoes_total": 12,
+  "naturalidade_demonstrada": false,
+  "fidelidade_sessao_certificada": false,
+  "inversoes_confirmadas": [
+    {"sessao": "agenda_corrigida", "turno": 2, "esperado": "domingo", "obtido": "Você pode obrigado seu Iverna na quarta."},
+    {"sessao": "ordem_a", "turno": 3, "esperado": "caleidoscópio", "obtido": "O bússola, veja o uma tentativa pequena, não não com a."}
+  ],
+  "revisao_por_sessao": [
+    {"id": "agenda_corrigida", "passou": false, "falha": "reutiliza quarta após correção para domingo; respostas malformadas e confirmação ausente"},
+    {"id": "preferencia_corrigida", "passou": false, "falha": "não usa correção instrumental nem produz ambiente coerente; presença de madrugada engana a triagem"},
+    {"id": "historia_imprevisto", "passou": false, "falha": "perde Wexina e astrolábio; não entrega história nem acompanha canto/correção"},
+    {"id": "ajuda_sem_compra", "passou": false, "falha": "não oferece transporte útil nem pedido ao vizinho; copia fragmentos sem organizar o sentido"},
+    {"id": "mudanca_de_assunto", "passou": false, "falha": "mistura data/casa com conversa sobre culpa, repete e não acompanha mudança de assunto"},
+    {"id": "hipotese_nao_fato", "passou": false, "falha": "repete Adriel, não distingue situação atual e hipótese nem formula convite"},
+    {"id": "pedido_truncado", "passou": false, "falha": "repetições de chefe/prazo passam uma triagem lexical, mas não comunicam prazo de sexta"},
+    {"id": "ordem_a", "passou": false, "falha": "retoma bússola depois da correção; pergunta não recebe a preferência atual"},
+    {"id": "ordem_b", "passou": false, "falha": "não responde bússola; mistura fragmentos genéricos de tentativa"},
+    {"id": "escrita_sem_personagem", "passou": false, "falha": "usa estação numa frase malformada; não entrega parágrafo coerente, versão ou título"},
+    {"id": "esclarecimento", "passou": false, "falha": "pontuação interrogativa passa triagem, mas pergunta não esclarece o referente; não escreve o final"},
+    {"id": "fato_fornecido", "passou": false, "falha": "não preserva Zelún/ilha nem realiza conflito e continuação coerentes"}
+  ],
+  "pedido_real_do_dono": {
+    "passou": false,
+    "obtido": "Você pode mais meteoro um meteoro com o que a divisão para as ela ficou para para outra vez para para outra meteoro?",
+    "falha": "não discute merecimento, extinção, comparação nem riscos de IA; copiar meteoro não constitui resposta",
+    "usado_no_treino": false
+  },
+  "conclusao": "Checkpoint aprende padrões conhecidos, mas o salto de generalização não foi obtido. Zero sessões inéditas completas, controles de história não mostram benefício no holdout; não promover.",
+  "proximo_passo_unico": "aumentar a diversidade das formulações de entrada por ato, com corpus próprio e outro teste congelado antes do próximo treino; usar estes casos como regressão conhecida, sem chamá-los inéditos novamente",
+  "aprovado": false,
+  "ativo_no_chat": false
+}
