@@ -1,0 +1,326 @@
+{
+  "motivo": "Após a última revisão, amanhã usa local da sua horta em vez de assumir terraço. A forma singular só afeta contraexemplo novo dos contratos. Entradas, critérios e pesos inalterados.",
+  "runtime_sha256": {
+    "orientacao_pratica.py": "704ad75e7b494ef644a1c803296e2e4efe02a3a31c9235640130eda5e27dfc0f",
+    "dialogo_situado.py": "199460c48234a8f8c53b29e475e3fdc4fe791ae3c2f14f03485e997c25bc40fd"
+  },
+  "resultados": [
+    {
+      "sessao": "pratica_horta_condicoes",
+      "turno": 8,
+      "usuario": "O que eu deveria fazer amanhã?",
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_ficha_elegivel",
+          "tentativas": 0
+        },
+        "dialogue_generation": {
+          "habilitada": true,
+          "usada": false,
+          "memoria_usada": false,
+          "recuou": false,
+          "motivo": "ato_preservado_no_executor_atual",
+          "politica": "rigida",
+          "peca": "orientacao",
+          "ato": "amanha"
+        },
+        "natural_routing": {
+          "peca": "orientacao",
+          "ato": "amanha",
+          "referentes": [
+            "começar uma horta no terraço de casa"
+          ],
+          "dominio": "horta",
+          "objetivo": "começar uma horta no terraço de casa",
+          "forma": null,
+          "fontes_contexto": [
+            "Quero começar uma horta no terraço de casa.",
+            "Tenho quatro vasos vazios.",
+            "Observei: o local recebe sol de manhã.",
+            "Quero cultivar uma erva que eu use na cozinha.",
+            "Me diga o que você já sabe sobre a minha horta.",
+            "Me dê uma ação concreta com base no que eu contei.",
+            "Não tenho dinheiro para comprar vasos novos."
+          ],
+          "pedido": "O que eu deveria fazer amanhã?",
+          "tempo": null,
+          "vasos": "quatro vasos",
+          "borracha": null,
+          "tema_fracoes": false,
+          "calculo_anterior": null,
+          "hipotese": false,
+          "fontes_disponibilidade": [],
+          "rodas": false,
+          "corpo": false,
+          "luz": "sol de manhã",
+          "cultivo": "Quero cultivar uma erva que eu use na cozinha",
+          "sem_comprar": true,
+          "dificuldade": null,
+          "ajuste": null,
+          "pediu_simplificacao": false,
+          "quadro_pratico": {
+            "dominio": "horta",
+            "ato": "amanha",
+            "fontes_usuario": [
+              "Quero começar uma horta no terraço de casa.",
+              "Tenho quatro vasos vazios.",
+              "Observei: o local recebe sol de manhã.",
+              "Quero cultivar uma erva que eu use na cozinha.",
+              "Me diga o que você já sabe sobre a minha horta.",
+              "Me dê uma ação concreta com base no que eu contei.",
+              "Não tenho dinheiro para comprar vasos novos."
+            ],
+            "hipotese": false,
+            "gerador_neural_usado": false,
+            "condicoes_declaradas": {
+              "tempo": null,
+              "vasos": "quatro vasos",
+              "borracha": null,
+              "rodas": false,
+              "corpo": false,
+              "luz": "sol de manhã",
+              "cultivo": "Quero cultivar uma erva que eu use na cozinha",
+              "sem_comprar": true,
+              "dificuldade": null
+            },
+            "fontes_disponibilidade": [],
+            "limite": "orientação autoral limitada; não consulta factual nem planejamento geral"
+          },
+          "executor": "linguagem_conversa",
+          "status": "executado",
+          "dialogo": {
+            "habilitada": true,
+            "usada": false,
+            "memoria_usada": false,
+            "recuou": false,
+            "motivo": "ato_preservado_no_executor_atual",
+            "politica": "rigida",
+            "peca": "orientacao",
+            "ato": "amanha"
+          },
+          "guarda": {
+            "aceita": true,
+            "motivos": [],
+            "politica": "orientacao_contextual"
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "eu",
+              "deveria",
+              "amanha"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:orientacao_registrar",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:orientacao_amanha",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:orientacao_amanha",
+        "response": "Para “começar uma horta no terraço de casa”, amanhã, observe por quanto tempo o sol ou a luz chegam ao local da sua horta e me conte a duração. Confira também o tamanho e os furos dos vasos que já tem; vamos decidir a escolha da erva depois dessas informações. Você contou: quatro vasos; sol de manhã; Quero cultivar uma erva que eu use na cozinha. Vamos trabalhar sem comprar vasos novos e usar os vasos que você declarou.",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "sessao": "pratica_horta_condicoes",
+      "turno": 10,
+      "usuario": "Qual informação ainda está faltando?",
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "sem_ficha_elegivel",
+          "tentativas": 0
+        },
+        "dialogue_generation": {
+          "habilitada": true,
+          "usada": false,
+          "memoria_usada": false,
+          "recuou": false,
+          "motivo": "ato_preservado_no_executor_atual",
+          "politica": "rigida",
+          "peca": "orientacao",
+          "ato": "esclarecer"
+        },
+        "natural_routing": {
+          "peca": "orientacao",
+          "ato": "esclarecer",
+          "referentes": [
+            "começar uma horta no terraço de casa"
+          ],
+          "dominio": "horta",
+          "objetivo": "começar uma horta no terraço de casa",
+          "forma": null,
+          "fontes_contexto": [
+            "Quero começar uma horta no terraço de casa.",
+            "Tenho quatro vasos vazios.",
+            "Observei: o local recebe sol de manhã.",
+            "Quero cultivar uma erva que eu use na cozinha.",
+            "Me diga o que você já sabe sobre a minha horta.",
+            "Me dê uma ação concreta com base no que eu contei.",
+            "Não tenho dinheiro para comprar vasos novos."
+          ],
+          "pedido": "Qual informação ainda está faltando?",
+          "tempo": null,
+          "vasos": "quatro vasos",
+          "borracha": null,
+          "tema_fracoes": false,
+          "calculo_anterior": null,
+          "hipotese": false,
+          "fontes_disponibilidade": [],
+          "rodas": false,
+          "corpo": false,
+          "luz": "sol de manhã",
+          "cultivo": "Quero cultivar uma erva que eu use na cozinha",
+          "sem_comprar": true,
+          "dificuldade": null,
+          "ajuste": null,
+          "pediu_simplificacao": false,
+          "quadro_pratico": {
+            "dominio": "horta",
+            "ato": "esclarecer",
+            "fontes_usuario": [
+              "Quero começar uma horta no terraço de casa.",
+              "Tenho quatro vasos vazios.",
+              "Observei: o local recebe sol de manhã.",
+              "Quero cultivar uma erva que eu use na cozinha.",
+              "Me diga o que você já sabe sobre a minha horta.",
+              "Me dê uma ação concreta com base no que eu contei.",
+              "Não tenho dinheiro para comprar vasos novos."
+            ],
+            "hipotese": false,
+            "gerador_neural_usado": false,
+            "condicoes_declaradas": {
+              "tempo": null,
+              "vasos": "quatro vasos",
+              "borracha": null,
+              "rodas": false,
+              "corpo": false,
+              "luz": "sol de manhã",
+              "cultivo": "Quero cultivar uma erva que eu use na cozinha",
+              "sem_comprar": true,
+              "dificuldade": null
+            },
+            "fontes_disponibilidade": [],
+            "limite": "orientação autoral limitada; não consulta factual nem planejamento geral"
+          },
+          "executor": "linguagem_conversa",
+          "status": "executado",
+          "dialogo": {
+            "habilitada": true,
+            "usada": false,
+            "memoria_usada": false,
+            "recuou": false,
+            "motivo": "ato_preservado_no_executor_atual",
+            "politica": "rigida",
+            "peca": "orientacao",
+            "ato": "esclarecer"
+          },
+          "guarda": {
+            "aceita": true,
+            "motivos": [],
+            "politica": "orientacao_contextual"
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "informacao",
+              "faltando"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": null,
+            "previous_turn_id": "conversa:orientacao_hipotese",
+            "pending_offer": false
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "linguagem_conversa",
+              "id": "conversa:orientacao_esclarecer",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "linguagem_conversa",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "linguagem_conversa",
+          "kingdom": "conversa",
+          "role": "Reage a relatos do dia a dia com o tom certo.",
+          "regulated_by": [
+            "crise",
+            "estado_conversa",
+            "catracas"
+          ]
+        },
+        "id": "conversa:orientacao_esclarecer",
+        "response": "Para “começar uma horta no terraço de casa”, ainda preciso saber o tamanho dos vasos, se têm furos, quantas horas de luz chegam ao local e qual erva você deseja. Você já observou sol de manhã; falta medir a duração, não observar isso do zero. Você contou: quatro vasos; sol de manhã; Quero cultivar uma erva que eu use na cozinha. Vamos trabalhar sem comprar vasos novos e usar os vasos que você declarou.",
+        "mechanism": "linguagem_conversa",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}

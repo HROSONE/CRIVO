@@ -1,30 +1,33 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-1. **Recorte de escrita aprovado:** GRU própria realiza acontecimentos,
-   recuperação, ajuda, retorno e finais com argumentos da sessão;
-   80 → 110/114 no motor, 110/114 HTTP local, 79/79 antigos preservados,
-   zero domínio/referentes/desvios nos 114. Seis de dez sessões autorais
-   atendem critérios mínimos de escrita; não diálogo humano/generalização.
-2. **Próximo passo único:** congelar as falhas das quatro sessões práticas
-   novas e corrigir utilidade: frações/tempo disponível, bicicleta/rodas,
-   horta/condições declaradas e troca/retomada de tarefa. Manter os 114
-   e a escrita aprovados. Medir antes/depois no motor e HTTP público.
-3. **Limites a continuar medindo:** transições genéricas, declarações
-   repetidas e episódios reutilizados; oito etapas e doze classes autorais
-   não demonstram planejamento nem fôlego indefinido. Simplificação sem
-   alterar conteúdo ainda esclarece limite. Histórico HTTP até vinte
-   mensagens; não memória infinita. As quatro sessões práticas falham.
+## Estado atual — continuidade prática medida
 
-Checkpoint original isolado false/false; cópia de integração aprovada,
-SHA `4e5894e2…`. Pesos factuais e 35 arquivos anteriores preservados;
-checkpoint anterior de diálogo arquivado. GRU 85.581 → 85.130 parâmetros,
-9.024 exemplos próprios e reprodução byte a byte. Validação controlada
-2.048/2.048 tem padrões/vetores compartilhados, não generalização de nomes.
+[Experimento de contexto prático](experimentos/contexto_pratico_20261010/README.md):
+mesmos 40 turnos das quatro falhas após #132, **15/40 → 40/40** no motor
+ e HTTP real (antes público, depois local); sessões mínimas **0/4 → 4/4**,
+zero desvio proibido no conjunto. Quatro sondas adicionais autorais,
+29 turnos, **0/4 → 4/4** segundo leitura do agente; sem humanos/avaliação
+cega. Referentes, restrições e tempo declarados entram na tarefa correta.
+Fatos hipotéticos não substituem observações. Guarda rejeita troca de
+minutos/vasos; não cria memória nem aprende modelos novos.
 
-Um PR de capacidade por vez, CI por escopo; bateria de escrita não dispara
-após merge. Matriz completa manual/semanal. Sem outra memória, acervo,
-arquitetura, aumento de parâmetros, espécies/microcircuitos ou modelos externos.
-Fatos/cálculos/fontes mantêm guarda rígida. Confirmar publicação pelo
-commit/checkpoint do HTTP público, não apenas pelo merge/CI.
+**110/114** anteriores preservados no motor/HTTP, 79/79 antigos,
+52/52 histórias, zero domínio/referente ausente. Os quatro antigos não
+pontuados continuam documentados. Checkpoint aprovado `4e5894e2…`,
+35 pesos anteriores e experimento #132 intactos. Orientação prática é
+estrutural/autoral, não geração neural ou planejamento geral; linguagem
+repetitiva, regras limitadas e janela de vinte mensagens permanecem.
 
-Evidências: [acontecimentos, aprovação e limites](experimentos/escrita_acontecimentos_20261010/README.md).
+CI existente por escopo inclui contratos + 40 HTTP + 114, sem bateria
+completa ou repetição depois do merge. Confirmar commit/checkpoint e
+os mesmos 40 casos no site após publicar antes de declarar concluído.
+
+Próximo passo único: diversificar a realização do contexto correto com
+corpus próprio de diálogo e falhas novas medidas no site, mantendo
+estes gates; sem nova memória/acervo/arquitetura/parâmetros externos.
+
+
+A etapa anterior (#132) preserva a escrita condicionada: 110/114 e
+6/10 sessões autorais no recorte, não conversa humana geral. A nova etapa
+corrige as quatro sessões práticas que faltavam. Pesos próprios continuam
+inalterados; não há outro PR de capacidade concorrente.
