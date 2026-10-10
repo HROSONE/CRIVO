@@ -278,7 +278,8 @@ def rotear_natural(texto, bot, sessao=None):
     m = re.match(r'\s*mudando de assunto\s*:\s*(.+)', texto, re.I)
     if m and re.match(r'(?:quem (?:foi|e)|o que e)\b', dobrar(m[1])):
         return rota('fato', 'consultar', consulta=m[1])
-    return None
+    from orientacao_pratica import rotear as rotear_pratica
+    return rotear_pratica(texto, bot)
 
 
 def executar_rota_natural(rota, texto, bot):
@@ -288,7 +289,12 @@ def executar_rota_natural(rota, texto, bot):
     quadro = {}
     if peca != 'escrita':
         bot.dialogo_conversa.realizar(rota, texto, bot)
-    if peca == 'esclarecimento':
+    if peca == 'orientacao':
+        from orientacao_pratica import executar
+        resultado, quadro = executar(rota)
+        mecanismo = 'linguagem_conversa'
+        bot.contexto_textual = None
+    elif peca == 'esclarecimento':
         mecanismo = 'conversa_assistente'
         identificador = 'conversa:esclarecer'
         if ato == 'capacidades':
