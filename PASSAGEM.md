@@ -94,11 +94,39 @@ checks verdes e replay público do commit integrado.
 
 Evidências: [segundo treino](experimentos/dialogo_v2_20261010/README.md).
 
+## Continuidade após #128 — falhas novas medidas
+
+#128 mesclado e validado no site em `3e8eed593288af6be17c83d11aeae5d14d1e598e`:
+43/43 e dez sessões anteriores preservadas. Em seguida foram executadas
+seis novas sondas autorais de seis turnos no site e motor. Não são participantes
+humanos. As três conversas de orientação prática continuam reprovadas.
+
+18 turnos novos de escrita foram congelados, conservando os 43 anteriores:
+**47/61 → 61/61** no motor/HTTP, zero troca de domínio e referente ausente.
+O roteador agora atende aventura, mude o final, continuação após final,
+mais uma vez e essa personagem. Companhia e cenário têm papéis separados.
+A nova cena avança; reescrita preserva a cena anterior e os participantes.
+
+Treino próprio executado e reproduzido byte a byte: 384 exemplos novos,
+16 padrões, 1.536 treino/320 validação, 181 tokens e **85.581 parâmetros**,
+sem aumento. Dez sessões anteriores mantêm os mesmos critérios restritos;
+isto não transforma orientação genérica em ajuda prática aprovada.
+
+A rede lê ato, cena e argumentos selecionados; texto residual neutralizado
+após revisão detectar mistura/repetição. Oito arcos e seleção estrutural da
+cena, sem planejamento neural geral. Checkpoint experimental isolado falso;
+aprovação da cópia de produção exige resultados completos, revisão e gates.
+Merge só com checks relevantes verdes; confirmar publicação e repetir no site.
+
+Evidências: [continuidade](experimentos/dialogo_continuidade_20261010/README.md).
+
 ## Próximo passo único
 
-Depois da publicação e dos testes no site, medir novos diálogos reais variados,
-principalmente orientação prática e continuações fora dos oito arcos, para
-selecionar a próxima ampliação do corpus. Não abrir nova memória/acervo/parâmetros.
+Corrigir as três conversas práticas observadas — desenho, estudo e horta —
+para que pedidos de primeiro passo, exemplo, correção e continuação cheguem
+na peça apropriada e produzam ajuda concreta ou esclarecimento específico.
+Usar os 18 turnos reais registrados, medir antes/depois e preservar fatos/fontes.
+Não ampliar acervo, criar memória ou aumentar parâmetros.
 
 ## Histórico
 

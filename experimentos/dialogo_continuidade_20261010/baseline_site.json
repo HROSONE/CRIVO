@@ -1,0 +1,3293 @@
+{
+  "modo": "site",
+  "sessoes": [
+    {
+      "id": "desenho_pratico",
+      "resultados": [
+        {
+          "usuario": "Quero aprender a desenhar um peixe com lápis e papel.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "quero",
+                  "aprender",
+                  "desenhar",
+                  "peixe",
+                  "lapis",
+                  "papel"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:relato",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:relato",
+            "response": "Você contou que quer aprender a desenhar um peixe com lápis e papel. Que bom! Qual é a principal dificuldade para chegar lá?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Só tenho dez minutos. Como começo?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "tenho",
+                  "dez",
+                  "minutos",
+                  "comeco"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:relato",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:planejamento",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:planejamento",
+            "response": "Para “aprender a desenhar um peixe com lápis e papel”, eu começaria com um teste pequeno, que você consiga avaliar.\n1. Defina uma parte do objetivo que caiba no tempo que você tem.\n2. Faça uma tentativa curta com um resultado observável.\n3. Compare o resultado com o que queria e ajuste a próxima tentativa.\nQual parte desse objetivo você gostaria de tentar primeiro?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Não sei desenhar. Qual é o primeiro traço?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [],
+                "negation": true
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:planejamento",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "duvida",
+                  "action": "recusar",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "duvida",
+            "response": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Fiz um círculo. O que faço depois?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "fiz",
+                  "circulo",
+                  "faco",
+                  "depois"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "duvida",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_excentricidade_orbital",
+                    "search_fact": 0,
+                    "search_probability": 0.2021,
+                    "fact": 0,
+                    "probability": 0.6574,
+                    "margin": 0.3146,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou excentricidade orbital, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Errei a cauda. Como corrijo?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "errei",
+                  "cauda",
+                  "corrijo"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "asteroide_cometa",
+                    "search_fact": 1,
+                    "search_probability": 0.1313,
+                    "fact": 1,
+                    "probability": 0.7178,
+                    "margin": 0.5701,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou meteoro, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "O que eu queria desenhar mesmo?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "sem_ficha_elegivel",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "qual",
+                "entities": [],
+                "cues": [
+                  "eu",
+                  "queria",
+                  "desenhar"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:memoria",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:memoria",
+            "response": "Você quer “aprender a desenhar um peixe com lápis e papel”. Você contou: “Quero aprender a desenhar um peixe com lápis e papel.”.",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "organizar_estudo",
+      "resultados": [
+        {
+          "usuario": "Quero organizar meus estudos de matemática.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [
+                  {
+                    "id": "mundo_matematica",
+                    "nome": "matemática",
+                    "origem": "fala"
+                  }
+                ],
+                "cues": [
+                  "quero",
+                  "organizar",
+                  "meus",
+                  "estudos"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {
+                "mundo_matematica": {
+                  "facts": 7,
+                  "links": 0
+                }
+              },
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:relato",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:relato",
+            "response": "Legal! Você contou que quer organizar seus estudos de matemática. Qual é a principal dificuldade para chegar lá?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Tenho vinte minutos por dia e dificuldade em frações.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [
+                  {
+                    "id": "mundo_fracao",
+                    "nome": "fração",
+                    "origem": "fala"
+                  }
+                ],
+                "cues": [
+                  "tenho",
+                  "vinte",
+                  "minutos",
+                  "dia",
+                  "dificuldade"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:relato",
+                "pending_offer": false
+              },
+              "knowledge": {
+                "mundo_fracao": {
+                  "facts": 3,
+                  "links": 0
+                }
+              },
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:relato",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:relato",
+            "response": "Entendo, você tem vinte minutos por dia e dificuldade em frações. E pensando em “organizar meus estudos de matemática”, o que você já tentou e como isso funcionou para você?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Me dê uma atividade para começar.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "atividade",
+                  "comecar"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:relato",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:planejamento",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:planejamento",
+            "response": "Para “organizar meus estudos de matemática”, eu começaria com um teste pequeno, que você consiga avaliar.\n1. Defina uma parte do objetivo que caiba no tempo que você tem.\n2. Faça uma tentativa curta com um resultado observável.\n3. Compare o resultado com o que queria e ajuste a próxima tentativa.\nQual parte desse objetivo você gostaria de tentar primeiro?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Pode dar um exemplo?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "exemplo"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:planejamento",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "duvida",
+                  "action": "recusar",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "recusar",
+                "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "duvida",
+            "response": "Qual explicação você quer que eu reformule? Preciso de uma resposta anterior ou de um assunto.",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Não entendi. Explique de outro jeito.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [],
+                "negation": true
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "duvida",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_situado_estrutural",
+                  "id": "conversa:situada_perspectiva",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_situado_estrutural",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "dialogo_situado_estrutural",
+              "kingdom": "conversa",
+              "role": "Conserva intenção, alternativas e escopos a partir das falas explícitas da sessão.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "pessoa",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:situada_perspectiva",
+            "response": "Uma perspectiva possível para “Quero organizar meus estudos de matemática” e “Tenho vinte minutos por dia e dificuldade em frações” é comparar o que você valoriza com o que acontece na prática. Não precisamos encontrar uma resposta única para o sentido disso. Qual experiência apoia sua ideia, e qual faria você reconsiderar?",
+            "mechanism": "dialogo_situado_estrutural",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "O que eu deveria fazer amanhã?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "sem_resposta_verificada",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "qual",
+                "entities": [],
+                "cues": [
+                  "eu",
+                  "deveria",
+                  "amanha"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:situada_perspectiva",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_aquisicao_linguagem",
+                    "search_fact": 3,
+                    "search_probability": 0.3914,
+                    "fact": 3,
+                    "probability": 0.2411,
+                    "margin": -0.0381,
+                    "cues_covered": 0,
+                    "question_type": "qual"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou aquisição da linguagem, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "horta_pratica",
+      "resultados": [
+        {
+          "usuario": "Quero começar uma horta numa varanda pequena.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "quero",
+                  "comecar",
+                  "horta",
+                  "numa",
+                  "varanda",
+                  "pequena"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:relato",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:relato",
+            "response": "Legal! Você contou que quer começar uma horta numa varanda pequena. Qual é a principal dificuldade para chegar lá?",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Tenho dois vasos vazios. Por onde começo?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "tenho",
+                  "dois",
+                  "vasos",
+                  "vazios",
+                  "comeco"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:relato",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_febre",
+                    "search_fact": 2,
+                    "search_probability": 0.2892,
+                    "fact": 2,
+                    "probability": 0.8392,
+                    "margin": 0.4383,
+                    "cues_covered": 2,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou febre, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Me diga uma ação concreta para hoje.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "acao",
+                  "concreta"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_existencialismo",
+                    "search_fact": 0,
+                    "search_probability": 0.3569,
+                    "fact": 0,
+                    "probability": 0.8617,
+                    "margin": 0.4512,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou existencialismo, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "E se não tiver sol?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [],
+                "negation": true
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_situado_estrutural",
+                  "id": "conversa:situada_hipotese",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_situado_estrutural",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "dialogo_situado_estrutural",
+              "kingdom": "conversa",
+              "role": "Conserva intenção, alternativas e escopos a partir das falas explícitas da sessão.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "pessoa",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:situada_hipotese",
+            "response": "Na hipótese “E se não tiver sol”, podemos comparar a frequência, as condições e o resultado que você quer observar. Isso pode mudar a continuidade, mas não garante um resultado. Qual diferença seria importante para você?",
+            "mechanism": "dialogo_situado_estrutural",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Só isso?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:situada_hipotese",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "conversa_assistente",
+                  "id": "duvida",
+                  "action": "recusar",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "conversa_assistente",
+                "action": "recusar",
+                "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+              }
+            },
+            "ecosystem": {
+              "species": "conversa_assistente",
+              "kingdom": "conversa",
+              "role": "Cuida da parte social: cumprimentos, agradecimentos e o próprio CRIVO.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa"
+              ]
+            },
+            "id": "duvida",
+            "response": "Sobre qual resposta você quer mais detalhes? Pode indicar o assunto?",
+            "mechanism": "conversa_assistente",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "O que você ainda precisa saber para me orientar?",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "consulta_sem_fatos_ativos",
+              "tentativas": 0,
+              "leu_memoria": false,
+              "modo": "sessao",
+              "origem": "memoria_estruturada_da_sessao",
+              "evidencias": [],
+              "passagens": [],
+              "ato": "perguntar",
+              "selecao": "estrutural",
+              "redacao_do_ato": "estrutural"
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "qual",
+                "entities": [],
+                "cues": [
+                  "precisa",
+                  "orientar"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "duvida",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "conversa_sessao",
+                  "id": "conversa:sessao_perguntar",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "conversa_sessao",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "conversa_sessao",
+              "kingdom": "conversa",
+              "role": "Seleciona fatos ativos da sessão para sugestões, justificativas e resumos limitados; o realizador próprio escreve as evidências com guarda literal.",
+              "regulated_by": [
+                "memoria_sessao_estrutural",
+                "crise",
+                "pessoa",
+                "recusa",
+                "fontes",
+                "catracas"
+              ]
+            },
+            "id": "conversa:sessao_perguntar",
+            "response": "Você não informou de quem se trata ou esse dado não está disponível. Preciso saber as preferências, o objetivo da escolha e quais limites devemos respeitar.",
+            "mechanism": "conversa_sessao",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "amigo_sem_cenario",
+      "resultados": [
+        {
+          "usuario": "Conte uma história sobre uma lontra relojoeira.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "historia",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "uma lontra relojoeira"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 35
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "historia",
+              "referentes": [
+                "uma lontra relojoeira"
+              ],
+              "personagem": "uma lontra relojoeira",
+              "slots": {
+                "tema1": "uma lontra relojoeira"
+              },
+              "estilo": "neutro",
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": false,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "historia",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "uma lontra relojoeira"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 35
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "conte",
+                  "historia",
+                  "lontra",
+                  "relojoeira"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_historia",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_historia",
+            "response": "Ficção: A história de uma lontra relojoeira começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue a história.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": true,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "continuar",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "uma lontra relojoeira"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 26
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "continuar",
+              "referentes": [
+                "uma lontra relojoeira"
+              ],
+              "personagem": "uma lontra relojoeira",
+              "slots": {
+                "tema1": "uma lontra relojoeira"
+              },
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": true,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "continuar",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "uma lontra relojoeira"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 26
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "historia"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_historia",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_continuacao",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_continuacao",
+            "response": "Ficção: uma lontra relojoeira continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Mude o final: ela encontra uma amiga.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "mude",
+                  "final",
+                  "encontra",
+                  "amiga"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_continuacao",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "geracao_neural",
+                  "id": "conversa:gerada_final",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "geracao_neural",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "geracao_neural",
+              "kingdom": "neural",
+              "role": "Escreve respostas com o gerador próprio (desligado por padrão).",
+              "regulated_by": [
+                "catracas",
+                "fontes"
+              ]
+            },
+            "id": "conversa:gerada_final",
+            "response": "Ficção:\numa lontra relojoeira decidiu voltar com uma amiga. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam.",
+            "mechanism": "geracao_neural",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue depois desse final.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "depois",
+                  "desse",
+                  "final"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_final",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_michelangelo",
+                    "search_fact": 4,
+                    "search_probability": 0.2711,
+                    "fact": 4,
+                    "probability": 0.8909,
+                    "margin": 0.1621,
+                    "cues_covered": 2,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou Michelangelo, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue a história mais uma vez.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "historia",
+                  "mais",
+                  "vez"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_fermentacao",
+                    "search_fact": 0,
+                    "search_probability": 0.2292,
+                    "fact": 0,
+                    "probability": 0.6717,
+                    "margin": 0.3783,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou fermentação, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Reescreva essa história em cinco frases.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "reescreva",
+                  "essa",
+                  "historia",
+                  "cinco",
+                  "frases"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "amigo_com_cenario",
+      "resultados": [
+        {
+          "usuario": "Conte uma história sobre um esquilo pintor em uma torre distante.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "historia",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "um esquilo pintor em uma torre distante"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 35
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "historia",
+              "referentes": [
+                "um esquilo pintor em uma torre distante"
+              ],
+              "personagem": "um esquilo pintor em uma torre distante",
+              "slots": {
+                "tema1": "um esquilo pintor em uma torre distante"
+              },
+              "estilo": "neutro",
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": false,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "historia",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "um esquilo pintor em uma torre distante"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 35
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "conte",
+                  "historia",
+                  "esquilo",
+                  "pintor",
+                  "torre",
+                  "distante"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_historia",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_historia",
+            "response": "Ficção: A história de um esquilo pintor em uma torre distante começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue a história.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": true,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "continuar",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "um esquilo pintor em uma torre distante"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 26
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "continuar",
+              "referentes": [
+                "um esquilo pintor em uma torre distante"
+              ],
+              "personagem": "um esquilo pintor em uma torre distante",
+              "slots": {
+                "tema1": "um esquilo pintor em uma torre distante"
+              },
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": true,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "continuar",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "um esquilo pintor em uma torre distante"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 26
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "historia"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_historia",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_continuacao",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_continuacao",
+            "response": "Ficção: um esquilo pintor em uma torre distante continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Mude o final: ele encontra um parceiro.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "mude",
+                  "final",
+                  "encontra",
+                  "parceiro"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_continuacao",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "geracao_neural",
+                  "id": "conversa:gerada_final",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "geracao_neural",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "geracao_neural",
+              "kingdom": "neural",
+              "role": "Escreve respostas com o gerador próprio (desligado por padrão).",
+              "regulated_by": [
+                "catracas",
+                "fontes"
+              ]
+            },
+            "id": "conversa:gerada_final",
+            "response": "Ficção:\num esquilo pintor em uma torre distante decidiu voltar com um parceiro. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam.",
+            "mechanism": "geracao_neural",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue depois desse final.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "depois",
+                  "desse",
+                  "final"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_final",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_michelangelo",
+                    "search_fact": 4,
+                    "search_probability": 0.2711,
+                    "fact": 4,
+                    "probability": 0.8909,
+                    "margin": 0.1621,
+                    "cues_covered": 2,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou Michelangelo, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue a história mais uma vez.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "historia",
+                  "mais",
+                  "vez"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_fermentacao",
+                    "search_fact": 0,
+                    "search_probability": 0.2292,
+                    "fact": 0,
+                    "probability": 0.6717,
+                    "margin": 0.3783,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou fermentação, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Reescreva essa história em cinco frases.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "reescreva",
+                  "essa",
+                  "historia",
+                  "cinco",
+                  "frases"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "leitura fora do nicho (negação, relação, escrita ou sem entidade)"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "aventura_natural",
+      "resultados": [
+        {
+          "usuario": "Conte uma aventura sobre uma raposa navegadora.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "conte",
+                  "aventura",
+                  "raposa",
+                  "navegadora"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": null,
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_jornada_do_heroi",
+                    "search_fact": 1,
+                    "search_probability": 0.6128,
+                    "fact": 1,
+                    "probability": 0.6761,
+                    "margin": 0.3637,
+                    "cues_covered": 1,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou jornada do herói, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Quero uma história com essa personagem.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "historia",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "essa personagem"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 35
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "historia",
+              "referentes": [
+                "essa personagem"
+              ],
+              "personagem": "essa personagem",
+              "slots": {
+                "tema1": "essa personagem"
+              },
+              "estilo": "neutro",
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": false,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "historia",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "essa personagem"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 35
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [
+                  {
+                    "id": "mundo_personagem",
+                    "nome": "personagem",
+                    "origem": "fala"
+                  }
+                ],
+                "cues": [
+                  "quero",
+                  "historia",
+                  "essa"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {
+                "mundo_personagem": {
+                  "facts": 3,
+                  "links": 0
+                }
+              },
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_historia",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_historia",
+            "response": "Ficção: A história de essa personagem começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue a história.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": true,
+              "memoria_usada": true,
+              "recuou": false,
+              "motivo": "realizacao_dialogica_aceita",
+              "politica": "conversa",
+              "peca": "escrita",
+              "ato": "continuar",
+              "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+              "experimental": false,
+              "argumentos": {
+                "tema1": "essa personagem"
+              },
+              "confianca_roteamento": "explicita",
+              "guarda": {
+                "politica": "conversa",
+                "aceita": true,
+                "motivos": []
+              },
+              "tokens": 26
+            },
+            "natural_routing": {
+              "peca": "escrita",
+              "ato": "continuar",
+              "referentes": [
+                "essa personagem"
+              ],
+              "personagem": "essa personagem",
+              "slots": {
+                "tema1": "essa personagem"
+              },
+              "executor": "dialogo_gerativo_proprio",
+              "status": "executado",
+              "dialogo": {
+                "habilitada": true,
+                "usada": true,
+                "memoria_usada": true,
+                "recuou": false,
+                "motivo": "realizacao_dialogica_aceita",
+                "politica": "conversa",
+                "peca": "escrita",
+                "ato": "continuar",
+                "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646",
+                "experimental": false,
+                "argumentos": {
+                  "tema1": "essa personagem"
+                },
+                "confianca_roteamento": "explicita",
+                "guarda": {
+                  "politica": "conversa",
+                  "aceita": true,
+                  "motivos": []
+                },
+                "tokens": 26
+              },
+              "guarda": {
+                "aceita": true,
+                "motivos": [],
+                "politica": "conversa"
+              }
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "historia"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_historia",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "dialogo_gerativo_proprio",
+                  "id": "conversa:gerada_continuacao",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "dialogo_gerativo_proprio",
+                "action": "responder",
+                "reason": "operação explícita e referentes da sessão"
+              }
+            },
+            "id": "conversa:gerada_continuacao",
+            "response": "Ficção: essa personagem continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção.",
+            "mechanism": "dialogo_gerativo_proprio",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Mude o final: ela encontra uma companheira.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "mude",
+                  "final",
+                  "encontra",
+                  "companheira"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_continuacao",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "geracao_neural",
+                  "id": "conversa:gerada_final",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "geracao_neural",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "geracao_neural",
+              "kingdom": "neural",
+              "role": "Escreve respostas com o gerador próprio (desligado por padrão).",
+              "regulated_by": [
+                "catracas",
+                "fontes"
+              ]
+            },
+            "id": "conversa:gerada_final",
+            "response": "Ficção:\nessa personagem decidiu voltar com uma companheira. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam.",
+            "mechanism": "geracao_neural",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Continue depois desse final.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [
+                  "continue",
+                  "depois",
+                  "desse",
+                  "final"
+                ],
+                "negation": false
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "conversa:gerada_final",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "recuperador",
+                  "id": "fora",
+                  "action": "recusar",
+                  "evidence": {}
+                },
+                {
+                  "species": "busca_aprendida",
+                  "id": null,
+                  "action": "calar",
+                  "evidence": {
+                    "search_subject": "mundo_michelangelo",
+                    "search_fact": 4,
+                    "search_probability": 0.2711,
+                    "fact": 4,
+                    "probability": 0.8909,
+                    "margin": 0.1621,
+                    "cues_covered": 2,
+                    "question_type": "simnao"
+                  }
+                }
+              ],
+              "decision": {
+                "species": "recuperador",
+                "action": "recusar",
+                "reason": "a busca achou Michelangelo, mas a leitura não confirmou"
+              }
+            },
+            "ecosystem": {
+              "species": "recuperador",
+              "kingdom": "conhecimento",
+              "role": "Encontra a entrada editorial mais próxima da pergunta pelas palavras.",
+              "regulated_by": [
+                "compreensao_neural",
+                "fontes",
+                "recusa",
+                "catracas"
+              ]
+            },
+            "id": "fora",
+            "response": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+            "mechanism": "recuperador",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        },
+        {
+          "usuario": "Não invente um nome para a personagem.",
+          "resposta": {
+            "generation": {
+              "habilitada": true,
+              "usada": false,
+              "motivo": "pedido_fora_do_escopo",
+              "tentativas": 0
+            },
+            "dialogue_generation": {
+              "habilitada": true,
+              "usada": false,
+              "memoria_usada": false,
+              "recuou": false,
+              "motivo": "rota_preservada",
+              "politica": "rigida"
+            },
+            "internal_state": {
+              "understanding": {
+                "question_type": "simnao",
+                "entities": [],
+                "cues": [],
+                "negation": true
+              },
+              "memory": {
+                "conversation_subject": null,
+                "previous_turn_id": "fora",
+                "pending_offer": false
+              },
+              "knowledge": {},
+              "proposals": [
+                {
+                  "species": "linguagem_conversa",
+                  "id": "conversa:cancelamento",
+                  "action": "responder",
+                  "evidence": {}
+                }
+              ],
+              "decision": {
+                "species": "linguagem_conversa",
+                "action": "responder",
+                "reason": "primeira espécie a responder"
+              }
+            },
+            "ecosystem": {
+              "species": "linguagem_conversa",
+              "kingdom": "conversa",
+              "role": "Reage a relatos do dia a dia com o tom certo.",
+              "regulated_by": [
+                "crise",
+                "estado_conversa",
+                "catracas"
+              ]
+            },
+            "id": "conversa:cancelamento",
+            "response": "Pedido de escrita cancelado.",
+            "mechanism": "linguagem_conversa",
+            "neural_active": true,
+            "plan": null,
+            "experimental_dialogue": false,
+            "experimental_programming": false,
+            "programming_active": true,
+            "programming_effects_model": {
+              "active": true,
+              "parameters": 1679,
+              "external_weights": false,
+              "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+            },
+            "has_proof": false
+          }
+        }
+      ]
+    }
+  ],
+  "health_antes": {
+    "status": "ok",
+    "name": "CRIVO",
+    "dialogue_generation": {
+      "ativa": true,
+      "atos": [
+        "continuar",
+        "corrigir",
+        "historia"
+      ],
+      "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646"
+    },
+    "programming_active": true,
+    "question_interpretation_active": true,
+    "reasoning_active": true,
+    "knowledge_exploration_active": true,
+    "build_commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+    "programming_effects_model": {
+      "active": true,
+      "parameters": 1679,
+      "external_weights": false,
+      "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+    },
+    "engine": "python-local",
+    "external_ai": false,
+    "generation": {
+      "enabled": true,
+      "available": true,
+      "reason": ""
+    },
+    "experimental_dialogue": false,
+    "experimental_programming": false
+  },
+  "health_depois": {
+    "status": "ok",
+    "name": "CRIVO",
+    "dialogue_generation": {
+      "ativa": true,
+      "atos": [
+        "continuar",
+        "corrigir",
+        "historia"
+      ],
+      "checkpoint_sha256": "566cf4387d27b6e880cee2ad60c9668e8d7d8cbd40748272e84e753a60b0c646"
+    },
+    "programming_active": true,
+    "question_interpretation_active": true,
+    "reasoning_active": true,
+    "knowledge_exploration_active": true,
+    "build_commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+    "programming_effects_model": {
+      "active": true,
+      "parameters": 1679,
+      "external_weights": false,
+      "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+    },
+    "engine": "python-local",
+    "external_ai": false,
+    "generation": {
+      "enabled": true,
+      "available": true,
+      "reason": ""
+    },
+    "experimental_dialogue": false,
+    "experimental_programming": false
+  }
+}
