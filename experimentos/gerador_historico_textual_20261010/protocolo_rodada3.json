@@ -1,0 +1,44 @@
+{
+  "congelado_em_utc": "2026-10-10T16:55:08.644035+00:00",
+  "base_experimento_commit": "1fe084e9618654ba9af554eb0cd76ada451894f9",
+  "sha256_avaliacao": "5ba9c48eebac0b461fb115ca368ec6e9cfc6a4f8fc79c0847e20aedfd33f9f0b",
+  "checkpoint_inicial": "checkpoint_rodada2.json.gz",
+  "checkpoint_inicial_sha256": "1027f94344ca2f0853a7dbecf709f797757763cf89bc219625448771c8d6d080",
+  "limite_parametros": 81433,
+  "vocabulario": "preservar todos os 720 índices do checkpoint próprio",
+  "hiperparametros": {
+    "epocas": 24,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 173,
+    "taxa": 0.0009,
+    "validar_cada": 2,
+    "paciencia": 8,
+    "dropout": 0.15,
+    "dropout_tokens": 0.05,
+    "amostragem": 0.1,
+    "aquecimento": 3
+  },
+  "decodificacao": {
+    "max_tokens": 64,
+    "feixe": 1
+  },
+  "controles": [
+    "antes/depois no mesmo holdout",
+    "mesmos pesos sem histórico",
+    "histórico invertido"
+  ],
+  "portao": {
+    "sessoes_mantem_fio_minimo": 6,
+    "sessoes_total": 12,
+    "erros_fatos_sessao_maximo": 0,
+    "naturalidade": "revisão semântica das respostas; triagem lexical não aprova"
+  },
+  "aprovado": false,
+  "ativo_no_chat": false
+}
