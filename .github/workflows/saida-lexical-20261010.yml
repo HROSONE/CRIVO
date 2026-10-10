@@ -1,0 +1,58 @@
+name: Saida lexical 2026-10-10
+
+on:
+  push:
+    branches:
+      - codex/saida-lexical-20261010
+    paths:
+      - 'experimentos/saida_lexical_20261010/executar.py'
+      - 'experimentos/saida_lexical_20261010/protocolo.json'
+      - '.github/workflows/saida-lexical-20261010.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  saida-lexical:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Compilar experimento
+        run: python -m py_compile experimentos/saida_lexical_20261010/executar.py
+      - name: Executar candidato unico
+        run: python experimentos/saida_lexical_20261010/executar.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: saida-lexical-20261010
+          path: |
+            experimentos/saida_lexical_20261010/resultados.json
+            experimentos/saida_lexical_20261010/RELATORIO.md
+            experimentos/saida_lexical_20261010/checkpoint_saida_lexical.json.gz
+          if-no-files-found: warn
+      - name: Preservar resultados na branch
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            experimentos/saida_lexical_20261010/resultados.json \
+            experimentos/saida_lexical_20261010/RELATORIO.md \
+            experimentos/saida_lexical_20261010/checkpoint_saida_lexical.json.gz
+          if git diff --cached --quiet; then
+            echo 'Sem novos resultados para registrar.'
+          else
+            git commit -m 'Registra resultado do treino de saida lexical'
+            git push
+          fi
