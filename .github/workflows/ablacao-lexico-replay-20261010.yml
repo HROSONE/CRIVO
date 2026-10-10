@@ -1,0 +1,60 @@
+name: Ablacao lexico replay 2026-10-10
+
+on:
+  push:
+    branches:
+      - codex/ablacao-lexico-replay-20261010
+    paths:
+      - 'experimentos/ablacao_lexico_replay_20261010/executar.py'
+      - 'experimentos/ablacao_lexico_replay_20261010/protocolo.json'
+      - '.github/workflows/ablacao-lexico-replay-20261010.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ablacao-lexico-replay-20261010
+  cancel-in-progress: false
+
+jobs:
+  ablacao:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/ablacao-lexico-replay-20261010
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Executar ablação congelada
+        run: python experimentos/ablacao_lexico_replay_20261010/executar.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ablacao-lexico-replay-20261010
+          path: |
+            experimentos/ablacao_lexico_replay_20261010/resultados.json
+            experimentos/ablacao_lexico_replay_20261010/RELATORIO.md
+            experimentos/ablacao_lexico_replay_20261010/corpus_sem_replay.json.gz
+            experimentos/ablacao_lexico_replay_20261010/checkpoint_*.json.gz
+      - name: Preservar resultados na branch
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add experimentos/ablacao_lexico_replay_20261010/resultados.json \
+                  experimentos/ablacao_lexico_replay_20261010/RELATORIO.md \
+                  experimentos/ablacao_lexico_replay_20261010/corpus_sem_replay.json.gz \
+                  experimentos/ablacao_lexico_replay_20261010/checkpoint_*.json.gz
+          if ! git diff --cached --quiet; then
+            git commit -m "Registra resultados da ablação léxico x replay"
+            git push origin HEAD:codex/ablacao-lexico-replay-20261010
+          fi

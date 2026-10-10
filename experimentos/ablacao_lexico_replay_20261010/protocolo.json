@@ -1,0 +1,76 @@
+{
+  "congelado_em_utc": "2026-10-10T21:36:00Z",
+  "base_commit": "0e70af95a10658964f3deb1402bca98697d11544",
+  "objetivo": "Isolar no desenvolvimento o efeito da realocacao lexical e do replay legado, sem ler o holdout final conhecido.",
+  "desenho": {
+    "fatores": {
+      "lexico": [
+        "original",
+        "realocado_151_entradas"
+      ],
+      "replay_legado": [
+        false,
+        true
+      ]
+    },
+    "condicoes": [
+      "original_sem_replay",
+      "original_com_replay",
+      "realocado_sem_replay",
+      "realocado_com_replay"
+    ],
+    "reuso": "realocado_com_replay reutiliza exatamente checkpoint_sessoes.json.gz do PR #137."
+  },
+  "sha256": {
+    "corpus": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+    "checkpoint_original": "a180556113106ca125f0420cc80227a6703908678babe7725cda40fafb62ffaa",
+    "checkpoint_realocado": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "checkpoint_reuso": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030"
+  },
+  "contagens_esperadas": {
+    "treino_com_replay": 3699,
+    "replay": 999,
+    "treino_sem_replay": 2700,
+    "validacao_antiga": 334,
+    "validacao_nova": 94,
+    "validacao_total": 428
+  },
+  "parametros": 81433,
+  "vocabulario": 720,
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "avaliacao": {
+    "somente_desenvolvimento": true,
+    "separa_dev_antiga_e_nova": true,
+    "metricas": [
+      "entropia_cruzada",
+      "perplexidade",
+      "correspondencia_literal_em_geracao_livre",
+      "oov_copiavel",
+      "oov_nao_copiavel"
+    ],
+    "holdout_final_10_sessoes": "EXCLUIDO: conhecido apos o PR #137; nao pode orientar esta fase.",
+    "comparacao_entre_lexicos": "Entropia cruzada entre lexicos somente no suporte comum: exemplos cujo alvo inteiro e geravel (vocabulario ou copia da fonte) pelos dois vocabularios. CE completa entre lexicos e informativa apenas dentro do mesmo vocabulario."
+  },
+  "promocao": {
+    "permitida": false,
+    "aprovado": false,
+    "ativo_no_chat": false
+  }
+}
