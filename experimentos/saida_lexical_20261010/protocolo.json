@@ -1,0 +1,73 @@
+{
+  "congelado_em_utc": "2026-10-10T23:23:00Z",
+  "base_commit": "a0a598eb74c4a3cfe3c896d806ca4cacc25d1e2a",
+  "objetivo": "Testar se a falha de transferencia se concentra no mecanismo de saida, reponderando somente a perda dos primeiros tokens e dos alvos que precisam ser gerados pelo lexico.",
+  "corpus": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+  "checkpoint_inicial": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+  "checkpoint_controle": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz",
+  "sha256": {
+    "corpus": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+    "checkpoint_inicial": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "checkpoint_controle": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030"
+  },
+  "modelo": {
+    "parametros": 81433,
+    "vocabulario": 720,
+    "ocultos": 24,
+    "embeddings": 16,
+    "buckets": 128
+  },
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "perda_ponderada": {
+    "base": 1.0,
+    "bonus_primeiros_tokens": 0.75,
+    "quantidade_primeiros_tokens": 3,
+    "bonus_geracao_lexical": 0.75,
+    "peso_maximo": 2.5,
+    "definicao_geracao_lexical": "alvo esta no vocabulario, nao e EOS e nao aparece na fonte copiavel",
+    "somente_treino": true,
+    "validacao_permanece_nao_ponderada": true
+  },
+  "controle_desenvolvimento": {
+    "antiga": {"exemplos": 334, "ce": 0.9434810539897929, "exatas": 47},
+    "nova": {"exemplos": 94, "ce": 4.262216848936583, "exatas": 1, "nll_geracao_lexical": 6.0482, "erros_token0": 84, "nao_exatas": 93},
+    "total": {"exemplos": 428, "ce": 1.3876592666974317}
+  },
+  "criterio_precongelado": {
+    "reter_antigo": "CE antiga <= controle E exatas antigas >= 47",
+    "melhorar_novo": "CE nova < 4.262216848936583 E exatas novas >= 1",
+    "melhorar_saida_lexical": "NLL media geracao_lexical < 6.0482",
+    "melhorar_abertura": "erros no token 0 entre respostas nao-exatas < 84",
+    "sucesso_conjunto": "todos os quatro criterios acima"
+  },
+  "regras": {
+    "um_unico_candidato": true,
+    "sem_grid_de_pesos": true,
+    "nenhum_modelo_externo": true,
+    "nenhuma_regra_de_dialogo": true,
+    "nenhuma_nova_memoria_ou_acervo": true,
+    "nenhuma_mudanca_de_arquitetura_ou_parametros": true,
+    "checkpoint_publico_nao_alterar": true,
+    "holdout_final_pr137": "PROIBIDO e nao lido",
+    "desenvolvimento_94_mais_334": "conhecido; serve apenas para selecao/diagnostico e nao prova generalizacao"
+  },
+  "promocao": false,
+  "ativo_no_chat": false
+}
