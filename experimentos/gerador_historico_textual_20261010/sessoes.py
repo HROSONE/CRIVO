@@ -80,7 +80,8 @@ def treino():
 
 def depois():
     if (DIR/'sessoes_depois_com_historico.json').exists():raise ValueError('Preservar avaliação final')
-    s=ler_json(DIR/'selecao_sessoes_antes_holdout.json');path=DIR/s['checkpoint']
+    nome='selecao_final_sessoes_antes_holdout.json' if (DIR/'selecao_final_sessoes_antes_holdout.json').exists() else 'selecao_sessoes_antes_holdout.json'
+    s=ler_json(DIR/nome);path=DIR/s['checkpoint']
     if sha(path)!=s['checkpoint_sha256']:raise ValueError('Seleção alterada')
     resumo={}
     for modo in ['com_historico','sem_historico','ordem_inversa']:
