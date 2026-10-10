@@ -1,0 +1,32 @@
+{
+  "congelado_em_utc": "2026-10-10T23:44:00Z",
+  "objetivo": "Medir se o corpus de sessoes incentiva atalhos familia/turno para a forma da resposta, antes de qualquer novo treino.",
+  "corpus": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+  "recortes_esperados": {
+    "treino_total": 3699,
+    "treino_sessoes": 2686,
+    "replay_legado": 999,
+    "apoio_lexical": 14,
+    "dev_sessoes": 94
+  },
+  "metricas": [
+    "entropia do primeiro token e do prefixo de dois tokens",
+    "informacao mutua normalizada com familia, turno e familia+turno",
+    "pureza da abertura por familia e por familia+turno",
+    "quantas familias diferentes compartilham cada abertura/prefixo",
+    "para cada exemplo novo: numero de familias de treino que sustentam a mesma abertura, inclusive no mesmo turno",
+    "vizinho textual por Jaccard da mensagem atual e compatibilidade da abertura"
+  ],
+  "flags_precongeladas": {
+    "atalho_familia_turno_forte": "NMI(prefixo2; familia+turno) >= 0.65",
+    "prefixos_pouco_cruzados": "pelo menos 40% dos exemplos de sessoes de treino usam prefixo2 presente em no maximo 2 familias",
+    "suporte_cross_family_novo_baixo": "em pelo menos 50% dos 94 exemplos novos a abertura alvo aparece em menos de 3 familias de treino no mesmo turno",
+    "texto_superficial_nao_resolve": "top5 Jaccard da mensagem contem abertura correta em menos de 50% dos exemplos novos"
+  },
+  "regras": {
+    "nenhum_treino": true,
+    "nenhum_peso_lido": true,
+    "nenhuma_promocao": true,
+    "holdout_final_pr137": "nao ler"
+  }
+}
