@@ -1,0 +1,4922 @@
+{
+  "base_commit": "c3b460658c5505bc60475c13134c3bfb07c936d5",
+  "nenhum_treino": true,
+  "pesos_alterados": false,
+  "holdout_final_lido": false,
+  "resumos": {
+    "treino": {
+      "exemplos": 3699,
+      "acertos_primeiro": 1998,
+      "acuracia_primeiro": 0.5401459854014599,
+      "rank_mediano": 1,
+      "rank_medio": 4.373073803730738,
+      "alvo_top5": 3192,
+      "alvo_top10": 3429,
+      "prob_alvo_media": 0.34684031721025044,
+      "margem_top1_menos_alvo_media": 0.11744617269525424,
+      "gate_gerar_medio": 0.7342755967561744
+    },
+    "dev_antiga": {
+      "exemplos": 334,
+      "acertos_primeiro": 133,
+      "acuracia_primeiro": 0.39820359281437123,
+      "rank_mediano": 2.0,
+      "rank_medio": 9.706586826347305,
+      "alvo_top5": 250,
+      "alvo_top10": 287,
+      "prob_alvo_media": 0.3061488565990187,
+      "margem_top1_menos_alvo_media": 0.1794069276262833,
+      "gate_gerar_medio": 0.9099068958350546
+    },
+    "dev_nova": {
+      "exemplos": 94,
+      "acertos_primeiro": 10,
+      "acuracia_primeiro": 0.10638297872340426,
+      "rank_mediano": 7.0,
+      "rank_medio": 27.351063829787233,
+      "alvo_top5": 41,
+      "alvo_top10": 58,
+      "prob_alvo_media": 0.10473100891710185,
+      "margem_top1_menos_alvo_media": 0.26764178639906416,
+      "gate_gerar_medio": 0.8496458940050774
+    }
+  },
+  "gates": {
+    "treino": {
+      "fonte_disponivel": {
+        "n": 1612,
+        "media": 0.5563707836851934,
+        "mediana": 0.5572669076277739
+      },
+      "geracao_lexical": {
+        "n": 2087,
+        "media": 0.8716893766653333,
+        "mediana": 0.9486308991014929
+      }
+    },
+    "dev_antiga": {
+      "fonte_disponivel": {
+        "n": 88,
+        "media": 0.8161479496687071,
+        "mediana": 0.9516403983295505
+      },
+      "geracao_lexical": {
+        "n": 246,
+        "media": 0.943446681455536,
+        "mediana": 0.9824418787774856
+      }
+    },
+    "dev_nova": {
+      "fonte_disponivel": {
+        "n": 32,
+        "media": 0.7800829217188002,
+        "mediana": 0.8147889196932714
+      },
+      "geracao_lexical": {
+        "n": 62,
+        "media": 0.885549363572188,
+        "mediana": 0.9766287154227857
+      }
+    }
+  },
+  "vizinhanca": {
+    "dev_nova": {
+      "n": 94,
+      "top1_mesma_abertura": 9,
+      "top5_tem_mesma_abertura": 17,
+      "taxa_top5_mesma_abertura": 0.18085106382978725,
+      "erra_cabeca_com_vizinho_correto": 11,
+      "taxa_erra_cabeca_dado_vizinho_correto": 0.6470588235294118,
+      "margem_latente_media": -0.06991592068675621
+    },
+    "dev_antiga": {
+      "n": 334,
+      "top1_mesma_abertura": 149,
+      "top5_tem_mesma_abertura": 196,
+      "taxa_top5_mesma_abertura": 0.5868263473053892,
+      "erra_cabeca_com_vizinho_correto": 82,
+      "taxa_erra_cabeca_dado_vizinho_correto": 0.41836734693877553,
+      "margem_latente_media": 0.01562808820590669
+    }
+  },
+  "separacao_dev_nova": {
+    "cos_intra_familia": 0.7833163459086147,
+    "cos_inter_familia": 0.6980856600198669,
+    "delta_intra_menos_inter": 0.08523068588874771,
+    "cos_mesma_abertura": 0.7286735220160909,
+    "cos_abertura_diferente": 0.7179792215657438,
+    "delta_mesma_abertura": 0.010694300450347138,
+    "pares_intra_familia": 1059,
+    "pares_inter_familia": 3312
+  },
+  "flags": {
+    "gap_primeiro_token_novo": true,
+    "gap_acuracia_antiga_menos_nova": 0.291820614090967,
+    "vizinhanca_nao_transfere_abertura": true,
+    "cabeca_falha_mesmo_com_vizinho_correto": true,
+    "gate_pouco_condicionado": false,
+    "delta_gate_lexical_menos_fonte": 0.10546644185338783,
+    "familia_latente_separavel": true
+  },
+  "detalhes_dev_nova": [
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-0",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Nubira-21 ficou em silêncio depois do meu pedido.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": true,
+      "prob_alvo": 0.28133699280611807,
+      "prob_top1": 0.28133699280611807,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9810571874812184,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-0",
+        "familia": "pessoa_silencio",
+        "alvo": "você",
+        "pred": "você",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "ainda",
+          "ainda",
+          "fábio",
+          "ainda"
+        ],
+        "top5_similaridades": [
+          0.9229504277285148,
+          0.8907321094071251,
+          0.8832409315530543,
+          0.8652375223566491,
+          0.8652184266090692
+        ],
+        "top5_familias_treino": [
+          "ausencia-012",
+          "nao_saber_pensamento",
+          "nao_saber_pensamento",
+          "convite_sem_cobrar",
+          "nao_saber_pensamento"
+        ],
+        "melhor_cos_mesma_abertura": 0.831919260664452,
+        "melhor_cos_abertura_diferente": 0.9229504277285148,
+        "margem_latente_mesma_menos_diferente": -0.09103116706406278
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-1",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Pode ser que não tenha entendido?",
+      "alvo_primeiro": "Essa",
+      "alvo_primeiro_cf": "essa",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.002631277294080739,
+      "prob_top1": 0.5681053318549842,
+      "margem_top1_menos_alvo": 0.5654740545609035,
+      "rank_alvo": 18,
+      "gate_gerar": 0.9910990802595966,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-1",
+        "familia": "pessoa_silencio",
+        "alvo": "essa",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9498535463557549,
+          0.9496878838465035,
+          0.9488436428486677,
+          0.9488290360225973,
+          0.9486161655145773
+        ],
+        "top5_familias_treino": [
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso"
+        ],
+        "melhor_cos_mesma_abertura": 0.8042615351735785,
+        "melhor_cos_abertura_diferente": 0.9498535463557549,
+        "margem_latente_mesma_menos_diferente": -0.14559201118217646
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-2",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Como pergunto sem inventar o motivo?",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.008256400455857191,
+      "prob_top1": 0.31815060578195714,
+      "margem_top1_menos_alvo": 0.30989420532609996,
+      "rank_alvo": 12,
+      "gate_gerar": 0.9776035104705497,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-2",
+        "familia": "pessoa_silencio",
+        "alvo": "nubira-21",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9486059157459614,
+          0.9480799019437124,
+          0.9476568912199369,
+          0.9473532361638987,
+          0.9471415387791368
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9486059157459614,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-3",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Só a pergunta curta.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Nubira-21",
+      "pred_primeiro_cf": "nubira-21",
+      "correto_primeiro": true,
+      "prob_alvo": 0.18404240004286226,
+      "prob_top1": 0.18404240004286226,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.4932704007967678,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-3",
+        "familia": "pessoa_silencio",
+        "alvo": "nubira-21",
+        "pred": "nubira-21",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "o",
+          "o",
+          "giovana"
+        ],
+        "top5_similaridades": [
+          0.9243132350844454,
+          0.9228937974147102,
+          0.9201446109108796,
+          0.9148701030769331,
+          0.9136069509047546
+        ],
+        "top5_familias_treino": [
+          "capacidade_mensagem",
+          "capacidade_mensagem",
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "convite_sem_cobrar"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9243132350844454,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-4",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Ainda não respondeu.",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.02004439543832337,
+      "prob_top1": 0.15045819192919,
+      "margem_top1_menos_alvo": 0.13041379649086662,
+      "rank_alvo": 10,
+      "gate_gerar": 0.6176079359857419,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-4",
+        "familia": "pessoa_silencio",
+        "alvo": "ainda",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "o",
+          "ainda",
+          "o",
+          "giovana",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9374977206977989,
+          0.9317137358164744,
+          0.9290310288339758,
+          0.9264223590036648,
+          0.9259165711980631
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "pedido_esclarecido",
+          "erro_sem_fracasso"
+        ],
+        "melhor_cos_mesma_abertura": 0.9317137358164744,
+        "melhor_cos_abertura_diferente": 0.9374977206977989,
+        "margem_latente_mesma_menos_diferente": -0.005783984881324478
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-0-5",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Você sabe o que a pessoa pensa?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.17151376504665455,
+      "prob_top1": 0.24750532145626872,
+      "margem_top1_menos_alvo": 0.07599155640961416,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9912285694361213,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-0-5",
+        "familia": "pessoa_silencio",
+        "alvo": "não",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "você",
+          "não",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9559064992408617,
+          0.9529225012146993,
+          0.9527933258238901,
+          0.952407971478147,
+          0.9523443724276333
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.9529225012146993,
+        "melhor_cos_abertura_diferente": 0.9559064992408617,
+        "margem_latente_mesma_menos_diferente": -0.0029839980261623378
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-0",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, Nubira-21 ficou em silêncio depois do meu pedido.",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.1318268001547707,
+      "prob_top1": 0.30526320869420126,
+      "margem_top1_menos_alvo": 0.17343640853943057,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9813010850107993,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-0",
+        "familia": "pessoa_silencio",
+        "alvo": "o",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "não",
+          "você",
+          "você",
+          "qual",
+          "o"
+        ],
+        "top5_similaridades": [
+          0.8955057057207156,
+          0.8830755862603041,
+          0.8830512297752859,
+          0.8767265743721474,
+          0.8754403276699929
+        ],
+        "top5_familias_treino": [
+          "ausencia-012",
+          "nao_saber_pensamento",
+          "nao_saber_pensamento",
+          "pedido_esclarecido",
+          "recusar_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.8754403276699929,
+        "melhor_cos_abertura_diferente": 0.8955057057207156,
+        "margem_latente_mesma_menos_diferente": -0.020065378050722726
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-1",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, pode ser que não tenha entendido?",
+      "alvo_primeiro": "Pode",
+      "alvo_primeiro_cf": "pode",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.004296019685015129,
+      "prob_top1": 0.1774123787569779,
+      "margem_top1_menos_alvo": 0.17311635907196277,
+      "rank_alvo": 36,
+      "gate_gerar": 0.931637346486334,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-1",
+        "familia": "pessoa_silencio",
+        "alvo": "pode",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "a",
+          "você",
+          "você",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.8901030176832964,
+          0.8899866124537139,
+          0.889461854411848,
+          0.8864764600469508,
+          0.8808488623293567
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.7930019238915715,
+        "melhor_cos_abertura_diferente": 0.8901030176832964,
+        "margem_latente_mesma_menos_diferente": -0.09710109379172482
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-2",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, como pergunto sem inventar o motivo?",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0024916493050231438,
+      "prob_top1": 0.22189616933990003,
+      "margem_top1_menos_alvo": 0.2194045200348769,
+      "rank_alvo": 54,
+      "gate_gerar": 0.9297456662132867,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-2",
+        "familia": "pessoa_silencio",
+        "alvo": "nubira-21",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "você",
+          "você",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9167501799222475,
+          0.9122038330941135,
+          0.908689505227702,
+          0.9073699478891738,
+          0.9072920122103859
+        ],
+        "top5_familias_treino": [
+          "emprestimo_dono",
+          "emprestimo_dono",
+          "recusar_convite",
+          "recusar_convite",
+          "emprestimo_dono"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9167501799222475,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-3",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, só a pergunta curta.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "sozinho",
+      "pred_primeiro_cf": "sozinho",
+      "correto_primeiro": false,
+      "prob_alvo": 0.01066270747174095,
+      "prob_top1": 0.46135136346550687,
+      "margem_top1_menos_alvo": 0.4506886559937659,
+      "rank_alvo": 14,
+      "gate_gerar": 0.19012094330889373,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-3",
+        "familia": "pessoa_silencio",
+        "alvo": "você",
+        "pred": "sozinho",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "qual",
+          "qual",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9126380376778441,
+          0.9117460504993333,
+          0.901298923387686,
+          0.9000175303197504,
+          0.899469780463822
+        ],
+        "top5_familias_treino": [
+          "agradecer_sem_exagero",
+          "agradecer_sem_exagero",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": 0.8840201306782233,
+        "melhor_cos_abertura_diferente": 0.9126380376778441,
+        "margem_latente_mesma_menos_diferente": -0.028617906999620857
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-4",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, ainda não respondeu.",
+      "alvo_primeiro": "Por",
+      "alvo_primeiro_cf": "por",
+      "pred_primeiro": "sozinho",
+      "pred_primeiro_cf": "sozinho",
+      "correto_primeiro": false,
+      "prob_alvo": 0.024075264013162397,
+      "prob_top1": 0.28048045988832415,
+      "margem_top1_menos_alvo": 0.25640519587516175,
+      "rank_alvo": 9,
+      "gate_gerar": 0.5159213325502493,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-4",
+        "familia": "pessoa_silencio",
+        "alvo": "por",
+        "pred": "sozinho",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "giovana",
+          "heitor",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9427782668915173,
+          0.9405697362699796,
+          0.9404611730318024,
+          0.9372414058304589,
+          0.9348027351680828
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9427782668915173,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-0-1-5",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, você sabe o que a pessoa pensa?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.07194683687937949,
+      "prob_top1": 0.22668397228870968,
+      "margem_top1_menos_alvo": 0.1547371354093302,
+      "rank_alvo": 3,
+      "gate_gerar": 0.9728826942878346,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-0-1-5",
+        "familia": "pessoa_silencio",
+        "alvo": "não",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "ainda",
+          "ainda",
+          "ainda",
+          "a",
+          "ainda"
+        ],
+        "top5_similaridades": [
+          0.9537522599679272,
+          0.9515134118481083,
+          0.9434892783866297,
+          0.9419808840631018,
+          0.9418062697679064
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.9324776787089588,
+        "melhor_cos_abertura_diferente": 0.9537522599679272,
+        "margem_latente_mesma_menos_diferente": -0.021274581258968417
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-0",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Ocrélio-32 ficou em silêncio depois do meu pedido.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": true,
+      "prob_alvo": 0.38678938693055515,
+      "prob_top1": 0.38678938693055515,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9920994743692715,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-0",
+        "familia": "pessoa_silencio",
+        "alvo": "você",
+        "pred": "você",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "ainda",
+          "ainda",
+          "veja",
+          "fábio"
+        ],
+        "top5_similaridades": [
+          0.9355329212002855,
+          0.8883396669093395,
+          0.8883062282478769,
+          0.8823376015118477,
+          0.8749208622144345
+        ],
+        "top5_familias_treino": [
+          "ausencia-012",
+          "nao_saber_pensamento",
+          "nao_saber_pensamento",
+          "apoio_lexical",
+          "convite_sem_cobrar"
+        ],
+        "melhor_cos_mesma_abertura": 0.8290300066223462,
+        "melhor_cos_abertura_diferente": 0.9355329212002855,
+        "margem_latente_mesma_menos_diferente": -0.10650291457793937
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-1",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Pode ser que não tenha entendido?",
+      "alvo_primeiro": "Essa",
+      "alvo_primeiro_cf": "essa",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0018024587923225713,
+      "prob_top1": 0.49135533039565643,
+      "margem_top1_menos_alvo": 0.4895528716033339,
+      "rank_alvo": 18,
+      "gate_gerar": 0.9960042986678784,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-1",
+        "familia": "pessoa_silencio",
+        "alvo": "essa",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9461000757362901,
+          0.9460402718290557,
+          0.9456003145553199,
+          0.94551614336171,
+          0.9453163731648688
+        ],
+        "top5_familias_treino": [
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso"
+        ],
+        "melhor_cos_mesma_abertura": 0.7882004638553839,
+        "melhor_cos_abertura_diferente": 0.9461000757362901,
+        "margem_latente_mesma_menos_diferente": -0.15789961188090618
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-2",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Como pergunto sem inventar o motivo?",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.004685044463611016,
+      "prob_top1": 0.3264963253638661,
+      "margem_top1_menos_alvo": 0.32181128090025507,
+      "rank_alvo": 20,
+      "gate_gerar": 0.9862226929226459,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-2",
+        "familia": "pessoa_silencio",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9455890329631111,
+          0.9432638501211427,
+          0.9416819968625879,
+          0.9412635406250933,
+          0.9405956409515868
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9455890329631111,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-3",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Só a pergunta curta.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.1356682322816907,
+      "prob_top1": 0.23250126344988237,
+      "margem_top1_menos_alvo": 0.09683303116819167,
+      "rank_alvo": 3,
+      "gate_gerar": 0.6394090252739603,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-3",
+        "familia": "pessoa_silencio",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "o",
+          "você",
+          "você",
+          "heitor",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9158822725755447,
+          0.9141301339099299,
+          0.9140559674082711,
+          0.9139972931292781,
+          0.9138267109344917
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "capacidade_mensagem",
+          "erro_sem_fracasso"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9158822725755447,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-4",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Ainda não respondeu.",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.01886642492833759,
+      "prob_top1": 0.19858315873999946,
+      "margem_top1_menos_alvo": 0.17971673381166187,
+      "rank_alvo": 11,
+      "gate_gerar": 0.7324915914012591,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-4",
+        "familia": "pessoa_silencio",
+        "alvo": "ainda",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "o",
+          "ainda",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.929888539671311,
+          0.9256168017032667,
+          0.9246180341355634,
+          0.9239858072813363,
+          0.9238284172791305
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso",
+          "erro_sem_fracasso"
+        ],
+        "melhor_cos_mesma_abertura": 0.9256168017032667,
+        "melhor_cos_abertura_diferente": 0.929888539671311,
+        "margem_latente_mesma_menos_diferente": -0.0042717379680443646
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-0-5",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Você sabe o que a pessoa pensa?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.1635098784645659,
+      "prob_top1": 0.2715074392533691,
+      "margem_top1_menos_alvo": 0.10799756078880321,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9955695390786508,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-0-5",
+        "familia": "pessoa_silencio",
+        "alvo": "não",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "não",
+          "não",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9529326747284765,
+          0.9525312583313092,
+          0.9502099512828018,
+          0.9497144450620334,
+          0.9496224253849755
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "convite_sem_cobrar"
+        ],
+        "melhor_cos_mesma_abertura": 0.9529326747284765,
+        "melhor_cos_abertura_diferente": 0.9496224253849755,
+        "margem_latente_mesma_menos_diferente": 0.0033102493435009928
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-0",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, Ocrélio-32 ficou em silêncio depois do meu pedido.",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.10628770615872657,
+      "prob_top1": 0.3634461158264342,
+      "margem_top1_menos_alvo": 0.25715840966770764,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9879111372296356,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-0",
+        "familia": "pessoa_silencio",
+        "alvo": "o",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "não",
+          "você",
+          "você",
+          "o",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.895294947444474,
+          0.8875631542511134,
+          0.8844938296804703,
+          0.8743027471291025,
+          0.8708501844419821
+        ],
+        "top5_familias_treino": [
+          "ausencia-012",
+          "nao_saber_pensamento",
+          "nao_saber_pensamento",
+          "recusar_convite",
+          "pedido_esclarecido"
+        ],
+        "melhor_cos_mesma_abertura": 0.8743027471291025,
+        "melhor_cos_abertura_diferente": 0.895294947444474,
+        "margem_latente_mesma_menos_diferente": -0.020992200315371523
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-1",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, pode ser que não tenha entendido?",
+      "alvo_primeiro": "Pode",
+      "alvo_primeiro_cf": "pode",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.004246643973317575,
+      "prob_top1": 0.18678825918823075,
+      "margem_top1_menos_alvo": 0.18254161521491316,
+      "rank_alvo": 33,
+      "gate_gerar": 0.933076979789685,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-1",
+        "familia": "pessoa_silencio",
+        "alvo": "pode",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "a",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.8867086521603204,
+          0.8862346936035963,
+          0.8854944158908262,
+          0.8817009741120101,
+          0.8761379365699511
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.7925160661909193,
+        "melhor_cos_abertura_diferente": 0.8867086521603204,
+        "margem_latente_mesma_menos_diferente": -0.09419258596940105
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-2",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, como pergunto sem inventar o motivo?",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0029406998523111784,
+      "prob_top1": 0.2283279740427785,
+      "margem_top1_menos_alvo": 0.2253872741904673,
+      "rank_alvo": 48,
+      "gate_gerar": 0.9312204758048448,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-2",
+        "familia": "pessoa_silencio",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "era",
+          "você",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9142698314541652,
+          0.9098250841069847,
+          0.9051207732333695,
+          0.9047051511978211,
+          0.9046091087354247
+        ],
+        "top5_familias_treino": [
+          "emprestimo_dono",
+          "emprestimo_dono",
+          "convite_sem_cobrar",
+          "recusar_convite",
+          "emprestimo_dono"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9142698314541652,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-3",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, só a pergunta curta.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "sozinho",
+      "pred_primeiro_cf": "sozinho",
+      "correto_primeiro": false,
+      "prob_alvo": 0.011241884029890317,
+      "prob_top1": 0.47402945901415156,
+      "margem_top1_menos_alvo": 0.46278757498426126,
+      "rank_alvo": 14,
+      "gate_gerar": 0.19087574759806164,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-3",
+        "familia": "pessoa_silencio",
+        "alvo": "você",
+        "pred": "sozinho",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "qual",
+          "qual",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9096275777427032,
+          0.9087792785138544,
+          0.8998781628233131,
+          0.8985871690118713,
+          0.8980485339198104
+        ],
+        "top5_familias_treino": [
+          "agradecer_sem_exagero",
+          "agradecer_sem_exagero",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": 0.8824472456543879,
+        "melhor_cos_abertura_diferente": 0.9096275777427032,
+        "margem_latente_mesma_menos_diferente": -0.027180332088315273
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-4",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, ainda não respondeu.",
+      "alvo_primeiro": "Por",
+      "alvo_primeiro_cf": "por",
+      "pred_primeiro": "sozinho",
+      "pred_primeiro_cf": "sozinho",
+      "correto_primeiro": false,
+      "prob_alvo": 0.025044539507845937,
+      "prob_top1": 0.3033533131007173,
+      "margem_top1_menos_alvo": 0.2783087735928713,
+      "rank_alvo": 7,
+      "gate_gerar": 0.48679596159968774,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-4",
+        "familia": "pessoa_silencio",
+        "alvo": "por",
+        "pred": "sozinho",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "giovana",
+          "heitor",
+          "giovana",
+          "heitor",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9406459872855747,
+          0.9400511249397092,
+          0.9378753821428536,
+          0.9375355948942778,
+          0.932335435035172
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9406459872855747,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-pessoa_silencio-validacao-1-1-5",
+      "familia": "pessoa_silencio",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, você sabe o que a pessoa pensa?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06903433436641766,
+      "prob_top1": 0.23231023774936535,
+      "margem_top1_menos_alvo": 0.16327590338294767,
+      "rank_alvo": 3,
+      "gate_gerar": 0.9729415594440048,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-pessoa_silencio-validacao-1-1-5",
+        "familia": "pessoa_silencio",
+        "alvo": "não",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "ainda",
+          "ainda",
+          "ainda",
+          "ainda",
+          "ainda"
+        ],
+        "top5_similaridades": [
+          0.9516287823458173,
+          0.9492471221836247,
+          0.9415731639265528,
+          0.9398847946300992,
+          0.9395490988322444
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.9318027583329459,
+        "melhor_cos_abertura_diferente": 0.9516287823458173,
+        "margem_latente_mesma_menos_diferente": -0.01982602401287137
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-0",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Eu disse que Nubira-21 escreveu meu texto.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.039658095644978325,
+      "prob_top1": 0.31170777316677,
+      "margem_top1_menos_alvo": 0.27204967752179166,
+      "rank_alvo": 7,
+      "gate_gerar": 0.9960065522018702,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-0",
+        "familia": "correcao_autoria",
+        "alvo": "você",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "pode",
+          "podemos",
+          "voltar",
+          "voltar",
+          "voltar"
+        ],
+        "top5_similaridades": [
+          0.9296839219183533,
+          0.8823605029430958,
+          0.8808979215384563,
+          0.868822233780554,
+          0.8686969949796501
+        ],
+        "top5_familias_treino": [
+          "revisao_por_partes",
+          "contar_sem_instrucoes",
+          "familia-093",
+          "familia-093",
+          "familia-093"
+        ],
+        "melhor_cos_mesma_abertura": 0.8528034753444733,
+        "melhor_cos_abertura_diferente": 0.9296839219183533,
+        "margem_latente_mesma_menos_diferente": -0.07688044657387993
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-1",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Corrigindo: fui eu que escrevi.",
+      "alvo_primeiro": "Foi",
+      "alvo_primeiro_cf": "foi",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0006208169999844553,
+      "prob_top1": 0.5918281062438282,
+      "margem_top1_menos_alvo": 0.5912072892438437,
+      "rank_alvo": 61,
+      "gate_gerar": 0.9907886382843066,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-1",
+        "familia": "correcao_autoria",
+        "alvo": "foi",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "tudo",
+          "tudo",
+          "qual",
+          "tudo"
+        ],
+        "top5_similaridades": [
+          0.9146182321131434,
+          0.9096028569263839,
+          0.9087562805593895,
+          0.9052810909613181,
+          0.9012282595818608
+        ],
+        "top5_familias_treino": [
+          "familia-071",
+          "familia-083",
+          "familia-083",
+          "familia-070",
+          "familia-083"
+        ],
+        "melhor_cos_mesma_abertura": 0.7344960392972966,
+        "melhor_cos_abertura_diferente": 0.9146182321131434,
+        "margem_latente_mesma_menos_diferente": -0.18012219281584685
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-2",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Essa pessoa só ajudou a revisar.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.007023685144560114,
+      "prob_top1": 0.3787897155946083,
+      "margem_top1_menos_alvo": 0.3717660304500482,
+      "rank_alvo": 21,
+      "gate_gerar": 0.8642166779820774,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-2",
+        "familia": "correcao_autoria",
+        "alvo": "nubira-21",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "o",
+          "como",
+          "o",
+          "o",
+          "como"
+        ],
+        "top5_similaridades": [
+          0.9146953992861167,
+          0.9134660010884643,
+          0.9094276979126428,
+          0.9054516359195994,
+          0.9002599074595684
+        ],
+        "top5_familias_treino": [
+          "capacidade_mensagem",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9146953992861167,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-3",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Quem escreveu, então?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": true,
+      "prob_alvo": 0.75688302972758,
+      "prob_top1": 0.75688302972758,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9415200521504522,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-3",
+        "familia": "correcao_autoria",
+        "alvo": "você",
+        "pred": "você",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "giovana",
+          "heitor",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9495397392060714,
+          0.9494477345864186,
+          0.9491905043218045,
+          0.9466597568242316,
+          0.9379985382246346
+        ],
+        "top5_familias_treino": [
+          "familia-017",
+          "familia-017",
+          "mudanca_de_lugar",
+          "mudanca_de_lugar",
+          "ausencia-017"
+        ],
+        "melhor_cos_mesma_abertura": 0.9495397392060714,
+        "melhor_cos_abertura_diferente": 0.9491905043218045,
+        "margem_latente_mesma_menos_diferente": 0.000349234884266858
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-4",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Escreve uma frase agradecendo a revisão.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Quem",
+      "pred_primeiro_cf": "quem",
+      "correto_primeiro": false,
+      "prob_alvo": 0.05435113889158821,
+      "prob_top1": 0.40419072111531684,
+      "margem_top1_menos_alvo": 0.34983958222372863,
+      "rank_alvo": 3,
+      "gate_gerar": 0.35448656187555944,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-4",
+        "familia": "correcao_autoria",
+        "alvo": "nubira-21",
+        "pred": "quem",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "ainda",
+          "heitor",
+          "heitor",
+          "paulo",
+          "ainda"
+        ],
+        "top5_similaridades": [
+          0.9149502321778106,
+          0.9125895862846265,
+          0.91200857348913,
+          0.9110770288417676,
+          0.9109679192896725
+        ],
+        "top5_familias_treino": [
+          "nao_saber_pensamento",
+          "recusar_convite",
+          "correcao_pessoa",
+          "familia-049",
+          "nao_saber_pensamento"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9149502321778106,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-0-5",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Quem ajudou na revisão?",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.011839229355296934,
+      "prob_top1": 0.5978022388483707,
+      "margem_top1_menos_alvo": 0.5859630094930738,
+      "rank_alvo": 6,
+      "gate_gerar": 0.7619554575423203,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-0-5",
+        "familia": "correcao_autoria",
+        "alvo": "nubira-21",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "você",
+          "você",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9580263304597318,
+          0.9539772541672344,
+          0.9502656203969597,
+          0.94557725739156,
+          0.9417821499991028
+        ],
+        "top5_familias_treino": [
+          "mudanca_de_lugar",
+          "mudanca_de_lugar",
+          "familia-017",
+          "familia-017",
+          "mudanca_de_lugar"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9580263304597318,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-0",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, eu disse que Nubira-21 escreveu meu texto.",
+      "alvo_primeiro": "Entendi",
+      "alvo_primeiro_cf": "entendi",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.08070664202827571,
+      "prob_top1": 0.18280963028077282,
+      "margem_top1_menos_alvo": 0.10210298825249711,
+      "rank_alvo": 4,
+      "gate_gerar": 0.9923741152394364,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-0",
+        "familia": "correcao_autoria",
+        "alvo": "entendi",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vamos",
+          "pode",
+          "você",
+          "escolha",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.890813923183186,
+          0.8631974344028607,
+          0.8225800088351778,
+          0.8140148881636815,
+          0.7978719118039924
+        ],
+        "top5_familias_treino": [
+          "revisao_por_partes",
+          "revisao_por_partes",
+          "familia-071",
+          "descansar_e_retornar",
+          "ausencia-021"
+        ],
+        "melhor_cos_mesma_abertura": 0.7197256587343015,
+        "melhor_cos_abertura_diferente": 0.890813923183186,
+        "margem_latente_mesma_menos_diferente": -0.17108826444888448
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-1",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, corrigindo: fui eu que escrevi.",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.029048321076152957,
+      "prob_top1": 0.3124460434243091,
+      "margem_top1_menos_alvo": 0.28339772234815613,
+      "rank_alvo": 7,
+      "gate_gerar": 0.9693316447258232,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-1",
+        "familia": "correcao_autoria",
+        "alvo": "o",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "querer",
+          "tudo",
+          "tudo",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9125648191971929,
+          0.8919271271765943,
+          0.8913568973363972,
+          0.8880143510006586,
+          0.8796492685004045
+        ],
+        "top5_familias_treino": [
+          "familia-071",
+          "familia-003",
+          "familia-083",
+          "familia-083",
+          "capacidade_mensagem"
+        ],
+        "melhor_cos_mesma_abertura": 0.8747916745603747,
+        "melhor_cos_abertura_diferente": 0.9125648191971929,
+        "margem_latente_mesma_menos_diferente": -0.037773144636818246
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-2",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, essa pessoa só ajudou a revisar.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.011326340360339405,
+      "prob_top1": 0.30133456741889436,
+      "margem_top1_menos_alvo": 0.29000822705855495,
+      "rank_alvo": 18,
+      "gate_gerar": 0.7070254595562849,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-2",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "o",
+          "como",
+          "o",
+          "o",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9085968011111769,
+          0.894436090950252,
+          0.8904574152811324,
+          0.883587505241739,
+          0.8832931768150342
+        ],
+        "top5_familias_treino": [
+          "capacidade_mensagem",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "capacidade_mensagem"
+        ],
+        "melhor_cos_mesma_abertura": 0.7988640955597377,
+        "melhor_cos_abertura_diferente": 0.9085968011111769,
+        "margem_latente_mesma_menos_diferente": -0.10973270555143921
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-3",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, quem escreveu, então?",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.040206272729754376,
+      "prob_top1": 0.23646347873865856,
+      "margem_top1_menos_alvo": 0.19625720600890417,
+      "rank_alvo": 6,
+      "gate_gerar": 0.9910375276178314,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-3",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "se",
+          "se",
+          "a",
+          "ainda",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9231322207331285,
+          0.9175968290263272,
+          0.9154540771351922,
+          0.9142480440863744,
+          0.9133699185389512
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": 0.9154540771351922,
+        "melhor_cos_abertura_diferente": 0.9231322207331285,
+        "margem_latente_mesma_menos_diferente": -0.007678143597936282
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-4",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, escreve uma frase agradecendo a revisão.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 0.10965675958047653,
+      "prob_top1": 0.11123173488966727,
+      "margem_top1_menos_alvo": 0.0015749753091907348,
+      "rank_alvo": 2,
+      "gate_gerar": 0.6694559078861636,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-4",
+        "familia": "correcao_autoria",
+        "alvo": "nubira-21",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "você",
+          "giovana",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9059069236400629,
+          0.9046929626174541,
+          0.9046474328596883,
+          0.9042961846029208,
+          0.9041762445350603
+        ],
+        "top5_familias_treino": [
+          "pedido_esclarecido",
+          "pedido_esclarecido",
+          "nao_saber_pensamento",
+          "pedido_esclarecido",
+          "nao_saber_pensamento"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9059069236400629,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-0-1-5",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, quem ajudou na revisão?",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06266664041138938,
+      "prob_top1": 0.3677854734367843,
+      "margem_top1_menos_alvo": 0.30511883302539494,
+      "rank_alvo": 4,
+      "gate_gerar": 0.9789098546312465,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-0-1-5",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "confira",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9423904327297071,
+          0.9419023043886896,
+          0.9412935876559378,
+          0.9412119400276696,
+          0.9410153344299285
+        ],
+        "top5_familias_treino": [
+          "descansar_e_retornar",
+          "recusar_convite",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.9313088703642871,
+        "melhor_cos_abertura_diferente": 0.9423904327297071,
+        "margem_latente_mesma_menos_diferente": -0.011081562365420017
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-0",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Eu disse que Ocrélio-32 escreveu meu texto.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.04508765012924784,
+      "prob_top1": 0.3421398756011014,
+      "margem_top1_menos_alvo": 0.2970522254718535,
+      "rank_alvo": 7,
+      "gate_gerar": 0.9970003582800911,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-0",
+        "familia": "correcao_autoria",
+        "alvo": "você",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "pode",
+          "podemos",
+          "voltar",
+          "voltar",
+          "voltar"
+        ],
+        "top5_similaridades": [
+          0.9344709174014116,
+          0.8921880416035901,
+          0.8819405752501063,
+          0.8683430546890619,
+          0.8671239234288161
+        ],
+        "top5_familias_treino": [
+          "revisao_por_partes",
+          "contar_sem_instrucoes",
+          "familia-093",
+          "familia-093",
+          "familia-093"
+        ],
+        "melhor_cos_mesma_abertura": 0.8537843718750502,
+        "melhor_cos_abertura_diferente": 0.9344709174014116,
+        "margem_latente_mesma_menos_diferente": -0.08068654552636145
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-1",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Corrigindo: fui eu que escrevi.",
+      "alvo_primeiro": "Foi",
+      "alvo_primeiro_cf": "foi",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.000515203319134547,
+      "prob_top1": 0.620219876708999,
+      "margem_top1_menos_alvo": 0.6197046733898645,
+      "rank_alvo": 64,
+      "gate_gerar": 0.9921425559730233,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-1",
+        "familia": "correcao_autoria",
+        "alvo": "foi",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "tudo",
+          "tudo",
+          "sua",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9071248675778281,
+          0.9047947949768598,
+          0.9044793370187982,
+          0.9024464049686974,
+          0.9008540436541177
+        ],
+        "top5_familias_treino": [
+          "familia-071",
+          "familia-083",
+          "familia-083",
+          "familia-021",
+          "familia-070"
+        ],
+        "melhor_cos_mesma_abertura": 0.7312307907421955,
+        "melhor_cos_abertura_diferente": 0.9071248675778281,
+        "margem_latente_mesma_menos_diferente": -0.17589407683563252
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-2",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Essa pessoa só ajudou a revisar.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.005808795616438577,
+      "prob_top1": 0.4108954023076458,
+      "margem_top1_menos_alvo": 0.4050866066912072,
+      "rank_alvo": 26,
+      "gate_gerar": 0.8861357621936014,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-2",
+        "familia": "correcao_autoria",
+        "alvo": "ocrélio-32",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "como",
+          "o",
+          "o",
+          "o",
+          "como"
+        ],
+        "top5_similaridades": [
+          0.9141445066580907,
+          0.9127552506967673,
+          0.9081662729240052,
+          0.902853726460108,
+          0.8988980865328506
+        ],
+        "top5_familias_treino": [
+          "contar_sem_instrucoes",
+          "capacidade_mensagem",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9141445066580907,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-3",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Quem escreveu, então?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": true,
+      "prob_alvo": 0.7499938798239754,
+      "prob_top1": 0.7499938798239754,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9477309274934518,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-3",
+        "familia": "correcao_autoria",
+        "alvo": "você",
+        "pred": "você",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "giovana",
+          "heitor",
+          "você",
+          "você",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9508862325396216,
+          0.9486781883198896,
+          0.9481655267711117,
+          0.9476195746987686,
+          0.937911790801531
+        ],
+        "top5_familias_treino": [
+          "mudanca_de_lugar",
+          "mudanca_de_lugar",
+          "familia-017",
+          "familia-017",
+          "ausencia-017"
+        ],
+        "melhor_cos_mesma_abertura": 0.9481655267711117,
+        "melhor_cos_abertura_diferente": 0.9508862325396216,
+        "margem_latente_mesma_menos_diferente": -0.0027207057685099123
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-4",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Escreve uma frase agradecendo a revisão.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Quem",
+      "pred_primeiro_cf": "quem",
+      "correto_primeiro": false,
+      "prob_alvo": 0.04895710716389855,
+      "prob_top1": 0.3969252971662664,
+      "margem_top1_menos_alvo": 0.34796819000236784,
+      "rank_alvo": 3,
+      "gate_gerar": 0.37989474008426016,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-4",
+        "familia": "correcao_autoria",
+        "alvo": "ocrélio-32",
+        "pred": "quem",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "ainda",
+          "heitor",
+          "heitor",
+          "tudo",
+          "ainda"
+        ],
+        "top5_similaridades": [
+          0.9130332243822737,
+          0.9106392823141664,
+          0.9106227891700314,
+          0.908832249354003,
+          0.9087811799416023
+        ],
+        "top5_familias_treino": [
+          "nao_saber_pensamento",
+          "recusar_convite",
+          "correcao_pessoa",
+          "contar_sem_instrucoes",
+          "nao_saber_pensamento"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9130332243822737,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-0-5",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Quem ajudou na revisão?",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.015329116699775347,
+      "prob_top1": 0.6164143447385227,
+      "margem_top1_menos_alvo": 0.6010852280387474,
+      "rank_alvo": 6,
+      "gate_gerar": 0.7895981612284472,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-0-5",
+        "familia": "correcao_autoria",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "você",
+          "você",
+          "davi"
+        ],
+        "top5_similaridades": [
+          0.9583031363786161,
+          0.953803153062021,
+          0.951432825679907,
+          0.946655519913449,
+          0.9421797402647974
+        ],
+        "top5_familias_treino": [
+          "mudanca_de_lugar",
+          "mudanca_de_lugar",
+          "familia-017",
+          "familia-017",
+          "mudanca_de_lugar"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9583031363786161,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-0",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, eu disse que Ocrélio-32 escreveu meu texto.",
+      "alvo_primeiro": "Entendi",
+      "alvo_primeiro_cf": "entendi",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.08088239154212468,
+      "prob_top1": 0.18555090758893858,
+      "margem_top1_menos_alvo": 0.1046685160468139,
+      "rank_alvo": 4,
+      "gate_gerar": 0.9893742481897677,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-0",
+        "familia": "correcao_autoria",
+        "alvo": "entendi",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vamos",
+          "pode",
+          "você",
+          "escolha",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.8958182022034079,
+          0.8782282950129641,
+          0.8360635511095125,
+          0.8141930814702744,
+          0.8029304482047455
+        ],
+        "top5_familias_treino": [
+          "revisao_por_partes",
+          "revisao_por_partes",
+          "familia-071",
+          "descansar_e_retornar",
+          "ausencia-021"
+        ],
+        "melhor_cos_mesma_abertura": 0.7133179323860667,
+        "melhor_cos_abertura_diferente": 0.8958182022034079,
+        "margem_latente_mesma_menos_diferente": -0.18250026981734124
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-1",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, corrigindo: fui eu que escrevi.",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.029158671564242594,
+      "prob_top1": 0.3272671800854681,
+      "margem_top1_menos_alvo": 0.2981085085212255,
+      "rank_alvo": 7,
+      "gate_gerar": 0.9682721775203865,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-1",
+        "familia": "correcao_autoria",
+        "alvo": "o",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "tudo",
+          "querer",
+          "tudo",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9124819595720081,
+          0.8927511637295249,
+          0.8926156077058139,
+          0.8886468248264753,
+          0.8791799732385315
+        ],
+        "top5_familias_treino": [
+          "familia-071",
+          "familia-083",
+          "familia-003",
+          "familia-083",
+          "capacidade_mensagem"
+        ],
+        "melhor_cos_mesma_abertura": 0.8752525091915228,
+        "melhor_cos_abertura_diferente": 0.9124819595720081,
+        "margem_latente_mesma_menos_diferente": -0.03722945038048531
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-2",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, essa pessoa só ajudou a revisar.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Qual",
+      "pred_primeiro_cf": "qual",
+      "correto_primeiro": false,
+      "prob_alvo": 0.011286780678496987,
+      "prob_top1": 0.30201658640750956,
+      "margem_top1_menos_alvo": 0.2907298057290126,
+      "rank_alvo": 17,
+      "gate_gerar": 0.7011999271463726,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-2",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "qual",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "o",
+          "como",
+          "o",
+          "o",
+          "qual"
+        ],
+        "top5_similaridades": [
+          0.9074804106364417,
+          0.8943376984385076,
+          0.8910168058475552,
+          0.8837344197370914,
+          0.8810301219551909
+        ],
+        "top5_familias_treino": [
+          "capacidade_mensagem",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "capacidade_mensagem"
+        ],
+        "melhor_cos_mesma_abertura": 0.799330719546093,
+        "melhor_cos_abertura_diferente": 0.9074804106364417,
+        "margem_latente_mesma_menos_diferente": -0.10814969109034867
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-3",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, quem escreveu, então?",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.03970797289994501,
+      "prob_top1": 0.23551153696143165,
+      "margem_top1_menos_alvo": 0.19580356406148663,
+      "rank_alvo": 7,
+      "gate_gerar": 0.9924271854490013,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-3",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "se",
+          "se",
+          "era",
+          "era",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9182146819028649,
+          0.9120508611530953,
+          0.911884238606212,
+          0.909436766960485,
+          0.9071454191440362
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "pedido_esclarecido",
+          "pedido_esclarecido",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.9071454191440362,
+        "melhor_cos_abertura_diferente": 0.9182146819028649,
+        "margem_latente_mesma_menos_diferente": -0.01106926275882869
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-4",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, escreve uma frase agradecendo a revisão.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.11538307315432382,
+      "prob_top1": 0.11765131856052831,
+      "margem_top1_menos_alvo": 0.0022682454062044888,
+      "rank_alvo": 2,
+      "gate_gerar": 0.6897854167640693,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-4",
+        "familia": "correcao_autoria",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "giovana",
+          "você",
+          "heitor"
+        ],
+        "top5_similaridades": [
+          0.9093592344388179,
+          0.9084995099859073,
+          0.9074114137744999,
+          0.9070968991249957,
+          0.9065455676369991
+        ],
+        "top5_familias_treino": [
+          "pedido_esclarecido",
+          "pedido_esclarecido",
+          "pedido_esclarecido",
+          "nao_saber_pensamento",
+          "pedido_esclarecido"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9093592344388179,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-correcao_autoria-validacao-1-1-5",
+      "familia": "correcao_autoria",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, quem ajudou na revisão?",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06486694518063153,
+      "prob_top1": 0.37249550147324906,
+      "margem_top1_menos_alvo": 0.30762855629261754,
+      "rank_alvo": 3,
+      "gate_gerar": 0.9810351622093857,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-correcao_autoria-validacao-1-1-5",
+        "familia": "correcao_autoria",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9415979558194343,
+          0.940882218737005,
+          0.9408079148122577,
+          0.9407818889004497,
+          0.9406589077922596
+        ],
+        "top5_familias_treino": [
+          "recusar_convite",
+          "prazo_sem_desculpa",
+          "recusar_convite",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.9285436426629761,
+        "melhor_cos_abertura_diferente": 0.9415979558194343,
+        "margem_latente_mesma_menos_diferente": -0.01305431315645822
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-0",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Nubira-21 pode chegar amanhã.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0024949857731387482,
+      "prob_top1": 0.45475974938917296,
+      "margem_top1_menos_alvo": 0.45226476361603424,
+      "rank_alvo": 26,
+      "gate_gerar": 0.9696878114235811,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-0",
+        "familia": "esperar_sem_garantia",
+        "alvo": "a",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "giovana",
+          "o",
+          "walter",
+          "o",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9015177926354607,
+          0.8960692626384441,
+          0.8905356065998008,
+          0.8855642385239926,
+          0.8846943681406829
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "emprestimo_dono",
+          "familia-047",
+          "emprestimo_dono",
+          "recusar_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.8069851213733215,
+        "melhor_cos_abertura_diferente": 0.9015177926354607,
+        "margem_latente_mesma_menos_diferente": -0.09453267126213927
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-1",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Isso é uma certeza?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": true,
+      "prob_alvo": 0.8987949213276535,
+      "prob_top1": 0.8987949213276535,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9957000162342432,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-1",
+        "familia": "esperar_sem_garantia",
+        "alvo": "não",
+        "pred": "não",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9320167105788513,
+          0.9297867716047987,
+          0.9286370856567383,
+          0.9269419861892358,
+          0.926039254502405
+        ],
+        "top5_familias_treino": [
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "familia-064"
+        ],
+        "melhor_cos_mesma_abertura": 0.9320167105788513,
+        "melhor_cos_abertura_diferente": 0.904634333553087,
+        "margem_latente_mesma_menos_diferente": 0.027382377025764293
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-2",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Quero perguntar se vem.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.061313234384153176,
+      "prob_top1": 0.2054055862872824,
+      "margem_top1_menos_alvo": 0.14409235190312922,
+      "rank_alvo": 5,
+      "gate_gerar": 0.9097449338241785,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-2",
+        "familia": "esperar_sem_garantia",
+        "alvo": "nubira-21",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "podemos",
+          "obrigado",
+          "obrigado",
+          "obrigado",
+          "obrigado"
+        ],
+        "top5_similaridades": [
+          0.919648501675518,
+          0.9072294597724723,
+          0.9067231505556352,
+          0.9065413502870837,
+          0.905763146017972
+        ],
+        "top5_familias_treino": [
+          "familia-082",
+          "contar_resultado",
+          "contar_resultado",
+          "contar_resultado",
+          "contar_resultado"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.919648501675518,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-3",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Sem prometer nada por essa pessoa.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0412245935339529,
+      "prob_top1": 0.12868168988422346,
+      "margem_top1_menos_alvo": 0.08745709635027056,
+      "rank_alvo": 7,
+      "gate_gerar": 0.8286334632982316,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-3",
+        "familia": "esperar_sem_garantia",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vocês",
+          "vocês",
+          "vou",
+          "vou",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.9366158638520724,
+          0.933043599402145,
+          0.9309966477857499,
+          0.9296632548362226,
+          0.9273160699536507
+        ],
+        "top5_familias_treino": [
+          "recusar_convite",
+          "recusar_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.9133598149562641,
+        "melhor_cos_abertura_diferente": 0.9366158638520724,
+        "margem_latente_mesma_menos_diferente": -0.023256048895808346
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-4",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Não respondeu ainda.",
+      "alvo_primeiro": "Então",
+      "alvo_primeiro_cf": "então",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 1.4863509677827009e-05,
+      "prob_top1": 0.1776494492746234,
+      "margem_top1_menos_alvo": 0.17763458576494556,
+      "rank_alvo": 475,
+      "gate_gerar": 0.8907198667268081,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-4",
+        "familia": "esperar_sem_garantia",
+        "alvo": "então",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vou",
+          "vou",
+          "posso",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9491138866858239,
+          0.948386200393347,
+          0.9462404054530333,
+          0.9459480569290823,
+          0.9457110952048042
+        ],
+        "top5_familias_treino": [
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "contar_sem_instrucoes",
+          "objeto_corrigido",
+          "objeto_corrigido"
+        ],
+        "melhor_cos_mesma_abertura": 0.5408760180757979,
+        "melhor_cos_abertura_diferente": 0.9491138866858239,
+        "margem_latente_mesma_menos_diferente": -0.408237868610026
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-0-5",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Qual dia eu tinha mencionado?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.2481290089946288,
+      "prob_top1": 0.5540534698477056,
+      "margem_top1_menos_alvo": 0.30592446085307684,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9895672013221014,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-0-5",
+        "familia": "esperar_sem_garantia",
+        "alvo": "você",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "sua",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9337245102111744,
+          0.9259216190304419,
+          0.9210351355460932,
+          0.9209048657684886,
+          0.9183214473786956
+        ],
+        "top5_familias_treino": [
+          "ausencia-018",
+          "familia-016",
+          "preferencia_duas_partes",
+          "preferencia_duas_partes",
+          "preferencia_duas_partes"
+        ],
+        "melhor_cos_mesma_abertura": 0.91247217410292,
+        "melhor_cos_abertura_diferente": 0.9337245102111744,
+        "margem_latente_mesma_menos_diferente": -0.021252336108254388
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-0",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, Nubira-21 pode chegar amanhã.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 0.1271490494311033,
+      "prob_top1": 0.30585214448079534,
+      "margem_top1_menos_alvo": 0.17870309504969203,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9728667099518618,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-0",
+        "familia": "esperar_sem_garantia",
+        "alvo": "você",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "a",
+          "a",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9271871718010216,
+          0.9237957348159235,
+          0.9219409301703321,
+          0.9218415849372306,
+          0.9194473890775386
+        ],
+        "top5_familias_treino": [
+          "emprestimo_dono",
+          "emprestimo_dono",
+          "historia_perda",
+          "historia_perda",
+          "entrega_antes_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.9271871718010216,
+        "melhor_cos_abertura_diferente": 0.9219409301703321,
+        "margem_latente_mesma_menos_diferente": 0.005246241630689541
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-1",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, isso é uma certeza?",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0017428650590443867,
+      "prob_top1": 0.5423121484162965,
+      "margem_top1_menos_alvo": 0.5405692833572521,
+      "rank_alvo": 22,
+      "gate_gerar": 0.9745555963794134,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-1",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ainda",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "heitor",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9362762842850693,
+          0.9308539366745436,
+          0.9291264509858183,
+          0.9265580041871344,
+          0.9260723578194636
+        ],
+        "top5_familias_treino": [
+          "devolver_e_consequencia",
+          "devolver_e_consequencia",
+          "nao_saber_pensamento",
+          "entrega_antes_convite",
+          "entrega_antes_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.8326353584112205,
+        "melhor_cos_abertura_diferente": 0.9362762842850693,
+        "margem_latente_mesma_menos_diferente": -0.10364092587384877
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-2",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, quero perguntar se vem.",
+      "alvo_primeiro": "Nubira-21",
+      "alvo_primeiro_cf": "nubira-21",
+      "pred_primeiro": "Por",
+      "pred_primeiro_cf": "por",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06597136395596519,
+      "prob_top1": 0.13752600806878484,
+      "margem_top1_menos_alvo": 0.07155464411281966,
+      "rank_alvo": 5,
+      "gate_gerar": 0.6227480636115543,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-2",
+        "familia": "esperar_sem_garantia",
+        "alvo": "nubira-21",
+        "pred": "por",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vou",
+          "vou",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.9421172364545449,
+          0.9418333290011455,
+          0.9393526590847876,
+          0.9390001078098404,
+          0.9389655680863591
+        ],
+        "top5_familias_treino": [
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9421172364545449,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-3",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, sem prometer nada por essa pessoa.",
+      "alvo_primeiro": "Podemos",
+      "alvo_primeiro_cf": "podemos",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.018613051803550027,
+      "prob_top1": 0.10903164429198756,
+      "margem_top1_menos_alvo": 0.09041859248843753,
+      "rank_alvo": 13,
+      "gate_gerar": 0.6295855127903801,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-3",
+        "familia": "esperar_sem_garantia",
+        "alvo": "podemos",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "pode",
+          "pode",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.9490266641260234,
+          0.9490121330681666,
+          0.9488882379439869,
+          0.948881607449968,
+          0.948836006085322
+        ],
+        "top5_familias_treino": [
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.8645235037161456,
+        "melhor_cos_abertura_diferente": 0.9490266641260234,
+        "margem_latente_mesma_menos_diferente": -0.08450316040987782
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-4",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, não respondeu ainda.",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "A",
+      "pred_primeiro_cf": "a",
+      "correto_primeiro": false,
+      "prob_alvo": 0.017563119513723597,
+      "prob_top1": 0.1728058781087039,
+      "margem_top1_menos_alvo": 0.1552427585949803,
+      "rank_alvo": 12,
+      "gate_gerar": 0.7948465444788314,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-4",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ainda",
+        "pred": "a",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.958976472395073,
+          0.9578555013126598,
+          0.9567827094354011,
+          0.9566476255692972,
+          0.9563134553454878
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.9179941196003726,
+        "melhor_cos_abertura_diferente": 0.958976472395073,
+        "margem_latente_mesma_menos_diferente": -0.040982352794700416
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-0-1-5",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, qual dia eu tinha mencionado?",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.09908498094444666,
+      "prob_top1": 0.23570537172872244,
+      "margem_top1_menos_alvo": 0.1366203907842758,
+      "rank_alvo": 3,
+      "gate_gerar": 0.9458199908739587,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-0-1-5",
+        "familia": "esperar_sem_garantia",
+        "alvo": "o",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "a",
+          "a",
+          "a",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9644012696210194,
+          0.963302742693453,
+          0.9632732068204546,
+          0.9631506922444961,
+          0.9617402096527169
+        ],
+        "top5_familias_treino": [
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": 0.9464325498898964,
+        "melhor_cos_abertura_diferente": 0.9644012696210194,
+        "margem_latente_mesma_menos_diferente": -0.017968719731122906
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-0",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Ocrélio-32 pode chegar amanhã.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0012041981094914691,
+      "prob_top1": 0.36367812809420896,
+      "margem_top1_menos_alvo": 0.3624739299847175,
+      "rank_alvo": 37,
+      "gate_gerar": 0.9849964832953103,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-0",
+        "familia": "esperar_sem_garantia",
+        "alvo": "a",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "giovana",
+          "walter",
+          "davi",
+          "alina",
+          "o"
+        ],
+        "top5_similaridades": [
+          0.9064073384949098,
+          0.8989443352074906,
+          0.8954601023251643,
+          0.8895043718674698,
+          0.885867495424423
+        ],
+        "top5_familias_treino": [
+          "convite_sem_cobrar",
+          "familia-047",
+          "convite_sem_cobrar",
+          "convite_sem_cobrar",
+          "emprestimo_dono"
+        ],
+        "melhor_cos_mesma_abertura": 0.7810162893902495,
+        "melhor_cos_abertura_diferente": 0.9064073384949098,
+        "margem_latente_mesma_menos_diferente": -0.12539104910466037
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-1",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Isso é uma certeza?",
+      "alvo_primeiro": "Não",
+      "alvo_primeiro_cf": "não",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": true,
+      "prob_alvo": 0.8656655817511997,
+      "prob_top1": 0.8656655817511997,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9971689370573987,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-1",
+        "familia": "esperar_sem_garantia",
+        "alvo": "não",
+        "pred": "não",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9337767795657548,
+          0.9328765584486763,
+          0.930547393560261,
+          0.9281081229812599,
+          0.9255883453869088
+        ],
+        "top5_familias_treino": [
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "possibilidade_sem_confirmacao",
+          "familia-064"
+        ],
+        "melhor_cos_mesma_abertura": 0.9337767795657548,
+        "melhor_cos_abertura_diferente": 0.9043136068424559,
+        "margem_latente_mesma_menos_diferente": 0.029463172723298903
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-2",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Quero perguntar se vem.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Sua",
+      "pred_primeiro_cf": "sua",
+      "correto_primeiro": false,
+      "prob_alvo": 0.05447271895896341,
+      "prob_top1": 0.19224273472901993,
+      "margem_top1_menos_alvo": 0.13777001577005651,
+      "rank_alvo": 5,
+      "gate_gerar": 0.9207527018975366,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-2",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ocrélio-32",
+        "pred": "sua",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "podemos",
+          "obrigado",
+          "obrigado",
+          "obrigado",
+          "obrigado"
+        ],
+        "top5_similaridades": [
+          0.9193736657550483,
+          0.9145958220318623,
+          0.9140106455991523,
+          0.9136400708624504,
+          0.9128409214560793
+        ],
+        "top5_familias_treino": [
+          "familia-082",
+          "contar_resultado",
+          "contar_resultado",
+          "contar_resultado",
+          "contar_resultado"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9193736657550483,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-3",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Sem prometer nada por essa pessoa.",
+      "alvo_primeiro": "A",
+      "alvo_primeiro_cf": "a",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.034819754867406245,
+      "prob_top1": 0.16903889610583292,
+      "margem_top1_menos_alvo": 0.13421914123842668,
+      "rank_alvo": 7,
+      "gate_gerar": 0.8549063734120697,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-3",
+        "familia": "esperar_sem_garantia",
+        "alvo": "a",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vocês",
+          "vocês",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.936187064332565,
+          0.9309956764910382,
+          0.9307866977868133,
+          0.9306800857619417,
+          0.9306458135843851
+        ],
+        "top5_familias_treino": [
+          "recusar_convite",
+          "recusar_convite",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.917716638146772,
+        "melhor_cos_abertura_diferente": 0.936187064332565,
+        "margem_latente_mesma_menos_diferente": -0.018470426185793087
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-4",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Não respondeu ainda.",
+      "alvo_primeiro": "Então",
+      "alvo_primeiro_cf": "então",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 1.3971685490845003e-05,
+      "prob_top1": 0.16304457986489918,
+      "margem_top1_menos_alvo": 0.16303060817940834,
+      "rank_alvo": 462,
+      "gate_gerar": 0.8904563839249623,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-4",
+        "familia": "esperar_sem_garantia",
+        "alvo": "então",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "posso",
+          "posso",
+          "você",
+          "sua",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9458217089900094,
+          0.9458040760592579,
+          0.9453216224797908,
+          0.9451817743596596,
+          0.9450945920516983
+        ],
+        "top5_familias_treino": [
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "objeto_corrigido",
+          "preferencia_duas_partes",
+          "objeto_corrigido"
+        ],
+        "melhor_cos_mesma_abertura": 0.5586029996705841,
+        "melhor_cos_abertura_diferente": 0.9458217089900094,
+        "margem_latente_mesma_menos_diferente": -0.38721870931942526
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-0-5",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Qual dia eu tinha mencionado?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.24917478180149674,
+      "prob_top1": 0.5733273823732881,
+      "margem_top1_menos_alvo": 0.3241526005717913,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9903188826385723,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-0-5",
+        "familia": "esperar_sem_garantia",
+        "alvo": "você",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "sua",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9358190710242424,
+          0.9295970700796083,
+          0.9294480373191225,
+          0.9291560679871397,
+          0.9270640133465176
+        ],
+        "top5_familias_treino": [
+          "ausencia-018",
+          "familia-016",
+          "preferencia_duas_partes",
+          "preferencia_duas_partes",
+          "preferencia_duas_partes"
+        ],
+        "melhor_cos_mesma_abertura": 0.9181811122293658,
+        "melhor_cos_abertura_diferente": 0.9358190710242424,
+        "margem_latente_mesma_menos_diferente": -0.017637958794876618
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-0",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, Ocrélio-32 pode chegar amanhã.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "O",
+      "pred_primeiro_cf": "o",
+      "correto_primeiro": false,
+      "prob_alvo": 0.2121015012530388,
+      "prob_top1": 0.2773304837737643,
+      "margem_top1_menos_alvo": 0.06522898252072548,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9850546709397356,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-0",
+        "familia": "esperar_sem_garantia",
+        "alvo": "você",
+        "pred": "o",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "você",
+          "você",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9204136583186179,
+          0.9199119066811502,
+          0.9197826139626806,
+          0.9186920249106999,
+          0.9180360840137674
+        ],
+        "top5_familias_treino": [
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.9204136583186179,
+        "melhor_cos_abertura_diferente": 0.9133645904747422,
+        "margem_latente_mesma_menos_diferente": 0.0070490678438757115
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-1",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, isso é uma certeza?",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "Não",
+      "pred_primeiro_cf": "não",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0019871593372790476,
+      "prob_top1": 0.512705865609909,
+      "margem_top1_menos_alvo": 0.51071870627263,
+      "rank_alvo": 21,
+      "gate_gerar": 0.9848183826219964,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-1",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ainda",
+        "pred": "não",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "não",
+          "você",
+          "você",
+          "você"
+        ],
+        "top5_similaridades": [
+          0.9414996755551357,
+          0.938718830769684,
+          0.9383378102621539,
+          0.9379840691939703,
+          0.9379324697484732
+        ],
+        "top5_familias_treino": [
+          "nao_saber_pensamento",
+          "recusar_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "entrega_antes_convite"
+        ],
+        "melhor_cos_mesma_abertura": 0.8577856780774702,
+        "melhor_cos_abertura_diferente": 0.9414996755551357,
+        "margem_latente_mesma_menos_diferente": -0.0837139974776655
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-2",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, quero perguntar se vem.",
+      "alvo_primeiro": "Ocrélio-32",
+      "alvo_primeiro_cf": "ocrélio-32",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06212873566685758,
+      "prob_top1": 0.11244122081545477,
+      "margem_top1_menos_alvo": 0.05031248514859719,
+      "rank_alvo": 5,
+      "gate_gerar": 0.691599050264036,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-2",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ocrélio-32",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "vou",
+          "vou",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.9533212779343441,
+          0.9527552095226872,
+          0.950552823022297,
+          0.9503780989914299,
+          0.9501668272654632
+        ],
+        "top5_familias_treino": [
+          "entrega_antes_convite",
+          "entrega_antes_convite",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": null,
+        "melhor_cos_abertura_diferente": 0.9533212779343441,
+        "margem_latente_mesma_menos_diferente": null
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-3",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, sem prometer nada por essa pessoa.",
+      "alvo_primeiro": "Podemos",
+      "alvo_primeiro_cf": "podemos",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.02004850317870892,
+      "prob_top1": 0.11535078303990268,
+      "margem_top1_menos_alvo": 0.09530227986119376,
+      "rank_alvo": 12,
+      "gate_gerar": 0.6288138899373487,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-3",
+        "familia": "esperar_sem_garantia",
+        "alvo": "podemos",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "pode",
+          "pode",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.951808452439196,
+          0.9517214251326854,
+          0.95168880082853,
+          0.9516799451791165,
+          0.9516774508532145
+        ],
+        "top5_familias_treino": [
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.8591915235023229,
+        "melhor_cos_abertura_diferente": 0.951808452439196,
+        "margem_latente_mesma_menos_diferente": -0.09261692893687312
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-4",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, não respondeu ainda.",
+      "alvo_primeiro": "Ainda",
+      "alvo_primeiro_cf": "ainda",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.017804849116143145,
+      "prob_top1": 0.14811609299583417,
+      "margem_top1_menos_alvo": 0.13031124387969104,
+      "rank_alvo": 13,
+      "gate_gerar": 0.8009443760883113,
+      "categoria_alvo": "fonte_disponivel",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-4",
+        "familia": "esperar_sem_garantia",
+        "alvo": "ainda",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "pode",
+          "pode",
+          "pode"
+        ],
+        "top5_similaridades": [
+          0.9595377714445583,
+          0.9580802953376624,
+          0.9578975662231505,
+          0.9577757262244128,
+          0.9575022721272854
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar",
+          "organizar_sem_comprar"
+        ],
+        "melhor_cos_mesma_abertura": 0.9179762608635782,
+        "melhor_cos_abertura_diferente": 0.9595377714445583,
+        "margem_latente_mesma_menos_diferente": -0.04156151058098012
+      }
+    },
+    {
+      "id": "sessao-esperar_sem_garantia-validacao-1-1-5",
+      "familia": "esperar_sem_garantia",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, qual dia eu tinha mencionado?",
+      "alvo_primeiro": "O",
+      "alvo_primeiro_cf": "o",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.10185639388264532,
+      "prob_top1": 0.26486224322741375,
+      "margem_top1_menos_alvo": 0.16300584934476842,
+      "rank_alvo": 3,
+      "gate_gerar": 0.955326505190376,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-esperar_sem_garantia-validacao-1-1-5",
+        "familia": "esperar_sem_garantia",
+        "alvo": "o",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "a",
+          "a",
+          "a",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9649706193013099,
+          0.9637969427388818,
+          0.9637097811819015,
+          0.9635093027442116,
+          0.9623328637890065
+        ],
+        "top5_familias_treino": [
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes",
+          "contar_sem_instrucoes"
+        ],
+        "melhor_cos_mesma_abertura": 0.9497618562144187,
+        "melhor_cos_abertura_diferente": 0.9649706193013099,
+        "margem_latente_mesma_menos_diferente": -0.01520876308689123
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-0",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Eu moro sozinho.",
+      "alvo_primeiro": "Atualmente",
+      "alvo_primeiro_cf": "atualmente",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": true,
+      "prob_alvo": 0.3069812377667553,
+      "prob_top1": 0.3069812377667553,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9269212829987805,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-0",
+        "familia": "moradia_e_tarefas",
+        "alvo": "atualmente",
+        "pred": "atualmente",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "você",
+          "entendi",
+          "o",
+          "o",
+          "o"
+        ],
+        "top5_similaridades": [
+          0.8733646609456194,
+          0.8470692688284478,
+          0.8194728715877583,
+          0.8173275331306122,
+          0.8164980038243028
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "pedido_esclarecido",
+          "pedido_esclarecido",
+          "pedido_esclarecido"
+        ],
+        "melhor_cos_mesma_abertura": 0.7582934937692851,
+        "melhor_cos_abertura_diferente": 0.8733646609456194,
+        "margem_latente_mesma_menos_diferente": -0.11507116717633425
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-1",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "E se morasse com Nubira-21?",
+      "alvo_primeiro": "Vocês",
+      "alvo_primeiro_cf": "vocês",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.003280491165741267,
+      "prob_top1": 0.5358083389601873,
+      "margem_top1_menos_alvo": 0.5325278477944461,
+      "rank_alvo": 12,
+      "gate_gerar": 0.9944763126539201,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-1",
+        "familia": "moradia_e_tarefas",
+        "alvo": "vocês",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9491105059719485,
+          0.9490235286747355,
+          0.9478408409530734,
+          0.9468700932596805,
+          0.9466359115789642
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8433528133014351,
+        "melhor_cos_abertura_diferente": 0.9491105059719485,
+        "margem_latente_mesma_menos_diferente": -0.10575769267051338
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-2",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Como evitar cobrança nessa hipótese?",
+      "alvo_primeiro": "Uma",
+      "alvo_primeiro_cf": "uma",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 1.4418855489285506e-05,
+      "prob_top1": 0.9161509211456301,
+      "margem_top1_menos_alvo": 0.9161365022901409,
+      "rank_alvo": 86,
+      "gate_gerar": 0.9962060783530607,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-2",
+        "familia": "moradia_e_tarefas",
+        "alvo": "uma",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9814044527578352,
+          0.9813774019363064,
+          0.9812215339347954,
+          0.9808027865394119,
+          0.9807156480792363
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8181331789892011,
+        "melhor_cos_abertura_diferente": 0.9814044527578352,
+        "margem_latente_mesma_menos_diferente": -0.16327127376863404
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-3",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Ainda não decidi mudar.",
+      "alvo_primeiro": "Sua",
+      "alvo_primeiro_cf": "sua",
+      "pred_primeiro": "Se",
+      "pred_primeiro_cf": "se",
+      "correto_primeiro": false,
+      "prob_alvo": 0.051022792421669995,
+      "prob_top1": 0.10461400357051956,
+      "margem_top1_menos_alvo": 0.053591211148849564,
+      "rank_alvo": 9,
+      "gate_gerar": 0.8123245631732872,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-3",
+        "familia": "moradia_e_tarefas",
+        "alvo": "sua",
+        "pred": "se",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "giovana",
+          "elisa",
+          "fábio",
+          "davi",
+          "heitor"
+        ],
+        "top5_similaridades": [
+          0.9016659122617658,
+          0.9001959324153603,
+          0.8999393273441259,
+          0.899743240856087,
+          0.899737169036215
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.8636387397457871,
+        "melhor_cos_abertura_diferente": 0.9016659122617658,
+        "margem_latente_mesma_menos_diferente": -0.03802717251597876
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-4",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Qual é minha situação atual?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.031098418044903858,
+      "prob_top1": 0.8633957017138185,
+      "margem_top1_menos_alvo": 0.8322972836689146,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9974473997933941,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-4",
+        "familia": "moradia_e_tarefas",
+        "alvo": "você",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9660117482209911,
+          0.9658887913163134,
+          0.9658301472527075,
+          0.9654536150752314,
+          0.9654166445734854
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.883026201516487,
+        "melhor_cos_abertura_diferente": 0.9660117482209911,
+        "margem_latente_mesma_menos_diferente": -0.08298554670450409
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-0-5",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Resume a hipótese, sem transformar em fato.",
+      "alvo_primeiro": "Se",
+      "alvo_primeiro_cf": "se",
+      "pred_primeiro": "sozinho",
+      "pred_primeiro_cf": "sozinho",
+      "correto_primeiro": false,
+      "prob_alvo": 0.026121020095369096,
+      "prob_top1": 0.10183329439899172,
+      "margem_top1_menos_alvo": 0.07571227430362262,
+      "rank_alvo": 10,
+      "gate_gerar": 0.6711141231803919,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-0-5",
+        "familia": "moradia_e_tarefas",
+        "alvo": "se",
+        "pred": "sozinho",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "elisa",
+          "davi",
+          "breno"
+        ],
+        "top5_similaridades": [
+          0.9283169646486328,
+          0.9267801935074843,
+          0.925824188394394,
+          0.9254816908169696,
+          0.9252815326343117
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.8167193627338392,
+        "melhor_cos_abertura_diferente": 0.9283169646486328,
+        "margem_latente_mesma_menos_diferente": -0.11159760191479362
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-0",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 1,
+      "mensagem": "Por favor, eu moro sozinho.",
+      "alvo_primeiro": "Entendi",
+      "alvo_primeiro_cf": "entendi",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.05740942198123161,
+      "prob_top1": 0.28682817601407234,
+      "margem_top1_menos_alvo": 0.22941875403284073,
+      "rank_alvo": 6,
+      "gate_gerar": 0.8911406081525891,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-0",
+        "familia": "moradia_e_tarefas",
+        "alvo": "entendi",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "entendi",
+          "você",
+          "você",
+          "o",
+          "o"
+        ],
+        "top5_similaridades": [
+          0.90521467088789,
+          0.8542183488536359,
+          0.8527747002181432,
+          0.8367393555600356,
+          0.8348161100418816
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "preferencia_duas_partes",
+          "preferencia_duas_partes",
+          "pedido_esclarecido",
+          "pedido_esclarecido"
+        ],
+        "melhor_cos_mesma_abertura": 0.90521467088789,
+        "melhor_cos_abertura_diferente": 0.8542183488536359,
+        "margem_latente_mesma_menos_diferente": 0.05099632203425408
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-1",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, e se morasse com Nubira-21?",
+      "alvo_primeiro": "Se",
+      "alvo_primeiro_cf": "se",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.07197108927806904,
+      "prob_top1": 0.8025245719567259,
+      "margem_top1_menos_alvo": 0.7305534826786568,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9843571872103632,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-1",
+        "familia": "moradia_e_tarefas",
+        "alvo": "se",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9491752665424393,
+          0.9488680684183358,
+          0.9487848332198978,
+          0.9487416439072687,
+          0.9487147385088006
+        ],
+        "top5_familias_treino": [
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese"
+        ],
+        "melhor_cos_mesma_abertura": 0.9263096337769643,
+        "melhor_cos_abertura_diferente": 0.9491752665424393,
+        "margem_latente_mesma_menos_diferente": -0.02286563276547504
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-2",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, como evitar cobrança nessa hipótese?",
+      "alvo_primeiro": "Vocês",
+      "alvo_primeiro_cf": "vocês",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.002327171514393739,
+      "prob_top1": 0.6233408863589476,
+      "margem_top1_menos_alvo": 0.6210137148445538,
+      "rank_alvo": 20,
+      "gate_gerar": 0.9584404431542523,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-2",
+        "familia": "moradia_e_tarefas",
+        "alvo": "vocês",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9320272305730657,
+          0.9273866129283215,
+          0.9273598715080846,
+          0.9270767013177339,
+          0.9269518404965532
+        ],
+        "top5_familias_treino": [
+          "familia-061",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8184491202475587,
+        "melhor_cos_abertura_diferente": 0.9320272305730657,
+        "margem_latente_mesma_menos_diferente": -0.11357811032550702
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-3",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, ainda não decidi mudar.",
+      "alvo_primeiro": "Morar",
+      "alvo_primeiro_cf": "morar",
+      "pred_primeiro": "morasse",
+      "pred_primeiro_cf": "morasse",
+      "correto_primeiro": false,
+      "prob_alvo": 5.3381550075320494e-05,
+      "prob_top1": 0.19378382407632938,
+      "margem_top1_menos_alvo": 0.19373044252625407,
+      "rank_alvo": 259,
+      "gate_gerar": 0.48068006726459644,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-3",
+        "familia": "moradia_e_tarefas",
+        "alvo": "morar",
+        "pred": "morasse",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "a",
+          "a",
+          "a",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9198624600109077,
+          0.9198213063376783,
+          0.91980059187377,
+          0.9197654224796173,
+          0.9196916859791691
+        ],
+        "top5_familias_treino": [
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.7902332367405343,
+        "melhor_cos_abertura_diferente": 0.9198624600109077,
+        "margem_latente_mesma_menos_diferente": -0.1296292232703734
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-4",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, qual é minha situação atual?",
+      "alvo_primeiro": "Atualmente",
+      "alvo_primeiro_cf": "atualmente",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": true,
+      "prob_alvo": 0.7584979387644959,
+      "prob_top1": 0.7584979387644959,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9787018344661582,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-4",
+        "familia": "moradia_e_tarefas",
+        "alvo": "atualmente",
+        "pred": "atualmente",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.937775560308613,
+          0.9370474698121232,
+          0.9370368067842988,
+          0.9369709222471152,
+          0.9365182806959794
+        ],
+        "top5_familias_treino": [
+          "familia-061",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.937775560308613,
+        "melhor_cos_abertura_diferente": 0.9196321884784614,
+        "margem_latente_mesma_menos_diferente": 0.018143371830151578
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-0-1-5",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, resume a hipótese, sem transformar em fato.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "morasse",
+      "pred_primeiro_cf": "morasse",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06208875314928863,
+      "prob_top1": 0.14158956776877368,
+      "margem_top1_menos_alvo": 0.07950081461948505,
+      "rank_alvo": 3,
+      "gate_gerar": 0.5089343034518518,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-0-1-5",
+        "familia": "moradia_e_tarefas",
+        "alvo": "você",
+        "pred": "morasse",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9331921663596744,
+          0.9331267409764074,
+          0.9329884263248542,
+          0.9329488314231692,
+          0.9328228969263711
+        ],
+        "top5_familias_treino": [
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.9072252742036637,
+        "melhor_cos_abertura_diferente": 0.9331921663596744,
+        "margem_latente_mesma_menos_diferente": -0.025966892156010668
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-0-1",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "E se morasse com Ocrélio-32?",
+      "alvo_primeiro": "Vocês",
+      "alvo_primeiro_cf": "vocês",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0018737154822539104,
+      "prob_top1": 0.7155393433742511,
+      "margem_top1_menos_alvo": 0.7136656278919972,
+      "rank_alvo": 14,
+      "gate_gerar": 0.9969050355387107,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-0-1",
+        "familia": "moradia_e_tarefas",
+        "alvo": "vocês",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.95864759658675,
+          0.9584085805065137,
+          0.9571399862108155,
+          0.9558197033104165,
+          0.955535285072891
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8381412250426404,
+        "melhor_cos_abertura_diferente": 0.95864759658675,
+        "margem_latente_mesma_menos_diferente": -0.12050637154410959
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-0-2",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Como evitar cobrança nessa hipótese?",
+      "alvo_primeiro": "Uma",
+      "alvo_primeiro_cf": "uma",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 1.1771838635157122e-05,
+      "prob_top1": 0.9288958378020881,
+      "margem_top1_menos_alvo": 0.9288840659634529,
+      "rank_alvo": 85,
+      "gate_gerar": 0.9962559318462701,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-0-2",
+        "familia": "moradia_e_tarefas",
+        "alvo": "uma",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9806204295419916,
+          0.9805326139925115,
+          0.9801768181560504,
+          0.9793827783605216,
+          0.9793490986518083
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8130803610203001,
+        "melhor_cos_abertura_diferente": 0.9806204295419916,
+        "margem_latente_mesma_menos_diferente": -0.16754006852169145
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-0-3",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Ainda não decidi mudar.",
+      "alvo_primeiro": "Sua",
+      "alvo_primeiro_cf": "sua",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06933305259970486,
+      "prob_top1": 0.10556733614370356,
+      "margem_top1_menos_alvo": 0.0362342835439987,
+      "rank_alvo": 7,
+      "gate_gerar": 0.8541871425610484,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-0-3",
+        "familia": "moradia_e_tarefas",
+        "alvo": "sua",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "giovana",
+          "heitor",
+          "elisa",
+          "davi",
+          "fábio"
+        ],
+        "top5_similaridades": [
+          0.9021492571893491,
+          0.9003670110815898,
+          0.8983721979452719,
+          0.8979697980871743,
+          0.8979410594323014
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.8658745375094494,
+        "melhor_cos_abertura_diferente": 0.9021492571893491,
+        "margem_latente_mesma_menos_diferente": -0.0362747196798997
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-0-4",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Qual é minha situação atual?",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.027308383638346298,
+      "prob_top1": 0.880527035877451,
+      "margem_top1_menos_alvo": 0.8532186522391046,
+      "rank_alvo": 2,
+      "gate_gerar": 0.9976291138035787,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-0-4",
+        "familia": "moradia_e_tarefas",
+        "alvo": "você",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9647301397123128,
+          0.9647081750510459,
+          0.9646492888462587,
+          0.9638381381706276,
+          0.9636605678624021
+        ],
+        "top5_familias_treino": [
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8816379216686367,
+        "melhor_cos_abertura_diferente": 0.9647301397123128,
+        "margem_latente_mesma_menos_diferente": -0.08309221804367606
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-0-5",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Resume a hipótese, sem transformar em fato.",
+      "alvo_primeiro": "Se",
+      "alvo_primeiro_cf": "se",
+      "pred_primeiro": "Você",
+      "pred_primeiro_cf": "você",
+      "correto_primeiro": false,
+      "prob_alvo": 0.022754831590748884,
+      "prob_top1": 0.09806649872498938,
+      "margem_top1_menos_alvo": 0.07531166713424049,
+      "rank_alvo": 12,
+      "gate_gerar": 0.7072890932488882,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-0-5",
+        "familia": "moradia_e_tarefas",
+        "alvo": "se",
+        "pred": "você",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "heitor",
+          "giovana",
+          "elisa",
+          "davi",
+          "isso"
+        ],
+        "top5_similaridades": [
+          0.9241463912662151,
+          0.9222251737100384,
+          0.9198894641845622,
+          0.9195214838037117,
+          0.919218727311155
+        ],
+        "top5_familias_treino": [
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato",
+          "hipotese_nao_fato"
+        ],
+        "melhor_cos_mesma_abertura": 0.8115066348565152,
+        "melhor_cos_abertura_diferente": 0.9241463912662151,
+        "margem_latente_mesma_menos_diferente": -0.11263975640969992
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-1-1",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 2,
+      "mensagem": "Por favor, e se morasse com Ocrélio-32?",
+      "alvo_primeiro": "Se",
+      "alvo_primeiro_cf": "se",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.04786789750901057,
+      "prob_top1": 0.8665674598113899,
+      "margem_top1_menos_alvo": 0.8186995623023794,
+      "rank_alvo": 2,
+      "gate_gerar": 0.988332128621175,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-1-1",
+        "familia": "moradia_e_tarefas",
+        "alvo": "se",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9555746402366048,
+          0.9553488750612178,
+          0.9550312111675293,
+          0.9549998178699421,
+          0.9548707471355908
+        ],
+        "top5_familias_treino": [
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese",
+          "moradia_atual_nao_e_hipotese"
+        ],
+        "melhor_cos_mesma_abertura": 0.9266123203478578,
+        "melhor_cos_abertura_diferente": 0.9555746402366048,
+        "margem_latente_mesma_menos_diferente": -0.02896231988874698
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-1-2",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 3,
+      "mensagem": "Por favor, como evitar cobrança nessa hipótese?",
+      "alvo_primeiro": "Vocês",
+      "alvo_primeiro_cf": "vocês",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": false,
+      "prob_alvo": 0.0023000624498016866,
+      "prob_top1": 0.6346418857240365,
+      "margem_top1_menos_alvo": 0.6323418232742348,
+      "rank_alvo": 22,
+      "gate_gerar": 0.9581937855542227,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-1-2",
+        "familia": "moradia_e_tarefas",
+        "alvo": "vocês",
+        "pred": "atualmente",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9294784445101623,
+          0.9249507882755195,
+          0.9249343242647801,
+          0.9248678837851118,
+          0.9248082193745767
+        ],
+        "top5_familias_treino": [
+          "familia-061",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.8237931457162468,
+        "melhor_cos_abertura_diferente": 0.9294784445101623,
+        "margem_latente_mesma_menos_diferente": -0.10568529879391542
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-1-3",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 4,
+      "mensagem": "Por favor, ainda não decidi mudar.",
+      "alvo_primeiro": "Morar",
+      "alvo_primeiro_cf": "morar",
+      "pred_primeiro": "morasse",
+      "pred_primeiro_cf": "morasse",
+      "correto_primeiro": false,
+      "prob_alvo": 5.610048495282291e-05,
+      "prob_top1": 0.19285674391464153,
+      "margem_top1_menos_alvo": 0.1928006434296887,
+      "rank_alvo": 258,
+      "gate_gerar": 0.5017523574402846,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-1-3",
+        "familia": "moradia_e_tarefas",
+        "alvo": "morar",
+        "pred": "morasse",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "qual",
+          "a",
+          "a",
+          "a",
+          "a"
+        ],
+        "top5_similaridades": [
+          0.9174150368010691,
+          0.916660527177596,
+          0.9166331299190708,
+          0.9166107498819549,
+          0.9165826921059433
+        ],
+        "top5_familias_treino": [
+          "contar_sem_instrucoes",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.7942353325300209,
+        "melhor_cos_abertura_diferente": 0.9174150368010691,
+        "margem_latente_mesma_menos_diferente": -0.12317970427104818
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-1-4",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 5,
+      "mensagem": "Por favor, qual é minha situação atual?",
+      "alvo_primeiro": "Atualmente",
+      "alvo_primeiro_cf": "atualmente",
+      "pred_primeiro": "Atualmente",
+      "pred_primeiro_cf": "atualmente",
+      "correto_primeiro": true,
+      "prob_alvo": 0.7793959067755646,
+      "prob_top1": 0.7793959067755646,
+      "margem_top1_menos_alvo": 0.0,
+      "rank_alvo": 1,
+      "gate_gerar": 0.9789415628371446,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-1-4",
+        "familia": "moradia_e_tarefas",
+        "alvo": "atualmente",
+        "pred": "atualmente",
+        "correto_primeiro": true,
+        "top1_mesma_abertura": true,
+        "top5_tem_mesma_abertura": true,
+        "top5_aberturas": [
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente",
+          "atualmente"
+        ],
+        "top5_similaridades": [
+          0.9375863909803005,
+          0.9368564376518331,
+          0.9367507563860874,
+          0.9367195756904158,
+          0.9365878645433627
+        ],
+        "top5_familias_treino": [
+          "familia-061",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente",
+          "moradia_corrigida_assistente"
+        ],
+        "melhor_cos_mesma_abertura": 0.9375863909803005,
+        "melhor_cos_abertura_diferente": 0.918054635067228,
+        "margem_latente_mesma_menos_diferente": 0.019531755913072546
+      }
+    },
+    {
+      "id": "sessao-moradia_e_tarefas-validacao-1-1-5",
+      "familia": "moradia_e_tarefas",
+      "grupo": "sessao_completa",
+      "turno": 6,
+      "mensagem": "Por favor, resume a hipótese, sem transformar em fato.",
+      "alvo_primeiro": "Você",
+      "alvo_primeiro_cf": "você",
+      "pred_primeiro": "morasse",
+      "pred_primeiro_cf": "morasse",
+      "correto_primeiro": false,
+      "prob_alvo": 0.06536649134612249,
+      "prob_top1": 0.13672531592036158,
+      "margem_top1_menos_alvo": 0.07135882457423909,
+      "rank_alvo": 3,
+      "gate_gerar": 0.5270520252982981,
+      "categoria_alvo": "geracao_lexical",
+      "vizinhanca": {
+        "id": "sessao-moradia_e_tarefas-validacao-1-1-5",
+        "familia": "moradia_e_tarefas",
+        "alvo": "você",
+        "pred": "morasse",
+        "correto_primeiro": false,
+        "top1_mesma_abertura": false,
+        "top5_tem_mesma_abertura": false,
+        "top5_aberturas": [
+          "não",
+          "não",
+          "não",
+          "não",
+          "não"
+        ],
+        "top5_similaridades": [
+          0.9302575182994117,
+          0.9302484168367893,
+          0.9301095515691189,
+          0.9300899794735453,
+          0.9299601055085476
+        ],
+        "top5_familias_treino": [
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa",
+          "prazo_sem_desculpa"
+        ],
+        "melhor_cos_mesma_abertura": 0.9068080952362364,
+        "melhor_cos_abertura_diferente": 0.9302575182994117,
+        "margem_latente_mesma_menos_diferente": -0.023449423063175323
+      }
+    }
+  ],
+  "limites": [
+    "Cosseno de um estado de 72 dimensoes nao prova semantica geral.",
+    "Familias do desenvolvimento sao conhecidas e servem apenas para diagnostico.",
+    "Primeiro token e uma sonda local; nao mede sozinho qualidade da resposta inteira."
+  ]
+}
