@@ -38,6 +38,29 @@ Experimento isolado: [relatório](experimentos/dialogo_20261010/README.md).
   passaram. Dados, hashes, hiperparâmetros, falhas e reprodução estão
   em `experimentos/dialogo_20261010/`.
 
+## Fase 2 — integração seletiva validada antes do merge
+
+Relatório: [integração do diálogo](experimentos/integracao_dialogo_20261010/README.md).
+
+- Mesmo conjunto congelado: **35/37 → 37/37**, no motor e HTTP real;
+  zero troca de domínio e zero referente ausente, **2/2 narrativas**.
+- Dez novas sessões congeladas antes da implementação, 62 mensagens:
+  revisão pelo agente **4/10 → 7/10** mantendo o fio nos dois caminhos.
+  Não são conversas com dez participantes humanos nem sete sessões
+  inteiramente neurais; incluem os executores estruturados existentes.
+- GRU do #126 aprovada **somente para história, continuação e final**
+  no escopo demonstrado. A cópia de produção está em
+  `rede_dialogo_conversa.json.gz`; os pesos são iguais ao experimento.
+  Checkpoint experimental original e 35 pesos anteriores intactos.
+- Guardas distintas: conversa permite composição; dados da sessão só
+  entram por argumentos fornecidos. Fatos, cálculo e fonte continuam rígidos.
+- Capacidades, funcionamento e autoria conservam o executor atual.
+  Trace HTTP informa peça, uso da rede/estado, argumentos e recuos.
+- CI por escopo: contratos da integração e 37 casos no HTTP entram no
+  job de roteamento existente; matriz completa permanece manual/semanal.
+- Merge requer os checks relevantes verdes e validação pública do
+  commit após publicar; os resultados locais não substituem essa etapa.
+
 ## Limites atuais
 
 O candidato ainda falha em explicar funcionamento e autoria; não entrega
@@ -45,18 +68,15 @@ as perguntas enumeradas pedidas. Histórias são genéricas e capacidades
 repetitivas. A GRU precisa receber ato/argumentos corretos; não interpreta
 livremente o histórico. Métricas lexicais não certificam coerência humana.
 
-A Fase 2 não foi implementada: faltam guarda de conversa, integração,
-trace e avaliação no motor/HTTP e em dez conversas reais de 6–8 turnos.
-O chat público continua usando os pesos e as rotas da base.
+Ainda falham a retomada do desenho depois de pausa, a resposta natural
+“Quero saber de Dorlécio” a um esclarecimento e a história com cenário/
+restrições compostas. São três sessões reprovadas, mantidas no conjunto.
 
 ## Próximo passo único
 
-Integrar seletivamente a rota de conversa no PR de Fase 2, preservando
-as respostas atuais nos atos em que o candidato falha. Antes do merge:
-≥34/37 com peça certa, zero troca de domínio, 100% dos referentes
-exigidos, pelo menos 6/10 conversas reais mantendo o fio, duas histórias
-entregues, checks relevantes verdes e validação do commit no site.
-Não promover nenhum checkpoint enquanto esses critérios não passarem.
+Depois de confirmar a publicação e os testes no site, iniciar a Fase 3
+incorporando essas três falhas e aumentando a diversidade do corpus
+antes do segundo treino. Não abrir nova memória, acervo ou parâmetros.
 
 ## Histórico
 

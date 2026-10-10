@@ -155,9 +155,12 @@ class Crivo:
     def __init__(self, caminho_base=None, agora=None, usar_linguagem_neural=True,
                  usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
                  usar_interpretador_perguntas=True, usar_geracao=True,
-                 usar_geracao_sessao=True):
+                 usar_geracao_sessao=True, checkpoint_dialogo_candidato=None):
         caminho = Path(caminho_base) if caminho_base else PASTA / "conhecimento.json"
         self.gerador_programacao = gerador_programacao
+        from conversa_dialogo import DialogoConversa
+        self.dialogo_conversa = DialogoConversa(habilitado=usar_geracao,
+                                              candidato=checkpoint_dialogo_candidato)
         from programacao_chat import MotorCodigoChat
         self.motor_codigo = MotorCodigoChat(caminho.parent / "artefatos/efeitos_programacao")
         self.caminho_base = caminho
@@ -1451,6 +1454,7 @@ class Crivo:
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         import crise
         original_conteudo = texto
+        self.dialogo_conversa.iniciar_trace()
         self.ultima_analise_conteudo = None
         self.ultima_correcao_texto = None
         self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,

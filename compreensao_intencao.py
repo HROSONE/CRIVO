@@ -48,7 +48,7 @@ def encaminhar_declaracao_natural(texto, bot, sessao):
     for parte in partes[:8]:
         corpo = parte.strip().rstrip('.!')
         corpo = re.sub(r'^(?:agora|corrigindo|na verdade)[:,]?\s+', '', corpo, flags=re.I)
-        corpo = re.sub(r'^(ele|ela) mudou de ideia:\s*agora\s+', r'\1 ', corpo, flags=re.I)
+        corpo = re.sub(r'^(.+?) mudou de ideia:\s*agora\s+', r'\1 ', corpo, flags=re.I)
         m = re.fullmatch(r'(?:(Meu|Minha) (' + parentes + r') )?(.+?) ((?:não )?gosta(?: mais)? de .+)', corpo, re.I)
         if not m:
             continue
@@ -193,8 +193,8 @@ def rotear_natural(texto, bot, sessao=None):
             candidatos = [escrita['slots'].get('tema1')]
         else:
             for h in bot.historico[-3:]:
-                m = re.search(r'\bgosta de (?:um|uma) (.+?)(?:[.!?]|$)', h['pergunta'], re.I)
-                if m and re.search(r'\b(?:historia|historinha|conto|ficcao)\b', dobrar(h['pergunta'])):
+                m = re.search(r'\bgost(?:a|o) de (?:(?:histórias?|historinhas?|contos?) (?:com|sobre) |(?:um|uma) )(.+?)(?:[.!?]|$)', h['pergunta'], re.I)
+                if m and re.search(r'\b(?:historias?|historinhas?|contos?|ficcao)\b', dobrar(h['pergunta'])):
                     candidatos.append(m[1])
         candidatos = list(dict.fromkeys(c for c in candidatos if c))
         quantidade = re.search(r'\b(\d+|duas|tres|quatro|cinco|seis) frases\b', n)
@@ -209,7 +209,14 @@ def rotear_natural(texto, bot, sessao=None):
         detalhe = re.search(r'\b(?:ele|ela) (?:encontra|conhece|reencontra) (.+?)(?:,|[.!?]|$)', texto, re.I)
         if detalhe:
             refs.append(detalhe[1])
-        return rota('escrita', 'corrigir', list(dict.fromkeys(refs)))
+        personagem = escrita['slots'].get('tema1') if escrita else next(
+            (h.get('natural_routing', {}).get('personagem') for h in reversed(bot.historico[-3:])
+             if h.get('natural_routing', {}).get('personagem')), None)
+        return rota('escrita', 'corrigir', list(dict.fromkeys(refs)), personagem=personagem)
+    from conversa_dialogo import rotear_escrita
+    escrita_dialogica = rotear_escrita(texto, bot)
+    if escrita_dialogica:
+        return escrita_dialogica
     fatos = []
     for h in bot.historico[-2:]:
         fatos.extend(tuple(p) for p in h.get('fatos_ativos', ()))
@@ -245,6 +252,8 @@ def executar_rota_natural(rota, texto, bot):
     peca, ato = rota['peca'], rota['ato']
     contexto = None
     quadro = {}
+    if peca != 'escrita':
+        bot.dialogo_conversa.realizar(rota, texto, bot)
     if peca == 'esclarecimento':
         mecanismo = 'conversa_assistente'
         identificador = 'conversa:esclarecer'
@@ -269,6 +278,8 @@ def executar_rota_natural(rota, texto, bot):
             if not bot.conversacao.geracao.ultima_escrita and tentativa.get('status') == 'bloqueado_pela_guarda' and tentativa.get('peca') == 'escrita':
                 resposta = ('Tentei usar meu gerador próprio, uma GRU autoral. A guarda rejeitou o rascunho por não cumprir o pedido; '
                             'não entreguei uma história válida. Não busquei uma história de outro lugar.')
+            if bot.conversacao.geracao.ultima_escrita and rota['referentes']:
+                resposta += ' Argumentos que você forneceu: ' + ', '.join(rota['referentes']) + '.'
         resultado = identificador, resposta
     elif peca == 'memoria':
         mecanismo = 'memoria_sessao_estrutural'
@@ -352,13 +363,28 @@ def executar_rota_natural(rota, texto, bot):
         mecanismo = 'linguagem_conversa'
         import copy
         rota['_escrita_anterior'] = copy.deepcopy(bot.conversacao.geracao.ultima_escrita)
-        if ato == 'historia':
-            consulta = 'Escreva uma história curta com ' + rota['personagem'] if rota['personagem'] else None
+        candidato = bot.dialogo_conversa.realizar(rota, texto, bot)
+        if candidato is not None:
+            resultado = candidato
+            mecanismo = 'dialogo_gerativo_proprio' if bot.dialogo_conversa.trace['usada'] else 'conversa_assistente'
+            quadro = dict(bot.dialogo_conversa.trace)
+        elif ato == 'historia':
+            consulta = texto if rota.get('slots') else ('Escreva uma história curta com ' + rota['personagem'] if rota['personagem'] else None)
         else:
             consulta = texto
-        preparacao = bot.conversacao.geracao.preparar(consulta, bot, bot.conversacao) if consulta else None
-        resultado = preparacao.resultado[:2] if preparacao and preparacao.resultado else None
-        quadro = bot.conversacao.geracao.ultimo_quadro
+        if candidato is None:
+            preparacao = bot.conversacao.geracao.preparar(consulta, bot, bot.conversacao) if consulta else None
+            resultado = preparacao.resultado[:2] if preparacao and preparacao.resultado else None
+            quadro = bot.conversacao.geracao.ultimo_quadro
+    elif peca == 'escrita' and ato == 'continuar':
+        import copy
+        rota['_escrita_anterior'] = copy.deepcopy(bot.conversacao.geracao.ultima_escrita)
+        resultado = bot.dialogo_conversa.realizar(rota, texto, bot)
+        mecanismo = 'dialogo_gerativo_proprio' if bot.dialogo_conversa.trace['usada'] else 'conversa_assistente'
+        quadro = dict(bot.dialogo_conversa.trace)
+        if resultado is None:
+            preparacao = bot.conversacao.geracao.preparar(texto, bot, bot.conversacao)
+            resultado = preparacao.resultado[:2] if preparacao and preparacao.resultado else None
     else:
         mecanismo = 'composicao_factual'
         c = bot.compositor
@@ -406,7 +432,9 @@ def executar_rota_natural(rota, texto, bot):
         rota['status'] = 'incompleto'
     else:
         rota['executor'] = mecanismo
-        rota['status'] = 'executado'
+        rota['status'] = ('incompleto' if resultado[0] == 'conversa:esclarecer' and
+                          peca == 'escrita' and bot.dialogo_conversa.trace['recuou'] else 'executado')
+    rota['dialogo'] = dict(bot.dialogo_conversa.trace)
     campo = {'memoria':'memoria_sessao', 'calculo':'raciocinio_conversa'}.get(peca, 'execucao_contextual')
     if mecanismo == 'conversa_sessao':
         campo = 'conversa_sessao'
