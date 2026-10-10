@@ -1,123 +1,65 @@
-# Passagem de trabalho — 09/10/2026
+# Passagem de trabalho — 10/10/2026
 
-## Estado atual da main
+O objetivo vigente é diálogo utilizável em português, com arquitetura,
+tokenizadores e pesos próprios. O plano do dono de 09/10 substitui a
+prioridade anterior de adiar treino de diálogo. Não criar outra memória,
+ampliar acervo, aumentar parâmetros ou abrir outra frente nesta etapa.
 
-Os PRs recentes de memória e diálogo estão mesclados:
+## Fase 0 concluída
 
-| PR | Foco | Resultado principal | Estado |
-|----|------|---------------------|--------|
-| #113 | Síntese limitada + correção de memória pessoal | Síntese 3/10 → 10/10; correção 2/6 → 6/6 | Mesclado |
-| #114 | Conservar intenção, referências e escopos | 47/72 → **72/72** turnos; 1/18 → **18/18** conversas | Mesclado |
-| #115 | Memória de trabalho + raciocínio verificável | 24/24 contratos de transferência | Mesclado |
-| #116 | Preservar hipóteses confirmadas | 12/32 → **32/32** contratos | Mesclado |
-| #117 | Memória explícita de pessoas, objetos e correções | 1/20 → **20/20** sessões no motor e na API web | Mesclado |
-| #118 | Novas perguntas e correções compostas | 9/20 → **20/20** novas sessões no motor e na API web | Mesclado |
-| #119 | Transformer próprio lendo fatos ativos da sessão | **20/20** sessões; 16 realizações neurais e quatro recuos | Mesclado |
+O #125 está mesclado em `9ed051bf2b74668073e0ac480b43c652314b88e7`.
+Antes do merge, `composicao` e `regressoes-b` passaram em 3.8/3.11/3.13,
+sem falhas. Os seis smokes no HTTP público preservaram domínio e
+referentes. O site nessa base fez **35/37** no novo conjunto congelado:
+continua sem entregar as duas histórias, embora preserve a personagem
+no esclarecimento. O CI após o merge usa smokes, sem repetir matriz longa.
 
-O PR #119 foi mesclado em `ef2fafdb` em 09/10 às 17:11 UTC, com 34 checks
-aprovados e um treino opcional ignorado. As branches foram preservadas.
+## Fase 1: corpus e checkpoints de diálogo próprios
 
-**Revisão atual: pedidos abertos sobre o estado que já existe.**
+Experimento isolado: [relatório](experimentos/dialogo_20261010/README.md).
 
-- Branch: `codex/conversa-livre-20261009`; base `ef2fafdb`.
-- Novo desenvolvimento congelado antes da implementação: **0/12 → 11/12
-  sessões**, **2/25 → 23/25 solicitações**, no motor e na API padrão.
-- O consumidor reconhece operações limitadas e usa os fatos ativos para
-  sugerir, justificar uma escolha, resumir e perguntar o que falta. Não
-  acrescenta outro coletor, gramática de declaração ou camada de memória.
-- Em cada modo: 16 realizações neurais da sessão aceitas, um recuo pela
-  guarda e quatro esclarecimentos sem evidência. A resposta factual de DNA
-  também usa a rede, mas não é realização da memória pessoal.
-- Replay HTTP adicional: oito mensagens, três consultas corretas e três
-  realizações neurais; correção preservada sem trocar as pessoas.
-- O novo roteador autoral de 56.406 parâmetros foi treinado, reprovou na
-  validação e permanece **desativado, aprovado=false**. Não reduza seu
-  limiar nem o promova com base nos acertos de treino.
-- Memória e checkpoints ativos permanecem iguais à base. Seleção e
-  complementos conversacionais são estruturais; somente os fatos têm
-  realização pelo Transformer ancorado. Ainda não é geração livre.
-- Falha restante explícita: conversa causal sobre lápis, desenho e calma.
-  Não alterar o conjunto para fazê-la desaparecer.
-- Evidências e limites: `experimentos/conversa_livre_20261009/README.md`.
-  A revisão ainda depende dos próprios checks antes de mesclar.
+- **37 casos reais congelados**, incluindo os 35 anteriores sem alterar
+  campos e duas consultas realmente observadas no site.
+- **480 diálogos autorais / 5.760 turnos / 2.880 respostas alvo**;
+  2.304 exemplos de treino e 576 de validação, por diálogo. Compartilham
+  seis tipos e padrões de resposta; não representam diversidade humana.
+- Seq2seq: treino realmente executado, **0/10 → 3/10** de conteúdo
+  mínimo, mas leitura revela linguagem incoerente. Ensaio reprovado.
+- GRU própria existente: **0/10 → 7/10** nos mesmos pedidos reais;
+  **2/2 histórias** entregues com a capivara astronauta. Reduz para 88.969
+  parâmetros. Repetição do treino produziu pesos idênticos byte a byte.
+- Esses números comparam geradores isolados, **não o site antes/depois**.
+  O site existente já acerta oito desses dez pedidos com respostas
+  estruturadas. Substituir tudo pela GRU seria regressão.
+- Ambos os checkpoints permanecem **aprovado=false, ativo_no_chat=false**.
+  Nenhum dos 35 arquivos de pesos ativos mudou. Nenhum modelo externo
+  foi baixado, executado ou chamado; nenhum workflow alterado.
+- Sete contratos de isolamento, proveniência, partições e carregamento
+  passaram. Dados, hashes, hiperparâmetros, falhas e reprodução estão
+  em `experimentos/dialogo_20261010/`.
 
-O PR #117 foi mesclado em `b0fac387` após 34 checks aprovados, sem falhas.
-O único check ignorado foi o treino opcional, conforme a configuração.
+## Limites atuais
 
-O PR #118 foi mesclado em `995df436` em 09/10 às 15:46 UTC, depois de
-**19 checks aprovados**, sem falhas. As branches e os commits foram preservados.
+O candidato ainda falha em explicar funcionamento e autoria; não entrega
+as perguntas enumeradas pedidas. Histórias são genéricas e capacidades
+repetitivas. A GRU precisa receber ato/argumentos corretos; não interpreta
+livremente o histórico. Métricas lexicais não certificam coerência humana.
 
-Após o merge, uma conversa manual de **oito mensagens** pelo endpoint HTTP
-do main manteve Saelina, Ondravel e suas preferências. As **três consultas
-passaram**, incluindo a correção da preferência de Saelina sem modificar a
-de Ondravel. Todas as chamadas retornaram HTTP 200. Os nomes e expressões
-completas tinham zero ocorrências em 1.023 arquivos textuais locais auditados;
-isso não certifica o corpus bruto indisponível. O trace dessa versão confirma
-que as respostas ainda vieram da política estruturada, sem realização neural.
+A Fase 2 não foi implementada: faltam guarda de conversa, integração,
+trace e avaliação no motor/HTTP e em dez conversas reais de 6–8 turnos.
+O chat público continua usando os pesos e as rotas da base.
 
-**Histórico da integração do realizador (#119, já mesclado).**
+## Próximo passo único
 
-- Branch de integração: `codex/realizador-sessao-20261009`.
-- O Transformer próprio já existente recebe cada fato ativo selecionado,
-  com sujeito, relação, valor e fonte do usuário. A memória permanece igual.
-- Desenvolvimento congelado: **20/20** sessões no motor e na API web;
-  em cada modo, **16/20** consultas com resposta neural aceita e **4/20**
-  conservadas pela resposta estrutural após rejeição da guarda.
-- A bateria anterior mantém 20/20. Passaram dez contratos do consumidor,
-  25 contratos puros em Python 3.8 e as 92 regressões relacionadas; o caso
-  HTTP bloqueado pelo sandbox passou na reexecução com socket permitido.
-- Nenhum peso alterado ou promovido. Seleção estruturada, prefixo da fonte
-  e guarda literal continuam limitando a geração; não é conversa livre.
-- No replay HTTP das três consultas manuais, o candidato usou a rede em
-  **3/3**, preservando texto e fontes do baseline, inclusive a correção.
-- Evidências: `experimentos/realizacao_memoria_20261009/README.md`.
-  A revisão do realizador foi mesclada após seus próprios checks aprovados.
+Integrar seletivamente a rota de conversa no PR de Fase 2, preservando
+as respostas atuais nos atos em que o candidato falha. Antes do merge:
+≥34/37 com peça certa, zero troca de domínio, 100% dos referentes
+exigidos, pelo menos 6/10 conversas reais mantendo o fio, duas histórias
+entregues, checks relevantes verdes e validação do commit no site.
+Não promover nenhum checkpoint enquanto esses critérios não passarem.
 
-## Restrição permanente
+## Histórico
 
-Somente arquitetura, tokenizadores e pesos próprios do Crivo.  
-Não baixar, executar ou integrar modelos externos (incluindo locais).  
-Registrado em `AGENTS.md`.
-
-Pesos experimentais de geração, raciocínio modular e linguagem profunda  
-permanecem **desativados** e com aprovação falsa. Não promover ao chat.
-
-## O que mudou de verdade nesta semana
-
-O foco saiu de “tentar ser generativo” e entrou em  
-**“fazer a conversa não esquecer quem é quem”**.
-
-Camadas de estado que existem agora na main (após #114–#118):
-- intenção e escopos
-- memória de trabalho
-- hipóteses confirmáveis
-- pessoas, objetos e correções explícitas
-
-Risco conhecido: várias camadas de memória estruturada podem se sobrepor.  
-Evitar abrir novas frentes de memória até o gerador passar a ler o estado.
-
-## Próximo passo técnico
-
-1. Mesclar a revisão de pedidos abertos somente após seus próprios checks.
-2. Investigar a falha causal demonstrada e a generalização do roteamento,
-   preservando o conjunto e medindo cobertura e erro das aceitações.
-3. Distinguir operações estruturais, leitura e realização neural, mantendo
-   os recuos e os limites documentados.
-   Não abrir outra frente de memória estruturada. Treinos de geração livre,
-   ampliação do acervo, voz e microcircuitos continuam adiados nesta etapa.
-
-## Regras de administração a partir de agora
-
-- Máximo 1 PR grande de capacidade por vez.
-- Todo PR de memória/conversa deve ter:
-  - conjunto congelado **antes** da mudança
-  - número claro (X/Y)
-  - declaração explícita do que ainda **não** resolve
-- Atualizar este `PASSAGEM.md` no mesmo PR ou imediatamente depois do merge.
-- Manter o `ROADMAP.md` com no máximo 3 prioridades ativas.
-
-## Histórico antigo
-
-Notas anteriores a 08/10/2026 (PRs #103–#111, geração ancorada,  
-experimentos de raciocínio, etc.) foram movidas para o histórico do  
-repositório. Não use este arquivo como fonte daquelas etapas.
+As métricas estruturadas de #113–#124 não demonstram conversa livre.
+O [documento anterior](https://github.com/HROSONE/CRIVO/blob/9ed051bf2b74668073e0ac480b43c652314b88e7/PASSAGEM.md)
+permanece no histórico Git, assim como branches e checkpoints anteriores.

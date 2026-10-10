@@ -1,0 +1,644 @@
+{
+  "checkpoint": "/workspace/CRIVO-dialogo-20261010/rede_dialogo_seq2seq.json.gz",
+  "checkpoint_sha256": "62cdeb27d012918fac475dd532039ed54552c27aa8fb59ea98612d7d2393c351",
+  "casos_sha256": "d0d39fce5d40ffe024f03ffede68d0d3d852ff96040a59a5890fc509f2c20798",
+  "aprovado": false,
+  "metodo": "Geração isolada em 10 casos dialógicos reais; ato/referentes vêm do trace atual, nunca dos rótulos esperados.",
+  "limite": "Diagnóstico de conteúdo, término e preservação. Não mede roteamento integrado nem 10 conversas manuais; revisão de naturalidade ainda necessária.",
+  "resultados": [
+    {
+      "caso": "real-01",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "posso"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Oi, nunca usei você. O que você consegue fazer por mim?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: capacidades."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "A conversa anterior uma conversa explícito com Fatos. Esse é o que tenho no contexto desta conversa.",
+        "tokens": [
+          "A",
+          "conversa",
+          "anterior",
+          "uma",
+          "conversa",
+          "explícito",
+          "com",
+          "Fatos",
+          ".",
+          "Esse",
+          "é",
+          "o",
+          "que",
+          "tenho",
+          "no",
+          "contexto",
+          "desta",
+          "conversa",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.5564583702289704,
+        "proporcao_geracao": 0.9645251383218401,
+        "fonte_tokens": 28,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-02",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "posso"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Oi, nunca usei você. O que você consegue fazer por mim?"
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: capacidades."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Não tenho consciência, sentimentos ou experiências pessoais como um ser humano. Produzo respostas com meus modelos treinados; isso não demonstra uma vida interior ou um cérebro biológico.",
+        "tokens": [
+          "Não",
+          "tenho",
+          "consciência",
+          ",",
+          "sentimentos",
+          "ou",
+          "experiências",
+          "pessoais",
+          "como",
+          "um",
+          "ser",
+          "humano",
+          ".",
+          "Produzo",
+          "respostas",
+          "com",
+          "meus",
+          "modelos",
+          "treinados",
+          ";",
+          "isso",
+          "não",
+          "demonstra",
+          "uma",
+          "vida",
+          "interior",
+          "ou",
+          "um",
+          "cérebro",
+          "biológico",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.15835633780791003,
+        "proporcao_geracao": 0.9999110471975614,
+        "fonte_tokens": 42,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-03",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "1.",
+        "2.",
+        "3."
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Me dê três exemplos de perguntas que você consegue responder.",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Tá, vou perguntar diretamente: em que você pode me ajudar?"
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: exemplos."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Você contou que Tá que você que você que que você que me que você que ouviu. Esse limite é que ficou exemplos diretamente você consegue verificar.",
+        "tokens": [
+          "Você",
+          "contou",
+          "que",
+          "Tá",
+          "que",
+          "você",
+          "que",
+          "você",
+          "que",
+          "que",
+          "você",
+          "que",
+          "me",
+          "que",
+          "você",
+          "que",
+          "ouviu",
+          ".",
+          "Esse",
+          "limite",
+          "é",
+          "que",
+          "ficou",
+          "exemplos",
+          "diretamente",
+          "você",
+          "consegue",
+          "verificar",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.9405239996790278,
+        "proporcao_geracao": 0.45506826630935915,
+        "fonte_tokens": 39,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-04",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "própr"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Você falou que explica como funciona. Me explica de um jeito simples.",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?"
+          },
+          {
+            "papel": "usuario",
+            "texto": "ajuda"
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: funcionamento."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Você contou que Fatos atuais da situação que só consegue perguntas ou, sem afirmar uma conclusão sobre funcionamento atuais da escola. Esse que você queria continuar?",
+        "tokens": [
+          "Você",
+          "contou",
+          "que",
+          "Fatos",
+          "atuais",
+          "da",
+          "situação",
+          "que",
+          "só",
+          "consegue",
+          "perguntas",
+          "ou",
+          ",",
+          "sem",
+          "afirmar",
+          "uma",
+          "conclusão",
+          "sobre",
+          "funcionamento",
+          "atuais",
+          "da",
+          "escola",
+          ".",
+          "Esse",
+          "que",
+          "você",
+          "queria",
+          "continuar",
+          "?"
+        ],
+        "completa": true,
+        "log_prob_media": -0.6743234030886263,
+        "proporcao_geracao": 0.667722485912812,
+        "fonte_tokens": 45,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-19",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "capivara"
+      ],
+      "referentes_ausentes": [
+        "capivara astronauta"
+      ],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": false,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Escreve uma história curta com essa personagem, umas cinco frases.",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: personagem: capivara astronauta. Tipo de pedido: historia."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Você contou que ficou uma historinha para seis anos, ficou explorar em vez de historia. Esse é o sentimento que ficou astronauta para sua no céu que você consegue verificar?",
+        "tokens": [
+          "Você",
+          "contou",
+          "que",
+          "ficou",
+          "uma",
+          "historinha",
+          "para",
+          "seis",
+          "anos",
+          ",",
+          "ficou",
+          "explorar",
+          "em",
+          "vez",
+          "de",
+          "historia",
+          ".",
+          "Esse",
+          "é",
+          "o",
+          "sentimento",
+          "que",
+          "ficou",
+          "astronauta",
+          "para",
+          "sua",
+          "no",
+          "céu",
+          "que",
+          "você",
+          "consegue",
+          "verificar",
+          "?"
+        ],
+        "completa": true,
+        "log_prob_media": -0.7583970619882219,
+        "proporcao_geracao": 0.7611949139887645,
+        "fonte_tokens": 49,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-20",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "capivara",
+        "amigo"
+      ],
+      "referentes_ausentes": [
+        "capivara astronauta",
+        "amigo"
+      ],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": false,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Muda o final: ela encontra um amigo, em vez de voltar sozinha.",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+          },
+          {
+            "papel": "usuario",
+            "texto": "Escreve uma história curta com essa personagem, umas cinco frases."
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: capivara astronauta; um amigo. Tipo de pedido: corrigir."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Você contou que ficou uma historinha para seis anos, ficou de voltar de seis anos, sem declarar aquele sentimento. O que você queria falar?",
+        "tokens": [
+          "Você",
+          "contou",
+          "que",
+          "ficou",
+          "uma",
+          "historinha",
+          "para",
+          "seis",
+          "anos",
+          ",",
+          "ficou",
+          "de",
+          "voltar",
+          "de",
+          "seis",
+          "anos",
+          ",",
+          "sem",
+          "declarar",
+          "aquele",
+          "sentimento",
+          ".",
+          "O",
+          "que",
+          "você",
+          "queria",
+          "falar",
+          "?"
+        ],
+        "completa": true,
+        "log_prob_media": -0.5771986023589755,
+        "proporcao_geracao": 0.6657951794724707,
+        "fonte_tokens": 66,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "real-21",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "gerador",
+        "própr"
+      ],
+      "referentes_ausentes": [
+        "história"
+      ],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Você escreveu essa história ou pegou de algum lugar?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+          },
+          {
+            "papel": "usuario",
+            "texto": "Escreve uma história curta com essa personagem, umas cinco frases."
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: autoria."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Não tenho uma diferença uma consulta que compreendi pessoa. Não tenho uma prova ou um resultado curta para.",
+        "tokens": [
+          "Não",
+          "tenho",
+          "uma",
+          "diferença",
+          "uma",
+          "consulta",
+          "que",
+          "compreendi",
+          "pessoa",
+          ".",
+          "Não",
+          "tenho",
+          "uma",
+          "prova",
+          "ou",
+          "um",
+          "resultado",
+          "curta",
+          "para",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.5145199438788634,
+        "proporcao_geracao": 0.9509692236056815,
+        "fonte_tokens": 56,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "pos-01",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "posso"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Nunca usei você. O que consegue fazer?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: capacidades."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "A conversa anterior era uma consulta Fatos sem pedido. Esse tenho uma prova ou um resultado capacidades.",
+        "tokens": [
+          "A",
+          "conversa",
+          "anterior",
+          "era",
+          "uma",
+          "consulta",
+          "Fatos",
+          "sem",
+          "pedido",
+          ".",
+          "Esse",
+          "tenho",
+          "uma",
+          "prova",
+          "ou",
+          "um",
+          "resultado",
+          "capacidades",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.4132463190485381,
+        "proporcao_geracao": 0.8532152914153228,
+        "fonte_tokens": 23,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "pos-04",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "posso"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Em que pode me ajudar?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: capacidades."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "A conversa anterior era uma consulta atuais Fatos. Não tenho uma informação que tenho.",
+        "tokens": [
+          "A",
+          "conversa",
+          "anterior",
+          "era",
+          "uma",
+          "consulta",
+          "atuais",
+          "Fatos",
+          ".",
+          "Não",
+          "tenho",
+          "uma",
+          "informação",
+          "que",
+          "tenho",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.42391355957819843,
+        "proporcao_geracao": 0.8826494231487539,
+        "fonte_tokens": 20,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    },
+    {
+      "caso": "pos125-so-isso",
+      "conteudo_minimo_atendido": false,
+      "completa": true,
+      "faltam": [
+        "posso"
+      ],
+      "referentes_ausentes": [],
+      "desvios": [],
+      "numeros_inventados": [],
+      "nomes_inventados": [],
+      "historia_entregue": null,
+      "frases": 2,
+      "entrada_modelo": {
+        "mensagem": "Só isso?",
+        "historico": [
+          {
+            "papel": "usuario",
+            "texto": "Nunca usei você. O que consegue fazer?"
+          },
+          {
+            "papel": "usuario",
+            "texto": "Fatos atuais da sessão: . Tipo de pedido: capacidades."
+          }
+        ]
+      },
+      "gerada": {
+        "texto": "Você não dizer sua um uma conclusão que contou. Não tenho uma conclusão que tenho no contexto desta conversa.",
+        "tokens": [
+          "Você",
+          "não",
+          "dizer",
+          "sua",
+          "um",
+          "uma",
+          "conclusão",
+          "que",
+          "contou",
+          ".",
+          "Não",
+          "tenho",
+          "uma",
+          "conclusão",
+          "que",
+          "tenho",
+          "no",
+          "contexto",
+          "desta",
+          "conversa",
+          "."
+        ],
+        "completa": true,
+        "log_prob_media": -0.7434586628463685,
+        "proporcao_geracao": 0.9992363182521428,
+        "fonte_tokens": 27,
+        "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+      }
+    }
+  ],
+  "resumo": {
+    "total": 10,
+    "conteudo_minimo_atendido": 0,
+    "completas": 10,
+    "casos_com_referentes_ausentes": 3,
+    "casos_com_inventados": 0,
+    "historias_entregues": 0
+  }
+}

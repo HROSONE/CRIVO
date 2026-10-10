@@ -1,0 +1,202 @@
+{
+  "url": "https://crivo-mauve.vercel.app/api/chat",
+  "codigo_publicado": "9ed051bf2b74668073e0ac480b43c652314b88e7",
+  "resultados": [
+    {
+      "pedido": {
+        "message": "O que é diferença de potencial?",
+        "history": [
+          "O que é potencial elétrico?"
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": false,
+          "motivo": "pedido_fora_do_escopo",
+          "tentativas": 0
+        },
+        "voice": "voz_propria",
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [
+              {
+                "id": "mundo_potencial_eletrico",
+                "nome": "potencial elétrico",
+                "origem": "fala"
+              }
+            ],
+            "cues": [],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "potencial elétrico",
+            "previous_turn_id": "conhecimento:mundo_potencial_eletrico",
+            "pending_offer": true
+          },
+          "knowledge": {
+            "mundo_potencial_eletrico": {
+              "facts": 7,
+              "links": 0
+            }
+          },
+          "proposals": [
+            {
+              "species": "composicao_factual",
+              "id": "conhecimento:mundo_potencial_eletrico",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "composicao_factual",
+            "action": "responder",
+            "reason": "primeira espécie a responder"
+          }
+        },
+        "ecosystem": {
+          "species": "composicao_factual",
+          "kingdom": "conhecimento",
+          "role": "Compõe a resposta a partir das fichas dos conceitos e dos catálogos; a voz própria (voz.py) dá forma de conversa à composição pura de um assunto.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "conhecimento:mundo_potencial_eletrico",
+        "response": "Potencial elétrico é a energia potencial elétrica por unidade de carga em um ponto. A diferença de potencial entre dois pontos, medida em volts, é o que impulsiona a corrente num circuito. Se quiser, explico como funciona o potencial elétrico.",
+        "mechanism": "composicao_factual",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    },
+    {
+      "pedido": {
+        "message": "Qual é a diferença entre os dois?",
+        "history": [
+          "O que é DNA?",
+          "O que é RNA?"
+        ]
+      },
+      "http_status": 200,
+      "resposta": {
+        "generation": {
+          "habilitada": true,
+          "usada": true,
+          "motivo": "gerada",
+          "tentativas": 4,
+          "modo": "composicao",
+          "evidencias": [
+            {
+              "assunto": "dna",
+              "fato": 0
+            },
+            {
+              "assunto": "dna",
+              "fato": 1
+            },
+            {
+              "assunto": "rna",
+              "fato": 0
+            },
+            {
+              "assunto": "rna",
+              "fato": 1
+            }
+          ],
+          "rejeicoes": [],
+          "substituiu": "escrita:comparacao",
+          "texto_alterado": false,
+          "copia_literal": true
+        },
+        "natural_routing": {
+          "peca": "fato",
+          "ato": "comparar",
+          "referentes": [
+            "DNA",
+            "RNA"
+          ],
+          "temas": [
+            "dna",
+            "rna"
+          ],
+          "executor": "composicao_factual",
+          "status": "executado",
+          "guarda": {
+            "aceita": true,
+            "motivos": []
+          }
+        },
+        "internal_state": {
+          "understanding": {
+            "question_type": "qual",
+            "entities": [],
+            "cues": [
+              "diferenca",
+              "entre",
+              "dois"
+            ],
+            "negation": false
+          },
+          "memory": {
+            "conversation_subject": "RNA",
+            "previous_turn_id": "conhecimento:rna",
+            "pending_offer": true
+          },
+          "knowledge": {},
+          "proposals": [
+            {
+              "species": "composicao_factual",
+              "id": "escrita:comparacao",
+              "action": "responder",
+              "evidence": {}
+            }
+          ],
+          "decision": {
+            "species": "composicao_factual",
+            "action": "responder",
+            "reason": "operação explícita e referentes da sessão"
+          }
+        },
+        "ecosystem": {
+          "species": "geracao_ancorada",
+          "kingdom": "neural",
+          "role": "Escreve a resposta com o Transformer próprio a partir das evidências escolhidas pelo leitor/compositor; decodificação restrita aos tokens da fonte e da pergunta e guarda de fidelidade, números, nome próprio e repetição.",
+          "regulated_by": [
+            "fontes",
+            "recusa",
+            "catracas"
+          ]
+        },
+        "id": "escrita:comparacao",
+        "response": "O DNA é a molécula que armazena informações genéticas nos organismos. Além disso, sua estrutura costuma ser descrita como uma dupla hélice.\n\nO RNA é uma molécula que participa de diferentes processos de uso da informação genética. Além disso, em geral, o RNA tem uma única fita e usa as bases A, U, C e G.",
+        "mechanism": "geracao_ancorada",
+        "neural_active": true,
+        "plan": null,
+        "experimental_dialogue": false,
+        "experimental_programming": false,
+        "programming_active": true,
+        "programming_effects_model": {
+          "active": true,
+          "parameters": 1679,
+          "external_weights": false,
+          "sha256": "79ffbd7f24ca8e7d03620ec67027327373e87815773e816a825e477015f39f35"
+        },
+        "has_proof": false
+      }
+    }
+  ]
+}
