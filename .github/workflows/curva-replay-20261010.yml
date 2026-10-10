@@ -1,0 +1,58 @@
+name: Curva replay 2026-10-10
+
+on:
+  push:
+    branches:
+      - codex/curva-replay-20261010
+    paths:
+      - 'experimentos/curva_replay_20261010/executar.py'
+      - 'experimentos/curva_replay_20261010/protocolo.json'
+      - '.github/workflows/curva-replay-20261010.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  curva-replay:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Executar curva congelada
+        run: python experimentos/curva_replay_20261010/executar.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: curva-replay-20261010
+          path: |
+            experimentos/curva_replay_20261010/resultados.json
+            experimentos/curva_replay_20261010/RELATORIO.md
+            experimentos/curva_replay_20261010/corpus_replay_2x.json.gz
+            experimentos/curva_replay_20261010/checkpoint_replay_2x.json.gz
+          if-no-files-found: warn
+      - name: Preservar resultados na branch
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            experimentos/curva_replay_20261010/resultados.json \
+            experimentos/curva_replay_20261010/RELATORIO.md \
+            experimentos/curva_replay_20261010/corpus_replay_2x.json.gz \
+            experimentos/curva_replay_20261010/checkpoint_replay_2x.json.gz
+          if git diff --cached --quiet; then
+            echo 'Sem novos resultados para registrar.'
+          else
+            git commit -m 'Registra resultados da curva de replay'
+            git push
+          fi
