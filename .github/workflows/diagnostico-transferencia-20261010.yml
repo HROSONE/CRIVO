@@ -6,6 +6,7 @@ on:
       - codex/diagnostico-transferencia-20261010
     paths:
       - 'experimentos/diagnostico_transferencia_20261010/executar.py'
+      - 'experimentos/diagnostico_transferencia_20261010/aprofundar_resultados.py'
       - 'experimentos/diagnostico_transferencia_20261010/protocolo.json'
       - '.github/workflows/diagnostico-transferencia-20261010.yml'
   workflow_dispatch:
@@ -29,9 +30,13 @@ jobs:
       - name: Ambiente numerico
         run: python -m pip install 'numpy==2.3.5'
       - name: Compilar diagnóstico
-        run: python -m py_compile experimentos/diagnostico_transferencia_20261010/executar.py
+        run: |
+          python -m py_compile experimentos/diagnostico_transferencia_20261010/executar.py
+          python -m py_compile experimentos/diagnostico_transferencia_20261010/aprofundar_resultados.py
       - name: Executar diagnóstico congelado
-        run: python experimentos/diagnostico_transferencia_20261010/executar.py
+        run: |
+          python experimentos/diagnostico_transferencia_20261010/executar.py
+          python experimentos/diagnostico_transferencia_20261010/aprofundar_resultados.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -39,6 +44,8 @@ jobs:
           path: |
             experimentos/diagnostico_transferencia_20261010/resultados.json
             experimentos/diagnostico_transferencia_20261010/RELATORIO.md
+            experimentos/diagnostico_transferencia_20261010/aprofundamento.json
+            experimentos/diagnostico_transferencia_20261010/APROFUNDAMENTO.md
           if-no-files-found: warn
       - name: Preservar resultados na branch
         if: success()
@@ -47,10 +54,12 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add \
             experimentos/diagnostico_transferencia_20261010/resultados.json \
-            experimentos/diagnostico_transferencia_20261010/RELATORIO.md
+            experimentos/diagnostico_transferencia_20261010/RELATORIO.md \
+            experimentos/diagnostico_transferencia_20261010/aprofundamento.json \
+            experimentos/diagnostico_transferencia_20261010/APROFUNDAMENTO.md
           if git diff --cached --quiet; then
             echo 'Sem novos resultados para registrar.'
           else
-            git commit -m 'Registra diagnostico de transferencia'
+            git commit -m 'Registra aprofundamento do diagnostico de transferencia'
             git push
           fi
