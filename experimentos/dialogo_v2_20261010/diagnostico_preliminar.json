@@ -1,0 +1,105 @@
+{
+  "motivo": "Texto residual dos turnos anteriores sugeria final quando o ato atual era reescrita; a guarda recusava a contagem. Corrigido com segunda realização baseada no mesmo ato/arco/argumentos, sem texto residual, usando os mesmos pesos e guarda.",
+  "falhas": [
+    {
+      "caso": "pos127-05",
+      "peca_observada": "esclarecimento",
+      "peca_esperada": "escrita",
+      "peca_correta_com_evidencia": false,
+      "faltam": [],
+      "desvios": [],
+      "trocas_dominio": [],
+      "referentes_ausentes": [],
+      "resposta": {
+        "id": "conversa:esclarecer",
+        "response": "Não consegui cumprir todos os detalhes da história com uma coruja engenheira, um jardim suspenso. Pode esclarecer quais detalhes devo priorizar?",
+        "mechanism": "conversa_assistente",
+        "natural_routing": {
+          "peca": "escrita",
+          "ato": "historia",
+          "referentes": [
+            "uma coruja engenheira",
+            "um jardim suspenso"
+          ],
+          "slots": {
+            "tema1": "uma coruja engenheira",
+            "tema2": "um jardim suspenso"
+          },
+          "personagem": "uma coruja engenheira",
+          "frases": 5,
+          "reescrita": true,
+          "_escrita_anterior": {
+            "acao": "final",
+            "tipo": "historia",
+            "slots": {
+              "tema1": "uma coruja engenheira",
+              "tema2": "um jardim suspenso",
+              "detalhe": "um amigo"
+            },
+            "estilo": "neutro",
+            "turno": 2,
+            "texto": "Ficção: uma coruja engenheira encontrou um amigo em um jardim suspenso. O encontro resolveu a dúvida. Juntos, olharam o mapa. A viagem terminou com uma descoberta.",
+            "variante": 1
+          },
+          "executor": "conversa_assistente",
+          "status": "incompleto",
+          "dialogo": {
+            "habilitada": true,
+            "usada": false,
+            "memoria_usada": true,
+            "recuou": true,
+            "motivo": "guarda_de_conversa_rejeitou",
+            "politica": "conversa",
+            "peca": "escrita",
+            "ato": "historia",
+            "checkpoint_sha256": "9a1e8747fa3ce56ba9e9352a44d2f992457de0867b1a1131730bb643df63be8e",
+            "experimental": true,
+            "argumentos": {
+              "tema1": "uma coruja engenheira",
+              "tema2": "um jardim suspenso"
+            },
+            "confianca_roteamento": "explicita",
+            "guarda": {
+              "politica": "conversa",
+              "aceita": false,
+              "motivos": [
+                "quantidade de frases não atendida"
+              ]
+            }
+          },
+          "guarda": {
+            "aceita": true,
+            "motivos": [],
+            "politica": "rigida"
+          }
+        },
+        "dialogue_generation": {
+          "habilitada": true,
+          "usada": false,
+          "memoria_usada": true,
+          "recuou": true,
+          "motivo": "guarda_de_conversa_rejeitou",
+          "politica": "conversa",
+          "peca": "escrita",
+          "ato": "historia",
+          "checkpoint_sha256": "9a1e8747fa3ce56ba9e9352a44d2f992457de0867b1a1131730bb643df63be8e",
+          "experimental": true,
+          "argumentos": {
+            "tema1": "uma coruja engenheira",
+            "tema2": "um jardim suspenso"
+          },
+          "confianca_roteamento": "explicita",
+          "guarda": {
+            "politica": "conversa",
+            "aceita": false,
+            "motivos": [
+              "quantidade de frases não atendida"
+            ]
+          }
+        },
+        "has_proof": false
+      },
+      "historia_entregue": false
+    }
+  ]
+}

@@ -114,7 +114,7 @@ def _pedido_sessao(texto, bot):
     refs = [bot.memoria_sessao.entidades[p]['nome'] for p in sujeitos]
     if len(sujeitos) != 1:
         return dict(peca='esclarecimento', ato='referente', referentes=refs,
-                    candidatos=sujeitos, vinculo=vinculo[0] if vinculo else None)
+                    candidatos=sujeitos, consulta_sessao=campo, vinculo=vinculo[0] if vinculo else None)
     return dict(peca='memoria', ato='resumir' if resumo else 'consultar', referentes=refs,
                 sujeitos=sujeitos, consulta_sessao=campo)
 
@@ -140,6 +140,10 @@ def rotear_natural(texto, bot, sessao=None):
         return None
     if any(c in texto for c in ('"', '“', '”', '`')):
         return None
+    escrita = bot.conversacao.geracao.ultima_escrita
+    if escrita and escrita['tipo'] == 'historia' and re.fullmatch(
+            r'nao (?:invente|crie|coloque|adicione) (?:um )?nome (?:para|na) (?:a )?personagem[.!]?', n):
+        return rota('esclarecimento','restricao',escrita['slots'].values())
     if re.search(r'\b(?:nao|nunca|jamais)\s+(?:escrev\w*|crie|invente|analise|calcule|execute)\b', n):
         return None  # Cancelamento permanece com o protocolo original.
     if re.search(r'\b(?:o que (?:voce )?(?:consegue|pode|sabe) fazer|em que (?:voce )?pode me ajudar|'
@@ -154,6 +158,34 @@ def rotear_natural(texto, bot, sessao=None):
     escrita = bot.conversacao.geracao.ultima_escrita
     if re.search(r'\bhistoria\b', n) and re.search(r'\b(?:escreveu|pegou|fonte|autoria)\b', n):
         return rota('esclarecimento', 'autoria', tuple(escrita['slots'].values()) if escrita else ())
+    anterior = bot.historico[-1].get('natural_routing', {}) if bot.historico else {}
+    if anterior.get('ato') == 'referente' and anterior.get('consulta_sessao'):
+        escolha = re.fullmatch(r'(?:quero saber de |estou falando de |(?:o|a) |sobre )?(.+?)[.!]?',texto.strip(),re.I)
+        if escolha:
+            escolhidos=[p for p in anterior.get('candidatos',[]) if
+                dobrar(bot.memoria_sessao.entidades[p]['nome'])==dobrar(escolha[1])]
+            if len(escolhidos)==1:
+                p=escolhidos[0]
+                return rota('memoria','consultar',[bot.memoria_sessao.entidades[p]['nome']],
+                            sujeitos=[p],consulta_sessao=anterior['consulta_sessao'])
+            if re.match(r'(?:quero saber de |estou falando de |sobre )',n) and not bot.compositor.resolver(escolha[1]):
+                return rota('esclarecimento','referente',anterior['referentes'],
+                            candidatos=anterior['candidatos'],consulta_sessao=anterior['consulta_sessao'])
+    retomar = re.fullmatch(r'(?:(?:voltei|estou de volta)[.!]? )?(?:o que estavamos fazendo|'
+                          r'qual era (?:a ideia|nosso objetivo)|retome (?:nosso|o) desenho)[?!.]?',n)
+    if retomar:
+        objetivo=bot.conversacao.objetivo or bot.conversacao.dialogo.dados.get('objetivo')
+        if objetivo:
+            fontes=[h['pergunta'] for h in bot.historico[-8:] if re.match(r'(?:eu )?quero\b',dobrar(h['pergunta']))
+                    and '?' not in h['pergunta'] and not any(c in h['pergunta'] for c in ('"','`'))]
+            return rota('esclarecimento','retomar',[objetivo],objetivo=objetivo,fontes=fontes)
+    reescrita=re.fullmatch(r'(?:escreva|reescreva|conte) (?:a|essa) historia em (\d+|cinco) frases[.!]?',n)
+    if reescrita and escrita and escrita['tipo']=='historia':
+        # Uma contagem nova não desfaz o final escolhido pelo usuário.
+        slots=dict(escrita['slots'])
+        return rota('escrita','historia',slots.values(),slots=slots,personagem=slots.get('tema1'),
+                    frases=5 if reescrita[1]=='cinco' else int(reescrita[1]),reescrita=True,
+                    repetir_final=escrita['acao']=='final')
     consulta_sessao = _pedido_sessao(texto, bot)
     if consulta_sessao:
         return consulta_sessao
@@ -271,6 +303,12 @@ def executar_rota_natural(rota, texto, bot):
         elif ato == 'referente':
             resposta = ('De qual pessoa você está falando: ' + ' ou '.join(rota['referentes']) + '?') if rota['referentes'] else (
                 'Você não informou quem é ' + (rota.get('vinculo') or 'essa pessoa') + ' nesta sessão. Qual pessoa devemos considerar?')
+        elif ato == 'retomar':
+            resposta='Estávamos falando do seu objetivo: '+rota['objetivo']+'.'
+            if rota['fontes']:
+                resposta+=' Você contou: '+'; '.join(rota['fontes'])
+        elif ato == 'restricao':
+            resposta='Vou manter '+', '.join(rota['referentes'])+' sem inventar um nome para a personagem.'
         else:
             tentativa = bot.historico[-1].get('natural_routing', {}) if bot.historico else {}
             resposta = ('Essa história foi realizada pelo meu gerador próprio, uma GRU autoral, a partir do personagem pedido. '
