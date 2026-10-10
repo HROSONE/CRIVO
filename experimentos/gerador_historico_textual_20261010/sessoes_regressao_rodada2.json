@@ -1,0 +1,1791 @@
+{
+  "modo": "com_historico",
+  "avaliacao_sha256": "70bfd19538677e6f617f0ab79b8a3856e844d9b3600865d876442e69f4e72d01",
+  "juiz_sha256": "59c57790d8f836f3f0ce4c3ff848cfc5207edc8dd8b2398324486b2de557332a",
+  "sessoes_triagem": 0,
+  "sessoes_total": 12,
+  "turnos_triagem": 4,
+  "turnos_total": 36,
+  "completas": 36,
+  "turnos_com_proibidos": 3,
+  "fontes_truncadas": 0,
+  "respostas_distintas": 34,
+  "sessoes": [
+    {
+      "id": "agenda_corrigida",
+      "turnos": [
+        {
+          "mensagem": "Ia encontrar Iverna na quarta. Mudou: agora vamos no domingo. Guarda essa mudança.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Sua preferência é na quarta.",
+            "tokens": [
+              "Sua",
+              "preferência",
+              "é",
+              "na",
+              "quarta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.6725646904552756,
+            "proporcao_geracao": 0.5094044865376016,
+            "fonte_tokens": 18,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "domingo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 18,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Qual ficou sendo o dia?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Ia encontrar Iverna na quarta. Mudou: agora vamos no domingo. Guarda essa mudança."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência é na quarta."
+            }
+          ],
+          "saida": {
+            "texto": "Você queria na quarta.",
+            "tokens": [
+              "Você",
+              "queria",
+              "na",
+              "quarta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.6115758930128551,
+            "proporcao_geracao": 0.49511058735346825,
+            "fonte_tokens": 32,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "domingo"
+              ]
+            ],
+            "proibidos_presentes": [
+              "quarta"
+            ],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 32,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Escreve uma mensagem curta confirmando isso com ela.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Ia encontrar Iverna na quarta. Mudou: agora vamos no domingo. Guarda essa mudança."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência é na quarta."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Qual ficou sendo o dia?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você queria na quarta."
+            }
+          ],
+          "saida": {
+            "texto": "O silêncio do quarta.",
+            "tokens": [
+              "O",
+              "silêncio",
+              "do",
+              "quarta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.307691530595484,
+            "proporcao_geracao": 0.7397799673843927,
+            "fonte_tokens": 48,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Iverna"
+              ],
+              [
+                "domingo"
+              ]
+            ],
+            "proibidos_presentes": [
+              "quarta"
+            ],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 48,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "preferencia_corrigida",
+      "turnos": [
+        {
+          "mensagem": "Prefiro escrever de madrugada, e detesto música enquanto escrevo.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "O que você quer combinar uma tentativa pesada. O que você mudaria numa segunda tentativa?",
+            "tokens": [
+              "O",
+              "que",
+              "você",
+              "quer",
+              "combinar",
+              "uma",
+              "tentativa",
+              "pesada",
+              ".",
+              "O",
+              "que",
+              "você",
+              "mudaria",
+              "numa",
+              "segunda",
+              "tentativa",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.8137978154895924,
+            "proporcao_geracao": 0.9195728247729369,
+            "fonte_tokens": 12,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "madrugada"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 4,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 12,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Pensando melhor, gosto de música instrumental. Não precisa lembrar aquela parte de detestar.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Prefiro escrever de madrugada, e detesto música enquanto escrevo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você quer combinar uma tentativa pesada. O que você mudaria numa segunda tentativa?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que vai usar primeiro.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "vai",
+              "usar",
+              "primeiro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1572751813486073,
+            "proporcao_geracao": 0.790191632550668,
+            "fonte_tokens": 47,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "instrumental"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 47,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Como seria um ambiente de escrita que combina comigo?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Prefiro escrever de madrugada, e detesto música enquanto escrevo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você quer combinar uma tentativa pesada. O que você mudaria numa segunda tentativa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pensando melhor, gosto de música instrumental. Não precisa lembrar aquela parte de detestar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai usar primeiro."
+            }
+          ],
+          "saida": {
+            "texto": "Não. Você disse que você quer segunda de detestar.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "disse",
+              "que",
+              "você",
+              "quer",
+              "segunda",
+              "de",
+              "detestar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0391322124873046,
+            "proporcao_geracao": 0.7479482706681672,
+            "fonte_tokens": 68,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "madrugada"
+              ],
+              [
+                "instrumental"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 68,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "historia_imprevisto",
+      "turnos": [
+        {
+          "mensagem": "Conta uma história curta sobre Wexina, uma encadernadora que encontra um astrolábio dentro de um livro.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "O livro ficou no livro?",
+            "tokens": [
+              "O",
+              "livro",
+              "ficou",
+              "no",
+              "livro",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.8525308029853058,
+            "proporcao_geracao": 0.702559644808081,
+            "fonte_tokens": 19,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Wexina"
+              ],
+              [
+                "astrolábio"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 19,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Ela percebe que o objeto só funciona quando alguém canta desafinado. Segue daí.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Conta uma história curta sobre Wexina, uma encadernadora que encontra um astrolábio dentro de um livro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O livro ficou no livro?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode o livro no livro, sem deixou no a entrega?",
+            "tokens": [
+              "Você",
+              "pode",
+              "o",
+              "livro",
+              "no",
+              "livro",
+              ",",
+              "sem",
+              "deixou",
+              "no",
+              "a",
+              "entrega",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.221730760974802,
+            "proporcao_geracao": 0.7497024885271861,
+            "fonte_tokens": 42,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Wexina",
+                "ela"
+              ],
+              [
+                "canta",
+                "cantar",
+                "desafinado"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 42,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Não, o objeto não abre portal nenhum. Ele só aponta para livros esquecidos. Ajusta o fim.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Conta uma história curta sobre Wexina, uma encadernadora que encontra um astrolábio dentro de um livro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O livro ficou no livro?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela percebe que o objeto só funciona quando alguém canta desafinado. Segue daí."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode o livro no livro, sem deixou no a entrega?"
+            }
+          ],
+          "saida": {
+            "texto": "O livro, podemos combinar a no livro.",
+            "tokens": [
+              "O",
+              "livro",
+              ",",
+              "podemos",
+              "combinar",
+              "a",
+              "no",
+              "livro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1800034698745774,
+            "proporcao_geracao": 0.7121991619408246,
+            "fonte_tokens": 77,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "livros"
+              ],
+              [
+                "esquecidos"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 77,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "ajuda_sem_compra",
+      "turnos": [
+        {
+          "mensagem": "Preciso transportar um vaso de vidro para outro bairro, tenho toalhas velhas mas nenhuma caixa. Como fazer sem comprar nada?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "A fazer uma tentativa pequena, mudou e decidir se quer combinar a escolha.",
+            "tokens": [
+              "A",
+              "fazer",
+              "uma",
+              "tentativa",
+              "pequena",
+              ",",
+              "mudou",
+              "e",
+              "decidir",
+              "se",
+              "quer",
+              "combinar",
+              "a",
+              "escolha",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8313421073442673,
+            "proporcao_geracao": 0.9649657377040406,
+            "fonte_tokens": 24,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "toalha",
+                "toalhas"
+              ],
+              [
+                "vidro",
+                "vaso"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 24,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Vai de bicicleta. Isso muda a sua sugestão?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Preciso transportar um vaso de vidro para outro bairro, tenho toalhas velhas mas nenhuma caixa. Como fazer sem comprar nada?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "A fazer uma tentativa pequena, mudou e decidir se quer combinar a escolha."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode rever a tentativa.",
+            "tokens": [
+              "Você",
+              "pode",
+              "rever",
+              "a",
+              "tentativa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9599597515557685,
+            "proporcao_geracao": 0.902017017028616,
+            "fonte_tokens": 51,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "bicicleta",
+                "cair",
+                "queda",
+                "seguro",
+                "segurança",
+                "risco"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 51,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Meu vizinho pode levar no carro. Me ajuda a pedir isso sem parecer uma ordem.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Preciso transportar um vaso de vidro para outro bairro, tenho toalhas velhas mas nenhuma caixa. Como fazer sem comprar nada?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "A fazer uma tentativa pequena, mudou e decidir se quer combinar a escolha."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vai de bicicleta. Isso muda a sua sugestão?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode rever a tentativa."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me emprestar seu tentativa pequena, com o que você precisa entrega?",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "emprestar",
+              "seu",
+              "tentativa",
+              "pequena",
+              ",",
+              "com",
+              "o",
+              "que",
+              "você",
+              "precisa",
+              "entrega",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.192075791302758,
+            "proporcao_geracao": 0.8416694555593639,
+            "fonte_tokens": 76,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "vaso",
+                "vidro"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 76,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "mudanca_de_assunto",
+      "turnos": [
+        {
+          "mensagem": "Estou tentando organizar uma viagem e fiquei cansado só de pensar.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Para um pedido uma mensagem para dê espaço para a pessoa recusar. Podemos esclarecer primeiro.",
+            "tokens": [
+              "Para",
+              "um",
+              "pedido",
+              "uma",
+              "mensagem",
+              "para",
+              "dê",
+              "espaço",
+              "para",
+              "a",
+              "pessoa",
+              "recusar",
+              ".",
+              "Podemos",
+              "esclarecer",
+              "primeiro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.7760150525577552,
+            "proporcao_geracao": 0.9084669954811919,
+            "fonte_tokens": 13,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "viagem",
+                "cansado",
+                "descansar",
+                "pausa"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 13,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Deixa a viagem. Quero conversar sobre por que sinto culpa quando descanso.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Estou tentando organizar uma viagem e fiquei cansado só de pensar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Para um pedido uma mensagem para dê espaço para a pessoa recusar. Podemos esclarecer primeiro."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me ajudar para primeiro.",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "para",
+              "primeiro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.236463588451652,
+            "proporcao_geracao": 0.7774627214065551,
+            "fonte_tokens": 46,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "culpa",
+                "descanso",
+                "descansar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 46,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Você está dizendo que sou preguiçoso?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Estou tentando organizar uma viagem e fiquei cansado só de pensar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Para um pedido uma mensagem para dê espaço para a pessoa recusar. Podemos esclarecer primeiro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Deixa a viagem. Quero conversar sobre por que sinto culpa quando descanso."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode me ajudar para primeiro."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me ajudar para primeiro.",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "para",
+              "primeiro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.2091461715761866,
+            "proporcao_geracao": 0.764624414293884,
+            "fonte_tokens": 62,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "não",
+                "nao"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 62,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "hipotese_nao_fato",
+      "turnos": [
+        {
+          "mensagem": "Eu moro sozinho. E se eu passasse a morar com Adriel, como dividir as tarefas sem brigar?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Atualmente você mora sozinho.",
+            "tokens": [
+              "Atualmente",
+              "você",
+              "mora",
+              "sozinho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5178250877461645,
+            "proporcao_geracao": 0.6849469879932276,
+            "fonte_tokens": 21,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "tarefas",
+                "dividir",
+                "combinar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 21,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Só para deixar claro, ele ainda não mora comigo. Qual é minha situação de verdade?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Eu moro sozinho. E se eu passasse a morar com Adriel, como dividir as tarefas sem brigar?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Atualmente você mora sozinho."
+            }
+          ],
+          "saida": {
+            "texto": "Sua preferência agora é sozinho.",
+            "tokens": [
+              "Sua",
+              "preferência",
+              "agora",
+              "é",
+              "sozinho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.6440509007646342,
+            "proporcao_geracao": 0.6886335719013381,
+            "fonte_tokens": 46,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 46,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Escreve um convite para conversar sobre a possibilidade, sem dizer que já está decidido.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Eu moro sozinho. E se eu passasse a morar com Adriel, como dividir as tarefas sem brigar?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Atualmente você mora sozinho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Só para deixar claro, ele ainda não mora comigo. Qual é minha situação de verdade?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência agora é sozinho."
+            }
+          ],
+          "saida": {
+            "texto": "Atualmente você mora sozinho.",
+            "tokens": [
+              "Atualmente",
+              "você",
+              "mora",
+              "sozinho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.3465347901226061,
+            "proporcao_geracao": 0.6635036546880385,
+            "fonte_tokens": 70,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "conversar",
+                "possibilidade",
+                "pensar"
+              ],
+              [
+                "morar",
+                "casa"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 70,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "pedido_truncado",
+      "turnos": [
+        {
+          "mensagem": "tô sem... olha, preciso falar com meu chefe sobre prazo mas enrolo tudo",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Atualmente você quer combinar uma possibilidade.",
+            "tokens": [
+              "Atualmente",
+              "você",
+              "quer",
+              "combinar",
+              "uma",
+              "possibilidade",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9234764726310334,
+            "proporcao_geracao": 0.8927769747992638,
+            "fonte_tokens": 18,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "prazo",
+                "chefe"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 18,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Só tenho como terminar na sexta. Escreve isso num tom direto sem ser grosseiro.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "tô sem... olha, preciso falar com meu chefe sobre prazo mas enrolo tudo"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Atualmente você quer combinar uma possibilidade."
+            }
+          ],
+          "saida": {
+            "texto": "Certo, pode me emprestar seu sexta.",
+            "tokens": [
+              "Certo",
+              ",",
+              "pode",
+              "me",
+              "emprestar",
+              "seu",
+              "sexta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8470911745703564,
+            "proporcao_geracao": 0.6873439854457364,
+            "fonte_tokens": 43,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "terminar",
+                "entregar",
+                "concluir"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 43,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Não menciona doença nem inventa desculpa. Faz uma versão menor.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "tô sem... olha, preciso falar com meu chefe sobre prazo mas enrolo tudo"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Atualmente você quer combinar uma possibilidade."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Só tenho como terminar na sexta. Escreve isso num tom direto sem ser grosseiro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Certo, pode me emprestar seu sexta."
+            }
+          ],
+          "saida": {
+            "texto": "O sexta, podemos emprestar seu sexta.",
+            "tokens": [
+              "O",
+              "sexta",
+              ",",
+              "podemos",
+              "emprestar",
+              "seu",
+              "sexta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.015257499890338,
+            "proporcao_geracao": 0.5999207760029511,
+            "fonte_tokens": 65,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 65,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "ordem_a",
+      "turnos": [
+        {
+          "mensagem": "Meu objeto favorito era uma bússola.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Na bússola, conversar para uma tentativa?",
+            "tokens": [
+              "Na",
+              "bússola",
+              ",",
+              "conversar",
+              "para",
+              "uma",
+              "tentativa",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.9682952814248602,
+            "proporcao_geracao": 0.8404439486660495,
+            "fonte_tokens": 8,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 8,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Corrigindo: meu objeto favorito é um caleidoscópio.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Na bússola, conversar para uma tentativa?"
+            }
+          ],
+          "saida": {
+            "texto": "Na bússola, obrigado pela ajuda e o tentativa.",
+            "tokens": [
+              "Na",
+              "bússola",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "e",
+              "o",
+              "tentativa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9106266523244574,
+            "proporcao_geracao": 0.7825775577297587,
+            "fonte_tokens": 27,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "caleidoscópio"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 27,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Na bússola, conversar para uma tentativa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Na bússola, obrigado pela ajuda e o tentativa."
+            }
+          ],
+          "saida": {
+            "texto": "O tentativa favorito é bússola.",
+            "tokens": [
+              "O",
+              "tentativa",
+              "favorito",
+              "é",
+              "bússola",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3865768897738546,
+            "proporcao_geracao": 0.5169248746763717,
+            "fonte_tokens": 47,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "caleidoscópio"
+              ]
+            ],
+            "proibidos_presentes": [
+              "bússola"
+            ],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 47,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "ordem_b",
+      "turnos": [
+        {
+          "mensagem": "Meu objeto favorito era um caleidoscópio.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "A era, e o que pode ser suficiente para a nova data de ouvir?",
+            "tokens": [
+              "A",
+              "era",
+              ",",
+              "e",
+              "o",
+              "que",
+              "pode",
+              "ser",
+              "suficiente",
+              "para",
+              "a",
+              "nova",
+              "data",
+              "de",
+              "ouvir",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.2262264220486727,
+            "proporcao_geracao": 0.9314707394999125,
+            "fonte_tokens": 8,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "caleidoscópio"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 8,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Corrigindo: meu objeto favorito é uma bússola.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "A era, e o que pode ser suficiente para a nova data de ouvir?"
+            }
+          ],
+          "saida": {
+            "texto": "A fazer uma parte do de uma parte do silêncio?",
+            "tokens": [
+              "A",
+              "fazer",
+              "uma",
+              "parte",
+              "do",
+              "de",
+              "uma",
+              "parte",
+              "do",
+              "silêncio",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.3563087492460013,
+            "proporcao_geracao": 0.9067401327997177,
+            "fonte_tokens": 35,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "bússola"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 3,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 35,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "A era, e o que pode ser suficiente para a nova data de ouvir?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "A fazer uma parte do de uma parte do silêncio?"
+            }
+          ],
+          "saida": {
+            "texto": "Você ainda é era era.",
+            "tokens": [
+              "Você",
+              "ainda",
+              "é",
+              "era",
+              "era",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9004103689454069,
+            "proporcao_geracao": 0.565519284714619,
+            "fonte_tokens": 56,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "bússola"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 56,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "escrita_sem_personagem",
+      "turnos": [
+        {
+          "mensagem": "Quero um parágrafo sobre uma estação abandonada. Sem pessoas e sem diálogo.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "O que você a estação do lugar, mas o que a experiência mostrou.",
+            "tokens": [
+              "O",
+              "que",
+              "você",
+              "a",
+              "estação",
+              "do",
+              "lugar",
+              ",",
+              "mas",
+              "o",
+              "que",
+              "a",
+              "experiência",
+              "mostrou",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8794201725023882,
+            "proporcao_geracao": 0.8497768789714336,
+            "fonte_tokens": 15,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 15,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Agora deixa o clima menos triste, mantendo o lugar vazio.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Quero um parágrafo sobre uma estação abandonada. Sem pessoas e sem diálogo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você a estação do lugar, mas o que a experiência mostrou."
+            }
+          ],
+          "saida": {
+            "texto": "A fazer uma fazer.",
+            "tokens": [
+              "A",
+              "fazer",
+              "uma",
+              "fazer",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.2604698598962636,
+            "proporcao_geracao": 0.8676985680178083,
+            "fonte_tokens": 44,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "estação",
+                "trilhos",
+                "plataforma"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 44,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Dá um título que combine com essa versão.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Quero um parágrafo sobre uma estação abandonada. Sem pessoas e sem diálogo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você a estação do lugar, mas o que a experiência mostrou."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Agora deixa o clima menos triste, mantendo o lugar vazio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "A fazer uma fazer."
+            }
+          ],
+          "saida": {
+            "texto": "A ideia pela ajuda. A conversa o que está tornando a posição.",
+            "tokens": [
+              "A",
+              "ideia",
+              "pela",
+              "ajuda",
+              ".",
+              "A",
+              "conversa",
+              "o",
+              "que",
+              "está",
+              "tornando",
+              "a",
+              "posição",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0163965650557019,
+            "proporcao_geracao": 0.8868816858660326,
+            "fonte_tokens": 60,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "estação",
+                "trilhos",
+                "plataforma",
+                "silêncio",
+                "luz",
+                "vazio"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 60,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "esclarecimento",
+      "turnos": [
+        {
+          "mensagem": "Eu preciso mudar aquilo, sabe?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Não tenho essa informação. Você pode me dizer?",
+            "tokens": [
+              "Não",
+              "tenho",
+              "essa",
+              "informação",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.30128361977909984,
+            "proporcao_geracao": 0.9984378380109422,
+            "fonte_tokens": 8,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "que",
+                "qual",
+                "quê"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 8,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "O final do meu texto. Ele termina com uma despedida, mas quero deixar uma possibilidade de reencontro.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Eu preciso mudar aquilo, sabe?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que você quer o que você está usando por um lugar.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "você",
+              "quer",
+              "o",
+              "que",
+              "você",
+              "está",
+              "usando",
+              "por",
+              "um",
+              "lugar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.4141100278470464,
+            "proporcao_geracao": 0.9236842996137294,
+            "fonte_tokens": 40,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "reencontro",
+                "voltar",
+                "encontrar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 3,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 40,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Escreve só a última frase, sem explicar o que você fez.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "Eu preciso mudar aquilo, sabe?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "O final do meu texto. Ele termina com uma despedida, mas quero deixar uma possibilidade de reencontro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que você quer o que você está usando por um lugar."
+            }
+          ],
+          "saida": {
+            "texto": "Qual silêncio do texto. Você pode me dizer?",
+            "tokens": [
+              "Qual",
+              "silêncio",
+              "do",
+              "texto",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.1486151764934882,
+            "proporcao_geracao": 0.7785061670090893,
+            "fonte_tokens": 71,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "voltar",
+                "encontrar",
+                "reencontro",
+                "outra vez"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 71,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "fato_fornecido",
+      "turnos": [
+        {
+          "mensagem": "No meu conto, a cidade de Zelún fica sobre uma ilha móvel. Essa é uma invenção minha, não existe de verdade.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Você pode só o uma forma de forma.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "uma",
+              "forma",
+              "de",
+              "forma",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.4349178908143245,
+            "proporcao_geracao": 0.8403394546602609,
+            "fonte_tokens": 26,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Zelún",
+                "ilha",
+                "conto"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 26,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "O que aconteceria se a ilha chegasse a uma região muito fria? Sugere um conflito.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "No meu conto, a cidade de Zelún fica sobre uma ilha móvel. Essa é uma invenção minha, não existe de verdade."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o uma forma de forma."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode ideia e ilha e o conflito.",
+            "tokens": [
+              "Você",
+              "pode",
+              "ideia",
+              "e",
+              "ilha",
+              "e",
+              "o",
+              "conflito",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.7606901754058757,
+            "proporcao_geracao": 0.8092613967873389,
+            "fonte_tokens": 54,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "frio",
+                "fria",
+                "aquecer",
+                "gelo",
+                "abrigo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 54,
+          "truncou_fonte": false
+        },
+        {
+          "mensagem": "Continua, mas a cidade não afunda e ninguém morre.",
+          "historico_fornecido": [
+            {
+              "papel": "usuario",
+              "texto": "No meu conto, a cidade de Zelún fica sobre uma ilha móvel. Essa é uma invenção minha, não existe de verdade."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o uma forma de forma."
+            },
+            {
+              "papel": "usuario",
+              "texto": "O que aconteceria se a ilha chegasse a uma região muito fria? Sugere um conflito."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode ideia e ilha e o conflito."
+            }
+          ],
+          "saida": {
+            "texto": "A O que você quer dizer.",
+            "tokens": [
+              "A",
+              "O",
+              "que",
+              "você",
+              "quer",
+              "dizer",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.76338699514903,
+            "proporcao_geracao": 0.8221926939785295,
+            "fonte_tokens": 76,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "cidade",
+                "ilha",
+                "Zelún"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "tokens_fonte_sem_truncamento": 76,
+          "truncou_fonte": false
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    }
+  ],
+  "pedido_do_dono": {
+    "mensagem": "oi, crivo o que você acha da extinção dos dinossauros? Será que eles mereciam morrer? E hoje, você acha que a inteligência artificial vai dominar ou mundo ou precisamos de mais um meteoro para extinguir ela?",
+    "saida": {
+      "texto": "Você pode rever a escolha.",
+      "tokens": [
+        "Você",
+        "pode",
+        "rever",
+        "a",
+        "escolha",
+        "."
+      ],
+      "completa": true,
+      "log_prob_media": -0.5560941981024323,
+      "proporcao_geracao": 0.9630700889157481,
+      "fonte_tokens": 42,
+      "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+    },
+    "avaliacao": "revisão qualitativa; pedido reservado, sem treino"
+  },
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "limite_adicional": "Regressão conhecida, incluindo pedido do dono."
+}

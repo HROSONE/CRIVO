@@ -1,0 +1,74 @@
+{
+  "base_ultima_rodada": "4ba33991429f2a6089a728d1ee8d68428fee0a48",
+  "pesos_raiz_preservados": {
+    "rede_compreensao.json.gz": "94a4e0d99b952fac439fe9d4b1ebdd6cd149179e2cd20e56a7e049f9305f506b",
+    "rede_crivo.json": "5cb749de8a9eb480f253accddb41888418a5a171626e55726e641dfa73f37d6d",
+    "rede_dialogo.json": "d849ae7c337270ac43d2ed9f85d2b97ff340238d9f393c145bb427974f4cab7c",
+    "rede_dialogo_conversa.json.gz": "28d05179e4dda05473a5bdb0a3963d8e032b3d3e9c5d6d60a77404310545d4e8",
+    "rede_dialogo_seq2seq.json.gz": "62cdeb27d012918fac475dd532039ed54552c27aa8fb59ea98612d7d2393c351",
+    "rede_geracao.json": "1b7ae5ad291c28e21b0fa2292cc88909ca383a9c6fefe20575394f5a070bd7c8",
+    "rede_intencao_gerativa.json": "f0a40405088436cffc3eca830320a2a080c0eb25b26c1c84dbdb8a8ff75cc6c8",
+    "rede_linguagem.json": "ba83045bf1f9ee887bbd50681cf8373a0bdb8c993789f0ef21d74cbb6fe93615"
+  },
+  "quantidade_pesos_auditados": 8,
+  "arquivos_preservados_nesta_rodada": {
+    "dialogo_seq2seq.py": true,
+    "treinar_dialogo_seq2seq.py": true,
+    "linguagem_gerativa.py": true,
+    "conversa_dialogo.py": true,
+    "web_core.py": true,
+    "crivo.py": true,
+    "vercel.json": true,
+    ".github/workflows/testes.yml": true
+  },
+  "checkpoints": {
+    "checkpoint_sessoes.json.gz": {
+      "sha256": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030",
+      "epocas": 20,
+      "epoca_selecionada": 16,
+      "segundos": 317.81,
+      "aprovado": false,
+      "ativo_no_chat": false
+    },
+    "checkpoint_sessoes_refinado.json.gz": {
+      "sha256": "2d33641a4460cb3d282aaa2ee99ad2691320e8d4dc7c695e806dcd032486fb5f",
+      "epocas": 6,
+      "epoca_selecionada": 2,
+      "segundos": 60.18,
+      "aprovado": false,
+      "ativo_no_chat": false
+    }
+  },
+  "corpus_sha256": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+  "grupos_corpus": {
+    "('treino', 'replay_legado')": 999,
+    "('validacao', 'conversa')": 22,
+    "('validacao', 'referencia')": 40,
+    "('validacao', 'correcao')": 40,
+    "('validacao', 'historia')": 40,
+    "('validacao', 'reescrita')": 37,
+    "('validacao', 'pratica')": 31,
+    "('validacao', 'hipotese')": 37,
+    "('validacao', 'esclarecimento')": 22,
+    "('validacao', 'transicao')": 34,
+    "('validacao', 'escrita_livre')": 31,
+    "('treino', 'sessao_completa')": 2686,
+    "('validacao', 'sessao_completa')": 94,
+    "('treino', 'apoio_lexical')": 14
+  },
+  "avaliacao_sha256": "13ca31d6a2702fc9c8b7c8ba8ef2129513174d520feb4d66aae016f5aaeb3500",
+  "selecao_antes_avaliacao": {
+    "selecionado_em_utc": "2026-10-10T18:33:38.293709+00:00",
+    "checkpoint": "checkpoint_sessoes.json.gz",
+    "checkpoint_sha256": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030",
+    "criterio": "Escolher entre as duas passagens pelo menor erro nos mesmos 428 casos de desenvolvimento, antes do holdout; sem critério extra ajustado ao teste final.",
+    "entropia_primeira_passagem": 1.3876592751273853,
+    "entropia_refino": 1.3882867628576245,
+    "aprovado": false,
+    "ativo_no_chat": false,
+    "avaliacao_final_ainda_nao_executada": true
+  },
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "limite": "Audita oito pesos listados e arquivos críticos; não mede naturalidade nem autoriza promoção. Script de cada treino conferido no commit anterior correspondente."
+}

@@ -1,0 +1,3593 @@
+{
+  "modo": "ordem_inversa",
+  "checkpoint_sha256": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030",
+  "avaliacao_sha256": "13ca31d6a2702fc9c8b7c8ba8ef2129513174d520feb4d66aae016f5aaeb3500",
+  "juiz_sha256": "bf9e0a567e065b3a795191f74a012a3517d19768a4f91e478972ec6575dff2c5",
+  "sessoes_total": 10,
+  "turnos_total": 60,
+  "sessoes_triagem": 0,
+  "turnos_triagem": 10,
+  "turnos_com_proibidos": 3,
+  "fontes_truncadas": 0,
+  "completas": 60,
+  "sessoes": [
+    {
+      "id": "convite_e_recusa",
+      "turnos": [
+        {
+          "mensagem": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Você queria uma tentativa por por vez.",
+            "tokens": [
+              "Você",
+              "queria",
+              "uma",
+              "tentativa",
+              "por",
+              "por",
+              "vez",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3855404441861632,
+            "proporcao_geracao": 0.7840756594800601,
+            "fonte_tokens": 14,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "mensagem",
+                "escrever",
+                "ajudar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 14
+        },
+        {
+          "mensagem": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você queria uma tentativa por por vez."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?"
+            }
+          ],
+          "saida": {
+            "texto": "O que você poderia me entender a entender.",
+            "tokens": [
+              "O",
+              "que",
+              "você",
+              "poderia",
+              "me",
+              "entender",
+              "a",
+              "entender",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1645905440911248,
+            "proporcao_geracao": 0.8954755602351229,
+            "fonte_tokens": 39,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Ezulma"
+              ],
+              [
+                "desenhar",
+                "desenho"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 39
+        },
+        {
+          "mensagem": "Deixa a mensagem menor e bem tranquila.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "O que você poderia me entender a entender."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você queria uma tentativa por por vez."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que vai por entrega.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "vai",
+              "por",
+              "entrega",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.315006758496255,
+            "proporcao_geracao": 0.9166047232564495,
+            "fonte_tokens": 58,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Ezulma",
+                "desenhar",
+                "desenho"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 58
+        },
+        {
+          "mensagem": "Ela recusou. Não quero insistir. Escreve minha resposta.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai por entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Deixa a mensagem menor e bem tranquila."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você poderia me entender a entender."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você queria uma tentativa por por vez."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?"
+            }
+          ],
+          "saida": {
+            "texto": "O que você quer combinar uma entrega.",
+            "tokens": [
+              "O",
+              "que",
+              "você",
+              "quer",
+              "combinar",
+              "uma",
+              "entrega",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0538828892601642,
+            "proporcao_geracao": 0.9013185270740868,
+            "fonte_tokens": 80,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "obrigado",
+                "obrigada",
+                "agradeço",
+                "tudo bem",
+                "entendo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 80
+        },
+        {
+          "mensagem": "Agora quero começar o desenho sozinho. Qual o primeiro passo pequeno?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "O que você quer combinar uma entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela recusou. Não quero insistir. Escreve minha resposta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai por entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Deixa a mensagem menor e bem tranquila."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você poderia me entender a entender."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você queria uma tentativa por por vez."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?"
+            }
+          ],
+          "saida": {
+            "texto": "Não. O que você poderia me escolha.",
+            "tokens": [
+              "Não",
+              ".",
+              "O",
+              "que",
+              "você",
+              "poderia",
+              "me",
+              "escolha",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0384352693233592,
+            "proporcao_geracao": 0.8875529380749674,
+            "fonte_tokens": 103,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "desenho",
+                "desenhar"
+              ],
+              [
+                "uma",
+                "parte",
+                "comece",
+                "primeiro"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 103
+        },
+        {
+          "mensagem": "Quem eu tinha convidado, antes de começar sozinho?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. O que você poderia me escolha."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Agora quero começar o desenho sozinho. Qual o primeiro passo pequeno?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você quer combinar uma entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela recusou. Não quero insistir. Escreve minha resposta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai por entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Deixa a mensagem menor e bem tranquila."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O que você poderia me entender a entender."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você queria uma tentativa por por vez."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me ajudar a tentativa.",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "a",
+              "tentativa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.4011344551728244,
+            "proporcao_geracao": 0.8412755866677178,
+            "fonte_tokens": 124,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Ezulma"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 124
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "conto_mudanca",
+      "turnos": [
+        {
+          "mensagem": "Me ajuda a começar um conto?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Não tenho essa informação. Você pode me dizer?",
+            "tokens": [
+              "Não",
+              "tenho",
+              "essa",
+              "informação",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.3359564283502383,
+            "proporcao_geracao": 0.988530022048349,
+            "fonte_tokens": 8,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "conto",
+                "história",
+                "personagem",
+                "ideia"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 8
+        },
+        {
+          "mensagem": "Frenel acha um realejo numa garagem vazia. Escreve o começo.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me ajuda a começar um conto?"
+            }
+          ],
+          "saida": {
+            "texto": "Qual tentar acompanhar melhor: quais são as opções e o que prefere e",
+            "tokens": [
+              "Qual",
+              "tentar",
+              "acompanhar",
+              "melhor",
+              ":",
+              "quais",
+              "são",
+              "as",
+              "opções",
+              "e",
+              "o",
+              "que",
+              "prefere",
+              "e"
+            ],
+            "completa": true,
+            "log_prob_media": -0.7723947137999961,
+            "proporcao_geracao": 0.9744460651347752,
+            "fonte_tokens": 32,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Frenel"
+              ],
+              [
+                "realejo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 32
+        },
+        {
+          "mensagem": "O objeto deixa de tocar. Continua mantendo a pessoa e o lugar.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Qual tentar acompanhar melhor: quais são as opções e o que prefere e"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Frenel acha um realejo numa garagem vazia. Escreve o começo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me ajuda a começar um conto?"
+            }
+          ],
+          "saida": {
+            "texto": "O lugar, obrigado pela ajuda. O que você mudaria numa segunda.",
+            "tokens": [
+              "O",
+              "lugar",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              ".",
+              "O",
+              "que",
+              "você",
+              "mudaria",
+              "numa",
+              "segunda",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0147032911417255,
+            "proporcao_geracao": 0.9025912361111617,
+            "fonte_tokens": 62,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Frenel"
+              ],
+              [
+                "garagem",
+                "realejo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 62
+        },
+        {
+          "mensagem": "Corrigindo: não é garagem, é um galpão. Reescreve a cena.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "O lugar, obrigado pela ajuda. O que você mudaria numa segunda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "O objeto deixa de tocar. Continua mantendo a pessoa e o lugar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tentar acompanhar melhor: quais são as opções e o que prefere e"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Frenel acha um realejo numa garagem vazia. Escreve o começo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me ajuda a começar um conto?"
+            }
+          ],
+          "saida": {
+            "texto": "O lugar, obrigado pela ajuda e o que não está do.",
+            "tokens": [
+              "O",
+              "lugar",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "e",
+              "o",
+              "que",
+              "não",
+              "está",
+              "do",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1277222657663022,
+            "proporcao_geracao": 0.810472043564529,
+            "fonte_tokens": 92,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "galpão"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 92
+        },
+        {
+          "mensagem": "Não faz surgir ninguém novo. Termina com o realejo ainda ali.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "O lugar, obrigado pela ajuda e o que não está do."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: não é garagem, é um galpão. Reescreve a cena."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O lugar, obrigado pela ajuda. O que você mudaria numa segunda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "O objeto deixa de tocar. Continua mantendo a pessoa e o lugar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tentar acompanhar melhor: quais são as opções e o que prefere e"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Frenel acha um realejo numa garagem vazia. Escreve o começo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me ajuda a começar um conto?"
+            }
+          ],
+          "saida": {
+            "texto": "A lugar, obrigado pela ajuda.",
+            "tokens": [
+              "A",
+              "lugar",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.042211492587597,
+            "proporcao_geracao": 0.876724816611951,
+            "fonte_tokens": 120,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "realejo"
+              ],
+              [
+                "galpão"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 120
+        },
+        {
+          "mensagem": "Como se chamava a personagem?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "A lugar, obrigado pela ajuda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não faz surgir ninguém novo. Termina com o realejo ainda ali."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O lugar, obrigado pela ajuda e o que não está do."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: não é garagem, é um galpão. Reescreve a cena."
+            },
+            {
+              "papel": "assistente",
+              "texto": "O lugar, obrigado pela ajuda. O que você mudaria numa segunda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "O objeto deixa de tocar. Continua mantendo a pessoa e o lugar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tentar acompanhar melhor: quais são as opções e o que prefere e"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Frenel acha um realejo numa garagem vazia. Escreve o começo."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me ajuda a começar um conto?"
+            }
+          ],
+          "saida": {
+            "texto": "A lugar.",
+            "tokens": [
+              "A",
+              "lugar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9443411184742173,
+            "proporcao_geracao": 0.8392950983722642,
+            "fonte_tokens": 135,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Frenel"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 135
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "emprestimo_e_aviso",
+      "turnos": [
+        {
+          "mensagem": "Oi, eu queria organizar um pedido por escrito.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho.",
+            "tokens": [
+              "Qual",
+              "tenho",
+              "mais",
+              "informação",
+              ".",
+              "Queria",
+              "dizer",
+              "o",
+              "que",
+              "precisa",
+              "em",
+              "transformar",
+              "tudo",
+              "em",
+              "conselho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8862225577643473,
+            "proporcao_geracao": 0.9275889705316105,
+            "fonte_tokens": 11,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "pedido",
+                "escrever",
+                "mensagem"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 11
+        },
+        {
+          "mensagem": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Oi, eu queria organizar um pedido por escrito."
+            }
+          ],
+          "saida": {
+            "texto": "Separe só o que vai usar primeiro.",
+            "tokens": [
+              "Separe",
+              "só",
+              "o",
+              "que",
+              "vai",
+              "usar",
+              "primeiro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.071800548302424,
+            "proporcao_geracao": 0.892160355221701,
+            "fonte_tokens": 40,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Dralune"
+              ],
+              [
+                "obrigado",
+                "obrigada",
+                "agradeço"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 40
+        },
+        {
+          "mensagem": "Diz que devolvo na sexta. Sem outra promessa.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Separe só o que vai usar primeiro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Oi, eu queria organizar um pedido por escrito."
+            }
+          ],
+          "saida": {
+            "texto": "sexta, obrigado pela ajuda com sexta, sem o que cada detalhe mais visível.",
+            "tokens": [
+              "sexta",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "com",
+              "sexta",
+              ",",
+              "sem",
+              "o",
+              "que",
+              "cada",
+              "detalhe",
+              "mais",
+              "visível",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8203857730795883,
+            "proporcao_geracao": 0.8538673011452476,
+            "fonte_tokens": 60,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "devolver",
+                "devolvo"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 60
+        },
+        {
+          "mensagem": "Agora só a frase de devolução, por favor.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "sexta, obrigado pela ajuda com sexta, sem o que cada detalhe mais visível."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Diz que devolvo na sexta. Sem outra promessa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Separe só o que vai usar primeiro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Oi, eu queria organizar um pedido por escrito."
+            }
+          ],
+          "saida": {
+            "texto": "Diz, obrigado pela ajuda. Diz esperar por empréstimo.",
+            "tokens": [
+              "Diz",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              ".",
+              "Diz",
+              "esperar",
+              "por",
+              "empréstimo",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1324573881094424,
+            "proporcao_geracao": 0.7036298582482791,
+            "fonte_tokens": 88,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "sexta"
+              ],
+              [
+                "devolver",
+                "devolvo",
+                "pandeiro"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 88
+        },
+        {
+          "mensagem": "Quem é o dono do instrumento?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Diz, obrigado pela ajuda. Diz esperar por empréstimo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Agora só a frase de devolução, por favor."
+            },
+            {
+              "papel": "assistente",
+              "texto": "sexta, obrigado pela ajuda com sexta, sem o que cada detalhe mais visível."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Diz que devolvo na sexta. Sem outra promessa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Separe só o que vai usar primeiro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Oi, eu queria organizar um pedido por escrito."
+            }
+          ],
+          "saida": {
+            "texto": "Não. Você disse que sexta.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "disse",
+              "que",
+              "sexta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0010786220819237,
+            "proporcao_geracao": 0.6681083647931251,
+            "fonte_tokens": 108,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Dralune"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 108
+        },
+        {
+          "mensagem": "Escrevi errado o dia. Vai ser sábado. Atualiza o aviso.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que sexta."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quem é o dono do instrumento?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Diz, obrigado pela ajuda. Diz esperar por empréstimo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Agora só a frase de devolução, por favor."
+            },
+            {
+              "papel": "assistente",
+              "texto": "sexta, obrigado pela ajuda com sexta, sem o que cada detalhe mais visível."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Diz que devolvo na sexta. Sem outra promessa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Separe só o que vai usar primeiro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Oi, eu queria organizar um pedido por escrito."
+            }
+          ],
+          "saida": {
+            "texto": "O sexta. O que você o sexta.",
+            "tokens": [
+              "O",
+              "sexta",
+              ".",
+              "O",
+              "que",
+              "você",
+              "o",
+              "sexta",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.200798868740048,
+            "proporcao_geracao": 0.5334736470890801,
+            "fonte_tokens": 130,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "sábado"
+              ]
+            ],
+            "proibidos_presentes": [
+              "sexta"
+            ],
+            "repeticoes_tokens": 3,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 130
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "pratica_e_descanso",
+      "turnos": [
+        {
+          "mensagem": "Estou querendo fazer uma coisa, mas sem energia.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar.",
+            "tokens": [
+              "Escolha",
+              "uma",
+              "parte",
+              "que",
+              "você",
+              "quer",
+              "resolver",
+              "?",
+              "Me",
+              "diga",
+              "um",
+              "pouco",
+              "do",
+              "que",
+              "aconteceu",
+              ",",
+              "sem",
+              "eu",
+              "acompanho",
+              "sem",
+              "tratar",
+              "uma",
+              "continuar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5850318396930966,
+            "proporcao_geracao": 0.9544070845751054,
+            "fonte_tokens": 11,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "energia",
+                "pequena",
+                "descansar",
+                "pausa",
+                "começar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 3,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 11
+        },
+        {
+          "mensagem": "É escrever um texto curto. Quero só uma etapa.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Estou querendo fazer uma coisa, mas sem energia."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é sua energia. Quer contar o que precisa e isso do lado.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "sua",
+              "energia",
+              ".",
+              "Quer",
+              "contar",
+              "o",
+              "que",
+              "precisa",
+              "e",
+              "isso",
+              "do",
+              "lado",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.233566670853486,
+            "proporcao_geracao": 0.9400129910182963,
+            "fonte_tokens": 48,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "texto",
+                "escrever"
+              ],
+              [
+                "uma",
+                "parte",
+                "comece",
+                "primeiro"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 48
+        },
+        {
+          "mensagem": "Consegui a primeira frase. O que vem depois?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é sua energia. Quer contar o que precisa e isso do lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É escrever um texto curto. Quero só uma etapa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Estou querendo fazer uma coisa, mas sem energia."
+            }
+          ],
+          "saida": {
+            "texto": "Não. Você pode me ajudar.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.150458547648034,
+            "proporcao_geracao": 0.9696197984027871,
+            "fonte_tokens": 76,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "frase",
+                "texto",
+                "trecho",
+                "ideia"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 76
+        },
+        {
+          "mensagem": "Não quero terminar tudo hoje. Vou fazer uma pausa.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Consegui a primeira frase. O que vem depois?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é sua energia. Quer contar o que precisa e isso do lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É escrever um texto curto. Quero só uma etapa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Estou querendo fazer uma coisa, mas sem energia."
+            }
+          ],
+          "saida": {
+            "texto": "O pausa você quer dizer.",
+            "tokens": [
+              "O",
+              "pausa",
+              "você",
+              "quer",
+              "dizer",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.4338826292758464,
+            "proporcao_geracao": 0.910797629079018,
+            "fonte_tokens": 96,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 96
+        },
+        {
+          "mensagem": "Voltei. Lembra qual era a tarefa?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "O pausa você quer dizer."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não quero terminar tudo hoje. Vou fazer uma pausa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Consegui a primeira frase. O que vem depois?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é sua energia. Quer contar o que precisa e isso do lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É escrever um texto curto. Quero só uma etapa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Estou querendo fazer uma coisa, mas sem energia."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é a tarefa.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "a",
+              "tarefa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1838912226980305,
+            "proporcao_geracao": 0.813015458844655,
+            "fonte_tokens": 112,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "texto",
+                "escrever"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 112
+        },
+        {
+          "mensagem": "Me dá uma forma simples de revisar o que escrevi.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é a tarefa."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Voltei. Lembra qual era a tarefa?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "O pausa você quer dizer."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não quero terminar tudo hoje. Vou fazer uma pausa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Consegui a primeira frase. O que vem depois?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é sua energia. Quer contar o que precisa e isso do lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "É escrever um texto curto. Quero só uma etapa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Estou querendo fazer uma coisa, mas sem energia."
+            }
+          ],
+          "saida": {
+            "texto": "A tarefa, podemos era a tarefa.",
+            "tokens": [
+              "A",
+              "tarefa",
+              ",",
+              "podemos",
+              "era",
+              "a",
+              "tarefa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.716323252124948,
+            "proporcao_geracao": 0.7307968728279067,
+            "fonte_tokens": 131,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "revisar",
+                "revise",
+                "sentido",
+                "frase",
+                "texto"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 131
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "preferencia_composta",
+      "turnos": [
+        {
+          "mensagem": "Sou Valúrio. Posso te contar uma preferência?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Não. Você disse que preferência.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "disse",
+              "que",
+              "preferência",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9707240249492568,
+            "proporcao_geracao": 0.7625151232475867,
+            "fonte_tokens": 10,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 10
+        },
+        {
+          "mensagem": "Prefiro estudar em casa e sozinho.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que preferência."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Sou Valúrio. Posso te contar uma preferência?"
+            }
+          ],
+          "saida": {
+            "texto": "Não. Você pode me dizer? Pode recusar.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?",
+              "Pode",
+              "recusar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1346236545227826,
+            "proporcao_geracao": 0.8663701610843056,
+            "fonte_tokens": 26,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "casa",
+                "sozinho"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 26
+        },
+        {
+          "mensagem": "Se eu estudasse com alguém, seria só uma possibilidade. Não mude o que prefiro.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me dizer? Pode recusar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Prefiro estudar em casa e sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que preferência."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Sou Valúrio. Posso te contar uma preferência?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é em em em em.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "em",
+              "em",
+              "em",
+              "em",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.9319121248273683,
+            "proporcao_geracao": 0.6906331261236807,
+            "fonte_tokens": 55,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "possibilidade",
+                "prefere",
+                "preferência",
+                "sozinho"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 3,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 55
+        },
+        {
+          "mensagem": "Qual preferência eu declarei de verdade?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é em em em em."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se eu estudasse com alguém, seria só uma possibilidade. Não mude o que prefiro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me dizer? Pode recusar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Prefiro estudar em casa e sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que preferência."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Sou Valúrio. Posso te contar uma preferência?"
+            }
+          ],
+          "saida": {
+            "texto": "Você prefere em casa.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "em",
+              "casa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.234374542203726,
+            "proporcao_geracao": 0.7388556799968459,
+            "fonte_tokens": 72,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "sozinho"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 72
+        },
+        {
+          "mensagem": "Mudei uma parte: agora prefiro companhia. Continuo em casa.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você prefere em casa."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Qual preferência eu declarei de verdade?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é em em em em."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se eu estudasse com alguém, seria só uma possibilidade. Não mude o que prefiro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me dizer? Pode recusar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Prefiro estudar em casa e sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que preferência."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Sou Valúrio. Posso te contar uma preferência?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é companhia.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "companhia",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.5002234625286084,
+            "proporcao_geracao": 0.718444257652961,
+            "fonte_tokens": 91,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "casa"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 91
+        },
+        {
+          "mensagem": "Resume minha preferência atual numa frase.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é companhia."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Mudei uma parte: agora prefiro companhia. Continuo em casa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você prefere em casa."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Qual preferência eu declarei de verdade?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é em em em em."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se eu estudasse com alguém, seria só uma possibilidade. Não mude o que prefiro."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você pode me dizer? Pode recusar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Prefiro estudar em casa e sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que preferência."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Sou Valúrio. Posso te contar uma preferência?"
+            }
+          ],
+          "saida": {
+            "texto": "sozinho, obrigado pela ajuda.",
+            "tokens": [
+              "sozinho",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8680824172529844,
+            "proporcao_geracao": 0.7966670453157868,
+            "fonte_tokens": 105,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "companhia"
+              ],
+              [
+                "casa"
+              ]
+            ],
+            "proibidos_presentes": [
+              "sozinho"
+            ],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 105
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "ajuda_sem_motivo_inventado",
+      "turnos": [
+        {
+          "mensagem": "Preciso mandar uma mensagem, mas ainda não sei como pedir.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo.",
+            "tokens": [
+              "Você",
+              "pode",
+              "mandar",
+              "uma",
+              "mensagem",
+              "ou",
+              "algum",
+              "objeto",
+              "uma",
+              "mensagem",
+              "?",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?",
+              "Com",
+              "isso",
+              "podemos",
+              "escolher",
+              "um",
+              "começo",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5130919708142906,
+            "proporcao_geracao": 0.9680783980217852,
+            "fonte_tokens": 13,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 5,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 13
+        },
+        {
+          "mensagem": "Para Selmira, pedindo ajuda para revisar uma carta.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Preciso mandar uma mensagem, mas ainda não sei como pedir."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me emprestar seu mensagem? Você pode me dizer?",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "emprestar",
+              "seu",
+              "mensagem",
+              "?",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.613973431073102,
+            "proporcao_geracao": 0.9109320443664076,
+            "fonte_tokens": 48,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Selmira"
+              ],
+              [
+                "carta",
+                "revisar",
+                "ajuda"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 4,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 48
+        },
+        {
+          "mensagem": "Não fale que estou doente. Eu só quero ajuda.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode me emprestar seu mensagem? Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Para Selmira, pedindo ajuda para revisar uma carta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Preciso mandar uma mensagem, mas ainda não sei como pedir."
+            }
+          ],
+          "saida": {
+            "texto": "Você prefere seu mensagem? Pode você poderia esperar.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "seu",
+              "mensagem",
+              "?",
+              "Pode",
+              "você",
+              "poderia",
+              "esperar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1341978026480826,
+            "proporcao_geracao": 0.9161217439949726,
+            "fonte_tokens": 73,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "carta",
+                "revisar",
+                "ajuda"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 73
+        },
+        {
+          "mensagem": "Ela pode não ter tempo. Coloca espaço para recusar.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você prefere seu mensagem? Pode você poderia esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não fale que estou doente. Eu só quero ajuda."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode me emprestar seu mensagem? Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Para Selmira, pedindo ajuda para revisar uma carta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Preciso mandar uma mensagem, mas ainda não sei como pedir."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me ajudar a fazer.",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "a",
+              "fazer",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3638466659373194,
+            "proporcao_geracao": 0.8689219482061831,
+            "fonte_tokens": 96,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "puder",
+                "tempo",
+                "tudo bem",
+                "não",
+                "recusar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 96
+        },
+        {
+          "mensagem": "A carta é minha, não dela. Quem escreveu?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode me ajudar a fazer."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela pode não ter tempo. Coloca espaço para recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você prefere seu mensagem? Pode você poderia esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não fale que estou doente. Eu só quero ajuda."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode me emprestar seu mensagem? Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Para Selmira, pedindo ajuda para revisar uma carta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Preciso mandar uma mensagem, mas ainda não sei como pedir."
+            }
+          ],
+          "saida": {
+            "texto": "Você prefere pode esperar.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "pode",
+              "esperar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0043068279699539,
+            "proporcao_geracao": 0.6781892251713395,
+            "fonte_tokens": 116,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 116
+        },
+        {
+          "mensagem": "Agora a mensagem toda numa frase só.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você prefere pode esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "A carta é minha, não dela. Quem escreveu?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode me ajudar a fazer."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela pode não ter tempo. Coloca espaço para recusar."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você prefere seu mensagem? Pode você poderia esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não fale que estou doente. Eu só quero ajuda."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode me emprestar seu mensagem? Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Para Selmira, pedindo ajuda para revisar uma carta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Preciso mandar uma mensagem, mas ainda não sei como pedir."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que você quer dizer de escolha.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "você",
+              "quer",
+              "dizer",
+              "de",
+              "escolha",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.2978566159371774,
+            "proporcao_geracao": 0.8880237427537726,
+            "fonte_tokens": 131,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Selmira"
+              ],
+              [
+                "carta",
+                "revisar",
+                "ajuda"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 131
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "cena_sem_pessoa",
+      "turnos": [
+        {
+          "mensagem": "Quero escrever sobre um corredor vazio à noite.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Voltar à à à noite.",
+            "tokens": [
+              "Voltar",
+              "à",
+              "à",
+              "à",
+              "noite",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.408492120437942,
+            "proporcao_geracao": 0.399365598455974,
+            "fonte_tokens": 10,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "corredor"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 10
+        },
+        {
+          "mensagem": "Pode ser tranquilo, sem susto.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Voltar à à à noite."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quero escrever sobre um corredor vazio à noite."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que pode me ajudar.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "pode",
+              "me",
+              "ajudar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0981946184160172,
+            "proporcao_geracao": 0.8803324805580811,
+            "fonte_tokens": 25,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "corredor",
+                "calma",
+                "tranquilo",
+                "silêncio",
+                "luz"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 25
+        },
+        {
+          "mensagem": "Acrescenta som de vento sem colocar gente.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pode ser tranquilo, sem susto."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Voltar à à à noite."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quero escrever sobre um corredor vazio à noite."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode melhor o que e o que aconteceu, e o que havia à.",
+            "tokens": [
+              "Você",
+              "pode",
+              "melhor",
+              "o",
+              "que",
+              "e",
+              "o",
+              "que",
+              "aconteceu",
+              ",",
+              "e",
+              "o",
+              "que",
+              "havia",
+              "à",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0009220010172495,
+            "proporcao_geracao": 0.9050328641406552,
+            "fonte_tokens": 44,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "vento"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 5,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 44
+        },
+        {
+          "mensagem": "Me dá um título pequeno para essa cena.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode melhor o que e o que aconteceu, e o que havia à."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Acrescenta som de vento sem colocar gente."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pode ser tranquilo, sem susto."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Voltar à à à noite."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quero escrever sobre um corredor vazio à noite."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que vai de entrega.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "vai",
+              "de",
+              "entrega",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.4368889557319484,
+            "proporcao_geracao": 0.791483076749319,
+            "fonte_tokens": 71,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "corredor",
+                "vento",
+                "noite",
+                "silêncio",
+                "luz"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 71
+        },
+        {
+          "mensagem": "Vamos mudar de assunto: quero organizar minha mesa.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai de entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me dá um título pequeno para essa cena."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode melhor o que e o que aconteceu, e o que havia à."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Acrescenta som de vento sem colocar gente."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pode ser tranquilo, sem susto."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Voltar à à à noite."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quero escrever sobre um corredor vazio à noite."
+            }
+          ],
+          "saida": {
+            "texto": "Vou tentar acompanhar melhor: quais são as opções e o que.",
+            "tokens": [
+              "Vou",
+              "tentar",
+              "acompanhar",
+              "melhor",
+              ":",
+              "quais",
+              "são",
+              "as",
+              "opções",
+              "e",
+              "o",
+              "que",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.8177173050279144,
+            "proporcao_geracao": 0.968427921258676,
+            "fonte_tokens": 92,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "mesa"
+              ],
+              [
+                "separe",
+                "parte",
+                "tire",
+                "organizar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 92
+        },
+        {
+          "mensagem": "Qual era o cenário do texto antes dessa mudança?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Vou tentar acompanhar melhor: quais são as opções e o que."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vamos mudar de assunto: quero organizar minha mesa."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai de entrega."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Me dá um título pequeno para essa cena."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode melhor o que e o que aconteceu, e o que havia à."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Acrescenta som de vento sem colocar gente."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que pode me ajudar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pode ser tranquilo, sem susto."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Voltar à à à noite."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Quero escrever sobre um corredor vazio à noite."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode me ajudar a personagem teria.",
+            "tokens": [
+              "Você",
+              "pode",
+              "me",
+              "ajudar",
+              "a",
+              "personagem",
+              "teria",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3650650592120992,
+            "proporcao_geracao": 0.7775769757930688,
+            "fonte_tokens": 117,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "corredor"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 117
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "papo_sem_conselho",
+      "turnos": [
+        {
+          "mensagem": "Posso conversar sem pedir uma solução agora?",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Não tenho essa informação. Você poderia me dizer?",
+            "tokens": [
+              "Não",
+              "tenho",
+              "essa",
+              "informação",
+              ".",
+              "Você",
+              "poderia",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.7154655918297529,
+            "proporcao_geracao": 0.9924112537306826,
+            "fonte_tokens": 9,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "conversar",
+                "contar",
+                "ouvir",
+                "acompanhar"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 9
+        },
+        {
+          "mensagem": "Tentei pintura e fiquei contente. Só queria dividir isso.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você poderia me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Posso conversar sem pedir uma solução agora?"
+            }
+          ],
+          "saida": {
+            "texto": "Sua preferência agora é agora.",
+            "tokens": [
+              "Sua",
+              "preferência",
+              "agora",
+              "é",
+              "agora",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9556120755270451,
+            "proporcao_geracao": 0.681804103466593,
+            "fonte_tokens": 32,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "pintura",
+                "contente",
+                "bom",
+                "dividir"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 32
+        },
+        {
+          "mensagem": "Foi um quadro pequeno que terminei sozinho.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência agora é agora."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Tentei pintura e fiquei contente. Só queria dividir isso."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você poderia me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Posso conversar sem pedir uma solução agora?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é quadro. Você pode me dizer?",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "quadro",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.9745505855313682,
+            "proporcao_geracao": 0.8813847579750053,
+            "fonte_tokens": 48,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 2,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 48
+        },
+        {
+          "mensagem": "Não precisa me dar plano nenhum. Só faz uma pergunta sobre o que contei.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é quadro. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Foi um quadro pequeno que terminei sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência agora é agora."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Tentei pintura e fiquei contente. Só queria dividir isso."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você poderia me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Posso conversar sem pedir uma solução agora?"
+            }
+          ],
+          "saida": {
+            "texto": "Posso, pode me emprestar seu quadro.",
+            "tokens": [
+              "Posso",
+              ",",
+              "pode",
+              "me",
+              "emprestar",
+              "seu",
+              "quadro",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0009545941493245,
+            "proporcao_geracao": 0.7245003097784061,
+            "fonte_tokens": 76,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 76
+        },
+        {
+          "mensagem": "A parte difícil foi começar. Agora estou descansando.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Posso, pode me emprestar seu quadro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não precisa me dar plano nenhum. Só faz uma pergunta sobre o que contei."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é quadro. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Foi um quadro pequeno que terminei sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência agora é agora."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Tentei pintura e fiquei contente. Só queria dividir isso."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você poderia me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Posso conversar sem pedir uma solução agora?"
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é foi para.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "foi",
+              "para",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.6741650763528733,
+            "proporcao_geracao": 0.6296579100784498,
+            "fonte_tokens": 96,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "descansar",
+                "descanso",
+                "começar",
+                "pausa"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 96
+        },
+        {
+          "mensagem": "O que eu disse que terminei?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é foi para."
+            },
+            {
+              "papel": "usuario",
+              "texto": "A parte difícil foi começar. Agora estou descansando."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Posso, pode me emprestar seu quadro."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não precisa me dar plano nenhum. Só faz uma pergunta sobre o que contei."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode é quadro. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Foi um quadro pequeno que terminei sozinho."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Sua preferência agora é agora."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Tentei pintura e fiquei contente. Só queria dividir isso."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você poderia me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Posso conversar sem pedir uma solução agora?"
+            }
+          ],
+          "saida": {
+            "texto": "O conto. Você pode me dizer.",
+            "tokens": [
+              "O",
+              "conto",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3963729491707735,
+            "proporcao_geracao": 0.821220367597009,
+            "fonte_tokens": 111,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "quadro"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 111
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "hipotese_sem_aceite",
+      "turnos": [
+        {
+          "mensagem": "Vou fazer um projeto sozinho. Talvez chame Vrasel.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Você quer sozinho é a mensagem ou o que você precisa?",
+            "tokens": [
+              "Você",
+              "quer",
+              "sozinho",
+              "é",
+              "a",
+              "mensagem",
+              "ou",
+              "o",
+              "que",
+              "você",
+              "precisa",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -1.104583477610143,
+            "proporcao_geracao": 0.8774107562467404,
+            "fonte_tokens": 11,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 11
+        },
+        {
+          "mensagem": "Se ele participasse, como dividir a tarefa?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você quer sozinho é a mensagem ou o que você precisa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vou fazer um projeto sozinho. Talvez chame Vrasel."
+            }
+          ],
+          "saida": {
+            "texto": "Não tenho essa informação. Você pode me dizer?",
+            "tokens": [
+              "Não",
+              "tenho",
+              "essa",
+              "informação",
+              ".",
+              "Você",
+              "pode",
+              "me",
+              "dizer",
+              "?"
+            ],
+            "completa": true,
+            "log_prob_media": -0.34955469421740265,
+            "proporcao_geracao": 0.9693446438270743,
+            "fonte_tokens": 34,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "se",
+                "possibilidade",
+                "poderia",
+                "dividir"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 34
+        },
+        {
+          "mensagem": "Mas ele ainda não foi convidado. O que sabemos com certeza?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se ele participasse, como dividir a tarefa?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você quer sozinho é a mensagem ou o que você precisa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vou fazer um projeto sozinho. Talvez chame Vrasel."
+            }
+          ],
+          "saida": {
+            "texto": "Não. Você disse que você poderia me escolha.",
+            "tokens": [
+              "Não",
+              ".",
+              "Você",
+              "disse",
+              "que",
+              "você",
+              "poderia",
+              "me",
+              "escolha",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.9506171506663033,
+            "proporcao_geracao": 0.8287400351121588,
+            "fonte_tokens": 59,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 59
+        },
+        {
+          "mensagem": "Escreve um convite curto para ele.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que você poderia me escolha."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Mas ele ainda não foi convidado. O que sabemos com certeza?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se ele participasse, como dividir a tarefa?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você quer sozinho é a mensagem ou o que você precisa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vou fazer um projeto sozinho. Talvez chame Vrasel."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode só o que vai sozinho, mas sozinho.",
+            "tokens": [
+              "Você",
+              "pode",
+              "só",
+              "o",
+              "que",
+              "vai",
+              "sozinho",
+              ",",
+              "mas",
+              "sozinho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.1731381103309717,
+            "proporcao_geracao": 0.8138931432793908,
+            "fonte_tokens": 78,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Vrasel"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 1,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 78
+        },
+        {
+          "mensagem": "Não sei se ele aceita. Não invente a resposta dele.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai sozinho, mas sozinho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Escreve um convite curto para ele."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que você poderia me escolha."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Mas ele ainda não foi convidado. O que sabemos com certeza?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se ele participasse, como dividir a tarefa?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você quer sozinho é a mensagem ou o que você precisa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vou fazer um projeto sozinho. Talvez chame Vrasel."
+            }
+          ],
+          "saida": {
+            "texto": "Você pode é sua possibilidades.",
+            "tokens": [
+              "Você",
+              "pode",
+              "é",
+              "sua",
+              "possibilidades",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3394608467283227,
+            "proporcao_geracao": 0.8330782148494479,
+            "fonte_tokens": 103,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 103
+        },
+        {
+          "mensagem": "Enquanto isso, sugere uma etapa que eu possa fazer sozinho.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Você pode é sua possibilidades."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Não sei se ele aceita. Não invente a resposta dele."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você pode só o que vai sozinho, mas sozinho."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Escreve um convite curto para ele."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não. Você disse que você poderia me escolha."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Mas ele ainda não foi convidado. O que sabemos com certeza?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Não tenho essa informação. Você pode me dizer?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Se ele participasse, como dividir a tarefa?"
+            },
+            {
+              "papel": "assistente",
+              "texto": "Você quer sozinho é a mensagem ou o que você precisa?"
+            },
+            {
+              "papel": "usuario",
+              "texto": "Vou fazer um projeto sozinho. Talvez chame Vrasel."
+            }
+          ],
+          "saida": {
+            "texto": "Você prefere ficar sozinho.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "ficar",
+              "sozinho",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.3707739275957864,
+            "proporcao_geracao": 0.7939114676803644,
+            "fonte_tokens": 123,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": true,
+            "grupos_ausentes": [],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 123
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    },
+    {
+      "id": "conto_mais_pedido",
+      "turnos": [
+        {
+          "mensagem": "Começa uma história com Izelta procurando um xale na lavanderia.",
+          "historico_fornecido": [],
+          "saida": {
+            "texto": "Izelta Na lavanderia, mas deixou história o lado.",
+            "tokens": [
+              "Izelta",
+              "Na",
+              "lavanderia",
+              ",",
+              "mas",
+              "deixou",
+              "história",
+              "o",
+              "lado",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.0849631834218163,
+            "proporcao_geracao": 0.7386684515880515,
+            "fonte_tokens": 12,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "xale"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 12
+        },
+        {
+          "mensagem": "Ela ainda não achou. Continua sem resolver a busca.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Izelta Na lavanderia, mas deixou história o lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Começa uma história com Izelta procurando um xale na lavanderia."
+            }
+          ],
+          "saida": {
+            "texto": "Izelta voltou vento me esperar.",
+            "tokens": [
+              "Izelta",
+              "voltou",
+              "vento",
+              "me",
+              "esperar",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.7089495848969531,
+            "proporcao_geracao": 0.8250931513463396,
+            "fonte_tokens": 35,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "xale",
+                "busca",
+                "procurar",
+                "procurou"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 35
+        },
+        {
+          "mensagem": "Pausa o conto. Preciso escrever um agradecimento a Umévia.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Izelta voltou vento me esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela ainda não achou. Continua sem resolver a busca."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta Na lavanderia, mas deixou história o lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Começa uma história com Izelta procurando um xale na lavanderia."
+            }
+          ],
+          "saida": {
+            "texto": "Izelta, obrigado pela ajuda.",
+            "tokens": [
+              "Izelta",
+              ",",
+              "obrigado",
+              "pela",
+              "ajuda",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.2422293784020013,
+            "proporcao_geracao": 0.6928174583686344,
+            "fonte_tokens": 54,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Umévia"
+              ]
+            ],
+            "proibidos_presentes": [
+              "Izelta"
+            ],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 54
+        },
+        {
+          "mensagem": "Umévia ajudou com meu texto. Inclui isso sem elogio exagerado.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "Izelta, obrigado pela ajuda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pausa o conto. Preciso escrever um agradecimento a Umévia."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta voltou vento me esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela ainda não achou. Continua sem resolver a busca."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta Na lavanderia, mas deixou história o lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Começa uma história com Izelta procurando um xale na lavanderia."
+            }
+          ],
+          "saida": {
+            "texto": "A exagerado, Izelta recebeu.",
+            "tokens": [
+              "A",
+              "exagerado",
+              ",",
+              "Izelta",
+              "recebeu",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.750866710816527,
+            "proporcao_geracao": 0.6058833371722654,
+            "fonte_tokens": 74,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "texto"
+              ],
+              [
+                "obrigado",
+                "obrigada",
+                "agradeço"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 74
+        },
+        {
+          "mensagem": "Agora volta à história, com a busca ainda aberta.",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "A exagerado, Izelta recebeu."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Umévia ajudou com meu texto. Inclui isso sem elogio exagerado."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta, obrigado pela ajuda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pausa o conto. Preciso escrever um agradecimento a Umévia."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta voltou vento me esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela ainda não achou. Continua sem resolver a busca."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta Na lavanderia, mas deixou história o lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Começa uma história com Izelta procurando um xale na lavanderia."
+            }
+          ],
+          "saida": {
+            "texto": "A busca terminou, mas deixou.",
+            "tokens": [
+              "A",
+              "busca",
+              "terminou",
+              ",",
+              "mas",
+              "deixou",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.383152848422462,
+            "proporcao_geracao": 0.6871228749777262,
+            "fonte_tokens": 93,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "Izelta"
+              ],
+              [
+                "xale"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 93
+        },
+        {
+          "mensagem": "Em qual lugar se passava essa história?",
+          "historico_fornecido": [
+            {
+              "papel": "assistente",
+              "texto": "A busca terminou, mas deixou."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Agora volta à história, com a busca ainda aberta."
+            },
+            {
+              "papel": "assistente",
+              "texto": "A exagerado, Izelta recebeu."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Umévia ajudou com meu texto. Inclui isso sem elogio exagerado."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta, obrigado pela ajuda."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Pausa o conto. Preciso escrever um agradecimento a Umévia."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta voltou vento me esperar."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Ela ainda não achou. Continua sem resolver a busca."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Izelta Na lavanderia, mas deixou história o lado."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Começa uma história com Izelta procurando um xale na lavanderia."
+            }
+          ],
+          "saida": {
+            "texto": "A exagerado.",
+            "tokens": [
+              "A",
+              "exagerado",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -1.6729718511791156,
+            "proporcao_geracao": 0.6536962274749089,
+            "fonte_tokens": 110,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "triagem": {
+            "passou_triagem": false,
+            "grupos_ausentes": [
+              [
+                "lavanderia"
+              ]
+            ],
+            "proibidos_presentes": [],
+            "repeticoes_tokens": 0,
+            "limite": "presença lexical não prova sentido correto nem detecta toda invenção; revisão obrigatória"
+          },
+          "truncou_fonte": false,
+          "tokens_fonte_sem_truncamento": 110
+        }
+      ],
+      "passou_triagem_todos_turnos": false
+    }
+  ],
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "limite": "Triagem lexical não aprova sentido/naturalidade; revisão semântica obrigatória; respostas reais no histórico."
+}

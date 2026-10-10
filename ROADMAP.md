@@ -1,9 +1,45 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-## Prioridade atual — corpus e generalização do gerador textual
+## Prioridade atual — última rodada de sessões concluída, sem promoção
+
+[Relatório atual](experimentos/gerador_historico_textual_20261010/RELATORIO_SESSOES.md).
+No mesmo PR #137 foram entregues **36 sessões autorais de seis turnos / 424
+respostas deslexicalizadas**, com **3.699 treino / 428 desenvolvimento**
+(334 antigos intactos + 94 novos). Não são conversas humanas; nomes/cortesia
+não contam como capacidades. Texto e papéis entram na rede sem slots prontos.
+
+Mesma rede própria: **81.433 parâmetros / 720 entradas**. Realocou **151
+entradas lexicais** para verbos novos, sem alterar tokenizador ou capacidade;
+569 IDs/pesos lexicais e demais pesos preservados na inicialização. Dicionário,
+mistura de corpus e treino mudaram juntos: não isola causalidade.
+Dois treinos reais: 20 épocas/selecionada16, **317,81 s**, e refino de seis
+épocas/selecionada2, **60,18 s**. Menor erro de desenvolvimento selecionou a
+primeira passagem em `a4c8312`, antes do teste final. Nenhum treino depois.
+
+**Resultado: 0/10 sessões coerentes antes e depois; regressão.** Triagem
+11→8/60; violações de data corrigida, preferência, destinatário e estado da
+história. Todas as saídas terminaram; fontes completas. Desenvolvimento antigo
+107→47/334 alvos literais, novo1/94; refino50/334 +1/94, rejeitado pelo critério.
+Sem histórico14/60 e invertido10/60 na triagem, ambos0/10. Não demonstrou
+benefício de histórico ordenado nem conversa natural. Revisão autoral do
+agente, não independente/cega; saídas e motivos publicados.
+
+Checkpoints `5ea28636d815…` e `2d33641a4460…`: **false/false**, fora do chat.
+Oito pesos de raiz auditados e oito arquivos críticos intactos nesta rodada;
+ativo público `28d05179e4dd…` preservado. Integridade nova **5/5** passou;
+isso não aprova capacidade. Sem merge, nova memória/acervo/regra ou mudança
+lateral de CI. Dívida da sonda antiga documentada na rodada anterior; não
+mesclar com check relevante vermelho. PR continua em rascunho.
+
+Último trabalho de hoje concluído como experimento negativo. Próximo passo
+único desta frente: separar no desenvolvimento o efeito da realocação lexical
+e do replay antes de outro treino, preservando o corpus variado entregue.
+Os 10 casos agora são regressão conhecida; não ajustar o gerador a eles.
+
+## Histórico — rodada 3 e contrastes
 
 No mesmo experimento/PR #137, foram concluídos dois treinos próprios com
-histórico textual, sem slots ou intenção pronta. [Relatório atual](experimentos/gerador_historico_textual_20261010/RELATORIO_RODADA3.md).
+histórico textual, sem slots ou intenção pronta. [Relatório da rodada 3](experimentos/gerador_historico_textual_20261010/RELATORIO_RODADA3.md).
 Mesma capacidade: **81.433 parâmetros / 720 tokens**, pesos iniciais próprios
 preservados e Adam novo; arquitetura, matemática e inferência intactas.
 Treinador ganhou apenas continuação opcional com os IDs de vocabulário

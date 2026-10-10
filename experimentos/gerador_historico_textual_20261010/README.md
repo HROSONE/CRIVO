@@ -7,9 +7,30 @@ experimento testa diretamente a arquitetura **própria já existente** em
 Ela recebe somente mensagens e papéis; nenhuma intenção, ação, slot ou
 resposta do avaliador entra na inferência. Não há alteração no chat.
 
-## Resultado atual — rodada 3 e contrastes
+## Resultado atual — sessões completas, última rodada de hoje
 
-[Relatório e reprodução da rodada atual](RELATORIO_RODADA3.md): dois treinos
+[Relatório atual e reprodução](RELATORIO_SESSOES.md): **36 episódios autorais
+× seis turnos / 424 respostas deslexicalizadas**; 3.699 treino e 428
+desenvolvimento (334 anteriores preservados + 94 novos). Dois treinos próprios
+reais, mesma capacidade81.433/720; 151 entradas lexicais realocadas, sem
+mudança de tokenizador/arquitetura. Não são sessões humanas coletadas.
+
+**0/10 sessões mantêm o fio antes e depois**, triagem11→8/60; regressão
+nos 334 casos antigos (107→47 alvos literais) e apenas1/94 novos. Data,
+preferência, destinatário e estado da história ainda trocados. Refino não
+melhorou o erro de desenvolvimento, primeira passagem selecionada antes do
+teste final. Nenhum treino depois do teste; revisão de todas as saídas
+publicada, autoral do agente e não independente/cega.
+
+Pesos `5ea28636d815…` e `2d33641a4460…`: **false/false**, fora do chat.
+Integridade nova5/5; oito pesos de raiz e arquivos críticos preservados.
+Mesmo PR #137, rascunho. O corpus ficou mais variado; melhora de conversa
+não foi demonstrada. O próximo diagnóstico deve separar realocação/replay
+no desenvolvimento, sem ajustar aos novos testes agora conhecidos.
+
+## Histórico — rodada 3 e contrastes
+
+[Relatório e reprodução da rodada 3](RELATORIO_RODADA3.md): dois treinos
 próprios concluídos, **7.202 treino + 334 desenvolvimento**, mesma rede de
 **81.433 parâmetros / 720 tokens**. Formulações deslexicalizadas de pedido:
 100 → 400; as 100 famílias originais de resposta continuam estreitas.
