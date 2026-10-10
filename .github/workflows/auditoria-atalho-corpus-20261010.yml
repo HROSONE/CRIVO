@@ -1,0 +1,50 @@
+name: Auditoria atalho corpus 2026-10-10
+
+on:
+  push:
+    branches:
+      - codex/auditoria-atalho-corpus-20261010
+    paths:
+      - 'experimentos/auditoria_atalho_corpus_20261010/executar.py'
+      - 'experimentos/auditoria_atalho_corpus_20261010/protocolo.json'
+      - '.github/workflows/auditoria-atalho-corpus-20261010.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  auditoria-corpus:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compilar auditoria
+        run: python -m py_compile experimentos/auditoria_atalho_corpus_20261010/executar.py
+      - name: Executar auditoria sem pesos
+        run: python experimentos/auditoria_atalho_corpus_20261010/executar.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: auditoria-atalho-corpus-20261010
+          path: |
+            experimentos/auditoria_atalho_corpus_20261010/resultados.json
+            experimentos/auditoria_atalho_corpus_20261010/RELATORIO.md
+          if-no-files-found: warn
+      - name: Preservar resultados na branch
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add experimentos/auditoria_atalho_corpus_20261010/resultados.json experimentos/auditoria_atalho_corpus_20261010/RELATORIO.md
+          if git diff --cached --quiet; then
+            echo 'Sem novos resultados para registrar.'
+          else
+            git commit -m 'Registra auditoria de atalhos do corpus'
+            git push
+          fi
