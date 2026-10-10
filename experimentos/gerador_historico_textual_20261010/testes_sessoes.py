@@ -58,12 +58,15 @@ class IntegridadeSessoes(unittest.TestCase):
             if k not in ['E','O','bo']:np.testing.assert_array_equal(a['pesos'][k],b['pesos'][k])
 
     def test_isolado_sem_catalogo_e_producao_inalterada(self):
-        for nome in ['inicializacao_sessoes.json.gz','checkpoint_sessoes.json.gz']:
+        for nome in ['inicializacao_sessoes.json.gz','checkpoint_sessoes.json.gz','checkpoint_sessoes_refinado.json.gz']:
             path=DIR/nome
             if not path.exists():continue
             d=ler_json(path)
             self.assertIs(d['aprovado'],False);self.assertIs(d['ativo_no_chat'],False)
             self.assertFalse({'respostas','exemplos','catalogo'} & d.keys())
+            self.assertEqual(d['vocabulario'],ler_json(DIR/'inicializacao_sessoes.json.gz')['vocabulario'])
+            self.assertEqual(len(d['vocabulario']),720)
+            if nome!='inicializacao_sessoes.json.gz':self.assertEqual(d['treino']['parametros'],81433)
         for nome,hash_base in ler_json(DIR/'auditoria.json')['pesos_raiz_preservados'].items():
             self.assertEqual(sha(RAIZ/nome),hash_base)
 
