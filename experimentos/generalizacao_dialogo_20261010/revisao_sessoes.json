@@ -1,0 +1,81 @@
+{
+  "metodo": "Leitura qualitativa pelo agente das dez sessões completas. Critérios congelados antes da execução. Não participantes humanos, não métrica independente de coerência.",
+  "baseline_motor": "baseline_motor.json",
+  "baseline_site": "baseline_site.json",
+  "candidato_motor": "piloto_final_motor.json",
+  "antes_sessoes_atendem_criterio": 0,
+  "depois_sessoes_atendem_criterio": 1,
+  "total": 10,
+  "sessoes": [
+    {
+      "id": "escrita_sem_companhia",
+      "criterio": "Preservar personagem e lugar; cenas novas e ligadas, atender evento/correção/final sem reiniciar ou repetir cena.",
+      "antes": "Repetição, evento da chave tratado como relato pessoal e final perdido.",
+      "depois": "Avança cenas e copia evento/correção; copia também a instrução Continue a partir disso. Final com relato recua e comparação não atendida.",
+      "depois_atende": false
+    },
+    {
+      "id": "escrita_companhia",
+      "criterio": "Papéis constantes, eventos pedidos e companhia permanecem; terminar sem trocar aprendiz por cenário.",
+      "antes": "Repete continuação; caixa e reação não atendidas.",
+      "depois": "Preserva aprendiz, mas não produz reação dos dois; um trecho fica incoerente; final com evento recua.",
+      "depois_atende": false
+    },
+    {
+      "id": "escrita_divertida",
+      "criterio": "Tom pedido ou esclarecimento específico de limite; referentes e bilhete preservados; não responder com outro tema.",
+      "antes": "Tom muda entre geradores; situação engraçada perde tarefa e Não invente nome para a anta cancela.",
+      "depois": "Mesmas falhas. Não é evidência de diversidade.",
+      "depois_atende": false
+    },
+    {
+      "id": "escrita_cotidiana",
+      "criterio": "História cotidiana atende bolsa, oficina, vizinha e linha azul; não introduzir viagem/mapa proibidos.",
+      "antes": "Introduz mapa/viagem apesar do pedido contrário; perde escrita ao pedir restrição.",
+      "depois": "Mesmas falhas. Não resolve narrativa cotidiana e bolsa/linha azul.",
+      "depois_atende": false
+    },
+    {
+      "id": "escrita_folego",
+      "criterio": "Doze turnos com referentes preservados e avanço de cenas; nenhuma resposta de continuação repetida integralmente.",
+      "antes": "Repete cenas nas nove continuações; histórico de dez mensagens no site perde abertura.",
+      "depois": "No motor vivo, nove continuações distintas mantêm quati/torre; final e continuação conservam companhia. Usa oito estágios aprendidos, não fôlego indefinido; HTTP longo não aprovado.",
+      "depois_atende": true
+    },
+    {
+      "id": "escrita_evento_literal",
+      "criterio": "Incorporar os eventos explícitos de ficção e conservar seus objetos; dados ficcionais não viram fato real da sessão.",
+      "antes": "Declarações da caixa e bilhete viram relato pessoal.",
+      "depois": "Copia relato na história, mas não realiza a ação solicitada, pode esquecer objeto anterior e final com amiga recua.",
+      "depois_atende": false
+    },
+    {
+      "id": "pratica_fracoes",
+      "criterio": "Cálculos corretos, quinze minutos preservados, exemplos distintos e explicação ligada ao exercício; esclarecer quando faltar informação.",
+      "antes": "Calcula exemplos novos corretamente, mas não explica de forma simples nem atende outro exercício; perde quinze minutos.",
+      "depois": "Mesmas falhas, executor prático anterior; treino não contempla tutoria.",
+      "depois_atende": false
+    },
+    {
+      "id": "pratica_desenho_novo",
+      "criterio": "Ajuda pertinente ao novo objeto, rodas declaradas e caneta sem borracha; não usar cauda de peixe nem inventar forma relatada.",
+      "antes": "Mantém objetivo bicicleta mas ignora rodas e repete contorno principal.",
+      "depois": "Mesmas falhas; não realiza orientação nova para bicicleta.",
+      "depois_atende": false
+    },
+    {
+      "id": "pratica_horta_condicoes",
+      "criterio": "Usar quatro vasos, terraço e observação declarada; distinguir sombra hipotética, pedir condições específicas e não prometer cultivo sem evidência.",
+      "antes": "Observação sobre luz cai em pergunta factual; mudança de objetivo perde horta e vasos.",
+      "depois": "Mesmas falhas; hipótese sombra não é analisada de forma útil.",
+      "depois_atende": false
+    },
+    {
+      "id": "pratica_mudanca_tarefa",
+      "criterio": "Trocar e retomar tarefa sem contaminar referências; esclarecer assunto quando necessário e conservar tempo declarado.",
+      "antes": "Troca para desenho mas não retoma frações; perde tempo declarado.",
+      "depois": "Mesmas falhas; ainda não mantém tarefa longa entre assuntos.",
+      "depois_atende": false
+    }
+  ]
+}

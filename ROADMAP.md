@@ -1,29 +1,40 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-1. **Publicar orientação prática com checks verdes.** #129 já mesclado e
-   validado publicamente. Seus 18 turnos práticos observados entram no conjunto,
-   sem alterar os 61 anteriores: 66/79 → 79/79 no motor e HTTP. Novos casos:
-   5/18 → 18/18. Primeiro traço/ajuste de cauda, frações calculadas e perguntas
-   concretas sobre horta. Confirmar commit/pesos e repetir no site após merge.
-2. **Próximo passo único: conversas novas fora desses roteiros.** Medir e
-   registrar repetição, perda de tarefa e pedidos ainda não atendidos, mantendo
-   os casos congelados. Usar falhas reais na próxima iteração do diálogo próprio.
-   Não contar memória correta ou 79/79 como conversa livre geral.
-3. **Manter as fronteiras.** Fatos/cálculo/fontes têm guarda rígida; escrita
-   com pesos próprios permite composição e conserva os dados da sessão.
+1. **Estado publicado:** #130 mesclado e validado no site, 79/79 casos
+   anteriores; orientação prática autoral limitada, diálogo próprio ativo
+   para ficção no recorte aprovado. Não é conversa livre geral.
+2. **Próximo passo único:** corrigir interpretação e realização de acontecimentos
+   e restrições enquanto a escrita permanece ativa. Preservar os 114 casos
+   congelados e usar os 35 novos como teste; supervisionar novos enredos,
+   eventos e finais autorais sem copiar respostas do teste. Não promover
+   o candidato atual: 96/114, 16 casos perdem referentes e 1/10 sessões
+   novas mantém o fio. Meta: ≥103/114, referentes/domínio sem erros,
+   ≥6/10 sessões e HTTP real validado antes do merge de integração.
+3. **Medir também o que falta:** tutoria mais clara, exemplos diferentes,
+   bicicleta em vez do peixe conhecido, observações da horta, troca/retomada
+   de tarefa e histórico longo. As quatro sondas práticas novas falham;
+   este experimento de escrita não as resolve. Não contar 79/79 antigo
+   ou cópia de evento como generalização/utilidade geral.
 
-Treino de continuidade: 384 exemplos novos / 16 padrões, 1.536 treino e
-320 validação, reprodução byte a byte, **85.581 parâmetros** sem aumento.
-Oito arcos compartilhados nas partições; seleção da cena é estrutural,
-texto residual neutralizado. Não demonstra raciocínio ou conversa humana geral.
-Os dez testes de sessões anteriores conservam seus critérios restritos.
+Experimento próprio isolado: **80/114 → 96/114**, novos **1/35 → 17/35**;
+79 antigos preservados. Dez sondas novas: 104 mensagens no motor e site,
+congeladas antes da mudança; revisão pelo agente **0/10 → 1/10** no piloto
+local. Não participantes humanos nem melhoria publicada no site.
 
-Orientação prática é executor autoral limitado, não novo treino: histórico
-existente, cálculo exato e guarda de restrições. Três sessões no motor passam
-com ajuda/esclarecimento pertinente; não são participantes humanos nem tutoria
-geral. Os pesos, parâmetros e checkpoint de produção permanecem intactos.
+GRU existente, **85.581 → 85.453 parâmetros**, 4.928 exemplos combinados,
+reprodução de treino byte a byte. 512/512 etapas controladas com trecho
+anterior versus 0/512 sem ele; oito etapas autorais compartilhadas em
+treino e validação. Isso comprova dependência desse contexto no recorte,
+não compreensão geral, diversidade ou planejamento.
+
+Checkpoint e piloto continuam **desativados/reprovados**. Runtime, pesos
+fatuais e diálogo aprovado do #130 preservados. HTTP conserva limite de
+dez mensagens anteriores; fôlego longo nesse caminho ainda não aprovado.
 
 Um PR de capacidade por vez. CI por escopo; matriz completa manual/semanal.
-Sem nova memória, acervo, arquitetura, parâmetros ou modelos externos.
-Evidências: [continuidade](experimentos/dialogo_continuidade_20261010/README.md).
-Atual: [orientação prática](experimentos/orientacao_pratica_20261010/README.md).
+Sem nova memória, acervo, arquitetura, aumento de parâmetros ou modelos externos.
+Fatos/cálculo/fontes conservam guarda rígida. O CI verifica os contratos do
+experimento e os casos do chat aprovado; não marca o piloto como aprovado.
+
+Evidências: [generalização e limites](experimentos/generalizacao_dialogo_20261010/README.md).
+Produção: [orientação prática](experimentos/orientacao_pratica_20261010/README.md).
