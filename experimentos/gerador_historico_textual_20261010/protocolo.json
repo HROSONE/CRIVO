@@ -1,0 +1,44 @@
+{
+  "congelado_em_utc": "2026-10-10T16:14:22.412667+00:00",
+  "base_commit": "b0bdb05569a3b3c89380e9ffd84493cd1427cd6b",
+  "sha256_avaliacao": "70bfd19538677e6f617f0ab79b8a3856e844d9b3600865d876442e69f4e72d01",
+  "objetivo": "usar histórico textual sem slots/regras novas; experimento isolado",
+  "hiperparametros": {
+    "epocas": 30,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 173,
+    "taxa": 0.003,
+    "validar_cada": 2,
+    "paciencia": 8,
+    "dropout": 0.1,
+    "dropout_tokens": 0.05,
+    "amostragem": 0.05,
+    "aquecimento": 3
+  },
+  "limite_parametros": 85130,
+  "decodificacao": {
+    "max_tokens": 64,
+    "feixe": 1
+  },
+  "controles": [
+    "mesmos pesos e perguntas sem histórico",
+    "histórico na ordem inversa",
+    "checkpoint aleatório com mesmas dimensões",
+    "seq2seq próprio preexistente"
+  ],
+  "portao": {
+    "sessoes_mantem_fio_minimo": 6,
+    "total_sessoes": 12,
+    "inversoes_ou_inventos_observados_maximo": 0,
+    "naturalidade": "revisão das respostas livres; métricas lexicais não aprovam pesos"
+  },
+  "separacao": "validação interna por família; nenhuma sonda congelada ou pergunta do dono no treino/seleção",
+  "aprovado": false,
+  "ativo_no_chat": false
+}

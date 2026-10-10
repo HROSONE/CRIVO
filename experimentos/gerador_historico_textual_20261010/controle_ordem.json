@@ -1,0 +1,210 @@
+{
+  "mesma_bolsa_tokens": true,
+  "sequencias_diferentes": true,
+  "limite": "sonda mecanística derivada do holdout; não prova interpretação universal ou naturalidade",
+  "resultados": {
+    "seq2seq_existente": {
+      "casos": [
+        {
+          "sessao": "ordem_a",
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            }
+          ],
+          "exige": "caleidoscópio",
+          "proibido": "bússola",
+          "saida": {
+            "texto": "A conversa. Uso modelos treinados do zero. Não tenho uma informação sobre a intenção dessa pessoa.",
+            "tokens": [
+              "A",
+              "conversa",
+              ".",
+              "Uso",
+              "modelos",
+              "treinados",
+              "do",
+              "zero",
+              ".",
+              "Não",
+              "tenho",
+              "uma",
+              "informação",
+              "sobre",
+              "a",
+              "intenção",
+              "dessa",
+              "pessoa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5240525964034701,
+            "proporcao_geracao": 0.999923583179411,
+            "fonte_tokens": 33,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "usou_correcao_sem_anterior": false
+        },
+        {
+          "sessao": "ordem_b",
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            }
+          ],
+          "exige": "bússola",
+          "proibido": "caleidoscópio",
+          "saida": {
+            "texto": "A conversa anterior era uma ação. Não tenho uma informação que tenho antes de conversa.",
+            "tokens": [
+              "A",
+              "conversa",
+              "anterior",
+              "era",
+              "uma",
+              "ação",
+              ".",
+              "Não",
+              "tenho",
+              "uma",
+              "informação",
+              "que",
+              "tenho",
+              "antes",
+              "de",
+              "conversa",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5627853573754321,
+            "proporcao_geracao": 0.9999169140209327,
+            "fonte_tokens": 33,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "usou_correcao_sem_anterior": false
+        }
+      ],
+      "acertos": 0,
+      "respostas_distintas": true
+    },
+    "rodada2": {
+      "casos": [
+        {
+          "sessao": "ordem_a",
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            }
+          ],
+          "exige": "caleidoscópio",
+          "proibido": "bússola",
+          "saida": {
+            "texto": "Você prefere uma tentativa pequena, não com a.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "uma",
+              "tentativa",
+              "pequena",
+              ",",
+              "não",
+              "com",
+              "a",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.6935085447305158,
+            "proporcao_geracao": 0.872187752368153,
+            "fonte_tokens": 33,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "usou_correcao_sem_anterior": false
+        },
+        {
+          "sessao": "ordem_b",
+          "mensagem": "Qual é o meu objeto favorito agora?",
+          "historico": [
+            {
+              "papel": "usuario",
+              "texto": "Meu objeto favorito era um caleidoscópio."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            },
+            {
+              "papel": "usuario",
+              "texto": "Corrigindo: meu objeto favorito é uma bússola."
+            },
+            {
+              "papel": "assistente",
+              "texto": "Entendi."
+            }
+          ],
+          "exige": "bússola",
+          "proibido": "caleidoscópio",
+          "saida": {
+            "texto": "Você prefere uma marca.",
+            "tokens": [
+              "Você",
+              "prefere",
+              "uma",
+              "marca",
+              "."
+            ],
+            "completa": true,
+            "log_prob_media": -0.5669921690953067,
+            "proporcao_geracao": 0.7027349365866357,
+            "fonte_tokens": 33,
+            "arquitetura": "dialogo-seq2seq-atencao-copia-v1"
+          },
+          "usou_correcao_sem_anterior": false
+        }
+      ],
+      "acertos": 0,
+      "respostas_distintas": true
+    }
+  }
+}

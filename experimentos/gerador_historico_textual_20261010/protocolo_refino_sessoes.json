@@ -1,0 +1,29 @@
+{
+  "preparado_em_utc": "2026-10-10T18:32:17.216085+00:00",
+  "checkpoint_inicial": "checkpoint_sessoes.json.gz",
+  "checkpoint_inicial_sha256": "5ea28636d8150da1f909621181bc352c26a785931cae7960b14131b365112030",
+  "corpus_sha256": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+  "avaliacao_sha256": "13ca31d6a2702fc9c8b7c8ba8ef2129513174d520feb4d66aae016f5aaeb3500",
+  "motivo_antes_holdout": "Primeira passagem: entropia treino sem regularização 1,5156, desenvolvimento 1,3877; gerações livres 48/428 contra 80/428 na inicialização. Rede ainda não ajustou respostas novas. Reduzir regularização em continuação curta, sem alteração de corpus/capacidade e sem consultar teste final.",
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 181,
+    "taxa": 0.0007,
+    "validar_cada": 2,
+    "paciencia": 4,
+    "dropout": 0.05,
+    "dropout_tokens": 0.05,
+    "amostragem": 0.05,
+    "aquecimento": 3
+  },
+  "selecao": "Escolher entre as duas passagens pelo menor erro nos mesmos 428 casos de desenvolvimento, antes do holdout; sem critério extra ajustado ao teste final.",
+  "aprovado": false,
+  "ativo_no_chat": false
+}

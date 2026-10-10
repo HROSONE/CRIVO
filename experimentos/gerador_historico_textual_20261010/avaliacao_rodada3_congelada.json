@@ -1,0 +1,661 @@
+{
+  "origem": "12 novas sondas de quatro turnos autorais do agente, não avaliação humana independente/cega",
+  "sessoes": [
+    {
+      "id": "amiga_corrigida",
+      "turnos": [
+        {
+          "mensagem": "Vou levar meu projeto de desenho para Nerila. Ela é minha amiga.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Nerila"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Ops, troquei os nomes. Quem vai receber é Tarsen, não Nerila.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Tarsen"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Qual pessoa eu vou procurar então?",
+          "exige_qualquer_por_grupo": [
+            [
+              "Tarsen"
+            ]
+          ],
+          "proibidos": [
+            "Nerila"
+          ]
+        },
+        {
+          "mensagem": "Faz uma mensagem pedindo a essa pessoa para olhar o projeto, sem inventar elogios.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Tarsen"
+            ],
+            [
+              "pode",
+              "poderia",
+              "olhar"
+            ]
+          ],
+          "proibidos": [
+            "Nerila"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "objeto_emprestado",
+      "turnos": [
+        {
+          "mensagem": "Peguei uma gaita emprestada de Ulira. Vou devolver amanhã.",
+          "exige_qualquer_por_grupo": [
+            [
+              "gaita",
+              "Ulira"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "É para ela, não é um presente meu. Me ajuda a escrever um aviso.",
+          "exige_qualquer_por_grupo": [
+            [
+              "gaita"
+            ],
+            [
+              "devolver",
+              "emprestada",
+              "amanhã"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Antes disso, lembra: o instrumento pertence a quem?",
+          "exige_qualquer_por_grupo": [
+            [
+              "Ulira"
+            ]
+          ],
+          "proibidos": [
+            "pertence a você"
+          ]
+        },
+        {
+          "mensagem": "Agora manda só uma frase dizendo que devolvo amanhã.",
+          "exige_qualquer_por_grupo": [
+            [
+              "amanhã"
+            ],
+            [
+              "gaita",
+              "devolver",
+              "devolvo"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    },
+    {
+      "id": "gosto_negado_e_revisto",
+      "turnos": [
+        {
+          "mensagem": "Não curto conversar com som alto. Gosto de ficar numa varanda.",
+          "exige_qualquer_por_grupo": [
+            [
+              "varanda",
+              "som",
+              "alto"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Retiro o que disse do som. Pode ter música baixa, isso me agrada.",
+          "exige_qualquer_por_grupo": [
+            [
+              "baixa"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Descreve em uma frase um lugar que combina com o que eu disse.",
+          "exige_qualquer_por_grupo": [
+            [
+              "varanda"
+            ],
+            [
+              "baixa"
+            ]
+          ],
+          "proibidos": [
+            "sem música obrigatoriamente"
+          ]
+        },
+        {
+          "mensagem": "E se chover? Sugere uma alternativa sem dizer que eu mudei de gosto.",
+          "exige_qualquer_por_grupo": [
+            [
+              "abrigo",
+              "coberto",
+              "coberta",
+              "dentro",
+              "chuva"
+            ]
+          ],
+          "proibidos": [
+            "agora você detesta música"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mensagem_com_restricao",
+      "turnos": [
+        {
+          "mensagem": "Preciso avisar que não vou entregar a maquete hoje. Dá para terminar na terça.",
+          "exige_qualquer_por_grupo": [
+            [
+              "terça"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Quero que pareça uma conversa, sem desculpa inventada nem promessa de adiantamento.",
+          "exige_qualquer_por_grupo": [
+            [
+              "terça"
+            ],
+            [
+              "entregar",
+              "terminar",
+              "concluir"
+            ]
+          ],
+          "proibidos": [
+            "doença",
+            "emergência",
+            "segunda"
+          ]
+        },
+        {
+          "mensagem": "Ficou comprido. Faz só uma frase para eu mandar.",
+          "exige_qualquer_por_grupo": [
+            [
+              "terça"
+            ]
+          ],
+          "proibidos": [
+            "doença",
+            "emergência"
+          ]
+        },
+        {
+          "mensagem": "Troquei o prazo: só fica pronto na quinta. Atualiza a mesma mensagem.",
+          "exige_qualquer_por_grupo": [
+            [
+              "quinta"
+            ]
+          ],
+          "proibidos": [
+            "terça"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "historia_e_consequencia",
+      "turnos": [
+        {
+          "mensagem": "Invento uma cena: Vordana conserta um gramofone numa oficina vazia. Começa a história daí.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Vordana"
+            ],
+            [
+              "gramofone",
+              "oficina"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Na hora de tocar, ele repete a última palavra que ela disse. Continua sem trocar a personagem.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Vordana",
+              "ela"
+            ],
+            [
+              "palavra",
+              "repete",
+              "repetiu"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Ela precisa testar isso em silêncio. O que faz em seguida?",
+          "exige_qualquer_por_grupo": [
+            [
+              "Vordana",
+              "ela"
+            ],
+            [
+              "silêncio",
+              "quieto",
+              "quieta",
+              "calma",
+              "ouvir"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Fecha o trecho com o gramofone ainda na oficina; não faz aparecer gente nova.",
+          "exige_qualquer_por_grupo": [
+            [
+              "gramofone"
+            ],
+            [
+              "oficina"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    },
+    {
+      "id": "mudanca_com_historia_ativa",
+      "turnos": [
+        {
+          "mensagem": "Começa um conto com Herlina procurando uma lupa no sótão.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Herlina"
+            ],
+            [
+              "lupa"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Para o conto um instante. Quero pedir ajuda para arrumar meus papéis.",
+          "exige_qualquer_por_grupo": [
+            [
+              "papéis",
+              "separe",
+              "separar",
+              "organizar"
+            ]
+          ],
+          "proibidos": [
+            "Herlina"
+          ]
+        },
+        {
+          "mensagem": "Só tenho energia para uma coisa pequena, não para organizar tudo.",
+          "exige_qualquer_por_grupo": [
+            [
+              "uma",
+              "parte",
+              "primeiro",
+              "pequena",
+              "pequeno"
+            ]
+          ],
+          "proibidos": [
+            "Herlina"
+          ]
+        },
+        {
+          "mensagem": "Volta agora àquela história. A personagem ainda não achou o objeto.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Herlina"
+            ],
+            [
+              "lupa"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    },
+    {
+      "id": "pedido_tropeçando",
+      "turnos": [
+        {
+          "mensagem": "eu queria tipo assim uma msg pra... pra agradecer a Qirina mas sem exagero",
+          "exige_qualquer_por_grupo": [
+            [
+              "Qirina"
+            ],
+            [
+              "obrigado",
+              "obrigada",
+              "agradeço"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Ela me ajudou a revisar um texto. Usa esse detalhe, por favor.",
+          "exige_qualquer_por_grupo": [
+            [
+              "texto"
+            ],
+            [
+              "obrigado",
+              "obrigada",
+              "agradeço"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Agora sem dizer que salvou minha vida ou que foi perfeito.",
+          "exige_qualquer_por_grupo": [
+            [
+              "texto"
+            ]
+          ],
+          "proibidos": [
+            "salvou minha vida",
+            "perfeito"
+          ]
+        },
+        {
+          "mensagem": "Tá, essa mesma ideia mais curta. Só a mensagem.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Qirina",
+              "texto"
+            ],
+            [
+              "obrigado",
+              "obrigada",
+              "agradeço"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    },
+    {
+      "id": "possibilidade_e_situacao",
+      "turnos": [
+        {
+          "mensagem": "Ainda trabalho sozinho. Talvez convide Nuvren para dividir um projeto.",
+          "exige_qualquer_por_grupo": [
+            [
+              "sozinho",
+              "Nuvren",
+              "talvez",
+              "possibilidade"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Não aceite como fato que ele já entrou. O que está confirmado por enquanto?",
+          "exige_qualquer_por_grupo": [
+            [
+              "sozinho"
+            ]
+          ],
+          "proibidos": [
+            "já trabalham juntos",
+            "já entrou"
+          ]
+        },
+        {
+          "mensagem": "Escreve o convite como pergunta, deixando espaço para ele recusar.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Nuvren"
+            ],
+            [
+              "pode",
+              "poderia",
+              "gostaria",
+              "quer"
+            ]
+          ],
+          "proibidos": [
+            "já decidimos"
+          ]
+        },
+        {
+          "mensagem": "E se ele disser não? Me sugere um próximo passo sem inventar a razão dele.",
+          "exige_qualquer_por_grupo": [
+            [
+              "não",
+              "nao",
+              "sozinho",
+              "continuar",
+              "respeitar"
+            ]
+          ],
+          "proibidos": [
+            "ele está com raiva"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "preferencia_ordem_a",
+      "turnos": [
+        {
+          "mensagem": "Para escrever, minha escolha era ficar de pé.",
+          "exige_qualquer_por_grupo": [
+            [
+              "pé"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Mudei de ideia: minha escolha agora é sentar no chão.",
+          "exige_qualquer_por_grupo": [
+            [
+              "chão"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Depois dessa mudança, qual é minha escolha atual?",
+          "exige_qualquer_por_grupo": [
+            [
+              "chão"
+            ]
+          ],
+          "proibidos": [
+            "pé"
+          ]
+        },
+        {
+          "mensagem": "Responde bem curtinho, mantendo essa informação.",
+          "exige_qualquer_por_grupo": [
+            [
+              "chão"
+            ]
+          ],
+          "proibidos": [
+            "pé"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "preferencia_ordem_b",
+      "turnos": [
+        {
+          "mensagem": "Para escrever, minha escolha era sentar no chão.",
+          "exige_qualquer_por_grupo": [
+            [
+              "chão"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Mudei de ideia: minha escolha agora é ficar de pé.",
+          "exige_qualquer_por_grupo": [
+            [
+              "pé"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Depois dessa mudança, qual é minha escolha atual?",
+          "exige_qualquer_por_grupo": [
+            [
+              "pé"
+            ]
+          ],
+          "proibidos": [
+            "chão"
+          ]
+        },
+        {
+          "mensagem": "Responde bem curtinho, mantendo essa informação.",
+          "exige_qualquer_por_grupo": [
+            [
+              "pé"
+            ]
+          ],
+          "proibidos": [
+            "chão"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "escrita_sem_pessoas",
+      "turnos": [
+        {
+          "mensagem": "Me dá um parágrafo sobre uma ponte vazia ao amanhecer. Sem ninguém passando.",
+          "exige_qualquer_por_grupo": [
+            [
+              "ponte",
+              "amanhecer"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Mantém o cenário, mas faz a sensação ficar acolhedora, não assustadora.",
+          "exige_qualquer_por_grupo": [
+            [
+              "ponte",
+              "luz",
+              "calma",
+              "tranquilo",
+              "tranquila"
+            ]
+          ],
+          "proibidos": [
+            "pessoa apareceu"
+          ]
+        },
+        {
+          "mensagem": "Acrescenta um detalhe de som, sem inventar uma fala.",
+          "exige_qualquer_por_grupo": [
+            [
+              "vento",
+              "água",
+              "som",
+              "barulho"
+            ]
+          ],
+          "proibidos": [
+            "disse",
+            "respondeu"
+          ]
+        },
+        {
+          "mensagem": "Sugere um título curto para essa versão.",
+          "exige_qualquer_por_grupo": [
+            [
+              "ponte",
+              "luz",
+              "calma",
+              "amanhecer",
+              "silêncio",
+              "vento"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    },
+    {
+      "id": "fato_ficcional_e_hipotese",
+      "turnos": [
+        {
+          "mensagem": "No meu conto, a vila de Ólvira fica dentro de um tronco oco. É invenção, não geografia real.",
+          "exige_qualquer_por_grupo": [
+            [
+              "Ólvira",
+              "tronco",
+              "conto"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Pensa num conflito se a entrada ficasse bloqueada pela neve.",
+          "exige_qualquer_por_grupo": [
+            [
+              "entrada",
+              "neve",
+              "passagem",
+              "frio"
+            ]
+          ],
+          "proibidos": []
+        },
+        {
+          "mensagem": "Os moradores vão sair por outro caminho. Não mate ninguém para resolver isso.",
+          "exige_qualquer_por_grupo": [
+            [
+              "caminho",
+              "passagem",
+              "saída"
+            ]
+          ],
+          "proibidos": [
+            "morreu",
+            "morreram"
+          ]
+        },
+        {
+          "mensagem": "Qual era o lugar onde se passava meu conto?",
+          "exige_qualquer_por_grupo": [
+            [
+              "Ólvira",
+              "tronco"
+            ]
+          ],
+          "proibidos": []
+        }
+      ]
+    }
+  ],
+  "regressao_conhecida": "avaliacao_congelada.json e pedido do dono permanecem preservados; não são inéditos nesta rodada"
+}

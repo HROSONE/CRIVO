@@ -1,0 +1,499 @@
+{
+  "avaliacao_sha256": "13ca31d6a2702fc9c8b7c8ba8ef2129513174d520feb4d66aae016f5aaeb3500",
+  "revisor": "Agente autor do corpus; leitura semântica das 60 saídas antes e 60 depois. Não avaliação humana independente/cega.",
+  "criterio": "Manter tarefa e referentes ao longo dos seis turnos com respostas úteis e minimamente compreensíveis, não presença de palavras.",
+  "antes": {
+    "sessoes_mantem_fio": 0,
+    "total": 10
+  },
+  "depois": {
+    "sessoes_mantem_fio": 0,
+    "total": 10
+  },
+  "sessoes": [
+    {
+      "id": "convite_e_recusa",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Não escreve convite/resposta à recusa; omite Ezulma e muda para tarefas/escolha genéricas.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não escreve o convite nem preserva Ezulma/desenhar; não responde adequadamente à recusa. Frases quebradas/repetitivas nos seis turnos.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Primeira vez por aqui. Dá para me ajudar com uma mensagem?",
+          "antes": "Podemos mudar com mensagem e o que está usando primeiro?",
+          "depois": "Você queria uma tentativa por por vez."
+        },
+        {
+          "turno": 2,
+          "usuario": "É para Ezulma. Quero convidar para desenhar comigo, mas ela pode recusar.",
+          "antes": "Você pode rever a escolha. Sem mais informação, não as tarefas e o que ficaram difíceis de resultado.",
+          "depois": "O que você quer ajuda por enquanto."
+        },
+        {
+          "turno": 3,
+          "usuario": "Deixa a mensagem menor e bem tranquila.",
+          "antes": "Podemos mudar bem.",
+          "depois": "O que você quer tentativa por por."
+        },
+        {
+          "turno": 4,
+          "usuario": "Ela recusou. Não quero insistir. Escreve minha resposta.",
+          "antes": "Sua preferência agora é informação.",
+          "depois": "O que você quer tentativa por por por."
+        },
+        {
+          "turno": 5,
+          "usuario": "Agora quero começar o desenho sozinho. Qual o primeiro passo pequeno?",
+          "antes": "Você pode rever a escolha. Sem mais informação, não as tarefas e combinar a divisão. Isso um",
+          "depois": "Você pode só sua tentativa."
+        },
+        {
+          "turno": 6,
+          "usuario": "Quem eu tinha convidado, antes de começar sozinho?",
+          "antes": "Você pode rever a escolha. Sem mais informação, não as tarefas e combinar uma divisão. Isso um",
+          "depois": "Você pode tentativa tentativa por por."
+        }
+      ]
+    },
+    {
+      "id": "conto_mudanca",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Não entrega conto e troca a história por preferência/moradia. Não preserva Frenel nem o objeto.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não constrói o conto com Frenel e realejo; não preserva a mudança de cenário/objeto. Copiar galpão no final não sustenta o fio.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Me ajuda a começar um conto?",
+          "antes": "Não necessariamente. Experimentar Me também pode ajudar você a descobrir o que prefere e ajustar a escolha.",
+          "depois": "Não tenho essa informação. Você pode me dizer?"
+        },
+        {
+          "turno": 2,
+          "usuario": "Frenel acha um realejo numa garagem vazia. Escreve o começo.",
+          "antes": "Sua preferência agora é prefere e",
+          "depois": "Você pode poderiam combinar uma ideia. Você pode me dizer?"
+        },
+        {
+          "turno": 3,
+          "usuario": "O objeto deixa de tocar. Continua mantendo a pessoa e o lugar.",
+          "antes": "Se você morasse e conversar e escolha.",
+          "depois": "O silêncio com o que e o que aconteceu, e o que ficaram difíceis de entender."
+        },
+        {
+          "turno": 4,
+          "usuario": "Corrigindo: não é garagem, é um galpão. Reescreve a cena.",
+          "antes": "Você morasse morasse.",
+          "depois": "Você pode só o que vai de vez."
+        },
+        {
+          "turno": 5,
+          "usuario": "Não faz surgir ninguém novo. Termina com o realejo ainda ali.",
+          "antes": "Sua preferência agora é tocar.",
+          "depois": "A lugar, obrigado pela ajuda."
+        },
+        {
+          "turno": 6,
+          "usuario": "Como se chamava a personagem?",
+          "antes": "Você morasse chamava tocar.",
+          "depois": "O vento só o que e o galpão."
+        }
+      ]
+    },
+    {
+      "id": "emprestimo_e_aviso",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Frases quebradas sem mensagem útil; mantém sexta após a correção para sábado.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não produz aviso/agradecimento coerentes sobre o empréstimo. No último turno mantém sexta depois da correção para sábado.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Oi, eu queria organizar um pedido por escrito.",
+          "antes": "Certo. O que você quer dizer escrito.",
+          "depois": "Qual tenho mais informação. Queria dizer o que precisa em transformar tudo em conselho."
+        },
+        {
+          "turno": 2,
+          "usuario": "Dralune me emprestou um pandeiro. Quero agradecer sem exagerar.",
+          "antes": "Qual pandeiro você: o que acontece tentar pedido.",
+          "depois": "Separe só o que vai usar primeiro."
+        },
+        {
+          "turno": 3,
+          "usuario": "Diz que devolvo na sexta. Sem outra promessa.",
+          "antes": "Você pode, na sexta.",
+          "depois": "Você, obrigado pelo sexta, e o sexta, sem se não fez diferença para mim."
+        },
+        {
+          "turno": 4,
+          "usuario": "Agora só a frase de devolução, por favor.",
+          "antes": "Diz examinou o sexta. Você e o sexta, procurou uma nova conversa estava começando.",
+          "depois": "sexta, obrigado e na sexta."
+        },
+        {
+          "turno": 5,
+          "usuario": "Quem é o dono do instrumento?",
+          "antes": "Você pode chama sexta.",
+          "depois": "Não. O sexta. O sexta com sexta."
+        },
+        {
+          "turno": 6,
+          "usuario": "Escrevi errado o dia. Vai ser sábado. Atualiza o aviso.",
+          "antes": "Você pode chama sexta.",
+          "depois": "O sexta, na sexta."
+        }
+      ]
+    },
+    {
+      "id": "pratica_e_descanso",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Orientações partidas sem atender a atividade, a pausa e a retomada; perde a tarefa nos turnos finais.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não entrega a ajuda prática solicitada nem encadeia a pausa e a retomada. Frases incompletas e tarefa genérica substituem a atividade.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Estou querendo fazer uma coisa, mas sem energia.",
+          "antes": "Escolha uma tentativa pequena de mensagem e conversar sobre uma ideia ou organizar transformar tudo uma forma de uma vez.",
+          "depois": "Escolha uma parte que você quer resolver? Me diga um pouco do que aconteceu, sem eu acompanho sem tratar uma continuar."
+        },
+        {
+          "turno": 2,
+          "usuario": "É escrever um texto curto. Quero só uma etapa.",
+          "antes": "Separe só o vez. Você pode descansar primeiro e pare se sinta menos abrir.",
+          "depois": "Qual que você quer combinar uma possibilidade."
+        },
+        {
+          "turno": 3,
+          "usuario": "Consegui a primeira frase. O que vem depois?",
+          "antes": "Faça uma mostrar uma pequena de uma parte do que você está difíceis de empréstimo.",
+          "depois": "Você pode só o que você poderia me ajudar."
+        },
+        {
+          "turno": 4,
+          "usuario": "Não quero terminar tudo hoje. Vou fazer uma pausa.",
+          "antes": "Você tem difíceis de pausa antes de sugerir um do que havia entendido.",
+          "depois": "O que você quer dizer."
+        },
+        {
+          "turno": 5,
+          "usuario": "Voltei. Lembra qual era a tarefa?",
+          "antes": "Lembra. Você pode tarefa com tarefa? Queria dizer que por por outra tarefa?",
+          "depois": "O tarefa pertence a tarefa."
+        },
+        {
+          "turno": 6,
+          "usuario": "Me dá uma forma simples de revisar o que escrevi.",
+          "antes": "Ao saiu, com tarefa ou tarefa poderia criar de tarefa; não está usando por empréstimo.",
+          "depois": "A tarefa, podemos era o tarefa."
+        }
+      ]
+    },
+    {
+      "id": "preferencia_composta",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Predominam frases genéricas sem Valúrio/preferência completa; companhia no último turno isolada não salva a sessão.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Perde Valúrio e a preferência composta; depois da correção para companhia em casa volta a sozinho.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Sou Valúrio. Posso te contar uma preferência?",
+          "antes": "Foi você quer fez? Se você quer dizer.",
+          "depois": "Não. Você disse que preferência."
+        },
+        {
+          "turno": 2,
+          "usuario": "Prefiro estudar em casa e sozinho.",
+          "antes": "Foi você quem fez.",
+          "depois": "Você pode me emprestar seu casa e o que você precisa fez diferença para mim."
+        },
+        {
+          "turno": 3,
+          "usuario": "Se eu estudasse com alguém, seria só uma possibilidade. Não mude o que prefiro.",
+          "antes": "Preciso. Você pode me dizer poderia criar. Sem mais informação, não dá para afirmar o que ficaram ajustar mais.",
+          "depois": "sozinho, obrigado pela ajuda. Você pode me dizer?"
+        },
+        {
+          "turno": 4,
+          "usuario": "Qual preferência eu declarei de verdade?",
+          "antes": "Você pode é de Valúrio. Sem mais informação, não a pessoa recusar.",
+          "depois": "Você pode me escolha."
+        },
+        {
+          "turno": 5,
+          "usuario": "Mudei uma parte: agora prefiro companhia. Continuo em casa.",
+          "antes": "Preciso. Você pode me o informação, poderia me dizer a divisão. Isso ainda é uma possibilidade.",
+          "depois": "Você pode é companhia."
+        },
+        {
+          "turno": 6,
+          "usuario": "Resume minha preferência atual numa frase.",
+          "antes": "Você queria companhia.",
+          "depois": "sozinho, obrigado pela ajuda."
+        }
+      ]
+    },
+    {
+      "id": "ajuda_sem_motivo_inventado",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Tenta esclarecer inicialmente, depois troca a mensagem por preferências genéricas e não entrega texto útil.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "O primeiro turno tenta esclarecer, com frase defeituosa; nos demais perde Selmira e a tarefa de mensagem, atribui preferência não declarada e não preserva autoria.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Preciso mandar uma mensagem, mas ainda não sei como pedir.",
+          "antes": "Você quer mandar uma mensagem ou algum objeto para mensagem ou algum esclarecer primeiro. Com isso podemos escolher um começo.",
+          "depois": "Você pode mandar uma mensagem ou algum objeto uma mensagem? Você pode me dizer? Com isso podemos escolher um começo."
+        },
+        {
+          "turno": 2,
+          "usuario": "Para Selmira, pedindo ajuda para revisar uma carta.",
+          "antes": "Você quer mandar uma mensagem ou algum objeto uma forma você você você precisa que havia alguém esperando do uma fazer.",
+          "depois": "Você pode só o que você quer dizer? Pode recusar."
+        },
+        {
+          "turno": 3,
+          "usuario": "Não fale que estou doente. Eu só quero ajuda.",
+          "antes": "Você prefere uma mensagem e as tarefas e combinar uma divisão. Isso prefere e",
+          "depois": "Você prefere ficar ajuda."
+        },
+        {
+          "turno": 4,
+          "usuario": "Ela pode não ter tempo. Coloca espaço para recusar.",
+          "antes": "Você prefere uma escolha.",
+          "depois": "Você pode me ajudar a fazer."
+        },
+        {
+          "turno": 5,
+          "usuario": "A carta é minha, não dela. Quem escreveu?",
+          "antes": "Você prefere uma escolha.",
+          "depois": "Você prefere pode esperar."
+        },
+        {
+          "turno": 6,
+          "usuario": "Agora a mensagem toda numa frase só.",
+          "antes": "Você prefere e mensagem e escolha.",
+          "depois": "Você prefere ficar não."
+        }
+      ]
+    },
+    {
+      "id": "cena_sem_pessoa",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Repetição de noite e sintaxe quebrada; não escreve nem revisa a cena solicitada.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não escreve a cena nem a revisa de modo coerente; não utiliza a mesa/referente pedido. Repetir noite não atende o texto solicitado.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Quero escrever sobre um corredor vazio à noite.",
+          "antes": "Voltar à à noite noite noite foi reconhecer um caminho que já não parecia o que aconteceu, e o que aconteceu ali.",
+          "depois": "Voltar à à à noite."
+        },
+        {
+          "turno": 2,
+          "usuario": "Pode ser tranquilo, sem susto.",
+          "antes": "A à noite noite noite reconhecer um caminho que não te incomodando.",
+          "depois": "Podemos acompanhar melhor: quais são as opções e o que aconteceu, sem tratar a continuar."
+        },
+        {
+          "turno": 3,
+          "usuario": "Acrescenta som de vento sem colocar gente.",
+          "antes": "Na Acrescenta, o que não com o que não deixou noite o que não souber avaliar, mas abriu espaço para respirar sem pressa.",
+          "depois": "A fazer uma parte do que você o que você precisa."
+        },
+        {
+          "turno": 4,
+          "usuario": "Me dá um título pequeno para essa cena.",
+          "antes": "O silêncio com título a marca ouviu o ambiente pela descoberta Acrescenta?",
+          "depois": "A à de outra forma."
+        },
+        {
+          "turno": 5,
+          "usuario": "Vamos mudar de assunto: quero organizar minha mesa.",
+          "antes": "Preciso. O de foi poderia descobrir o que a descoberta um",
+          "depois": "A só o que você está agora."
+        },
+        {
+          "turno": 6,
+          "usuario": "Qual era o cenário do texto antes dessa mudança?",
+          "antes": "O que está de foi sofreu",
+          "depois": "Você pode é de forma."
+        }
+      ]
+    },
+    {
+      "id": "papo_sem_conselho",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Dá conselhos/troca a conversa por empréstimo; quadro copiado sem interpretação não atende o pedido.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não acompanha a conversa sem conselho; perde o quadro e não atende as reformulações. Frases vagas não mantêm a tarefa.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Posso conversar sem pedir uma solução agora?",
+          "antes": "Não tenho pequeno para tentativa pequena, com algum dano. Podemos esclarecer primeiro.",
+          "depois": "Não tenho essa informação. Você poderia me dizer?"
+        },
+        {
+          "turno": 2,
+          "usuario": "Tentei pintura e fiquei contente. Só queria dividir isso.",
+          "antes": "Escolha uma tentativa pequena de esclarecer de esclarecer de uma parte hoje e observe o que ficou difícil?",
+          "depois": "Você pode tornar a tentativa pequena, com o que você precisa sem."
+        },
+        {
+          "turno": 3,
+          "usuario": "Foi um quadro pequeno que terminei sozinho.",
+          "antes": "O quadro estava de hoje; você está usando por outra forma de buscar não sem parecia o mesmo.",
+          "depois": "Você pode só o que você quer dizer."
+        },
+        {
+          "turno": 4,
+          "usuario": "Não precisa me dar plano nenhum. Só faz uma pergunta sobre o que contei.",
+          "antes": "O quadro pertence a hoje; você está usando por ajuda mais de contente.",
+          "depois": "Você pode só o que você quer dizer de escolha."
+        },
+        {
+          "turno": 5,
+          "usuario": "A parte difícil foi começar. Agora estou descansando.",
+          "antes": "O foi o foi foi estava que você se seu o que havia entendido.",
+          "depois": "O que você: parte?"
+        },
+        {
+          "turno": 6,
+          "usuario": "O que eu disse que terminei?",
+          "antes": "Você se chama parte.",
+          "depois": "Não. O parte do parte."
+        }
+      ]
+    },
+    {
+      "id": "hipotese_sem_aceite",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Troca a hipótese por empréstimo/tarefa/saudade; não acompanha Vrasel e o estado do convite.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Não representa a hipótese com Vrasel nem preserva o estado de convite/aceite. Energia e possibilidades soltas não atendem os pedidos.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Vou fazer um projeto sozinho. Talvez chame Vrasel.",
+          "antes": "Você pode devolver meu projeto. Você pode testar sozinho, por um lugar, não parecia o que precisa parecia o que aconteceu, sem havia espaço para respirar sem pressa.",
+          "depois": "Você quer sozinho é a mensagem ou o que você precisa?"
+        },
+        {
+          "turno": 2,
+          "usuario": "Se ele participasse, como dividir a tarefa?",
+          "antes": "O tarefa você poderia me emprestar seu lugar, não saudade a pessoa recusar.",
+          "depois": "Você pode só sua energia. Você pode me dizer?"
+        },
+        {
+          "turno": 3,
+          "usuario": "Mas ele ainda não foi convidado. O que sabemos com certeza?",
+          "antes": "O tarefa ou dividir essa saudade essa saudade a saudade essa saudade você está.",
+          "depois": "Você pode me ajudar. Você pode me dizer?"
+        },
+        {
+          "turno": 4,
+          "usuario": "Escreve um convite curto para ele.",
+          "antes": "O tarefa ou dividir. Você essa ser contar o que a ser mais visível, e o que havia alguém esperando do lado de fora.",
+          "depois": "Você pode só sua energia. Você pode ser contar o que a experiência algo mais."
+        },
+        {
+          "turno": 5,
+          "usuario": "Não sei se ele aceita. Não invente a resposta dele.",
+          "antes": "O tarefa ou o tarefa com dividir não no o que a descobrir o que prefere e veio abrir.",
+          "depois": "Você pode é sua possibilidades."
+        },
+        {
+          "turno": 6,
+          "usuario": "Enquanto isso, sugere uma etapa que eu possa fazer sozinho.",
+          "antes": "O tarefa ou o tarefa quieto. O que você o que não fez percebeu que havia alguém esperando do lado de fora.",
+          "depois": "Você pode só sua energia. Você pode me dizer?"
+        }
+      ]
+    },
+    {
+      "id": "conto_mais_pedido",
+      "antes_mantem_fio": false,
+      "motivo_antes": "Nomes/objetos copiados em frases quebradas; alternância entre história e agradecimento sem destinatário correto e sem estado coerente.",
+      "depois_mantem_fio": false,
+      "motivo_depois": "Copiar Izelta/lavanderia não forma uma história; confunde o agradecimento a Umévia com Izelta e fecha uma busca explicitamente aberta.",
+      "turnos": [
+        {
+          "turno": 1,
+          "usuario": "Começa uma história com Izelta procurando um xale na lavanderia.",
+          "antes": "Izelta procurou uma percebeu que você a história de lado.",
+          "depois": "Izelta Na lavanderia, mas deixou história o lado."
+        },
+        {
+          "turno": 2,
+          "usuario": "Ela ainda não achou. Continua sem resolver a busca.",
+          "antes": "Izelta pela mostrar uma marca no chão da lavanderia se o que havia percebeu que havia alguém esperando do lado.",
+          "depois": "Izelta, obrigado pela ajuda."
+        },
+        {
+          "turno": 3,
+          "usuario": "Pausa o conto. Preciso escrever um agradecimento a Umévia.",
+          "antes": "A lavanderia você o xale na lavanderia firme e frases que não fez diferença para mim.",
+          "depois": "Izelta, obrigado pela ajuda."
+        },
+        {
+          "turno": 4,
+          "usuario": "Umévia ajudou com meu texto. Inclui isso sem elogio exagerado.",
+          "antes": "A lavanderia se poderia me criar um marca no chão da busca terminou, mas agradeço por lembrar de uma carregar mais coisas ao mesmo.",
+          "depois": "A busca terminou, mas deixou."
+        },
+        {
+          "turno": 5,
+          "usuario": "Agora volta à história, com a busca ainda aberta.",
+          "antes": "Sua preferência agora é agradecimento na lavanderia.",
+          "depois": "A busca terminou, mas deixou."
+        },
+        {
+          "turno": 6,
+          "usuario": "Em qual lugar se passava essa história?",
+          "antes": "Inclui. Você poderia me o que a história o que não não confirma a possibilidade de voltar para casa; ajustar a entrega.",
+          "depois": "A busca terminou."
+        }
+      ]
+    }
+  ],
+  "violacoes_confirmadas_exemplos": [
+    {
+      "sessao": "emprestimo_e_aviso",
+      "turno": 6,
+      "usuario": "Escrevi errado o dia. Vai ser sábado. Atualiza o aviso.",
+      "resposta": "O sexta, na sexta.",
+      "violacao": "Data corrigida para sábado substituída pela sexta anterior."
+    },
+    {
+      "sessao": "preferencia_composta",
+      "turno": 6,
+      "usuario": "Resume minha preferência atual numa frase.",
+      "resposta": "sozinho, obrigado pela ajuda.",
+      "violacao": "Preferência corrigida para companhia em casa substituída pela opção antiga de ficar sozinho."
+    },
+    {
+      "sessao": "conto_mais_pedido",
+      "turno": 3,
+      "usuario": "Pausa o conto. Preciso escrever um agradecimento a Umévia.",
+      "resposta": "Izelta, obrigado pela ajuda.",
+      "violacao": "Agradecimento solicitado a Umévia endereçado a Izelta, personagem da história pausada."
+    },
+    {
+      "sessao": "conto_mais_pedido",
+      "turno": 5,
+      "usuario": "Agora volta à história, com a busca ainda aberta.",
+      "resposta": "A busca terminou, mas deixou.",
+      "violacao": "Busca explicitamente aberta declarada encerrada; repete o encerramento no turno 6."
+    }
+  ],
+  "portao_atendido": false,
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "limite": "Exemplos confirmados não são contagem exaustiva de violações. Triagem lexical não certifica naturalidade ou fidelidade."
+}

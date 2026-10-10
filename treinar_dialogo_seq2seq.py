@@ -1,4 +1,4 @@
-"""BPTT e Adam de um encoder-decoder com atenção/cópia, treinado do zero.
+"""BPTT e Adam próprios: treino do zero ou continuação de pesos compatíveis.
 
 Somente texto e papéis entram na rede. Ato, spans, quadro e quaisquer
 outros rótulos do currículo são ignorados. NumPy é usado no treinamento;
@@ -379,7 +379,8 @@ def avaliar_por_intencao(dados,caminho,adicional=None,limite_resposta=96,semente
 def treinar(caminho,destino,epocas=25,lote_tamanho=32,ocultos=96,embeddings=64,
             vocab_max=2500,buckets=512,limite_fonte=192,limite_resposta=64,
             semente=173,taxa=.002,decaimento=.00001,validar_cada=2,paciencia=8,adicional=None,
-            checkpoint_temporario=None,dropout=0.0,dropout_tokens=0.0,amostragem=0.0,aquecimento=3):
+            checkpoint_temporario=None,dropout=0.0,dropout_tokens=0.0,amostragem=0.0,aquecimento=3,
+            checkpoint_inicial=None):
     import numpy as np
     if (not 1<=epocas<=1000 or not 1<=lote_tamanho<=128 or not 16<=ocultos<=128 or
             not 8<=embeddings<=96 or not 16<=vocab_max<=8192 or not 32<=buckets<=2048 or
@@ -389,8 +390,25 @@ def treinar(caminho,destino,epocas=25,lote_tamanho=32,ocultos=96,embeddings=64,
             not 0<=aquecimento<=1000):
         raise ValueError("Configuração de treinamento inválida")
     treino,validacao = ler_corpus(caminho,adicional,limite_fonte,limite_resposta)
-    vocabulario = vocabulario_treino(treino,vocab_max);indices = {t:i for i,t in enumerate(vocabulario)}
-    p = inicializar(vocabulario,ocultos,embeddings,buckets,semente)
+    origem = None
+    if checkpoint_inicial is None:
+        vocabulario = vocabulario_treino(treino,vocab_max)
+        p = inicializar(vocabulario,ocultos,embeddings,buckets,semente)
+    else:
+        # Continuação supervisionada, não retomada exata do otimizador.
+        # IDs/colunas permanecem juntos; recalcular vocabulário corromperia
+        # a associação entre palavras e os pesos próprios já aprendidos.
+        dados_iniciais = ler_json(checkpoint_inicial)
+        modelo_inicial = DialogoSeq2Seq(dados_iniciais)
+        if (modelo_inicial.ocultos != ocultos or modelo_inicial.embeddings != embeddings or
+                modelo_inicial.buckets != buckets or len(modelo_inicial.vocabulario)>vocab_max):
+            raise ValueError("Checkpoint inicial não corresponde às dimensões solicitadas")
+        vocabulario = list(modelo_inicial.vocabulario)
+        p = {k:np.asarray(v,dtype=np.float32).copy() for k,v in dados_iniciais["pesos"].items()}
+        origem = {"arquivo":str(checkpoint_inicial),
+                  "sha256_arquivo":hashlib.sha256(Path(checkpoint_inicial).read_bytes()).hexdigest(),
+                  "vocabulario_preservado":True,"otimizador":"Adam novo; não é retomada exata"}
+    indices = {t:i for i,t in enumerate(vocabulario)}
     momentos = {k:np.zeros_like(a) for k,a in p.items()};quadrados = {k:np.zeros_like(a) for k,a in p.items()}
     rng = np.random.default_rng(semente);passo = 0;entropias = [];inicio_treino = time.monotonic()
     validacoes = [];melhor = None;melhor_valor = float("inf");melhor_epoca = 0;sem_melhoria = 0
@@ -459,6 +477,8 @@ def treinar(caminho,destino,epocas=25,lote_tamanho=32,ocultos=96,embeddings=64,
                       "segundos":round(time.monotonic()-inicio_treino,2)},
             "limites":{"fonte_tokens":limite_fonte,"resposta_tokens":limite_resposta},
             "limite":"Rede pequena treinada do zero. Validação interna não demonstra conversa universal, consciência ou aprendizado automático durante uso. O checkpoint não contém corpus nem catálogo de respostas."}
+    if origem is not None:
+        meta["checkpoint_inicial"] = origem
     if adicional is not None:
         selecionados = selecionar_adicional(adicional,limite_fonte,limite_resposta)
         meta["corpus_adicional"] = {"arquivo":str(adicional),
@@ -487,6 +507,8 @@ if __name__ == "__main__":
     ap.add_argument("--corpus",required=True);ap.add_argument("--saida",default="rede_dialogo_seq2seq.json")
     ap.add_argument("--dialogos-humanos",default=None)
     ap.add_argument("--checkpoint-temporario",default=None)
+    ap.add_argument("--checkpoint-inicial",default=None,
+                    help="Checkpoint próprio compatível; preserva vocabulário e inicia Adam novo")
     ap.add_argument("--relatorio",default="avaliacao_dialogo_seq2seq.json")
     ap.add_argument("--epocas",type=int,default=25);ap.add_argument("--lote",type=int,default=32)
     ap.add_argument("--ocultos",type=int,default=96);ap.add_argument("--embeddings",type=int,default=64)
@@ -501,5 +523,6 @@ if __name__ == "__main__":
                        args.vocab_max,args.buckets,args.limite_fonte,args.limite_resposta,args.semente,args.taxa,
                        validar_cada=args.validar_cada,paciencia=args.paciencia,adicional=args.dialogos_humanos,
                        checkpoint_temporario=args.checkpoint_temporario,dropout=args.dropout,
-                       dropout_tokens=args.dropout_tokens,amostragem=args.amostragem,aquecimento=args.aquecimento)
+                       dropout_tokens=args.dropout_tokens,amostragem=args.amostragem,aquecimento=args.aquecimento,
+                       checkpoint_inicial=args.checkpoint_inicial)
     Path(args.relatorio).write_text(json.dumps(resultado,ensure_ascii=False,indent=2,allow_nan=False)+"\n",encoding="utf-8")

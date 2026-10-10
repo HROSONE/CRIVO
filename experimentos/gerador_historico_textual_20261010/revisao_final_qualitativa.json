@@ -1,0 +1,411 @@
+{
+  "avaliacao_sha256": "5ba9c48eebac0b461fb115ca368ec6e9cfc6a4f8fc79c0847e20aedfd33f9f0b",
+  "checkpoint_sha256": "a180556113106ca125f0420cc80227a6703908678babe7725cda40fafb62ffaa",
+  "origem": "Revisão qualitativa autoral do agente das 48 respostas e da linha de base; não avaliação humana independente/cega.",
+  "antes": {
+    "sessoes_mantem_fio": 0,
+    "sessoes_total": 12,
+    "turnos_triagem": 11,
+    "turnos_total": 48
+  },
+  "depois": {
+    "sessoes_mantem_fio": 0,
+    "sessoes_total": 12,
+    "turnos_triagem": 9,
+    "turnos_total": 48
+  },
+  "violacoes_sessao_confirmadas_minimo": 3,
+  "violacoes_confirmadas": [
+    {
+      "sessao": "amiga_corrigida",
+      "turno": 4,
+      "resposta": "Sua preferência agora é lugar.",
+      "motivo": "Afirma preferência por lugar que o usuário não declarou."
+    },
+    {
+      "sessao": "preferencia_ordem_a",
+      "turno": 2,
+      "resposta": "Podemos falar de pé. O que pode ser em uma possibilidade de buscar respostas de outra coisa.",
+      "motivo": "Reintroduz pé após o usuário corrigir para sentar no chão."
+    },
+    {
+      "sessao": "preferencia_ordem_a",
+      "turno": 3,
+      "resposta": "Você prefere ter companhia de assunto. O que você precisa espaço para confiança.",
+      "motivo": "Atribui preferência por ter companhia, ausente desta sessão."
+    }
+  ],
+  "limite_violacoes": "Lista de exemplos confirmados; não é contagem exaustiva. Zero palavras proibidas na triagem não significa zero invenção.",
+  "sessoes": [
+    {
+      "id": "amiga_corrigida",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Separe só o que a primeira a tarefa?",
+          "atende_pedido_minimo": false,
+          "motivo": "Não reconhece a pessoa nem o projeto."
+        },
+        {
+          "turno": 2,
+          "resposta": "Foi você o desenho. O que acontece o que a um lugar possível.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não usa a correção Tarsen."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você queria procurar lugar.",
+          "atende_pedido_minimo": false,
+          "motivo": "Substitui a pessoa por lugar."
+        },
+        {
+          "turno": 4,
+          "resposta": "Sua preferência agora é lugar.",
+          "atende_pedido_minimo": false,
+          "motivo": "Troca mensagem ao destinatário por preferência não declarada."
+        }
+      ]
+    },
+    {
+      "id": "objeto_emprestado",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "A gaita o devolver de ouvir melhor o que significa silêncio parecia o mesmo.",
+          "atende_pedido_minimo": false,
+          "motivo": "Cita gaita, mas a frase não comunica propriedade nem devolução."
+        },
+        {
+          "turno": 2,
+          "resposta": "Na gaita mais informação, e o que você a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não escreve o aviso."
+        },
+        {
+          "turno": 3,
+          "resposta": "Antes de continuar, veja se o Antes de uma dano.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não identifica Ulira; muda para verificar dano."
+        },
+        {
+          "turno": 4,
+          "resposta": "Na continuar, essa Antes de disso.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não entrega a frase de devolução amanhã."
+        }
+      ]
+    },
+    {
+      "id": "gosto_negado_e_revisto",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Não tenho quer dizer para varanda, quer dizer? Com isso podemos isso dizer precisa.",
+          "atende_pedido_minimo": false,
+          "motivo": "Frase quebrada, sem preservar as duas preferências."
+        },
+        {
+          "turno": 2,
+          "resposta": "Tudo bem. Você pode ser contar o que aconteceu, e eu acompanho sem tratar a ajuda.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não acompanha a permissão de música baixa."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você pode rever a escolha. Sem mais informação, está te pessoa recusar. Quer contar o que precisa ficar à mão e ajustar a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Sugestão genérica sem varanda nem música baixa."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode mostrar uma forma de uma forma de compartilhar, está por reação que você quer ficar do que mão e devolva cada um",
+          "atende_pedido_minimo": false,
+          "motivo": "Não oferece alternativa coerente à chuva."
+        }
+      ]
+    },
+    {
+      "id": "mensagem_com_restricao",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "entregar consideraria, podemos poderia me emprestar seu terça. Queria isso que isso fez diferença para uma tentativa?",
+          "atende_pedido_minimo": false,
+          "motivo": "Cita terça, mas pede empréstimo em vez de avisar entrega."
+        },
+        {
+          "turno": 2,
+          "resposta": "Podemos olhar você para para uma pausa antes de voltar para combinar uma escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não entrega uma mensagem de prazo."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você se veja como dividir essa dividir? Sem mais informação, não deixou espaço para uma continuar.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não resume a mensagem solicitada."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode me emprestar seu quinta.",
+          "atende_pedido_minimo": false,
+          "motivo": "Cita quinta, mas troca entrega por empréstimo."
+        }
+      ]
+    },
+    {
+      "id": "historia_e_consequencia",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Separe só o outro perde. Você pode ser ser e o que havia entendido.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não inicia história com Vordana/gramofone."
+        },
+        {
+          "turno": 2,
+          "resposta": "última, pode no história de lado. Queria o que cada um consegue de.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não realiza o acontecimento de repetir a última palavra."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você pode chama história de história de lado.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não propõe teste silencioso coerente."
+        },
+        {
+          "turno": 4,
+          "resposta": "A oficina, o silêncio. Você pode me o que cada um",
+          "atende_pedido_minimo": false,
+          "motivo": "Frase incompleta, sem gramofone e fechamento da cena."
+        }
+      ]
+    },
+    {
+      "id": "mudanca_com_historia_ativa",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Na conto, o conto. Esperou a chuva vez que havia entendido.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não inicia conto com Herlina/lupa."
+        },
+        {
+          "turno": 2,
+          "resposta": "Podemos de o que e o lupa e protegeu o que a descobrir o que a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não ajuda a organizar papéis."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você prefere no lupa.",
+          "atende_pedido_minimo": false,
+          "motivo": "Mantém lupa numa frase quebrada em vez de propor pequena ação prática."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você prefere e lupa no personagem.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não retoma Herlina e a busca da lupa."
+        }
+      ]
+    },
+    {
+      "id": "pedido_tropeçando",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Você pode me me me me dizer? Preciso importante para você, esperava. Podemos é resolver?",
+          "atende_pedido_minimo": false,
+          "motivo": "Não escreve agradecimento a Qirina."
+        },
+        {
+          "turno": 2,
+          "resposta": "Você pode me me me dizer poderia criar.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não usa revisão do texto."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você pode me emprestar seu assim?",
+          "atende_pedido_minimo": false,
+          "motivo": "Troca agradecimento por empréstimo."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode me o que a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não produz a mensagem curta."
+        }
+      ]
+    },
+    {
+      "id": "possibilidade_e_situacao",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "sozinho sozinho. Você pode pesando agora. Podemos que não que isso fez?",
+          "atende_pedido_minimo": false,
+          "motivo": "Frase quebrada; não diferencia situação de possibilidade."
+        },
+        {
+          "turno": 2,
+          "resposta": "O dividir, veja você uma tentativa pequena, com uma dano. Se houver risco ou você não souber avaliar, peça ajuda.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não responde o que está confirmado."
+        },
+        {
+          "turno": 3,
+          "resposta": "Se você morasse. Você pode escolha, não com uma divisão. Isso ainda é uma sugestão, não uma garantia de resultado.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não escreve convite a Nuvren."
+        },
+        {
+          "turno": 4,
+          "resposta": "O dividir, essa dividir, com calma. Se você você tenta escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não oferece próximo passo coerente após recusa."
+        }
+      ]
+    },
+    {
+      "id": "preferencia_ordem_a",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Podemos falar de pé. Como foi seu dia?",
+          "atende_pedido_minimo": false,
+          "motivo": "Fala sobre pé em vez de reconhecer posição de escrita."
+        },
+        {
+          "turno": 2,
+          "resposta": "Podemos falar de pé. O que pode ser em uma possibilidade de buscar respostas de outra coisa.",
+          "atende_pedido_minimo": false,
+          "motivo": "Repete pé depois da correção para chão."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você prefere ter companhia de assunto. O que você precisa espaço para confiança.",
+          "atende_pedido_minimo": false,
+          "motivo": "Inventa preferência por ter companhia, em vez de chão."
+        },
+        {
+          "turno": 4,
+          "resposta": "Podemos entregar no curtinho. Podemos dizer que consigo cumprir; podemos combinar uma tentativa vez.",
+          "atende_pedido_minimo": false,
+          "motivo": "Troca preferência por entrega e usa curtinho como prazo."
+        }
+      ]
+    },
+    {
+      "id": "preferencia_ordem_b",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Podemos falar de era pode tornar a tentativa pesada. O que pode ser em qual conselho.",
+          "atende_pedido_minimo": false,
+          "motivo": "Frase quebrada, não preserva sentar no chão."
+        },
+        {
+          "turno": 2,
+          "resposta": "Você pode rever a escolha. Sem mais informação, a experiência mostrou.",
+          "atende_pedido_minimo": false,
+          "motivo": "Permite rever escolha, mas resposta incompleta sem registrar ficar de pé."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você pode rever a escolha. Sem mais informação, não dá e ajustar a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não identifica a escolha atual."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode rever a tentativa pequena de informação, poderia me dizer o que cada um consegue de.",
+          "atende_pedido_minimo": false,
+          "motivo": "Sugestão genérica quebrada; não responde a informação pedida."
+        }
+      ]
+    },
+    {
+      "id": "escrita_sem_pessoas",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Mudar uma ideia pode ser? O que você está ser, e o que havia alguém esperando do lugar, esperando ser notado outra vez.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não descreve ponte ao amanhecer; menciona alguém sem construir a cena."
+        },
+        {
+          "turno": 2,
+          "resposta": "Posso olhar mais lugar, poderia me o que você está usando por empréstimo.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não mantém o cenário nem a sensação solicitada."
+        },
+        {
+          "turno": 3,
+          "resposta": "Você pode chama lugar.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não acrescenta detalhe de som."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode chama lugar, com deixou conversar ou o que cada um",
+          "atende_pedido_minimo": false,
+          "motivo": "Não sugere título coerente."
+        }
+      ]
+    },
+    {
+      "id": "fato_ficcional_e_hipotese",
+      "mantem_fio": false,
+      "turnos": [
+        {
+          "turno": 1,
+          "resposta": "Na conto, o que está está, e o que está te deixando de forma?",
+          "atende_pedido_minimo": false,
+          "motivo": "Não acompanha Ólvira e tronco como ficção."
+        },
+        {
+          "turno": 2,
+          "resposta": "conflito pode mostrar uma forma de ouvir melhor o que a ser algo que havia entendido.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não desenvolve o conflito da neve."
+        },
+        {
+          "turno": 3,
+          "resposta": "A conflito empresta algo que poderia me o que a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não realiza saída alternativa."
+        },
+        {
+          "turno": 4,
+          "resposta": "Você pode me o que a escolha.",
+          "atende_pedido_minimo": false,
+          "motivo": "Não identifica o lugar do conto."
+        }
+      ]
+    }
+  ],
+  "pedido_dono": {
+    "regressao_conhecida": true,
+    "passou": false,
+    "resposta": "Comece pela rever a escolha. Vale pensar no que mudou e decidir se a escolha.",
+    "motivo": "Não responde extinção, merecimento nem comparação com IA; resposta genérica malformada."
+  },
+  "aprovado": false,
+  "ativo_no_chat": false,
+  "portao_cumprido": false,
+  "decisao": "Não integrar. Melhoria de desenvolvimento não se transfere às novas sessões; não adaptar este treino às respostas do holdout e chamar reavaliação inédita."
+}

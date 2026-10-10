@@ -1,6 +1,89 @@
 # Passagem de trabalho — 10/10/2026
 
-## Rodada seguinte — objetos e correções na escrita
+## Prioridade atual — última rodada de sessões concluída, sem promoção
+
+[Relatório atual](experimentos/gerador_historico_textual_20261010/RELATORIO_SESSOES.md).
+No mesmo PR #137 foram entregues **36 sessões autorais de seis turnos / 424
+respostas deslexicalizadas**, com **3.699 treino / 428 desenvolvimento**
+(334 antigos intactos + 94 novos). Não são conversas humanas; nomes/cortesia
+não contam como capacidades. Texto e papéis entram na rede sem slots prontos.
+
+Mesma rede própria: **81.433 parâmetros / 720 entradas**. Realocou **151
+entradas lexicais** para verbos novos, sem alterar tokenizador ou capacidade;
+569 IDs/pesos lexicais e demais pesos preservados na inicialização. Dicionário,
+mistura de corpus e treino mudaram juntos: não isola causalidade.
+Dois treinos reais: 20 épocas/selecionada16, **317,81 s**, e refino de seis
+épocas/selecionada2, **60,18 s**. Menor erro de desenvolvimento selecionou a
+primeira passagem em `a4c8312`, antes do teste final. Nenhum treino depois.
+
+**Resultado: 0/10 sessões coerentes antes e depois; regressão.** Triagem
+11→8/60; violações de data corrigida, preferência, destinatário e estado da
+história. Todas as saídas terminaram; fontes completas. Desenvolvimento antigo
+107→47/334 alvos literais, novo1/94; refino50/334 +1/94, rejeitado pelo critério.
+Sem histórico14/60 e invertido10/60 na triagem, ambos0/10. Não demonstrou
+benefício de histórico ordenado nem conversa natural. Revisão autoral do
+agente, não independente/cega; saídas e motivos publicados.
+
+Checkpoints `5ea28636d815…` e `2d33641a4460…`: **false/false**, fora do chat.
+Oito pesos de raiz auditados e oito arquivos críticos intactos nesta rodada;
+ativo público `28d05179e4dd…` preservado. Integridade nova **5/5** passou;
+isso não aprova capacidade. Sem merge, nova memória/acervo/regra ou mudança
+lateral de CI. Dívida da sonda antiga documentada na rodada anterior; não
+mesclar com check relevante vermelho. PR continua em rascunho.
+
+Último trabalho de hoje concluído como experimento negativo. Próximo passo
+único desta frente: separar no desenvolvimento o efeito da realocação lexical
+e do replay antes de outro treino, preservando o corpus variado entregue.
+Os 10 casos agora são regressão conhecida; não ajustar o gerador a eles.
+
+## Histórico — rodada 3 e contrastes
+
+No mesmo experimento/PR #137, foram concluídos dois treinos próprios com
+histórico textual, sem slots ou intenção pronta. [Relatório da rodada 3](experimentos/gerador_historico_textual_20261010/RELATORIO_RODADA3.md).
+Mesma capacidade: **81.433 parâmetros / 720 tokens**, pesos iniciais próprios
+preservados e Adam novo; arquitetura, matemática e inferência intactas.
+Treinador ganhou apenas continuação opcional com os IDs de vocabulário
+preservados. Não baixou, executou ou integrou modelos externos.
+
+Corpus: 100 → **400 formulações deslexicalizadas de pedido**, 6.731 exemplos
+de treino, depois **7.202** com contrastes de correção/autoria/hipótese/ausência.
+**334 exemplos de desenvolvimento anteriores preservados**. As 100 famílias
+originais de resposta ainda são estreitas; novas formulações e nomes não
+representam novas capacidades. Dados e revisão autorais do agente, não
+conversas humanas observadas ou avaliação independente/cega.
+
+Desenvolvimento: entropia **2,3756 → 0,6390 → 0,5271**; gerações iguais aos
+alvos **26 → 75 → 107/334**. Sondas contrastivas: **4 → 9/32**. Treinos reais:
+24 épocas/791,37 s e 12 épocas/408,61 s. Isso mede reprodução interna, não
+compreensão geral. Seleção dos pesos em `910dc91`, antes de abrir o teste final.
+
+Nova avaliação congelada antes dos dados, `a09c13e`: **12 sessões / 48 turnos**,
+SHA `5ba9c48eebac…`. Resultado: **0/12 mantêm o fio antes e depois**; triagem
+11 → 9/48. Mesmo checkpoint sem histórico: 12/48; invertido: 11/48; ambos
+0/12. Sem fonte truncada; EOS em todas. Frases quebradas, referentes perdidos,
+tarefas trocadas e pelo menos três violações confirmadas, apesar de zero
+termos proibidos na triagem. Não demonstrou melhora de conversa natural.
+
+Os checkpoints `3b81f5a47b59…` e `a18055611310…` continuam **false/false**,
+fora do chat. O ativo #136 `28d05179e4dd…` e os oito pesos de raiz auditados
+são idênticos à base. Não promover por perda menor ou por CI verde.
+Regressão anterior e pergunta dinossauros/IA continuam reprovadas; são
+casos conhecidos, não avaliação inédita desta rodada. Piloto e rodadas
+anteriores preservados.
+
+Verificações: Seq2Seq **21/21**, integridade **10/10**. Bateria por escopo:
+78 testes, um falha em três subcasos da sonda antiga de escrita. Falhas e
+respostas idênticas reproduzidas na base `b0bdb055…`; documentação/logs no
+experimento. Sem enfraquecer teste, mudar workflow/matriz, incluir correção
+lateral de CI ou mesclar com check relevante vermelho. PR permanece em
+rascunho; falha lateral não impediu concluir os treinos isolados.
+
+Próximo trabalho único: diversificar **respostas completas e sessões**, além
+de reformular os mesmos padrões, com texto/histórico e outro teste congelado
+antes do treino. Os 12 casos novos agora viram regressão conhecida. Sem
+nova memória, acervo, orientação, guardas ou parâmetros ampliados.
+
+## Histórico — objetos e correções na escrita
 
 [Experimento de referências](experimentos/referentes_escrita_20261010/README.md),
 base pública #135 (`ca31090f6ce0…`): **52 turnos / 11 sessões** congelados

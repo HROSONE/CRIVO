@@ -66,6 +66,36 @@ CASOS = [
 ]
 
 
+def _trace_dialogico_valido(trace):
+    return bool(trace and trace.get("usada") is True and
+                trace.get("tokens", 0) >= 6 and
+                (trace.get("guarda") or {}).get("aceita") is True)
+
+
+def geracao_concluida(bot):
+    """Aceita somente uma geração neural própria registrada no turno atual.
+
+    O gerador legado expõe ``ultimo_quadro``/``quadro_geracao``. O gerador de
+    diálogo mantém um trace vivo durante o turno e também o persiste na rota.
+    Para o caminho dialógico exigimos uso real da GRU, guarda aceita e pelo
+    menos seis tokens; fallbacks estruturais nunca satisfazem o contrato.
+    """
+    geracao = getattr(getattr(bot, "conversacao", None), "geracao", None)
+    quadro_atual = getattr(geracao, "ultimo_quadro", None) or {}
+    if quadro_atual.get("tokens", 0) >= 6:
+        return True
+    trace_atual = getattr(getattr(bot, "dialogo_conversa", None), "trace", None) or {}
+    if _trace_dialogico_valido(trace_atual):
+        return True
+    registro = bot.historico[-1] if bot.historico else {}
+    quadro = registro.get("quadro_geracao") or {}
+    if quadro.get("tokens", 0) >= 6:
+        return True
+    rota = registro.get("natural_routing") or {}
+    traces = (registro.get("execucao_contextual") or {}, rota.get("dialogo") or {})
+    return any(_trace_dialogico_valido(trace) for trace in traces)
+
+
 def avaliar(classe):
     casos=[]
     for nome, perguntas in CASOS:
@@ -79,8 +109,7 @@ def avaliar(classe):
             if c.get("algum") and not any(t in resposta for t in c["algum"]): falhas.append("ação pertinente")
             if c.get("diferente") and resposta==anterior: falhas.append("repetição integral")
             if c.get("linhas") and len(resposta.splitlines()[1:])!=c["linhas"]: falhas.append("formato")
-            quadro=(bot.historico[-1].get("quadro_geracao") or {}) if bot.historico else {}
-            if c.get("gerada") and (not quadro or quadro.get("tokens",0)<6): falhas.append("geração concluída")
+            if c.get("gerada") and not geracao_concluida(bot): falhas.append("geração concluída")
             if c.get("gerada") and (bot.contexto_textual is not None or "prova_origem" in (bot.ultimo_turno or {})):
                 falhas.append("proveniência fictícia")
             turnos.append(dict(pergunta=c["pergunta"],id=ident,resposta=resposta,passou=not falhas,falhas=falhas))

@@ -11,7 +11,7 @@ from pathlib import Path
 from dialogo_seq2seq import (VERSAO, ESPECIAIS, DialogoSeq2Seq, fonte_dialogo,
                             formas, subpalavras, tokenizar, vocabulario_treino, carregar)
 from treinar_dialogo_seq2seq import (inicializar, lote, perda_gradientes, checkpoint,
-                                   ler_corpus, selecionar_adicional)
+                                   ler_corpus, selecionar_adicional, treinar)
 
 NUMPY = importlib.util.find_spec("numpy") is not None
 
@@ -166,6 +166,41 @@ class ContratoSeq2Seq(unittest.TestCase):
 
 @unittest.skipUnless(NUMPY,"NumPy necessário ao treinamento")
 class MatematicaSeq2Seq(unittest.TestCase):
+    def test_continuacao_preserva_ids_pesos_iniciais_e_nao_sobrescreve_origem(self):
+        import contextlib
+        import io
+        with tempfile.TemporaryDirectory() as pasta:
+            raiz=Path(pasta);origem=raiz/'proprio.json';corpus=raiz/'corpus.json';destino=raiz/'novo.json'
+            dados=dados_minimos()
+            origem.write_text(json.dumps(dados),encoding='utf-8');bytes_originais=origem.read_bytes()
+            corpus.write_text(json.dumps({'exemplos':[
+                {'split':'treino','mensagem':'Eu sou Crivo.','resposta':'sim.'},
+                {'split':'validacao','mensagem':'nome?','resposta':'sim.'}]}),encoding='utf-8')
+            with contextlib.redirect_stdout(io.StringIO()):
+                relatorio=treinar(corpus,destino,epocas=1,lote_tamanho=1,ocultos=16,embeddings=8,
+                    vocab_max=len(dados['vocabulario']),buckets=32,limite_fonte=32,limite_resposta=8,
+                    validar_cada=1,checkpoint_inicial=origem)
+            novo=json.loads(destino.read_text())
+            self.assertEqual(novo['vocabulario'],dados['vocabulario'])
+            self.assertEqual(origem.read_bytes(),bytes_originais)
+            self.assertTrue(relatorio['metadados']['checkpoint_inicial']['vocabulario_preservado'])
+            self.assertNotEqual(novo['pesos']['bo'],dados['pesos']['bo'])
+
+    def test_continuacao_rejeita_dimensoes_diferentes_antes_de_gravar(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            raiz=Path(pasta);origem=raiz/'proprio.json';corpus=raiz/'corpus.json';destino=raiz/'novo.json'
+            dados=dados_minimos();origem.write_text(json.dumps(dados),encoding='utf-8')
+            corpus.write_text(json.dumps({'exemplos':[
+                {'split':'treino','mensagem':'Eu sou Crivo.','resposta':'sim.'},
+                {'split':'validacao','mensagem':'nome?','resposta':'sim.'}]}),encoding='utf-8')
+            for dimensoes in [{'ocultos':32,'embeddings':8,'buckets':32},
+                              {'ocultos':16,'embeddings':16,'buckets':32},
+                              {'ocultos':16,'embeddings':8,'buckets':64}]:
+                with self.assertRaisesRegex(ValueError,'dimensões'):
+                    treinar(corpus,destino,epocas=1,vocab_max=len(dados['vocabulario']),
+                            checkpoint_inicial=origem,**dimensoes)
+                self.assertFalse(destino.exists())
+
     def setUp(self):
         import numpy as np
         self.np = np
