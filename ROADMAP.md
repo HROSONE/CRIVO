@@ -1,6 +1,39 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-## Rodada seguinte — objetos e correções na escrita
+## Prioridade atual — generalização do gerador textual (experimento reprovado)
+
+A etapa de diálogo limitado (#136) está publicada. No
+[experimento textual](experimentos/gerador_historico_textual_20261010/README.md),
+a rede Seq2Seq própria já existente recebeu somente texto/histórico com
+papéis, sem slots ou intenção pronta. Pesos aleatórios novos, 81.433
+parâmetros/720 tokens, 3.707 treino + 334 desenvolvimento, 100 padrões
+em dez grupos. Treino efetivo: 20 épocas/330,13 s, melhor época 12.
+
+Avaliação nova congelada antes dos dados: 12 sessões/36 turnos mais uma
+pergunta real do dono. Resultado: **0/12 mantêm o fio**; controle sem
+histórico também 0/12. Houve inversões de correção (domingo→quarta,
+caleidoscópio→bússola) e respostas malformadas; não alegar zero invenção.
+Pedido real dinossauros/IA também reprovado. Juiz lexical não aprova
+naturalidade; revisão do agente, não avaliação humana independente/cega.
+
+Nos 100 pedidos vistos no treino: 87 alvos literais com histórico, 32 sem;
+4/4 nomes novos copiados com a mesma pergunta treinada. Mostra leitura
+textual em padrões conhecidos, sem generalização da linguagem. Perda de
+treino 0,1195 contra desenvolvimento 2,3756; não confundir memorização com
+avanço em conversa natural. Famílias/saídas de desenvolvimento da rodada 2
+compartilhadas; piloto com famílias separadas e alvos impossíveis preservado.
+
+Checkpoint `1027f94344ca…` continua false/false; não entrou no chat.
+Pesos, arquitetura, treinador e runtime da produção #136 permanecem
+intactos. PR experimental #137 em rascunho, sem nova memória/acervo,
+orientação, guardas, parâmetros ampliados ou CI lateral.
+
+Próximo passo único: mais formulações de entrada por ato no corpus
+próprio e outra avaliação congelada antes do próximo treino. Estes casos
+são regressão conhecida; não chamá-los inéditos depois de usá-los para
+preparar a próxima rodada. Não promover este checkpoint por CI verde.
+
+## Histórico — objetos e correções na escrita
 
 [Experimento de referências](experimentos/referentes_escrita_20261010/README.md),
 base pública #135 (`ca31090f6ce0…`): **52 turnos / 11 sessões** congelados
