@@ -1,0 +1,43 @@
+{
+  "congelado_em_utc": "2026-10-10T23:33:00Z",
+  "base_commit": "c3b460658c5505bc60475c13134c3bfb07c936d5",
+  "objetivo": "Separar falha de representacao/condicionamento da falha da cabeca de saida no primeiro token, sem novo treino.",
+  "checkpoint": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz",
+  "corpus": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+  "recortes": {
+    "treino": 3699,
+    "dev_antiga": 334,
+    "dev_nova": 94
+  },
+  "analises": [
+    "acuracia e rank do primeiro token em treino, desenvolvimento antigo e desenvolvimento novo",
+    "probabilidade do primeiro token alvo e margem para o top1",
+    "gate gerar/copia no primeiro passo por tipo de alvo",
+    "vetor latente apos o primeiro passo do decoder: h + contexto de atencao",
+    "vizinhos de treino por cosseno para cada exemplo novo",
+    "top1/top5 de vizinhos que compartilham o primeiro token alvo",
+    "separacao cosseno dentro/fora da familia nova e dentro/fora do mesmo primeiro token",
+    "casos em que a vizinhanca latente contem a abertura correta mas a cabeca escolhe outra"
+  ],
+  "flags_precongeladas": {
+    "gap_primeiro_token_novo": "acuracia do primeiro token no dev novo pelo menos 20 pontos percentuais abaixo do dev antigo",
+    "vizinhanca_nao_transfere_abertura": "taxa top5 com algum vizinho de treino que compartilha abertura alvo abaixo de 50% no dev novo",
+    "cabeca_falha_mesmo_com_vizinho_correto": "entre casos cujo top5 contem abertura correta, mais de 50% ainda erram o primeiro token",
+    "gate_pouco_condicionado": "diferenca absoluta do gate medio entre alvos geracao_lexical e alvos disponiveis na fonte abaixo de 0.10",
+    "familia_latente_separavel": "cosseno medio intra-familia excede inter-familia por pelo menos 0.02"
+  },
+  "regras": {
+    "nenhum_treino": true,
+    "nenhuma_alteracao_de_pesos": true,
+    "nenhuma_promocao": true,
+    "holdout_final_pr137": "PROIBIDO e nao lido",
+    "desenvolvimento_conhecido": true,
+    "alvos_usados_somente_para_medir_separacao_e_rank": true,
+    "nenhum_alvo_usado_para_buscar_vizinho": true
+  },
+  "limites": [
+    "Cosseno de um estado de 72 dimensoes nao prova semantica geral.",
+    "Familias do desenvolvimento sao conhecidas e servem apenas para diagnostico.",
+    "Primeiro token e uma sonda local; nao mede sozinho qualidade da resposta inteira."
+  ]
+}
