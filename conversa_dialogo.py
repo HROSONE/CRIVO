@@ -26,6 +26,12 @@ CORPUS_V5_SHA256 = '4076b7af8b4e3ec651de87d8f0a72b40924244142c566330118cc7993155
 ORIGEM_V5_SHA256 = 'a042a2713f3cabac4d528b7ada365890fafe2bfcbf844de84e1f9e53533f4c12'
 CASOS_V5_SHA256 = '9f5164f9aefbec71ec9e36aafebd7711cb95c2ab88c31b5b01975b67128645f8'
 ESTRUTURA_V5_SHA256 = '260bccc8ad50de8cd2150f3078fd4b0bbc97e802de464be6115badc33fbed531'
+PESOS_V6_SHA256 = '27e193681480092afef0aacfc25fed6e4da64f473da3d145c3a016af07ed529a'
+CORPUS_V6_SHA256 = '68edd570bb60630bca0888935e89081d25b7044615c1628e97ab0d18a0da74e8'
+ORIGEM_V6_SHA256 = '4b871b3008542803544404e82042ab0a9dc6e8a0364de294a7f79870130a5b6d'
+ESTRUTURA_V6_SHA256 = '0399ed5b8052643f6a9b4514daf2ec277c1f2ce5dc62bed180c89a64a6350d28'
+DIVERSIDADE_V6_SHA256 = 'd16b084bce8c754e4ea3f5ec6e29e8621abee3fb69e89ef46f4638bcdd1b0aa7'
+PRATICOS_V6_SHA256 = '799559f45a9f5b22ced00351a5a3f670b7240f1f76ac9b94ccab67f7f1c6ced0'
 ATOS = frozenset(('historia', 'continuar', 'corrigir'))
 
 
@@ -160,19 +166,28 @@ def aprovacao_valida(dados):
     a = dados.get('aprovacao', {})
     m = a.get('metricas', {})
     origem=a.get('checkpoint_origem_sha256')
-    pesos_esperados={ORIGEM_SHA256:PESOS_SHA256,ORIGEM_V2_SHA256:PESOS_V2_SHA256,ORIGEM_V3_SHA256:PESOS_V3_SHA256,ORIGEM_V5_SHA256:PESOS_V5_SHA256}.get(origem)
+    pesos_esperados={ORIGEM_SHA256:PESOS_SHA256,ORIGEM_V2_SHA256:PESOS_V2_SHA256,ORIGEM_V3_SHA256:PESOS_V3_SHA256,ORIGEM_V5_SHA256:PESOS_V5_SHA256,ORIGEM_V6_SHA256:PESOS_V6_SHA256}.get(origem)
     if not pesos_esperados or hashlib.sha256(json.dumps(dados.get('pesos'),sort_keys=True,separators=(',',':')).encode()).hexdigest()!=pesos_esperados:
         return False
-    if origem == ORIGEM_V5_SHA256:
+    if origem in (ORIGEM_V5_SHA256, ORIGEM_V6_SHA256):
+        v6 = origem == ORIGEM_V6_SHA256
         estrutura = {k:v for k,v in dados.items() if k not in ('pesos','controle','aprovacao','limite')}
         return (dados.get('controle') == {'aprovado':True,'ativo_no_chat':True} and
-                hashlib.sha256(json.dumps(estrutura,sort_keys=True,separators=(',',':')).encode()).hexdigest()==ESTRUTURA_V5_SHA256 and
-                a.get('casos_sha256')==CASOS_V5_SHA256 and a.get('corpus_sha256')==CORPUS_V5_SHA256 and
+                hashlib.sha256(json.dumps(estrutura,sort_keys=True,separators=(',',':')).encode()).hexdigest()==(ESTRUTURA_V6_SHA256 if v6 else ESTRUTURA_V5_SHA256) and
+                a.get('casos_sha256')==CASOS_V5_SHA256 and a.get('corpus_sha256')==(CORPUS_V6_SHA256 if v6 else CORPUS_V5_SHA256) and
                 set(a.get('atos',[]))==ATOS and m.get('casos_total')==114 and
-                all(103<=m.get(k,0)<=114 for k in ('casos_motor','casos_http')) and
+                all((110 if v6 else 103)<=m.get(k,0)<=114 for k in ('casos_motor','casos_http')) and
                 all(m.get(k)==79 for k in ('casos_antigos_motor','casos_antigos_http')) and
                 all(m.get(k)==0 for k in ('trocas_dominio','referentes_ausentes','desvios_proibidos')) and
-                m.get('historias_entregues')==52 and m.get('conversas_mantem_fio',0)>=6)
+                m.get('historias_entregues')==52 and m.get('conversas_mantem_fio',0)>=6 and
+                (not v6 or (
+                    a.get('diversidade_sha256') == DIVERSIDADE_V6_SHA256 and
+                    a.get('praticos_sha256') == PRATICOS_V6_SHA256 and
+                    m.get('diversidade_turnos') == 48 and
+                    all(m.get(k) == 8 for k in ('diversidade_motor','diversidade_http')) and
+                    m.get('diversidade_problemas_fidelidade') == 0 and
+                    all(m.get(k) == 40 for k in ('praticos_motor','praticos_http')) and
+                    a.get('treino_reproduzido_byte_a_byte') is True)))
     v2=origem==ORIGEM_V2_SHA256
     v3=origem==ORIGEM_V3_SHA256
     return (dados.get('controle') == {'aprovado': True, 'ativo_no_chat': True} and
@@ -230,7 +245,7 @@ def carregar(caminho, mtime):
     raw = Path(caminho).read_bytes()
     dados = json.loads(gzip.decompress(raw))
     digest = hashlib.sha256(json.dumps(dados['pesos'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256,PESOS_V5_SHA256):
+    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256,PESOS_V5_SHA256,PESOS_V6_SHA256):
         raise ValueError('Pesos diferentes do checkpoint próprio avaliado')
     return GeradorGRU(dados), dados, hashlib.sha256(raw).hexdigest()
 
@@ -329,7 +344,7 @@ class DialogoConversa:
             if not self.candidato and not aprovacao_valida(dados):
                 self.trace.update(recuou=True, motivo='checkpoint_sem_aprovacao')
                 return None
-            v5=dados.get('corpus_sha256')==CORPUS_V5_SHA256
+            v5=dados.get('corpus_sha256') in (CORPUS_V5_SHA256, CORPUS_V6_SHA256)
             v3=v5 or dados.get('corpus_sha256')==CORPUS_V3_SHA256
             v2=v3 or dados.get('corpus_sha256')=='e2e33fe41cceeb27f2839572003210af2ecc315d87e0f889cb41c9cc9701dd45'
             if v3 and detalhe_final:

@@ -1,33 +1,43 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-## Estado atual — continuidade prática medida
+## Estado atual — variedade da realização própria medida
 
-[Experimento de contexto prático](experimentos/contexto_pratico_20261010/README.md):
-mesmos 40 turnos das quatro falhas após #132, **15/40 → 40/40** no motor
- e HTTP real (antes público, depois local); sessões mínimas **0/4 → 4/4**,
-zero desvio proibido no conjunto. Quatro sondas adicionais autorais,
-29 turnos, **0/4 → 4/4** segundo leitura do agente; sem humanos/avaliação
-cega. Referentes, restrições e tempo declarados entram na tarefa correta.
-Fatos hipotéticos não substituem observações. Guarda rejeita troca de
-minutos/vasos; não cria memória nem aprende modelos novos.
+[Experimento de diversidade](experimentos/diversidade_dialogo_20261010/README.md):
+os mesmos 48 turnos em oito sessões autorais passaram de **0/8 → 8/8**
+no motor e HTTP (base público, depois local real). Corpos distintos,
+retirando cabeçalho e declarações copiadas: **8 → 32**. Zero problemas
+nos critérios limitados de fidelidade; 48 respostas idênticas nos dois
+modos. Não humanos nem avaliação cega; padrões de classes conhecidas.
 
-**110/114** anteriores preservados no motor/HTTP, 79/79 antigos,
-52/52 histórias, zero domínio/referente ausente. Os quatro antigos não
-pontuados continuam documentados. Checkpoint aprovado `4e5894e2…`,
-35 pesos anteriores e experimento #132 intactos. Orientação prática é
-estrutural/autoral, não geração neural ou planejamento geral; linguagem
-repetitiva, regras limitadas e janela de vinte mensagens permanecem.
+GRU própria existente, mesmos **85.130 parâmetros**, 321 tokens e
+atributos. Corpus 9.024 exemplos; 1.920 alvos ganham formulações autorais.
+20 épocas, treino realmente executado e repetido **byte a byte**.
+Original `4b871b30…` permanece false/false; somente a cópia
+`ca908bff34dece5d6b3b3ea208dbdeca2d5c499cecf31f1edd63ade77b575ee2`
+é aprovada após gates. #133 `4e5894e2…` arquivado, pesos/evidências
+anteriores preservados. Sem modelo externo, nova arquitetura ou memória.
 
-CI existente por escopo inclui contratos + 40 HTTP + 114, sem bateria
-completa ou repetição depois do merge. Confirmar commit/checkpoint e
-os mesmos 40 casos no site após publicar antes de declarar concluído.
+**110/114**, todos os **79 antigos**, **52 histórias**, zero domínio,
+referentes ausentes ou desvios preservados no motor e HTTP. Utilidade
+prática permanece **40/40**, textos do motor idênticos ao #133. Mesmas
+dez sessões/104 turnos idênticos nos dois modos; seis critérios mínimos
+de escrita mantidos. Não se afrouxaram os quatro casos não pontuados.
 
-Próximo passo único: diversificar a realização do contexto correto com
-corpus próprio de diálogo e falhas novas medidas no site, mantendo
-estes gates; sem nova memória/acervo/arquitetura/parâmetros externos.
+Ainda são quatro padrões por classe; escolha estrutural, declarações
+recopiadas, finais e transições genéricos, personagens secundários pouco
+ativos e episódios clássicos reutilizados. Não prova planejamento, novos
+assuntos, conversa humana nem fôlego infinito.
+
+CI por escopo acrescenta contratos de aprovação/diversidade e 48 HTTP;
+não aciona a matriz completa nem repete escrita após merge. Confirmar
+commit/checkpoint e repetir 48 turnos + smokes conhecidos no site antes
+de declarar publicado; `validar_publicacao.py` exige os hashes esperados.
+
+Próximo passo único: melhorar a ligação entre acontecimentos e
+continuações, reduzindo relatos recopiados e transições genéricas com
+corpus próprio e a mesma rede, preservando os gates atuais.
 
 
-A etapa anterior (#132) preserva a escrita condicionada: 110/114 e
-6/10 sessões autorais no recorte, não conversa humana geral. A nova etapa
-corrige as quatro sessões práticas que faltavam. Pesos próprios continuam
-inalterados; não há outro PR de capacidade concorrente.
+O avanço anterior de utilidade prática (#133) continua preservado. Não
+abrir memória/acervo, ampliar parâmetros ou iniciar outro PR de capacidade
+enquanto esta integração não estiver verde e confirmada no site.
