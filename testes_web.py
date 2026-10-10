@@ -10,7 +10,7 @@ from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from web_core import PedidoInvalido, responder_web
+from web_core import LIMITE_HISTORICO, PedidoInvalido, responder_web
 from web_local import criar_servidor
 
 
@@ -27,7 +27,7 @@ class TestesWebCore(unittest.TestCase):
         entradas = [
             None, [], {}, {"message": ""}, {"message": 42},
             {"message": "x" * 1201}, {"message": "oi", "history": "oi"},
-            {"message": "oi", "history": ["x"] * 11},
+            {"message": "oi", "history": ["x"] * (LIMITE_HISTORICO + 1)},
             {"message": "oi", "history": [123]},
             {"message": "oi", "history": [""]},
             {"message": "oi", "secret": "não usar"},
