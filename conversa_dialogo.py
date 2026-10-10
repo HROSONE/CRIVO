@@ -32,6 +32,13 @@ ORIGEM_V6_SHA256 = '4b871b3008542803544404e82042ab0a9dc6e8a0364de294a7f79870130a
 ESTRUTURA_V6_SHA256 = '0399ed5b8052643f6a9b4514daf2ec277c1f2ce5dc62bed180c89a64a6350d28'
 DIVERSIDADE_V6_SHA256 = 'd16b084bce8c754e4ea3f5ec6e29e8621abee3fb69e89ef46f4638bcdd1b0aa7'
 PRATICOS_V6_SHA256 = '799559f45a9f5b22ced00351a5a3f670b7240f1f76ac9b94ccab67f7f1c6ced0'
+CORPUS_V7_SHA256 = '65f4ac8ad04474fbe3d43e8affd05981b7ce473e5659297f46646a96f1975da9'
+PESOS_V7_SHA256 = 'f9305b6653a511d24b3285fcc0b05506b398e2cbac993d985b4a1d6352eb3f35'
+ORIGEM_V7_SHA256 = 'adf0fa8c297eab6cf9122c8da6a1bbd5796416f406e86e0b096ed2a23f7c5d0a'
+ESTRUTURA_V7_SHA256 = '10ccdc3f851b5f2c61f1ea5e3d1ce75d66c37afb95728a8af7e97884793696c9'
+CAUSAL_V7_SHA256 = '15164100b1a852a7559daae49b9e7c1cb9eaaf03e29807cf4145e9071589b8ac'
+FOLEGO_V7_SHA256 = 'f0fe9b014056595b383601299603e33c773270b30a4885dff15e3b5877eea7a6'
+ALIASES_V7_SHA256 = '0269dde6f1b810638412b129be7e092a2bc2638d4c5423588dbd182d3137d37d'
 ATOS = frozenset(('historia', 'continuar', 'corrigir'))
 
 
@@ -81,13 +88,39 @@ def contexto_escrita(texto, bot):
     if bot.conversacao.turno - escrita['turno'] > bot.conversacao.geracao.MAX_INTERVALO:
         return None
     n = normalizar(texto)
-    if re.search(r'\b(?:eu|meu|minha|vida real|veridic\w*|comprovad\w*)\b', n):
+    if re.search(r'\b(?:eu|meu|minha|vida real|veridic\w*|comprovad\w*)\b', n) and n.strip('.!?') != 'avance sem repetir o que eu disse':
         return None
     slots = dict(escrita['slots'])
     pessoas_cenario = [slots[k] for k in ('tema1', 'tema2', 'detalhe') if slots.get(k)]
     def rota(ato, **dados):
         return dict(peca='escrita', ato=ato, slots=slots, personagem=slots.get('tema1'),
                     referentes=list(slots.values()), **dados)
+    # Operadores elípticos usam a tarefa mais recente, não apenas uma história
+    # antiga ainda guardada. A extração conserva trechos literais do usuário.
+    causal = re.fullmatch(r'(?:e (?:depois|agora)|o que (?:a personagem|ela|ele) faz em seguida|'
+                          r'avance sem repetir o que eu disse|mais um passo|'
+                          r'continue a cena,? sem recontar o acontecimento|'
+                          r'o que acontece depois disso|prossiga sem repetir)[?!.]?', n)
+    comum = re.fullmatch(r'(?:continue|continua|prossiga)(?: a historia| mais um pouco| de onde parou)?[.!]?|'
+                         r'(?:nao repita a cena anterior|o que acontece em seguida)[?!.]?', n)
+    evento_atual = escrita.get('evento_escrita') or escrita['slots'].get('relato', '')
+    if comum and escrita.get('classe_escrita') in CLASSES_CAUSAIS and referente_acontecimento(evento_atual, escrita['classe_escrita']):
+        causal = comum
+    final_causal = escrita.get('continuidade_causal') and re.fullmatch(
+        r'(?:conclua|termine) (?:a|essa) historia[.!]?|faca um final tranquilo[.!]?', n)
+    if causal or final_causal:
+        anterior = bot.historico[-1] if bot.historico else {}
+        if not final_causal and not anterior.get('id', '').startswith('conversa:gerada_'):
+            return dict(peca='esclarecimento', ato='continuidade_incerta', referentes=pessoas_cenario)
+        classe = escrita.get('classe_escrita')
+        evento = escrita.get('evento_escrita') or escrita['slots'].get('relato', '')
+        objeto = referente_acontecimento(evento, classe)
+        if not objeto or classe not in CLASSES_CAUSAIS or (not final_causal and escrita.get('passo_causal', 0) >= 4):
+            return dict(peca='esclarecimento', ato='continuidade_incerta', referentes=pessoas_cenario)
+        slots['relato'] = objeto
+        return rota('corrigir' if final_causal else 'continuar', classe_escrita=classe,
+                    continuidade_causal=True, evento_escrita=evento,
+                    passo_causal=min(3, escrita.get('passo_causal', 0)))
     if re.fullmatch(r'nao (?:invente|crie|coloque|adicione) (?:um )?nome (?:para|na|no) (.+?)[.!]?', n):
         alvo = re.sub(r'^nao .+? nome (?:para|na|no) ', '', n).strip('.!')
         palavras = set(re.findall(r'\w+', normalizar(slots.get('tema1', '')))) - {'o','a','um','uma'}
@@ -162,19 +195,42 @@ def contexto_escrita(texto, bot):
     return None
 
 
+CLASSES_CAUSAIS = frozenset(('perda', 'recuperacao', 'encontro', 'caixa_vazia',
+                           'retorno', 'devolucao', 'ajuda', 'conserto', 'costura', 'companhia'))
+
+
+def referente_acontecimento(evento, classe):
+    """Seleciona um trecho declarado; não adivinha objetos ou participantes."""
+    padroes = {
+        'perda': r'\b(?:perde|perdeu)\s+(.+)',
+        'recuperacao': r'^(.+?)\s+j[aá] foi recuperad[oa]',
+        'encontro': r'\bencontr(?:a|ou)\s+(.+)',
+        'caixa_vazia': r'\bencontr(?:a|ou)\s+(.+?)\s+que está vazi[oa]',
+        'retorno': r'\b(?:volta|voltou|retorna|retornou)\s+para\s+(.+)',
+        'devolucao': r'\bdevolv(?:e|eu)\s+(.+)',
+        'ajuda': r'\bencontr(?:a|ou)\s+(.+?)\s+que pede ajuda',
+        'conserto': r'\bconsertar\s+(.+)',
+        'costura': r'\b(?:recebe|recebeu|traz|trouxe)\s+(.+)',
+        'companhia': r'\bpede ajuda a\s+(.+)',
+    }
+    m = re.search(padroes.get(classe, r'(?!)'), evento, re.I)
+    return m[1].strip('.! ') if m and len(m[1]) <= 160 else None
+
+
 def aprovacao_valida(dados):
     a = dados.get('aprovacao', {})
     m = a.get('metricas', {})
     origem=a.get('checkpoint_origem_sha256')
-    pesos_esperados={ORIGEM_SHA256:PESOS_SHA256,ORIGEM_V2_SHA256:PESOS_V2_SHA256,ORIGEM_V3_SHA256:PESOS_V3_SHA256,ORIGEM_V5_SHA256:PESOS_V5_SHA256,ORIGEM_V6_SHA256:PESOS_V6_SHA256}.get(origem)
+    pesos_esperados={ORIGEM_SHA256:PESOS_SHA256,ORIGEM_V2_SHA256:PESOS_V2_SHA256,ORIGEM_V3_SHA256:PESOS_V3_SHA256,ORIGEM_V5_SHA256:PESOS_V5_SHA256,ORIGEM_V6_SHA256:PESOS_V6_SHA256,ORIGEM_V7_SHA256:PESOS_V7_SHA256}.get(origem)
     if not pesos_esperados or hashlib.sha256(json.dumps(dados.get('pesos'),sort_keys=True,separators=(',',':')).encode()).hexdigest()!=pesos_esperados:
         return False
-    if origem in (ORIGEM_V5_SHA256, ORIGEM_V6_SHA256):
-        v6 = origem == ORIGEM_V6_SHA256
+    if origem in (ORIGEM_V5_SHA256, ORIGEM_V6_SHA256, ORIGEM_V7_SHA256):
+        v7 = origem == ORIGEM_V7_SHA256
+        v6 = origem in (ORIGEM_V6_SHA256, ORIGEM_V7_SHA256)
         estrutura = {k:v for k,v in dados.items() if k not in ('pesos','controle','aprovacao','limite')}
         return (dados.get('controle') == {'aprovado':True,'ativo_no_chat':True} and
-                hashlib.sha256(json.dumps(estrutura,sort_keys=True,separators=(',',':')).encode()).hexdigest()==(ESTRUTURA_V6_SHA256 if v6 else ESTRUTURA_V5_SHA256) and
-                a.get('casos_sha256')==CASOS_V5_SHA256 and a.get('corpus_sha256')==(CORPUS_V6_SHA256 if v6 else CORPUS_V5_SHA256) and
+                hashlib.sha256(json.dumps(estrutura,sort_keys=True,separators=(',',':')).encode()).hexdigest()==(ESTRUTURA_V7_SHA256 if v7 else ESTRUTURA_V6_SHA256 if v6 else ESTRUTURA_V5_SHA256) and
+                a.get('casos_sha256')==CASOS_V5_SHA256 and a.get('corpus_sha256')==(CORPUS_V7_SHA256 if v7 else CORPUS_V6_SHA256 if v6 else CORPUS_V5_SHA256) and
                 set(a.get('atos',[]))==ATOS and m.get('casos_total')==114 and
                 all((110 if v6 else 103)<=m.get(k,0)<=114 for k in ('casos_motor','casos_http')) and
                 all(m.get(k)==79 for k in ('casos_antigos_motor','casos_antigos_http')) and
@@ -187,7 +243,17 @@ def aprovacao_valida(dados):
                     all(m.get(k) == 8 for k in ('diversidade_motor','diversidade_http')) and
                     m.get('diversidade_problemas_fidelidade') == 0 and
                     all(m.get(k) == 40 for k in ('praticos_motor','praticos_http')) and
-                    a.get('treino_reproduzido_byte_a_byte') is True)))
+                    a.get('treino_reproduzido_byte_a_byte') is True)) and
+                (not v7 or (
+                    a.get('continuidade_sha256') == CAUSAL_V7_SHA256 and
+                    a.get('folego_sha256') == FOLEGO_V7_SHA256 and
+                    a.get('aliases_sha256') == ALIASES_V7_SHA256 and
+                    m.get('continuidade_turnos') == 88 and
+                    all(6 <= m.get(k, 0) <= 10 for k in ('continuidade_motor', 'continuidade_http')) and
+                    all(m.get(k) == 2 for k in ('esclarecimentos_motor', 'esclarecimentos_http')) and
+                    m.get('contradicoes_estado') == 0 and
+                    all(m.get(k) == 2 for k in ('folego_motor', 'folego_http')) and
+                    all(m.get(k) == 3 for k in ('aliases_motor', 'aliases_http')))))
     v2=origem==ORIGEM_V2_SHA256
     v3=origem==ORIGEM_V3_SHA256
     return (dados.get('controle') == {'aprovado': True, 'ativo_no_chat': True} and
@@ -245,7 +311,7 @@ def carregar(caminho, mtime):
     raw = Path(caminho).read_bytes()
     dados = json.loads(gzip.decompress(raw))
     digest = hashlib.sha256(json.dumps(dados['pesos'],sort_keys=True,separators=(',',':')).encode()).hexdigest()
-    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256,PESOS_V5_SHA256,PESOS_V6_SHA256):
+    if digest not in (PESOS_SHA256,PESOS_V2_SHA256,PESOS_V3_SHA256,PESOS_V5_SHA256,PESOS_V6_SHA256,PESOS_V7_SHA256):
         raise ValueError('Pesos diferentes do checkpoint próprio avaliado')
     return GeradorGRU(dados), dados, hashlib.sha256(raw).hexdigest()
 
@@ -289,6 +355,17 @@ def conferir(gerada, contexto, vocabulario, frases=None):
         if quantidade < 3 or frases and quantidade != frases:
             motivos.append('quantidade de frases não atendida')
     return texto, {'politica': 'conversa', 'aceita': not motivos, 'motivos': motivos}
+
+
+def conferir_estado_causal(tokens, classe):
+    """Bloqueia inversões conhecidas de estado; não é um juiz semântico geral."""
+    n = normalizar(' '.join(t for t in tokens if not t.startswith('@')))
+    proibidos = {
+        'recuperacao': r'\b(?:perdido|perdeu|procurou)\b|busca continuou',
+        'perda': r'\brecuperado\b|guardou\s+(?:em|com)|problema (?:ficou|estava) resolvido',
+        'caixa_vazia': r'\bencontrou\b|objeto (?:aberto|recuperado)',
+    }
+    return not re.search(proibidos.get(classe, r'(?!)'), n)
 
 
 class DialogoConversa:
@@ -345,6 +422,8 @@ class DialogoConversa:
                 self.trace.update(recuou=True, motivo='checkpoint_sem_aprovacao')
                 return None
             v5=dados.get('corpus_sha256') in (CORPUS_V5_SHA256, CORPUS_V6_SHA256)
+            v7=dados.get('corpus_sha256') == CORPUS_V7_SHA256
+            v5=v5 or v7
             v3=v5 or dados.get('corpus_sha256')==CORPUS_V3_SHA256
             v2=v3 or dados.get('corpus_sha256')=='e2e33fe41cceeb27f2839572003210af2ecc315d87e0f889cb41c9cc9701dd45'
             if v3 and detalhe_final:
@@ -408,6 +487,16 @@ class DialogoConversa:
                     contexto['resposta_anterior']=escrita['texto']
                     self.trace.update(usa_trecho_anterior=True,trecho_anterior=escrita['texto'])
                 self.trace['contexto_selecionado']=dict(acao=contexto['acao'],cena=contexto['variante'],slots=dict(slots),classe=classe)
+                if rota.get('continuidade_causal'):
+                    if not v7:
+                        self.trace.update(recuou=True, motivo='continuidade_sem_checkpoint_aprovado')
+                        return ('conversa:esclarecer', 'Qual deve ser o próximo acontecimento da história?')
+                    contexto.update(mensagem='continuidade_causal '+classe+' estado_'+classe,
+                                    resposta_anterior='estado anterior '+classe,
+                                    variante=rota['passo_causal'])
+                    self.trace.update(continuidade_causal=True, passo_causal=rota['passo_causal'],
+                                      usa_estado_anterior=True, evento_anterior=rota['evento_escrita'])
+                    self.trace['contexto_selecionado'].update(cena=contexto['variante'],evento=rota['evento_escrita'])
             gerada = modelo.gerar(contexto, max_tokens=96)
             resposta, guarda = conferir(gerada, contexto, set(modelo.vocabulario), rota.get('frases'))
             if v2 and not v5 and not guarda['aceita']:
@@ -419,8 +508,10 @@ class DialogoConversa:
                 resposta,guarda=conferir(gerada,estruturado,set(modelo.vocabulario),rota.get('frases'))
                 self.trace['contexto_textual_neutralizado']=True
             restricoes = rota.get('restricoes_escrita', (escrita or {}).get('restricoes_escrita', []))
-            if v5 and guarda['aceita'] and not reacao_adequada(gerada['tokens'], classe):
+            if v5 and guarda['aceita'] and not rota.get('continuidade_causal') and not reacao_adequada(gerada['tokens'], classe):
                 guarda=dict(politica='conversa',aceita=False,motivos=['acontecimento sem reação compatível'])
+            if rota.get('continuidade_causal') and guarda['aceita'] and not conferir_estado_causal(gerada['tokens'], classe):
+                guarda=dict(politica='conversa',aceita=False,motivos=['continuação contradiz estado selecionado'])
             if guarda['aceita'] and any(re.search(r'(?<!\w)'+re.escape(normalizar(p))+r'(?!\w)',normalizar(resposta)) for p in restricoes):
                 guarda=dict(politica='conversa',aceita=False,motivos=['restrição de escrita violada'])
             self.trace['guarda'] = guarda
@@ -436,6 +527,9 @@ class DialogoConversa:
             if v5:
                 g.ultima_escrita.update(classe_escrita=classe, restricoes_escrita=restricoes,
                     inicio=(escrita or {}).get('inicio', (escrita or {}).get('texto', resposta)) if rota['ato']!='historia' else resposta)
+                g.ultima_escrita.update(evento_escrita=rota.get('evento_escrita') or ((escrita or {}).get('evento_escrita', '') if rota['ato']!='historia' else ''),
+                                       continuidade_causal=bool(rota.get('continuidade_causal')),
+                                       passo_causal=rota['passo_causal']+1 if rota.get('continuidade_causal') else 0)
             g.ultima_criacao = g.ultima_escrita
             if v2 and rota['ato']=='historia' and not rota.get('reescrita'):g.variante=contexto['variante']
             g.ultimo_quadro = {'modelo':'GRU de diálogo própria', 'acao':contexto['acao'],

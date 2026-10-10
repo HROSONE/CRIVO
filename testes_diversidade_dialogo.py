@@ -21,7 +21,8 @@ class TestesDiversidadeDialogo(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.candidato = json.loads(gzip.decompress((H / 'checkpoint_gru_dialogo.json.gz').read_bytes()))
-        cls.ativo = json.loads(gzip.decompress((ROOT / 'rede_dialogo_conversa.json.gz').read_bytes()))
+        # Regressão da aprovação V6 usa o arquivo histórico preservado.
+        cls.ativo = json.loads(gzip.decompress((ROOT / 'experimentos/continuidade_causal_20261010/checkpoint_base_134.json.gz').read_bytes()))
 
     def test_candidato_nao_pode_herdar_aprovacao(self):
         self.assertEqual({'aprovado': False, 'ativo_no_chat': False}, self.candidato['controle'])
