@@ -1,28 +1,21 @@
 # Prioridades ativas do CRIVO — 10/10/2026
 
-1. **Publicar a Fase 3 com checks relevantes verdes.** Segundo treino e
-   correções das falhas públicas de #127: 37/43 → 43/43 no motor/HTTP,
-   zero troca/referente ausente; 7/10 → 10/10 nas sessões intactas,
-   revisão pelo agente. Após merge, conferir commit/checkpoint e repetir no site.
-2. **Escopo aprovado permanece restrito.** História, continuação e final
-   com argumentos resolvidos da sessão. Capacidades, funcionamento,
-   autoria, memória, fatos, cálculo e fontes preservam os executores
-   atuais. Guardas de conversa e de fatos têm políticas distintas.
-3. **Próximo passo único após publicação.** Medir novos diálogos reais,
-   especialmente orientação prática e continuação fora dos oito arcos,
-   para selecionar a próxima ampliação do corpus autoral. Sem nova memória,
-   acervo, parâmetros ou outra frente sem instrução do dono.
+1. **Publicar a continuidade medida com checks verdes.** 47/61 → 61/61
+   no motor/HTTP, 43 casos anteriores intactos; companhia, lugar e personagem
+   preservados em final/continuação/reescrita. Confirmar commit/pesos no site.
+2. **Próximo passo único: orientação prática.** As três novas sondas de
+   desenho, estudo e horta seguem reprovadas. Congelar seus 18 turnos e melhorar
+   primeiro passo, exemplo, correção e continuação com ajuda concreta ou
+   pergunta específica. Não contar memória correta como ajuda útil.
+3. **Manter as fronteiras.** Fatos/cálculo/fontes têm guarda rígida; escrita
+   com pesos próprios permite composição e conserva os dados da sessão.
 
-A Fase 3 treinou a GRU própria em oito arcos, passando de quatro para 52
-padrões de ficção e **85.581 parâmetros**, abaixo dos 88.969 anteriores.
-384 diálogos novos, 8.064 turnos documentados com o corpus anterior.
-Reprodução byte a byte; contagens/estilos arbitrários e conversa livre geral
-continuam limitados. O seq2seq da Fase 1 segue reprovado. O
-experimento original conserva aprovado=false; a cópia de produção inclui
-proveniência e critérios medidos. Não alegar conversa humana plena.
+Treino de continuidade: 384 exemplos novos / 16 padrões, 1.536 treino e
+320 validação, reprodução byte a byte, **85.581 parâmetros** sem aumento.
+Oito arcos compartilhados nas partições; seleção da cena é estrutural,
+texto residual neutralizado. Não demonstra raciocínio ou conversa humana geral.
+Os dez testes de sessões anteriores conservam seus critérios restritos.
 
-Um PR grande de capacidade por vez. CI por escopo, matriz completa
-manual/semanal. Somente arquitetura, tokenizadores e pesos próprios.
-Evidências: [Fase 3](experimentos/dialogo_v2_20261010/README.md),
-[integração](experimentos/integracao_dialogo_20261010/README.md)
-e [treino](experimentos/dialogo_20261010/README.md).
+Um PR de capacidade por vez. CI por escopo; matriz completa manual/semanal.
+Sem nova memória, acervo, arquitetura, parâmetros ou modelos externos.
+Evidências: [continuidade](experimentos/dialogo_continuidade_20261010/README.md).

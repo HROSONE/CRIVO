@@ -185,7 +185,7 @@ def rotear_natural(texto, bot, sessao=None):
         slots=dict(escrita['slots'])
         return rota('escrita','historia',slots.values(),slots=slots,personagem=slots.get('tema1'),
                     frases=5 if reescrita[1]=='cinco' else int(reescrita[1]),reescrita=True,
-                    repetir_final=escrita['acao']=='final')
+                    repetir_final=escrita['acao']=='final', repetir_acao=escrita['acao'])
     consulta_sessao = _pedido_sessao(texto, bot)
     if consulta_sessao:
         return consulta_sessao
@@ -218,7 +218,7 @@ def rotear_natural(texto, bot, sessao=None):
                             retoma_conta and retomada):
         return rota('calculo', 'planejar')
     if (re.search(r'\b(?:historia|conto|narrativa)\b', n) and
-            re.search(r'\b(?:escrev\w*|crie|invente)\b', n) and
+            re.search(r'\b(?:escrev\w*|crie|invente|conte|quero)\b', n) and
             re.search(r'\b(?:essa|esta|a anterior) personagem\b', n)):
         candidatos = []
         if escrita and escrita['tipo'] == 'historia':
@@ -233,13 +233,15 @@ def rotear_natural(texto, bot, sessao=None):
         contagens = {'duas':2, 'tres':3, 'quatro':4, 'cinco':5, 'seis':6}
         limite = int(quantidade[1]) if quantidade and quantidade[1].isdigit() else contagens.get(quantidade[1]) if quantidade else None
         return rota('escrita', 'historia', candidatos, personagem=candidatos[0] if len(candidatos) == 1 else None, frases=limite)
-    if re.match(r'(?:agora )?muda\w* o final\b', n):
+    if re.match(r'(?:agora )?mud[ae]\w* o final\b', n):
         refs = list(escrita['slots'].values()) if escrita else []
         if not escrita:
             for h in bot.historico[-3:]:
                 refs.extend(h.get('natural_routing', {}).get('referentes', ()))
         detalhe = re.search(r'\b(?:ele|ela) (?:encontra|conhece|reencontra) (.+?)(?:,|[.!?]|$)', texto, re.I)
         if detalhe:
+            if escrita and escrita['slots'].get('detalhe'):
+                refs = [r for r in refs if r != escrita['slots']['detalhe']]
             refs.append(detalhe[1])
         personagem = escrita['slots'].get('tema1') if escrita else next(
             (h.get('natural_routing', {}).get('personagem') for h in reversed(bot.historico[-3:])

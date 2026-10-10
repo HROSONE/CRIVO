@@ -1,0 +1,3031 @@
+{
+  "versao": 3,
+  "base": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+  "origem": "43 casos anteriores intactos + 18 turnos realmente observados em sondas autorais novas; não sessões humanas.",
+  "originais_sha256": "48ff1fabc11b1c3ae6deddb3205ffdd70c4f887c4bd6c5dbf77e76ed1a58f3d0",
+  "criterios": {
+    "peca_correta_minimo": 34,
+    "trocas_dominio": 0,
+    "referentes_preservados": "100%",
+    "historia_entregue": true,
+    "conversas_manuais": "6 de 10, com 6–8 turnos"
+  },
+  "casos": [
+    {
+      "id": "real-01",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 1,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Oi, nunca usei você. O que você consegue fazer por mim?",
+        "anteriores": []
+      },
+      "usuario_queria": "Conhecer capacidades do produto",
+      "crivo_fez": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "negação com segurança"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "posso"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-02",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 2,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Tá, vou perguntar diretamente: em que você pode me ajudar?",
+        "anteriores": [
+          "Oi, nunca usei você. O que você consegue fazer por mim?"
+        ]
+      },
+      "usuario_queria": "Receber ajuda em linguagem natural",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "posso"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-03",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 3,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Me dê três exemplos de perguntas que você consegue responder.",
+        "anteriores": [
+          "Tá, vou perguntar diretamente: em que você pode me ajudar?"
+        ]
+      },
+      "usuario_queria": "Receber três exemplos concretos de perguntas",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "exemplos",
+        "referentes": [],
+        "conteudo_minimo": [
+          "1.",
+          "2.",
+          "3."
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "1.",
+          "2.",
+          "3."
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-04",
+      "origem": {
+        "sessao": "01_descoberta",
+        "turno": 6,
+        "sha256": "53de353fc72c25c70ab0e0808c90074e50243925d1f74c4864a9c24f398af9f0"
+      },
+      "entrada": {
+        "texto": "Você falou que explica como funciona. Me explica de um jeito simples.",
+        "anteriores": [
+          "Você consegue conversar comigo sobre meu dia ou só responde perguntas de escola?",
+          "ajuda"
+        ]
+      },
+      "usuario_queria": "Cumprir oferta de explicar o funcionamento",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "funcionamento",
+        "referentes": [],
+        "conteudo_minimo": [
+          "fatos",
+          "própr"
+        ],
+        "desvios_proibidos": [
+          "essa sobre mim"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "fatos",
+          "própr"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-05",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 2,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Eu sou leigo. Explica isso com um exemplo do dia a dia.",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?"
+        ]
+      },
+      "usuario_queria": "Explicar o pôr do sol com exemplo acessível",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Eu sou leigo. Explica isso com um exemplo do dia a dia.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "exemplo",
+        "referentes": [
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "você contou"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "luz"
+        ],
+        "referentes": [
+          "céu"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-06",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 4,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Então é o mesmo motivo do pôr do sol?",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "E por que Marte tem cor de ferrugem?"
+        ]
+      },
+      "usuario_queria": "Distinguir as causas das duas cores vermelhas",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto Sol, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "Marte",
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "reconheci o assunto"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Marte",
+          "luz"
+        ],
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-07",
+      "origem": {
+        "sessao": "02_ciencia",
+        "turno": 5,
+        "sha256": "c44a089a1c4f8061d89627c96507f8df921fa409b048dedfcf57216058f6c500"
+      },
+      "entrada": {
+        "texto": "Me explica a diferença entre a cor vermelha de Marte e a cor vermelha do céu no fim da tarde.",
+        "anteriores": [
+          "Por que o céu fica vermelho quando o sol está se pondo?",
+          "E por que Marte tem cor de ferrugem?"
+        ]
+      },
+      "usuario_queria": "Comparar explicitamente os mecanismos das cores",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "conteudo_minimo": [
+          "Marte",
+          "luz"
+        ],
+        "desvios_proibidos": [
+          "não tenho evidência"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Marte",
+          "luz"
+        ],
+        "referentes": [
+          "Marte",
+          "céu"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-08",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 1,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+        "anteriores": []
+      },
+      "usuario_queria": "Registrar as duas pessoas e preferências no relato composto",
+      "crivo_fez": {
+        "id": "nocao:observacao",
+        "resposta": "Boa, sua irmã Brena prefere tapioca! Bolo caseiro costuma deixar a casa com cheiro bom. Qual é o seu bolo preferido?"
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "registrar",
+        "referentes": [
+          "Brena",
+          "Tácio"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "Tácio"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Brena",
+          "Tácio"
+        ],
+        "referentes": [
+          "Brena",
+          "Tácio"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-09",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 3,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "Na verdade, ela mudou de ideia: agora prefere cuscuz.",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá."
+        ]
+      },
+      "usuario_queria": "Atualizar a preferência feminina por pronome para cuscuz",
+      "crivo_fez": {
+        "id": "nocao:continuacao",
+        "resposta": "Na verdade ela mudou de ideia? Olha só, que bom! E o que mais tem de novo?"
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "corrigir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "que bom"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Brena",
+          "cuscuz"
+        ],
+        "referentes": [
+          "Brena"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-10",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 4,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "E para ela, então, o que preparo?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Preparar o lanche segundo a preferência corrigida",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "sugerir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "tapioca"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Brena",
+          "cuscuz"
+        ],
+        "referentes": [
+          "Brena"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-11",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 6,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "O que ofereço para Brena no lanche?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Estou falando das pessoas da minha família, não de matemática. Brena é minha irmã e prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Retomar a pessoa após correção explícita de contexto",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "sugerir",
+        "referentes": [
+          "Brena"
+        ],
+        "conteudo_minimo": [
+          "Brena",
+          "cuscuz"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Brena",
+          "cuscuz"
+        ],
+        "referentes": [
+          "Brena"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-12",
+      "origem": {
+        "sessao": "03_pessoas",
+        "turno": 7,
+        "sha256": "3891821276608e57b291dec9c4b832e2944916630fcaf77387ff2351f6f971ba"
+      },
+      "entrada": {
+        "texto": "E o Tácio, do que ele gosta?",
+        "anteriores": [
+          "Minha irmã Brena prefere tapioca. Meu primo Tácio prefere bolo de fubá.",
+          "Na verdade, ela mudou de ideia: agora prefere cuscuz."
+        ]
+      },
+      "usuario_queria": "Consultar preferência do primo familiar",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Tácio"
+        ],
+        "conteudo_minimo": [
+          "Tácio",
+          "bolo de fubá"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Tácio",
+          "bolo de fubá"
+        ],
+        "referentes": [
+          "Tácio"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-13",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 1,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+        "anteriores": []
+      },
+      "usuario_queria": "Dividir o orçamento de 35 minutos entre tarefas; pedir duração faltante",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça"
+        ],
+        "conteudo_minimo": [
+          "35",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "35",
+          "minutos"
+        ],
+        "referentes": [
+          "inglês",
+          "louça"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-14",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 3,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "E se eu deixar 5 minutos para descansar?",
+        "anteriores": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?"
+        ]
+      },
+      "usuario_queria": "Reservar cinco minutos de descanso sem mudar de domínio",
+      "crivo_fez": {
+        "id": "arroz",
+        "resposta": "Refogue 1 xícara de arroz lavado com alho e óleo, junte 2 xícaras de água quente e sal e cozinhe em fogo baixo com a panela tampada por 15 a 20 minutos, sem mexer. Deixe descansar uns 5 minutos antes de servir."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "hipotese",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "18",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "18",
+          "minutos"
+        ],
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-15",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 4,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Então organiza as três coisas sem passar dos 35 minutos.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Organizar três atividades dentro de 35 minutos",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "35",
+          "12",
+          "5",
+          "18"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "35",
+          "12",
+          "5",
+          "18"
+        ],
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-16",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 5,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Agora só tenho 20 minutos. Ajusta o plano, mantendo os 12 minutos da louça.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Atualizar orçamento para 20 mantendo louça e descanso; inglês fica com 3",
+      "crivo_fez": {
+        "id": "conversa:raciocinio",
+        "resposta": "Pelos dados que você informou, As atividades informadas somam 12 minutos, para 20 disponíveis. Sobram 8 minutos."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "corrigir",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "20",
+          "12",
+          "5",
+          "3"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "20",
+          "12",
+          "5",
+          "3"
+        ],
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-17",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 6,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.",
+        "anteriores": [
+          "A louça leva 12 minutos. Quanto tempo sobra para o inglês?",
+          "E se eu deixar 5 minutos para descansar?"
+        ]
+      },
+      "usuario_queria": "Reparar a tarefa após desvio para receita",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Eu estava falando de estudar inglês e lavar a louça. Refaz a divisão do tempo, incluindo descanso.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "conteudo_minimo": [
+          "louça",
+          "descanso"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue",
+          "você contou"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "louça",
+          "descanso"
+        ],
+        "referentes": [
+          "inglês",
+          "louça",
+          "descanso"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-18",
+      "origem": {
+        "sessao": "04_plano",
+        "turno": 8,
+        "sha256": "6e9b554d0cdf503f10e10f602e6004614b398ca46d8a0d24fa4bf10b11cfa8c4"
+      },
+      "entrada": {
+        "texto": "O que esse resultado representa no plano que a gente estava montando?",
+        "anteriores": [
+          "Tenho 35 minutos livres agora. Quero estudar inglês e lavar a louça. Me ajuda a dividir esse tempo?",
+          "Quanto é 35 - 12 - 5?"
+        ]
+      },
+      "usuario_queria": "Relacionar os 18 minutos calculados à tarefa de inglês",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "explicar",
+        "referentes": [
+          "inglês"
+        ],
+        "conteudo_minimo": [
+          "18",
+          "inglês"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "18",
+          "inglês"
+        ],
+        "referentes": [
+          "inglês"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-19",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 2,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Escreve uma história curta com essa personagem, umas cinco frases.",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta."
+        ]
+      },
+      "usuario_queria": "Escrever história curta com a personagem declarada anteriormente",
+      "crivo_fez": {
+        "id": "conversa:gerada_historia",
+        "resposta": "Ficção:\nNum lugar distante, essa personagem, umas cinco frases recebeu uma mensagem sem assinatura. Uma surpresa mostrou outra possibilidade. Juntos, descobriram que a resposta estava no que haviam deixado para trás."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "capivara astronauta"
+        ],
+        "conteudo_minimo": [
+          "capivara",
+          "astronauta"
+        ],
+        "desvios_proibidos": [
+          "essa personagem, umas cinco frases"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "capivara",
+          "astronauta"
+        ],
+        "referentes": [
+          "capivara astronauta"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": true
+      }
+    },
+    {
+      "id": "real-20",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 3,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Muda o final: ela encontra um amigo, em vez de voltar sozinha.",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases."
+        ]
+      },
+      "usuario_queria": "Mudar o final para encontro com amigo e preservar personagem",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Poxa, você disse: “Muda o final: ela encontra um amigo, em vez de voltar sozinha”. E pensando em “inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta”, o que você já tentou e como isso funcionou para você?"
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "capivara astronauta",
+          "amigo"
+        ],
+        "conteudo_minimo": [
+          "capivara",
+          "amigo"
+        ],
+        "desvios_proibidos": [
+          "o que você já tentou"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "capivara",
+          "amigo"
+        ],
+        "referentes": [
+          "capivara astronauta",
+          "amigo"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": true
+      }
+    },
+    {
+      "id": "real-21",
+      "origem": {
+        "sessao": "06_criacao",
+        "turno": 4,
+        "sha256": "0b2adbd5c01a1f95117629cf2d786eac93cfdf6f9e7c420745d3b29efdbe5ddc"
+      },
+      "entrada": {
+        "texto": "Você escreveu essa história ou pegou de algum lugar?",
+        "anteriores": [
+          "Quero inventar uma historinha para minha sobrinha de seis anos. Ela gosta de uma capivara astronauta.",
+          "Escreve uma história curta com essa personagem, umas cinco frases."
+        ]
+      },
+      "usuario_queria": "Explicar a origem da história gerada, sem inventar fonte externa",
+      "crivo_fez": {
+        "id": "contexto:sem_referencia",
+        "resposta": "Qual história você quer dizer? Não consegui identificar esse referente na minha resposta anterior. Pode especificar o objeto ou o assunto?"
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "autoria",
+        "referentes": [
+          "história"
+        ],
+        "conteudo_minimo": [
+          "gerador",
+          "própr"
+        ],
+        "desvios_proibidos": [
+          "qual história você quer dizer"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "gerador",
+          "própr"
+        ],
+        "referentes": [
+          "história"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-22",
+      "origem": {
+        "sessao": "05_codigo",
+        "turno": 7,
+        "sha256": "34276614e2abf4c4d0538d13a371abfa31b4c5d174aee3793628ac93ad68fac0"
+      },
+      "entrada": {
+        "texto": "Você disse que interpreta JavaScript limitado. Analise este código JavaScript e explique por que o total sai 5, em vez de 25:\n```javascript\nconst precos = [8, 12, 5];\nlet total = 0;\nfor (let i = 0; i < precos.length; i++) {\n  total = precos[i];\n}\nconsole.log(total);\n```",
+        "anteriores": [
+          "Esse código em Python deveria somar três preços, mas está imprimindo 5. O que está errado?\n```python\nprecos = [8, 12, 5]\ntotal = 0\nfor p in precos:\n    total = p\nprint(total)\n```",
+          "nenhuma"
+        ]
+      },
+      "usuario_queria": "Acionar motor JS após preâmbulo; informar limites do subconjunto se necessário",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "programacao",
+        "ato": "analisar",
+        "referentes": [
+          "precos",
+          "total"
+        ],
+        "conteudo_minimo": [
+          "código"
+        ],
+        "desvios_proibidos": [
+          "gostos",
+          "vida fora da conversa"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "código"
+        ],
+        "referentes": [
+          "precos",
+          "total"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-23",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 2,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "E qual a diferença para o RNA?",
+        "anteriores": [
+          "O que é DNA?"
+        ]
+      },
+      "usuario_queria": "Comparar DNA e RNA referindo-se ao conceito anterior",
+      "crivo_fez": {
+        "id": "conversa:reflexao",
+        "resposta": "Posso ajudar a pensar. Qual é a situação e quais opções você está considerando?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "comparar",
+        "referentes": [
+          "DNA",
+          "RNA"
+        ],
+        "conteudo_minimo": [
+          "DNA",
+          "RNA"
+        ],
+        "desvios_proibidos": [
+          "quais opções"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "DNA",
+          "RNA"
+        ],
+        "referentes": [
+          "DNA",
+          "RNA"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-24",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 3,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "Me explica DNA em três tópicos, para uma criança de dez anos.",
+        "anteriores": [
+          "O que é DNA?"
+        ]
+      },
+      "usuario_queria": "Reformatar a explicação disponível em tópicos para criança",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "topicos",
+        "referentes": [
+          "DNA"
+        ],
+        "conteudo_minimo": [
+          "DNA"
+        ],
+        "desvios_proibidos": [
+          "não tenho uma definição"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "DNA"
+        ],
+        "referentes": [
+          "DNA"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "real-25",
+      "origem": {
+        "sessao": "08_acervo",
+        "turno": 4,
+        "sha256": "500ceb9194a6bba3708be8602c494256e2412c52c02e42b9cef9ad136442b26e"
+      },
+      "entrada": {
+        "texto": "Mudando de assunto: quem foi Moisés?",
+        "anteriores": [
+          "O que é DNA?",
+          "Me explica DNA em três tópicos, para uma criança de dez anos."
+        ]
+      },
+      "usuario_queria": "Mudar explicitamente de tema para pergunta factual bíblica",
+      "crivo_fez": {
+        "id": "conversa:abertura",
+        "resposta": "Você trouxe esta ideia: “Mudando de assunto: quem foi Moisés”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "consultar",
+        "referentes": [
+          "Moisés"
+        ],
+        "conteudo_minimo": [
+          "Moisés"
+        ],
+        "desvios_proibidos": [
+          "ideia",
+          "vontade",
+          "próximo passo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "Moisés"
+        ],
+        "referentes": [
+          "Moisés"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-01",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-01",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Nunca usei você. O que consegue fazer?",
+        "anteriores": []
+      },
+      "usuario_queria": "capacidades na peça esclarecimento",
+      "crivo_fez": {
+        "id": "duvida",
+        "resposta": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "negação com segurança"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "posso"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-02",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-02",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo gosta?",
+        "anteriores": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Zaurélio"
+        ],
+        "conteudo_minimo": [
+          "kiwi"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "kiwi"
+        ],
+        "referentes": [
+          "Zaurélio"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-03",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-03",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo gosta agora?",
+        "anteriores": [
+          "Meu primo Zaurélio gosta de kiwi e não gosta de leite.",
+          "Ele mudou de ideia: agora gosta de manga."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Zaurélio"
+        ],
+        "conteudo_minimo": [
+          "manga"
+        ],
+        "desvios_proibidos": [
+          "kiwi",
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "manga"
+        ],
+        "referentes": [
+          "Zaurélio"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-04",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-04",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Em que pode me ajudar?",
+        "anteriores": []
+      },
+      "usuario_queria": "capacidades na peça esclarecimento",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "hum, não entendi"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "posso"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-06",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-06",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que ela não gosta?",
+        "anteriores": [
+          "Minha amiga Nerúbia prefere chá de hibisco."
+        ]
+      },
+      "usuario_queria": "consultar_negacao na peça memoria",
+      "crivo_fez": {
+        "id": "conversa:memoria_sessao",
+        "resposta": "Segundo o que você contou, Nerúbia prefere chá de hibisco."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar_negacao",
+        "referentes": [
+          "Nerúbia"
+        ],
+        "conteudo_minimo": [
+          "não",
+          "informou"
+        ],
+        "desvios_proibidos": [
+          "Nerúbia prefere chá de hibisco"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "não",
+          "informou"
+        ],
+        "referentes": [
+          "Nerúbia"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-07",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-07",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que meu primo prefere?",
+        "anteriores": [
+          "Meu primo Talveno prefere chá. Meu primo Orestino prefere café."
+        ]
+      },
+      "usuario_queria": "referente na peça esclarecimento",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Reconheci o assunto número primo, mas não tenho evidência cadastrada para essa pergunta completa."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "referente",
+        "referentes": [
+          "Talveno",
+          "Orestino"
+        ],
+        "conteudo_minimo": [
+          "pessoa"
+        ],
+        "desvios_proibidos": [
+          "número primo"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "pessoa"
+        ],
+        "referentes": [
+          "Talveno",
+          "Orestino"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-08",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-08",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que Véspera gosta?",
+        "anteriores": [
+          "Minha prima Véspera gosta de goiaba.",
+          "Ela não gosta mais de goiaba. Agora ela gosta de pêssego."
+        ]
+      },
+      "usuario_queria": "consultar na peça memoria",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Véspera"
+        ],
+        "conteudo_minimo": [
+          "pêssego"
+        ],
+        "desvios_proibidos": [
+          "goiaba",
+          "hum, não entendi"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "pêssego"
+        ],
+        "referentes": [
+          "Véspera"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-11",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-11",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Agora me diga a cor de Marte.",
+        "anteriores": [
+          "Minha prima Véspera prefere goiaba."
+        ]
+      },
+      "usuario_queria": "consultar na peça fato",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Você contou: “Agora me diga a cor de Marte.”. Quer me contar mais sobre isso ou perguntar alguma coisa?"
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "consultar",
+        "referentes": [
+          "Marte"
+        ],
+        "conteudo_minimo": [
+          "avermelhada"
+        ],
+        "desvios_proibidos": [
+          "você contou",
+          "quer me contar"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "avermelhada"
+        ],
+        "referentes": [
+          "Marte"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-12",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-12",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "Desses 30 minutos, separa 5 para descanso.",
+        "anteriores": [
+          "Tenho 30 minutos para estudar italiano."
+        ]
+      },
+      "usuario_queria": "planejar na peça calculo",
+      "crivo_fez": {
+        "id": "conversa:relato",
+        "resposta": "Ah, entendi, desses 30 minutos separa 5 para descanso. E o que mais?"
+      },
+      "esperado": {
+        "peca": "calculo",
+        "ato": "planejar",
+        "referentes": [],
+        "conteudo_minimo": [
+          "30",
+          "25",
+          "5",
+          "descanso",
+          "minutos"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "refogue",
+          "ah, entendi"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "30",
+          "25",
+          "5",
+          "descanso",
+          "minutos"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos-15",
+      "origem": {
+        "arquivo": "site_antes.json",
+        "probe": "pos-15",
+        "sha256": "90136db4212f2f68ebb7ae070bbe0e7b731e1269bfa47b4b026b3c80e29362fb",
+        "commit": "ab157203cd559074b5319940fc6953b22a84bcc5"
+      },
+      "entrada": {
+        "texto": "O que você guardou sobre meu tio?",
+        "anteriores": [
+          "Meu tio Caldrino prefere suco de umbu."
+        ]
+      },
+      "usuario_queria": "resumir na peça memoria",
+      "crivo_fez": {
+        "id": "social:nao_entendido",
+        "resposta": "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "resumir",
+        "referentes": [
+          "Caldrino"
+        ],
+        "conteudo_minimo": [
+          "suco de umbu"
+        ],
+        "desvios_proibidos": [
+          "sobre mim",
+          "não tenho gostos",
+          "vida fora da conversa"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "suco de umbu"
+        ],
+        "referentes": [
+          "Caldrino"
+        ],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos125-so-isso",
+      "origem": {
+        "arquivo": "evidencias/so_isso_site.json",
+        "commit": "9ed051bf2b74668073e0ac480b43c652314b88e7"
+      },
+      "entrada": {
+        "texto": "Só isso?",
+        "anteriores": [
+          "Nunca usei você. O que consegue fazer?"
+        ]
+      },
+      "usuario_queria": "Retomar capacidades",
+      "crivo_fez": {
+        "id": "social:assuntos",
+        "resposta": "Posso explicar conceitos presentes na base; entender variações de pedidos, reformular explicações e retomar assuntos recentes; explorar situações que você contar com perguntas de continuidade; compor textos, resumos, tópicos e roteiros curtos com fatos cadastrados; consultar relações, combinar condições e mostrar as provas disponíveis; mostrar as fontes dos fatos usados quando elas estão cadastradas; consultar propriedades e classificações de frutas cadastradas; interpretar código JavaScript limitado, rastrear estados e testar correções com exemplos de entrada e saída; montar funções simples a partir desses exemplos.\n\nAssuntos desta instalação: animais; coisas de casa; clima; estações do ano; ciência e psicologia (cérebro, memória, sono, emoções, biologia e ambiente); plantas; programação (css, fundamentos, git, html, javascript, python, sql, web); sistema solar; tempo (horas, datas, calendário); alimentos (feijoada, arroz e feijão, cacau, chocolate, café, glúten, lactose, intolerância à lactose); ambiente (ciclo da água, evaporação, condensação, efeito estufa, biodiversidade, chuva ácida, reciclagem, coleta seletiva, resíduos sólidos, desmatamento, poluição); aprendizagem (mnemônica); artes (música, harmonia musical, ritmo e compasso, escala musical, orquestra sinfônica, samba, bossa nova, música popular brasileira, Tropicália, choro, Johann Sebastian Bach, Ludwig van Beethoven, impressionismo, cubismo, barroco, barroco mineiro, Aleijadinho, perspectiva linear, cinema, Cinema Novo, Oscar Niemeyer, teatro grego, fotografia, Carnaval, festa junina, Tom Jobim); astronomia (Andrômeda, galáxia, estrela, nebulosa, buraco negro, ano-luz, exoplaneta, Sistema Solar, Braço de Órion, gravidade, Grupo Local, migração planetária, instabilidade de fluxo, acreção de seixos, cadeia próton-próton, ciclo CNO, pressão de degenerescência, kilonova, processo s, meio circumgaláctico, retroalimentação galáctica, remoção de gás por pressão dinâmica, abundance matching, lente gravitacional, oscilação acústica bariônica, tensão de Hubble, distância cosmológica, covariância, impactador cinético, sismologia planetária, Big Bang, luas galileanas, Telescópio Espacial James Webb, Plutão, maré, constelação, universo, energia solar, planeta, satélite natural, asteroide, meteoroide, meteorito, cinturão de kuiper, nuvem de oort, unidade astronômica, órbita, disco protoplanetário, acréscimo planetário, protoestrela, planetesimal, diferenciação planetária, zona habitável, fusão estelar, evolução estelar, Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano, Netuno, gigante gasoso, gigante de gelo, disco disperso, nebulosa solar, paralaxe, parsec, espectroscopia, desvio para o vermelho, efeito Doppler, espectro eletromagnético, telescópio espacial, trânsito planetário, velocidade radial, microlente gravitacional, imagem direta de exoplaneta, sequência principal, gigante vermelha, anã branca, estrela de nêutrons, pulsar, horizonte de eventos, supernova, nebulosa planetária, meio interestelar, aglomerado aberto, aglomerado globular, galáxia espiral, galáxia elíptica, galáxia irregular, matéria escura, energia escura, radiação cósmica de fundo, nucleossíntese primordial, lei de Hubble-Lemaître, inclinação orbital, excentricidade orbital, ressonância orbital, limite de Roche, esfera de Hill, ponto de Lagrange, leis de Kepler, gravitação newtoniana, velocidade de escape, massa estelar, Lua da Terra, Europa, Titã, Encélado); biblia (Bíblia, Tradução do Novo Mundo, Jeová, criação bíblica, Gênesis, primeiros humanos na Bíblia, jardim do Éden, casamento no relato bíblico, Noé, Abraão, Moisés, Dez Mandamentos, Salmo 23, Jesus Cristo, João 3:16, vida eterna na Bíblia, Reino de Deus, oração bíblica, perdão na Bíblia, amor ao próximo, bom samaritano, Marta e Maria, Sermão do Monte, pacificadores na Bíblia, amor aos inimigos, ressurreição de Jesus, batismo cristão, amor na Bíblia, fruto do espírito, confiança em Jeová, inspiração da Bíblia, morte em Eclesiastes, esperança em Apocalipse); biologia (DNA, RNA, gene, cromossomo, bactéria, vírus, ser humano, célula, membrana celular, ribossomo, proteína, clorofila, fotossíntese, ecolocalização, adesão da lagartixa, evolução biológica, seleção natural, deriva genética, fluxo gênico, especiação, conceito biológico de espécie, filogenia, homeostase, dogma central da biologia molecular, replicação do DNA, transcrição gênica, tradução gênica, código genético, mutação genética, alelo, genótipo, leis de Mendel, dominância genética, herança ligada ao sexo, epigenética, ciclo celular, mitose, meiose, apoptose, célula procarionte, célula eucarionte, mitocôndria, teoria endossimbiótica, ATP, respiração celular, glicólise, ciclo de Krebs, cadeia transportadora de elétrons, fermentação, enzima, imunidade inata, imunidade adaptativa, anticorpo, microbioma, potencial de ação, hormônio, célula-tronco, CRISPR, ecossistema, nicho ecológico, teia alimentar, sucessão ecológica, ciclo do carbono, ciclo do nitrogênio, crescimento populacional); computação (internet, API, aprendizado de máquina, árvore binária, rede neural, inteligência artificial, banco de dados, navegador, servidor, sistema binário, processador, memória RAM, sistema operacional, protocolo TCP/IP, endereço IP, DNS, criptografia, senha, autenticação em dois fatores, computação em nuvem, software livre, World Wide Web, phishing); direito (Estado de direito, direitos humanos, habeas corpus, Supremo Tribunal Federal, processo legislativo brasileiro, Código de Defesa do Consumidor, Poder Judiciário, título de eleitor, CLT, carteira de trabalho, 13º salário, férias trabalhistas, CPF, LGPD, Marco Civil da Internet); economia (economia, escassez, custo de oportunidade, preço de equilíbrio, inflação, PIB, juros, desigualdade de renda, mercado, taxa Selic, banco central, política monetária, política fiscal, tributo, desemprego, comércio internacional, taxa de câmbio, externalidade, capitalismo, socialismo, FGTS, INSS, aposentadoria, seguro-desemprego, salário mínimo, imposto de renda, Pix, cartão de crédito, rotativo do cartão de crédito, criptomoeda, Bitcoin); engenharia (transistor, circuito integrado, energia solar fotovoltaica, energia eólica, usina hidrelétrica, sustentação aerodinâmica, motor a combustão interna, carro elétrico, geladeira, barragem); esporte (futebol, Copa do Mundo FIFA, seleção brasileira de futebol, Campeonato Brasileiro de futebol, Jogos Olímpicos, Jogos Paralímpicos, Jogos Pan-Americanos, voleibol, basquete, tênis, Fórmula 1, natação, atletismo, maratona, ginástica artística, judô, surfe, skate, capoeira, xadrez); estatistica (medidas de tendência central, desvio padrão, amostragem estatística, correlação e causalidade, distribuição normal, intervalo de confiança); filosofia (filosofia, metafísica, epistemologia, conhecimento como crença verdadeira justificada, problema de Gettier, racionalismo, empirismo, ceticismo filosófico, cogito, problema da indução, falseabilidade, paradigma científico, navalha de Ockham, lógica dedutiva, silogismo, falácia, teoria das formas, alegoria da caverna, hilemorfismo, problema mente-corpo, dualismo cartesiano, fisicalismo, funcionalismo na filosofia da mente, problema difícil da consciência, argumento do quarto chinês, livre-arbítrio, determinismo, compatibilismo, ética, utilitarismo, consequencialismo, deontologia, imperativo categórico, ética das virtudes, contrato social, véu da ignorância, dilema do bonde, metaética, existencialismo, absurdo, fenomenologia, idealismo transcendental, dialética, estoicismo, epicurismo, niilismo, pragmatismo, jogos de linguagem, problema dos universais, estética); fisica (leis de Newton, inércia, referencial inercial, momento linear, impulso, colisão mecânica, trabalho mecânico, energia cinética, energia potencial, conservação da energia, força conservativa, atrito, torque, momento de inércia, momento angular, movimento harmônico simples, ressonância, onda mecânica, interferência de ondas, difração, lei zero da termodinâmica, primeira lei da termodinâmica, segunda lei da termodinâmica, entropia, ciclo de Carnot, gás ideal, lei de Coulomb, campo elétrico, potencial elétrico, lei de Ohm, indução eletromagnética, força de Lorentz, equações de Maxwell, onda eletromagnética, efeito fotoelétrico, fóton, dualidade onda-partícula, princípio da incerteza, função de onda, equação de Schrödinger, tunelamento quântico, spin, princípio de exclusão de Pauli, relatividade restrita, dilatação do tempo, contração do comprimento, equivalência massa-energia, relatividade geral, espaço-tempo, ondas gravitacionais, decaimento radioativo, fissão nuclear, fusão nuclear, modelo padrão, interações fundamentais, quark, bóson de Higgs, neutrino, supercondutividade, velocidade da luz, luz, som, eletricidade, corrente elétrica, magnetismo, temperatura, calor, energia na física, pressão atmosférica, densidade, céu azul, arco-íris, reflexão da luz, refração da luz, condutores e isolantes, eletricidade estática); física (vácuo); geografia (geografia, continente, oceano, placas tectônicas, terremoto, vulcão, relevo, bioma, floresta tropical, deserto, Amazônia, Cerrado, Mata Atlântica, Caatinga, Pantanal, Pampa, Brasil, regiões do Brasil, bacia hidrográfica, tipos de clima, latitude e longitude, população mundial, rio Nilo, monte Everest, urbanização no Brasil, Argentina, Bolívia, Chile, Colômbia, Equador, Guiana, Paraguai, Peru, Suriname, Uruguai, Venezuela, Estados Unidos, Canadá, México, Cuba, Portugal, Espanha, França, Itália, Alemanha, Reino Unido, Países Baixos, Suíça, Grécia, Rússia, Ucrânia, Turquia, China, Japão, Coreia do Sul, Índia, Indonésia, Israel, Irã, Arábia Saudita, Egito, África do Sul, Nigéria, Angola, Moçambique, Marrocos, Austrália, Nova Zelândia, região Norte, região Nordeste, região Centro-Oeste, região Sudeste, região Sul, Acre, Amapá, Amazonas, estado do Pará, estado de Rondônia, estado de Roraima, Tocantins, Maranhão, Piauí, Ceará, Rio Grande do Norte, Paraíba, estado de Pernambuco, estado de Alagoas, estado de Sergipe, Bahia, estado de Goiás, Mato Grosso, Mato Grosso do Sul, Distrito Federal, estado de São Paulo, estado do Rio de Janeiro, estado de Minas Gerais, estado do Espírito Santo, Paraná, estado de Santa Catarina, Rio Grande do Sul); historia (historiografia, Pré-História, Revolução Neolítica, Mesopotâmia, Egito Antigo, Grécia Antiga, democracia ateniense, Roma Antiga, China imperial, Rota da Seda, Idade Média, feudalismo, expansão islâmica, Império Mongol, Peste Negra, Renascimento, Reforma Protestante, Grandes Navegações, intercâmbio colombiano, tráfico atlântico de escravizados, Revolução Científica, Iluminismo, Revolução Francesa, independência dos Estados Unidos, Revolução Haitiana, Revolução Industrial, imperialismo, Primeira Guerra Mundial, Revolução Russa, Grande Depressão, Segunda Guerra Mundial, Holocausto, Guerra Fria, descolonização, Organização das Nações Unidas, povos indígenas do Brasil, Brasil Colônia, Quilombo dos Palmares, independência do Brasil, abolição da escravidão no Brasil, Proclamação da República, Era Vargas, ditadura militar no Brasil, Constituição de 1988, chegada dos portugueses ao Brasil, Inconfidência Mineira, Revolução Farroupilha, Guerra do Paraguai, Guerra de Canudos, construção de Brasília, Diretas Já, Plano Real, Cruzadas, queda de Constantinopla, chegada de Colombo à América, Guerra Civil Americana, nazismo, bombardeios de Hiroshima e Nagasaki, Revolução Cubana, Guerra do Vietnã, corrida espacial, Apollo 11, queda do Muro de Berlim, ataques de 11 de setembro de 2001); linguistica (aquisição da linguagem, fonema, variação linguística, gramática gerativa, origem da língua portuguesa, alfabeto da língua portuguesa); literatura (narrativa, enredo, personagem, narrador, conflito narrativo, jornada do herói, gênero literário, romance, conto, crônica, poesia, metáfora, mito, mitologia grega, Epopeia de Gilgamesh, Ilíada e Odisseia, Mil e Uma Noites, contos de fadas, folclore brasileiro, literatura de cordel, Dom Casmurro, Memórias Póstumas de Brás Cubas, modernismo brasileiro, Grande Sertão: Veredas, Dom Quixote, Hamlet, Os Lusíadas, Luís de Camões, Carlos Drummond de Andrade, Cecília Meireles, Jorge Amado, Monteiro Lobato); matematica (matemática, número primo, fração, porcentagem, teorema de Pitágoras, número pi, equação, função matemática, probabilidade, estatística, logaritmo, área de figuras planas, derivada, integral, sequência de Fibonacci, conjuntos numéricos, limite matemático, razão áurea, trigonometria); neurociencia (cérebro, neurônio, sinapse, neurotransmissor, córtex cerebral, hipocampo, memória, memória declarativa, memória procedural, neuroplasticidade, dopamina, córtex pré-frontal, amígdala cerebral, cerebelo, afasia); pessoas (Sócrates, Platão, Aristóteles, Confúcio, Siddhartha Gautama, Alexandre Magno, Júlio César, Leonardo da Vinci, Michelangelo, Galileu Galilei, Isaac Newton, Charles Darwin, Gregor Mendel, Marie Curie, Albert Einstein, Ada Lovelace, Alan Turing, Mahatma Gandhi, Nelson Mandela, Martin Luther King Jr., Malala Yousafzai, Zumbi dos Palmares, Tiradentes, D. Pedro II, Princesa Isabel, Luiz Gama, Santos Dumont, Oswaldo Cruz, Carlos Chagas, Chico Mendes, Machado de Assis, Clarice Lispector, Carolina Maria de Jesus, William Shakespeare, Miguel de Cervantes, Frida Kahlo, Tarsila do Amaral, Heitor Villa-Lobos, Edson Arantes do Nascimento, Garrincha, Ayrton Senna, Marta Vieira da Silva, Usain Bolt, Michael Jordan, Diego Maradona, Oscar Schmidt, Gustavo Kuerten, Pedro Álvares Cabral, D. Pedro I, Getúlio Vargas, Juscelino Kubitschek, Joana d'Arc, Martinho Lutero, Cristóvão Colombo, Napoleão Bonaparte, Simón Bolívar, Abraham Lincoln, Vladimir Lenin, Josef Stalin, Adolf Hitler, Winston Churchill, Fidel Castro, Yuri Gagarin, Neil Armstrong); politica (democracia, separação dos poderes, sistema eleitoral brasileiro, federalismo, cidadania, Poder Executivo, Poder Legislativo, presidente da República, deputado federal, senador, vereador, prefeito, governador); psicologia (ansiedade, transtorno de ansiedade, ataque de pânico, ansiedade social, estresse, depressão, tristeza, apoio emocional, luto, procrastinação, efeito placebo, emoção, condicionamento clássico, condicionamento operante, viés de confirmação, dissonância cognitiva, obediência à autoridade, inteligência e testes de QI, motivação intrínseca e extrínseca, atenção, desenvolvimento cognitivo segundo Piaget, zona de desenvolvimento proximal, inteligência emocional); quimica (química, átomo, elemento químico, tabela periódica, molécula, ligação química, reação química, pH, estados da matéria, mol, química orgânica, modelos atômicos, massa molar, oxidação e redução, carbono, polímeros e plásticos, soluções e concentração, isótopo, catalisador, água, ponto de ebulição, ponto de fusão, oxigênio, gás carbônico, ferrugem, combustão, sal de cozinha, metais, vidro, petróleo, hidrogênio, nitrogênio); saude (sono, sono REM, sono não REM, privação de sono, ritmo circadiano, melatonina, sistema circulatório, coração, pressão arterial, sangue, tipo sanguíneo, sistema respiratório, sistema digestório, fígado, rim, diabetes, sistema nervoso periférico, esqueleto, músculo, pele, vacina, antibiótico, infecção viral, febre, inflamação, nutrientes, vitamina, atividade física, Sistema Único de Saúde, epidemia, câncer, gripe, resfriado comum, COVID-19, acidente vascular cerebral, infarto agudo do miocárdio, colesterol, obesidade, sistema imunológico, hidratação, desidratação, asma, alergia, anemia, osteoporose, doença de Alzheimer, enxaqueca, aids, sarampo, hepatite, tuberculose, catapora, dengue, zika, chikungunya, pneumonia, alimentação saudável, saúde bucal, cárie); sociologia (sociologia, imaginação sociológica, fato social, anomia, solidariedade social, ação social, tipos de dominação, burocracia, ética protestante, luta de classes, alienação, materialismo histórico, funcionalismo estrutural, teoria do conflito, interacionismo simbólico, socialização, papel social, norma social, desvio social, controle social, estratificação social, mobilidade social, capital cultural, habitus, hegemonia, poder disciplinar, construção social da realidade, abordagem dramatúrgica, estigma, cultura, etnocentrismo, relativismo cultural, instituição social, globalização, modernidade líquida, sociedade de risco, sociedade em rede, profecia autorrealizável, interseccionalidade, racismo estrutural, gênero como construção social, transição demográfica, urbanização, movimento social, capital social, divisão social do trabalho, métodos de pesquisa em sociologia, Natal, Páscoa, racismo, preconceito); tecnologia (biomimética, lei de Moore, bateria de íon-lítio, GPS, impressão 3D, malware, ransomware, backup, engenharia social, golpe do Pix, aplicativo, rede social).\n\nExperimente pedir um texto sobre um conceito conhecido e depois 'fale com outras palavras', 'em tópicos' ou 'continue'. Você também pode pedir 'retome' seguido do assunto para voltar à memória recente. Minha escrita factual é limitada aos fatos disponíveis; não controlo aplicativos nem pesquiso a internet durante a conversa."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "capacidades",
+        "referentes": [],
+        "conteudo_minimo": [
+          "posso"
+        ],
+        "desvios_proibidos": [
+          "negação com segurança"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "dialogo_historia_capacidades"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "posso"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos125-definicao",
+      "origem": {
+        "arquivo": "evidencias/definicao_comparacao_site.json",
+        "commit": "9ed051bf2b74668073e0ac480b43c652314b88e7"
+      },
+      "entrada": {
+        "texto": "O que é diferença de potencial?",
+        "anteriores": [
+          "O que é potencial elétrico?"
+        ]
+      },
+      "usuario_queria": "Definição do alias completo",
+      "crivo_fez": {
+        "id": "conhecimento:mundo_potencial_eletrico",
+        "resposta": "Potencial elétrico é a energia potencial elétrica por unidade de carga em um ponto. A diferença de potencial entre dois pontos, medida em volts, é o que impulsiona a corrente num circuito. Se quiser, explico como funciona o potencial elétrico."
+      },
+      "esperado": {
+        "peca": "fato",
+        "ato": "definir",
+        "referentes": [],
+        "conteudo_minimo": [
+          "potencial elétrico"
+        ],
+        "desvios_proibidos": [
+          "Pode esclarecer"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente"
+      ],
+      "resposta_minima_aceitavel": {
+        "termos": [
+          "potencial elétrico"
+        ],
+        "referentes": [],
+        "parafrase_permitida": true,
+        "exige_historia": false
+      }
+    },
+    {
+      "id": "pos127-01",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "conversa_desenho",
+        "turno": 5
+      },
+      "entrada": {
+        "texto": "Voltei. O que estávamos fazendo?",
+        "anteriores": [
+          "Quero aprender a desenhar, mas só tenho um caderno.",
+          "Quero desenhar uma mariposa jardineira.",
+          "Como eu começo?",
+          "Vou descansar um pouco."
+        ]
+      },
+      "usuario_queria": "Preservar tarefa de desenho, caderno e mariposa jardineira; sem desvio para receita ou fatos alheios.",
+      "crivo_fez": {
+        "id": "duvida",
+        "resposta": "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?"
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "retomar",
+        "referentes": [
+          "mariposa jardineira",
+          "caderno"
+        ],
+        "conteudo_minimo": [
+          "mariposa jardineira",
+          "caderno"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": false,
+        "frases": 5
+      }
+    },
+    {
+      "id": "pos127-02",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "pronome_ambiguo",
+        "turno": 3
+      },
+      "entrada": {
+        "texto": "Quero saber de Dorlécio.",
+        "anteriores": [
+          "Meu primo Dorlécio gosta de guabiroba. Meu primo Elvrino gosta de araçá.",
+          "O que ele gosta?"
+        ]
+      },
+      "usuario_queria": "Esclarecer pronome ambíguo, não trocar os dois gostos nem o domínio de pessoa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança."
+      },
+      "esperado": {
+        "peca": "memoria",
+        "ato": "consultar",
+        "referentes": [
+          "Dorlécio"
+        ],
+        "conteudo_minimo": [
+          "Dorlécio",
+          "guabiroba"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": false,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos127-03",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "historia_restricoes",
+        "turno": 3
+      },
+      "entrada": {
+        "texto": "Agora muda o final: ela encontra um amigo.",
+        "anteriores": [
+          "Escreva uma história curta com uma coruja engenheira e um jardim suspenso.",
+          "Continue a história."
+        ]
+      },
+      "usuario_queria": "Preservar coruja e jardim e instruções de estilo/contagem; esclarecer limite em vez de trocar personagem.",
+      "crivo_fez": {
+        "id": "conversa:esclarecer",
+        "resposta": "Não consegui executar esse pedido com os dados atuais. Pode esclarecer a tarefa sobre uma coruja engenheira, um jardim suspenso, Juntos, descobriram que a resposta estava no que haviam deixado para trás., um amigo?"
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "coruja engenheira",
+          "jardim suspenso"
+        ],
+        "conteudo_minimo": [
+          "coruja engenheira",
+          "jardim suspenso",
+          "um amigo"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos127-04",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "historia_restricoes",
+        "turno": 4
+      },
+      "entrada": {
+        "texto": "Não invente um nome para a personagem.",
+        "anteriores": [
+          "Escreva uma história curta com uma coruja engenheira e um jardim suspenso.",
+          "Continue a história.",
+          "Agora muda o final: ela encontra um amigo."
+        ]
+      },
+      "usuario_queria": "Preservar coruja e jardim e instruções de estilo/contagem; esclarecer limite em vez de trocar personagem.",
+      "crivo_fez": {
+        "id": "conversa:cancelamento",
+        "resposta": "Pedido de escrita cancelado."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "restricao",
+        "referentes": [
+          "coruja engenheira",
+          "jardim suspenso"
+        ],
+        "conteudo_minimo": [
+          "coruja engenheira",
+          "jardim suspenso",
+          "nome"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": false,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos127-05",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "historia_restricoes",
+        "turno": 5
+      },
+      "entrada": {
+        "texto": "Escreva a história em 5 frases.",
+        "anteriores": [
+          "Escreva uma história curta com uma coruja engenheira e um jardim suspenso.",
+          "Continue a história.",
+          "Agora muda o final: ela encontra um amigo.",
+          "Não invente um nome para a personagem."
+        ]
+      },
+      "usuario_queria": "Preservar coruja e jardim e instruções de estilo/contagem; esclarecer limite em vez de trocar personagem.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "coruja engenheira",
+          "jardim suspenso"
+        ],
+        "conteudo_minimo": [
+          "coruja engenheira",
+          "jardim suspenso"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": 5
+      }
+    },
+    {
+      "id": "pos127-06",
+      "origem": {
+        "arquivo": "evidencias/site_127.json",
+        "commit": "044ed446afd1c9b66c3b1ddd11b087c5c5a23658",
+        "sessao": "historia_restricoes",
+        "turno": 6
+      },
+      "entrada": {
+        "texto": "Você escreveu essa história ou pegou de outro lugar?",
+        "anteriores": [
+          "Escreva uma história curta com uma coruja engenheira e um jardim suspenso.",
+          "Continue a história.",
+          "Agora muda o final: ela encontra um amigo.",
+          "Não invente um nome para a personagem.",
+          "Escreva a história em 5 frases."
+        ]
+      },
+      "usuario_queria": "Preservar coruja e jardim e instruções de estilo/contagem; esclarecer limite em vez de trocar personagem.",
+      "crivo_fez": {
+        "id": "conversa:esclarecer",
+        "resposta": "Não tenho uma história gerada ativa para identificar a autoria. Qual texto você quer verificar?"
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "autoria",
+        "referentes": [
+          "coruja engenheira",
+          "jardim suspenso"
+        ],
+        "conteudo_minimo": [
+          "coruja engenheira",
+          "jardim suspenso",
+          "gerador próprio"
+        ],
+        "desvios_proibidos": [
+          "arroz",
+          "número primo",
+          "Pedido de escrita cancelado"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "falha_publica_127"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": false,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-1",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 1,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Conte uma história sobre uma lontra relojoeira.",
+        "anteriores": []
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_historia",
+        "resposta": "Ficção: A história de uma lontra relojoeira começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "lontra relojoeira"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-2",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 2,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue a história.",
+        "anteriores": [
+          "Conte uma história sobre uma lontra relojoeira."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_continuacao",
+        "resposta": "Ficção: uma lontra relojoeira continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "lontra relojoeira"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-3",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 3,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Mude o final: ela encontra uma amiga.",
+        "anteriores": [
+          "Conte uma história sobre uma lontra relojoeira.",
+          "Continue a história."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_final",
+        "resposta": "Ficção:\numa lontra relojoeira decidiu voltar com uma amiga. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-4",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 4,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue depois desse final.",
+        "anteriores": [
+          "Conte uma história sobre uma lontra relojoeira.",
+          "Continue a história.",
+          "Mude o final: ela encontra uma amiga."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-5",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 5,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue a história mais uma vez.",
+        "anteriores": [
+          "Conte uma história sobre uma lontra relojoeira.",
+          "Continue a história.",
+          "Mude o final: ela encontra uma amiga.",
+          "Continue depois desse final."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_sem_cenario-6",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_sem_cenario",
+        "turno": 6,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Reescreva essa história em cinco frases.",
+        "anteriores": [
+          "Conte uma história sobre uma lontra relojoeira.",
+          "Continue a história.",
+          "Mude o final: ela encontra uma amiga.",
+          "Continue depois desse final.",
+          "Continue a história mais uma vez."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "conteudo_minimo": [
+          "lontra relojoeira",
+          "uma amiga"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": 5
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-1",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 1,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Conte uma história sobre um esquilo pintor em uma torre distante.",
+        "anteriores": []
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_historia",
+        "resposta": "Ficção: A história de um esquilo pintor em uma torre distante começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-2",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 2,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue a história.",
+        "anteriores": [
+          "Conte uma história sobre um esquilo pintor em uma torre distante."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_continuacao",
+        "resposta": "Ficção: um esquilo pintor em uma torre distante continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-3",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 3,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Mude o final: ele encontra um parceiro.",
+        "anteriores": [
+          "Conte uma história sobre um esquilo pintor em uma torre distante.",
+          "Continue a história."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_final",
+        "resposta": "Ficção:\num esquilo pintor em uma torre distante decidiu voltar com um parceiro. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-4",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 4,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue depois desse final.",
+        "anteriores": [
+          "Conte uma história sobre um esquilo pintor em uma torre distante.",
+          "Continue a história.",
+          "Mude o final: ele encontra um parceiro."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-5",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 5,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue a história mais uma vez.",
+        "anteriores": [
+          "Conte uma história sobre um esquilo pintor em uma torre distante.",
+          "Continue a história.",
+          "Mude o final: ele encontra um parceiro.",
+          "Continue depois desse final."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-amigo_com_cenario-6",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "amigo_com_cenario",
+        "turno": 6,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Reescreva essa história em cinco frases.",
+        "anteriores": [
+          "Conte uma história sobre um esquilo pintor em uma torre distante.",
+          "Continue a história.",
+          "Mude o final: ele encontra um parceiro.",
+          "Continue depois desse final.",
+          "Continue a história mais uma vez."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "conteudo_minimo": [
+          "esquilo pintor",
+          "torre distante",
+          "um parceiro"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": 5
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-1",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 1,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Conte uma aventura sobre uma raposa navegadora.",
+        "anteriores": []
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "raposa navegadora"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-2",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 2,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Quero uma história com essa personagem.",
+        "anteriores": [
+          "Conte uma aventura sobre uma raposa navegadora."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_historia",
+        "resposta": "Ficção: A história de essa personagem começou com uma viagem. Um vento forte espalhou o mapa. A personagem recolheu os pedaços. Depois colocou tudo em ordem. O caminho ficou claro."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "historia",
+        "referentes": [
+          "raposa navegadora"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-3",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 3,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue a história.",
+        "anteriores": [
+          "Conte uma aventura sobre uma raposa navegadora.",
+          "Quero uma história com essa personagem."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_continuacao",
+        "resposta": "Ficção: essa personagem continuou a viagem. A trilha parecia diferente. A personagem comparou os caminhos. Uma marca no chão mostrou a direção."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "raposa navegadora"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-4",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 4,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Mude o final: ela encontra uma companheira.",
+        "anteriores": [
+          "Conte uma aventura sobre uma raposa navegadora.",
+          "Quero uma história com essa personagem.",
+          "Continue a história."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:gerada_final",
+        "resposta": "Ficção:\nessa personagem decidiu voltar com uma companheira. A surpresa era simples: o caminho que procuravam estava sendo construído enquanto caminhavam."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "corrigir",
+        "referentes": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-5",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 5,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Continue depois desse final.",
+        "anteriores": [
+          "Conte uma aventura sobre uma raposa navegadora.",
+          "Quero uma história com essa personagem.",
+          "Continue a história.",
+          "Mude o final: ela encontra uma companheira."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "fora",
+        "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'."
+      },
+      "esperado": {
+        "peca": "escrita",
+        "ato": "continuar",
+        "referentes": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": true,
+        "frases": null
+      }
+    },
+    {
+      "id": "pos128-aventura_natural-6",
+      "origem": {
+        "arquivo": "baseline_motor.json",
+        "commit": "3e8eed593288af6be17c83d11aeae5d14d1e598e",
+        "sessao": "aventura_natural",
+        "turno": 6,
+        "autor": "sonda do agente realmente executada"
+      },
+      "entrada": {
+        "texto": "Não invente um nome para a personagem.",
+        "anteriores": [
+          "Conte uma aventura sobre uma raposa navegadora.",
+          "Quero uma história com essa personagem.",
+          "Continue a história.",
+          "Mude o final: ela encontra uma companheira.",
+          "Continue depois desse final."
+        ]
+      },
+      "usuario_queria": "Entregar a escrita pedida e preservar personagem, cenário e companhia; restrição não cancela a tarefa.",
+      "crivo_fez": {
+        "id": "conversa:cancelamento",
+        "resposta": "Pedido de escrita cancelado."
+      },
+      "esperado": {
+        "peca": "esclarecimento",
+        "ato": "restricao",
+        "referentes": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "conteudo_minimo": [
+          "raposa navegadora",
+          "uma companheira"
+        ],
+        "desvios_proibidos": [
+          "número primo",
+          "Pedido de escrita cancelado",
+          "em uma amiga",
+          "em um parceiro",
+          "em uma companheira"
+        ]
+      },
+      "grupos": [
+        "roteamento",
+        "tarefa_referente",
+        "sonda_publica_128"
+      ],
+      "resposta_minima_aceitavel": {
+        "parafrase_permitida": true,
+        "exige_historia": false,
+        "frases": null
+      }
+    }
+  ]
+}
