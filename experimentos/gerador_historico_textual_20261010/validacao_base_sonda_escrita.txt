@@ -1,0 +1,33 @@
+test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) ... 
+  test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='história e mudança') ... FAIL
+  test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='argumentos inéditos') ... FAIL
+  test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='esquecimento e fatos') ... FAIL
+
+======================================================================
+FAIL: test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='história e mudança')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-base-auditoria-geracao-20261010/testes_geracao.py", line 37, in test_sonda_completa_de_escrita_e_reparo
+    self.assertTrue(c["passou"],[t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Invente uma história curta sobre um farol e um robô', 'id': 'conversa:gerada_historia', 'resposta': 'Ficção:\nNum lugar distante, um farol recebeu uma mensagem sem assinatura. Então um robô trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.', 'passou': False, 'falhas': ['geração concluída']}]
+
+======================================================================
+FAIL: test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='argumentos inéditos')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-base-auditoria-geracao-20261010/testes_geracao.py", line 37, in test_sonda_completa_de_escrita_e_reparo
+    self.assertTrue(c["passou"],[t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Imagine uma narrativa breve sobre Névia-27 e um relógio de água', 'id': 'conversa:gerada_historia', 'resposta': 'Ficção:\nNum lugar distante, Névia-27 recebeu uma mensagem sem assinatura. Então um relógio de água trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.', 'passou': False, 'falhas': ['geração concluída']}, {'pergunta': 'Escreva uma história simples sobre uma constelação de papel', 'id': 'conversa:gerada_historia', 'resposta': 'Ficção: A história de uma constelação de papel começou com uma viagem. Uma chuva começou durante a viagem. A personagem procurou abrigo. Esperou a chuva passar. Depois retomou o caminho.', 'passou': False, 'falhas': ['geração concluída']}]
+
+======================================================================
+FAIL: test_sonda_completa_de_escrita_e_reparo (testes_geracao.TestesGeracao.test_sonda_completa_de_escrita_e_reparo) (caso='esquecimento e fatos')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/CRIVO-base-auditoria-geracao-20261010/testes_geracao.py", line 37, in test_sonda_completa_de_escrita_e_reparo
+    self.assertTrue(c["passou"],[t for t in c["turnos"] if not t["passou"]])
+AssertionError: False is not true : [{'pergunta': 'Conte uma história sobre um sino e uma cidade flutuante', 'id': 'conversa:gerada_historia', 'resposta': 'Ficção:\nNum lugar distante, um sino recebeu uma mensagem sem assinatura. Então uma cidade flutuante trouxe uma ideia diferente. Juntos, descobriram que a resposta estava no que haviam deixado para trás.', 'passou': False, 'falhas': ['geração concluída']}]
+
+----------------------------------------------------------------------
+Ran 1 test in 23.401s
+
+FAILED (failures=3)
