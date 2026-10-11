@@ -1,0 +1,110 @@
+name: Escola Transformer 17M - Generalizacao V7
+
+on:
+  pull_request:
+    paths:
+      - 'experimentos/escola_transformer_17m_generalizacao_v7_20261011/**'
+      - '.github/workflows/escola-transformer17m-generalizacao-v7.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: escola-transformer17m-generalizacao-v7-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  pre-validacao:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Provar que o treinador e a prova foram preservados
+        run: |
+          test "$(git hash-object experimentos/escola_transformer_17m_generalizacao_v7_20261011/treinar_bridge.py)" = "a5f14662c3d798c2f34ac3448932ced8189d2c0f"
+          python - <<'PY'
+          import hashlib, importlib.util, json
+          from pathlib import Path
+          p=Path('experimentos/escola_transformer_17m_generalizacao_v7_20261011')
+          man=json.loads((p/'manifesto_holdout.json').read_text(encoding='utf-8'))
+          pro=json.loads((p/'protocolo.json').read_text(encoding='utf-8'))
+          assert hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()==man['gerador_sha256']=='caf5051f9f0f4cfce363ed30da18f089ad31de567fb9a45d014a13e786fa2b4d'
+          spec=importlib.util.spec_from_file_location('hv7',p/'preparar_holdout.py'); h=importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+          xs=h.gerar(); por={op:sum(x['operacao']==op for x in xs) for op in h.OPERACOES}; rep=len(xs)-len({x['mensagem'] for x in xs})
+          var={op:{v:sum(x['operacao']==op and x['variante']==v for x in xs) for v in range(4)} for op in h.OPERACOES}
+          pacote={'versao':7,'semente':h.SEMENTE,'congelado_antes_do_treino':True,'auditoria':{'aprovado':True,'exemplos':120,'familias':len(h.FAMILIAS),'mensagens_exatas_repetidas':rep,'por_operacao':por,'variantes_por_operacao':var},'exemplos':xs}
+          sha=hashlib.sha256(json.dumps(pacote,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert sha==man['holdout_sha256_canonico']==pro['avaliacao']['holdout_sha256_canonico']=='f9e70623202a3b070458eca7391c0fe508199834af919d673be43aaac1f6809f'
+          assert len(xs)==120 and set(por.values())=={20} and rep==0 and all(set(v.values())=={5} for v in var.values())
+          assert pro['intervencao_unica']['tipo']=='diversidade_semantica_do_curriculo'
+          assert pro['intervencao_unica']['sem_cabeca_nova'] is True and pro['intervencao_unica']['sem_contrastivo_nesta_versao'] is True
+          PY
+      - name: Auditar diversidade e separação treino-prova
+        run: |
+          python - <<'PY'
+          import importlib.util
+          from collections import Counter
+          from pathlib import Path
+          p=Path('experimentos/escola_transformer_17m_generalizacao_v7_20261011')
+          def load(n,f):
+            s=importlib.util.spec_from_file_location(n,p/f); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+          c=load('cv7','curriculo_bridge.py'); h=load('hv7b','preparar_holdout.py')
+          tr=c.gerar_treino(); ho=h.gerar(); por=Counter(x['operacao'] for x in tr)
+          assert len(tr)==24576 and set(por.values())=={4096}
+          assert len({x['mensagem'] for x in tr})>=16000
+          assert not {x['mensagem'] for x in tr} & {x['mensagem'] for x in ho}
+          texto='\n'.join([x['mensagem'] for x in tr]+[z['texto'] for x in tr for z in x['historico']]).casefold()
+          for familia,*_ in h.FAMILIAS: assert familia.casefold() not in texto, familia
+          print('V7 treino/prova separados:',len(tr),len(ho),'mensagens distintas',len({x['mensagem'] for x in tr}))
+          PY
+          python -m py_compile \
+            experimentos/escola_transformer_17m_generalizacao_v7_20261011/curriculo_bridge.py \
+            experimentos/escola_transformer_17m_generalizacao_v7_20261011/treinar_bridge.py \
+            experimentos/escola_transformer_17m_generalizacao_v7_20261011/preparar_holdout.py \
+            experimentos/escola_transformer_17m_generalizacao_v7_20261011/executar_generalizacao_v7.py
+
+  treino-generalizacao-v7:
+    if: github.event_name == 'pull_request'
+    needs: pre-validacao
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar runtime do Transformer
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Recuperar checkpoint V1 exato
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-candidato
+          path: /tmp/escola17m-v1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38112043184
+      - name: Verificar origem V1
+        run: |
+          test "$(sha256sum /tmp/escola17m-v1/pesos.pt | cut -d' ' -f1)" = "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661"
+          test "$(sha256sum /tmp/escola17m-v1/tokenizer.json | cut -d' ' -f1)" = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+      - name: Treinar V7 com arquitetura V4 e currículo diverso
+        run: |
+          python experimentos/escola_transformer_17m_generalizacao_v7_20261011/executar_generalizacao_v7.py \
+            --entrada /tmp/escola17m-v1 --saida /tmp/escola17m-generalizacao-v7 --dispositivo cpu
+      - name: Publicar candidato V7 sem ativar chat
+        uses: actions/upload-artifact@v4
+        with:
+          name: escola-transformer-17m-generalizacao-v7
+          path: /tmp/escola17m-generalizacao-v7
+          retention-days: 7
+          if-no-files-found: error
