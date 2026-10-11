@@ -133,6 +133,20 @@ def achar_subseq(seq,alvo):
     return -1
 
 
+def achar_valor(t,fonte,valor):
+    """Localiza um slot respeitando o ByteLevel em início ou meio de frase.
+
+    O BPE pode codificar o primeiro token de ``Areno`` e de `` Areno`` de
+    maneiras diferentes (o segundo carrega o espaço inicial). O valor não
+    desapareceu do contexto; são apenas duas fronteiras lexicais válidas.
+    """
+    if not valor:
+        return -1
+    candidatos=(cod(t,valor),cod(t," "+valor))
+    encontrados=[achar_subseq(fonte,a) for a in candidatos if a]
+    return max(encontrados,default=-1)
+
+
 def preparar(t,ex,contexto):
     fim=t.token_to_id("<fim>")
     resp=cod(t,ex["resposta"])+[fim]
@@ -145,8 +159,7 @@ def preparar(t,ex,contexto):
     ptr={}
     for nome in SLOTS:
         valor=ex.get("slots",{}).get(nome,"")
-        alvo=cod(t,valor) if valor else []
-        p=achar_subseq(fonte,alvo)
+        p=achar_valor(t,fonte,valor)
         if p<0:
             raise ValueError(f"{ex['id']}: slot {nome}={valor!r} sumiu da fonte compactada")
         ptr[nome]=p
