@@ -1,5 +1,7 @@
 {
   "congelado_em_utc": "2026-10-11T00:23:30Z",
+  "ajuste_pre_treino_utc": "2026-10-11T00:27:00Z",
+  "ajuste_pre_treino": "A primeira auditoria sem treino ficou em NMI 0.430/0.537. Mantidos todos os limites; reduziu-se somente sessoes antigas 896->768 e aumentou-se fatoriais contrastivas 1790->1918, preservando 3699 exemplos. O holdout prospectivo foi preservado pelo SHA observado antes deste ajuste.",
   "base_commit": "e9c8fdc25164281da09f561cdcc48d96dc87e9aa",
   "objetivo": "Preservar a cobertura das sessoes antigas sem devolver o atalho familia+turno e reduzir atalhos lexicais entre atos de resposta.",
   "modelo": {"parametros": 81433, "vocabulario": 720},
@@ -18,8 +20,8 @@
   "composicao_treino": {
     "replay_legado": 999,
     "apoio_lexical": 14,
-    "sessoes_antigas_balanceadas": 896,
-    "fatoriais_contrastivas": 1790,
+    "sessoes_antigas_balanceadas": 768,
+    "fatoriais_contrastivas": 1918,
     "total": 3699
   },
   "validacao": {
@@ -33,6 +35,7 @@
     "contextos": 5,
     "preenchimentos_por_contexto": 4,
     "operacoes_por_episodio": 6,
+    "sha256_esperado": "b534c3d4c8c4b3181ceecc115bc8017289676426c69d9edf94b912e2430eea89",
     "nao_usar_para_selecao_de_epoca": true
   },
   "hiperparametros": {
