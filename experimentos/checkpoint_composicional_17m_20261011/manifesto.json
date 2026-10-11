@@ -1,0 +1,40 @@
+{
+  "nome": "transformer_composicional_17m_20261011",
+  "data": "2026-10-11",
+  "origem": "CRIVO 17,43M -> escola conceitual -> escola composicional",
+  "parametros": 17428224,
+  "passo": 5000,
+  "arquitetura": {
+    "vocabulario": 8192,
+    "dimensao": 384,
+    "camadas": 8,
+    "cabecas": 8,
+    "contexto": 256,
+    "dropout": 0.1
+  },
+  "pesos_sha256": "eed38d9b097ffb908874158c6309720db7c65b792de82c6aca7bf91f36d58ec7",
+  "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+  "pesos_externos": false,
+  "ativo_no_chat": false,
+  "promovido": false,
+  "ponte_v7_requer_revalidacao": true,
+  "integracao": {
+    "variante": "composicional_20261011",
+    "requer": [
+      "CRIVO_ENABLE_TRANSFORMER_17M=1",
+      "CRIVO_ENABLE_EXPERIMENTAL_COMPOSITIONAL_17M=1",
+      "CRIVO_TRANSFORMER_17M_VARIANT=composicional_20261011",
+      "CRIVO_TRANSFORMER_17M_DIR=<diretorio-local-do-checkpoint>"
+    ],
+    "descoberta_automatica": false
+  },
+  "avaliacao_colab": {
+    "holdout_reservado_total": 12,
+    "holdout_reservado_acertos_automaticos": 4,
+    "holdout_reservado_taxa_automatica": 0.3333333333333333,
+    "revisao_manual_acertos_claros": 3,
+    "revisao_manual_taxa_clara": 0.25,
+    "observacao": "O avaliador automatico aceitou ao menos uma resposta com sujeito incorreto; preservacao CE nao e evidencia independente porque houve sobreposicao com replay."
+  },
+  "decisao": "checkpoint experimental registrado; sem promocao automatica; exige testes cegos e revalidacao conversacional antes de qualquer ativacao padrao"
+}
