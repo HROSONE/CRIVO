@@ -1,0 +1,118 @@
+name: Escola Transformer 17M - Mid Bridge V5
+
+on:
+  pull_request:
+    paths:
+      - 'experimentos/escola_transformer_17m_midbridge_v5_20261011/**'
+      - 'experimentos/escola_transformer_17m_binding_bridge_v4_20261011/**'
+      - '.github/workflows/escola-transformer17m-midbridge-v5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  congelamento:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Conferir holdout V5 pre-comprometido
+        run: |
+          python - <<'PY'
+          import hashlib, importlib.util, json
+          from pathlib import Path
+          p=Path('experimentos/escola_transformer_17m_midbridge_v5_20261011')
+          man=json.loads((p/'manifesto_holdout.json').read_text(encoding='utf-8'))
+          protocolo=json.loads((p/'protocolo.json').read_text(encoding='utf-8'))
+          gerador=hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()
+          spec=importlib.util.spec_from_file_location('holdv5',p/'preparar_holdout.py')
+          h=importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+          xs=h.gerar(); por={op:sum(x['operacao']==op for x in xs) for op in h.OPERACOES}
+          repetidas=len(xs)-len({x['mensagem'] for x in xs})
+          pacote={'versao':5,'semente':h.SEMENTE,'congelado_antes_do_treino':True,
+            'auditoria':{'aprovado':True,'exemplos':120,'familias':len(h.FAMILIAS),
+                         'mensagens_exatas_repetidas':repetidas,'por_operacao':por},'exemplos':xs}
+          hold=hashlib.sha256(json.dumps(pacote,ensure_ascii=False,sort_keys=True,
+                 separators=(',',':')).encode()).hexdigest()
+          print('gerador',gerador,'esperado',man['gerador_sha256'])
+          print('holdout',hold,'esperado',man['holdout_sha256_canonico'])
+          print('repetidas',repetidas,'por operação',por)
+          assert gerador==man['gerador_sha256']=='7a76e4f2584bf0402ab1a3822b678cb6ce89ccd151179b4c17ed23371ac645a5'
+          assert hold==man['holdout_sha256_canonico']==protocolo['avaliacao']['holdout_sha256_canonico']
+          assert len(xs)==120 and set(por.values())=={20}
+          assert repetidas==15
+          assert protocolo['seguranca']['ativo_no_chat'] is False
+          assert protocolo['controle']['mudanca_causal_unica'].startswith('mover a reinjecao')
+          PY
+      - name: Auditar separacao e invariantes V4-V5
+        run: |
+          python - <<'PY'
+          import importlib.util, json
+          from pathlib import Path
+          v5=Path('experimentos/escola_transformer_17m_midbridge_v5_20261011')
+          v4=Path('experimentos/escola_transformer_17m_binding_bridge_v4_20261011')
+          def load(nome,arq):
+              s=importlib.util.spec_from_file_location(nome,arq); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+          h=load('hv5',v5/'preparar_holdout.py')
+          c=load('cv4',v4/'curriculo_bridge.py')
+          hold=h.gerar(); treino=c.gerar_treino()
+          assert len(treino)==3072
+          treino_texto='\n'.join([x['mensagem'] for x in treino]+[z['texto'] for x in treino for z in x['historico']]).casefold()
+          for familia,*_ in h.FAMILIAS:
+              assert familia.casefold() not in treino_texto, familia
+          assert not {x['mensagem'] for x in hold} & {x['mensagem'] for x in treino}
+          p=json.loads((v5/'protocolo.json').read_text(encoding='utf-8'))
+          assert p['treino']=={
+            'warmup_ponte':150,'passos_conjuntos':1000,'lote':16,
+            'lr_modelo':0.000015,'lr_ponte':0.0001,'lambda_pointer':0.10,'lambda_gate':0.06,
+            'embeddings_congelados':True,'blocos_congelados':[0,1,2,3],
+            'blocos_treinaveis':[4,5,6,7],'seleciona_checkpoint_por_holdout':False}
+          print('treino-prova separados:',len(treino),len(hold))
+          PY
+          python -m py_compile experimentos/escola_transformer_17m_midbridge_v5_20261011/executar_midbridge_v5.py
+
+  treino-midbridge-v5:
+    if: github.event_name == 'pull_request'
+    needs: congelamento
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar runtime do Transformer
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Recuperar checkpoint V1 exato
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-candidato
+          path: /tmp/escola17m-v1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38112043184
+      - name: Verificar origem V1
+        run: |
+          test "$(sha256sum /tmp/escola17m-v1/pesos.pt | cut -d' ' -f1)" = "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661"
+          test "$(sha256sum /tmp/escola17m-v1/tokenizer.json | cut -d' ' -f1)" = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+      - name: Treinar V5 com binding antes dos blocos superiores
+        run: |
+          python experimentos/escola_transformer_17m_midbridge_v5_20261011/executar_midbridge_v5.py \
+            --entrada /tmp/escola17m-v1 --saida /tmp/escola17m-midbridge-v5 --dispositivo cpu
+      - name: Publicar candidato V5 sem ativar runtime
+        uses: actions/upload-artifact@v4
+        with:
+          name: escola-transformer-17m-midbridge-v5
+          path: /tmp/escola17m-midbridge-v5
+          retention-days: 7
+          if-no-files-found: error
