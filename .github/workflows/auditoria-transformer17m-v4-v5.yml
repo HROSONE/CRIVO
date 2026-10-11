@@ -43,6 +43,7 @@ jobs:
           print('holdout',hold,'gerador',gerador,'por_operacao',por)
           PY
           python -m py_compile experimentos/auditoria_transformer_17m_v4_v5_20261011/auditar.py
+          python -m py_compile experimentos/auditoria_transformer_17m_v4_v5_20261011/diagnosticar_recordar_objeto.py
 
   auditoria-pareada:
     needs: congelamento
@@ -107,6 +108,11 @@ jobs:
           python experimentos/auditoria_transformer_17m_v4_v5_20261011/auditar.py \
             --v1 /tmp/crivo-v1 --v4 /tmp/crivo-v4 --v5 /tmp/crivo-v5 \
             --saida /tmp/auditoria-transformer17m --dispositivo cpu
+      - name: Diagnosticar recordar_objeto sem treino
+        run: |
+          python experimentos/auditoria_transformer_17m_v4_v5_20261011/diagnosticar_recordar_objeto.py \
+            --v4 /tmp/crivo-v4 --v5 /tmp/crivo-v5 \
+            --saida /tmp/auditoria-transformer17m/recordar_objeto --dispositivo cpu
       - name: Publicar relatório diagnóstico
         uses: actions/upload-artifact@v4
         with:
