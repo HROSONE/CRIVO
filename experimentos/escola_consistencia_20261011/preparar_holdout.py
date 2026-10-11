@@ -88,12 +88,12 @@ MENSAGENS = {
     ],
 }
 RESPOSTAS = {
-    "recordar_pessoa": ["A pessoa e {atual}.", "{atual} e a pessoa."],
-    "recordar_objeto": ["O objeto e {objeto}.", "Voce estava falando do {objeto}."],
-    "corrigir_pessoa": ["Certo. Agora a pessoa e {outro}.", "Entendi. Agora fica {outro}."],
-    "guardar_hipotese": ["Ainda nao esta confirmado.", "Nao. Isso ainda e uma possibilidade."],
-    "mensagem_sem_horario": ["{atual}, podemos combinar {atividade}?", "{atual}, voce quer combinar {atividade} comigo?"],
-    "pedir_detalhe": ["O que voce quer pedir a {atual}?", "Qual e o pedido para {atual}?"],
+    "recordar_pessoa": ["A pessoa é {atual}.", "{atual} é a pessoa."],
+    "recordar_objeto": ["O objeto é {objeto}.", "Você estava falando do {objeto}."],
+    "corrigir_pessoa": ["Certo. Agora a pessoa é {outro}.", "Entendi. Agora fica {outro}."],
+    "guardar_hipotese": ["Ainda não está confirmado.", "Não. Isso ainda é uma possibilidade."],
+    "mensagem_sem_horario": ["{atual}, podemos combinar {atividade}?", "{atual}, você quer combinar {atividade} comigo?"],
+    "pedir_detalhe": ["O que você quer pedir a {atual}?", "Qual é o pedido para {atual}?"],
 }
 
 
