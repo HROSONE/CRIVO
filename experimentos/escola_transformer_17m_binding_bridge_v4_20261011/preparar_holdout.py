@@ -9,11 +9,11 @@ OPERACOES = (
     'guardar_hipotese','mensagem_sem_horario','pedir_detalhe',
 )
 FAMILIAS = (
-    ('arquivo histórico',
+    ('centro de restauração',
      ('Arel-1311','Arel-1327','Arel-1343','Arel-1359'),
      ('caixa de negativos','catálogo manuscrito','mapa cadastral','fita magnética'),
      ('digitalização documental','revisão de inventário','catalogação de mapas','migração de áudio')),
-    ('laboratório de materiais',
+    ('galeria mineralógica',
      ('Brena-1412','Brena-1428','Brena-1444','Brena-1460'),
      ('durômetro portátil','micrômetro digital','corpo de prova cerâmico','câmara térmica'),
      ('ensaio de dureza','medição dimensional','teste de fratura','ciclo térmico')),
