@@ -1,0 +1,54 @@
+{
+  "versao": 7,
+  "nome": "generalizacao_semantica_curriculo_diverso",
+  "pre_comprometido_antes_da_implementacao": true,
+  "origem": {
+    "checkpoint_v1_sha256": "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661",
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+  },
+  "intervencao_unica": {
+    "tipo": "diversidade_semantica_do_curriculo",
+    "arquitetura_igual_v4": true,
+    "ponte_igual_v4": true,
+    "warmup": 150,
+    "passos": 1000,
+    "lote": 16,
+    "lr_modelo": 0.000015,
+    "lr_ponte": 0.0001,
+    "lambda_pointer": 0.10,
+    "lambda_gate": 0.06,
+    "blocos_treinaveis": [4, 5, 6, 7],
+    "norm_treinavel": true,
+    "embeddings_treinaveis": false,
+    "blocos_0_3_treinaveis": false,
+    "objetivo": "ensinar invariancia a paráfrases e estruturas sintáticas variadas sem mostrar a prova",
+    "sem_modelo_externo": true,
+    "sem_contrastivo_nesta_versao": true,
+    "sem_cabeca_nova": true
+  },
+  "curriculo": {
+    "sessoes": 4096,
+    "exemplos": 24576,
+    "por_operacao": 4096,
+    "mesmos_1000_passos_da_v4": true
+  },
+  "avaliacao": {
+    "holdout_sha256_canonico": "f9e70623202a3b070458eca7391c0fe508199834af919d673be43aaac1f6809f",
+    "exemplos": 120,
+    "por_operacao": 20,
+    "variantes_por_operacao": 4,
+    "operacao_minima": 0.60,
+    "cada_operacao_minima": 0.35,
+    "slot_minimo": 0.70,
+    "primeiro_token_minimo": 0.55,
+    "ce_relativa_maxima": 0.90,
+    "preservacao_maxima": 1.05,
+    "baseline": "V1 de entrada no mesmo holdout",
+    "segunda_porta_conversacional_obrigatoria": true
+  },
+  "seguranca": {
+    "ativo_no_chat": false,
+    "promocao_somente_se_todos_os_gates_e_conversa_passarem": true,
+    "checkpoint_preservado_mesmo_se_reprovar": true
+  }
+}
