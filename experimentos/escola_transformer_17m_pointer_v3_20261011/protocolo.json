@@ -1,0 +1,48 @@
+{
+  "versao": 3,
+  "objetivo": "ensinar binding contextual por apontamento treino-only antes da geracao",
+  "origem": {
+    "checkpoint_v1_sha256": "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661",
+    "artifact_run_id": 38112043184,
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+    "parametros": 17428224,
+    "pesos_externos": false
+  },
+  "intervencao": {
+    "curriculo_exemplos": 3072,
+    "slots_abertos": true,
+    "warmup_pointer_passos": 100,
+    "treino_conjunto_passos": 900,
+    "lote": 16,
+    "lr_modelo": 0.000015,
+    "lr_pointer": 0.0001,
+    "lambda_pointer": 0.12,
+    "blocos_congelados": [0, 1, 2, 3],
+    "blocos_treinaveis": [4, 5, 6, 7],
+    "embedding_congelado": true,
+    "cabecas_pointer": ["pessoa", "objeto", "atividade"],
+    "auxiliares_serializados": false,
+    "parametros_extras_inferencia": 0,
+    "ponderacao_lm_por_slot": false
+  },
+  "avaliacao": {
+    "holdout_sha256_canonico": "ae4ffef5594104f8f37cae07e5030c19ff289985e4782e07a1c5e01dd1e1e527",
+    "holdout_exemplos": 120,
+    "por_operacao": 20,
+    "abrir_holdout_somente_apos_treino": true,
+    "promocao": {
+      "operacao_min": 0.60,
+      "cada_operacao_min": 0.35,
+      "slot_min": 0.70,
+      "primeiro_token_min": 0.55,
+      "ce_relativa_max": 0.90,
+      "preservacao_ce_relativa_max": 1.05
+    }
+  },
+  "seguranca": {
+    "ativo_no_chat": false,
+    "nenhuma_promocao_automatica": true,
+    "sem_modelo_externo": true,
+    "sem_regra_nova_na_inferencia": true
+  }
+}
