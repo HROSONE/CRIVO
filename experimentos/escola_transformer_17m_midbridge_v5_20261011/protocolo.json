@@ -1,0 +1,59 @@
+{
+  "versao": 5,
+  "hipotese": "A V4 encontra bindings, mas os injeta depois dos oito blocos Transformer, tarde demais para o LM transformar o estado recuperado em linguagem. A V5 altera somente o ponto de injecao: a mesma ponte entra apos o bloco 3 e antes dos blocos 4-7.",
+  "origem": {
+    "checkpoint_v1_sha256": "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661",
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+    "parametros_base": 17428224,
+    "config": {"vocabulario":8192,"dimensao":384,"camadas":8,"cabecas":8,"contexto":256,"dropout":0.1}
+  },
+  "controle": {
+    "base_funcional": "V4 binding bridge",
+    "mudanca_causal_unica": "mover a reinjecao do delta da ponte de depois do bloco 7 para depois do bloco 3, antes dos blocos 4-7",
+    "mesmo_curriculo_v4": true,
+    "mesmos_hiperparametros_v4": true,
+    "mesmo_checkpoint_inicial_v1": true,
+    "mesma_arquitetura_da_ponte_v4": true
+  },
+  "ponte": {
+    "slots": ["pessoa","objeto","atividade"],
+    "mecanismo": "tres pointers aprendidos + gates sigmoid; os resumos selecionados sao projetados e injetados no residual apos o bloco 3; os blocos 4-7 consomem o binding antes do LM head",
+    "ponto_injecao": "apos_bloco_3_antes_bloco_4",
+    "rotulos_na_inferencia": false,
+    "regras_por_palavra_na_inferencia": false,
+    "serializada_no_checkpoint": true,
+    "parametros_extras_estimados": 590980
+  },
+  "treino": {
+    "warmup_ponte": 150,
+    "passos_conjuntos": 1000,
+    "lote": 16,
+    "lr_modelo": 0.000015,
+    "lr_ponte": 0.0001,
+    "lambda_pointer": 0.10,
+    "lambda_gate": 0.06,
+    "embeddings_congelados": true,
+    "blocos_congelados": [0,1,2,3],
+    "blocos_treinaveis": [4,5,6,7],
+    "seleciona_checkpoint_por_holdout": false
+  },
+  "avaliacao": {
+    "holdout_sha256_canonico": "42cec1c86640fe3625ceaaae891521a4e1136378fd9ceccaa10e4cf13b468ef4",
+    "ablacao_ponte_desligada": true,
+    "promocao": {
+      "operacao_min": 0.60,
+      "cada_operacao_min": 0.35,
+      "slot_min": 0.70,
+      "primeiro_token_min": 0.55,
+      "ce_relativa_max": 0.90,
+      "preservacao_ce_relativa_max": 1.05
+    }
+  },
+  "seguranca": {
+    "ativo_no_chat": false,
+    "nenhum_modelo_externo": true,
+    "nenhuma_promocao_automatica": true,
+    "holdout_aberto_somente_apos_treino": true,
+    "resultado_experimental_separado_de_ativacao": true
+  }
+}
