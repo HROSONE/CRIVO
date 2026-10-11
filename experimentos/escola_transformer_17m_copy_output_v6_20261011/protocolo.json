@@ -1,6 +1,6 @@
 {
   "versao": 6,
-  "nome": "span_copy_output",
+  "nome": "span_attentive_copy_head",
   "pre_comprometido_antes_da_implementacao": true,
   "origem": {
     "checkpoint": "V4 binding bridge",
@@ -17,11 +17,13 @@
     "v6_objeto_primeiro_token_copiavel_por_id": 0.05
   },
   "intervencao_unica": {
-    "tipo": "controlador neural de copia de span na saida",
+    "tipo": "cabeca neural de copia por span na distribuicao de saida",
     "transformer_v4_congelado": true,
     "ponte_v4_congelada": true,
-    "seleciona": ["gerar", "copiar_span"],
-    "quando_copia": "prediz inicio e fim no contexto fonte; o texto selecionado e recodificado pelo mesmo tokenizer para a fronteira corrente da resposta",
+    "por_token": true,
+    "mecanismo": "o estado atual atende apenas ao contexto anterior ao marcador de assistente; o resumo atendido e combinado ao estado atual por uma projecao de copia; uma porta aprendida mistura distribuicao LM e distribuicao de copia",
+    "supervisao_auxiliar": "nos tokens pertencentes a entidades da resposta, maximizar massa de atencao dentro do span correto da fonte e ensinar a porta de copia; fora das entidades, ensinar rota de geracao",
+    "saida": "distribuicao normal sobre os mesmos 8192 IDs do tokenizer, preservando CE token a token e permitindo aprender a transformacao de fronteira ByteLevel",
     "sem_modelo_externo": true,
     "sem_regra_por_palavra": true,
     "sem_alterar_pesos_v4": true
