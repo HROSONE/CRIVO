@@ -1,0 +1,59 @@
+{
+  "congelado_em_utc": "2026-10-11T01:00:00Z",
+  "base_commit": "e9c8fdc25164281da09f561cdcc48d96dc87e9aa",
+  "objetivo": "Testar se uma perda auxiliar de ato conversacional no estado inicial da GRU melhora generalizacao sem alterar arquitetura ou runtime do checkpoint.",
+  "modelo_producao": {"parametros": 81433, "vocabulario": 720},
+  "atos": ["recordar_pessoa", "recordar_objeto", "corrigir_pessoa", "guardar_hipotese", "mensagem_sem_horario", "pedir_detalhe"],
+  "treino": {
+    "corpus": "experimentos/corpus_fatorial_20261011/corpus_fatorial.json.gz",
+    "corpus_sha256": "dfa72d55c0b9ec445cc9536805e93d51e44160127dd661115cfba915cade8a33",
+    "inicializacao": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+    "inicializacao_sha256": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "lambda_auxiliar": 0.25,
+    "cabeca_auxiliar": "linear 24x6 + bias; existe apenas durante o treino e nao e serializada",
+    "selecao_epoca": "somente entropia cruzada de geracao na validacao; acuracia auxiliar nao seleciona checkpoint"
+  },
+  "hiperparametros": {
+    "epocas": 20, "lote_tamanho": 32, "ocultos": 24, "embeddings": 16,
+    "vocab_max": 720, "buckets": 128, "limite_fonte": 192, "limite_resposta": 64,
+    "semente": 179, "taxa": 0.0007, "decaimento": 0.00001, "validar_cada": 2,
+    "paciencia": 6, "dropout": 0.15, "dropout_tokens": 0.12, "amostragem": 0.15, "aquecimento": 3
+  },
+  "avaliacoes_conhecidas": {
+    "old334": "desenvolvimento antigo conhecido",
+    "known94": "regressao conhecida do experimento anterior",
+    "fatorial96": "avaliacao final do PR 145, agora conhecida",
+    "prospectivo120": "holdout do experimento misto, agora conhecido"
+  },
+  "novo_holdout": {
+    "exemplos": 144,
+    "contextos": 6,
+    "preenchimentos_por_contexto": 4,
+    "atos_por_episodio": 6,
+    "usar_para_selecao_de_epoca": false,
+    "gerado_e_hashado_antes_de_existir_workflow_de_treino": true
+  },
+  "portao_candidato": {
+    "old334_exatas_min": 64,
+    "old334_ce_max": 0.80,
+    "known94_exatas_min": 1,
+    "known94_ce_max": 4.262216848936583,
+    "fatorial96_operacoes_min": 0.385,
+    "fatorial96_ce_max": 0.80,
+    "novo_holdout_ce_melhora_relativa_vs_melhor_baseline_min": 0.15,
+    "novo_holdout_primeiro_token_ganho_vs_melhor_baseline_min": 0.10,
+    "novo_holdout_operacoes_ganho_vs_melhor_baseline_min": 0.15,
+    "novo_holdout_operacoes_total_min": 0.35,
+    "novo_holdout_operacao_individual_min": 0.20
+  },
+  "integridade": {
+    "um_unico_lambda": true,
+    "um_unico_candidato": true,
+    "nenhum_modelo_externo": true,
+    "nenhuma_regra_runtime": true,
+    "nenhum_token_de_ato_na_inferencia": true,
+    "cabeca_auxiliar_descartada_antes_do_checkpoint": true,
+    "mesma_quantidade_de_parametros_serializados": true,
+    "promocao_automatica_proibida": true
+  }
+}
