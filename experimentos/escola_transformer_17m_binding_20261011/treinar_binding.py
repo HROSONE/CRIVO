@@ -29,7 +29,11 @@ sys.path[:0] = [str(RAIZ), str(V1)]
 
 import treinar_escola as v1  # noqa: E402
 import curriculo as curr  # noqa: E402
-import preparar_holdout as holdout_v2  # noqa: E402
+import importlib.util  # noqa: E402
+
+_spec = importlib.util.spec_from_file_location("holdout_binding_v2", AQUI / "preparar_holdout.py")
+holdout_v2 = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(holdout_v2)
 
 SEMENTE = 202610113
 ENTRADA_SHA = "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661"
