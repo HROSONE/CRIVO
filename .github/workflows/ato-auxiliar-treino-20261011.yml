@@ -1,0 +1,51 @@
+name: Ato auxiliar - treino unico 2026-10-11
+
+on:
+  push:
+    branches:
+      - codex/ato-auxiliar-dialogo-20261011
+    paths:
+      - 'experimentos/ato_auxiliar_dialogo_20261011/treinar_auxiliar.py'
+      - '.github/workflows/ato-auxiliar-treino-20261011.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  treino-auxiliar:
+    runs-on: ubuntu-22.04
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Compilar experimento
+        run: python -m py_compile experimentos/ato_auxiliar_dialogo_20261011/treinar_auxiliar.py
+      - name: Treinar candidato unico e abrir holdout so depois da selecao
+        run: python experimentos/ato_auxiliar_dialogo_20261011/treinar_auxiliar.py
+      - name: Preservar artefatos do experimento
+        uses: actions/upload-artifact@v4
+        with:
+          name: ato-auxiliar-dialogo-20261011
+          path: |
+            experimentos/ato_auxiliar_dialogo_20261011/checkpoint_auxiliar.json.gz
+            experimentos/ato_auxiliar_dialogo_20261011/resultados.json
+            experimentos/ato_auxiliar_dialogo_20261011/RELATORIO.md
+      - name: Gravar resultado na branch
+        run: |
+          git config user.name 'Henry Tools'
+          git config user.email 'zerobob623@gmail.com'
+          git add experimentos/ato_auxiliar_dialogo_20261011/checkpoint_auxiliar.json.gz experimentos/ato_auxiliar_dialogo_20261011/resultados.json experimentos/ato_auxiliar_dialogo_20261011/RELATORIO.md
+          if git diff --cached --quiet; then
+            echo 'Resultado ja preservado; nada a gravar.'
+          else
+            git commit -m 'Registra resultado do treino auxiliar de atos'
+            git push
+          fi
