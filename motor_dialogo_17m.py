@@ -13,7 +13,7 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent
 PESOS_SHA256 = "16102a72b21031b8bee2b4edfa633a359f7f08c5beab552b05f294e656b0cc67"
-TOKENIZER_SHA256 = "6e3704ce921851122953b8ac20c05e3a131f9cf0fa3c76d6e2391c4ec3efc88f"
+TOKENIZER_SHA256 = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
 
 
 def _sha(caminho: Path) -> str:
@@ -50,12 +50,9 @@ def candidatos():
     explicito = os.environ.get("CRIVO_TRANSFORMER_17M_DIR", "").strip()
     if explicito:
         yield Path(explicito)
-    # Destino recomendado para instalações locais/pacotes do CRIVO.
     yield RAIZ / "artefatos" / "transformer_leitor_17m" / "base"
     yield RAIZ / "artefatos" / "transformer-leitor" / "base"
-    # Caminho usado pelo treino/exportação original em Colab + Drive montado.
     yield Path("/content/drive/MyDrive/CRIVO/transformer-leitor/base")
-    # Conveniência para cópia local do diretório CRIVO no HOME.
     yield Path.home() / "CRIVO" / "transformer-leitor" / "base"
 
 
@@ -79,5 +76,6 @@ def status():
         "disponivel": bool(pasta),
         "pasta": pasta,
         "pesos_sha256": PESOS_SHA256 if pasta else None,
+        "tokenizer_sha256": TOKENIZER_SHA256 if pasta else None,
         "external_ai": False,
     }
