@@ -68,7 +68,8 @@ jobs:
           PY
           python -m py_compile \
             experimentos/escola_transformer_17m_binding_bridge_v4_20261011/curriculo_bridge.py \
-            experimentos/escola_transformer_17m_binding_bridge_v4_20261011/treinar_bridge.py
+            experimentos/escola_transformer_17m_binding_bridge_v4_20261011/treinar_bridge.py \
+            experimentos/escola_transformer_17m_binding_bridge_v4_20261011/executar_bridge_v4.py
 
   treino-binding-bridge-v4:
     if: github.event_name == 'pull_request'
@@ -101,7 +102,7 @@ jobs:
           test "$(sha256sum /tmp/escola17m-v1/tokenizer.json | cut -d' ' -f1)" = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
       - name: Treinar ponte persistente de binding
         run: |
-          python experimentos/escola_transformer_17m_binding_bridge_v4_20261011/treinar_bridge.py \
+          python experimentos/escola_transformer_17m_binding_bridge_v4_20261011/executar_bridge_v4.py \
             --entrada /tmp/escola17m-v1 --saida /tmp/escola17m-binding-v4 --dispositivo cpu
       - name: Publicar candidato V4 sem ativar runtime
         uses: actions/upload-artifact@v4
