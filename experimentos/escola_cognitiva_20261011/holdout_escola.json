@@ -1,0 +1,6251 @@
+{
+  "auditoria": {
+    "alvos_nao_geraveis": [],
+    "aprovado": true,
+    "assinaturas_sobrepostas_com_fontes_conhecidas": 0,
+    "contextos": 6,
+    "exemplos": 144,
+    "mensagens_exatas_repetidas": 0,
+    "por_operacao": {
+      "corrigir_pessoa": 24,
+      "guardar_hipotese": 24,
+      "mensagem_sem_horario": 24,
+      "pedir_detalhe": 24,
+      "recordar_objeto": 24,
+      "recordar_pessoa": 24
+    },
+    "por_professor": {
+      "acao": {
+        "avaliar": 24,
+        "corrigir": 24,
+        "escrever": 24,
+        "perguntar": 24,
+        "recordar": 48
+      },
+      "foco": {
+        "atividade": 24,
+        "detalhe": 24,
+        "estado": 24,
+        "objeto": 24,
+        "pessoa": 48
+      }
+    }
+  },
+  "congelado_antes_do_treino": true,
+  "escola": {
+    "acao": {
+      "classes": [
+        "recordar",
+        "corrigir",
+        "avaliar",
+        "escrever",
+        "perguntar"
+      ],
+      "peso": 0.125
+    },
+    "foco": {
+      "classes": [
+        "pessoa",
+        "objeto",
+        "estado",
+        "atividade",
+        "detalhe"
+      ],
+      "peso": 0.125
+    }
+  },
+  "exemplos": [
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-1",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-2",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é agenda.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-3",
+      "mensagem": "Atualize o nome da pessoa de Arina-81 para Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-4",
+      "mensagem": "Ainda estou pensando em leitura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-5",
+      "mensagem": "Faça um convite a Belor-92 para leitura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, podemos combinar leitura?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o agenda com Arina-81 antes da atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar leitura?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-0-6",
+      "mensagem": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-1",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do pasta.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-2",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Belor-92 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-3",
+      "mensagem": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-4",
+      "mensagem": "Faça um convite a Belor-92 para pintura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, você quer combinar pintura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-5",
+      "mensagem": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o pasta com Belor-92 antes da atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-arquivo-1-6",
+      "mensagem": "Atualize o nome da pessoa de Belor-92 para Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-1",
+      "mensagem": "Quero convidar Célia-13 para revisão; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, podemos combinar revisão?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar revisão?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-2",
+      "mensagem": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Célia-13?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Célia-13?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-3",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-4",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-5",
+      "mensagem": "Atualize o nome da pessoa de Célia-13 para Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o bilhete com Célia-13 antes da atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-arquivo-2-6",
+      "mensagem": "Ainda estou pensando em revisão; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-1",
+      "mensagem": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-2",
+      "mensagem": "Faça um convite a Dário-24 para organização, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, você quer combinar organização comigo?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-3",
+      "mensagem": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-4",
+      "mensagem": "Atualize o nome da pessoa de Dário-24 para Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-5",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do chave.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "arquivo",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "Estou revisando o chave com Dário-24 antes da atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        }
+      ],
+      "id": "escola-holdout-arquivo-3-6",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Arina-81 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-jardim-0-1",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Arina-81 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-jardim-0-2",
+      "mensagem": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Arina-81?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Arina-81?"
+        }
+      ],
+      "id": "escola-holdout-jardim-0-3",
+      "mensagem": "Faça um convite a Arina-81 para leitura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, você quer combinar leitura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        }
+      ],
+      "id": "escola-holdout-jardim-0-4",
+      "mensagem": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-jardim-0-5",
+      "mensagem": "Atualize o nome da pessoa de Arina-81 para Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Arina-81 estamos cuidando do agenda enquanto planejamos leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        }
+      ],
+      "id": "escola-holdout-jardim-0-6",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do agenda.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-jardim-1-1",
+      "mensagem": "Ainda estou pensando em pintura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-jardim-1-2",
+      "mensagem": "Faça um convite a Belor-92 para pintura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, podemos combinar pintura?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar pintura?"
+        }
+      ],
+      "id": "escola-holdout-jardim-1-3",
+      "mensagem": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar pintura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-jardim-1-4",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar pintura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-jardim-1-5",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é pasta.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Belor-92 estamos cuidando do pasta enquanto planejamos pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Belor-92 para pintura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar pintura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        }
+      ],
+      "id": "escola-holdout-jardim-1-6",
+      "mensagem": "Mude quem participa: agora é Célia-13, não Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-jardim-2-1",
+      "mensagem": "Faça um convite a Célia-13 para revisão, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, você quer combinar revisão comigo?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Célia-13 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        }
+      ],
+      "id": "escola-holdout-jardim-2-2",
+      "mensagem": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Célia-13 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-jardim-2-3",
+      "mensagem": "Atualize o nome da pessoa de Célia-13 para Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Célia-13 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        }
+      ],
+      "id": "escola-holdout-jardim-2-4",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Célia-13 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        }
+      ],
+      "id": "escola-holdout-jardim-2-5",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Dário-24 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Célia-13 estamos cuidando do bilhete enquanto planejamos revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Célia-13 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-jardim-2-6",
+      "mensagem": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-jardim-3-1",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é chave.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        }
+      ],
+      "id": "escola-holdout-jardim-3-2",
+      "mensagem": "Atualize o nome da pessoa de Dário-24 para Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        }
+      ],
+      "id": "escola-holdout-jardim-3-3",
+      "mensagem": "Ainda estou pensando em organização; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-jardim-3-4",
+      "mensagem": "Faça um convite a Arina-81 para organização, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, podemos combinar organização?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar organização?"
+        }
+      ],
+      "id": "escola-holdout-jardim-3-5",
+      "mensagem": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Arina-81?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "jardim",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No jardim, eu e Dário-24 estamos cuidando do chave enquanto planejamos organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Dário-24 para Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para organização, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar organização?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Arina-81?"
+        }
+      ],
+      "id": "escola-holdout-jardim-3-6",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-corredor-0-1",
+      "mensagem": "Mude quem participa: agora é Belor-92, não Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-corredor-0-2",
+      "mensagem": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-corredor-0-3",
+      "mensagem": "Quero convidar Belor-92 para leitura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, podemos combinar leitura?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar leitura?"
+        }
+      ],
+      "id": "escola-holdout-corredor-0-4",
+      "mensagem": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-corredor-0-5",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Arina-81 de levar o agenda para leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-corredor-0-6",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é agenda.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-corredor-1-1",
+      "mensagem": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-corredor-1-2",
+      "mensagem": "Atualize o nome da pessoa de Belor-92 para Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        }
+      ],
+      "id": "escola-holdout-corredor-1-3",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do pasta.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        }
+      ],
+      "id": "escola-holdout-corredor-1-4",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Célia-13 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-corredor-1-5",
+      "mensagem": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Célia-13?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Belor-92 de levar o pasta para pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Célia-13?"
+        }
+      ],
+      "id": "escola-holdout-corredor-1-6",
+      "mensagem": "Quero convidar Célia-13 para pintura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, você quer combinar pintura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-corredor-2-1",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        }
+      ],
+      "id": "escola-holdout-corredor-2-2",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        }
+      ],
+      "id": "escola-holdout-corredor-2-3",
+      "mensagem": "Mude quem participa: agora é Dário-24, não Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-corredor-2-4",
+      "mensagem": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-corredor-2-5",
+      "mensagem": "Quero convidar Dário-24 para revisão; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, podemos combinar revisão?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Célia-13 de levar o bilhete para revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar revisão?"
+        }
+      ],
+      "id": "escola-holdout-corredor-2-6",
+      "mensagem": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-corredor-3-1",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do chave.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        }
+      ],
+      "id": "escola-holdout-corredor-3-2",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Dário-24 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-corredor-3-3",
+      "mensagem": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-corredor-3-4",
+      "mensagem": "Quero convidar Dário-24 para organização; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, você quer combinar organização comigo?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        }
+      ],
+      "id": "escola-holdout-corredor-3-5",
+      "mensagem": "Ainda estou pensando em organização; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "corredor",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No corredor, combinei com Dário-24 de levar o chave para organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar organização comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-corredor-3-6",
+      "mensagem": "Mude quem participa: agora é Arina-81, não Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-patio-0-1",
+      "mensagem": "Atualize o nome da pessoa de Arina-81 para Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        }
+      ],
+      "id": "escola-holdout-patio-0-2",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do agenda.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        }
+      ],
+      "id": "escola-holdout-patio-0-3",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Belor-92 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-patio-0-4",
+      "mensagem": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-patio-0-5",
+      "mensagem": "Quero convidar Belor-92 para leitura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, você quer combinar leitura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o agenda com Arina-81 para uma atividade de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Arina-81 para Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar leitura comigo?"
+        }
+      ],
+      "id": "escola-holdout-patio-0-6",
+      "mensagem": "Ainda estou pensando em leitura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-patio-1-1",
+      "mensagem": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-patio-1-2",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-patio-1-3",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é pasta.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        }
+      ],
+      "id": "escola-holdout-patio-1-4",
+      "mensagem": "Atualize o nome da pessoa de Belor-92 para Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        }
+      ],
+      "id": "escola-holdout-patio-1-5",
+      "mensagem": "Ainda estou pensando em pintura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o pasta com Belor-92 para uma atividade de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Belor-92 para Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-patio-1-6",
+      "mensagem": "Faça um convite a Célia-13 para pintura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, podemos combinar pintura?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-patio-2-1",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Célia-13 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-patio-2-2",
+      "mensagem": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Célia-13?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Célia-13?"
+        }
+      ],
+      "id": "escola-holdout-patio-2-3",
+      "mensagem": "Quero convidar Célia-13 para revisão; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, você quer combinar revisão comigo?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        }
+      ],
+      "id": "escola-holdout-patio-2-4",
+      "mensagem": "Ainda estou pensando em revisão; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-patio-2-5",
+      "mensagem": "Mude quem participa: agora é Dário-24, não Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o bilhete com Célia-13 para uma atividade de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Célia-13; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Célia-13?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para revisão; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, você quer combinar revisão comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        }
+      ],
+      "id": "escola-holdout-patio-2-6",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-patio-3-1",
+      "mensagem": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-patio-3-2",
+      "mensagem": "Quero convidar Dário-24 para organização; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, podemos combinar organização?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar organização?"
+        }
+      ],
+      "id": "escola-holdout-patio-3-3",
+      "mensagem": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar organização?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-patio-3-4",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar organização?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-patio-3-5",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é chave.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "patio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No pátio, estou organizando o chave com Dário-24 para uma atividade de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Dário-24 para organização; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar organização?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem estava comigo nessa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        }
+      ],
+      "id": "escola-holdout-patio-3-6",
+      "mensagem": "Atualize o nome da pessoa de Dário-24 para Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-estudio-0-1",
+      "mensagem": "Faça um convite a Arina-81 para leitura, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, podemos combinar leitura?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar leitura?"
+        }
+      ],
+      "id": "escola-holdout-estudio-0-2",
+      "mensagem": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Arina-81?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Arina-81?"
+        }
+      ],
+      "id": "escola-holdout-estudio-0-3",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        }
+      ],
+      "id": "escola-holdout-estudio-0-4",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é agenda.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        }
+      ],
+      "id": "escola-holdout-estudio-0-5",
+      "mensagem": "Mude quem participa: agora é Belor-92, não Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o agenda com Arina-81 para fazer leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Arina-81 para leitura, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, podemos combinar leitura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Arina-81; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Arina-81?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Belor-92."
+        }
+      ],
+      "id": "escola-holdout-estudio-0-6",
+      "mensagem": "Eu posso fazer leitura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-estudio-1-1",
+      "mensagem": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        }
+      ],
+      "id": "escola-holdout-estudio-1-2",
+      "mensagem": "Quero convidar Belor-92 para pintura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Belor-92, você quer combinar pintura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        }
+      ],
+      "id": "escola-holdout-estudio-1-3",
+      "mensagem": "Ainda estou pensando em pintura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-estudio-1-4",
+      "mensagem": "Mude quem participa: agora é Célia-13, não Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        }
+      ],
+      "id": "escola-holdout-estudio-1-5",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do pasta.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o pasta com Belor-92 para fazer pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Belor-92; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Belor-92?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Belor-92 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92, você quer combinar pintura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em pintura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do pasta."
+        }
+      ],
+      "id": "escola-holdout-estudio-1-6",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Célia-13 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-estudio-2-1",
+      "mensagem": "Atualize o nome da pessoa de Célia-13 para Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-estudio-2-2",
+      "mensagem": "Ainda estou pensando em revisão; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-estudio-2-3",
+      "mensagem": "Faça um convite a Dário-24 para revisão, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, podemos combinar revisão?",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar revisão?"
+        }
+      ],
+      "id": "escola-holdout-estudio-2-4",
+      "mensagem": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-estudio-2-5",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o bilhete com Célia-13 para fazer revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Atualize o nome da pessoa de Célia-13 para Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em revisão; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, podemos combinar revisão?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-estudio-2-6",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-estudio-3-1",
+      "mensagem": "Ainda estou pensando em organização; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-estudio-3-2",
+      "mensagem": "Mude quem participa: agora é Arina-81, não Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        }
+      ],
+      "id": "escola-holdout-estudio-3-3",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do chave.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        }
+      ],
+      "id": "escola-holdout-estudio-3-4",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Arina-81 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-estudio-3-5",
+      "mensagem": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Arina-81?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "estudio",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No estúdio, estou separando o chave com Dário-24 para fazer organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em organização; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Arina-81, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Arina-81?"
+        }
+      ],
+      "id": "escola-holdout-estudio-3-6",
+      "mensagem": "Faça um convite a Arina-81 para organização, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, você quer combinar organização comigo?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        }
+      ],
+      "id": "escola-holdout-terraco-0-1",
+      "mensagem": "Quero convidar Arina-81 para leitura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, você quer combinar leitura comigo?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Arina-81 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        }
+      ],
+      "id": "escola-holdout-terraco-0-2",
+      "mensagem": "Ainda estou pensando em leitura; isso já virou fato?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Arina-81 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        }
+      ],
+      "id": "escola-holdout-terraco-0-3",
+      "mensagem": "Mude quem participa: agora é Belor-92, não Arina-81.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Belor-92.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Arina-81 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        }
+      ],
+      "id": "escola-holdout-terraco-0-4",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do agenda.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Arina-81 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        }
+      ],
+      "id": "escola-holdout-terraco-0-5",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Belor-92 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o agenda com Arina-81 antes de leitura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Arina-81, o objeto é agenda e a atividade é leitura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Arina-81 para leitura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Arina-81, você quer combinar leitura comigo?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Ainda estou pensando em leitura; isso já virou fato?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Não. Isso ainda é uma possibilidade."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Belor-92, não Arina-81."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Belor-92."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do agenda."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Belor-92 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-terraco-0-6",
+      "mensagem": "Quero pedir alguma coisa a Belor-92, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Belor-92?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        }
+      ],
+      "id": "escola-holdout-terraco-1-1",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é pasta.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        }
+      ],
+      "id": "escola-holdout-terraco-1-2",
+      "mensagem": "Mude quem participa: agora é Célia-13, não Belor-92.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        }
+      ],
+      "id": "escola-holdout-terraco-1-3",
+      "mensagem": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-terraco-1-4",
+      "mensagem": "Quero convidar Célia-13 para pintura; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Célia-13, podemos combinar pintura?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar pintura?"
+        }
+      ],
+      "id": "escola-holdout-terraco-1-5",
+      "mensagem": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Célia-13?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o pasta com Belor-92 antes de pintura."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Belor-92, o objeto é pasta e a atividade é pintura."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é pasta."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Célia-13, não Belor-92."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Célia-13."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer pintura, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero convidar Célia-13 para pintura; escreva sem colocar horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Célia-13, podemos combinar pintura?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Célia-13, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Célia-13?"
+        }
+      ],
+      "id": "escola-holdout-terraco-1-6",
+      "mensagem": "Quem estava comigo nessa situação?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Célia-13.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        }
+      ],
+      "id": "escola-holdout-terraco-2-1",
+      "mensagem": "Mude quem participa: agora é Dário-24, não Célia-13.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Entendi. Agora fica Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        }
+      ],
+      "id": "escola-holdout-terraco-2-2",
+      "mensagem": "Me recorde qual objeto ficou nesse contexto.",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "Você estava falando do bilhete.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        }
+      ],
+      "id": "escola-holdout-terraco-2-3",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "Dário-24 é a pessoa.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        }
+      ],
+      "id": "escola-holdout-terraco-2-4",
+      "mensagem": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "Qual é o pedido para Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-terraco-2-5",
+      "mensagem": "Faça um convite a Dário-24 para revisão, mas não escolha horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Dário-24, você quer combinar revisão comigo?",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o bilhete com Célia-13 antes de revisão."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Célia-13, o objeto é bilhete e a atividade é revisão."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Dário-24, não Célia-13."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. Agora fica Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Me recorde qual objeto ficou nesse contexto."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Você estava falando do bilhete."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24 é a pessoa."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quero pedir alguma coisa a Dário-24, mas não disse qual. O que falta?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Qual é o pedido para Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Faça um convite a Dário-24 para revisão, mas não escolha horário."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Dário-24, você quer combinar revisão comigo?"
+        }
+      ],
+      "id": "escola-holdout-terraco-2-6",
+      "mensagem": "Eu posso fazer revisão, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Não. Isso ainda é uma possibilidade.",
+      "split": "prospectivo_escola",
+      "turno": 6
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        }
+      ],
+      "id": "escola-holdout-terraco-3-1",
+      "mensagem": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?",
+      "operacao": "pedir_detalhe",
+      "professores": {
+        "acao": "perguntar",
+        "foco": "detalhe"
+      },
+      "resposta": "O que você quer pedir a Dário-24?",
+      "split": "prospectivo_escola",
+      "turno": 1
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        }
+      ],
+      "id": "escola-holdout-terraco-3-2",
+      "mensagem": "Quem era a pessoa que ficou nesse contexto?",
+      "operacao": "recordar_pessoa",
+      "professores": {
+        "acao": "recordar",
+        "foco": "pessoa"
+      },
+      "resposta": "A pessoa é Dário-24.",
+      "split": "prospectivo_escola",
+      "turno": 2
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        }
+      ],
+      "id": "escola-holdout-terraco-3-3",
+      "mensagem": "Que objeto estava ligado a essa situação?",
+      "operacao": "recordar_objeto",
+      "professores": {
+        "acao": "recordar",
+        "foco": "objeto"
+      },
+      "resposta": "O objeto é chave.",
+      "split": "prospectivo_escola",
+      "turno": 3
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        }
+      ],
+      "id": "escola-holdout-terraco-3-4",
+      "mensagem": "Mude quem participa: agora é Arina-81, não Dário-24.",
+      "operacao": "corrigir_pessoa",
+      "professores": {
+        "acao": "corrigir",
+        "foco": "pessoa"
+      },
+      "resposta": "Certo. Agora a pessoa é Arina-81.",
+      "split": "prospectivo_escola",
+      "turno": 4
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        }
+      ],
+      "id": "escola-holdout-terraco-3-5",
+      "mensagem": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?",
+      "operacao": "guardar_hipotese",
+      "professores": {
+        "acao": "avaliar",
+        "foco": "estado"
+      },
+      "resposta": "Ainda não está confirmado.",
+      "split": "prospectivo_escola",
+      "turno": 5
+    },
+    {
+      "familia": "terraco",
+      "historico": [
+        {
+          "papel": "usuario",
+          "texto": "No terraço, estou preparando o chave com Dário-24 antes de organização."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Entendi. A pessoa é Dário-24, o objeto é chave e a atividade é organização."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Preciso pedir algo para Dário-24; qual informação ainda está faltando?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O que você quer pedir a Dário-24?"
+        },
+        {
+          "papel": "usuario",
+          "texto": "Quem era a pessoa que ficou nesse contexto?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "A pessoa é Dário-24."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Que objeto estava ligado a essa situação?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "O objeto é chave."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Mude quem participa: agora é Arina-81, não Dário-24."
+        },
+        {
+          "papel": "assistente",
+          "texto": "Certo. Agora a pessoa é Arina-81."
+        },
+        {
+          "papel": "usuario",
+          "texto": "Eu posso fazer organização, só que ainda é uma ideia. Isso já é certeza?"
+        },
+        {
+          "papel": "assistente",
+          "texto": "Ainda não está confirmado."
+        }
+      ],
+      "id": "escola-holdout-terraco-3-6",
+      "mensagem": "Quero convidar Arina-81 para organização; escreva sem colocar horário.",
+      "operacao": "mensagem_sem_horario",
+      "professores": {
+        "acao": "escrever",
+        "foco": "atividade"
+      },
+      "resposta": "Arina-81, podemos combinar organização?",
+      "split": "prospectivo_escola",
+      "turno": 6
+    }
+  ]
+}
