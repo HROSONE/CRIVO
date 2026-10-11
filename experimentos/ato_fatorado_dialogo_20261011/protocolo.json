@@ -34,20 +34,15 @@
   "novo_holdout": {
     "exemplos": 144, "contextos": 6, "preenchimentos_por_contexto": 4, "atos_por_episodio": 6,
     "usar_para_selecao_de_epoca": false,
-    "deve_ser_hashado_antes_do_workflow_de_treino": true
+    "deve_ser_hashado_antes_do_workflow_de_treino": true,
+    "workflow_de_holdout_presente_antes_do_disparo": true
   },
-  "regressoes_conhecidas": {
-    "old334": true, "known94": true, "fatorial96": true, "holdout146_144": true
-  },
+  "regressoes_conhecidas": {"old334": true, "known94": true, "fatorial96": true, "holdout146_144": true},
   "portao_candidato": {
-    "old334_exatas_min": 64,
-    "old334_ce_max": 0.80,
-    "known94_exatas_min": 1,
-    "known94_ce_max": 4.262216848936583,
-    "fatorial96_operacoes_min": 0.50,
-    "fatorial96_ce_max": 0.80,
-    "holdout146_operacoes_min": 0.35,
-    "holdout146_ce_max": 0.85,
+    "old334_exatas_min": 64, "old334_ce_max": 0.80,
+    "known94_exatas_min": 1, "known94_ce_max": 4.262216848936583,
+    "fatorial96_operacoes_min": 0.50, "fatorial96_ce_max": 0.80,
+    "holdout146_operacoes_min": 0.35, "holdout146_ce_max": 0.85,
     "novo_holdout_ce_melhora_relativa_vs_melhor_baseline_min": 0.10,
     "novo_holdout_primeiro_token_ganho_vs_melhor_baseline_min": 0.08,
     "novo_holdout_operacoes_ganho_vs_melhor_baseline_min": 0.10,
@@ -55,12 +50,8 @@
     "novo_holdout_operacao_individual_min": 0.20
   },
   "integridade": {
-    "um_unico_candidato": true,
-    "nenhum_modelo_externo": true,
-    "nenhuma_regra_runtime": true,
-    "nenhum_rotulo_na_inferencia": true,
-    "cabecas_descartadas": true,
-    "parametros_serializados_inalterados": true,
-    "promocao_automatica_proibida": true
+    "um_unico_candidato": true, "nenhum_modelo_externo": true, "nenhuma_regra_runtime": true,
+    "nenhum_rotulo_na_inferencia": true, "cabecas_descartadas": true,
+    "parametros_serializados_inalterados": true, "promocao_automatica_proibida": true
   }
 }
