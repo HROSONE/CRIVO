@@ -1,0 +1,34 @@
+name: Ato fatorado - treino unico 2026-10-11
+on:
+  push:
+    branches: [codex/ato-fatorado-dialogo-20261011]
+    paths:
+      - 'experimentos/ato_fatorado_dialogo_20261011/treinar.py'
+      - '.github/workflows/ato-fatorado-treino-20261011.yml'
+  workflow_dispatch:
+permissions: {contents: write}
+jobs:
+  treino:
+    runs-on: ubuntu-22.04
+    env: {OPENBLAS_NUM_THREADS: '1', OMP_NUM_THREADS: '1', PYTHONHASHSEED: '0'}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: python -m pip install 'numpy==2.3.5'
+      - run: python -m py_compile experimentos/ato_fatorado_dialogo_20261011/treinar.py
+      - name: Treinar e abrir novo holdout somente apos selecao
+        run: python experimentos/ato_fatorado_dialogo_20261011/treinar.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ato-fatorado-dialogo-20261011
+          path: |
+            experimentos/ato_fatorado_dialogo_20261011/checkpoint_fatorado.json.gz
+            experimentos/ato_fatorado_dialogo_20261011/resultados.json
+            experimentos/ato_fatorado_dialogo_20261011/RELATORIO.md
+      - name: Gravar resultado na branch
+        run: |
+          git config user.name 'Henry Tools'
+          git config user.email 'zerobob623@gmail.com'
+          git add experimentos/ato_fatorado_dialogo_20261011/checkpoint_fatorado.json.gz experimentos/ato_fatorado_dialogo_20261011/resultados.json experimentos/ato_fatorado_dialogo_20261011/RELATORIO.md
+          git diff --cached --quiet || (git commit -m 'Registra resultado da supervisao fatorada' && git push)
