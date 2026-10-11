@@ -1,0 +1,45 @@
+{
+  "versao": 6,
+  "nome": "span_copy_output",
+  "pre_comprometido_antes_da_implementacao": true,
+  "origem": {
+    "checkpoint": "V4 binding bridge",
+    "run_id": 38154299065,
+    "checkpoint_composto_sha256": "c53981fda15f31fcc22b3355a8eb75551ce85907926960c1776774db0d9f2cda",
+    "pesos_sha256": "b152e95776919f7f1bcf522f927a0239c869fccc6b385a0af2b52cf2b77db8fb",
+    "ponte_sha256": "1e13a8fd68143f465de510addddb19a6b441a208a80ec3a7b182a3afc5335808",
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+  },
+  "hipotese_causal": "o gargalo dominante esta na interface entre representacao contextual e emissao fiel de entidades; gate correto e span residual correto nao resolveram, enquanto copia textual direta do span resolveu 20/20 casos de recordar_objeto no holdout diagnostico V2",
+  "restricao_bpe": {
+    "motivo": "ByteLevel produz IDs diferentes na fronteira com/sem espaco; pointer-generator que apenas espalha IDs da fonte nao consegue emitir de forma geral o primeiro token da entidade",
+    "v6_objeto_tokens_copiaveis_por_id": 0.7837837838,
+    "v6_objeto_primeiro_token_copiavel_por_id": 0.05
+  },
+  "intervencao_unica": {
+    "tipo": "controlador neural de copia de span na saida",
+    "transformer_v4_congelado": true,
+    "ponte_v4_congelada": true,
+    "seleciona": ["gerar", "copiar_span"],
+    "quando_copia": "prediz inicio e fim no contexto fonte; o texto selecionado e recodificado pelo mesmo tokenizer para a fronteira corrente da resposta",
+    "sem_modelo_externo": true,
+    "sem_regra_por_palavra": true,
+    "sem_alterar_pesos_v4": true
+  },
+  "avaliacao": {
+    "holdout_sha256_canonico": "e1ab43ecac8133aebaef8491ef45e3d7eb681c18776cdc5650b5eb96f2f198ce",
+    "exemplos": 120,
+    "operacao_minima": 0.60,
+    "cada_operacao_minima": 0.35,
+    "slot_minimo": 0.70,
+    "primeiro_token_minimo": 0.55,
+    "ce_relativa_maxima": 0.90,
+    "preservacao_maxima": 1.05,
+    "baseline": "V4 congelada no mesmo holdout V6"
+  },
+  "seguranca": {
+    "ativo_no_chat": false,
+    "promocao_somente_se_todos_os_gates_passarem": true,
+    "checkpoint_preservado_mesmo_se_reprovar": true
+  }
+}
