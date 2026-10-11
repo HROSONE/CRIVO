@@ -1,0 +1,60 @@
+{
+  "versao": 1,
+  "estado": "holdout_congelado_antes_do_candidato",
+  "base": {
+    "papel": "Transformer causal próprio do CRIVO",
+    "pesos_sha256": "16102a72b21031b8bee2b4edfa633a359f7f08c5beab552b05f294e656b0cc67",
+    "tokenizer_sha256": "6e3704ce921851122953b8ac20c05e3a131f9cf0fa3c76d6e2391c4ec3efc88f",
+    "passo": 20000,
+    "parametros": 17428224,
+    "config": {
+      "vocabulario": 8192,
+      "dimensao": 384,
+      "camadas": 8,
+      "cabecas": 8,
+      "contexto": 256,
+      "dropout": 0.1
+    },
+    "pesos_externos": false
+  },
+  "hipotese": "O Transformer pré-treinado já possui linguagem e conhecimento; uma escola supervisionada de diálogo com sinais treino-only fatorados em AÇÃO e FOCO deve ensinar operação/slot sem introduzir regras de inferência nem destruir a base.",
+  "fatores": {
+    "acao": ["recordar", "atualizar", "epistemico", "compor", "esclarecer"],
+    "foco": ["pessoa", "objeto", "nenhum"],
+    "mapeamento": {
+      "recordar_pessoa": ["recordar", "pessoa"],
+      "recordar_objeto": ["recordar", "objeto"],
+      "corrigir_pessoa": ["atualizar", "pessoa"],
+      "guardar_hipotese": ["epistemico", "nenhum"],
+      "mensagem_sem_horario": ["compor", "pessoa"],
+      "pedir_detalhe": ["esclarecer", "objeto"]
+    }
+  },
+  "treino_precomprometido": {
+    "um_candidato": true,
+    "busca_hiperparametros_depois_holdout": false,
+    "dados_treino_separados_holdout": true,
+    "loss": "CE_resposta + 0.08*CE_acao + 0.08*CE_foco",
+    "camadas_treinaveis": "blocos 4-7 e norm final; embeddings, posição e blocos 0-3 congelados",
+    "cabecas_auxiliares": "treino-only; não serializadas e não usadas na inferência",
+    "lr": 3e-5,
+    "passos_maximos": 1200,
+    "lote": 16,
+    "grad_clip": 1.0,
+    "semente": 20261011
+  },
+  "avaliacao": {
+    "holdout": "prospectivo v1 definido por preparar_holdout.py antes do código do candidato",
+    "metricas": ["CE_resposta", "primeiro_token", "exata", "operacao", "slot", "por_operacao"],
+    "preservacao": "comparar CE do candidato com a base em frases portuguesas congeladas; tolerância máxima +5%",
+    "promocao": {
+      "operacao_min": 0.60,
+      "cada_operacao_min": 0.35,
+      "slot_min": 0.70,
+      "ganho_primeiro_token_pp_min": 10,
+      "ce_relativa_melhoria_min": 0.05,
+      "preservacao_ce_relativa_max": 1.05
+    },
+    "checkpoint_publico": "não alterar automaticamente; candidato só pode ser promovido se todos os gates passarem"
+  }
+}
