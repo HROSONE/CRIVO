@@ -1,0 +1,43 @@
+{
+  "congelado_depois_do_holdout_e_antes_do_treinador": true,
+  "base_commit": "3dc7f10a0896344e5b046fef230b074fb3d72880",
+  "protocolo_sha256": "767befc4f975998bb1a9bb5c4cd4d1b54e81b845add22d49b5167e0ed39b71ca",
+  "holdout_sha256": "ed6e560471a7696f10e84acba55b0a2b5fc935292c642d41fade46399008da7e",
+  "corpus_sha256": "dfa72d55c0b9ec445cc9536805e93d51e44160127dd661115cfba915cade8a33",
+  "inicializacao_sha256": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "decaimento": 0.00001,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "subespacos": {
+    "acao": {"inicio": 0, "fim": 8, "peso": 0.125},
+    "foco": {"inicio": 8, "fim": 16, "peso": 0.125},
+    "livre": {"inicio": 16, "fim": 24, "peso_auxiliar": 0.0}
+  },
+  "integridade": {
+    "parametros_checkpoint": 81433,
+    "vocabulario_checkpoint": 720,
+    "lambda_auxiliar_total": 0.25,
+    "um_unico_candidato": true,
+    "selecao_so_por_ce_geracao": true,
+    "holdout_aberto_so_apos_selecao": true,
+    "cabecas_nao_serializadas": true,
+    "fora_do_subespaco_peso_da_cabeca_permanece_zero": true,
+    "ativo_no_chat_automaticamente": false
+  }
+}

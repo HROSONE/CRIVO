@@ -1,0 +1,53 @@
+name: Escola Cognitiva - treino de subespacos 2026-10-11
+
+on:
+  push:
+    branches:
+      - codex/escola-subespacos-20261011
+    paths:
+      - 'experimentos/escola_subespacos_20261011/protocolo_treino.json'
+      - 'experimentos/escola_subespacos_20261011/treinar_subespacos.py'
+      - '.github/workflows/escola-subespacos-treino-20261011.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  treino-subespacos:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Compilar aula
+        run: python -m py_compile experimentos/escola_subespacos_20261011/treinar_subespacos.py
+      - name: Treinar candidato unico e abrir prova somente apos selecao
+        run: python experimentos/escola_subespacos_20261011/treinar_subespacos.py
+      - name: Preservar artefatos
+        uses: actions/upload-artifact@v4
+        with:
+          name: escola-subespacos-20261011
+          path: |
+            experimentos/escola_subespacos_20261011/checkpoint_subespacos.json.gz
+            experimentos/escola_subespacos_20261011/resultados.json
+            experimentos/escola_subespacos_20261011/RELATORIO.md
+      - name: Gravar resultado na branch
+        run: |
+          git config user.name 'Henry Tools'
+          git config user.email 'zerobob623@gmail.com'
+          git add experimentos/escola_subespacos_20261011/checkpoint_subespacos.json.gz experimentos/escola_subespacos_20261011/resultados.json experimentos/escola_subespacos_20261011/RELATORIO.md
+          if git diff --cached --quiet; then
+            echo 'Resultado ja presente.'
+          else
+            git commit -m 'Registra resultado da aula de subespacos'
+            git push
+          fi
