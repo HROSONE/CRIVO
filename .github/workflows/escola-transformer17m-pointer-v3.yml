@@ -50,7 +50,8 @@ jobs:
         run: |
           python -m py_compile \
             experimentos/escola_transformer_17m_pointer_v3_20261011/curriculo_pointer.py \
-            experimentos/escola_transformer_17m_pointer_v3_20261011/treinar_pointer.py
+            experimentos/escola_transformer_17m_pointer_v3_20261011/treinar_pointer.py \
+            experimentos/escola_transformer_17m_pointer_v3_20261011/executar_pointer_v3.py
           python experimentos/escola_transformer_17m_pointer_v3_20261011/curriculo_pointer.py
 
   treino-pointer-v3:
@@ -84,7 +85,7 @@ jobs:
           test "$(sha256sum /tmp/escola17m-v1/tokenizer.json | cut -d' ' -f1)" = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
       - name: Ensinar apontamento e binding
         run: |
-          python experimentos/escola_transformer_17m_pointer_v3_20261011/treinar_pointer.py \
+          python experimentos/escola_transformer_17m_pointer_v3_20261011/executar_pointer_v3.py \
             --entrada /tmp/escola17m-v1 --saida /tmp/escola17m-pointer-v3 --dispositivo cpu
       - name: Publicar candidato V3 sem ativar runtime
         uses: actions/upload-artifact@v4
