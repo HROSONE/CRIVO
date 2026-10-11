@@ -1,0 +1,48 @@
+{
+  "experimento": "escola-subespacos-20261011",
+  "hipotese": "o estado inicial de 24 dimensoes mistura ato, foco e conteudo; reservar coordenadas distintas para ACAO e FOCO permite que a supervisao auxiliar organize conceitos sem comprimir o estado inteiro",
+  "intervencao_unica": {
+    "estado_inicial_dimensoes": 24,
+    "subespaco_acao": [0, 8],
+    "subespaco_foco": [8, 16],
+    "subespaco_livre": [16, 24],
+    "classificacao_somente_linguagem_real": true,
+    "perda_contrastiva": false,
+    "professores_treino_only": true,
+    "parametros_runtime_adicionados": 0
+  },
+  "fontes": {
+    "corpus": "experimentos/corpus_fatorial_20261011/corpus_fatorial.json.gz",
+    "inicializacao": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz"
+  },
+  "integridade": {
+    "mesmos_3699_exemplos": true,
+    "mesma_rede_base_81433": true,
+    "mesmo_vocabulario_720": true,
+    "um_unico_candidato": true,
+    "holdout_congelado_antes_do_treinador": true,
+    "selecao_epoca_sem_holdout_prospectivo": true,
+    "checkpoint_inativo_por_padrao": true,
+    "sem_modelo_externo": true,
+    "sem_regra_runtime": true,
+    "sem_rag_novo": true
+  },
+  "portao": {
+    "old334_exatas_min": 47,
+    "old334_ce_max": 0.99,
+    "known94_exatas_min": 1,
+    "known94_ce_max": 4.2623,
+    "fatorial96_operacoes_min": 0.40,
+    "holdout146_operacoes_min": 0.40,
+    "holdout148_operacoes_min": 0.45,
+    "holdout149_operacoes_min": 0.30,
+    "holdout150_operacoes_min": 0.30,
+    "professor_acao_dev_min": 0.30,
+    "professor_foco_dev_min": 0.50,
+    "novo_ce_reducao_relativa_vs_melhor_baseline_min": 0.10,
+    "novo_primeiro_token_ganho_vs_melhor_baseline_min": 0.05,
+    "novo_operacoes_ganho_vs_melhor_baseline_min": 0.10,
+    "novo_operacoes_total_min": 0.45,
+    "novo_operacao_individual_min": 0.20
+  }
+}
