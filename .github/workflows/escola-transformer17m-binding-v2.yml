@@ -1,0 +1,102 @@
+name: Escola Transformer 17M - Binding v2
+
+on:
+  pull_request:
+    paths:
+      - 'experimentos/escola_transformer_17m_binding_20261011/**'
+      - '.github/workflows/escola-transformer17m-binding-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  contratos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compilar aula v2
+        run: |
+          python -m py_compile \
+            experimentos/escola_transformer_17m_binding_20261011/preparar_holdout.py \
+            experimentos/escola_transformer_17m_binding_20261011/treinar_binding.py
+      - name: Conferir holdout congelado sem importar treinador
+        run: |
+          python - <<'PY'
+          import hashlib, importlib.util, json
+          from pathlib import Path
+          p=Path('experimentos/escola_transformer_17m_binding_20261011')
+          man=json.loads((p/'manifesto_holdout.json').read_text(encoding='utf-8'))
+          assert hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()==man['gerador_sha256']
+          spec=importlib.util.spec_from_file_location('hv2',p/'preparar_holdout.py')
+          h=importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+          xs=h.gerar(); por={op:sum(x['operacao']==op for x in xs) for op in h.OPERACOES}
+          pacote={'versao':2,'semente':h.SEMENTE,'congelado_antes_do_treino':True,
+                  'auditoria':{'aprovado':True,'exemplos':120,'familias':len(h.FAMILIAS),
+                               'mensagens_exatas_repetidas':0,'por_operacao':por},'exemplos':xs}
+          bruto=json.dumps(pacote,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()
+          assert hashlib.sha256(bruto).hexdigest()==man['holdout_sha256_canonico']
+          assert len(xs)==120 and set(por.values())=={20}
+          print('holdout v2 congelado:',man['holdout_sha256_canonico'])
+          PY
+      - name: Conferir pré-compromisso
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('experimentos/escola_transformer_17m_binding_20261011')
+          q=json.loads((p/'protocolo.json').read_text(encoding='utf-8'))
+          assert q['entrada']['checkpoint_sha256']=='849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661'
+          assert q['intervencao']['passos']==800
+          assert q['intervencao']['peso_slot']==3.0
+          assert q['intervencao']['parametros_extras_inferencia']==0
+          assert q['seguranca']['ativo_no_chat'] is False
+          PY
+
+  treino-binding-v2:
+    if: github.event_name == 'pull_request'
+    needs: contratos
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar runtime do Transformer
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Recuperar exatamente o candidato v1 aprovado como origem
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-candidato
+          path: /tmp/escola17m-v1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38112043184
+      - name: Verificar checkpoint de entrada
+        run: |
+          test "$(sha256sum /tmp/escola17m-v1/pesos.pt | cut -d' ' -f1)" = "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661"
+          test "$(sha256sum /tmp/escola17m-v1/tokenizer.json | cut -d' ' -f1)" = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e"
+      - name: Ensinar ligação de pessoa objeto e atividade
+        run: |
+          python experimentos/escola_transformer_17m_binding_20261011/treinar_binding.py \
+            --entrada /tmp/escola17m-v1 \
+            --saida /tmp/escola17m-binding-v2 \
+            --dispositivo cpu
+      - name: Publicar candidato v2 sem ativar runtime
+        uses: actions/upload-artifact@v4
+        with:
+          name: escola-transformer-17m-binding-v2
+          path: /tmp/escola17m-binding-v2
+          retention-days: 7
+          if-no-files-found: error
