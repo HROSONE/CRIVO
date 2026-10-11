@@ -21,15 +21,16 @@ LIMITE_BODY = 256 * 1024
 
 
 def _modelo_linguagem(server):
-    """Prefere o Transformer 17,43M; configuração explícita ainda prevalece."""
+    """Usa o Transformer 17,43M somente quando habilitado explicitamente."""
     explicito = getattr(server, "modelo_linguagem", None)
     if explicito:
         return explicito
+    if os.environ.get("CRIVO_ENABLE_TRANSFORMER_17M", "").strip().lower() not in ("1", "true", "yes", "on"):
+        return None
     try:
         from motor_dialogo_17m import localizar
         return localizar()
     except (OSError, ValueError):
-        # Ausência/corrupção do artefato nunca derruba o motor preservado.
         return None
 
 
@@ -102,6 +103,8 @@ class handler(BaseHTTPRequestHandler):
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
+        transformer["ativacao_automatica"] = False
+        transformer["habilitado"] = bool(modelo)
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
