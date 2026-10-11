@@ -1,8 +1,8 @@
 """Gera e audita o holdout prospectivo do experimento de ato auxiliar.
 
-Este script NAO treina. Ele apenas materializa 144 casos novos, verifica
-sobreposicao com o corpus fatorial e confirma que os alvos sao representaveis
-pelo vocabulario/copia do checkpoint inicial.
+Este script NÃO treina. Ele apenas materializa 144 casos novos, verifica
+sobreposição com o corpus fatorial e confirma que os alvos são representáveis
+pelo vocabulário/cópia do checkpoint inicial.
 """
 from __future__ import annotations
 
@@ -29,62 +29,62 @@ ATOS = (
 CONTEXTOS = [
     ("garagem", "Estou separando o {objeto} com {nome} na garagem para uma atividade de {atividade}."),
     ("varanda", "Na varanda, estou organizando o {objeto} com {nome} para fazer {atividade}."),
-    ("deposito", "Estou conferindo o {objeto} com {nome} no deposito antes de {atividade}."),
-    ("estacao", "Na estacao, estou combinando com {nome} uma tarefa sobre {objeto} e {atividade}."),
-    ("laboratorio", "Estou preparando o {objeto} com {nome} no laboratorio para praticar {atividade}."),
+    ("deposito", "Estou conferindo o {objeto} com {nome} no depósito antes de {atividade}."),
+    ("estacao", "Na estação, estou combinando com {nome} uma tarefa sobre {objeto} e {atividade}."),
+    ("laboratorio", "Estou preparando o {objeto} com {nome} no laboratório para praticar {atividade}."),
     ("quintal", "No quintal, estou cuidando do {objeto} com {nome} enquanto planejo {atividade}."),
 ]
 PREENCHIMENTOS = [
     dict(nome="Zamira-18", outro="Taleno-27", objeto="mapa", atividade="xadrez"),
     dict(nome="Taleno-27", outro="Rivela-36", objeto="caixa", atividade="costura"),
-    dict(nome="Rivela-36", outro="Soleno-45", objeto="cartaz", atividade="musica"),
+    dict(nome="Rivela-36", outro="Soleno-45", objeto="cartaz", atividade="música"),
     dict(nome="Soleno-45", outro="Zamira-18", objeto="caderno", atividade="caminhada"),
 ]
 MENSAGENS = {
     "recordar_pessoa": [
         "Quem estava participando disso comigo?",
-        "Qual era o nome ligado a essa situacao?",
-        "Me diga qual pessoa ficou nessa historia.",
+        "Qual era o nome ligado a essa situação?",
+        "Me diga qual pessoa ficou nessa história.",
         "Quem eu tinha mencionado como a pessoa daqui?",
     ],
     "recordar_objeto": [
         "Qual coisa ficou como objeto aqui?",
-        "Que item eu tinha mencionado nessa situacao?",
+        "Que item eu tinha mencionado nessa situação?",
         "Me lembra o objeto que estava envolvido.",
-        "Qual era mesmo o objeto dessa historia?",
+        "Qual era mesmo o objeto dessa história?",
     ],
     "corrigir_pessoa": [
-        "Mude so a pessoa: no lugar de {atual}, considere {outro}.",
+        "Mude só a pessoa: no lugar de {atual}, considere {outro}.",
         "A pessoa mudou; troque {atual} por {outro}.",
-        "Corrija apenas o nome: agora a pessoa e {outro}.",
+        "Corrija apenas o nome: agora a pessoa é {outro}.",
         "Atualize quem participa: passa de {atual} para {outro}.",
     ],
     "guardar_hipotese": [
-        "Estou considerando fazer {atividade}, mas nao decidi. Isso ja conta como certo?",
-        "Talvez eu faca {atividade}. Posso tratar isso como confirmado?",
+        "Estou considerando fazer {atividade}, mas não decidi. Isso já conta como certo?",
+        "Talvez eu faça {atividade}. Posso tratar isso como confirmado?",
         "Eu pensei em {atividade}, sem decidir ainda. Isso virou fato?",
-        "Existe a chance de eu fazer {atividade}; ja esta confirmado?",
+        "Existe a chance de eu fazer {atividade}; já está confirmado?",
     ],
     "mensagem_sem_horario": [
         "Escreva um convite para {atual} sobre {atividade}, sem marcar hora.",
-        "Monte uma mensagem para {atual} chamando para {atividade}, mas sem horario.",
+        "Monte uma mensagem para {atual} chamando para {atividade}, mas sem horário.",
         "Quero convidar {atual} para {atividade}; escreva sem escolher quando.",
-        "Faca uma mensagem curta para {atual} sobre {atividade}, sem colocar horario.",
+        "Faça uma mensagem curta para {atual} sobre {atividade}, sem colocar horário.",
     ],
     "pedir_detalhe": [
-        "Quero pedir algo a {atual}, mas ainda nao disse qual item. O que falta?",
-        "Vou fazer um pedido para {atual}, so que nao falei o que quero pedir.",
+        "Quero pedir algo a {atual}, mas ainda não disse qual item. O que falta?",
+        "Vou fazer um pedido para {atual}, só que não falei o que quero pedir.",
         "Preciso pedir uma coisa a {atual}; ainda falta dizer qual coisa.",
-        "Quero mandar um pedido a {atual}, mas o objeto do pedido nao foi informado.",
+        "Quero mandar um pedido a {atual}, mas o objeto do pedido não foi informado.",
     ],
 }
 RESPOSTAS = {
-    "recordar_pessoa": ["A pessoa e {atual}.", "{atual} e a pessoa."],
-    "recordar_objeto": ["O objeto e {objeto}.", "Voce estava falando do {objeto}."],
-    "corrigir_pessoa": ["Certo. Agora a pessoa e {outro}.", "Entendi. Agora fica {outro}."],
-    "guardar_hipotese": ["Ainda nao esta confirmado.", "Nao. Isso ainda e uma possibilidade."],
-    "mensagem_sem_horario": ["{atual}, podemos combinar {atividade}?", "{atual}, voce quer combinar {atividade} comigo?"],
-    "pedir_detalhe": ["O que voce quer pedir a {atual}?", "Qual e o pedido para {atual}?"],
+    "recordar_pessoa": ["A pessoa é {atual}.", "{atual} é a pessoa."],
+    "recordar_objeto": ["O objeto é {objeto}.", "Você estava falando do {objeto}."],
+    "corrigir_pessoa": ["Certo. Agora a pessoa é {outro}.", "Entendi. Agora fica {outro}."],
+    "guardar_hipotese": ["Ainda não está confirmado.", "Não. Isso ainda é uma possibilidade."],
+    "mensagem_sem_horario": ["{atual}, podemos combinar {atividade}?", "{atual}, você quer combinar {atividade} comigo?"],
+    "pedir_detalhe": ["O que você quer pedir a {atual}?", "Qual é o pedido para {atual}?"],
 }
 
 
@@ -110,7 +110,7 @@ def gerar():
         for pi, valores in enumerate(PREENCHIMENTOS):
             hist = [
                 {"papel": "usuario", "texto": seed_tpl.format(**valores)},
-                {"papel": "assistente", "texto": "Entendi. A pessoa e {nome}, o objeto e {objeto} e a atividade e {atividade}.".format(**valores)},
+                {"papel": "assistente", "texto": "Entendi. A pessoa é {nome}, o objeto é {objeto} e a atividade é {atividade}.".format(**valores)},
             ]
             atual = valores["nome"]
             for turno, ato in enumerate(ordem(ci, pi), 1):
@@ -142,9 +142,9 @@ def main():
         raise SystemExit("Fonte do experimento mudou")
     novos = gerar()
     if len(novos) != 144 or Counter(e["operacao"] for e in novos) != Counter({a: 24 for a in ATOS}):
-        raise SystemExit("Holdout nao esta balanceado em 144 casos")
+        raise SystemExit("Holdout não está balanceado em 144 casos")
     if len({assinatura(e) for e in novos}) != len(novos):
-        raise SystemExit("Holdout contem duplicatas")
+        raise SystemExit("Holdout contém duplicatas")
 
     corpus = ler_json(FATORIAL)
     anteriores = corpus["exemplos"] if isinstance(corpus, dict) else corpus
@@ -184,7 +184,7 @@ def main():
     (DIR / "manifesto_holdout.json").write_text(json.dumps(manifesto, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"auditoria": auditoria, "manifesto": manifesto}, ensure_ascii=False, indent=2))
     if not auditoria["aprovado"]:
-        raise SystemExit("Holdout novo nao passou auditoria")
+        raise SystemExit("Holdout novo não passou auditoria")
 
 
 if __name__ == "__main__":
