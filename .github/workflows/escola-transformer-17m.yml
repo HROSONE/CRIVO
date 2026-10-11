@@ -1,19 +1,13 @@
-name: Escola Transformer 17M
+name: Escola Transformer 17M V1 (concluída)
 
 on:
-  pull_request:
-    paths:
-      - 'experimentos/escola_transformer_17m_20261011/**'
-      - 'experimentos/pesos_base/leitor_transformer/**'
-      - 'testes_escola_transformer_17m.py'
-      - '.github/workflows/escola-transformer-17m.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  contratos:
+  contratos-v1:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -21,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Compilar escola sem carregar pesos
+      - name: Revalidar contratos históricos da V1
         run: |
           python -m py_compile \
             experimentos/escola_transformer_17m_20261011/preparar_holdout.py \
@@ -29,38 +23,4 @@ jobs:
             experimentos/escola_transformer_17m_20261011/treinar_escola.py \
             experimentos/escola_transformer_17m_20261011/treinar_repo.py \
             testes_escola_transformer_17m.py
-      - name: Conferir congelamento, separação e gates
-        run: python -m unittest testes_escola_transformer_17m -v
-      - name: Auditar tamanho e equilíbrio do currículo
-        run: python experimentos/escola_transformer_17m_20261011/curriculo.py
-
-  treino-candidato:
-    if: github.event_name == 'pull_request'
-    needs: contratos
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    env:
-      OPENBLAS_NUM_THREADS: '2'
-      OMP_NUM_THREADS: '2'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Instalar runtime do Transformer
-        run: |
-          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
-          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
-      - name: Treinar um único candidato e abrir holdout só depois
-        run: |
-          python experimentos/escola_transformer_17m_20261011/treinar_repo.py \
-            --base experimentos/pesos_base/leitor_transformer \
-            --saida /tmp/escola17m-candidato \
-            --dispositivo cpu
-      - name: Publicar boletim e checkpoint sem ativar runtime
-        uses: actions/upload-artifact@v4
-        with:
-          name: escola-transformer-17m-candidato
-          path: /tmp/escola17m-candidato
-          retention-days: 7
-          if-no-files-found: error
+          python -m unittest testes_escola_transformer_17m -v
