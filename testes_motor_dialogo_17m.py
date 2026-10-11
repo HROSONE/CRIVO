@@ -25,7 +25,7 @@ class TestesMotorDialogo17M(unittest.TestCase):
         self.assertEqual(motor_dialogo_17m.PESOS_SHA256,
                          '16102a72b21031b8bee2b4edfa633a359f7f08c5beab552b05f294e656b0cc67')
         self.assertEqual(motor_dialogo_17m.TOKENIZER_SHA256,
-                         '6e3704ce921851122953b8ac20c05e3a131f9cf0fa3c76d6e2391c4ec3efc88f')
+                         '6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e')
 
     def test_api_liga_dialogo_contextual_quando_modelo_existe(self):
         fonte = Path('api/chat.py').read_text(encoding='utf-8')
