@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import random
 import shutil
@@ -25,8 +26,41 @@ sys.path[:0] = [str(AQUI), str(V4), str(RAIZ)]
 
 import treinar_bridge as tb  # noqa:E402
 
-# O holdout e o protocolo passam a ser os da V5; treino/currículo seguem V4.
+# O protocolo V5 é local; treino/currículo e utilitários seguem V4.
 tb.AQUI = AQUI
+
+
+def abrir_holdout_v5():
+    """Abre somente o holdout V5 e revalida seu pré-compromisso canônico."""
+    man = json.loads((AQUI / "manifesto_holdout.json").read_text(encoding="utf-8"))
+    gerador = AQUI / "preparar_holdout.py"
+    if tb.sha(gerador) != man["gerador_sha256"]:
+        raise ValueError("gerador do holdout V5 mudou")
+
+    spec = importlib.util.spec_from_file_location("holdout_v5_runtime", gerador)
+    h = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(h)
+    ex = h.gerar()
+    por = {op: sum(z["operacao"] == op for z in ex) for op in h.OPERACOES}
+    repetidas = len(ex) - len({z["mensagem"] for z in ex})
+    pacote = {
+        "versao": 5,
+        "semente": h.SEMENTE,
+        "congelado_antes_do_treino": True,
+        "auditoria": {
+            "aprovado": True,
+            "exemplos": 120,
+            "familias": len(h.FAMILIAS),
+            "mensagens_exatas_repetidas": repetidas,
+            "por_operacao": por,
+        },
+        "exemplos": ex,
+    }
+    if tb.sha_json(pacote) != man["holdout_sha256_canonico"]:
+        raise ValueError("hash do holdout V5 mudou")
+    if len(ex) != 120 or set(por.values()) != {20} or repetidas != 15:
+        raise ValueError("estrutura do holdout V5 mudou")
+    return ex, man
 
 
 def residuais_inferiores(m, ids, treino_topo=False):
@@ -145,7 +179,7 @@ def main():
     ponte, info = tb.treinar(candidato, tok, dev)
 
     # O holdout V5 só é aberto depois que os 1.000 passos terminaram.
-    hold, man = tb.abrir_holdout()
+    hold, man = abrir_holdout_v5()
     base, tokb, _ = tb.carregar_checkpoint(a.entrada, dev, True)
     entrada = tb.avaliar_base(base, tokb, hold, dev)
     cand = tb.avaliar_candidato(candidato, ponte, tok, hold, dev)
