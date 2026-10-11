@@ -1,0 +1,52 @@
+{
+  "congelado_em_utc": "2026-10-11T01:41:00Z",
+  "base_commit": "8ba9a7c157ea6010561fb8a661bcf71e34d68a1b",
+  "objetivo": "Criar a Escola Cognitiva treino-only e testar supervisao fatorada de ACAO e FOCO sem alterar arquitetura de producao, runtime, corpus total, inicializacao ou peso auxiliar total.",
+  "modelo_producao": {"parametros": 81433, "vocabulario": 720},
+  "escola": {
+    "professores": {
+      "acao": {"classes": ["recordar", "corrigir", "avaliar", "escrever", "perguntar"], "lambda": 0.125},
+      "foco": {"classes": ["pessoa", "objeto", "estado", "atividade", "detalhe"], "lambda": 0.125}
+    },
+    "lambda_total": 0.25,
+    "cabecas": "duas cabecas lineares 24x5+bias; existem somente durante o treino e nunca entram no checkpoint ou runtime",
+    "selecao_epoca": "somente entropia cruzada de geracao na validacao; professores nao escolhem checkpoint"
+  },
+  "treino_futuro": {
+    "corpus": "experimentos/corpus_fatorial_20261011/corpus_fatorial.json.gz",
+    "corpus_sha256": "dfa72d55c0b9ec445cc9536805e93d51e44160127dd661115cfba915cade8a33",
+    "inicializacao": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+    "inicializacao_sha256": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "exemplos_treino": 3699,
+    "hiperparametros_iguais_ao_145_146": true,
+    "um_unico_candidato": true
+  },
+  "avaliacoes_conhecidas": {
+    "old334": "regressao antiga conhecida",
+    "known94": "regressao conhecida",
+    "fatorial96": "avaliacao do PR 145, conhecida",
+    "prospectivo120": "avaliacao do experimento misto, conhecida",
+    "holdout146_144": "holdout do PR 146, agora conhecido e proibido como certificacao nova"
+  },
+  "novo_holdout": {
+    "exemplos": 144,
+    "contextos": 6,
+    "preenchimentos_por_contexto": 4,
+    "operacoes_por_episodio": 6,
+    "balanceado_por_operacao": true,
+    "rotulado_pelos_dois_professores": true,
+    "usar_para_selecao_de_epoca": false,
+    "deve_ser_hashado_antes_de_existir_workflow_de_treino": true,
+    "proibir_sobreposicao_com_corpus_e_holdout146": true
+  },
+  "integridade": {
+    "nenhum_modelo_externo": true,
+    "nenhuma_regra_runtime": true,
+    "nenhum_token_de_professor_na_inferencia": true,
+    "cabecas_descartadas_antes_do_checkpoint": true,
+    "mesmos_parametros_serializados": 81433,
+    "mesmo_vocabulario": 720,
+    "peso_auxiliar_total_igual_ao_146": 0.25,
+    "promocao_automatica_proibida": true
+  }
+}
