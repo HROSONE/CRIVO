@@ -1,0 +1,116 @@
+name: Auditoria Transformer 17M - V1 V4 V5
+
+on:
+  pull_request:
+    paths:
+      - 'experimentos/auditoria_transformer_17m_v4_v5_20261011/**'
+      - '.github/workflows/auditoria-transformer17m-v4-v5.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  congelamento:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verificar holdout diagnóstico congelado
+        run: |
+          python - <<'PY'
+          import hashlib, importlib.util, json
+          from pathlib import Path
+          p=Path('experimentos/auditoria_transformer_17m_v4_v5_20261011')
+          man=json.loads((p/'manifesto_holdout.json').read_text(encoding='utf-8'))
+          gerador=hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()
+          assert gerador==man['gerador_sha256']=='58807e8fb9b6ce00aec82a491f19a6fdfceb0da8c389f68ac74c32e6ec224ef5'
+          spec=importlib.util.spec_from_file_location('holdaudit',p/'preparar_holdout.py')
+          h=importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+          xs=h.gerar(); por={op:sum(x['operacao']==op for x in xs) for op in h.OPERACOES}
+          repetidas=len(xs)-len({x['mensagem'] for x in xs})
+          pacote={'versao':'audit1','semente':h.SEMENTE,'congelado_antes_da_avaliacao':True,
+            'auditoria':{'exemplos':120,'familias':len(h.FAMILIAS),
+                         'mensagens_exatas_repetidas':repetidas,'por_operacao':por},'exemplos':xs}
+          hold=hashlib.sha256(json.dumps(pacote,ensure_ascii=False,sort_keys=True,
+                 separators=(',',':')).encode()).hexdigest()
+          assert hold==man['holdout_sha256_canonico']=='55fab7f65ded87c721fe44bf84d6b69a1153c32caa3675feb95ce1a7887707f0'
+          assert len(xs)==120 and set(por.values())=={20} and repetidas==15
+          print('holdout',hold,'gerador',gerador,'por_operacao',por)
+          PY
+          python -m py_compile experimentos/auditoria_transformer_17m_v4_v5_20261011/auditar.py
+
+  auditoria-pareada:
+    needs: congelamento
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar runtime de avaliação
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Baixar V1 congelada
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-candidato
+          path: /tmp/crivo-v1
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38112043184
+      - name: Baixar V4 congelada
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-binding-bridge-v4
+          path: /tmp/crivo-v4
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38154299065
+      - name: Baixar V5 congelada
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-midbridge-v5
+          path: /tmp/crivo-v5
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 38160159893
+      - name: Verificar identidade e inatividade dos checkpoints
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,'rb') as f:
+                  for b in iter(lambda:f.read(1<<20),b''): h.update(b)
+              return h.hexdigest()
+          assert sha('/tmp/crivo-v1/pesos.pt')=='849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661'
+          v4=json.loads(Path('/tmp/crivo-v4/meta.json').read_text(encoding='utf-8'))
+          v5=json.loads(Path('/tmp/crivo-v5/meta.json').read_text(encoding='utf-8'))
+          assert v4['checkpoint_composto_sha256']=='c53981fda15f31fcc22b3355a8eb75551ce85907926960c1776774db0d9f2cda'
+          assert v5['checkpoint_composto_sha256']=='03a0bdc2241d01029df2ff34e2dc2aace1209bf90e6303ce50c9bb9b41758a89'
+          assert v4['ativo_no_chat'] is False and v5['ativo_no_chat'] is False
+          print('V1/V4/V5 verificados; nenhum candidato ativo')
+          PY
+      - name: Executar auditoria pareada sem treino
+        run: |
+          python experimentos/auditoria_transformer_17m_v4_v5_20261011/auditar.py \
+            --v1 /tmp/crivo-v1 --v4 /tmp/crivo-v4 --v5 /tmp/crivo-v5 \
+            --saida /tmp/auditoria-transformer17m --dispositivo cpu
+      - name: Publicar relatório diagnóstico
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-transformer17m-v1-v4-v5
+          path: /tmp/auditoria-transformer17m
+          retention-days: 7
+          if-no-files-found: error
