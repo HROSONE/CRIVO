@@ -1,0 +1,64 @@
+{
+  "congelado_em_utc": "2026-10-11T02:18:30Z",
+  "base_commit": "2c4c6162a873cb80c45c0aad9b3dd19fb0f335ac",
+  "objetivo": "Melhorar a generalizacao dos professores ACAO e FOCO sem adicionar professores, parametros de producao, regras de runtime, RAG, Transformer ou exemplos ao treino de geracao.",
+  "hipotese": "O sobreajuste 100% treino -> 25%/45.8% dev ocorre porque os professores veem uma unica superficie lexical. Ensinar a mesma classe em duas vistas invariantes deve forcar o estado inicial a representar a operacao e o papel semantico, nao nomes/frases especificas.",
+  "modelo_producao": {"parametros": 81433, "vocabulario": 720},
+  "fontes": {
+    "corpus": "experimentos/corpus_fatorial_20261011/corpus_fatorial.json.gz",
+    "corpus_sha256": "dfa72d55c0b9ec445cc9536805e93d51e44160127dd661115cfba915cade8a33",
+    "inicializacao": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+    "inicializacao_sha256": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "escola_anterior": "experimentos/escola_cognitiva_20261011"
+  },
+  "intervencao_unica": {
+    "nome": "ensino_auxiliar_multivista_invariante",
+    "geracao": "inalterada: mesmos 3699 exemplos, ordem, seed, dropout, sampling e hiperparametros do PR148",
+    "professores": ["acao", "foco"],
+    "peso_total": 0.25,
+    "por_professor": 0.125,
+    "vistas_por_professor": 2,
+    "peso_por_vista": 0.0625,
+    "vista_original": "entrada original",
+    "vista_invariante": "mesmo historico sem identidades especificas + mensagem reescrita por operacao com nomes/objetos/atividades anonimizados; rotulo preservado",
+    "cabecas": "treino-only; descartadas antes do checkpoint",
+    "selecao_epoca": "somente CE de geracao na validacao; professores e holdout nao escolhem epoca"
+  },
+  "novo_holdout": {
+    "exemplos": 180,
+    "contextos": 6,
+    "preenchimentos_por_contexto": 5,
+    "operacoes_por_episodio": 6,
+    "balanceado": true,
+    "congelar_antes_do_treinador": true,
+    "proibir_sobreposicao_com_corpus_holdout146_holdout148": true,
+    "usar_para_selecao": false
+  },
+  "portao": {
+    "old334_exatas_min": 47,
+    "old334_ce_max": 0.943481,
+    "known94_exatas_min": 1,
+    "known94_ce_max": 4.262217,
+    "fatorial96_operacoes_min": 0.448,
+    "holdout146_operacoes_min": 0.403,
+    "holdout148_operacoes_min": 0.50,
+    "professor_acao_dev_min": 0.50,
+    "professor_foco_dev_min": 0.60,
+    "novo_holdout_ce_melhora_relativa_vs_melhor_baseline_min": 0.05,
+    "novo_holdout_primeiro_ganho_vs_melhor_baseline_min": 0.03,
+    "novo_holdout_operacoes_ganho_vs_melhor_baseline_min": 0.05,
+    "novo_holdout_operacoes_total_min": 0.55,
+    "novo_holdout_operacao_individual_min": 0.25
+  },
+  "integridade": {
+    "um_unico_candidato": true,
+    "nenhum_modelo_externo": true,
+    "nenhuma_regra_runtime": true,
+    "nenhuma_mudanca_rag": true,
+    "nenhuma_mudanca_transformer": true,
+    "nenhum_token_de_professor_na_inferencia": true,
+    "mesmos_parametros_serializados": 81433,
+    "mesmo_vocabulario": 720,
+    "promocao_automatica_proibida": true
+  }
+}

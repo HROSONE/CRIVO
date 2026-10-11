@@ -1,0 +1,55 @@
+{
+  "principio": "mesmo conceito em superficies diferentes; nenhuma vista auxiliar altera o corpus de geracao",
+  "restricoes": {
+    "lambda_total": 0.25,
+    "nao_adiciona_exemplo_geracao": true,
+    "nao_adiciona_token_runtime": true,
+    "nao_altera_resposta_alvo": true,
+    "nao_serializa_professor": true
+  },
+  "versao": "contraste-invariante-v1",
+  "vistas": {
+    "acao": {
+      "anonimizacao": "nomes, objetos e atividades conhecidos viram 'coisa' no historico; mensagem atual e reescrita por acao",
+      "invariante_peso": 0.0625,
+      "original_peso": 0.0625,
+      "parafrases": {
+        "avaliar": [
+          "Diga se isso está confirmado ou ainda é possibilidade.",
+          "Separe fato de hipótese antes de responder.",
+          "Verifique se isso já é certeza ou continua incerto.",
+          "Avalie se a informação pode ser tratada como confirmada."
+        ],
+        "corrigir": [
+          "Troque a informação antiga pela nova.",
+          "Atualize o que estava valendo para a correção mais recente.",
+          "Considere a mudança e substitua o valor anterior.",
+          "Aplique somente a correção que acabou de ser dada."
+        ],
+        "escrever": [
+          "Forme a mensagem pedida sem inventar informação.",
+          "Escreva o texto solicitado respeitando o que foi informado.",
+          "Produza a mensagem usando apenas os dados disponíveis.",
+          "Monte a mensagem sem completar o que não foi definido."
+        ],
+        "perguntar": [
+          "Há informação faltando; faça a pergunta necessária.",
+          "Antes de responder, pergunte pelo detalhe que não foi dado.",
+          "Peça a informação necessária para completar a solicitação.",
+          "Faça uma pergunta para esclarecer o dado ausente."
+        ],
+        "recordar": [
+          "Me lembre do que ficou definido antes.",
+          "Recupere do contexto a informação que foi mencionada.",
+          "Use o que já apareceu na conversa para lembrar.",
+          "Volte ao contexto anterior e recupere o dado."
+        ]
+      }
+    },
+    "foco": {
+      "anonimizacao": "nomes viram 'pessoa', objetos viram 'objeto' e atividades viram 'atividade'; a mensagem original e preservada",
+      "invariante_peso": 0.0625,
+      "original_peso": 0.0625
+    }
+  }
+}

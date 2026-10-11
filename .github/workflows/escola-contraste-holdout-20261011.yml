@@ -1,0 +1,44 @@
+name: Escola Cognitiva - congelar prova contrastiva 2026-10-11
+
+on:
+  push:
+    branches:
+      - codex/escola-cognitiva-contraste-20261011
+    paths:
+      - 'experimentos/escola_contrastiva_20261011/protocolo.json'
+      - 'experimentos/escola_contrastiva_20261011/preparar_holdout.py'
+      - '.github/workflows/escola-contraste-holdout-20261011.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  congelar-prova:
+    runs-on: ubuntu-22.04
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numerico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Compilar gerador
+        run: python -m py_compile experimentos/escola_contrastiva_20261011/preparar_holdout.py
+      - name: Gerar e auditar prova sem treinador
+        run: python experimentos/escola_contrastiva_20261011/preparar_holdout.py
+      - name: Preservar prova congelada
+        run: |
+          git config user.name 'Henry Tools'
+          git config user.email 'zerobob623@gmail.com'
+          git add experimentos/escola_contrastiva_20261011/holdout_contraste.json experimentos/escola_contrastiva_20261011/manifesto_holdout.json
+          if git diff --cached --quiet; then
+            echo 'Prova ja congelada.'
+          else
+            git commit -m 'Congela prova prospectiva da aula contrastiva'
+            git push
+          fi
