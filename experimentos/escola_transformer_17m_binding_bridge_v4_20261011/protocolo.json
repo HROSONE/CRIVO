@@ -1,0 +1,48 @@
+{
+  "versao": 4,
+  "hipotese": "O gargalo restante está entre o binding interno e o LM head. Uma ponte inferida pelo próprio Transformer deve ler pessoa, objeto e atividade do histórico e reinjetar esses vetores no fluxo residual da resposta.",
+  "origem": {
+    "checkpoint_v1_sha256": "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661",
+    "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+    "parametros_base": 17428224,
+    "config": {"vocabulario":8192,"dimensao":384,"camadas":8,"cabecas":8,"contexto":256,"dropout":0.1}
+  },
+  "ponte": {
+    "slots": ["pessoa","objeto","atividade"],
+    "mecanismo": "tres pointers aprendidos + gates sigmoid inferidos do estado no marcador <assistente>; os resumos selecionados sao misturados, projetados e somados ao residual nos tokens de resposta",
+    "rotulos_na_inferencia": false,
+    "regras_por_palavra_na_inferencia": false,
+    "serializada_no_checkpoint": true,
+    "parametros_extras_estimados": 590980
+  },
+  "treino": {
+    "warmup_ponte": 150,
+    "passos_conjuntos": 1000,
+    "lote": 16,
+    "lr_modelo": 0.000015,
+    "lr_ponte": 0.0001,
+    "lambda_pointer": 0.10,
+    "lambda_gate": 0.06,
+    "embeddings_congelados": true,
+    "blocos_congelados": [0,1,2,3],
+    "blocos_treinaveis": [4,5,6,7],
+    "seleciona_checkpoint_por_holdout": false
+  },
+  "avaliacao": {
+    "holdout_sha256_canonico": "a21a3218b14439fbc5672ae2a9c7892b68e0d6838f903146b101b64f45ffc139",
+    "promocao": {
+      "operacao_min": 0.60,
+      "cada_operacao_min": 0.35,
+      "slot_min": 0.70,
+      "primeiro_token_min": 0.55,
+      "ce_relativa_max": 0.90,
+      "preservacao_ce_relativa_max": 1.05
+    }
+  },
+  "seguranca": {
+    "ativo_no_chat": false,
+    "nenhum_modelo_externo": true,
+    "nenhuma_promocao_automatica": true,
+    "holdout_aberto_somente_apos_treino": true
+  }
+}
