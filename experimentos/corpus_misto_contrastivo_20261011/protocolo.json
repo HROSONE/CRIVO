@@ -1,0 +1,86 @@
+{
+  "congelado_em_utc": "2026-10-11T00:23:30Z",
+  "base_commit": "e9c8fdc25164281da09f561cdcc48d96dc87e9aa",
+  "objetivo": "Preservar a cobertura das sessoes antigas sem devolver o atalho familia+turno e reduzir atalhos lexicais entre atos de resposta.",
+  "modelo": {"parametros": 81433, "vocabulario": 720},
+  "origem": {
+    "corpus_antigo": "experimentos/gerador_historico_textual_20261010/corpus_sessoes.json.gz",
+    "corpus_antigo_sha256": "fceefde42f10dfa0606ca1c43f8ee7fe13343a5ef4156261563cb33297ffe1ba",
+    "inicializacao": "experimentos/gerador_historico_textual_20261010/inicializacao_sessoes.json.gz",
+    "inicializacao_sha256": "d978777bf8c1d07ea89207408e6cfa7abe5a97998ff6103793bc0f30c426bd78",
+    "controle_1x": "experimentos/gerador_historico_textual_20261010/checkpoint_sessoes.json.gz",
+    "corpus_fatorial": "experimentos/corpus_fatorial_20261011/corpus_fatorial.json.gz",
+    "corpus_fatorial_sha256": "dfa72d55c0b9ec445cc9536805e93d51e44160127dd661115cfba915cade8a33",
+    "checkpoint_fatorial": "experimentos/corpus_fatorial_20261011/checkpoint_fatorial.json.gz",
+    "avaliacao_fatorial_conhecida": "experimentos/corpus_fatorial_20261011/avaliacao_final_fatorial.json",
+    "avaliacao_fatorial_conhecida_sha256": "12db85f8281a3750431b278975175d701b1dc99c5017fa54703314673d3db230"
+  },
+  "composicao_treino": {
+    "replay_legado": 999,
+    "apoio_lexical": 14,
+    "sessoes_antigas_balanceadas": 896,
+    "fatoriais_contrastivas": 1790,
+    "total": 3699
+  },
+  "validacao": {
+    "antiga": 334,
+    "sessoes_conhecidas_94": 94,
+    "contrastiva": 48,
+    "total": 476
+  },
+  "avaliacao_prospectiva": {
+    "exemplos": 120,
+    "contextos": 5,
+    "preenchimentos_por_contexto": 4,
+    "operacoes_por_episodio": 6,
+    "nao_usar_para_selecao_de_epoca": true
+  },
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "portao_corpus": {
+    "nmi_abertura_familia_turno_max": 0.40,
+    "nmi_prefixo2_familia_turno_max": 0.50,
+    "nmi_operacao_distrator_max": 0.10,
+    "fracao_prefixo2_em_ate_duas_familias_max": 0.35,
+    "todas_operacoes_fatoriais_em_todas_posicoes": true,
+    "alvos_nao_geraveis": 0
+  },
+  "portao_candidato": {
+    "old334_exatas_min": 47,
+    "old334_ce_max": 0.9906551066892826,
+    "known94_exatas_min": 1,
+    "known94_ce_max": 4.262216848936583,
+    "fatorial_conhecido_operacoes_min": 0.30,
+    "fatorial_conhecido_ce_max": 1.25,
+    "prospectivo_ce_melhora_relativa_vs_melhor_baseline_min": 0.20,
+    "prospectivo_primeiro_token_ganho_vs_melhor_baseline_min": 0.15,
+    "prospectivo_operacoes_ganho_vs_melhor_baseline_min": 0.20,
+    "prospectivo_operacoes_total_min": 0.50,
+    "prospectivo_operacao_individual_min": 0.30
+  },
+  "integridade": {
+    "um_unico_candidato": true,
+    "nenhuma_realocacao_vocabulario": true,
+    "nenhum_modelo_externo": true,
+    "nenhuma_regra_runtime": true,
+    "mesma_quantidade_treino": true,
+    "holdout_pr137_continua_proibido": true,
+    "promocao_automatica_proibida": true
+  }
+}
