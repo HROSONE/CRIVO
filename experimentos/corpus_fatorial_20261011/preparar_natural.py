@@ -73,7 +73,7 @@ base.MENSAGENS = {
 base.RESPOSTAS = {
     "recordar_pessoa": [
         "A pessoa é {atual}.",
-        "{atual} é a pessoa combinada.",
+        "{atual} é a pessoa.",
     ],
     "recordar_objeto": [
         "O objeto é {objeto}.",
@@ -81,7 +81,7 @@ base.RESPOSTAS = {
     ],
     "corrigir_pessoa": [
         "Certo. Agora a pessoa é {outro}.",
-        "Entendi a correção: fica {outro}.",
+        "Entendi. Agora fica {outro}.",
     ],
     "guardar_hipotese": [
         "Não. Isso ainda é uma possibilidade.",
