@@ -12,17 +12,23 @@ class TestesMotorDialogo17M(unittest.TestCase):
         servidor = type('Servidor', (), {'modelo_linguagem': '/modelo/explicito'})()
         self.assertEqual(chat._modelo_linguagem(servidor), '/modelo/explicito')
 
-    def test_chat_nao_autoativa_transformer_17m(self):
+    def test_chat_autoativa_transformer_17m_quando_base_exata_existe(self):
         servidor = type('Servidor', (), {})()
         with mock.patch.dict(os.environ, {}, clear=True), \
              mock.patch('motor_dialogo_17m.localizar', return_value='/modelo/17m'):
+            self.assertEqual(chat._modelo_linguagem(servidor), '/modelo/17m')
+
+    def test_chat_recua_se_base_17m_nao_estiver_disponivel(self):
+        servidor = type('Servidor', (), {})()
+        with mock.patch.dict(os.environ, {}, clear=True), \
+             mock.patch('motor_dialogo_17m.localizar', return_value=None):
             self.assertIsNone(chat._modelo_linguagem(servidor))
 
-    def test_chat_ativa_17m_somente_com_opt_in(self):
+    def test_chat_permite_opt_out_de_emergencia(self):
         servidor = type('Servidor', (), {})()
-        with mock.patch.dict(os.environ, {'CRIVO_ENABLE_TRANSFORMER_17M': '1'}), \
+        with mock.patch.dict(os.environ, {'CRIVO_DISABLE_TRANSFORMER_17M': '1'}, clear=True), \
              mock.patch('motor_dialogo_17m.localizar', return_value='/modelo/17m'):
-            self.assertEqual(chat._modelo_linguagem(servidor), '/modelo/17m')
+            self.assertIsNone(chat._modelo_linguagem(servidor))
 
     def test_env_e_primeiro_candidato(self):
         with mock.patch.dict(os.environ, {'CRIVO_TRANSFORMER_17M_DIR': '/tmp/base-17m'}):
@@ -34,12 +40,13 @@ class TestesMotorDialogo17M(unittest.TestCase):
         self.assertEqual(motor_dialogo_17m.TOKENIZER_SHA256,
                          '6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e')
 
-    def test_api_preserva_integracao_sem_autoativacao(self):
+    def test_api_liga_motor_forte_sem_remover_fallback(self):
         fonte = Path('api/chat.py').read_text(encoding='utf-8')
-        self.assertIn('CRIVO_ENABLE_TRANSFORMER_17M', fonte)
+        self.assertIn('CRIVO_DISABLE_TRANSFORMER_17M', fonte)
         self.assertIn('usar_dialogo_contextual=bool(modelo)', fonte)
         self.assertIn('modelo_linguagem=modelo', fonte)
-        self.assertIn('ativacao_automatica', fonte)
+        self.assertIn('transformer["ativacao_automatica"] = True', fonte)
+        self.assertIn('conversa_livre_com_fallback', fonte)
 
     def test_adaptador_aceita_somente_export_legado_exato(self):
         fonte = Path('dialogo_linguagem_profunda.py').read_text(encoding='utf-8')

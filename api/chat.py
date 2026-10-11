@@ -21,11 +21,18 @@ LIMITE_BODY = 256 * 1024
 
 
 def _modelo_linguagem(server):
-    """Usa o Transformer 17,43M somente quando habilitado explicitamente."""
+    """Prefere automaticamente a base Transformer 17,43M quando disponível.
+
+    Um caminho explicitamente fornecido ao servidor continua prevalecendo. O
+    opt-out existe para diagnóstico/emergência; sem a base exata (hashes
+    aprovados), ``motor_dialogo_17m.localizar`` retorna ``None`` e o chat recua
+    para o motor preservado. A seleção não desativa as guardas factuais de
+    ``DialogoContextual``: o Transformer entra apenas na conversa livre.
+    """
     explicito = getattr(server, "modelo_linguagem", None)
     if explicito:
         return explicito
-    if os.environ.get("CRIVO_ENABLE_TRANSFORMER_17M", "").strip().lower() not in ("1", "true", "yes", "on"):
+    if os.environ.get("CRIVO_DISABLE_TRANSFORMER_17M", "").strip().lower() in ("1", "true", "yes", "on"):
         return None
     try:
         from motor_dialogo_17m import localizar
@@ -103,8 +110,9 @@ class handler(BaseHTTPRequestHandler):
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
-        transformer["ativacao_automatica"] = False
+        transformer["ativacao_automatica"] = True
         transformer["habilitado"] = bool(modelo)
+        transformer["escopo"] = "conversa_livre_com_fallback"
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
