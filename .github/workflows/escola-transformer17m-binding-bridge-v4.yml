@@ -38,6 +38,9 @@ jobs:
                          'mensagens_exatas_repetidas':repetidas,'por_operacao':por},'exemplos':xs}
           hold=hashlib.sha256(json.dumps(pacote,ensure_ascii=False,sort_keys=True,
                  separators=(',',':')).encode()).hexdigest()
+          print('gerador calculado',gerador,'| manifesto',man['gerador_sha256'])
+          print('holdout calculado',hold,'| manifesto',man['holdout_sha256_canonico'])
+          print('repetidas',repetidas,'| por operação',por)
           assert gerador==man['gerador_sha256']
           assert hold==man['holdout_sha256_canonico']==protocolo['avaliacao']['holdout_sha256_canonico']
           assert len(xs)==120 and set(por.values())=={20}
@@ -45,7 +48,6 @@ jobs:
           assert protocolo['origem']['checkpoint_v1_sha256']=='849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661'
           assert protocolo['ponte']['serializada_no_checkpoint'] is True
           assert protocolo['seguranca']['ativo_no_chat'] is False
-          print('holdout V4',hold,'| repetidas',repetidas,'| por operação',por)
           PY
       - name: Auditar separação treino-prova e compilar treinador
         run: |
