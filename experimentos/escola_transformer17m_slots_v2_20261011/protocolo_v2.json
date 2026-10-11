@@ -1,0 +1,38 @@
+{
+  "versao": 2,
+  "hipotese": "o gargalo remanescente e ligacao/copia de slots abertos, nao escolha global da operacao",
+  "holdout": {
+    "congelado_antes_do_treino": true,
+    "gerador_commit": "d59b5feb9ada4b1a4f324e1d6f7c58312e1b24e3",
+    "exemplos": 180,
+    "por_operacao": 30,
+    "uso": "certificacao prospectiva V2; nao ajustar hiperparametros depois de abrir"
+  },
+  "baseline": {
+    "candidato_v1_checkpoint_sha256": "849bc4655820f8cd1f445539a1bd0f01959f03ce38145ece460c0fe27568c661",
+    "workflow_run": 38112043184,
+    "artifact_id": 11692627212
+  },
+  "intervencao_unica": {
+    "nome": "curriculo_de_slots_abertos",
+    "descricao": "manter arquitetura, 3072 exemplos, 1200 passos, lote, LR e perdas da V1; aumentar fortemente a cardinalidade de pessoa/objeto/atividade para impedir memorizacao lexical e exigir recuperacao do valor presente no contexto",
+    "arquitetura": "inalterada",
+    "passos": 1200,
+    "lote": 16,
+    "lr": 0.00003,
+    "lambda_acao": 0.08,
+    "lambda_foco": 0.08,
+    "camadas_treinaveis": "blocos 4-7 + norm",
+    "exemplos_treino": 3072
+  },
+  "gates": {
+    "operacao_total_min": 0.60,
+    "cada_operacao_min": 0.35,
+    "slot_min": 0.70,
+    "primeiro_token_min": 0.55,
+    "preservacao_ce_relativa_max": 1.05,
+    "deve_superar_v1_no_mesmo_holdout": true
+  },
+  "promocao_automatica": false,
+  "ativo_no_chat": false
+}
