@@ -1,0 +1,55 @@
+{
+  "congelado_apos_holdout_e_antes_do_treinador": true,
+  "base_commit": "8ba9a7c157ea6010561fb8a661bcf71e34d68a1b",
+  "protocolo_fundacao_sha256": "471b6a9b8b85d66ef5abbf998069b5b4ef392ab135ae19102ba48d27c0683684",
+  "escola_sha256": "102cdb5414887d7f00fca31302dfa990080c8b66e30eceb5dafb78edc29aec19",
+  "holdout_sha256": "2810a972ecac1606b47c91efe13eb8d7065415153d470a7dbedbd7d3fab49c02",
+  "intervencao_unica": "substituir a cabeca 6-way do PR146 por duas cabecas fatoradas: ACAO e FOCO; peso auxiliar total permanece 0.25",
+  "professores": {
+    "acao": {"lambda": 0.125, "classes": 5},
+    "foco": {"lambda": 0.125, "classes": 5}
+  },
+  "hiperparametros": {
+    "epocas": 20,
+    "lote_tamanho": 32,
+    "ocultos": 24,
+    "embeddings": 16,
+    "vocab_max": 720,
+    "buckets": 128,
+    "limite_fonte": 192,
+    "limite_resposta": 64,
+    "semente": 179,
+    "taxa": 0.0007,
+    "decaimento": 0.00001,
+    "validar_cada": 2,
+    "paciencia": 6,
+    "dropout": 0.15,
+    "dropout_tokens": 0.12,
+    "amostragem": 0.15,
+    "aquecimento": 3
+  },
+  "portao": {
+    "old334_exatas_min": 64,
+    "old334_ce_max": 0.80,
+    "known94_exatas_min": 1,
+    "known94_ce_max": 4.262216848936583,
+    "fatorial96_operacoes_min": 0.60,
+    "holdout146_operacoes_min": 0.424,
+    "professor_dev_acuracia_individual_min": 0.50,
+    "novo_holdout_ce_melhora_relativa_vs_melhor_baseline_min": 0.05,
+    "novo_holdout_primeiro_ganho_vs_melhor_baseline_min": 0.05,
+    "novo_holdout_operacoes_ganho_vs_melhor_baseline_min": 0.10,
+    "novo_holdout_operacoes_total_min": 0.45,
+    "novo_holdout_operacao_individual_min": 0.20
+  },
+  "integridade": {
+    "um_unico_candidato": true,
+    "sem_grade_de_lambda": true,
+    "selecao_so_por_ce_geracao": true,
+    "holdout_novo_aberto_so_apos_selecao": true,
+    "cabecas_nao_serializadas": true,
+    "parametros_checkpoint": 81433,
+    "vocabulario_checkpoint": 720,
+    "ativo_no_chat_automaticamente": false
+  }
+}
