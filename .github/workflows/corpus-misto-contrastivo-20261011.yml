@@ -1,0 +1,62 @@
+name: Corpus misto contrastivo 2026-10-11
+
+on:
+  push:
+    branches:
+      - codex/corpus-misto-contrastivo-20261011
+    paths:
+      - 'experimentos/corpus_misto_contrastivo_20261011/protocolo.json'
+      - 'experimentos/corpus_misto_contrastivo_20261011/preparar.py'
+      - '.github/workflows/corpus-misto-contrastivo-20261011.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  auditar-corpus:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Ambiente numérico
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Compilar preparação
+        run: python -m py_compile experimentos/corpus_misto_contrastivo_20261011/preparar.py
+      - name: Construir e auditar sem treino
+        run: python experimentos/corpus_misto_contrastivo_20261011/preparar.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: corpus-misto-pretreino-20261011
+          path: |
+            experimentos/corpus_misto_contrastivo_20261011/auditoria_corpus.json
+            experimentos/corpus_misto_contrastivo_20261011/manifesto.json
+            experimentos/corpus_misto_contrastivo_20261011/RELATORIO_CORPUS.md
+            experimentos/corpus_misto_contrastivo_20261011/avaliacao_prospectiva.json
+            experimentos/corpus_misto_contrastivo_20261011/corpus_misto.json.gz
+          if-no-files-found: warn
+      - name: Preservar corpus aprovado
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            experimentos/corpus_misto_contrastivo_20261011/auditoria_corpus.json \
+            experimentos/corpus_misto_contrastivo_20261011/manifesto.json \
+            experimentos/corpus_misto_contrastivo_20261011/RELATORIO_CORPUS.md \
+            experimentos/corpus_misto_contrastivo_20261011/avaliacao_prospectiva.json \
+            experimentos/corpus_misto_contrastivo_20261011/corpus_misto.json.gz
+          if git diff --cached --quiet; then
+            echo 'Sem artefatos novos.'
+          else
+            git commit -m 'Congela corpus misto contrastivo aprovado'
+            git push
+          fi
