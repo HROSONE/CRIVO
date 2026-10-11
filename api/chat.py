@@ -20,20 +20,6 @@ from web_core import PedidoInvalido, responder_web  # noqa: E402
 LIMITE_BODY = 256 * 1024
 
 
-def _modelo_linguagem(server):
-    """Usa o Transformer 17,43M somente quando habilitado explicitamente."""
-    explicito = getattr(server, "modelo_linguagem", None)
-    if explicito:
-        return explicito
-    if os.environ.get("CRIVO_ENABLE_TRANSFORMER_17M", "").strip().lower() not in ("1", "true", "yes", "on"):
-        return None
-    try:
-        from motor_dialogo_17m import localizar
-        return localizar()
-    except (OSError, ValueError):
-        return None
-
-
 class CorpoHTTPInvalido(ValueError):
     def __init__(self, status, mensagem):
         super().__init__(mensagem)
@@ -99,27 +85,20 @@ class handler(BaseHTTPRequestHandler):
         from modelo_efeitos_chat import status_modelo
         from geracao_ancorada import geracao
         from conversa_dialogo import status_dialogo
-        from motor_dialogo_17m import status as status_transformer
         g = geracao()
-        modelo = _modelo_linguagem(self.server)
-        transformer = status_transformer()
-        transformer["ativacao_automatica"] = False
-        transformer["habilitado"] = bool(modelo)
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
-                                "smartest_dialogue_engine": transformer,
                                 "programming_active": True,
                                 "question_interpretation_active": True,
                                 "reasoning_active": True,
                                 "knowledge_exploration_active": True,
                                 "build_commit": os.environ.get("VERCEL_GIT_COMMIT_SHA"),
                                 "programming_effects_model": status_modelo(),
-                                "engine": "transformer-leitor-17m" if modelo else "python-local",
-                                "external_ai": False,
+                                "engine": "python-local", "external_ai": False,
                                 "generation": {"enabled": getattr(self.server, "usar_geracao", True),
                                                "available": g.disponivel, "reason": g.motivo},
-                                "experimental_dialogue": bool(modelo) or
-                                getattr(self.server, "dialogo_contextual", False),
+                                "experimental_dialogue": getattr(self.server, "dialogo_contextual", False)
+                                or bool(getattr(self.server, "modelo_linguagem", None)),
                                 "experimental_programming": bool(getattr(self.server, "gerador_programacao", None))})
 
     def do_POST(self):
@@ -163,10 +142,10 @@ class handler(BaseHTTPRequestHandler):
                 self.close_connection = True
                 return self._json(400, {"error": "Corpo HTTP incompleto."})
             pedido = json.loads(bruto.decode("utf-8"))
-            modelo = _modelo_linguagem(self.server)
-            resposta = responder_web(pedido, usar_dialogo_contextual=bool(modelo) or getattr(
-                self.server, "dialogo_contextual", False), modelo_linguagem=modelo,
-                gerador_programacao=getattr(self.server, "gerador_programacao", None),
+            resposta = responder_web(pedido, usar_dialogo_contextual=getattr(
+                self.server, "dialogo_contextual", False), modelo_linguagem=getattr(
+                self.server, "modelo_linguagem", None), gerador_programacao=getattr(
+                self.server, "gerador_programacao", None),
                 usar_geracao=getattr(self.server, "usar_geracao", True),
                 checkpoint_dialogo_candidato=getattr(self.server, 'checkpoint_dialogo_candidato', None))
         except (UnicodeDecodeError, json.JSONDecodeError):
