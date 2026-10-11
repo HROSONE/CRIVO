@@ -21,24 +21,13 @@ LIMITE_BODY = 256 * 1024
 
 
 def _modelo_linguagem(server):
-    """Prefere automaticamente a base Transformer 17,43M quando disponível.
+    """Mantém candidatos não certificados fora do chat por padrão.
 
-    Um caminho explicitamente fornecido ao servidor continua prevalecendo. O
-    opt-out existe para diagnóstico/emergência; sem a base exata (hashes
-    aprovados), ``motor_dialogo_17m.localizar`` retorna ``None`` e o chat recua
-    para o motor preservado. A seleção não desativa as guardas factuais de
-    ``DialogoContextual``: o Transformer entra apenas na conversa livre.
+    O Transformer 17M só pode ser fornecido explicitamente para avaliação
+    isolada. Encontrar pesos com SHA correto não equivale à aprovação dos
+    gates congelados nem à superioridade sobre o motor conversacional atual.
     """
-    explicito = getattr(server, "modelo_linguagem", None)
-    if explicito:
-        return explicito
-    if os.environ.get("CRIVO_DISABLE_TRANSFORMER_17M", "").strip().lower() in ("1", "true", "yes", "on"):
-        return None
-    try:
-        from motor_dialogo_17m import localizar
-        return localizar()
-    except (OSError, ValueError):
-        return None
+    return getattr(server, "modelo_linguagem", None)
 
 
 class CorpoHTTPInvalido(ValueError):
@@ -110,9 +99,9 @@ class handler(BaseHTTPRequestHandler):
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
-        transformer["ativacao_automatica"] = True
+        transformer["ativacao_automatica"] = False
         transformer["habilitado"] = bool(modelo)
-        transformer["escopo"] = "conversa_livre_com_fallback"
+        transformer["escopo"] = "somente_modelo_explicito_com_fallback"
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
