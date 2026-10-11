@@ -43,6 +43,14 @@
     "primeiro_token_minimo": 0.55,
     "ce_relativa_maxima": 0.90,
     "preservacao_maxima": 1.05,
+    "promocao": {
+      "operacao_min": 0.60,
+      "cada_operacao_min": 0.35,
+      "slot_min": 0.70,
+      "primeiro_token_min": 0.55,
+      "ce_relativa_max": 0.90,
+      "preservacao_ce_relativa_max": 1.05
+    },
     "baseline": "V1 de entrada no mesmo holdout",
     "segunda_porta_conversacional_obrigatoria": true
   },
@@ -50,5 +58,8 @@
     "ativo_no_chat": false,
     "promocao_somente_se_todos_os_gates_e_conversa_passarem": true,
     "checkpoint_preservado_mesmo_se_reprovar": true
+  },
+  "compatibilidade": {
+    "ajuste_pos_falha_tecnica": "duplicacao dos mesmos gates em avaliacao.promocao para o leitor V4; valores e criterios nao foram alterados"
   }
 }
