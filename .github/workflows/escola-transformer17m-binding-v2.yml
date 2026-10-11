@@ -32,7 +32,7 @@ jobs:
           from pathlib import Path
           p=Path('experimentos/escola_transformer_17m_binding_20261011')
           man=json.loads((p/'manifesto_holdout.json').read_text(encoding='utf-8'))
-          assert hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()==man['gerador_sha256']
+          gerador_real=hashlib.sha256((p/'preparar_holdout.py').read_bytes()).hexdigest()
           spec=importlib.util.spec_from_file_location('hv2',p/'preparar_holdout.py')
           h=importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
           xs=h.gerar(); por={op:sum(x['operacao']==op for x in xs) for op in h.OPERACOES}
@@ -40,9 +40,14 @@ jobs:
                   'auditoria':{'aprovado':True,'exemplos':120,'familias':len(h.FAMILIAS),
                                'mensagens_exatas_repetidas':0,'por_operacao':por},'exemplos':xs}
           bruto=json.dumps(pacote,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()
-          assert hashlib.sha256(bruto).hexdigest()==man['holdout_sha256_canonico']
+          holdout_real=hashlib.sha256(bruto).hexdigest()
+          print('gerador_sha256_real=',gerador_real)
+          print('holdout_sha256_real=',holdout_real)
+          print('gerador_sha256_manifesto=',man['gerador_sha256'])
+          print('holdout_sha256_manifesto=',man['holdout_sha256_canonico'])
+          assert gerador_real==man['gerador_sha256']
+          assert holdout_real==man['holdout_sha256_canonico']
           assert len(xs)==120 and set(por.values())=={20}
-          print('holdout v2 congelado:',man['holdout_sha256_canonico'])
           PY
       - name: Conferir pré-compromisso
         run: |
