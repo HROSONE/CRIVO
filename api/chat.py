@@ -20,19 +20,25 @@ from web_core import PedidoInvalido, responder_web  # noqa: E402
 LIMITE_BODY = 256 * 1024
 
 
-def _modelo_linguagem(server):
-    """Prefere automaticamente a base Transformer 17,43M quando disponível.
+def _env_verdadeiro(nome):
+    return os.environ.get(nome, "").strip().lower() in ("1", "true", "yes", "on")
 
-    Um caminho explicitamente fornecido ao servidor continua prevalecendo. O
-    opt-out existe para diagnóstico/emergência; sem a base exata (hashes
-    aprovados), ``motor_dialogo_17m.localizar`` retorna ``None`` e o chat recua
-    para o motor preservado. A seleção não desativa as guardas factuais de
-    ``DialogoContextual``: o Transformer entra apenas na conversa livre.
+
+def _modelo_linguagem(server):
+    """Usa o Transformer 17,43M somente por configuração explícita/opt-in.
+
+    A mera presença local dos pesos não autoriza promoção para conversa. Um
+    caminho explicitamente fornecido ao servidor continua prevalecendo. Para
+    diagnóstico manual, ``CRIVO_ENABLE_TRANSFORMER_17M=1`` permite localizar a
+    base legada de hash conhecido; ``CRIVO_DISABLE_TRANSFORMER_17M=1`` mantém
+    uma trava adicional. Sem opt-in, o chat preserva o motor aprovado atual.
     """
     explicito = getattr(server, "modelo_linguagem", None)
     if explicito:
         return explicito
-    if os.environ.get("CRIVO_DISABLE_TRANSFORMER_17M", "").strip().lower() in ("1", "true", "yes", "on"):
+    if _env_verdadeiro("CRIVO_DISABLE_TRANSFORMER_17M"):
+        return None
+    if not _env_verdadeiro("CRIVO_ENABLE_TRANSFORMER_17M"):
         return None
     try:
         from motor_dialogo_17m import localizar
@@ -110,9 +116,12 @@ class handler(BaseHTTPRequestHandler):
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
-        transformer["ativacao_automatica"] = True
+        transformer["ativacao_automatica"] = False
+        transformer["opt_in_necessario"] = True
+        transformer["opt_in_ativo"] = bool(getattr(self.server, "modelo_linguagem", None)) or _env_verdadeiro(
+            "CRIVO_ENABLE_TRANSFORMER_17M")
         transformer["habilitado"] = bool(modelo)
-        transformer["escopo"] = "conversa_livre_com_fallback"
+        transformer["escopo"] = "conversa_livre_opt_in_com_fallback"
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
