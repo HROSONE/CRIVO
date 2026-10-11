@@ -1,0 +1,67 @@
+name: Escola Transformer 17M - Slots V2
+
+on:
+  pull_request:
+    paths:
+      - 'experimentos/escola_transformer17m_slots_v2_20261011/**'
+      - 'testes_escola_transformer17m_slots_v2.py'
+      - '.github/workflows/escola-transformer17m-slots-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  contratos-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compilar V2
+        run: python -m py_compile experimentos/escola_transformer17m_slots_v2_20261011/*.py testes_escola_transformer17m_slots_v2.py
+      - name: Conferir prova, slots e ordem causal
+        run: python -m unittest testes_escola_transformer17m_slots_v2 -v
+
+  treino-v2:
+    if: github.event_name == 'pull_request'
+    needs: contratos-v2
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar runtime do Transformer
+        run: |
+          python -m pip install 'numpy>=1.24,<3' 'tokenizers>=0.20,<1'
+          python -m pip install 'torch>=2.2,<3' --index-url https://download.pytorch.org/whl/cpu
+      - name: Baixar baseline V1 congelado
+        uses: actions/download-artifact@v4
+        with:
+          name: escola-transformer-17m-candidato
+          path: /tmp/escola17m-v1
+          github-token: ${{ github.token }}
+          repository: HROSONE/CRIVO
+          run-id: 38112043184
+      - name: Treinar V2 e comparar com V1 na prova nova
+        run: |
+          python experimentos/escola_transformer17m_slots_v2_20261011/treinar_v2.py \
+            --base experimentos/pesos_base/leitor_transformer \
+            --baseline-v1 /tmp/escola17m-v1 \
+            --saida /tmp/escola17m-v2 \
+            --dispositivo cpu
+      - name: Publicar candidato V2 sem ativar runtime
+        uses: actions/upload-artifact@v4
+        with:
+          name: escola-transformer-17m-slots-v2
+          path: /tmp/escola17m-v2
+          retention-days: 14
+          if-no-files-found: error
