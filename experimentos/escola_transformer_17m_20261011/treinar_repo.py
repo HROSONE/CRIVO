@@ -62,8 +62,12 @@ def carregar_versionado(pasta: Path, dispositivo: torch.device):
     estado = modelo.state_dict()
     chaves = set(estado)
     disponiveis = {k for k in dados.files if k != "meta"}
-    if chaves != disponiveis:
-        raise ValueError("chaves do artefato não coincidem com o Transformer")
+    faltantes = chaves - disponiveis
+    extras = disponiveis - chaves
+    if faltantes:
+        raise ValueError("faltam chaves do backbone Transformer: " + ", ".join(sorted(faltantes)))
+    if extras != {"cabeca.weight", "cabeca.bias"}:
+        raise ValueError("chaves extras inesperadas no artefato: " + ", ".join(sorted(extras)))
     convertido = {k: torch.from_numpy(dados[k].astype(np.float32, copy=False)) for k in estado}
     modelo.load_state_dict(convertido, strict=True)
     if sum(p.numel() for p in modelo.parameters()) != PARAMETROS:
@@ -82,7 +86,8 @@ def carregar_versionado(pasta: Path, dispositivo: torch.device):
             "pesos_externos": False,
             "base_pretreino_sha256": BASE_PRETREINO_SHA,
             "artefato_versionado_sha256": ARTEFATO_SHA,
-            "origem": "ajuste experimental do leitor derivado da base própria 17M",
+            "cabeca_leitor_descartada": True,
+            "origem": "backbone do ajuste experimental do leitor derivado da base própria 17M",
         },
     }
     return modelo, tokenizer, origem
@@ -139,6 +144,7 @@ def main():
             "pesos_externos": False,
             "base_pretreino_sha256": BASE_PRETREINO_SHA,
             "artefato_inicial_sha256": ARTEFATO_SHA,
+            "cabeca_leitor_descartada": True,
             "escola_cognitiva": {
                 "versao": 1,
                 "passos": escola.PASSOS,
