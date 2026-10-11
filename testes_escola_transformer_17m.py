@@ -89,7 +89,7 @@ class TestesEscolaTransformer17M(unittest.TestCase):
             if isinstance(no, ast.Call) and isinstance(no.func, ast.Name):
                 if no.func.id == "treinar":
                     linhas_treino.append(no.lineno)
-                elif no.func.id == "carregar_holdout":
+                elif no.func.id == "abrir_holdout":
                     linhas_holdout.append(no.lineno)
         self.assertTrue(linhas_treino)
         self.assertTrue(linhas_holdout)
@@ -97,9 +97,9 @@ class TestesEscolaTransformer17M(unittest.TestCase):
 
     def test_promocao_exige_todos_os_gates_e_nunca_ativa_sozinha(self):
         fonte = (EXP / "treinar_escola.py").read_text(encoding="utf-8")
-        self.assertIn("elegivel = all(gs.values())", fonte)
-        self.assertIn('"ativo_no_chat": False', fonte)
-        self.assertIn('"auxiliares_serializados": False', fonte)
+        self.assertIn("eleg=all(g.values())", fonte)
+        self.assertIn('"ativo_no_chat":False', fonte)
+        self.assertIn('"auxiliares_serializados":False', fonte)
         gates = self.protocolo["avaliacao"]["promocao"]
         self.assertEqual(gates["operacao_min"], 0.60)
         self.assertEqual(gates["cada_operacao_min"], 0.35)
