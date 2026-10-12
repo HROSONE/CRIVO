@@ -31,6 +31,8 @@ VAGAS_ATOMO = 64
 VAGAS_PREMISSA = 40
 SEG_CLS, SEG_PERGUNTA = VAGAS_PREMISSA, VAGAS_PREMISSA + 1
 MAX_POS = 12
+# Papel de cada token: marcador, condição de uma regra, conclusão de uma regra, fato, pergunta.
+MARCA, CONDICAO, CONCLUSAO, PAPEL_FATO, PERGUNTA = range(5)
 
 
 def codificar(problema, rng):
@@ -38,15 +40,16 @@ def codificar(problema, rng):
     n = problema["atomos"]
     vagas_a = rng.sample(range(VAGAS_ATOMO), n)
     vagas_p = rng.sample(range(VAGAS_PREMISSA), len(problema["premissas"]))
-    tok, seg, pos, premissa, atomo = [CLS], [SEG_CLS], [0], [-1], [-1]
+    tok, seg, pos, premissa, atomo, papel = [CLS], [SEG_CLS], [0], [-1], [-1], [MARCA]
 
-    def por(t, s, p, i=-1, a=-1):
+    def por(t, s, p, i=-1, a=-1, r=MARCA):
         tok.append(t); seg.append(s); pos.append(min(p, MAX_POS - 1)); premissa.append(i); atomo.append(a)
+        papel.append(r)
 
-    def lit(a, negativo, s, p, i):
+    def lit(a, negativo, s, p, i, r):
         if negativo:
-            por(NEG, s, p, i); p += 1
-        por(BASE_ATOMO + vagas_a[a], s, p, i, a)
+            por(NEG, s, p, i, -1, r); p += 1
+        por(BASE_ATOMO + vagas_a[a], s, p, i, a, r)
         return p + 1
 
     for i, pr in enumerate(problema["premissas"]):
@@ -57,13 +60,13 @@ def codificar(problema, rng):
             por(FATO, s, p, -1); p += 1
         else:
             for a, ng in pr["a"]:
-                p = lit(a, ng, s, p, -1)
+                p = lit(a, ng, s, p, -1, CONDICAO)
             por(OU if pr.get("op") == "ou" else E, s, p); p += 1
             por(ENTAO, s, p); p += 1
-        lit(pr["c"][0], pr["c"][1], s, p, -1)
+        lit(pr["c"][0], pr["c"][1], s, p, -1, CONCLUSAO if pr["a"] else PAPEL_FATO)
     por(QUERY, SEG_PERGUNTA, 0)
-    lit(problema["pergunta"][0], problema["pergunta"][1], SEG_PERGUNTA, 1, -1)
-    return {"tok": tok, "seg": seg, "pos": pos, "premissa": premissa, "atomo": atomo}
+    lit(problema["pergunta"][0], problema["pergunta"][1], SEG_PERGUNTA, 1, -1, PERGUNTA)
+    return {"tok": tok, "seg": seg, "pos": pos, "premissa": premissa, "atomo": atomo, "papel": papel}
 
 
 def lote(problemas, rng, dispositivo="cpu"):
@@ -72,7 +75,7 @@ def lote(problemas, rng, dispositivo="cpu"):
     L = max(len(c["tok"]) for c in cods)
     B = len(cods)
     t = {k: torch.full((B, L), v, dtype=torch.long) for k, v in
-         (("tok", PAD), ("seg", 0), ("pos", 0), ("premissa", -1), ("atomo", -1))}
+         (("tok", PAD), ("seg", 0), ("pos", 0), ("premissa", -1), ("atomo", -1), ("papel", MARCA))}
     for b, c in enumerate(cods):
         for k in t:
             t[k][b, :len(c[k])] = torch.tensor(c[k])
@@ -106,6 +109,7 @@ class Pensador(nn.Module):
         self.tok = nn.Embedding(BASE_ATOMO + VAGAS_ATOMO, d)
         self.seg = nn.Embedding(VAGAS_PREMISSA + 2, d)
         self.pos = nn.Embedding(MAX_POS, d)
+        self.papel = nn.Embedding(5, d)
         self.estado0 = nn.Parameter(torch.zeros(d))
         camada = nn.TransformerEncoderLayer(d, cabecas, 4 * d, dropout=0.0, batch_first=True, norm_first=True)
         self.bloco = nn.TransformerEncoder(camada, camadas, enable_nested_tensor=False)
@@ -118,7 +122,7 @@ class Pensador(nn.Module):
     def forward(self, x, voltas=None):
         """Lista com as saídas de cada volta."""
         mascara = x["tok"].eq(PAD)
-        entrada = self.tok(x["tok"]) + self.seg(x["seg"]) + self.pos(x["pos"])
+        entrada = self.tok(x["tok"]) + self.seg(x["seg"]) + self.pos(x["pos"]) + self.papel(x["papel"])
         h = self.estado0.expand_as(entrada)
         saidas = []
         for _ in range(voltas or self.voltas):
