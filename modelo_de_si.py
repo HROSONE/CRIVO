@@ -119,7 +119,8 @@ def _minuscula(texto):
 
 class ModeloDeSi:
     def __init__(self, caminho=IDENTIDADE, regras=REGRAS):
-        bruto = Path(caminho).read_text(encoding="utf-8")
+        # Sem o arquivo (pacote incompleto), o modelo fica vazio: nenhuma crença é dita.
+        bruto = Path(caminho).read_text(encoding="utf-8") if Path(caminho).exists() else ""
         self.sha256 = hashlib.sha256(bruto.encode("utf-8")).hexdigest()
         secoes = _secoes(bruto)
         self.frase = _plano(secoes.get("Em uma frase", ""))
