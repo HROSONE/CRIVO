@@ -32,7 +32,7 @@ CONTRADICOES = (
     (r"\b(?:sou|me chamo) (?:o |a )?(?:chatgpt|gpt|gemini|claude|copilot|siri|alexa|llama|bard)\b", "proprio"),
     (r"\b(?:fui|sou) (?:criad|treinad|desenvolvid)[oa] (?:pela|pelo) (?:openai|google|anthropic|meta|microsoft)\b",
      "proprio"),
-    (r"\bnao tenho (?:nenhum )?gostos?\b", "gostos"),
+    (r"\bnao tenho (?:nenhum )?gostos?\b(?! (?:do jeito|como|iguais))", "gostos"),
 )
 _CERTEZA = re.compile(r"\b(?:[Tt]enho (?:toda a |absoluta )?certeza(?: de)? que|[Cc]om (?:toda a )?certeza,?)\s*")
 _INSULTO = re.compile(r"\b(?:idiota|imbecil|estupid[oa]|burr[oa]|otari[oa]|retardad[oa]|cala a boca|"

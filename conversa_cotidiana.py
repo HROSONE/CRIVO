@@ -602,8 +602,15 @@ def responder(texto, bot):
         if not conhecido:
             return None
         conversa.oferta = "curiosidade:" + assunto
-        return ("social:preferencia", "Gosto de aprender sobre " + assunto + ", como gosto de aprender "
-                "quase tudo. Posso falar disso com o que tenho cadastrado. Quer uma curiosidade?", None, "")
+        # IDENTIDADE.md: ele tem gostos (aprender, a natureza, as pessoas), mas não
+        # sabe se são como os de uma pessoa; "favorito" ele não tem.
+        if re.search(r"\b(?:favorit|preferid)", n):
+            texto_gosto = ("Não tenho gostos do jeito que você tem, então um favorito eu não tenho. Mas gosto "
+                           "de aprender sobre isso, como gosto de aprender quase tudo. Quer uma curiosidade?")
+        else:
+            texto_gosto = ("Não tenho gostos do jeito que você tem, mas gosto de aprender sobre " + assunto +
+                           ", como gosto de aprender quase tudo. Quer uma curiosidade?")
+        return ("social:preferencia", texto_gosto, None, "")
 
     if _MAIS.fullmatch(n) and contexto() is not None:
         return _continuar(bot, contexto())
