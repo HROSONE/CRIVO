@@ -46,7 +46,7 @@ Fontes: [In-context Learning and Induction Heads](https://transformer-circuits.p
 |---|---|---|---|
 | 1. Diagnóstico | sonda de cópia (`scripts/sonda_copia_17m.py`) em todo checkpoint | linha de base registrada | **feito** no leitor: 26,7% |
 | 2. Pré-treino continuado | mesmo 17M, mesmos dados próprios, +40.000 passos (~655M tokens), 5% de janelas com trecho repetido, sonda a cada 2.500 passos (`notebooks/salto_17m_fase2_pretreino_continuo_colab.ipynb`) | cópia top-1 ≥ 80% e nome 2ª menção ≤ 1,0 nat, validação sem piorar | **pronto para rodar** (~3 sessões de T4) |
-| 3. Diálogo com a base inteira | ajuste fino completo (sem congelar) em diálogos humanos pt do OASST2 + currículos do CRIVO + tarefas de entidade do v3 (só treino), com 5–10% de replay do pré-treino e KL nas âncoras do v5 | gates do v3 no blind novo **e** preservação, sem cabeça extra | a implementar depois do resultado da fase 2 |
+| 3. Realizador do quadro | o 17M passa a ser a **rede da linguagem** do CRIVO: ajuste fino completo (sem congelar) para verbalizar o conteúdo que o quadro (`estado_interno.py`) já decidiu — ato de fala, fatos verificados, entidades, pergunta de esclarecimento — com diálogos humanos pt do OASST2 como estilo, 5–10% de replay do pré-treino e KL nas âncoras do v5. Raciocínio continua nos módulos. Ver `docs/pesquisa_mente_artificial_20261012.md` | formal no 17M (fluência, cópia fiel, parada, zero fato acrescentado) **e** funcional no sistema inteiro; gates do v3 e preservação | a implementar depois do resultado da fase 2 |
 | 4. Porta conversacional | testes de conversa do repositório + conjunto prospectivo congelado, comparação direta com o motor atual | nenhuma regressão relevante | depois da fase 3 |
 | 5. Opt-in experimental | integração como no #168 (dupla trava, SHA exato) para conversar no CRIVO | — | depois da fase 4 |
 
@@ -68,3 +68,7 @@ Origem `CRIVO/transformer-leitor/checkpoint.pt` só leitura; tudo novo em
 - Células 2–4 do notebook simuladas em CPU com Drive falso (cache de dados, treino curto,
   tabela da sonda, exportação). Células de GPU/Drive/clone só rodam no Colab.
 - Nenhum número de capacidade foi medido nesta simulação.
+
+## Revisão de 12/10 (pesquisa sobre mentes artificiais)
+
+A neurociência separa competência linguística formal (rede da linguagem) de competência funcional (raciocínio, mundo, pessoas), e a ciência cognitiva associa mentes a módulos + área de trabalho global. O CRIVO já tem os módulos e o quadro; por isso a fase 3 deixou de ser diálogo de ponta a ponta e passou a ser o 17M como realizador do quadro. Detalhes e fontes: `docs/pesquisa_mente_artificial_20261012.md`.
