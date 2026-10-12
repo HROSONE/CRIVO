@@ -211,13 +211,14 @@ def encode_example(tok: Tokenizer, case: Case, context: int):
 
 def collate(tok: Tokenizer, batch: list[Case], context: int, device: str):
     pad = tok.token_to_id("<pad>")
+    blocked = {tok.token_to_id(t) for t in ESPECIAIS}
     rows = [encode_example(tok, c, context) for c in batch]
     m = max(len(x) for x, _, _ in rows)
     xs, ys, src_masks = [], [], []
     for x, y, sl in rows:
         xs.append(x + [pad] * (m - len(x)))
         ys.append(y + [-100] * (m - len(y)))
-        src_masks.append([i < sl for i in range(m)])
+        src_masks.append([i < sl and i < len(x) and x[i] not in blocked for i in range(m)])
     return (
         torch.tensor(xs, dtype=torch.long, device=device),
         torch.tensor(ys, dtype=torch.long, device=device),
@@ -242,7 +243,7 @@ def pointer_loss(base, head, x, y, source_mask):
     return loss, float(gate.mean().detach()), float(copy_p.mean().detach())
 
 @torch.no_grad()
-def pointer_next(base, head, ids: list[int], source_len: int):
+def pointer_next(base, head, ids: list[int], source_len: int, blocked_ids):
     device = base.embedding.weight.device
     x = torch.tensor([ids[-base.config.contexto:]], dtype=torch.long, device=device)
     source_len = min(source_len, x.shape[1])
@@ -252,6 +253,8 @@ def pointer_next(base, head, ids: list[int], source_len: int):
     k = head.k(h)
     scores = torch.matmul(q, k.transpose(-1, -2)).squeeze(1) / math.sqrt(head.rank)
     mask = torch.arange(x.shape[1], device=device)[None, :] < source_len
+    for token in blocked_ids:
+        mask = mask & (x != token)
     scores = scores.masked_fill(~mask, -1e4)
     attn = scores.softmax(-1)
     copy_vocab = torch.zeros((1, base.config.vocabulario), device=device, dtype=logits.dtype)
@@ -269,8 +272,9 @@ def generate_pointer(base, head, tok, prompt, max_tokens=64):
     gates = []
     fim = tok.token_to_id("<fim>")
     prohibited = {tok.token_to_id(t) for t in ESPECIAIS[:-1]}
+    copy_blocked = {tok.token_to_id(t) for t in ESPECIAIS}
     for _ in range(max_tokens):
-        p, g = pointer_next(base, head, ids, len(source))
+        p, g = pointer_next(base, head, ids, len(source), copy_blocked)
         gates.append(g)
         for t in prohibited:
             p[t] = 0
