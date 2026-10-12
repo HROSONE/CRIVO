@@ -274,12 +274,14 @@ def main():
     ap.add_argument("--frac-repeticao", type=float, default=0.05)
     ap.add_argument("--sonda-a-cada", type=int, default=2500)
     ap.add_argument("--lotes-validacao", type=int, default=50)
-    ap.add_argument("--checkpoint-a-cada", type=int, default=10000)
+    ap.add_argument("--checkpoint-a-cada", type=int, default=5000)
     ap.add_argument("--max-horas", type=float, default=0, help="pausa com checkpoint depois desse tempo")
     ap.add_argument("--dispositivo", default=None)
     args = ap.parse_args()
-    if args.etapa == "treinar" and "/drive/" in args.checkpoint and args.checkpoint_a_cada < 10000:
-        raise SystemExit("Checkpoint no Drive a cada menos de 10.000 passos enche o Drive; use 10.000 ou mais.")
+    # Arquivo único sobrescrito; cada versão substituída vai para a lixeira do Drive (~280 MB).
+    # 5.000 passos ≈ 75 min na T4: limita a perda quando o Colab cai sem aviso.
+    if args.etapa == "treinar" and "/drive/" in args.checkpoint and args.checkpoint_a_cada < 5000:
+        raise SystemExit("Checkpoint no Drive a cada menos de 5.000 passos enche a lixeira do Drive; use 5.000 ou mais.")
     if args.dispositivo is None:
         import torch
         args.dispositivo = "cuda" if torch.cuda.is_available() else "cpu"
