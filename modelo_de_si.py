@@ -277,6 +277,6 @@ _PERGUNTAS = (
                    r"qual (?:e )?o sentido da vida(?: pra voce| para voce)?|tudo esta conectado)"),
     ("amizade", r"(?:(?:voce )?(?:quer|pode|seria) (?:ser )?(?:meu |minha )?amig[oa]|vamos ser amig[oa]s|"
                 r"somos amig[oa]s|voce (?:e|eh) (?:meu |minha )?amig[oa])"),
-    ("opiniao", r"(?:voce respeita (?:a )?(?:minha )?opiniao|voce (?:sempre )?concorda comigo|"
+    ("opiniao", r"(?:voce respeita (?:a )?(?:minha )?opiniao|voce sempre concorda comigo|voce concorda com tudo|"
                 r"voce (?:pode|consegue) discordar(?: de mim)?)"),
 )
