@@ -1,0 +1,618 @@
+{
+ "protocol": "pointer_copy_causal_v3",
+ "created_at": "2026-10-12T04:55:12.315018",
+ "repo_branch": "claude/affectionate-carson-22yoe0",
+ "repo_commit": "e4b78c98ccf7b0e3cf3b9dfacfbb7c1d26c017fe",
+ "dados_congelados_sha256": {
+  "blind_novo_v3.json": "7a188ddfd948e38193dd55b1749513f63272b1ce04863cda7e6ed42022d984c8",
+  "blind_regressao_v2.json": "c8aeec37b4beaa935cdb2c498717308b9dc155a6dbda3a1a0f6cb9801e937756",
+  "treino_dev_v3.json": "4fb0edeb47742f7a3eb849e2bab76e22da59cf38c20bf752f3a039af8202edda",
+  "dados_v3.py": "43aa9bb78fc183f90213d9ce023a241b46483c6ca44dbbceb8fd393ea0b1118e"
+ },
+ "base_checkpoint": "/content/drive/MyDrive/CRIVO/checkpoints/escola_curricular_longa/run_transferido_20261012",
+ "base_phase": "05_05_dialogo_estado",
+ "base_file_sha256": "c0a56b1546495efafde5df99feebfa084fef414d512076d888b40c9828e4eb4e",
+ "tokenizer_sha256": "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044dbe7e",
+ "base_hash_before": "257a4eb41406b9aeeee8f9cf0471c1d8423f769685643200d03c6886a1ea1566",
+ "base_hash_after": "257a4eb41406b9aeeee8f9cf0471c1d8423f769685643200d03c6886a1ea1566",
+ "base_unchanged": true,
+ "base_parameters": 17428224,
+ "pointer_parameters": 24961,
+ "pointer_rank": 32,
+ "pointer_reinicializado": true,
+ "seed": 20261012,
+ "train_steps_requested": 1000,
+ "train_steps_done": 400,
+ "melhor_passo_dev": 1,
+ "train_history": [
+  {
+   "passo": 1,
+   "loss": 12.640454292297363,
+   "loss_mix": 2.9397199153900146,
+   "loss_copy": 4.505153179168701,
+   "loss_gate": 0.5086485743522644,
+   "loss_fim": 14.794586181640625,
+   "p_gen_copy": 0.8999999165534973,
+   "p_gen_generate": 0.8999999761581421,
+   "source_mask_fraction": 0.5691964626312256,
+   "dev_copy_exact_fim": 0.0,
+   "dev_funcao": 0.875,
+   "dev_preservation_top1": 1.0,
+   "dev_preservation_tv": 0.08422434578339259,
+   "dev_score": 0.46875,
+   "segundos": 2.4
+  },
+  {
+   "passo": 100,
+   "loss": 11.289108276367188,
+   "loss_mix": 2.316779851913452,
+   "loss_copy": 0.5110010504722595,
+   "loss_gate": 0.30354228615760803,
+   "loss_fim": 17.372947692871094,
+   "p_gen_copy": 0.15150724351406097,
+   "p_gen_generate": 0.821557879447937,
+   "source_mask_fraction": 0.5717592835426331,
+   "dev_copy_exact_fim": 0.0,
+   "dev_funcao": 0.1875,
+   "dev_preservation_top1": 1.0,
+   "dev_preservation_tv": 0.07587385379398863,
+   "dev_score": 0.296875,
+   "segundos": 8.3
+  },
+  {
+   "passo": 200,
+   "loss": 12.020108222961426,
+   "loss_mix": 2.471374273300171,
+   "loss_copy": 0.8373036980628967,
+   "loss_gate": 0.39602479338645935,
+   "loss_fim": 18.180959701538086,
+   "p_gen_copy": 0.20277352631092072,
+   "p_gen_generate": 0.8192545175552368,
+   "source_mask_fraction": 0.5411764979362488,
+   "dev_copy_exact_fim": 0.0,
+   "dev_funcao": 0.375,
+   "dev_preservation_top1": 1.0,
+   "dev_preservation_tv": 0.012951328724739142,
+   "dev_score": 0.34375,
+   "segundos": 14.1
+  },
+  {
+   "passo": 300,
+   "loss": 9.292644500732422,
+   "loss_mix": 3.0067832469940186,
+   "loss_copy": 0.0003459782456047833,
+   "loss_gate": 0.43977299332618713,
+   "loss_fim": 12.483421325683594,
+   "p_gen_copy": 0.295389860868454,
+   "p_gen_generate": 0.8142947554588318,
+   "source_mask_fraction": 0.5854430794715881,
+   "dev_copy_exact_fim": 0.0,
+   "dev_funcao": 0.25,
+   "dev_preservation_top1": 1.0,
+   "dev_preservation_tv": 0.034410902842258416,
+   "dev_score": 0.3125,
+   "segundos": 19.9
+  },
+  {
+   "passo": 400,
+   "loss": 11.58635425567627,
+   "loss_mix": 2.6755261421203613,
+   "loss_copy": 0.0016216314397752285,
+   "loss_gate": 0.21406190097332,
+   "loss_fim": 17.7772216796875,
+   "p_gen_copy": 0.050290416926145554,
+   "p_gen_generate": 0.8704493045806885,
+   "source_mask_fraction": 0.5809295177459717,
+   "dev_copy_exact_fim": 0.0,
+   "dev_funcao": 0.25,
+   "dev_preservation_top1": 1.0,
+   "dev_preservation_tv": 0.019744371368384844,
+   "dev_score": 0.3125,
+   "segundos": 25.9
+  }
+ ],
+ "copiabilidade_blind_novo": {
+  "copia": {
+   "primeiro_token_copiavel": 0.09,
+   "nome_inteiro_copiavel": 0.08
+  },
+  "categoria": {
+   "primeiro_token_copiavel": 0.11,
+   "nome_inteiro_copiavel": 0.09
+  },
+  "funcao": {
+   "primeiro_token_copiavel": 0.11,
+   "nome_inteiro_copiavel": 0.09
+  },
+  "invariancia": {
+   "primeiro_token_copiavel": 1.0,
+   "nome_inteiro_copiavel": 1.0
+  },
+  "composicao": {
+   "primeiro_token_copiavel": 0.08,
+   "nome_inteiro_copiavel": 0.07
+  },
+  "negacao": {
+   "primeiro_token_copiavel": 1.0,
+   "nome_inteiro_copiavel": 1.0
+  }
+ },
+ "teto_teacher_forcing_blind_novo": {
+  "copia": {
+   "nome_alcancavel": 0.08,
+   "resposta_alcancavel": 0.0,
+   "fim_top1_base": 0.0,
+   "primeiro_nome_top1_base": 0.0,
+   "teto_exact_name_fim": 0.0
+  },
+  "categoria": {
+   "nome_alcancavel": 0.09,
+   "resposta_alcancavel": 0.09,
+   "fim_top1_base": 1.0,
+   "primeiro_nome_top1_base": 0.0
+  },
+  "funcao": {
+   "nome_alcancavel": 0.09,
+   "resposta_alcancavel": 0.0,
+   "fim_top1_base": 1.0,
+   "primeiro_nome_top1_base": 0.0
+  },
+  "invariancia": {
+   "nome_alcancavel": 1.0,
+   "resposta_alcancavel": 0.0,
+   "fim_top1_base": 1.0,
+   "primeiro_nome_top1_base": 0.0
+  },
+  "composicao": {
+   "nome_alcancavel": 0.07,
+   "resposta_alcancavel": 0.07,
+   "fim_top1_base": 1.0,
+   "primeiro_nome_top1_base": 0.0
+  },
+  "negacao": {
+   "nome_alcancavel": 1.0,
+   "resposta_alcancavel": 0.0,
+   "fim_top1_base": 1.0,
+   "primeiro_nome_top1_base": 0.05
+  }
+ },
+ "blind_novo": {
+  "baseline": {
+   "n": 600,
+   "copia": {
+    "n": 100,
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.0
+   },
+   "categoria": {
+    "n": 100,
+    "exact_name": 0.66,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.24,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.65
+   },
+   "funcao": {
+    "n": 100,
+    "exact_name": 0.77,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.71,
+    "nome_duplicado": 0.13,
+    "terminacao": 0.68
+   },
+   "invariancia": {
+    "n": 100,
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.82
+   },
+   "composicao": {
+    "n": 100,
+    "exact_name": 0.06,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.79
+   },
+   "negacao": {
+    "n": 100,
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.94
+   },
+   "exact_name": 0.25666666666666665,
+   "exact_name_fim_copia": 0.0,
+   "lexical_close": 0.25666666666666665,
+   "lexical_distant": 0.25666666666666665,
+   "posicao_inicio": 0.24,
+   "posicao_meio": 0.29,
+   "posicao_fim": 0.24,
+   "token_len_1": 0.09770114942528736,
+   "token_len_2": 0.32051282051282054,
+   "token_len_3": 0.3160919540229885,
+   "token_len_4": 0.3275862068965517,
+   "nome_no_inicio": 0.3725,
+   "nome_no_meio": 0.025,
+   "semantica_geral": 0.19,
+   "terminacao": 0.6466666666666666,
+   "nome_duplicado": 0.021666666666666667
+  },
+  "final": {
+   "n": 600,
+   "copia": {
+    "n": 100,
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.0
+   },
+   "categoria": {
+    "n": 100,
+    "exact_name": 0.66,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.24,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.65
+   },
+   "funcao": {
+    "n": 100,
+    "exact_name": 0.77,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.69,
+    "nome_duplicado": 0.14,
+    "terminacao": 0.68
+   },
+   "invariancia": {
+    "n": 100,
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.82
+   },
+   "composicao": {
+    "n": 100,
+    "exact_name": 0.06,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.78
+   },
+   "negacao": {
+    "n": 100,
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.94
+   },
+   "exact_name": 0.25666666666666665,
+   "exact_name_fim_copia": 0.0,
+   "lexical_close": 0.25666666666666665,
+   "lexical_distant": 0.25666666666666665,
+   "posicao_inicio": 0.24,
+   "posicao_meio": 0.29,
+   "posicao_fim": 0.24,
+   "token_len_1": 0.09770114942528736,
+   "token_len_2": 0.32051282051282054,
+   "token_len_3": 0.3160919540229885,
+   "token_len_4": 0.3275862068965517,
+   "nome_no_inicio": 0.3725,
+   "nome_no_meio": 0.025,
+   "semantica_geral": 0.186,
+   "terminacao": 0.645,
+   "nome_duplicado": 0.023333333333333334
+  },
+  "por_tarefa_baseline": {
+   "copia": {
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "categoria": {
+    "exact_name": 0.66,
+    "exact_name_fim": 0.0,
+    "semantica": 0.24,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "funcao": {
+    "exact_name": 0.77,
+    "exact_name_fim": 0.0,
+    "semantica": 0.71,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.13
+   },
+   "invariancia": {
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "composicao": {
+    "exact_name": 0.06,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "negacao": {
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   }
+  },
+  "por_tarefa_final": {
+   "copia": {
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "categoria": {
+    "exact_name": 0.66,
+    "exact_name_fim": 0.0,
+    "semantica": 0.24,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "funcao": {
+    "exact_name": 0.77,
+    "exact_name_fim": 0.0,
+    "semantica": 0.69,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.14
+   },
+   "invariancia": {
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "composicao": {
+    "exact_name": 0.06,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   },
+   "negacao": {
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "semantica": 0.0,
+    "resposta_exata": 0.0,
+    "nome_duplicado": 0.0
+   }
+  }
+ },
+ "blind_v2_formato_real": {
+  "baseline": {
+   "n": 600,
+   "copia": {
+    "n": 100,
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.0
+   },
+   "categoria": {
+    "n": 100,
+    "exact_name": 0.79,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.3,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.68
+   },
+   "funcao": {
+    "n": 100,
+    "exact_name": 0.88,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.81,
+    "nome_duplicado": 0.26,
+    "terminacao": 0.62
+   },
+   "invariancia": {
+    "n": 100,
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.8
+   },
+   "composicao": {
+    "n": 100,
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.77
+   },
+   "negacao": {
+    "n": 100,
+    "exact_name": 0.04,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.93
+   },
+   "exact_name": 0.29333333333333333,
+   "exact_name_fim_copia": 0.0,
+   "lexical_close": 0.2733333333333333,
+   "lexical_distant": 0.31333333333333335,
+   "posicao_inicio": 0.305,
+   "posicao_meio": 0.29,
+   "posicao_fim": 0.285,
+   "token_len_1": 0.16666666666666666,
+   "token_len_2": 0.30952380952380953,
+   "token_len_3": 0.3273809523809524,
+   "token_len_4": 0.31666666666666665,
+   "nome_no_inicio": 0.43,
+   "nome_no_meio": 0.02,
+   "semantica_geral": 0.22200000000000003,
+   "terminacao": 0.6333333333333333,
+   "nome_duplicado": 0.043333333333333335
+  },
+  "final": {
+   "n": 600,
+   "copia": {
+    "n": 100,
+    "exact_name": 0.02,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.0
+   },
+   "categoria": {
+    "n": 100,
+    "exact_name": 0.79,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.3,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.69
+   },
+   "funcao": {
+    "n": 100,
+    "exact_name": 0.88,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.81,
+    "nome_duplicado": 0.26,
+    "terminacao": 0.62
+   },
+   "invariancia": {
+    "n": 100,
+    "exact_name": 0.0,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.8
+   },
+   "composicao": {
+    "n": 100,
+    "exact_name": 0.03,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.76
+   },
+   "negacao": {
+    "n": 100,
+    "exact_name": 0.04,
+    "exact_name_fim": 0.0,
+    "resposta_exata": 0.0,
+    "semantica": 0.0,
+    "nome_duplicado": 0.0,
+    "terminacao": 0.93
+   },
+   "exact_name": 0.29333333333333333,
+   "exact_name_fim_copia": 0.0,
+   "lexical_close": 0.2733333333333333,
+   "lexical_distant": 0.31333333333333335,
+   "posicao_inicio": 0.305,
+   "posicao_meio": 0.295,
+   "posicao_fim": 0.28,
+   "token_len_1": 0.16666666666666666,
+   "token_len_2": 0.30952380952380953,
+   "token_len_3": 0.3273809523809524,
+   "token_len_4": 0.31666666666666665,
+   "nome_no_inicio": 0.43,
+   "nome_no_meio": 0.02,
+   "semantica_geral": 0.22200000000000003,
+   "terminacao": 0.6333333333333333,
+   "nome_duplicado": 0.043333333333333335
+  }
+ },
+ "blind_v2_legado": {
+  "baseline": {
+   "n": 600,
+   "exact_entity_match": 0.03333333333333333,
+   "pure_copy_exact_match": 0.0,
+   "pure_copy_exact_fim": 0.0,
+   "lexical_close": 0.013333333333333334,
+   "lexical_distant": 0.05333333333333334,
+   "termination_rate": 0.6116666666666667,
+   "categoria": 0.0,
+   "funcao": 0.02,
+   "invariancia": 0.0,
+   "composicao": 0.01,
+   "negacao": 0.0,
+   "semantica_geral": 0.006
+  },
+  "final": {
+   "n": 600,
+   "exact_entity_match": 0.03333333333333333,
+   "pure_copy_exact_match": 0.0,
+   "pure_copy_exact_fim": 0.0,
+   "lexical_close": 0.013333333333333334,
+   "lexical_distant": 0.05333333333333334,
+   "termination_rate": 0.6166666666666667,
+   "categoria": 0.0,
+   "funcao": 0.02,
+   "invariancia": 0.0,
+   "composicao": 0.01,
+   "negacao": 0.0,
+   "semantica_geral": 0.006
+  }
+ },
+ "preservation_extra": {
+  "top1_agreement": 1.0,
+  "mean_total_variation": 0.08422434578339259,
+  "n": 12
+ },
+ "gates": {
+  "exact_name_fim_copia>=0.70": false,
+  "exact_name_distant>=0.65": false,
+  "abs(close-distant)<=0.10": true,
+  "max(posicao)-min(posicao)<=0.10": true,
+  "regressao_funcao<=5pp": true,
+  "regressao_semantica_geral<=2pp": true,
+  "transformer_hash_igual": true
+ },
+ "extra_checks": {
+  "preservation_top1>=0.90": true,
+  "preservation_mean_TV<=0.15": true
+ },
+ "gate_pass": false,
+ "porta_conversacional": "pendente — exigida mesmo se gate_pass=true",
+ "ativo_no_chat": false,
+ "promovido": false,
+ "fonte": "Drive: CRIVO/checkpoints/experimento_pointer_copy_v3/pointer_copy_v3_20261012_045512/resultado_pointer_copy_v3.json (versão completa com as 1.200 linhas)"
+}
