@@ -68,7 +68,7 @@ CASOS = [
     ("séries e perspectiva", [
         ("Vamos conversar sobre séries", "conversa:abertura", ["séries"]),
         ("Gosto de histórias com finais inesperados", "conversa:relato", ["finais inesperados"]),
-        ("E você?", "conversa:perspectiva", ["Não tenho gostos", "finais inesperados"]),
+        ("E você?", "conversa:perspectiva", ["gosto de pensar junto", "finais inesperados"]),
         ("O que faz um final ser bom?", "conversa:criterios", ["finais inesperados", "critério"]),
     ]),
     ("premissas inéditas", [

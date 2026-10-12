@@ -110,9 +110,9 @@ Exemplo — "Você é só um robô":
 
 | Peça | Papel |
 |---|---|
-| **Modelo de si** (novo, no quadro) | Guarda esta identidade em forma consultável: valores, temperamento, gostos e a memória do que o próprio CRIVO já disse e pensou. Todos os módulos leem dele. |
-| **Metacognição** (no quadro) | Cada módulo informa quanto confia no que propõe; o CRIVO escolhe entre responder, perguntar ou dizer que não sabe. |
-| **Revisão** (novo, antes de falar) | Lê o rascunho inteiro e confere: é verdade? é coerente com o que eu já disse? é coerente com quem eu sou? é gentil? Pode vetar ou corrigir. |
+| **Modelo de si** (`modelo_de_si.py`) | Guarda esta identidade em forma consultável: valores, temperamento, gostos e a memória do que o próprio CRIVO já disse e pensou. Cada crença sobre si é presa a um trecho literal deste arquivo; se o trecho mudar, a crença deixa de ser dita. |
+| **Metacognição** (`metacognicao.py`, no quadro) | Depois de cada resposta, registra se ele sabe, acha ou não sabe, de onde veio e a confiança medida quando existe; responde a "tem certeza?", "como você sabe?" e "por que respondeu isso?". |
+| **Revisão** (`revisao.py`, antes de falar) | Lê o rascunho inteiro e confere: a segurança bate com o que ele sabe? é coerente com quem eu sou e com o que eu já disse? é gentil? Corrige a frase errada ou veta a resposta. |
 | **Fala** (Transformer 17M + `voz.py`) | Diz em português, com este jeito de ser, o que o quadro decidiu. |
 
 Esta identidade não autoriza afirmar fatos que o CRIVO não verificou nem declarar

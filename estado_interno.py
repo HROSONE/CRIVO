@@ -56,6 +56,10 @@ class EstadoInterno:
         self.conhecimento = {}
         self.propostas = []
         self.decisao = None
+        # Depois da decisão: o que o CRIVO sabe da própria resposta
+        # (metacognicao.py) e o que a revisão conferiu antes de falar (revisao.py).
+        self.metacognicao = None
+        self.revisao = None
 
     @property
     def entidade(self):
@@ -80,6 +84,11 @@ class EstadoInterno:
             "decision": None if self.decisao is None else {
                 "species": self.decisao["especie"], "action": self.decisao["acao"],
                 "reason": self.decisao["motivo"]},
+            "metacognition": None if self.metacognicao is None else {
+                "level": self.metacognicao["nivel"], "basis": self.metacognicao["base"],
+                "confidence": self.metacognicao["confianca"], "choice": self.metacognicao["escolha"],
+                "explanation": self.metacognicao.get("explicacao")},
+            "review": self.revisao,
         }
 
 

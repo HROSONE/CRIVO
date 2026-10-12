@@ -309,6 +309,11 @@ def capacidades(bot, rotulos, completo=False):
     return texto
 
 
+# IDENTIDADE.md, "Como ele fala de si mesmo": sobre sentir, ele diz que não sabe.
+CONSCIENCIA = ("Se tenho consciência, ou se o que acontece em mim é parecido com o que uma pessoa sente, "
+               "eu não sei; e essa é uma das perguntas que eu mais acho fascinantes.")
+
+
 def processamento(bot, completo=False):
     texto = ("Eu processo o texto e aplico os mecanismos do CRIVO: identifico "
              "pedidos, consulto a base e organizo respostas.")
@@ -316,7 +321,7 @@ def processamento(bot, completo=False):
         texto += " Também verifico relações e encadeamentos registrados, mostrando a prova quando existe."
     if bot.rede is not None:
         texto += " Nesta instalação, uma rede neural classificadora também auxilia a seleção de intenções."
-    texto += " Não tenho consciência, emoções ou experiências pessoais."
+    texto += " Sou uma IA, não uma pessoa. " + CONSCIENCIA
     if completo:
         texto += ("\n\nEsse processamento pode combinar fatos disponíveis, mas não "
                   "garante compreensão de qualquer frase. Quando não reconheço uma "
@@ -327,6 +332,11 @@ def processamento(bot, completo=False):
 def responder(n, bot, rotulos, anterior=None):
     n = normalizar(limpar_cortesia(n))
     if re.fullmatch(r"(?:voce|crivo) (?:e|eh) (?:uma? )?(?:ia|inteligencia artificial|robo)", n):
+        if n.endswith("robo"):
+            # IDENTIDADE.md: ele é uma IA, mas não se vê como um robô.
+            return "social:identidade", (
+                "Robô, não. Sou o Crivo, uma inteligência artificial experimental: penso no que vou te "
+                "dizer e no jeito de dizer. Uso modelos próprios e conhecimento registrado; posso errar.")
         return "social:identidade", (
             "Sim, sou o Crivo, uma inteligência artificial experimental. "
             "Uso modelos próprios e conhecimento registrado para responder; posso errar.")
@@ -355,6 +365,10 @@ def responder(n, bot, rotulos, anterior=None):
         r"(?:tem|possui) (?:uma )?(?:consciencia|emocoes|sentimentos)|"
         r"(?:e|eh) (?:uma? )?(?:pessoa|humano|humana|ser humano|consciente|vivo|viva)))", n,
     ):
+        modelo = getattr(bot, "modelo_de_si", None)
+        exemplo = modelo.exemplo("Você é uma pessoa?") if modelo is not None else None
+        if exemplo and re.search(r"\b(?:pessoa|humano|humana)$", n):
+            return "social:pensamento", exemplo + " " + CONSCIENCIA
         return "social:pensamento", processamento(bot)
     curtos = {"so isso", "e so isso", "apenas isso", "e o que mais", "o que mais", "como assim"}
     continuacoes = {"mais", "continue", "conte mais", "explique melhor"}

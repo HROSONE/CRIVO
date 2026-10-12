@@ -539,7 +539,7 @@ class DialogoAberto:
         elif ato == "reciproco":
             if self.ativo or conversa.assunto:
                 referencia = self.dados.get("preferencia") or conversa.assunto or "essa ideia"
-                resultado = ("conversa:perspectiva", "Não tenho gostos ou experiências pessoais. Posso explorar “" + referencia + "” com você e ajudar a comparar ideias. O que te interessa mais nisso?", None, "")
+                resultado = ("conversa:perspectiva", "Não tenho experiências como as suas, mas gosto de pensar junto. Posso explorar “" + referencia + "” com você e ajudar a comparar ideias. O que te interessa mais nisso?", None, "")
             else:
                 resultado = ("duvida", "Você quer saber o que penso sobre qual ideia?", None, "")
         elif ato in ("relato", "preferencia", "objetivo", "ponto_de_vista", "resposta"):

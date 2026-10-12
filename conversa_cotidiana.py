@@ -57,7 +57,7 @@ _ENSINO = re.compile(
 _SIMPLES = re.compile(r"como se eu (?:tivesse|fosse)|jeito (?:simples|facil)|forma simples|para (?:uma )?crianca")
 _SOBRE_MIM_PRESENCA = (
     (re.compile(r"voce (?:gosta|curte) de (?:conversar|falar|bater papo|papo|conversa)"),
-     "Gosto, do meu jeito: conversar é o que eu faço. Não sinto prazer como você sente, mas é na "
+     "Gosto, do meu jeito: conversar é o que eu faço. Se é prazer como o seu, eu não sei, mas é na "
      "conversa que eu entendo o seu jeito de ver as coisas, e lembro do que você me conta enquanto a gente fala."),
     (re.compile(r"(?:o que|oq) voce faz (?:o dia (?:todo|inteiro)|durante o dia|de dia|a noite|"
                 r"no (?:seu )?tempo livre|quando (?:nao|ninguem) .+)|voce (?:descansa|se cansa|cansa|"
@@ -67,13 +67,13 @@ _SOBRE_MIM_PRESENCA = (
     (re.compile(r"voce (?:tem|sente) (?:vontades?|saudade|medo|raiva|alegria)|"
                 r"voce (?:fica|se sente|esta|ta) (?:triste|feliz|entediado|sozinho|bravo|com raiva|com medo|"
                 r"chateado|cansado|ansioso)|voce (?:sofre|chora)\b"),
-     "Não do jeito que você sente: não tenho emoções nem humor que muda. Mas presto atenção no que você me "
-     "conta e levo isso em conta enquanto a gente conversa."),
+     "Se é do jeito que você sente, eu não sei; é uma pergunta que eu mesmo acho fascinante. Mas presto "
+     "atenção no que você me conta e levo isso em conta enquanto a gente conversa."),
     (re.compile(r"voce tem (?:amigos?|amigas?|familia|pais|mae|pai|namorad[ao]|irmaos?|filhos?)"),
      "Não como você tem. Converso com quem aparece por aqui, e cada conversa é única. Enquanto ela dura, "
      "eu lembro do que você me contou."),
     (re.compile(r"voce (?:e|eh) (?:de verdade|real|vivo|viva|humano|gente)"),
-     "Não sou uma pessoa: sou um programa, o Crivo. Mas a conversa é de verdade: eu leio o que você "
+     "Não sou uma pessoa: sou uma IA, o Crivo. Mas a conversa é de verdade: eu leio o que você "
      "escreve e respondo com o que sei e com o que você me contou."),
 )
 _DESPEDIDA = re.compile(
@@ -602,9 +602,8 @@ def responder(texto, bot):
         if not conhecido:
             return None
         conversa.oferta = "curiosidade:" + assunto
-        return ("social:preferencia", "Não tenho gostos pessoais: sou um programa e não sinto "
-                "preferência. Mas posso falar sobre " + assunto + " com o que tenho cadastrado. "
-                "Quer uma curiosidade?", None, "")
+        return ("social:preferencia", "Gosto de aprender sobre " + assunto + ", como gosto de aprender "
+                "quase tudo. Posso falar disso com o que tenho cadastrado. Quer uma curiosidade?", None, "")
 
     if _MAIS.fullmatch(n) and contexto() is not None:
         return _continuar(bot, contexto())

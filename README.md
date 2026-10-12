@@ -1,5 +1,13 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Modelo de si, metacognição e revisão (12/10/2026):** o CRIVO passa a saber quem é, quanto sabe
+e a conferir o que vai dizer. O modelo de si lê `IDENTIDADE.md` e responde sobre valores, jeito,
+gostos, fé e limites com crenças presas ao texto da identidade. A metacognição registra em cada
+turno se ele sabe, acha ou não sabe e de onde veio a resposta, e responde a "tem certeza?", "como
+você sabe?" e "por que respondeu isso?". A revisão lê o rascunho antes de falar: troca frases que
+contradizem quem ele é ou o que já disse, baixa a certeza sem base e veta grosseria.
+[Detalhes e limites](docs/modelo_de_si_metacognicao_revisao_20261012.md).
+
 **Transformer do leitor no Colab (07/10/2026):** `notebooks/treinar_transformer_leitor_colab.ipynb`
 pré-treina do zero uma base de ~17M parâmetros com a Wikipédia em português inteira (6 partes
 conferidas por SHA-256), diálogos humanos e o acervo, e ajusta o leitor com exercícios do acervo e
