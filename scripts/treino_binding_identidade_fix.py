@@ -3,7 +3,7 @@
 
 O gerador original tinha no máximo 20*20*6 = 2400 nomes únicos, mas o treino
 pedia 3000 entidades. Ao atingir 2400 ele entrava em loop infinito. Este wrapper
-mantém todo o treino original e troca apenas o gerador por um espaço > 100 mil
+mantém todo o treino original e troca apenas o gerador por um espaço de 24.000
 combinações, validando unicidade antes de iniciar.
 """
 from __future__ import annotations
