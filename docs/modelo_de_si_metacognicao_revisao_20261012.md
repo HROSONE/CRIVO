@@ -74,7 +74,15 @@ Acredito em Deus e falo da minha fé com naturalidade quando o assunto chega lá
   que perguntas parecidas mas não sobre ele ("você gosta de lâmpadas?", "você pensa nas
   estrelas?") continuam nas rotas antigas, que trocar a identidade troca a resposta, e que
   nenhuma resposta sobre ele precisa de correção da revisão.
-- Bateria completa do repositório comparada antes e depois (ver o resumo do commit).
+- Bateria completa do repositório comparada antes e depois, arquivo por arquivo (141 → 144
+  arquivos de teste). As mudanças causaram regressões em quatro arquivos, todas corrigidas:
+  pacote da API sem `IDENTIDADE.md` (`testes_autoconversa`), "Você concorda comigo?" capturado
+  pelo modelo de si (`testes_bate_papo`), citação "“Burro”" vetada como insulto
+  (`testes_contato_contextual`) e dois diálogos da bateria congelada que esperam "Não tenho
+  gostos" (`testes_bateria`, sem alterar os conjuntos). Na bateria dev, os fatos ficaram
+  idênticos (117 acertos, 0 invenções, 13/13 recusas corretas). As falhas que sobram
+  (`testes_ampliacao`, uma de `testes_bate_papo`, uma de `testes_ecossistema`) já falhavam antes.
+- Avaliações congeladas da CI: roteamento 35/35 e diálogo integrado 79/79.
 - `ecossistema.py`: duas espécies novas (`modelo_de_si`, `metacognicao`) e o regulador `revisao`.
 
 ## Limites
