@@ -49,6 +49,34 @@ def sha256(caminho):
     return h.hexdigest()
 
 
+def checkpoint_mais_recente(ckpt):
+    """Checkpoint mais novo da pasta: checkpoint_passoNNNNNN.pt (maior passo) ou o legado checkpoint.pt."""
+    ckpt = Path(ckpt)
+    numerados = sorted(ckpt.parent.glob("checkpoint_passo*.pt")) if ckpt.parent.is_dir() else []
+    if numerados:
+        return numerados[-1]
+    return ckpt if ckpt.is_file() else None
+
+
+def gravar_checkpoint(estado, ckpt, passo):
+    """Grava sempre um arquivo NOVO (nunca substitui), para funcionar em pasta compartilhada
+    entre contas; depois tenta apagar os numerados antigos (se a conta não puder, ficam)."""
+    import torch
+    ckpt = Path(ckpt)
+    ckpt.parent.mkdir(parents=True, exist_ok=True)
+    final = ckpt.parent / ("checkpoint_passo%06d.pt" % passo)
+    tmp = ckpt.parent / ("checkpoint_passo%06d.tmp" % passo)
+    torch.save(estado, tmp)
+    tmp.rename(final)
+    for antigo in sorted(ckpt.parent.glob("checkpoint_passo*.pt")):
+        if antigo != final:
+            try:
+                antigo.unlink()
+            except OSError as erro:
+                print("aviso: não consegui apagar", antigo.name, "-", erro, flush=True)
+    return final
+
+
 def janelas_com_repeticao(dados, contexto, tamanho, gerador, frac, np):
     """Janelas contíguas do corpus; numa fração delas, um trecho reaparece mais adiante."""
     inicio = gerador.integers(0, len(dados) - contexto - 1, size=tamanho)
@@ -124,9 +152,10 @@ def etapa_treinar(args):
     tipo = torch.bfloat16 if bf16 else torch.float16
     escala = torch.amp.GradScaler("cuda", enabled=dispositivo == "cuda" and not bf16)
 
-    if ckpt.exists():
-        estado = torch.load(ckpt, map_location="cpu", weights_only=False)
-        print("retomando do checkpoint continuado:", ckpt, flush=True)
+    atual = checkpoint_mais_recente(ckpt)
+    if atual is not None:
+        estado = torch.load(atual, map_location="cpu", weights_only=False)
+        print("retomando do checkpoint continuado:", atual, "| passo", estado["passo"], flush=True)
     else:
         if not origem.exists():
             raise SystemExit(f"checkpoint de origem não encontrado: {origem}")
@@ -177,11 +206,12 @@ def etapa_treinar(args):
         return s
 
     def checkpoint():
-        pt.salvar_atomico({"modelo": modelo.state_dict(), "opt": opt.state_dict(), "escala": escala.state_dict(),
-                           "passo": passo, "passo_inicial": passo_inicial, "melhor": melhor,
-                           "melhor_estado": melhor_estado, "historico": historico,
-                           "config": dataclasses.asdict(config), **origem_info}, ckpt)
-        print("checkpoint gravado no passo", passo, "->", ckpt, flush=True)
+        destino = gravar_checkpoint({"modelo": modelo.state_dict(), "opt": opt.state_dict(),
+                                     "escala": escala.state_dict(), "passo": passo,
+                                     "passo_inicial": passo_inicial, "melhor": melhor,
+                                     "melhor_estado": melhor_estado, "historico": historico,
+                                     "config": dataclasses.asdict(config), **origem_info}, ckpt, passo)
+        print("checkpoint gravado no passo", passo, "->", destino, flush=True)
 
     if not historico:
         registrar_sonda()  # linha de base, antes de qualquer passo extra
@@ -226,7 +256,10 @@ def etapa_treinar(args):
 def etapa_exportar(args):
     import torch
     import linguagem_profunda as lp
-    dados, saida, ckpt = Path(args.dados), Path(args.base), Path(args.checkpoint)
+    dados, saida = Path(args.dados), Path(args.base)
+    ckpt = checkpoint_mais_recente(args.checkpoint)
+    if ckpt is None:
+        raise SystemExit("nenhum checkpoint encontrado em %s" % Path(args.checkpoint).parent)
     estado = torch.load(ckpt, map_location="cpu", weights_only=False)
     fim = estado["passo_inicial"] + args.passos_extra
     if estado["passo"] < fim:
