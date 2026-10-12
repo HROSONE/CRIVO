@@ -60,8 +60,12 @@ def revisar(bot, estado, fala, ident, resposta, meta, modelo):
     base = (meta or {}).get("base")
 
     # Gentileza: insulto que a pessoa não escreveu veta a resposta inteira.
-    insulto = _INSULTO.search(normalizar(resposta))
-    if insulto and base not in CONTEUDO and insulto.group(0) not in fala_n:
+    # Citações (“…”) e palavras das últimas falas da pessoa não contam.
+    sem_citacao = re.sub(r"“[^”]*”|\"[^\"]*\"", " ", resposta)
+    insulto = _INSULTO.search(normalizar(sem_citacao))
+    recentes = " ".join(normalizar(h.get("pergunta", "")) for h in (getattr(bot, "historico", None) or [])[-6:]
+                        if isinstance(h.get("pergunta"), str))
+    if insulto and base not in CONTEUDO and insulto.group(0) not in fala_n + " " + recentes:
         relatorio["checks"]["kindness"] = False
         relatorio.update(approved=False, vetoed=True)
         relatorio["corrections"].append({"check": "kindness", "reason": "insulto: " + insulto.group(0)})

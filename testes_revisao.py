@@ -73,6 +73,10 @@ class VerdadeEGentileza(unittest.TestCase):
         # A palavra veio da pessoa: não é insulto do CRIVO.
         _, saida, _ = revisar("Você disse que se sentiu idiota; sinto muito.", fala="me senti idiota hoje")
         self.assertIn("idiota", saida)
+        # Citação de uma fala anterior da pessoa também não é insulto do CRIVO.
+        _, saida, rel = revisar("Não consegui resolver seu pedido anterior: “Burro”. Pode dizer de outra forma?")
+        self.assertIn("Burro", saida)
+        self.assertTrue(rel["checks"]["kindness"])
 
     def test_sem_riso_com_a_pessoa_triste(self):
         _, saida, rel = revisar("Que dia, hein kkkk. Tô aqui.", temas=[(0, "perda", "luto")])
