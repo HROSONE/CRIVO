@@ -206,7 +206,8 @@ class TestesAmpliacaoHTTP(unittest.TestCase):
             self.assertEqual(r.status, 200)
             self.assertEqual(r.headers["Cache-Control"], "no-store")
             dado = json.loads(r.read().decode("utf-8"))
-        self.assertEqual(dado, responder_web(payload))
+        # O servidor liga a voz do 17M (realizador_17m.py): a mesma configuração aqui.
+        self.assertEqual(dado, responder_web(payload, voz_17m=True))
         self.assertEqual(dado["id"], "conversa:gerada_resumo")
         self.assertIn("tinta azul", dado["response"])
         self.assertIn("contente", dado["response"])

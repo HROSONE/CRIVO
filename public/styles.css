@@ -55,14 +55,9 @@ a { color: inherit; }
   min-height: 0; }
 .sidebar-top { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; }
 .brand { text-decoration: none; display: flex; align-items: center; gap: 12px; width: fit-content; }
-.brand-symbol { display: grid; place-items: center; position: relative;
-  border-radius: 11px; background: linear-gradient(135deg, #8c7ff2, #4a3db0);
-  box-shadow: 0 0 24px rgba(118, 106, 255, .3), inset 0 1px 0 rgba(255,255,255,.25);
-  width: 35px; height: 35px; }
-.brand-symbol::after { content: ""; width: 16px; height: 16px; border: 1.8px solid #efedff;
-  border-radius: 50%; box-shadow: 0 0 7px rgba(255,255,255,.6); }
-.brand-core { width: 5px; height: 5px; background: white; border-radius: 50%;
-  position: absolute; z-index: 2; }
+/* O CRIVO (personagem roxo): símbolos em index.html, usados pela marca, pelas boas-vindas e pelo avatar. */
+.crivo-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.brand-crivo { width: 38px; height: 38px; filter: drop-shadow(0 0 10px rgba(155, 107, 255, .45)); }
 .brand-name { font-size: 21px; font-weight: 800; letter-spacing: .1em; }
 .brand-dot { color: var(--accent-bright); }
 .icon-button.sidebar-close { display: none; }
@@ -169,17 +164,9 @@ a { color: inherit; }
   box-shadow: 0 0 35px rgba(132,100,244,.12); }
 .orb-ring::after { content: ""; position: absolute; left: 14%; top: 15%; width: 6px; height: 6px;
   border-radius: 50%; background: #c9baff; box-shadow: 0 0 14px 5px #9670ff72; }
-.orb-body { position: relative; width: 126px; height: 126px; border-radius: 50%; overflow: hidden;
-  border: 1px solid rgba(198,188,255,.43);
-  background: radial-gradient(circle at 29% 20%, #a1a1fa 0, #5e57c8 23%, #312c85 55%, #141338 85%);
-  box-shadow: inset -17px -18px 31px rgba(8,7,37,.68),
-    inset 4px 4px 22px #cbbfff44, 0 0 38px #7770f648;
-  animation: levitate 6s ease-in-out infinite; }
-.orb-sheen { position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 36% 12%, rgba(255,255,255,.55), transparent 24%);
-  z-index: 2; mix-blend-mode: screen; }
-.orb-network { position: absolute; inset: 0; width: 100%; height: 100%;
-  opacity: .70; mix-blend-mode: screen; }
+.crivo-hero { position: relative; width: 132px; height: 132px; overflow: visible;
+  filter: drop-shadow(0 10px 22px rgba(116, 51, 232, .45)); animation: levitate 6s ease-in-out infinite; }
+.crivo-hero .crivo-olhos { transform-box: fill-box; transform-origin: center; animation: piscar 5.5s infinite; }
 .welcome-eyebrow { display: flex; align-items: center; gap: 12px; color: #a29bbb;
   font-size: 9px; letter-spacing: .22em; margin: 10px 0 12px; }
 .eyebrow-line { width: 27px; height: 1px; background: #6258b1; }
@@ -221,6 +208,9 @@ a { color: inherit; }
   display: grid; place-items: center; font-size: 13px; font-weight: 700;
   color: #eeebff; background: linear-gradient(135deg, #8372f5, #453c9c);
   border: 1px solid #a5a0ee44; box-shadow: 0 0 16px #7b6ffa28; }
+.message.assistant .avatar { background: none; border: 0; box-shadow: none; }
+.avatar svg { width: 38px; height: 38px; overflow: visible; filter: drop-shadow(0 0 8px rgba(155, 107, 255, .35)); }
+.message.pending .avatar svg { animation: pensar 1.4s ease-in-out infinite; }
 .message.user .avatar { background: #20243f; box-shadow: none; border: 1px solid #3f4364;
   color: #c7c3f8; font-size: 11px; }
 .message-main { min-width: 0; max-width: 100%; }
@@ -315,6 +305,8 @@ a { color: inherit; }
 
 .sr-only { position: absolute; clip-path: inset(50%); width: 1px; height: 1px;
   white-space: nowrap; overflow: hidden; }
+@keyframes piscar { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(.1); } }
+@keyframes pensar { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-6deg); } }
 @keyframes orbit { from { transform: rotate(-23deg) scaleY(.85); }
   to { transform: rotate(337deg) scaleY(.85); } }
 @keyframes levitate { 0%,100% { transform: translateY(0) rotate(0); }
@@ -352,7 +344,7 @@ a { color: inherit; }
   .orb-outer { width: 128px; height: 128px; margin-bottom: 12px; }
   .orb-halo { width: 128px; height: 128px; }
   .orb-ring { width: 118px; height: 118px; }
-  .orb-body { width: 100px; height: 100px; }
+  .crivo-hero { width: 104px; height: 104px; }
   .welcome-eyebrow { font-size: 8px; gap: 9px; }
   .eyebrow-line { width: 14px; }
   .welcome h2 { font-size: 28px; }
@@ -366,6 +358,7 @@ a { color: inherit; }
   .messages { padding: 22px 14px 30px; gap: 22px; }
   .message { gap: 8px; }
   .avatar { width: 30px; height: 30px; flex-basis: 30px; border-radius: 9px; }
+  .avatar svg { width: 32px; height: 32px; }
   .message.user { max-width: 95%; }
   .message-bubble { font-size: 13.5px; }
   .message.assistant .message-bubble { padding: 12px 13px; }

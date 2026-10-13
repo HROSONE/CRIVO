@@ -155,8 +155,11 @@ class TestesConhecimentoFrutas(unittest.TestCase):
         config = json.loads((Path(__file__).resolve().parent /
                              "vercel.json").read_text(encoding="utf-8"))
         files = config["functions"]["api/chat.py"]["includeFiles"]
-        self.assertIn("frutas.py", files)
-        self.assertIn("frutas.json", files)
+        # O que entra no pacote é o que os padrões cobrem (frutas.py vem por "*.py").
+        raiz = Path(__file__).resolve().parent
+        cobertos = {c.name for padrao in files.strip("{}").split(",") for c in raiz.glob(padrao)}
+        self.assertIn("frutas.py", cobertos)
+        self.assertIn("frutas.json", cobertos)
 
     def test_web_real_sem_outro_modelo_ou_endpoint_especial(self):
         result = responder_web({"message": "O que é uma maçã?",
