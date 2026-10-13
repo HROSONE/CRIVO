@@ -70,6 +70,9 @@ def _validar_memoria(memoria):
     return limpa
 
 
+VOZES_NO_HISTORICO = 4
+
+
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
                   usar_geracao=True, checkpoint_dialogo_candidato=None, voz_17m=False):
     """Valida o contrato JSON e devolve um resultado serializável.
@@ -97,23 +100,31 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                 checkpoint_dialogo_candidato=checkpoint_dialogo_candidato)
     if memoria:
         bot.carregar_memoria(memoria)
+    def ligar_vozes():
+        # Voz do 17M (realizador_17m.py) e voz da conversa, a v3 D (conversa_v3d.py; ligada por
+        # decisão do criador, reprovada na catraca).
+        import realizador_17m
+        import conversa_v3d
+        if not realizador_17m.desligado_no_site():
+            bot.realizador = realizador_17m.numpy_do_site()
+        if not conversa_v3d.desligado_no_site():
+            bot.conversa_v3d = conversa_v3d.numpy_do_site()
+
+    # Os turnos antigos são refeitos com o texto de sempre, sem gastar geração; os últimos
+    # VOZES_NO_HISTORICO, com as vozes, para a v3 D ler a conversa como a pessoa viu (o contexto
+    # dela, 256 tokens, cabe poucos turnos).
+    com_voz = max(0, len(historico) - VOZES_NO_HISTORICO)
     bot.motor_codigo.reconstruindo = True
     try:
-        for anterior in historico:
+        for i, anterior in enumerate(historico):
+            if voz_17m and i == com_voz:
+                ligar_vozes()
             bot.responder(anterior)
     finally:
         bot.motor_codigo.reconstruindo = False
     sinais_antes = bot.total_sinais
     if voz_17m:
-        # Voz do 17M (realizador_17m.py) só na mensagem atual: o histórico é refeito com o
-        # texto de sempre, sem gastar uma geração por turno antigo.
-        import realizador_17m
-        if not realizador_17m.desligado_no_site():
-            bot.realizador = realizador_17m.numpy_do_site()
-        # Voz da conversa, a v3 D (conversa_v3d.py): ligada por decisão do criador, reprovada na catraca.
-        import conversa_v3d
-        if not conversa_v3d.desligado_no_site():
-            bot.conversa_v3d = conversa_v3d.numpy_do_site()
+        ligar_vozes()
     identificador, resposta = bot.responder(mensagem)
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno

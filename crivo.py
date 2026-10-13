@@ -1618,11 +1618,11 @@ class Crivo:
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
         ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
-        ident, resposta = self._realizar(original_conteudo, ident, resposta)
-        if (self.ultimo_realizador or {}).get("quadro") is None:
-            # A voz da fase 3 (aprovada na porta v3) fala onde tem quadro; nos outros turnos de
-            # conversa, a v3 D. Uma geração por turno, pelo prazo do site.
+        if getattr(self, "conversa_v3d", None) is not None:
+            # Decisão do criador: a v3 D fala em todas as mensagens (conversa_v3d.py); uma voz só.
             ident, resposta, _ = self._conversar_v3d(original_conteudo, ident, resposta)
+        else:
+            ident, resposta = self._realizar(original_conteudo, ident, resposta)
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
 

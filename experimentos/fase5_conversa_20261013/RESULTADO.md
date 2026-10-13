@@ -264,3 +264,33 @@ Como ficou (`conversa_v3d.py`):
   iguais às do float16 (95,4%). O sentido certo fica em 515 contra 517, e a conferência de forma em
   785 contra 785. Uma variante com a tabela de palavras em float16 deu 778 iguais e sentido 514, com
   19,1 MB. Ficou a menor, porque a diferença de sentido está no ruído.
+
+### "Deixe o modelo falar em 100% das mensagens" (decisão do criador, 13/10/2026)
+
+Antes, o D falava só em turnos de conversa. Numa conversa real do criador no site, ele respondeu
+6 de 8 mensagens, e várias com o sentido errado ("legal e voce?" → "Sou uma IA, não uma pessoa…").
+
+Mudanças:
+
+- **O D fala em todos os turnos.** Em conta, código, acervo, memória e metacognição, o resultado
+  conferido do CRIVO entra como fato (até duas frases, `fatos_da_resposta`), e o D o diz. A
+  conferência exige o fato copiado sem alteração ("2 + 3 = 6" volta ao texto de sempre).
+- **A voz da fase 3 não fala com o D ligado.** Fica uma voz só, e a fase 3 volta quando o D está
+  desligado.
+- **Histórico:** o site refaz os 4 últimos turnos com as vozes, para o D ler a conversa como a pessoa
+  viu. Isso corrigiu "Voce é o crivo certo?" → "Sou o CRIVO, uma inteligência artificial feita do
+  zero…".
+- **Ficam fora:**
+  - o protocolo de crise e de emergência de saúde (o D erra urgência em 7 de 42);
+  - a frase que a conferência reprova (número ou nome inventado, repetição, sem `<fim>`). Nesse
+    turno fica o texto de sempre.
+
+**Medido em 3 conversas, 30 mensagens, pelo caminho do site:**
+- o D falou em 26;
+- 1 foi a emergência ("tô com falta de ar");
+- 3 frases do D foram reprovadas: "serio mesmo?" (repetição), "quanto é 12*7?" e "quantas luas tem
+  Júpiter?" (não terminou).
+
+O tempo por mensagem ficou entre 1 e 3,4 s aqui, com o replay. O sentido continua o do modelo
+(cerca de 1 erro em 3 frases novas). Por exemplo, "e cade as respostas boas?" → "Sou uma IA, não uma
+pessoa…" e "como se chama meu gato?" → "Tupo se chama Tupo.".
