@@ -182,6 +182,47 @@ Limites: é a mesma voz da porta v2. O cumprimento é sempre o mesmo, o acolhime
 sentimentos diferentes e perde o contexto, e "Prazer, Daniel!" depois de uma correção soa como
 apresentação. Só os atos que o adaptador mapeia passam pelo 17M; o resto do chat não muda.
 
+## Porta v3 (13/10/2026): a voz falava pouco
+
+No preview do PR #171, o criador do projeto conversou com o site e a voz do 17M apareceu em 1 de 18
+turnos. Medido nas avaliações HTTP da CI: 0 de 367. O adaptador só usava parte dos atos que a fase
+3 treinou, e o "não sei" só valia para "o que é X?".
+
+`conversas_congeladas_v3.json` (27 conversas, 47 turnos, SHA `3b147b9e…`) foi escrito antes de
+mexer no adaptador, com a conversa real do criador como conversa 1. O ponto de partida ficou em
+`resultado_porta_v3_antes.json`: voz em 8 de 47 turnos.
+
+O que mudou:
+
+- `falar_de_si` (quem é, humano, robô, sentimentos), `esclarecer` (pedidos vagos) e `não sei` com
+  nome próprio passam pelo 17M;
+- o CRIVO diz que não sabe em perguntas abertas sem resposta ("Sobre quem inventou o carro, eu ainda
+  não sei responder") em vez de "não entendi", fora de saúde e risco.
+
+Ficaram de fora depois da leitura do lado a lado, porque o 17M era pior que o texto de hoje:
+
+- "Oi, tudo bem?": ele ignora o "tudo bem?";
+- "Você é uma IA?": ele começa com "Não do jeito que você é";
+- "não sei" com assunto de várias palavras: ele trocava o assunto ("jato") ou se repetia.
+
+| | v3 | v2 | v1 |
+|---|---|---|---|
+| ok, CRIVO de hoje | 40/47 | 30/33 | 43/45 |
+| ok, com a voz | 45/47 | 31/33 | 45/45 |
+| regressões | 0 | 0 | 0 |
+| frases do 17M aprovadas / turnos com quadro | 19/19 | 18/18 | 27/27 |
+
+As 8 avaliações HTTP da CI passaram de novo. Falham ainda no v3 "A forma de falar" (o CRIVO oferece
+"vento" e "chuva") e "dor no peito agora" (não leva ao 192), que não são da voz.
+
+**O 17M respondendo tudo foi testado e recusado.** Sem quadro, ele mistura frases decoradas
+("maluco" → "Sinto muito por isso. Respira com calma…"; "morrer dormindo" → "Sou uma IA, então não
+sei se o que acontece em mim é igual ao que você sente") e entra em laço ("O nome certo é Você tem
+razão, eu errei…"). Reescrevendo a resposta do CRIVO, ele só põe enfeites ("Achei bonito isso,
+né?") em respostas erradas. Ele aprendeu português da Wikipédia e 10 atos a partir de um quadro;
+conversar é outra habilidade, e 17M parâmetros é pouco para ela. Decisão do criador: "liga ele só
+no que ele é bom" (`realizador_17m.DECISAO_OPT_IN`).
+
 Próximo treino sugerido (fase 3 v2): respostas mais variadas e ligadas ao sentimento e ao contexto
 ("preocupado com meu pai"), relações no feminino, cumprimento que se apresenta e responde ao
 período do dia, e uma forma própria para correção ("Anotado, é Daniel").

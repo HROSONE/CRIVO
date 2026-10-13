@@ -41,8 +41,14 @@ NPZ_SHA256 = "57cc2da792344ce16ae9d74e023a547d4776f3f936daddc05c3ee393cdf4a5fe" 
 # Decisões do criador do projeto depois da porta conversacional v2 (13/10/2026): primeiro
 # o opt-in experimental para todos os atos; depois, ligar no servidor do site (main e site
 # público). A linha de comando e os testes continuam desligados por padrão.
-DECISAO_OPT_IN = {"data": "2026-10-13", "atos": "todos", "porta": "fase4 v2: 0 regressões, 18/18 aprovadas",
-                  "site_publico": True, "promovido": "servidor do site", "padrao_linha_de_comando": "desligado"}
+# Depois do preview do PR #171, o criador achou a voz rara; a porta v3 abriu os atos que a fase 3
+# já treinou onde o 17M é igual ou melhor que o texto de hoje. O 17M "respondendo tudo" foi testado
+# e recusado (sem quadro ele mistura frases decoradas e entra em laço); decisão: "liga ele só no
+# que ele é bom".
+DECISAO_OPT_IN = {"data": "2026-10-13", "atos": "os que a porta v3 aprovou na leitura",
+                  "porta": "fase4 v2: 0 regressões, 18/18; v3: 0 regressões, 19/19, voz em 19 de 47 turnos",
+                  "site_publico": True, "promovido": "servidor do site", "padrao_linha_de_comando": "desligado",
+                  "recusado": "17M respondendo tudo, sem quadro"}
 
 
 def _ligado(nome):

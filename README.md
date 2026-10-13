@@ -7,7 +7,8 @@ em contexto de 11% a 51%; a fase 3 passou em todos os gates do teste cego (98,3%
 v2, com conversas novas, deu 0 regressões e 18/18 frases aprovadas. Cada frase passa pela conferência
 e pela revisão antes de sair. **Ligado no site**, em NumPy (pesos de SHA exato em
 `artefatos/realizador_pt/`, sem PyTorch): a porta com esses pesos repetiu 0 regressões e todas as
-avaliações HTTP da CI passaram. `CRIVO_DISABLE_REALIZADOR=1` desliga, e a linha de comando continua
+avaliações HTTP da CI passaram. Ele fala só onde é igual ou melhor que o texto de hoje (porta v3: 19 de
+47 turnos); respondendo tudo, sem quadro, ele mistura frases decoradas, e isso foi recusado. `CRIVO_DISABLE_REALIZADOR=1` desliga, e a linha de comando continua
 desligada por padrão. Também nesta rodada: memória de nomes ("Qual é o nome do meu gato?").
 [Porta, limites e como ligar](experimentos/fase4_porta_20261013/README.md).
 
