@@ -54,6 +54,39 @@ class Api(unittest.TestCase):
         self.assertNotIn("experimental_voice", responder_web({"message": "Meu gato se chama Tupo."}))
 
 
+class Numpy(unittest.TestCase):
+    """Os pesos NumPy do site: conferidos pelo SHA, com prazo, ligados só no servidor."""
+
+    def test_pesos_do_site_carregam(self):
+        voz = realizador_17m.numpy_do_site()
+        self.assertIsNotNone(voz, "artefatos/realizador_pt ausente ou com SHA diferente")
+        self.assertEqual(voz.prazo, realizador_17m.PRAZO_SITE)
+        self.assertTrue(realizador_17m.status()["site"]["ligado"])
+
+    def test_npz_diferente_e_recusado(self):
+        with mock.patch.object(realizador_17m, "NPZ_SHA256", "0" * 64):
+            with self.assertRaises(RuntimeError):
+                realizador_17m.RealizadorNumpy()
+
+    def test_prazo_estourado_nao_termina(self):
+        voz = realizador_17m.numpy_do_site()
+        voz_curta = object.__new__(realizador_17m.RealizadorNumpy)
+        voz_curta.__dict__.update(voz.__dict__, prazo=1e-9)
+        _, terminou = voz_curta.realizar({"ato": "acolher", "sentimento": "triste"}, "Estou triste hoje.")
+        self.assertFalse(terminou)
+
+    def test_site_usa_a_voz_e_a_linha_de_comando_nao(self):
+        from web_core import responder_web
+        os.environ.pop("CRIVO_DISABLE_REALIZADOR", None)
+        r = responder_web({"message": "Meu gato se chama Tupo."}, voz_17m=True)
+        self.assertTrue(r["experimental_voice"]["used"], r["experimental_voice"])
+        self.assertIn("Tupo", r["response"])
+        with mock.patch.dict(os.environ, {"CRIVO_DISABLE_REALIZADOR": "1"}):
+            r = responder_web({"message": "Meu gato se chama Tupo."}, voz_17m=True)
+            self.assertNotIn("experimental_voice", r)
+        self.assertNotIn("experimental_voice", responder_web({"message": "Meu gato se chama Tupo."}))
+
+
 class Adaptador(unittest.TestCase):
     def quadro(self, *falas):
         bot = Crivo()

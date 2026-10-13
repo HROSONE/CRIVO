@@ -134,7 +134,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     extra["generation"] = bot.ultima_geracao
     voz = getattr(bot, "ultimo_realizador", None)
     if voz is not None:
-        # Voz experimental do 17M (realizador_17m.py): só aparece com as duas travas ligadas.
+        # Voz experimental do 17M (realizador_17m.py): aparece quando ela esteve ligada no turno.
         extra["experimental_voice"] = {"used": bool(voz.get("usada")), "reason": voz.get("motivo"),
                                        "act": (voz.get("quadro") or {}).get("ato")}
     extra['dialogue_generation'] = bot.dialogo_conversa.trace

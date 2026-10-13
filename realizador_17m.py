@@ -31,8 +31,11 @@ TOKENIZER_SHA256 = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044d
 FORMATO = RAIZ / "experimentos" / "fase3_realizador_20261012" / "formato_fase3.py"
 FORMATO_SHA256 = "d1b4ab176c89b29f4042d83ddd7df32f5c24ca09d253603992d836ce17d96abb"
 MAX_NOVOS = 120
+# No site a função tem 20 s (vercel.json). Passado o prazo, a frase sai sem <fim>, a
+# conferência recusa e fica o texto de sempre.
+PRAZO_SITE = 8.0
 PASTA_NUMPY = RAIZ / "artefatos" / "realizador_pt"
-NPZ_SHA256 = None  # preenchido depois da exportação conferida (notebooks/exportar_realizador_numpy_colab.ipynb)
+NPZ_SHA256 = "57cc2da792344ce16ae9d74e023a547d4776f3f936daddc05c3ee393cdf4a5fe"  # exportação conferida (notebooks/exportar_realizador_numpy_colab.ipynb)
 # Decisões do criador do projeto depois da porta conversacional v2 (13/10/2026): primeiro
 # o opt-in experimental para todos os atos; depois, ligar no servidor do site (main e site
 # público). A linha de comando e os testes continuam desligados por padrão.
@@ -63,7 +66,7 @@ def desligado_no_site():
 class RealizadorNumpy:
     """O mesmo realizador em NumPy, com cache de chaves e valores (uma passada por token)."""
 
-    def __init__(self, pasta=PASTA_NUMPY):
+    def __init__(self, pasta=PASTA_NUMPY, prazo=None):
         import json
         import numpy as np
         from pontuador_frases import BPE
@@ -81,6 +84,7 @@ class RealizadorNumpy:
         self.bpe = BPE(pasta / "tokenizer.json")
         self.esp = self.bpe.especiais
         self.proibidos = [v for k, v in self.esp.items() if k != "<fim>"]
+        self.prazo = prazo
 
     def _norm(self, x, nome):
         np = self.np
@@ -129,7 +133,8 @@ class RealizadorNumpy:
         return ids
 
     def realizar(self, quadro, mensagem):
-        np = self.np
+        import time
+        limite = time.monotonic() + self.prazo if self.prazo else None
         ids = self.prompt(quadro, mensagem)
         cache, saida = {}, []
         estado = self._passo(ids, 0, cache)[-1]
@@ -141,6 +146,8 @@ class RealizadorNumpy:
             if nxt == self.esp["<fim>"]:
                 return self.bpe.decodificar(saida).strip(), True
             saida.append(nxt)
+            if limite is not None and time.monotonic() > limite:
+                break
             estado = self._passo([nxt], pos, cache)[-1]
             pos += 1
         return self.bpe.decodificar(saida).strip(), False
@@ -150,7 +157,7 @@ class RealizadorNumpy:
 def numpy_do_site():
     """Realizador NumPy embutido, ou None quando os pesos não estão no pacote."""
     try:
-        return RealizadorNumpy()
+        return RealizadorNumpy(prazo=PRAZO_SITE)
     except Exception:
         return None
 

@@ -1,6 +1,6 @@
 """Porta conversacional (fase 4): o mesmo CRIVO com e sem a voz do realizador 17M.
 
-python experimentos/fase4_porta_20261013/avaliar_porta.py --saida /tmp/porta [--realizador PASTA]
+python experimentos/fase4_porta_20261013/avaliar_porta.py --saida /tmp/porta [--realizador PASTA | --numpy]
 
 Cada conversa congelada roda duas vezes, do zero: com o motor atual e com o realizador
 (`bot.realizador`). Os critérios de cada turno valem igual para os dois. Sem --realizador,
@@ -66,6 +66,8 @@ def principal():
     ap = argparse.ArgumentParser()
     ap.add_argument("--saida", required=True)
     ap.add_argument("--realizador", help="pasta com pesos.pt e tokenizer.json da fase 3 (SHA conferido)")
+    ap.add_argument("--numpy", action="store_true",
+                    help="usa os pesos NumPy embutidos (artefatos/realizador_pt), os mesmos do site")
     ap.add_argument("--conjunto", choices=sorted(CONJUNTOS), default="v1")
     a = ap.parse_args()
     arquivo, SHA_CONVERSAS = CONJUNTOS[a.conjunto]
@@ -78,9 +80,13 @@ def principal():
     atual = rodar(conversas)
     resultado = {"protocolo": "fase4_porta_conversacional", "conjunto": a.conjunto, "conversas_sha256": SHA_CONVERSAS,
                  "turnos": len(atual), "atual": {"ok": sum(t["ok"] for t in atual)}, "ativo_no_chat": False}
-    if a.realizador:
+    if a.realizador or a.numpy:
         import realizador_17m
-        voz = realizador_17m.Realizador(a.realizador)
+        if a.numpy:
+            voz = realizador_17m.RealizadorNumpy()
+            resultado["npz_sha256"] = realizador_17m.NPZ_SHA256
+        else:
+            voz = realizador_17m.Realizador(a.realizador)
         resultado["pesos_sha256"] = realizador_17m.PESOS_SHA256
         com = rodar(conversas, voz)
         com_quadro = [t for t in com if t["realizador"] and t["realizador"].get("quadro")]
