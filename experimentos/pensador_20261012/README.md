@@ -1,5 +1,7 @@
 # O pensador — rede recursiva própria que raciocina sobre o quadro
 
+**Resultado (13/10/2026): reprovado nos gates de exatidão** (blind 84,5%, profundidade 57,9%, tamanho 64,6%), com zero afirmação errada pela política e invariância de 99,9%. A recursão mais que dobra o acerto em relação à mesma rede com 1 volta. Detalhes e limites em [RESULTADO.md](RESULTADO.md).
+
 No CRIVO, o Transformer 17M é a rede da linguagem: diz o que o quadro decidiu. Este
 experimento testa a outra metade: uma rede **própria, pequena e treinada do zero** que
 **pensa** sobre o conteúdo do quadro, sem ler texto.
