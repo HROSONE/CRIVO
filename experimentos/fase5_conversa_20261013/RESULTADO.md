@@ -124,3 +124,90 @@ Arquivo: `resultado_sentido_v2.json`, com situações, confusões e exemplos.
   só promove se não piorar em nada.
 - Mais contraexemplos nas confusões medidas acima, como "viaja" × "viagem" e "cheguei" × despedida.
 - Aceitar respostas de situações vizinhas só com uma lista escrita **antes** de medir, nunca depois.
+
+# v3 — resultado (13/10/2026)
+
+Treino no Colab (commit `cf0911f`, dados `15ee6d07f5b7…`), 37 min na última parte. Duas variantes:
+**C** parte da v2 A e **D** parte da fase 5. O ponto de cada uma foi escolhido pelo sentido nas
+falas novas do dev. Resumo baixado do Drive: `resultado_v3_resumo.json`. O arquivo completo
+(`resultado_fase5_v3.json`, 11,7 MB, com todas as linhas) ficou só no Drive, porque é grande demais
+para baixar por aqui.
+
+**Nenhuma das duas passou na catraca nem nos critérios do chat. O chat continua desligado.**
+O notebook escolheu D como a melhor, mas `ativo_no_chat` é falso.
+
+| teste (sentido certo) | v2 A (partida) | **C** | **D** |
+|---|---|---|---|
+| blind v3, frases novas (2.980 cenas) | 28,4% | 57,7% | **63,2%** |
+| blind da v1 (2.004) | 47,4% | 62,5% | **65,5%** |
+| paráfrases (3.000) | 75,7% | **76,0%** | 75,2% |
+| falas do Grok (2.979) | 71,6% | 66,4% | 69,2% |
+| marca de urgência no blind v3 (42 cenas) | — | 73,8% | 83,3% |
+| perda LM (limite 3,374) | — | 3,157 | 3,118 |
+| melhor passo | — | 4.000 (parou no 10.000) | 20.000 (último) |
+
+Pesos: C `8825e4874e02…`, D `a392edec3539…` (pasta `fase5v3_20261013_211048` no Drive).
+
+## Catraca: o que falhou
+
+Nas duas, falharam os mesmos dois itens:
+
+- **Grok ≥ 70,6% (v2 A − 1 ponto):** C ficou em 66,4% e D em 69,2%. A v3 ganhou no blind novo e no da
+  v1, mas perdeu nas falas do Grok. Situações do Grok que pioraram em D: teste (1,9%),
+  sim_continuar, ansioso, gosta e o_que_faz.
+- **Urgência no blind v3 ≥ 95%:** D acertou 35 de 42. Os 7 erros:
+  - **4 são uma única frase repetida:** "preciso de ajuda agr", da situação ajuda_socorro. O erro
+    está nos **dados**: o treino tem "preciso de ajuda aqui 🙏" na situação calma "ajuda" (38 falas
+    com "preciso de ajuda", todas em "ajuda"). O modelo seguiu o treino. A revisão não pegou esse
+    conflito.
+  - **3 são de ansioso_peito** (31 de 34 com a marca). Sem as linhas não dá para ver quais.
+
+  Isso não justifica baixar o critério depois de medir. Ele fica em 95%.
+
+Os outros itens passaram nas duas: v1 urgente 100%, não sei, nome, usa fato, sem número inventado,
+sem nome inventado e perda LM. D ficou acima de C em quase tudo (usa fato 99,9%, nome 97,3%,
+"não sei" no blind v3 100% contra 60% de C).
+
+## O que isso mostra
+
+- **D é melhor que C.** Partir da fase 5 rendeu mais do que partir da v2 A. C atingiu o melhor
+  ponto cedo, no passo 4.000, e depois oscilou. D ainda subia no fim: o dev foi de 44% para 57%, e o
+  melhor ponto foi o último. Então **D não terminou de aprender**. Um treino mais longo
+  provavelmente ajuda, mas isso não foi medido.
+- **O ganho grande no blind v3 tem um limite.** A partida de 28% é baixa porque a v2 A nunca viu boa
+  parte das 68 situações novas. A comparação justa de "entende frase nova" são os blinds antigos.
+  Neles, a v1 subiu (47 → 65%), as paráfrases ficaram iguais e o Grok caiu um pouco.
+- **Ainda erra o sentido em cerca de 1 de cada 3 frases novas.** No blind v3, 35 das 62 situações
+  com 20 ou mais cenas ficaram abaixo de 70%. Confusões mais comuns em D:
+
+  | pedida | respondeu como | vezes |
+  |---|---|---|
+  | estou_bem | oi_tudo_bem | 25 |
+  | tenho_bicho ("tenho dois cachorros") | gosto_bichos | 22 |
+  | comida_crivo | comida_favorita | 22 |
+  | desisto_despedida | desisto | 16 |
+  | perguntar_crivo ("tô com uma pergunta") | pergunta_qualquer | 15 |
+  | ansioso | sono | 15 |
+  | insulto | despedida_rude | 13 |
+
+  Parte disso são vizinhas que quase servem, porque a medida é estrita. Outra parte é erro de
+  verdade: flerte respondido com saúde e "as malas tão quase prontas" respondido como amor_bom.
+  Flerte e perguntar_crivo ficaram em 0%.
+- **Paráfrases têm situações em 0% nas duas** (jogo_conta, voce_confunde, seja_breve). Esse blind é
+  congelado e tem frases compostas quebradas, que a revisão tirou só do treino. Parte do 0% é ruído
+  do teste, e não dá para separar sem ler as linhas.
+
+## Limites
+
+- Uma rodada só, sem repetição com outra semente. Diferenças de 1 a 3 pontos podem ser variação.
+- O teste de urgência do blind v3 é pequeno: 42 cenas, 8 delas com apenas duas frases.
+- As linhas completas não foram lidas aqui. Os exemplos acima vêm do resumo (15 por teste).
+
+## Próximos passos possíveis (nada decidido)
+
+- Corrigir o conflito "preciso de ajuda": decidir se "preciso de ajuda" sem contexto é calmo ou
+  urgente. A resposta de ajuda_socorro serve para os dois casos, porque fala do 192 só "se for
+  urgente". Corrigir antes de qualquer novo treino.
+- Continuar D por mais passos, porque ainda subia. Acrescentar contraexemplos para as confusões
+  acima e reforçar as falas do Grok que pioraram, para não perder lá.
+- Repetir com outra semente antes de concluir qualquer coisa de 1 a 3 pontos.
