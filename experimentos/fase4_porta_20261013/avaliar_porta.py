@@ -27,6 +27,9 @@ CONJUNTOS = {
     "v1": ("conversas_congeladas.json", "84ffcece7880ea45586b38ead1e60ab0455ca1d6d8552b17e448340a4acd5782"),
     # v2: escrito depois de ler a v1 e antes de rodar os ajustes; é o teste novo.
     "v2": ("conversas_congeladas_v2.json", "5ff142e663678c0aa36d69635c1c515900da0fd495ee75700f49e9f944695acc"),
+    # v3: escrito depois de o criador do projeto achar a voz rara no preview do PR #171 e antes
+    # de ampliar o adaptador; inclui a conversa real dele.
+    "v3": ("conversas_congeladas_v3.json", "3b147b9e4d99ce4785290fbf1a12cd328e8c61394c65a82a8568be21d92477e7"),
 }
 
 
