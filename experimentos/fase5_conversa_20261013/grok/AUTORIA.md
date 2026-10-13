@@ -8,6 +8,7 @@ e nenhum código vieram desses modelos, e nenhum deles roda no CRIVO.
 |---|---|---|
 | parte_1.json … parte_9.json, contraexemplos.json | Grok | docs/prompt_grok_formas_de_fala.md |
 | parte2_1_gpt.json (situações 1–7 da parte 2) | GPT (ChatGPT) | docs/prompt_grok_formas_de_fala_parte2.md |
+| parte2_2_gpt.json (situações 8–14 da parte 2) | GPT (ChatGPT), confirmado pelo criador | docs/prompt_grok_formas_de_fala_parte2.md |
 
 O arquivo da parte 2 foi salvo primeiro como `parte2_1.json`, no commit `f1fec09`, com a mensagem
 dizendo que era do Grok. O criador corrigiu: foi o GPT. O nome e esta tabela registram o autor certo.
