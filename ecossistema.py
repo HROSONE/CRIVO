@@ -173,6 +173,13 @@ _LISTA = (
             ("metacognicao.py", "estado_interno.py"),
             ("revisao", "pessoa"),
             ("testes_metacognicao.py",)),
+    Especie("memoria_nomes", "conversa",
+            "Guarda os nomes que a pessoa dá a bichos e pessoas próximas (“meu gato se chama Tupo”) e "
+            "responde “qual é o nome do meu gato?” com o nome que ela escreveu.",
+            "Perguntas inteiras pelo nome de uma relação da pessoa.",
+            ("memoria_nomes.py",),
+            ("pessoa", "revisao"),
+            ("testes_memoria_nomes.py",)),
     Especie("linguagem_conversa", "conversa",
             "Reage a relatos do dia a dia com o tom certo.",
             "Quando a pessoa conta algo que aconteceu.",

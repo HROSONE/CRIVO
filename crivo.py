@@ -281,6 +281,9 @@ class Crivo:
         from modelo_de_si import ModeloDeSi
         self.modelo_de_si = ModeloDeSi()
         self.metacognicao_ultima = None
+        # Voz experimental do 17M: None = segue as travas de ambiente (realizador_17m.py).
+        self.realizador = None
+        self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -1510,6 +1513,13 @@ class Crivo:
         # Pergunta inteira sobre o próprio CRIVO ou sobre a resposta anterior
         # ("tem certeza?"): o modelo de si e a metacognição respondem antes
         # das rotas que tratariam a fala como relato ou pedido.
+        # Nomes que a pessoa dá ("meu gato se chama Tupo") ficam guardados para a conversa.
+        import memoria_nomes
+        self.evento_nome = None
+        evento = memoria_nomes.observar(getattr(self, "perfil", None), original_conteudo,
+                                        ficcao=bool(getattr(self.dialogo_situado, "ficcao", None)))
+        if evento is not None:
+            self.evento_nome = dict(evento, fala=original_conteudo)
         proprio = self._sobre_si(original_conteudo)
         if proprio is None:
             # A memória lê a grafia original: identificadores e valores inéditos
@@ -1594,8 +1604,24 @@ class Crivo:
         self.dialogo_situado.observar(original_conteudo, ident, self)
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
+        ident, resposta = self._realizar(original_conteudo, ident, resposta)
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
+
+    def _realizar(self, fala, ident, resposta):
+        """Voz experimental do 17M (realizador_17m.py): só com as duas travas ligadas."""
+        import realizador_17m
+        if not realizador_17m.habilitado() and getattr(self, "realizador", None) is None:
+            return ident, resposta
+        novo_ident, nova, trace = realizador_17m.aplicar(self, fala, ident, resposta,
+                                                         realizador=getattr(self, "realizador", None))
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["realizador"] = {k: v for k, v in trace.items() if k != "avaliacao"}
+        if nova != resposta:
+            for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+                if getattr(alvo, campo, None) == resposta:
+                    setattr(alvo, campo, nova)
+        return novo_ident, nova
 
     def _sobre_si(self, texto):
         """Modelo de si e metacognição: só falas inteiras sobre o CRIVO."""
@@ -1610,13 +1636,20 @@ class Crivo:
             achado = self.modelo_de_si.responder(n)
             mecanismo = "modelo_de_si"
         if achado is None:
+            import memoria_nomes
+            lembrado = memoria_nomes.recordar(getattr(self, "perfil", None), texto)
+            if lembrado is not None:
+                achado = lembrado[:2]
+                mecanismo = "memoria_nomes"
+                self.evento_nome = dict(lembrado[2], fala=texto)
+        if achado is None:
             return None
         ident, resposta = achado
         if getattr(self, "perfil", None) is not None:
             self.perfil.turno += 1
         self.esclarecimento = None
-        if mecanismo == "modelo_de_si":
-            # Falar de si encerra o assunto factual; "tem certeza?" não.
+        if mecanismo in ("modelo_de_si", "memoria_nomes"):
+            # Falar de si ou de um nome encerra o assunto factual; "tem certeza?" não.
             self.contexto_textual = None
             self.assunto_conversa = None
         self.historico.append({"pergunta": texto, "id": ident, "mecanismo": mecanismo})
