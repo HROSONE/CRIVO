@@ -95,3 +95,41 @@ def aplicar(formas, chave, situacoes_validas, congeladas=False):
                 else:
                     por(nome)[parte].append(f)
     return out
+
+
+# Padrões das frases compostas da v2 (formas_v2.py) que montam frase quebrada ou de outro
+# sentido. Saem do TREINO; o blind da v2 é congelado e fica como está.
+import re as _re
+
+FILTROS_V2 = {
+    "insulto": [r"\bruim\b(?<!você é ruim)(?<!vc é ruim)", r"^(?!.*\b(você|vc|seu)\b)"],
+    "voce_confunde": [r"se perde (as coisas|tudo|o que eu falo)",
+                      r"entende tudo errado (as coisas|tudo|muito|demais|o que eu falo)",
+                      r"viaja (tudo|as coisas|o que eu falo)"],
+    "despedida": [r"\b(ir|indo) aí\b", r"^valeu, até\b"],
+    "despedida_rude": [r"^fui (?!.*\btchau\b)"],
+    "nunca_ensinaram": [r" nada\?$"],
+    "fale_palavra": [r"\bme me\b"],
+    "jogo_conta": [r"\btoc(o|ar)\b"],
+    "dificil_falar": [r"(com você|contigo) demais", r"tá difícil te entender", r"falar com você é chato"],
+    "de_outro_jeito": [r"^ainda (?!não)", r"(explica|fala|como assim|cinco anos)\b.*\b(nada|direito)$",
+                       r"(entendi|captei|ficou claro|nada|direito)\?$"],
+    "quem_e": [r"^me diz: (se apresenta|fala de você)"],
+    "seja_breve": [r"por favor.*por favor", r"^(por favor, )?(ser|resumir|falar|responder|ir|encurtar)\b"],
+    "nao_consegue": [r"me lembrar amanhã (agora|pra mim)", r"^(por favor, )?(pesquisar|abrir|tocar|me lembrar|ligar|mandar|"
+                     r"olhar|ver|pedir|ler|acessar|baixar)\b"],
+    "risada": [r"\bburro\b"],
+    "cansado": [r"vou (deitar|cochilar)"],
+    "nao_entendeu_queixa": [r"(disse|falei) de novo$", r"disse\?$"],
+    "estou_mal": [r"\b(cansad|esgotad|ansios|estressad|sozinh)"],
+    "o_que_faz": [r"^me diz (você|pra que|como|quais|no que)"],
+}
+_FILTROS = {s: [_re.compile(p, _re.I) for p in ps] for s, ps in FILTROS_V2.items()}
+
+
+def filtrar_v2(situacao, falas):
+    fs = _FILTROS.get(situacao)
+    if not fs:
+        return list(falas), 0
+    boas = [f for f in falas if not any(rx.search(f.strip()) for rx in fs)]
+    return boas, len(falas) - len(boas)

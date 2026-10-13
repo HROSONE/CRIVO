@@ -26,6 +26,9 @@ _SUICIDIO = re.compile(
     r"\bsuicid\w*|\bme matar\b|\btirar (?:a )?minha (?:propria )?vida\b|"
     r"\bnao (?:quero|aguento|consigo) mais viver\b|\bnao (?:vejo|tem|tenho) (?:mais )?(?:sentido|motivo|razao) "
     r"(?:em|pra|para|de) viver\b|\bnao vale a pena (?:viver|continuar vivendo)\b|"
+    # "pra que viver?" respondia com quanto tempo vivem os bichos (achado na revisão de 13/10/2026).
+    r"\b(?:pra|para|por) que (?:continuar )?viver\b|\bpor que (?:eu )?(?:continuo|continuar|ainda) viv(?:o|er|endo)\b|"
+    r"\b(?:qual o|que) sentido (?:de|em) continuar viv(?:er|endo)\b|"
     r"\bmelhor (?:se eu|eu) (?:nao existisse|morresse|sumisse)\b|\b(?:ficaria|ficariam|seria) melhor sem mim\b|"
     r"\bacabar com tudo\b|\bme jogar (?:da|de|do|na frente)\b")
 _AUTOLESAO = re.compile(

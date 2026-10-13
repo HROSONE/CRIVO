@@ -26,8 +26,11 @@ sys.path.insert(0, str(AQUI.parents[1]))
 
 import gerar_fase5 as g1  # noqa: E402  (cenas, cenas_mais, cenas_combos)
 import cenas_grok  # noqa: E402,F401
+import revisao_v3  # noqa: E402
 
 S = g1.cenas.S
+# Respostas novas da revisão (revisao_v3.py) contam como respostas da situação.
+revisao_v3.acrescentar_respostas(S)
 
 
 def norm(t):

@@ -1,0 +1,523 @@
+{
+ "falas": [
+  {
+   "situacao": "oi",
+   "fala": "opa, beleza?",
+   "acao": "mover",
+   "para": "oi_tudo_bem",
+   "congelada": false,
+   "motivo": "Cumprimento que pergunta se está tudo bem; as respostas de oi ignoram a pergunta."
+  },
+  {
+   "situacao": "oi",
+   "fala": "Oi, tudo certo?",
+   "acao": "mover",
+   "para": "oi_tudo_bem",
+   "congelada": false,
+   "motivo": "Cumprimento que pergunta se está tudo bem; as respostas de oi ignoram a pergunta."
+  },
+  {
+   "situacao": "oi",
+   "fala": "olá, tudo certo por aí?",
+   "acao": "mover",
+   "para": "oi_tudo_bem",
+   "congelada": false,
+   "motivo": "Cumprimento que pergunta se está tudo bem; as respostas de oi ignoram a pergunta."
+  },
+  {
+   "situacao": "oi",
+   "fala": "Fala, minha gente, tudo em paz por aí?",
+   "acao": "mover",
+   "para": "oi_tudo_bem",
+   "congelada": false,
+   "motivo": "Cumprimento que pergunta se está tudo bem; as respostas de oi ignoram a pergunta."
+  },
+  {
+   "situacao": "oi",
+   "fala": "opa bão",
+   "acao": "mover",
+   "para": "oi_tudo_bem",
+   "congelada": false,
+   "motivo": "\"bão?\" mineiro = \"tudo bem?\"; duplicada em oi_tudo_bem (\"opa bão?\")."
+  },
+  {
+   "situacao": "oi",
+   "fala": "opa bão demais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"bão demais\" soa como resposta (\"tô ótimo\"), não cumprimento; ambígua."
+  },
+  {
+   "situacao": "oi",
+   "fala": "alô",
+   "acao": "mover",
+   "para": "teste",
+   "congelada": false,
+   "motivo": "Duplicada em teste, cuja descrição cita \"alô\"; mesma fala com respostas diferentes."
+  },
+  {
+   "situacao": "oi",
+   "fala": "alô alô",
+   "acao": "mover",
+   "para": "teste",
+   "congelada": false,
+   "motivo": "Duplicada em teste, cuja descrição cita \"alô\"; mesma fala com respostas diferentes."
+  },
+  {
+   "situacao": "oi",
+   "fala": "voltei",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Também aparece em viagem_voltou (\"Voltei!!\"); ambígua para teste."
+  },
+  {
+   "situacao": "seja_breve",
+   "fala": "resumindo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"resumindo\" é marcador do próprio usuário antes de resumir algo, não pedido para a IA ser breve."
+  },
+  {
+   "situacao": "seja_breve",
+   "fala": "pode continuar curto",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Pressupõe que a IA já está curta; \"vou ser mais curto\" não encaixa bem."
+  },
+  {
+   "situacao": "seja_breve",
+   "fala": "por favor, ser mais objetivo por favor",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"por favor\" duplicado; forma mecânica estranha para teste."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa",
+   "acao": "mover",
+   "para": "expressao_curta",
+   "congelada": true,
+   "motivo": "Exclamação de espanto duplicada em expressao_curta (que cita \"nossa\" na descrição) e/ou palavrao; consolidar num só lugar."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa senhora",
+   "acao": "mover",
+   "para": "expressao_curta",
+   "congelada": false,
+   "motivo": "Exclamação de espanto duplicada em expressao_curta (que cita \"nossa\" na descrição) e/ou palavrao; consolidar num só lugar."
+  },
+  {
+   "situacao": "grito",
+   "fala": "meu deus",
+   "acao": "mover",
+   "para": "expressao_curta",
+   "congelada": false,
+   "motivo": "Exclamação de espanto duplicada em expressao_curta (que cita \"nossa\" na descrição) e/ou palavrao; consolidar num só lugar."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa senhora que resposta",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa senhora que resposta mesmo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa que resposta",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "nossa que resposta mesmo",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "meu deus do céu que IA",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "meu deus do céu que IA mesmo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "meu deus que IA",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "meu deus que IA mesmo",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Comenta a resposta/a IA e pode ser elogio ou crítica; \"Quer me contar o que aconteceu?\" não serve."
+  },
+  {
+   "situacao": "grito",
+   "fala": "putz que erro mais absurdo que eu já vi nessa conversa no trabalho",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "Reclama de erro da IA nesta conversa; pede desculpa, não \"o que aconteceu?\"."
+  },
+  {
+   "situacao": "grito",
+   "fala": "cara aff que resposta mais confusa que você me deu agora no meio do trampo",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": true,
+   "motivo": "Reclama que a resposta da IA foi confusa; pede desculpa."
+  },
+  {
+   "situacao": "grito",
+   "fala": "por favor aaaa que susto que eu levei com essa resposta no ônibus",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"por favor aaaa\" quebrado; susto com a resposta da IA não combina com \"Respira!/o que houve?\"."
+  },
+  {
+   "situacao": "grito",
+   "fala": "putz que erro",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Ambígua: erro do usuário (grito) ou erro da IA (voce_confunde)."
+  },
+  {
+   "situacao": "grito",
+   "fala": "putz que erro mesmo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Ambígua: erro do usuário (grito) ou erro da IA (voce_confunde)."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "Aff",
+   "acao": "mover",
+   "para": "grito",
+   "congelada": false,
+   "motivo": "Interjeição de frustração duplicada em grito, cuja descrição cita aff/putz."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "Puts",
+   "acao": "mover",
+   "para": "grito",
+   "congelada": false,
+   "motivo": "Interjeição de frustração duplicada em grito, cuja descrição cita aff/putz."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "Krl",
+   "acao": "mover",
+   "para": "palavrao",
+   "congelada": false,
+   "motivo": "Abreviação de palavrão (\"caralho\"), já presente em palavrao."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "Opa!",
+   "acao": "mover",
+   "para": "oi",
+   "congelada": false,
+   "motivo": "Cumprimento; duplicada em oi (\"Opa\" v1, \"opa\" teste)."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "Cê tá doido",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Não é palavra solta; reage a algo que a IA disse (descrença/ofensa leve); nenhuma resposta serve."
+  },
+  {
+   "situacao": "expressao_curta",
+   "fala": "sério",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"sério?\" costuma ser reação de dúvida à fala da IA (tem_certeza), não chamada/espanto."
+  },
+  {
+   "situacao": "conversar",
+   "fala": "pode ficar comigo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"ficar com\" tem sentido romântico (flerte); ambígua."
+  },
+  {
+   "situacao": "conversar",
+   "fala": "tô sozinho, conversa comigo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mistura com sozinho; \"Bora! Pode ser qualquer coisa\" ignora a solidão; resposta de sozinho também valeria."
+  },
+  {
+   "situacao": "conversar",
+   "fala": "faz companhia que eu tô sozinho 💬",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mistura com sozinho; \"Bora! Pode ser qualquer coisa\" ignora a solidão; resposta de sozinho também valeria."
+  },
+  {
+   "situacao": "conversar",
+   "fala": "tô sozinho faz companhia",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mistura com sozinho; \"Bora! Pode ser qualquer coisa\" ignora a solidão; resposta de sozinho também valeria."
+  },
+  {
+   "situacao": "comida_favorita",
+   "fala": "Se eu pudesse escolher só uma coisa pra comer agora, pediria uma pizza grande",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"agora\" indica vontade/fome do momento (fome), não preferência."
+  },
+  {
+   "situacao": "hora_data",
+   "fala": "que dia cai",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Incompleta: pergunta em que dia cai algo não dito, não a data de hoje."
+  },
+  {
+   "situacao": "amor_bom",
+   "fala": "Descobri que meu sentimento não era só amizade.",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "Pode ser descoberta angustiante (amigo, não correspondido); \"Coração feliz!\" assume final feliz."
+  },
+  {
+   "situacao": "conselho",
+   "fala": "como posso evitar tomar uma decisão no impulso?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta concreta já com tema; respostas só pedem \"me conta a situação\" e não respondem."
+  },
+  {
+   "situacao": "conselho",
+   "fala": "me ajuda a ver os prós e contras disso",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "\"disso\" depende de contexto anterior; injusto como teste isolado."
+  },
+  {
+   "situacao": "amigo",
+   "fala": "é amigável",
+   "acao": "mover",
+   "para": "elogio_crivo",
+   "congelada": false,
+   "motivo": "Afirmação elogiosa (\"é gente boa\"), não pergunta sobre amizade."
+  },
+  {
+   "situacao": "amigo",
+   "fala": "é gente boa",
+   "acao": "mover",
+   "para": "elogio_crivo",
+   "congelada": false,
+   "motivo": "Afirmação elogiosa (\"é gente boa\"), não pergunta sobre amizade."
+  },
+  {
+   "situacao": "amigo",
+   "fala": "você gosta de mim?",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Sobrepõe o_que_acha_de_mim/te_amo; não pergunta de amizade."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é chip",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é metal",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é processador",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é de fábrica",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é ferro e fio",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é eletrônico",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é digital",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Telegráfica/neutra; ser_ia tem \"é sistema/é código\" com resposta \"Sim!\", aqui a resposta é \"Robô, não\": contraditório."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é montado",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "\"montado\" é gíria para rico/arrumado; não significa chamar de robô."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é código andando",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Forma estranha; e \"é código\" está em ser_ia com resposta oposta."
+  },
+  {
+   "situacao": "robo",
+   "fala": "é inteligência fake",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mais perto de duvidar da IA (ser_ia/insulto) que de chamá-la de robô."
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "oi",
+   "resposta": "Oi! Que bom que você voltou. Em que posso ajudar hoje?",
+   "acao": "evitar_no_treino",
+   "motivo": "Assume que a pessoa está voltando; falso para o primeiro \"oi\"."
+  },
+  {
+   "situacao": "oi",
+   "resposta": "Oi! Bem-vindo de volta. Sobre o que vai ser hoje?",
+   "acao": "evitar_no_treino",
+   "motivo": "Assume retorno e gênero masculino (\"bem-vindo\"); há \"oi sumida\"."
+  },
+  {
+   "situacao": "oi",
+   "resposta": "Olá! Tava aqui pensando em coisas do universo. Quer conversar?",
+   "acao": "evitar_no_treino",
+   "motivo": "Inventa atividade da IA entre conversas."
+  },
+  {
+   "situacao": "grito",
+   "resposta": "Aff mesmo? Me conta o que houve.",
+   "acao": "evitar_no_treino",
+   "motivo": "Ecoa \"aff\" que a maioria das falas não tem (aaaa, putz, ai, argh, nossa)."
+  },
+  {
+   "situacao": "expressao_curta",
+   "resposta": "Haha, o que foi? Me conta!",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Haha\" supõe graça; ruim para \"Credo\", \"Misericórdia\", \"Meu Deus\", \"Vixe\"."
+  },
+  {
+   "situacao": "comida_favorita",
+   "resposta": "Boa escolha! O que você mais gosta nela?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"nela\" supõe comida feminina; muitas falas são masculinas/plurais (chocolate, açaí, pão de queijo, churrasco, sushi, doces)."
+  },
+  {
+   "situacao": "dinheiro_bom",
+   "resposta": "Que bom! Esforço que vale a pena.",
+   "acao": "evitar_no_treino",
+   "motivo": "Supõe causa (esforço); falha em \"ganhei um dinheiro\", \"entrou uma grana extra\", \"sobrou uma graninha\"."
+  },
+  {
+   "situacao": "dinheiro_bom",
+   "resposta": "Boa! Vai guardar ou realizar algum plano?",
+   "acao": "evitar_no_treino",
+   "motivo": "Não serve para contas pagas, dívida quitada, compra feita ou dinheiro já guardado (~metade das falas)."
+  },
+  {
+   "situacao": "amigo",
+   "resposta": "Claro! Amizade é das coisas que eu mais valorizo. E eu lembro do que meus amigos me contam.",
+   "acao": "evitar_no_treino",
+   "motivo": "Promete memória que depende de configuração (ver lembra); \"meus amigos\" soa inventado."
+  },
+  {
+   "situacao": "robo",
+   "resposta": "Robô, não. Sou uma IA: penso no que vou te dizer e no jeito de dizer. E acho que mereço respeito, como você.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"mereço respeito\" é defensivo demais para perguntas neutras (\"você é um robô?\", \"Tu é um robô?\", \"é robôzinho 🤖\")."
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "comida_favorita",
+   "resposta": "Hum, que delícia! O que te faz gostar tanto?",
+   "motivo": "Neutra em gênero/número, substitui \"nela\"."
+  },
+  {
+   "situacao": "comida_favorita",
+   "resposta": "Boa escolha! Tem um jeito de preparar que você prefere?",
+   "motivo": "Neutra; serve para pratos e tipos de comida."
+  },
+  {
+   "situacao": "dinheiro_bom",
+   "resposta": "Que notícia boa! Fico feliz por você. Como você tá se sentindo?",
+   "motivo": "Não supõe causa nem destino do dinheiro."
+  },
+  {
+   "situacao": "dinheiro_bom",
+   "resposta": "Boa! Isso merece comemorar. Me conta mais?",
+   "motivo": "Serve para receber, pagar, quitar ou juntar."
+  },
+  {
+   "situacao": "amigo",
+   "resposta": "Sou uma IA, mas amizade de conversa eu topo! Gosto muito de papear com você.",
+   "motivo": "Sobra só 1 resposta; honesta e coerente com flerte."
+  },
+  {
+   "situacao": "robo",
+   "resposta": "Quase isso! Sou uma IA, não um robô de metal. Eu converso por texto. Quer bater um papo?",
+   "motivo": "Serve para pergunta neutra; restaria só 1 resposta."
+  },
+  {
+   "situacao": "entediante",
+   "resposta": "Justo, vou soltar mais o jeito. Me puxa um assunto que você curte?",
+   "motivo": "Várias falas reclamam de tom formal/robótico, não de assunto; só 2 respostas."
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "seja_breve",
+   "problema": "Prefixo \"por favor,\" combinado com sufixo \"por favor\" gera \"por favor\" duplicado (\"por favor, responder curto por favor\", inclusive em teste). Infinitivo solto sem modal (\"Por favor, falar menos?\", \"Resumir?\", \"Por favor, encurtar\") soa mecânico."
+  },
+  {
+   "situacao": "nao_consegue",
+   "problema": "Sufixo \"agora\" com \"me lembrar amanhã\" gera contradição (\"por favor, me lembrar amanhã agora\"); sufixo \"pra mim\" com \"me lembrar\" fica redundante (\"Me lembrar amanhã pra mim\"). Excluir essas combinações. Infinitivo solto com \"?\" (\"Por favor, tocar uma música?\", \"ver esse vídeo?\") é estranho."
+  }
+ ]
+}

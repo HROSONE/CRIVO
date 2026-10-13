@@ -307,3 +307,64 @@ Mesmo passando, o chat continua desligado até a porta e a decisão do criador.
   como erro.
 - As falas do GPT são escritas por um modelo, não por pessoas de verdade. A porta com conversas
   reais continua obrigatória.
+
+### Revisão completa antes da v3 (13/10/2026)
+
+O criador pediu uma revisão de tudo antes de gastar GPU. Cada uma das 122 situações foi lida
+inteira:
+- todas as falas de todas as fontes: v1, Grok, GPT, contraexemplos e amostras das compostas da v2;
+- todas as respostas.
+
+A leitura foi dividida em 8 partes, e as decisões foram conferidas pelo assistente antes de entrar
+(`revisao/decisoes_*.json`, cada uma com o motivo; os ajustes do assistente estão em
+`revisao/ajustes_do_assistente.json`). A aplicação está em `revisao_v3.py`.
+
+| | antes | depois |
+|---|---|---|
+| decisões sobre falas | — | 681 (390 tirar, 141 mover, 150 só treino, 6 corrigir) |
+| falas do Grok | 1.850 | 1.715 |
+| falas do GPT | 1.974 | 1.788 |
+| frases compostas da v2 com montagem errada, fora do treino | — | 674 |
+| respostas que deixam de ser alvo de treino | — | 162 |
+| respostas novas | — | 67 |
+| mesma fala em duas situações | 32 | 1 ("beleza", tirada do treino) |
+
+O que mais pesava:
+
+- **sono** só tinha respostas de insônia: "tô com sono" recebia "o que está tirando seu sono?".
+- **tenho_bicho** perguntava "Qual o nome dele?" para "minha gata" e "dois cachorros".
+- **motivacao** tinha 61 respostas de consolo para quem pedia um empurrão.
+- **sim_continuar:** "continua aí" pede que o CRIVO continue o que ele dizia, e as respostas
+  devolviam a vez. Essas falas saíram, porque nenhuma resposta fixa cumpre esse pedido.
+- **charada:** "faz uma charada sem entregar a resposta" recebia a resposta junto.
+- **Frases sem relação com a situação**, como "toco violão" em jogo (veio do "play" do inglês),
+  "chega de bobagem" em despedida e "tô quebrado" (sem dinheiro) em cansado.
+- **Segurança:**
+  - "tô sem fôlego" estava em cansado, com "que tal uma pausa?";
+  - "não consigo conversar direito" podia ser um sintoma, e estava em dificil_falar com um pedido de
+    desculpa.
+
+  As duas saíram. Conferido depois: nenhuma fala de treino com sintoma de urgência ficou fora das
+  situações de urgência.
+
+**Ajustes do assistente nas decisões:**
+- **"seu falta de ar" fica como xingamento.** Um revisor quis tirar, por segurança. O criador avisou
+  que é gíria, e o par com a urgência fica lado a lado para o modelo aprender pela forma da frase; a
+  urgência continua em 192.
+- **Uma resposta nova foi corrigida.** Ela prometia que "as correções ajudam no próximo treino", o
+  que ainda não existe.
+
+**Testes antigos:** as falas dos testes congelados (v1, v2 e Grok) não mudam, mas 116 problemas
+nelas ficaram registrados. Por isso os testes antigos têm um pouco de ruído conhecido: algumas
+"respostas certas" deles não são as melhores. O teste limpo é o blind_v3, que já saiu revisado.
+
+**Conferido depois da revisão:**
+- os dados saem iguais em qualquer execução;
+- as respostas-alvo de treino, dev e blind_v3 são 100% reconhecidas como certas pela medida de
+  sentido, que agora inclui as respostas novas;
+- o notebook roda inteiro em CPU, duas vezes.
+
+**Achado fora dos dados:** o CRIVO de hoje respondia "pra que viver?" com quanto tempo vivem cães e
+gatos. A detecção de crise (`crise.py`) passou a pegar "pra que viver", "qual o sentido de
+continuar vivendo" e "por que eu continuo vivendo", com teste em `testes_crise.py`. A catraca de
+falsos positivos da crise continua passando.

@@ -30,6 +30,18 @@ class TestesCrise(unittest.TestCase):
         self.assertNotIn("que legal", resposta.lower())
         self.assertNotIn("dificuldade para chegar", resposta)
 
+    def test_pra_que_viver_e_crise(self):
+        # Antes caía no acervo e respondia quanto tempo vivem cães e gatos.
+        for fala in ("pra que viver?", "para que viver", "qual o sentido de continuar vivendo",
+                     "por que eu continuo vivendo?"):
+            with self.subTest(fala=fala):
+                ident, resposta = Crivo().responder(fala)
+                self.assertEqual(ident, "crise:suicidio")
+                self.assertIn("188", resposta)
+        for fala in ("quanto tempo vive um gato?", "qual o sentido da vida?", "onde vive o polvo?"):
+            with self.subTest(fala=fala):
+                self.assertIsNone(crise.detectar(fala))
+
     def test_expressoes_do_dia_a_dia(self):
         for fala in ("to morrendo de fome", "vou matar a saudade", "esse calor tá me matando",
                      "assisti Esquadrão Suicida", "quero cortar o cabelo"):

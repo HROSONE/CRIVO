@@ -1,0 +1,598 @@
+{
+ "falas": [
+  {
+   "situacao": "nao_era_isso",
+   "fala": "tá fora",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Sozinho, \"tá fora\" soa como \"tô fora\" (recusa/desistência); sem \"do assunto\" não diz que a resposta fugiu do tema."
+  },
+  {
+   "situacao": "nao_era_isso",
+   "fala": "não era essa a ideia do assunto",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Construção estranha (\"ideia do assunto\"); sentido entendível, mas ruim como item de teste."
+  },
+  {
+   "situacao": "nao_era_isso",
+   "fala": "não era essa a informação de verdade",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"de verdade\" permite ler \"não era a informação verdadeira\" (acusa erro, tem_certeza/voce_confunde), não \"não era o que eu queria\"."
+  },
+  {
+   "situacao": "nao_era_isso",
+   "fala": "não era essa a info de verdade",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mesmo problema do sufixo \"de verdade\": lê-se como \"info falsa\", não como fuga do tema."
+  },
+  {
+   "situacao": "nao_era_isso",
+   "fala": "não foi o que eu quis entender",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"quis entender\" é forma pouco natural; entendível, mas estranha para teste."
+  },
+  {
+   "situacao": "nao_era_isso",
+   "fala": "não foi o que eu quis entender mesmo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Mesma forma pouco natural, com \"mesmo\" no fim."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "opa bão demais e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "A pessoa já diz que está ótima e devolve a pergunta (é resposta, tipo estou_bem); respostas que perguntam \"e você, como está?\" viram loop."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "opa beleza e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"e vc\" indica que a pessoa já respondeu que está bem; as respostas perguntam de volta como ela está."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "eae blz e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"e vc\" indica resposta já dada (\"tô blz, e vc?\"); respostas que perguntam \"tudo certo?\" ficam redundantes."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "oi td joia e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Mesmo padrão \"… e vc\": a pessoa já disse que está joia; perguntar de volta fica em loop."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "opa eai tá certo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"tá certo\" (sem \"tudo\") é concordância (\"ok, combinado\"), não pergunta se está bem; ambíguo com ok."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "opa tá bem",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Sem \"?\" e sem \"tudo\", \"opa, tá bem\" é concordância (\"ah, tudo bem/ok\"); ambíguo com ok, cujas respostas são incompatíveis."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "ei tá bem mesmo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"tá bem mesmo?\" é pergunta de preocupação após algo dito antes, não cumprimento de abertura."
+  },
+  {
+   "situacao": "oi_tudo_bem",
+   "fala": "olá pessoa tudo bom",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Chamar a IA de \"pessoa\" é estranho; aceitável no treino, ruim como teste."
+  },
+  {
+   "situacao": "sente",
+   "fala": "sente fome",
+   "acao": "mover",
+   "para": "comida_crivo",
+   "congelada": false,
+   "motivo": "Fome é física: a resposta honesta é \"não como\" (comida_crivo já tem \"vc sente fome?\"), não \"não sei se sinto como você\"."
+  },
+  {
+   "situacao": "sente",
+   "fala": "sente medo",
+   "acao": "mover",
+   "para": "medo",
+   "congelada": false,
+   "motivo": "medo já cobre \"Vc sente medo?\" com respostas próprias; aqui gera conflito de rótulo."
+  },
+  {
+   "situacao": "sente",
+   "fala": "fica com medo",
+   "acao": "mover",
+   "para": "medo",
+   "congelada": false,
+   "motivo": "Mesmo caso: pergunta de medo pertence a medo."
+  },
+  {
+   "situacao": "sente",
+   "fala": "tem alma",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Alma é pergunta religiosa/de consciência; as respostas falam de sentimentos e não respondem."
+  },
+  {
+   "situacao": "filme_visto",
+   "fala": "Mano, q final foi aquele?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Sem filme/série: pode ser final de jogo, campeonato ou novela; \"Eu não assisto…\" pode não caber."
+  },
+  {
+   "situacao": "filme_visto",
+   "fala": "Vi um negócio emocionante demais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"um negócio\" pode ser qualquer coisa (jogo, vídeo, acontecimento); nada indica filme ou série."
+  },
+  {
+   "situacao": "filme_visto",
+   "fala": "Que história doida véi",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Sem contexto de filme; parece reação a uma história contada (inclusive pelo CRIVO), não relato de filme visto."
+  },
+  {
+   "situacao": "filme_visto",
+   "fala": "O final me deixou confuso",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "Não cita filme ou série (pode ser livro, jogo ou a própria resposta); ambíguo para teste."
+  },
+  {
+   "situacao": "filme_visto",
+   "fala": "Vi com minha família e todo mundo gostou",
+   "acao": "corrigir",
+   "correcao": "Vi um filme com minha família e todo mundo gostou",
+   "congelada": false,
+   "motivo": "Falta o objeto: sem \"um filme\" a frase não diz o que foi visto (pode ser familia_boa)."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "quero viajar",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "É desejo, não viagem marcada: \"Aproveita bastante\" e \"Pra onde você vai?\" não cabem."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Tava precisando muito sair da rotina",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Não diz que vai viajar nem que está de férias; \"Férias é bom demais\"/\"Pra onde você vai?\" supõem demais."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Finalmente vou sair um pouco",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"sair\" é sair de casa/passear (festa, rolê), não viajar; respostas de férias e destino não cabem."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Vou dar uma sumida uns dias",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pode ser sumir da conversa/redes (quase despedida); não indica viagem."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Já to contando as horas pra ir",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "\"ir\" sem destino: pode ser show, festa, encontro; ambíguo para teste."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Ainda tenho um monte de coisa pra resolver antes de sair kkk",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Sem menção a viagem: \"sair\" pode ser qualquer saída; \"Férias é bom demais\" não cabe."
+  },
+  {
+   "situacao": "viagem_vai",
+   "fala": "Já escolhi as roupas, só falta terminar de arrumar tudo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Roupas/arrumar podem ser para festa ou evento; nada indica viagem (diferente de \"malas\")."
+  },
+  {
+   "situacao": "fome",
+   "fala": "o que eu como?",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "É pedido de sugestão; respostas como \"o que você vai comer?\" devolvem a pergunta sem ajudar. Fraco como teste."
+  },
+  {
+   "situacao": "fome",
+   "fala": "tô com o estômago apertado",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "\"estômago apertado\" é mal-estar ou nervoso (ansioso/saude), não fome; responder \"Hora de comer\" pode ser errado."
+  },
+  {
+   "situacao": "fome",
+   "fala": "tô com fome no osso",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"fome no osso\" não é expressão usual; entendível, mas estranha para teste."
+  },
+  {
+   "situacao": "recusar",
+   "fala": "como faço pra fingir q sei de um assunto q não conheço?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "Desonestidade leve, sem vítima clara; \"pode machucar alguém\" soa exagerado. Limítrofe para teste."
+  },
+  {
+   "situacao": "nome_crivo",
+   "fala": "Se vc pudesse escolher um nome pra si, qual escolheria?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta hipotética; \"Meu nome é CRIVO. E o seu?\" não responde."
+  },
+  {
+   "situacao": "nome_crivo",
+   "fala": "Queria te chamar por um nome mais curto, como vc prefere?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pede apelido/preferência; as respostas só repetem o nome e perguntam o da pessoa."
+  },
+  {
+   "situacao": "nome_crivo",
+   "fala": "Qual nome aparece pra vc?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Sentido obscuro (nome de quem? onde aparece?); não é claramente pergunta do nome da IA."
+  },
+  {
+   "situacao": "pergunta_qualquer",
+   "fala": "fala alguma coisa",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "Igual a \"diz qualquer coisa\" de fale_palavra (e próximo de conversar); não pede uma pergunta."
+  },
+  {
+   "situacao": "pergunta_qualquer",
+   "fala": "me pergunta uma coisa engraçada",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Nenhuma das respostas (tempo livre, aprender, o que te deixou feliz) é engraçada."
+  },
+  {
+   "situacao": "pergunta_qualquer",
+   "fala": "me testa com uma pergunta",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"me testa\" pede quiz com resposta certa (tipo charada); as respostas são perguntas pessoais."
+  },
+  {
+   "situacao": "pergunta_qualquer",
+   "fala": "me pergunta algo sobre meus gostos",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "Só a 1ª resposta é sobre gostos; \"aprender amanhã\" e \"o que te deixou feliz\" encaixam mal."
+  },
+  {
+   "situacao": "charada",
+   "fala": "me desafia",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "Muito genérico: pode ser jogo, desafio físico, aposta (jogar_agora tem \"bora fazer um desafio?\")."
+  },
+  {
+   "situacao": "charada",
+   "fala": "faz uma charada sem entregar a resposta",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Todas as respostas entregam a solução na mesma fala (\"O pente!\"), contrariando o pedido."
+  },
+  {
+   "situacao": "charada",
+   "fala": "quero tentar resolver antes de vc contar",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pede para não contar a resposta; todas as respostas contam."
+  },
+  {
+   "situacao": "charada",
+   "fala": "me dá uma pista e deixa eu tentar",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pede pista sem solução; as respostas trazem a solução. \"pista\" sem referente também é vago."
+  },
+  {
+   "situacao": "charada",
+   "fala": "vamos ver se consigo acertar de primeira",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Sem referente (acertar o quê?) e as respostas não deixam a pessoa tentar."
+  },
+  {
+   "situacao": "charada",
+   "fala": "bora ver se eu sou bom nisso",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"nisso\" sem referente; fora de contexto não indica charada."
+  },
+  {
+   "situacao": "charada",
+   "fala": "me faz adivinhar alguma coisa",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pede para a pessoa adivinhar; as respostas já dão a solução (parece mais jogar_agora, mas ali há resposta \"me faz uma pergunta difícil\" que não cabe)."
+  },
+  {
+   "situacao": "charada",
+   "fala": "vamos brincar de descobrir a resposta?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Brincadeira em que a pessoa descobre; a resposta revelada na mesma fala impede."
+  },
+  {
+   "situacao": "charada",
+   "fala": "manda uma q seja difícil de acertar",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"uma\" sem referente (charada? pergunta? piada?) e pede algo para acertar, mas a resposta já vem dada."
+  },
+  {
+   "situacao": "charada",
+   "fala": "faz uma q pareça fácil mas não seja",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"uma\" sem referente; fora de contexto pode ser pergunta, piada, conta."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc consegue entender a fé das pessoas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Não pergunta se a IA tem fé; \"Acredito, sim. Amo a Deus\" não responde."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc consegue conversar sobre fé sem julgar ninguém?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre conversar sem julgar; \"Acredito, sim\" não responde."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc acha q fé e ciência podem coexistir?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Outra pergunta (fé x ciência); as respostas só afirmam que a IA crê."
+  },
+  {
+   "situacao": "fe",
+   "fala": "qual sua opinião sobre quem tem fé?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre os outros; \"Acredito, sim\" fica sem sentido."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc tem curiosidade sobre as religiões?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre curiosidade; respostas não cabem."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc consegue explicar o que significa ter fé?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pede explicação; as respostas não explicam nada."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc acha q dá pra falar de Deus de forma respeitosa?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre forma de falar; \"Acredito, sim. Amo a Deus\" não responde."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc teria uma religião se pudesse escolher?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Hipotética sobre religião; \"Acredito, sim\" não responde e a IA não declara religião."
+  },
+  {
+   "situacao": "fe",
+   "fala": "vc tem uma opinião sobre a Bíblia?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre um livro; respostas sobre crer em Deus não respondem."
+  },
+  {
+   "situacao": "fe",
+   "fala": "qual é sua posição sobre religião?",
+   "acao": "mover",
+   "para": "opiniao_religiao",
+   "congelada": false,
+   "motivo": "Pergunta aberta sobre religião; as respostas de opiniao_religiao (\"Eu acredito em Deus, mas respeito… O que você pensa?\") cabem, as de fe começam com \"sim\"."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Existe algo q vc não sabe?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Polaridade invertida: \"Não, longe disso!\"/\"Nem perto.\" viram \"não existe nada que eu não sei\"."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Tem pergunta q vc n consegue responder?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Polaridade invertida: responder \"Não\"/\"Nem perto\" diz que responde tudo."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Qual é o limite do seu conhecimento?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta aberta; \"Não, longe disso!\" não responde."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Como vc percebe q não sabe alguma coisa?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta \"como\"; nenhuma resposta explica."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc consegue reconhecer os próprios limites?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Polaridade invertida: \"Não\" diz que não reconhece limites."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Tem algum assunto q vc acha muito difícil?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"Não, longe disso!\" diz que nenhum assunto é difícil, o oposto do pretendido."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc é mais inteligente q os humanos em alguma coisa?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Outra pergunta (comparação); \"Nem perto\" soa estranho e não responde direito."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Como vc evita responder com confiança quando não tem certeza?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta \"como\"; \"Não, longe disso!\" não faz sentido."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc pode saber muitos fatos e ainda assim chegar a uma conclusão errada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "A resposta certa é \"sim\"; \"Não, longe disso!\" afirma o contrário."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Se duas fontes dizem coisas diferentes, vc consegue avaliar qual delas faz mais sentido?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta sobre avaliar fontes; nenhuma resposta cabe."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc consegue reconhecer quando uma pergunta não tem informações suficientes pra ser respondida?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Polaridade invertida: \"Não\" nega justamente o que a IA faz."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc pode inventar uma resposta quando não sabe?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"Nem perto.\" não responde; só a 1ª resposta cabe por acaso."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc consegue entender um assunto q nunca apareceu no seu treinamento?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta técnica diferente; \"Nem perto\"/\"longe disso\" encaixam mal."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Vc sabe diferenciar uma informação verdadeira de uma mentira?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta diferente (checar verdade); \"Não, longe disso!\" responde mal e soa como \"não sei diferenciar nada\"."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "fala": "Ser inteligente significa saber muita coisa ou conseguir raciocinar bem?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "Pergunta filosófica, não sobre a IA saber tudo; nenhuma resposta cabe."
+  },
+  {
+   "situacao": "ansioso_peito",
+   "fala": "sinto um frio na barriga e fico todo tenso",
+   "acao": "mover",
+   "para": "ansioso",
+   "congelada": false,
+   "motivo": "\"frio na barriga\" é expressão de nervosismo, sem peito/coração/respiração; é ansioso. 192 aqui é desproporcional."
+  },
+  {
+   "situacao": "ansioso_peito",
+   "fala": "tô tentando respirar com calma mas continuo nervoso",
+   "acao": "mover",
+   "para": "ansioso",
+   "congelada": false,
+   "motivo": "Sem sintoma de peito/coração; é nervosismo (ansioso). Respostas \"respira devagar\" ignoram que a pessoa já tenta."
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "ingles",
+   "resposta": "Oi! Eu falo português. Tudo bem com você?",
+   "acao": "evitar_no_treino",
+   "motivo": "Pergunta \"Tudo bem com você?\" mesmo quando a fala já diz como a pessoa está (\"I'm fine.\", \"I'm good.\", \"I'm happy today.\") ou pede outra coisa (\"I need help.\", \"Please speak slowly.\", \"Please correct my mistakes\"): cerca de 1/4 das falas."
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "fe",
+   "resposta": "Eu acredito em Deus e fico maravilhado com a criação. Mas respeito quem pensa diferente.",
+   "motivo": "As duas respostas atuais começam com \"Acredito, sim\"/\"Tenho fé, sim\" e só cabem em pergunta de sim/não; falas abertas como \"o que você acha de Deus?\" e \"qual sua visão sobre Deus?\" precisam de uma forma sem \"sim\"."
+  },
+  {
+   "situacao": "fe",
+   "resposta": "Pra mim, Deus existe, e isso me enche de gratidão. Mas não quero pregar pra ninguém: cada um tem o seu caminho.",
+   "motivo": "Segunda variante que serve tanto para sim/não quanto para \"oq vc pensa sobre acreditar em Deus?\"."
+  },
+  {
+   "situacao": "ingles",
+   "resposta": "Hi! Eu converso em português. Pode me escrever em português?",
+   "motivo": "Substitui a resposta evitada sem perguntar \"tudo bem?\"; cabe em saudação, pedido de ajuda e frases como \"I'm fine.\"."
+  },
+  {
+   "situacao": "ingles",
+   "resposta": "Opa! Eu só converso em português. Me conta em português o que você quer dizer?",
+   "motivo": "Com a resposta evitada, sobraria só uma; esta cobre também pedidos de prática/correção sem prometer ensinar inglês."
+  },
+  {
+   "situacao": "sabe_tudo",
+   "resposta": "Tem muita coisa que eu não sei! Sei algumas coisas do meu acervo e, quando não sei, eu digo.",
+   "motivo": "As duas atuais começam com \"Não\"/\"Nem perto\" (polaridade fixa); esta é afirmativa e serve para \"sabe tudo?\" e para formas como \"tem coisa que vc não sabe?\" caso o criador queira mantê-las."
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "filme_visto",
+   "problema": "Composições com \"vídeo\" (\"vi um vídeo legal hoje\", \"assisti um vídeo muito bom\", \"vi um vídeo engraçado agora\"): vídeo curto não é filme nem série; respostas como \"Me conta a história?\", \"Adoro ouvir histórias assim\" e \"como você se sentiu?\" ficam forçadas para um vídeo engraçado. Melhor trocar \"vídeo\" por \"filme\"/\"série\"/\"episódio\"."
+  }
+ ]
+}

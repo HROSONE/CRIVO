@@ -1,0 +1,524 @@
+{
+ "falas": [
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "tá perdido",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"tá perdido\" sem sujeito costuma significar \"não tem jeito\"/\"tá tudo perdido\"; não é claramente queixa de não entender"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "tá perdido total",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "mesma ambiguidade de \"tá perdido\" (desânimo/\"não tem jeito\")"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "tá fora total",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "sentido obscuro (\"tô fora\"? \"fora do assunto\"?); nenhuma resposta encaixa com segurança"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "tá confuso pra valer",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "pode ser a pessoa dizendo que ESTÁ confusa ou que o assunto é confuso (de_outro_jeito); \"o que você quis dizer?\" fica invertido"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "não foi isso que eu perguntei",
+   "acao": "mover",
+   "para": "nao_era_isso",
+   "congelada": true,
+   "motivo": "fala idêntica já existe em nao_era_isso; é sobre a resposta errada, não sobre a fala da pessoa"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "fala": "você misturou tudo de novo",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "é a queixa de confundir/misturar, que tem situação própria (voce_confunde tem \"você misturou tudo\")"
+  },
+  {
+   "situacao": "despedida_dormir",
+   "fala": "tô caindo de sono",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "só diz que está com sono, não que vai dormir; responder \"Boa noite! Até amanhã\" encerra a conversa à toa"
+  },
+  {
+   "situacao": "despedida_dormir",
+   "fala": "boa noite dormindo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "português quebrado (\"boa noite dormindo\"), parece que a pessoa já está dormindo"
+  },
+  {
+   "situacao": "despedida_dormir",
+   "fala": "boa noite dormindo já",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "mesmo problema de \"boa noite dormindo\""
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô sem fôlego",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"sem fôlego\" pode ser falta de ar (sintoma); por segurança não pode treinar resposta de \"faz uma pausa\""
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô quebrado",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"tô quebrado\" muito usado como \"tô sem dinheiro\" (dinheiro_aperto); respostas incompatíveis"
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô destroçado",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"destroçado\" costuma ser emocional (coração partido, estou_mal/amor_dor), não cansaço"
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô sem reservas",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "expressão estranha em pt-BR (soa como reserva de hotel/dinheiro); não comunica cansaço"
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô com o dia longo",
+   "acao": "corrigir",
+   "correcao": "tive um dia longo",
+   "congelada": false,
+   "motivo": "construção errada que trava o sentido"
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô sem cabeça",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "pode ser \"não tô com cabeça pra isso\" (sem vontade/foco), não necessariamente cansaço; ruim como item de teste"
+  },
+  {
+   "situacao": "cansado",
+   "fala": "tô tão cansado que vou cochilar",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "anuncia que vai sair pra cochilar (despedida_dormir); respostas \"Quer contar como foi o dia?\" puxam conversa com quem está indo deitar, e \"Boa noite\" de despedida_dormir pode não caber de dia"
+  },
+  {
+   "situacao": "risada",
+   "fala": "kkk você é burro demais kkk",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "é xingamento à IA com risada; \"Haha! Gostei de te ver rindo\" premia o insulto"
+  },
+  {
+   "situacao": "risada",
+   "fala": "kkkkk que burro",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "ambíguo: insulto à IA (insulto) ou rir de alguém/algo bobo; respostas das duas são incompatíveis"
+  },
+  {
+   "situacao": "risada",
+   "fala": "kkkkk rs que resposta mais sem noção que eu já vi no celular",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "mistura risada com crítica à resposta da IA; \"Me conta a graça\" não cabe bem; item de teste duvidoso"
+  },
+  {
+   "situacao": "sono",
+   "fala": "tô com sono",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "To morrendo de sono",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "Que sono véi",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "Só bocejo hj kkk",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "Véi, to pescando aqui",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "To tão sonolento q até esqueci oq ia falar kkk",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é só estar com sono; as 3 respostas de sono supõem insônia/sono ruim (\"até o sono vir\", \"o que está tirando seu sono?\"); as de cansado (\"conseguiu descansar?\", \"que tal uma pausa?\") cabem"
+  },
+  {
+   "situacao": "sono",
+   "fala": "To lendo a mesma frase e nem absorvo mais nada",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "descreve cansaço/falta de foco, não problema de sono; \"O que está tirando seu sono?\" não cabe"
+  },
+  {
+   "situacao": "sono",
+   "fala": "pq fico com sono mesmo depois de descansar?",
+   "acao": "mover",
+   "para": "saude_geral",
+   "congelada": false,
+   "motivo": "é dúvida de saúde (pergunta \"por quê\"); respostas de sono não respondem, as de saude_geral (não sou médico, procura um profissional) sim"
+  },
+  {
+   "situacao": "boa_noite",
+   "fala": "boa noite tá",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"boa noite, tá?\" é jeito comum de se despedir; conflita com despedida_dormir"
+  },
+  {
+   "situacao": "boa_noite",
+   "fala": "Uma noite tranquila pra nós.",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "soa como voto/despedida, não como cumprimento de chegada; ambíguo"
+  },
+  {
+   "situacao": "escola_boa",
+   "fala": "Fui bem hj",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem menção a escola/prova (pode ser jogo, trabalho, entrevista); \"Como você estudou?\" não cabe"
+  },
+  {
+   "situacao": "escola_boa",
+   "fala": "Me dei bem demais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "genérico (negócio, encontro, jogo...); não é claramente escola"
+  },
+  {
+   "situacao": "escola_boa",
+   "fala": "Nem acredito q consegui",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem contexto de escola; serve para qualquer conquista (trabalho_bom etc.)"
+  },
+  {
+   "situacao": "escola_boa",
+   "fala": "O trabalho q fiz ficou melhor do que eu esperava",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"trabalho\" é ambíguo com emprego (trabalho_bom); \"Como você estudou?\" falha"
+  },
+  {
+   "situacao": "escola_boa",
+   "fala": "Acertei tudo véi",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser quiz/jogo; como teste falta contexto de escola"
+  },
+  {
+   "situacao": "trabalho_bom",
+   "fala": "Fechei um ótimo negócio.",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser compra/venda pessoal, não trabalho; ruim como item de teste"
+  },
+  {
+   "situacao": "historia",
+   "fala": "manda um conto clássico",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"conto clássico\" pede história conhecida (Chapeuzinho etc.); as respostas são histórias inventadas"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "akakak",
+   "acao": "mover",
+   "para": "risada",
+   "congelada": false,
+   "motivo": "\"akakak/kakaka\" é risada no Brasil, não teclado batido"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "hshshshs 😂",
+   "acao": "mover",
+   "para": "risada",
+   "congelada": false,
+   "motivo": "\"hshshs\" com 😂 é risada; \"Acho que o teclado escorregou\" erra"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "hshshsh",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"hshshs\" é muito usado como risada; ambíguo entre risada e teclado batido"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "jshshs",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"jshshs\" é forma comum de risada digitada; ambíguo com sem_sentido"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "blablabla",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"blablabla\" costuma ser zoeira de que a IA fala demais/enrola (seja_breve/entediante), não teclado batido"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "zzzz",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "\"zzzz\" = sono ou tédio (sono/tedio/entediante), tem sentido; não é coisa sem sentido"
+  },
+  {
+   "situacao": "sem_sentido",
+   "fala": "?",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "depois de uma resposta, \"?\" quer dizer \"não entendi\" (de_outro_jeito); \"o que você quis dizer?\" inverte; ruim como teste"
+  },
+  {
+   "situacao": "ajuda_socorro",
+   "fala": "pode ficar aqui conversando cmg um pouco?",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "pedido de companhia, não socorro; responder com 192 assusta; conversar tem \"pode ficar comigo\""
+  },
+  {
+   "situacao": "ajuda_socorro",
+   "fala": "preciso q vc me escute um pouco",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "pedido de escuta/conversa sem urgência; as respostas de conversar cabem melhor que 192"
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "obrigado",
+   "resposta": "Por nada! Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Disponha! Gostei de ajudar. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Por nada! Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Disponha! Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Imagina! Gostei de ajudar. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Por nada! Fico feliz que ajudou. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Imagina! Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "De nada! Fico feliz que ajudou. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "De nada! Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "De nada! Gostei de ajudar. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Por nada! Foi um prazer. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Que nada! Foi um prazer. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "obrigado",
+   "resposta": "Disponha! Foi um prazer. Volta sempre.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Volta sempre\" supõe que a pessoa está indo embora; obrigado é agradecimento no meio da conversa (\"valeu pela dica\", \"obrigado pela explicação\") — despedida é de obrigado_despedida"
+  },
+  {
+   "situacao": "sono",
+   "resposta": "Poxa. Às vezes desligar a tela e respirar devagar ajuda. Quer conversar um pouco até o sono vir?",
+   "acao": "evitar_no_treino",
+   "motivo": "supõe que a pessoa está agora tentando dormir; errado para \"dormi mal\", \"acordei cedo demais\", \"acordei cansado dnv\", \"fui dormir tarde e acordei cedo\" (de dia, sono passado)"
+  },
+  {
+   "situacao": "tempo_clima",
+   "resposta": "Eu não consigo ver o tempo aí fora, mas me conta: você gosta desse clima?",
+   "acao": "evitar_no_treino",
+   "motivo": "pergunta se gosta quando muitas falas já dizem (\"Amo um friozinho\", \"N para de chover aff\", \"Queria q esfriasse\", \"O clima ta do jeito q eu gosto\") e não serve para \"vai chover?\"/\"qual a previsão?\""
+  },
+  {
+   "situacao": "tempo_clima",
+   "resposta": "Daqui eu não vejo o céu. Como está por aí?",
+   "acao": "evitar_no_treino",
+   "motivo": "pergunta \"como está por aí?\" logo depois de a pessoa contar como está (\"tá chovendo aqui\", \"que calor hoje\") — ignora o que foi dito na maioria das falas"
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Que legal! Eu adoro bichos. Qual o nome dele?",
+   "acao": "evitar_no_treino",
+   "motivo": "usa \"dele/ele\" (masculino singular); falha em \"Minha gata\", \"Tenho uma calopsita\", \"uma tartaruguinha\", \"uma cachorrinha\", \"Tenho dois cachorros\""
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Bicho deixa a casa mais feliz. Como ele é?",
+   "acao": "evitar_no_treino",
+   "motivo": "usa \"dele/ele\" (masculino singular); falha em \"Minha gata\", \"Tenho uma calopsita\", \"uma tartaruguinha\", \"uma cachorrinha\", \"Tenho dois cachorros\""
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Que bom! Me conta mais sobre ele.",
+   "acao": "evitar_no_treino",
+   "motivo": "usa \"dele/ele\" (masculino singular); falha em \"Minha gata\", \"Tenho uma calopsita\", \"uma tartaruguinha\", \"uma cachorrinha\", \"Tenho dois cachorros\""
+  },
+  {
+   "situacao": "sem_sentido",
+   "resposta": "Acho que o teclado escorregou. O que você quis dizer?",
+   "acao": "evitar_no_treino",
+   "motivo": "supõe erro de digitação; errado para sons e falas intencionais (\"hmmmm\", \"...\", \"lalalalala\", \"xablau\", \"plim plom\", \"tutututu\", \"babababa\", \"trrrr blub\")"
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "sono",
+   "resposta": "Sono bagunçado cansa mesmo. Tenta descansar quando der. Quer me contar como tá sendo?",
+   "motivo": "repõe a resposta evitada; serve para insônia agora e para noite mal dormida"
+  },
+  {
+   "situacao": "sono",
+   "resposta": "Poxa, dormir mal mexe com o dia todo. Tem alguma coisa te preocupando?",
+   "motivo": "variedade sem supor que é noite nem que a pessoa vai deitar agora"
+  },
+  {
+   "situacao": "tempo_clima",
+   "resposta": "Não consigo ver o tempo daqui nem saber a previsão, mas tô curioso: como esse clima tá deixando seu dia?",
+   "motivo": "serve para pergunta (\"vai chover?\") e para relato (\"que calor\") sem pedir o que já foi dito"
+  },
+  {
+   "situacao": "tempo_clima",
+   "resposta": "Daqui eu não vejo o céu, então gosto quando você me conta. Clima mexe com o humor, né? Como você tá com esse tempo?",
+   "motivo": "substitui \"Como está por aí?\" sem ignorar o relato"
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Que legal! Eu adoro bichos. Me conta mais?",
+   "motivo": "neutra em gênero e número"
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Bicho deixa a casa mais feliz. Como é o dia a dia de vocês?",
+   "motivo": "\"vocês\" cobre gata, calopsita, dois cachorros etc."
+  },
+  {
+   "situacao": "tenho_bicho",
+   "resposta": "Que bom! E como é o nome?",
+   "motivo": "pede o nome sem \"dele\""
+  },
+  {
+   "situacao": "recomenda",
+   "resposta": "Não quero indicar no chute, porque eu não assisto nem escuto como você. Me conta o último que você curtiu e o que te pegou nele?",
+   "motivo": "as 2 respostas perguntam \"do que você gosta?\" mesmo quando a fala já diz o gosto (\"pra quem gosta de suspense\", \"filme de mistério\", \"comédia boa\"); esta funciona nos dois casos"
+  },
+  {
+   "situacao": "sem_sentido",
+   "resposta": "Haha, essa eu não peguei. Quer falar de alguma coisa?",
+   "motivo": "repõe a resposta evitada; serve para teclado batido e para sons intencionais"
+  },
+  {
+   "situacao": "boa_noite",
+   "resposta": "Boa noite! Por aqui tudo tranquilo. E com você, como foi o dia?",
+   "motivo": "várias falas perguntam como a IA está (\"Boa noite, tudo bem?\", \"tudo certo aí?\", \"Saudações noturnas, como você está?\") e nenhuma resposta responde; esta também serve para \"boa noite\" puro"
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "risada",
+   "problema": "composições \"kkk + insulto\" (\"kkk você é burro demais kkk\", \"kkkkk que burro\") ensinam a responder xingamento com \"Haha! Gostei de te ver rindo\"; tirar a parte de insulto do gerador de risada (ou gerar em insulto)"
+  },
+  {
+   "situacao": "cansado",
+   "problema": "composições com \"vou deitar um pouco porque tô cansado\" / \"vou cochilar\" anunciam saída (despedida_dormir), mas as respostas de cansado puxam conversa (\"Quer contar como foi o dia?\"); tirar a parte \"vou deitar/cochilar\" do gerador"
+  },
+  {
+   "situacao": "nao_entendeu_queixa",
+   "problema": "sufixo \" de novo\" em \"não é nada disso que eu disse de novo\" vira \"o que eu disse de novo\" (ambíguo); e \"?\" anexado a \"não é nada disso que eu disse?\" deixa a frase estranha. Usar \"de novo\" só com verbos da IA (\"você não entendeu de novo\")"
+  }
+ ]
+}

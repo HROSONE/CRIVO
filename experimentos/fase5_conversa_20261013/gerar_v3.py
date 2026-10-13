@@ -30,6 +30,7 @@ import gerar_v2 as g2  # noqa: E402  (traz cenas_grok, formas_v2, formas_grok e 
 import formas_grok  # noqa: E402
 import formas_gpt  # noqa: E402
 import formas_v3  # noqa: E402
+import revisao_v3  # noqa: E402
 
 SEED = 20261015
 CONVERSAS = {"treino": 60000, "dev": 1500, "blind_v3": 3000}
@@ -66,25 +67,52 @@ def principal():
             fatos[g1.parte("assunto:" + chave)].append((item["nome"], fs[:4]))
     nomes = g1.gerar_nomes(tok, rr)
     S = g1.cenas.S
+    # Revisão completa (revisao_v3.py): respostas novas entram; as marcadas para evitar saem só
+    # dos alvos de treino (a medida de sentido continua reconhecendo todas).
+    revisao_v3.acrescentar_respostas(S)
+    para_treino = revisao_v3.respostas_para_treino(S)
+    respostas_evitadas = sum(len(S[n]["c"]) - len(para_treino[n]) for n in S)
+    for n in S:
+        S[n]["c"] = para_treino[n]
+    validas = set(S)
+    ch = formas_grok.chave
     grok, _ = formas_grok.carregar()
     gpt, rel_gpt = formas_gpt.carregar()
+    v1 = {}
+    for nome, c in S.items():
+        us = c["u"]
+        corte = max(1, len(us) - 2) if len(us) >= 4 else len(us)
+        v1[nome] = {"treino": us[:corte], "blind": us[corte:]}
+    v2_formas, v2_filtradas = {}, 0
+    for nome, d in g2.formas_v2.FORMAS.items():
+        t, k = revisao_v3.filtrar_v2(nome, d["treino"])
+        v2_filtradas += k
+        v2_formas[nome] = {"treino": t, "blind": d["blind"]}
+    antes = {k: sum(len(x["treino"]) + len(x["blind"]) for x in f.values())
+             for k, f in (("v1", v1), ("v2", v2_formas), ("grok", grok), ("gpt", gpt), ("v3", formas_v3.FORMAS))}
+    v1 = revisao_v3.aplicar(v1, ch, validas, congeladas=True)
+    v2_formas = revisao_v3.aplicar(v2_formas, ch, validas, congeladas=True)
+    grok = revisao_v3.aplicar(grok, ch, validas, congeladas=True)
+    gpt = revisao_v3.aplicar(gpt, ch, validas)
+    contra_v3 = revisao_v3.aplicar(formas_v3.FORMAS, ch, validas)
+    depois = {k: sum(len(x["treino"]) + len(x["blind"]) for x in f.values())
+              for k, f in (("v1", v1), ("v2", v2_formas), ("grok", grok), ("gpt", gpt), ("v3", contra_v3))}
     v2_nomes = sorted(n for n in g2.formas_v2.FORMAS if n in S)
-    faltam = sorted((set(gpt) | set(formas_v3.FORMAS)) - set(S))
+    faltam = sorted((set(gpt) | set(contra_v3)) - set(S))
     if faltam:
         raise SystemExit("situações que não existem: %s" % faltam)
 
     # Tudo que é de algum blind fica fora do treino (comparação sem acento e sem pontuação).
-    ch = formas_grok.chave
     reservadas = {ch(f) for n in v2_nomes for f in g2.formas_v2.FORMAS[n]["blind"]}
     reservadas |= {ch(f) for c in S.values() if len(c["u"]) >= 4 for f in c["u"][max(1, len(c["u"]) - 2):]}
     reservadas |= {ch(f) for d in grok.values() for f in d["blind"]}
     reservadas |= {ch(f) for d in gpt.values() for f in d["blind"]}
-    reservadas |= {ch(f) for d in formas_v3.FORMAS.values() for f in d["blind"]}
-    v2 = json.loads(gzip.open(AQUI / "dados_fase5_v2.json.gz").read().decode("utf-8"))
-    v1 = json.loads(gzip.open(AQUI / "dados_fase5.json.gz").read().decode("utf-8"))
+    reservadas |= {ch(f) for d in contra_v3.values() for f in d["blind"]}
+    dados_v2 = json.loads(gzip.open(AQUI / "dados_fase5_v2.json.gz").read().decode("utf-8"))
+    dados_v1 = json.loads(gzip.open(AQUI / "dados_fase5.json.gz").read().decode("utf-8"))
     # Só as cenas: perguntas de nome e de fato repetem moldes de propósito ("qual o nome do meu
     # cachorro?"), e o que o blind mede ali são nomes e assuntos novos, que já são separados por hash.
-    mensagens_blind_antigas = {c["mensagem"].casefold() for c in v2["blind_parafrase"] + v2["blind_grok"] + v1["blind"]
+    mensagens_blind_antigas = {c["mensagem"].casefold() for c in dados_v2["blind_parafrase"] + dados_v2["blind_grok"] + dados_v1["blind"]
                                if c["situacao"].startswith("cena:")}
 
     def limpar(lista):
@@ -92,17 +120,26 @@ def principal():
 
     dev_formas, tiradas = {}, 0
     formas_treino = {}
-    for nome, c in S.items():
-        us = c["u"]
-        corte = max(1, len(us) - 2) if len(us) >= 4 else len(us)
+    for nome in S:
         gpt_t = gpt.get(nome, {}).get("treino", [])
         dev_formas[nome] = [f for f in gpt_t if _dev(formas_grok.nucleo(f))]
         gpt_t = [f for f in gpt_t if not _dev(formas_grok.nucleo(f))]
-        extra = limpar(g2.formas_v2.FORMAS.get(nome, {}).get("treino", []) + grok.get(nome, {}).get("treino", []) +
-                       gpt_t + formas_v3.FORMAS.get(nome, {}).get("treino", []))
-        tiradas += len(g2.formas_v2.FORMAS.get(nome, {}).get("treino", []) + grok.get(nome, {}).get("treino", []) +
-                       gpt_t + formas_v3.FORMAS.get(nome, {}).get("treino", [])) - len(extra)
-        formas_treino[nome] = us[:corte] + extra
+        bruto = (v2_formas.get(nome, {}).get("treino", []) + grok.get(nome, {}).get("treino", []) +
+                 gpt_t + contra_v3.get(nome, {}).get("treino", []))
+        extra = limpar(bruto)
+        tiradas += len(bruto) - len(extra)
+        formas_treino[nome] = v1.get(nome, {}).get("treino", []) + extra
+    # A mesma fala em duas situações ensina duas respostas: fica só na primeira em que aparece
+    # pela ordem das fontes (v1, v2, Grok, GPT, contraexemplos), e a revisão já moveu as erradas.
+    dono, duplicadas = {}, []
+    for nome in sorted(formas_treino):
+        for f in formas_treino[nome]:
+            dono.setdefault(ch(f), set()).add(nome)
+    conflito = {k for k, v in dono.items() if len(v) > 1}
+    for k in sorted(conflito):
+        duplicadas.append({"fala": k, "situacoes": sorted(dono[k])})
+    for nome in formas_treino:
+        formas_treino[nome] = [f for f in formas_treino[nome] if ch(f) not in conflito]
     chaves_treino = {ch(f) for fs in formas_treino.values() for f in fs}
 
     def pool(fonte):
@@ -116,10 +153,10 @@ def principal():
 
     formas_dev, alvos_dev = pool({n: v for n, v in dev_formas.items() if v})
     blind_v3 = {}
-    for nome in set(gpt) | set(formas_v3.FORMAS):
-        blind_v3[nome] = gpt.get(nome, {}).get("blind", []) + formas_v3.FORMAS.get(nome, {}).get("blind", [])
+    for nome in set(gpt) | set(contra_v3):
+        blind_v3[nome] = gpt.get(nome, {}).get("blind", []) + contra_v3.get(nome, {}).get("blind", [])
     formas_bv3, alvos_bv3 = pool(blind_v3)
-    sorteio = sorted(set(v2_nomes) | set(grok) | set(gpt) | set(formas_v3.FORMAS))
+    sorteio = sorted(set(v2_nomes) | set(grok) | set(gpt) | set(contra_v3))
 
     dados, recusados = {}, {}
     for split, n in CONVERSAS.items():
@@ -158,6 +195,10 @@ def principal():
                               "treino": sum(len(t) for _, t, _ in formas_v3.CONTRA_V3),
                               "blind": sum(len(b) for _, _, b in formas_v3.CONTRA_V3)},
         "formas_tiradas_do_treino_por_serem_de_blind": tiradas,
+        "revisao": {"falas_por_fonte_antes": antes, "falas_por_fonte_depois": depois,
+                    "compostas_v2_filtradas": v2_filtradas, "respostas_evitadas_no_treino": respostas_evitadas,
+                    "respostas_novas": len(revisao_v3.NOVAS), "decisoes": len(revisao_v3.FALAS),
+                    "falas_em_duas_situacoes_tiradas": len(duplicadas), "duplicadas": duplicadas},
         "situacoes_no_dev_frase_nova": len(set(alvos_dev)), "situacoes_no_blind_v3": len(set(alvos_bv3)),
         "blind_v3_contraexemplos": sum(bool(c.get("contraexemplo")) for c in dados["blind_v3"]),
         "blind_v3_por_situacao": {s: sum(c["situacao"] == "cena:" + s for c in dados["blind_v3"]) for s in sorted(set(alvos_bv3))},
@@ -180,7 +221,8 @@ def principal():
                  "arquivo_gz_sha256": sha("dados_fase5_v3.json.gz"), "formato_fase5_sha256": sha("formato_fase5.py"),
                  "v1_arquivo_gz_sha256": sha("dados_fase5.json.gz"), "v2_arquivo_gz_sha256": sha("dados_fase5_v2.json.gz"),
                  "formas_gpt_sha256": sha("formas_gpt.py"), "formas_v3_sha256": sha("formas_v3.py"),
-                 "sentido_sha256": sha("sentido.py"),
+                 "sentido_sha256": sha("sentido.py"), "revisao_v3_sha256": sha("revisao_v3.py"),
+                 "revisao_decisoes_sha256": {p.name: sha("revisao/" + p.name) for p in sorted((AQUI / "revisao").glob("*.json"))},
                  "gpt_bruto_sha256": {p.name: sha("grok/" + p.name) for p in formas_gpt.PARTES}, **resumo}
     manifesto["casos"] = {k: len(v) for k, v in dados.items()}
     (AQUI / "manifesto_v3.json").write_text(json.dumps(manifesto, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
