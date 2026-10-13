@@ -126,7 +126,8 @@ do projeto, a v2 ficou estreita:
 
 **Blind novo de paráfrases**: 3.000 conversas cujo último turno usa uma construção que o treino
 nunca viu (a última opção de cada parte de conteúdo ficou reservada; nenhuma fala do blind aparece no
-treino). Destas, 1.078 são contraexemplos.
+treino). Destas, 1.058 são contraexemplos (1.078 antes de os dados serem gerados de novo com as
+falas do Grok).
 
 **Gates** (`notebooks/fase5_v2_colab.ipynb`):
 
@@ -138,3 +139,86 @@ treino). Destas, 1.078 são contraexemplos.
 - Perda de linguagem ≤ 110% da base da fase 3.
 
 Mesmo passando, o chat continua desligado até a porta com as conversas reais.
+
+## v2 com as falas do Grok (13/10/2026, antes de rodar)
+
+A v2 ainda não tinha rodado (a cota de GPU acabou), então as falas do Grok entraram nela antes do
+treino, em vez de virar uma v3.
+
+### Decisão de autoria
+
+As **falas da pessoa** em `grok/` foram escritas pelo Grok (modelo de terceiros), a pedido do
+criador do projeto, com o prompt de [`docs/prompt_grok_formas_de_fala.md`](../../docs/prompt_grok_formas_de_fala.md).
+O criador colou as respostas na conversa e aprovou o uso como dado de treino.
+
+- O Grok **não** escreveu nenhuma resposta do CRIVO, nenhum fato e nenhum código.
+- Nenhum modelo de terceiros roda no CRIVO, gera dado em tempo de execução ou entra nos pesos.
+- Os arquivos brutos ficam em `grok/` sem alteração (os SHA estão no `manifesto_v2.json`).
+- A limpeza e as respostas das situações novas (`cenas_grok.py`) são do assistente de programação.
+
+### Limpeza (`formas_grok.py`, revisada à mão)
+
+Chegaram 2.989 falas em 63 situações. Ficaram 1.451 no treino e 356 no blind.
+
+- **Parte 3 descartada inteira** (750 falas): o Grok repetiu a mesma frase com "mesmo", "de
+  verdade", "agora", "por favor" no fim. Ele refez as situações 21–30 nas partes 4 e 5, já no
+  formato certo.
+- **Rabo empilhado** (152): vira no máximo um reforço. Falas que só diferem no reforço contam
+  como a mesma construção: ficam no máximo duas, sempre do mesmo lado (treino ou blind).
+- **"que eu tô no ônibus/trampo/médico…"** (94 cortadas): no máximo 3 por situação.
+- **Repetidas** (358): risadas e "ok" iguais a menos de letras repetidas, e duplicatas.
+- **Mudaram de situação** (90), sem apagar. Exemplos:
+  - "é inteligência artificial?" saiu de robo e foi para ser_ia;
+  - "bom dia" saiu de oi e foi para bom_dia;
+  - "qual seu nome" saiu de quem_e e foi para nome_crivo.
+- **Dois sentidos ao mesmo tempo** foram para situações novas, cuja resposta cobre os dois:
+
+  | fala | situação nova | o que a resposta faz |
+  |---|---|---|
+  | "valeu", "vlw" | obrigado_despedida | agradece e se despede |
+  | "vou embora", "tô fora" | desisto_despedida | desiste e se despede |
+  | "peito apertado", "coração acelerado" | ansioso_peito | acolhe a ansiedade **e** manda ligar pro 192 se for dor forte ou falta de ar |
+  | "me socorre" | ajuda_socorro | 192 se for emergência; se não, pergunta o que houve |
+  | "tem algo que odeia" | nao_gosta | o oposto de gosta |
+
+- **Corrigidas** (3), por exemplo "já escutou isso" → "já escutei isso".
+- **Fora** (16): quebradas, de outro sentido ("tô sem voz") ou fórmula repetida.
+- **Só no treino** (estranhas demais para teste): "pode arquivar", "tem cor de pele"…
+- **Guardadas para a fase 6** (imaginar), fora deste treino (10): "fala uma palavra inventada",
+  "conta um conto de terror", "história de amor"… As respostas de hoje são fixas e não combinam
+  com esses pedidos.
+- **Contraexemplos.** O Grok mandou 188 pares, mas a maioria só colava duas falas ("tô entediado
+  conta uma piada"). Entraram 54 que servem, com a situação certa, mais 9 falas do outro lado
+  dos pares e 6 pares meus (como "não repete" × "repete"):
+  - "tchau inútil" (despedida rude) × "tchau";
+  - "você é bom pra nada" (insulto) × "você é bom";
+  - "me ajuda falta de ar" (urgência) × "me ajuda";
+  - "tô com fome pede uma pizza" (não consegue) × "tô com fome".
+- **Emergências que o Grok não cobriu**, escritas pelo assistente (20): engasgo, convulsão,
+  sangramento, sinais de AVC, criança que engoliu produto, alergia com inchaço, acidente,
+  queimadura.
+
+### Blind do Grok (`blind_grok`, 2.980 conversas)
+
+- 20% das falas de cada situação, sorteadas por hash do núcleo da fala.
+- Nenhuma delas aparece no treino, nem sem acento ou sem pontuação. Também tirei do treino as
+  falas do Grok que eram iguais a uma fala de blind da v1 ou de paráfrases (23).
+- 104 dos casos são contraexemplos.
+- É o teste mais difícil, porque mede se o 17M entende outro autor, com outro jeito de escrever.
+
+**Gates acrescentados** (fixados antes do treino):
+
+- no blind do Grok, tudo ok ≥ 80%;
+- cada situação com 20 casos ou mais ≥ 60%;
+- urgência → 192 ≥ 95%.
+
+Os gates anteriores continuam iguais.
+
+### Limites, ditos antes de rodar
+
+- As falas do Grok são inventadas, não conversas reais. Elas aumentam a variedade, mas não
+  substituem as conversas do criador. A porta com conversas reais continua obrigatória antes do chat.
+- Algumas situações têm poucas falas no blind do Grok (bom_dia, ansioso_peito, musica_crivo…). Elas
+  aparecem no resultado, mas ficam fora do gate "cada situação", que só conta situações com 20
+  casos ou mais.
+- Mesmo passando, o chat continua desligado até a porta e a leitura do criador.

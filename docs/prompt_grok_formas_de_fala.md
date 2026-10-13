@@ -3,7 +3,10 @@
 Copie tudo a partir de "INÍCIO DO PROMPT". O Grok devolve só **falas de pessoas** (o lado do
 usuário); as respostas do CRIVO continuam as do repositório. Nada de conteúdo real do X.
 
-Decisão a registrar quando o arquivo entrar no treino: as falas foram geradas pelo Grok (modelo de
+**Usado em 13/10/2026:** as respostas estão em `experimentos/fase5_conversa_20261013/grok/` e
+entraram na v2 da fase 5 (ver o README de lá).
+
+Decisão registrada quando o arquivo entrou no treino: as falas foram geradas pelo Grok (modelo de
 terceiros) a pedido do criador do projeto; entram só como dado de treino, revisadas, e nenhum modelo
 de terceiros roda no CRIVO.
 
