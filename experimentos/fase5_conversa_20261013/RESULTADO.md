@@ -253,5 +253,14 @@ Como ficou (`conversa_v3d.py`):
   pessoa. Exemplo visto aqui: "meu gato se chama Tupo" → "Prazer, Tupo! Que bom te conhecer."
 - O site refaz o histórico com o texto de sempre. O D lê a conversa como ela teria sido sem ele, não
   como a pessoa viu.
-- O pacote do site passa de 146 para 178 MB, mais as bibliotecas. O limite da Vercel para a função é
-  250 MB.
+- **Primeira publicação falhou por tamanho:** 236,9 MB, com limite de 225 MB na função da Vercel.
+  Correção:
+  - os pesos do D foram guardados em int8 por linha (32 → 15,9 MB, npz `0e93c40c…`, feito do npz
+    float16 `afb6c01f…`);
+  - arquivos só de treino saíram do pacote (`.vercelignore`).
+
+  Fica em cerca de 209 MB.
+- **Custo medido do int8:** em 800 cenas do blind v3 (sorteio fixo, semente 7), 763 respostas são
+  iguais às do float16 (95,4%). O sentido certo fica em 515 contra 517, e a conferência de forma em
+  785 contra 785. Uma variante com a tabela de palavras em float16 deu 778 iguais e sentido 514, com
+  19,1 MB. Ficou a menor, porque a diferença de sentido está no ruído.
