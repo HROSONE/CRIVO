@@ -133,6 +133,11 @@ class PesosDoSite(unittest.TestCase):
         bot = espiao.call_args_list[-1].args[0]
         self.assertEqual(bot.pares_conversa[-2], ("kkkkk", visto))
 
+    def test_pagina_mostra_quando_o_modelo_fala(self):
+        from pathlib import Path
+        app = (Path(conversa_v3d.RAIZ) / "public" / "app.js").read_text(encoding="utf-8")
+        self.assertIn("extra.conversation_voice && extra.conversation_voice.used", app)
+
     def test_site_desliga_pela_variavel(self):
         from web_core import responder_web
         with mock.patch.dict(os.environ, {"CRIVO_DISABLE_CONVERSA_V3D": "1"}):
