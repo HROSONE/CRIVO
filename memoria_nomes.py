@@ -27,7 +27,7 @@ RELACOES = {
     "coelho": "seu", "coelha": "sua", "tartaruga": "sua", "hamster": "seu", "pet": "seu",
     "irmão": "seu", "irmã": "sua", "amigo": "seu", "amiga": "sua", "melhor amigo": "seu", "melhor amiga": "sua",
     "vizinho": "seu", "vizinha": "sua", "primo": "seu", "prima": "sua", "tio": "seu", "tia": "sua",
-    "avô": "seu", "avó": "sua", "filho": "seu", "filha": "sua", "sobrinho": "seu", "sobrinha": "sua",
+    "pai": "seu", "mãe": "sua", "padrasto": "seu", "madrasta": "sua", "avô": "seu", "avó": "sua", "filho": "seu", "filha": "sua", "sobrinho": "seu", "sobrinha": "sua",
     "neto": "seu", "neta": "sua", "namorado": "seu", "namorada": "sua", "marido": "seu", "esposa": "sua",
     "colega": "seu", "chefe": "seu", "professor": "seu", "professora": "sua",
 }

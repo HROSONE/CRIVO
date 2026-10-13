@@ -91,3 +91,35 @@ escrito depois da v1 e antes de rodar os ajustes: conversas novas, incluindo rel
 correções feitas pela pessoa, uma oferta seguida de "sim" e cumprimentos com período do dia. A v1
 continua rodando como regressão. Sem pesos, o CRIVO de hoje passa em 30 dos 33 turnos da v2.
 Gates iguais aos da v1, mais a leitura do lado a lado antes de qualquer opt-in.
+
+## Porta v2 (13/10/2026): passou nos números e na leitura dos cinco erros da v1
+
+| | v2 (conversas novas) | v1 rodada de novo (regressão) |
+|---|---|---|
+| turnos | 33 | 45 |
+| ok, CRIVO de hoje | 30 | 43 |
+| ok, com a voz do 17M | 31 | 45 |
+| regressões | **0** | **0** |
+| frases do 17M aprovadas / turnos com quadro | 18/18 | 26/26 |
+| correções da revisão | 0 | 0 |
+
+Resultados: `resultado_porta_v2.json` e `resultado_porta_v2_regressao_v1.json`.
+
+Os cinco erros da v1 não aparecem mais: irmã, cachorra, avó e mãe ficam com o texto de sempre;
+nenhum "seu nome"; nenhuma culpa falsa na correção; os avisos ("Vale lembrar…") e a oferta da
+fotossíntese ficam inteiros, e o "sim" seguinte continua funcionando; "Bom dia!" fica como está.
+
+Onde a voz do 17M ajuda: dar nome ("Anotado: seu papagaio se chama Loro" no lugar de "Hum, não
+entendi bem"; "Prazer, Trovão!…" no lugar de "Que chato… Tempestade costuma assustar"), lembrar
+nomes, a correção ("Corrigindo: meu primo se chama Daniel": hoje "Certo. Como foi isso?") e coisas
+desconhecidas ("Sobre plimbo eu ainda não sei nada. Prefiro ser sincero a chutar").
+
+O que ainda não está bom, sem ser erro:
+
+- cumprimento: sempre "Oi! Pode chegar. Sobre o que vamos conversar hoje?", e some o "Sou o Crivo";
+- acolher: a mesma frase para sentimentos diferentes, e o contexto some ("Tô preocupado com meu
+  pai" → "Sinto muito por isso. Respira com calma…", sem o pai);
+- correção: "Prazer, Daniel!" depois de uma correção soa como apresentação nova.
+
+Defeitos do CRIVO de hoje que a v2 mostrou (não do realizador): "mãe" e "pai" faltavam na memória de
+nomes; "Minha cachorra se chama Mel" ainda recebe "Qual o nome dele?" da conversa antiga.
