@@ -16,6 +16,7 @@ Se qualquer critério falhar, o CRIVO fala o texto de sempre. Depois disso, a re
 """
 import hashlib
 import importlib.util
+import re
 import os
 from functools import lru_cache
 from pathlib import Path
@@ -82,6 +83,22 @@ class Realizador:
         return self.tokenizer.decode(saida).strip(), False
 
 
+def relacao_certa(quadro, texto):
+    """Nenhuma relação diferente da do quadro ("irmão" no lugar de "irmã") e nenhum
+    "seu nome" quando o assunto é o nome de outra pessoa ou bicho (porta v1)."""
+    from composicao_textual import normalizar
+    from memoria_nomes import RELACOES
+    rel = quadro.get("relacao")
+    n = " " + normalizar(texto) + " "
+    if rel is None:
+        return True
+    if re.search(r"\b(?:seu|sua|teu|tua) nome\b", n):
+        return False
+    alvo = normalizar(rel)
+    return not any(re.search(r"\b" + re.escape(normalizar(r)) + r"\b", n) for r in RELACOES
+                   if normalizar(r) != alvo and normalizar(r) not in alvo.split())
+
+
 @lru_cache(maxsize=1)
 def _carregado(pasta):
     return Realizador(pasta)
@@ -106,10 +123,11 @@ def aplicar(bot, fala, ident, resposta, realizador=None):
         trace["motivo"] = "erro: %s" % type(erro).__name__
         return ident, resposta, trace
     avaliacao = formato().avaliar_saida({"quadro": quadro, "mensagem": fala}, texto, terminou)
+    avaliacao["relacao_certa"] = relacao_certa(quadro, texto)
     trace.update(rascunho=texto, avaliacao={k: v for k, v in avaliacao.items() if k != "inventados"})
-    if not avaliacao["tudo_ok"] or not texto:
+    if not avaliacao["tudo_ok"] or not avaliacao["relacao_certa"] or not texto:
         trace["motivo"] = "reprovado: " + ", ".join(k for k in ("terminou", "sem_repeticao", "fatos_fieis", "nome_exato",
-                                                              "ato_ok", "sem_nome_inventado")
+                                                              "ato_ok", "sem_nome_inventado", "relacao_certa")
                                                    if avaliacao.get(k) is False)
         return ident, resposta, trace
     trace.update(usada=True, motivo="aprovado")

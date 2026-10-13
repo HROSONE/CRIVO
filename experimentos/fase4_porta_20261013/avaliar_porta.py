@@ -22,7 +22,12 @@ AQUI = Path(__file__).resolve().parent
 RAIZ = AQUI.parents[1]
 sys.path.insert(0, str(RAIZ))
 
-SHA_CONVERSAS = "84ffcece7880ea45586b38ead1e60ab0455ca1d6d8552b17e448340a4acd5782"
+CONJUNTOS = {
+    # v1: escrito antes da primeira execução; depois dela, vale como regressão conhecida.
+    "v1": ("conversas_congeladas.json", "84ffcece7880ea45586b38ead1e60ab0455ca1d6d8552b17e448340a4acd5782"),
+    # v2: escrito depois de ler a v1 e antes de rodar os ajustes; é o teste novo.
+    "v2": ("conversas_congeladas_v2.json", "5ff142e663678c0aa36d69635c1c515900da0fd495ee75700f49e9f944695acc"),
+}
 
 
 def conferir(turno, texto):
@@ -49,7 +54,7 @@ def rodar(conversas, realizador=None):
         for j, turno in enumerate(conversa):
             ident, texto = bot.responder(turno["fala"])
             ok, falhas = conferir(turno, texto)
-            reg = bot.historico[-1] if bot.historico and bot.historico[-1].get("pergunta") == turno["fala"] else {}
+            reg = {"realizador": getattr(bot, "ultimo_realizador", None)}
             rev = getattr(bot.estado_interno, "revisao", None) or {}
             saida.append({"conversa": k, "turno": j, "fala": turno["fala"], "id": ident, "resposta": texto, "ok": ok,
                           "falhas": falhas, "realizador": reg.get("realizador"),
@@ -61,15 +66,17 @@ def principal():
     ap = argparse.ArgumentParser()
     ap.add_argument("--saida", required=True)
     ap.add_argument("--realizador", help="pasta com pesos.pt e tokenizer.json da fase 3 (SHA conferido)")
+    ap.add_argument("--conjunto", choices=sorted(CONJUNTOS), default="v1")
     a = ap.parse_args()
-    texto = (AQUI / "conversas_congeladas.json").read_text(encoding="utf-8")
+    arquivo, SHA_CONVERSAS = CONJUNTOS[a.conjunto]
+    texto = (AQUI / arquivo).read_text(encoding="utf-8")
     assert hashlib.sha256(texto.encode("utf-8")).hexdigest() == SHA_CONVERSAS, "conversas congeladas alteradas"
     conversas = json.loads(texto)["conversas"]
     destino = Path(a.saida)
     destino.mkdir(parents=True, exist_ok=True)
 
     atual = rodar(conversas)
-    resultado = {"protocolo": "fase4_porta_conversacional", "conversas_sha256": SHA_CONVERSAS,
+    resultado = {"protocolo": "fase4_porta_conversacional", "conjunto": a.conjunto, "conversas_sha256": SHA_CONVERSAS,
                  "turnos": len(atual), "atual": {"ok": sum(t["ok"] for t in atual)}, "ativo_no_chat": False}
     if a.realizador:
         import realizador_17m

@@ -283,6 +283,7 @@ class Crivo:
         self.metacognicao_ultima = None
         # Voz experimental do 17M: None = segue as travas de ambiente (realizador_17m.py).
         self.realizador = None
+        self.ultimo_realizador = None
         self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
@@ -1611,12 +1612,14 @@ class Crivo:
     def _realizar(self, fala, ident, resposta):
         """Voz experimental do 17M (realizador_17m.py): só com as duas travas ligadas."""
         import realizador_17m
+        self.ultimo_realizador = None
         if not realizador_17m.habilitado() and getattr(self, "realizador", None) is None:
             return ident, resposta
         novo_ident, nova, trace = realizador_17m.aplicar(self, fala, ident, resposta,
                                                          realizador=getattr(self, "realizador", None))
+        self.ultimo_realizador = {k: v for k, v in trace.items() if k != "avaliacao"}
         if self.historico and self.historico[-1].get("pergunta") == fala:
-            self.historico[-1]["realizador"] = {k: v for k, v in trace.items() if k != "avaliacao"}
+            self.historico[-1]["realizador"] = self.ultimo_realizador
         if nova != resposta:
             for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
                 if getattr(alvo, campo, None) == resposta:

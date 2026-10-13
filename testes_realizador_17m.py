@@ -51,8 +51,9 @@ class Adaptador(unittest.TestCase):
         self.assertEqual(self.quadro("Meu gato se chama Tupo.")["ato"], "registrar")
         self.assertEqual(self.quadro("Meu gato se chama Tupo.", "Qual é o nome do meu gato?"),
                          {"ato": "recordar", "relacao": "gato", "nome": "Tupo"})
-        self.assertEqual(self.quadro("Meu gato se chama Tupo.", "Na verdade, meu gato se chama Dano.")["ato"],
-                         "aceitar_correcao")
+        # A pessoa corrigiu a própria informação: registro novo, sem "desculpa, errei".
+        self.assertEqual(self.quadro("Meu gato se chama Tupo.", "Na verdade, meu gato se chama Dano."),
+                         {"ato": "registrar", "relacao": "gato", "nome": "Dano"})
         q = self.quadro("O que é a Lua?")
         self.assertEqual(q["ato"], "explicar")
         self.assertTrue(q["fatos"])
@@ -61,6 +62,11 @@ class Adaptador(unittest.TestCase):
 
     def test_sem_quadro_fica_o_texto_de_sempre(self):
         self.assertIsNone(self.quadro("Quanto é 2 mais 2?"))
+        # Relação que o realizador não treinou (feminino) e cumprimento com período do dia.
+        self.assertIsNone(self.quadro("Tenho uma irmã chamada Lia."))
+        self.assertIsNone(self.quadro("Boa noite!"))
+        # Resposta com aviso ("Vale lembrar que…") além dos fatos: o aviso não pode sumir.
+        self.assertIsNone(self.quadro("O que é um buraco negro?"))
         self.assertIsNone(self.quadro("Escreva um texto sobre a Lua em duas frases."))
 
 
@@ -83,6 +89,13 @@ class Conferencia(unittest.TestCase):
         self.assertIn("Tupo", texto)
         self.assertNotIn("Tupe", texto)
         self.assertIn("reprovado", bot.historico[-1]["realizador"]["motivo"])
+
+    def test_relacao_trocada_volta_ao_texto_de_sempre(self):
+        bot, texto = self.falar("Anotado: seu irmão se chama Tupo. Gostei do nome!", "Meu gato se chama Tupo.")
+        self.assertNotIn("irmão", texto)
+        self.assertIn("relacao_certa", bot.historico[-1]["realizador"]["motivo"])
+        bot, texto = self.falar("Tupo. Que nome diferente. Como é seu nome?", "Meu gato se chama Tupo.")
+        self.assertNotIn("seu nome", texto)
 
     def test_fato_alterado_volta_ao_texto_de_sempre(self):
         bot, texto = self.falar("Claro! A Lua é o satélite artificial da Terra.", "O que é a Lua?")

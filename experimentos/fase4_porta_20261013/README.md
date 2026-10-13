@@ -48,3 +48,46 @@ Mesmo passando, **o opt-in no chat depende da leitura do lado a lado pelo criado
   está doente") sem acolhimento e o defeito avô/avó, já corrigido.
 - Simulação com um modelo aleatório no lugar do 17M: a conferência recusou todas as frases e as
   respostas ficaram idênticas às do CRIVO de hoje. A trava funciona; não mede a qualidade do 17M.
+
+## Porta v1 (13/10/2026): passou nos números, reprovada na leitura
+
+Resultado: `resultado_porta_v1.json` (com o lado a lado completo).
+
+| Gate | Resultado |
+|---|---|
+| regressões nos critérios | 0 |
+| uso (frases do 17M aprovadas pela conferência) | 35/36 = 97% |
+| correções da revisão | 0 |
+| melhoras nos critérios | 2 ("Tô me sentindo sozinho", "triste, ele está doente") |
+
+A leitura do lado a lado achou erros que os critérios não pegavam, e por isso **não houve opt-in**:
+
+1. gênero trocado: "Anotado: seu irmão se chama Lia" (era irmã) — a fase 3 só treinou relações no masculino;
+2. frase sem sentido: "Dona Cida. Que nome diferente. Como é seu nome?" (era a avó);
+3. culpa falsa: "Desculpa, errei mesmo. Então é Bolt" — quem corrigiu foi a pessoa, não o CRIVO;
+4. avisos e ofertas cortados: "Vale lembrar que…" (DNA, buraco negro) sumiu, e a oferta sobre a
+   fotossíntese sumiu do texto mas continuou pendente por dentro;
+5. pouca variação: "Boa noite!" virava "Oi! Pode chegar…", e cansado e triste recebiam a mesma frase.
+
+O que melhorou: registrar e lembrar nomes ("Que legal! Tupo é um nome bonito…"), acolher solidão e
+tristeza, e "Kravuni" ("Prefiro ser sincero a chutar").
+
+## Ajustes depois da v1 (no tradutor e na conferência, sem treinar de novo)
+
+- nomes só nas dez relações que o realizador treinou; as outras ficam com o texto de sempre;
+- a conferência recusa uma relação diferente da do quadro e "seu nome" quando o assunto é outra pessoa;
+- a correção feita pela pessoa vira um registro novo, sem "desculpa, errei";
+- explicar só quando a resposta é exatamente os fatos, sem aviso nem oferta pendente;
+- cumprimento só para "oi"/"olá", não para "bom dia"/"boa noite".
+
+A falta de variação é do próprio modelo (decodificação gulosa e poucos modelos de frase por ato):
+fica para um próximo treino, com respostas mais variadas e ligadas ao sentimento.
+
+## Porta v2
+
+Como eu já li as saídas da v1, ajustar e medir no mesmo conjunto seria medir o que eu mesmo
+consertei. A v2 usa `conversas_congeladas_v2.json` (22 conversas, 33 turnos, SHA `5ff142e6…`),
+escrito depois da v1 e antes de rodar os ajustes: conversas novas, incluindo relações no feminino,
+correções feitas pela pessoa, uma oferta seguida de "sim" e cumprimentos com período do dia. A v1
+continua rodando como regressão. Sem pesos, o CRIVO de hoje passa em 30 dos 33 turnos da v2.
+Gates iguais aos da v1, mais a leitura do lado a lado antes de qualquer opt-in.
