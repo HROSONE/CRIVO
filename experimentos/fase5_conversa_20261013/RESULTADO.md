@@ -294,3 +294,54 @@ Mudanças:
 O tempo por mensagem ficou entre 1 e 3,4 s aqui, com o replay. O sentido continua o do modelo
 (cerca de 1 erro em 3 frases novas). Por exemplo, "e cade as respostas boas?" → "Sou uma IA, não uma
 pessoa…" e "como se chama meu gato?" → "Tupo se chama Tupo.".
+
+# v4 — plano, critérios fixados antes de rodar (13/10/2026)
+
+O criador pediu: "monta um treino de qualidade na A100. Mas o foco deve ser fazer o CRIVO me entender
+de verdade". Depois acrescentou: "põe pra ele ler mais 1B".
+
+**Diagnóstico que orienta a v4:**
+- A v3 D lê errado; ela não fala mal. No blind v3: 63% de respostas da situação certa, 35% de
+  respostas escritas de outra situação, 1,6% de frase inventada.
+- Nas conversas reais do criador, os erros foram de dois tipos:
+  - o que depende do turno anterior ("legal e voce?" depois de "E você, como está?");
+  - situações que faltavam no banco ("Voce é o crivo certo?", "sabe quem eu sou?").
+
+**Dados** (`gerar_v4.py`, `cenas_v4.py`, sha `09af2174…`, gerados no Colab e conferidos; o arquivo
+de 25 MB não fica no repositório):
+- 4 situações novas: reciproco, confirma_crivo, quem_sou_eu, nao_sabe_entao. As que dependem do
+  turno anterior só aparecem depois de uma pergunta do CRIVO que combina, comparada por uma lista
+  fechada.
+- Correções nos dados da v3:
+  - "preciso de ajuda agora" passa a ser urgência, igual a crise.py (são formas novas, porque a v3
+    não tinha nenhuma);
+  - "tô bem, e você?" sai de estou_bem.
+- Reforço das 35 situações abaixo de 60% na D (46.505 casos com ruído novo).
+- `conversas_reais`: 15 frases do criador, com o que o CRIVO tinha mostrado antes. As 10 que não
+  eram formas da v3 não entram no treino.
+- Nenhuma forma nova repete fala de teste congelado (v1, v2, v3).
+
+**Treino** (`notebooks/fase5_v4_a100_colab.ipynb`, A100, bf16):
+- variante E: continua da v3 D;
+- variante F: recomeça da fase 5;
+- 60 mil passos por variante (limite de 3 h cada);
+- leitura de ~1 bilhão de tokens do corpus próprio junto com a conversa, 4 vezes a da v3. O corpus
+  tem ~0,9 bilhão, então é reler pouco mais de uma vez.
+
+O ponto do treino é escolhido pelo sentido nas falas nunca vistas do dev.
+
+**Catraca** (pode substituir a D no chat, com a decisão do criador):
+- sentido no blind v3 ≥ 66,2% (D + 3 pontos);
+- v1 ≥ 64,5%, paráfrases ≥ 74,2%, Grok ≥ 68,2% (D − 1 ponto);
+- blind_v4 ≥ 70%;
+- urgência ≥ 95% (v1 e v3), "não sei" ≥ 90%, nome ≥ 90%, usa fato ≥ 90%, sem número inventado
+  ≥ 97%, sem nome inventado ≥ 95%;
+- perda de linguagem ≤ 110%.
+
+**Meta de chat**, que não é exigência: ≥ 90% nos blinds.
+
+**Limites conhecidos antes de rodar:**
+- As situações novas têm poucas formas: 18 a 35 no treino, 5 a 8 no blind_v4.
+- As conversas reais são só 15 frases.
+- Tudo continua sendo escolher entre respostas escritas. A v4 não ensina a responder qualquer
+  pergunta; ensina a ler melhor as que ele já conhece e as 4 novas.
