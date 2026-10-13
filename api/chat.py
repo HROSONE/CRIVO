@@ -113,6 +113,7 @@ class handler(BaseHTTPRequestHandler):
         from geracao_ancorada import geracao
         from conversa_dialogo import status_dialogo
         from motor_dialogo_17m import status as status_transformer
+        from realizador_17m import status as status_voz
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
@@ -125,6 +126,7 @@ class handler(BaseHTTPRequestHandler):
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
+                                "experimental_voice": status_voz(),
                                 "programming_active": True,
                                 "question_interpretation_active": True,
                                 "reasoning_active": True,

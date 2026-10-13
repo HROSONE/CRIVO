@@ -123,3 +123,27 @@ O que ainda não está bom, sem ser erro:
 
 Defeitos do CRIVO de hoje que a v2 mostrou (não do realizador): "mãe" e "pai" faltavam na memória de
 nomes; "Minha cachorra se chama Mel" ainda recebe "Qual o nome dele?" da conversa antiga.
+
+## Decisão e opt-in experimental (13/10/2026)
+
+Depois de ler o lado a lado da v2, o criador do projeto aprovou o opt-in experimental para
+**todos os atos** que o adaptador mapeia (incluindo cumprimento e acolher, aceitando a repetição).
+Registrado em `realizador_17m.DECISAO_OPT_IN`.
+
+- **Continua desligado por padrão** e **não é promovido**: o chat público não muda, e o site não
+  tem os pesos.
+- Para ligar num CRIVO local:
+  1. baixe do Drive a pasta `CRIVO/transformer-17m-fase3/fase3_…/` (`pesos.pt` e `tokenizer.json`);
+  2. instale `torch` e `tokenizers`;
+  3. rode com as duas travas, por exemplo
+     `CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1 CRIVO_REALIZADOR_DIR=/caminho/fase3_… python crivo.py`
+     (ou o servidor de `api/chat.py`).
+- O SHA-256 dos pesos precisa ser exatamente `745a2500…0b293`; qualquer outro arquivo é recusado.
+- A resposta da API traz `experimental_voice` (usada ou não, motivo e ato) quando as travas estão
+  ligadas, e `GET /api/chat` mostra o estado em `experimental_voice`.
+- Toda frase do 17M continua passando pela conferência do blind e pela revisão; se falhar, sai o
+  texto de sempre.
+
+Próximo treino sugerido (fase 3 v2): respostas mais variadas e ligadas ao sentimento e ao contexto
+("preocupado com meu pai"), relações no feminino, cumprimento que se apresenta e responde ao
+período do dia, e uma forma própria para correção ("Anotado, é Daniel").

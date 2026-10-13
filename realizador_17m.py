@@ -27,6 +27,11 @@ TOKENIZER_SHA256 = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044d
 FORMATO = RAIZ / "experimentos" / "fase3_realizador_20261012" / "formato_fase3.py"
 FORMATO_SHA256 = "d1b4ab176c89b29f4042d83ddd7df32f5c24ca09d253603992d836ce17d96abb"
 MAX_NOVOS = 120
+# Decisão do criador do projeto depois da porta conversacional v2 (13/10/2026): opt-in
+# experimental para todos os atos que o adaptador mapeia. Continua desligado por padrão
+# e não é promovido; o site público não tem os pesos.
+DECISAO_OPT_IN = {"data": "2026-10-13", "atos": "todos", "porta": "fase4 v2: 0 regressões, 18/18 aprovadas",
+                  "promovido": False, "padrao": "desligado"}
 
 
 def _ligado(nome):
@@ -54,6 +59,13 @@ def formato():
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
+
+
+def status():
+    """Estado público da voz experimental (para a API)."""
+    return {"habilitado": habilitado(), "pesos_sha256": PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
+            "travas": ["CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1", "CRIVO_REALIZADOR_DIR"],
+            "decisao": DECISAO_OPT_IN, "external_ai": False}
 
 
 class Realizador:

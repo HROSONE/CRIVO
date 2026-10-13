@@ -40,6 +40,20 @@ class Travas(unittest.TestCase):
         self.assertTrue(hasattr(realizador_17m.formato(), "avaliar_saida"))
 
 
+class Api(unittest.TestCase):
+    def test_status_publico(self):
+        st = realizador_17m.status()
+        self.assertEqual(st["pesos_sha256"], realizador_17m.PESOS_SHA256)
+        self.assertFalse(st["decisao"]["promovido"])
+        self.assertEqual(st["decisao"]["padrao"], "desligado")
+        self.assertFalse(st["external_ai"])
+
+    def test_resposta_da_api_sem_travas_nao_mostra_voz(self):
+        from web_core import responder_web
+        os.environ.pop("CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR", None)
+        self.assertNotIn("experimental_voice", responder_web({"message": "Meu gato se chama Tupo."}))
+
+
 class Adaptador(unittest.TestCase):
     def quadro(self, *falas):
         bot = Crivo()

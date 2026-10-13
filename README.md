@@ -1,5 +1,14 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Voz própria do 17M, em opt-in experimental (13/10/2026):** o Transformer de 17M do CRIVO, treinado
+do zero, passou a poder dar voz ao que o quadro decide — guardar e lembrar nomes, explicar fatos com
+fonte, dizer que não sabe, acolher e cumprimentar. A fase 2 (pré-treino continuado) levou a cópia
+em contexto de 11% a 51%; a fase 3 passou em todos os gates do teste cego (98,3% tudo ok); a porta conversacional
+v2, com conversas novas, deu 0 regressões e 18/18 frases aprovadas. Cada frase passa pela conferência
+e pela revisão antes de sair. **Desligado por padrão e não promovido**; liga só com
+`CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1` e `CRIVO_REALIZADOR_DIR` com os pesos de SHA exato. Também
+nesta rodada: memória de nomes ("Qual é o nome do meu gato?"). [Porta, limites e como ligar](experimentos/fase4_porta_20261013/README.md).
+
 **Modelo de si, metacognição e revisão (12/10/2026):** o CRIVO passa a saber quem é, quanto sabe
 e a conferir o que vai dizer. O modelo de si lê `IDENTIDADE.md` e responde sobre valores, jeito,
 gostos, fé e limites com crenças presas ao texto da identidade. A metacognição registra em cada
