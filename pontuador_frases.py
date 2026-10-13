@@ -69,6 +69,15 @@ class BPE:
             partes = novas
         return partes
 
+    def decodificar(self, ids):
+        """Inverso de codificar (ByteLevel): tokens → bytes → texto; especiais somem."""
+        if not hasattr(self, "_inverso"):
+            self._inverso = {i: t for t, i in self.vocab.items()}
+            self._de_bytes = {c: b for b, c in self.bytes.items()}
+        especiais = set(self.especiais.values())
+        texto = "".join(self._inverso.get(i, "") for i in ids if i not in especiais)
+        return bytes(self._de_bytes[c] for c in texto if c in self._de_bytes).decode("utf-8", errors="replace")
+
     def codificar(self, texto):
         ids = []
         for pedaco in _PRE.findall(texto):

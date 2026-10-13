@@ -30,6 +30,8 @@ REGULADORES = {
     "estado_conversa": "Guarda objetivos, preferências e restrições e ajusta a resposta ao que a pessoa disse.",
     "pessoa": "A confirmação ou correção de quem conversa: um “não” desfaz uma suposição.",
     "recusa": "Dizer “não sei” quando nada no acervo sustenta a resposta, em vez de inventar.",
+    "revisao": "Lê cada rascunho antes de falar: segurança que a metacognição sustenta, coerência com o "
+               "modelo de si e com o que já foi dito, gentileza (revisao.py).",
 }
 
 REINOS = {
@@ -157,6 +159,27 @@ _LISTA = (
             ("conversa_assistente.py",),
             ("crise", "estado_conversa"),
             ("testes_autoconversa.py", "testes_conversa_informal.py")),
+    Especie("modelo_de_si", "conversa",
+            "Diz quem o CRIVO é — valores, jeito, gostos, fé, limites — a partir das crenças ancoradas em "
+            "IDENTIDADE.md, e guarda o que ele já disse de si.",
+            "Perguntas inteiras sobre o próprio CRIVO que a parte social não cobre.",
+            ("modelo_de_si.py", "IDENTIDADE.md"),
+            ("revisao", "catracas"),
+            ("testes_modelo_de_si.py",)),
+    Especie("metacognicao", "conversa",
+            "Responde sobre a própria resposta anterior (“tem certeza?”, “como você sabe?”, “por que "
+            "respondeu isso?”) com o nível, a base e o motivo registrados no quadro.",
+            "Logo depois de uma resposta, quando a pessoa pergunta como ele sabe.",
+            ("metacognicao.py", "estado_interno.py"),
+            ("revisao", "pessoa"),
+            ("testes_metacognicao.py",)),
+    Especie("memoria_nomes", "conversa",
+            "Guarda os nomes que a pessoa dá a bichos e pessoas próximas (“meu gato se chama Tupo”) e "
+            "responde “qual é o nome do meu gato?” com o nome que ela escreveu.",
+            "Perguntas inteiras pelo nome de uma relação da pessoa.",
+            ("memoria_nomes.py",),
+            ("pessoa", "revisao"),
+            ("testes_memoria_nomes.py",)),
     Especie("linguagem_conversa", "conversa",
             "Reage a relatos do dia a dia com o tom certo.",
             "Quando a pessoa conta algo que aconteceu.",
@@ -218,6 +241,13 @@ _LISTA = (
             ("geracao_conversa.py",),
             ("catracas", "fontes"),
             ("testes_geracao.py",)),
+    Especie("dialogo_gerativo_proprio", "neural",
+            "Realiza com a GRU própria (rede_dialogo_conversa.json.gz, SHA conferido) atos explícitos de "
+            "ficção e argumentos já resolvidos, sem criar fatos.",
+            "Pedidos de história e conversa argumentativa cujo ato o roteamento já decidiu.",
+            ("conversa_dialogo.py", "rede_dialogo_conversa.json.gz"),
+            ("conversa_assistente", "estado_conversa", "catracas"),
+            ("testes_conversa_gerativa.py",)),
     Especie("dialogo_contextual_neural", "neural",
             "Continua a conversa com o modelo contextual (desligado por padrão).",
             "Só em modo experimental, quando ligado explicitamente.",

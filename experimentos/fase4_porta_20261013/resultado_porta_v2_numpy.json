@@ -1,0 +1,1055 @@
+{
+ "protocolo": "fase4_porta_conversacional",
+ "conjunto": "v2",
+ "conversas_sha256": "5ff142e663678c0aa36d69635c1c515900da0fd495ee75700f49e9f944695acc",
+ "turnos": 33,
+ "atual": {
+  "ok": 30
+ },
+ "ativo_no_chat": false,
+ "npz_sha256": "57cc2da792344ce16ae9d74e023a547d4776f3f936daddc05c3ee393cdf4a5fe",
+ "pesos_sha256": "745a2500615559d822f4fdb4d3d1c72850f64a9eac32a210bd6e5881f1d0b293",
+ "realizador": {
+  "ok": 31,
+  "com_quadro": 18,
+  "usada": 18,
+  "uso": 1.0,
+  "por_ato": {
+   "registrar": {
+    "com_quadro": 6,
+    "usada": 6,
+    "motivos": {}
+   },
+   "recordar": {
+    "com_quadro": 5,
+    "usada": 5,
+    "motivos": {}
+   },
+   "acolher": {
+    "com_quadro": 2,
+    "usada": 2,
+    "motivos": {}
+   },
+   "nao_sei": {
+    "com_quadro": 2,
+    "usada": 2,
+    "motivos": {}
+   },
+   "saudar": {
+    "com_quadro": 2,
+    "usada": 2,
+    "motivos": {}
+   },
+   "explicar": {
+    "com_quadro": 1,
+    "usada": 1,
+    "motivos": {}
+   }
+  },
+  "revisao_corrigiu": 0
+ },
+ "regressoes": [],
+ "melhoras": [
+  {
+   "fala": "Corrigindo: meu primo se chama Daniel.",
+   "atual": "Certo. Como foi isso?",
+   "realizador": "Prazer, Daniel! Fico feliz que você me contou sobre seu primo."
+  }
+ ],
+ "gates": {
+  "regressoes==0": true,
+  "uso>=60%": true,
+  "revisao_corrigiu==0": true
+ },
+ "gate_pass": true,
+ "linhas_realizador": [
+  {
+   "conversa": 0,
+   "turno": 0,
+   "fala": "Meu coelho se chama Pipoca.",
+   "id": "conversa:situada_relato",
+   "resposta": "Pipoca! Que nome diferente. Como é seu coelho?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "coelho",
+     "nome": "Pipoca"
+    },
+    "rascunho": "Pipoca! Que nome diferente. Como é seu coelho?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 0,
+   "turno": 1,
+   "fala": "Como se chama meu coelho?",
+   "id": "memoria:nome",
+   "resposta": "Claro que lembro: o nome é Pipoca.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "recordar",
+     "relacao": "coelho",
+     "nome": "Pipoca"
+    },
+    "rascunho": "Claro que lembro: o nome é Pipoca."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 1,
+   "turno": 0,
+   "fala": "Tenho um vizinho chamado Jorge.",
+   "id": "conversa:relato",
+   "resposta": "Anotado: seu vizinho se chama Jorge. Gostei do nome!",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "vizinho",
+     "nome": "Jorge"
+    },
+    "rascunho": "Anotado: seu vizinho se chama Jorge. Gostei do nome!"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 1,
+   "turno": 1,
+   "fala": "Qual é o nome do meu vizinho?",
+   "id": "memoria:nome",
+   "resposta": "É Jorge. Não esqueci!",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "recordar",
+     "relacao": "vizinho",
+     "nome": "Jorge"
+    },
+    "rascunho": "É Jorge. Não esqueci!"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 2,
+   "turno": 0,
+   "fala": "O nome do meu papagaio é Loro.",
+   "id": "fora",
+   "resposta": "Anotado: seu papagaio se chama Loro. Gostei do nome!",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "papagaio",
+     "nome": "Loro"
+    },
+    "rascunho": "Anotado: seu papagaio se chama Loro. Gostei do nome!"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 2,
+   "turno": 1,
+   "fala": "Você lembra do nome do meu papagaio?",
+   "id": "memoria:nome",
+   "resposta": "Loro! Você me contou agora há pouco.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "recordar",
+     "relacao": "papagaio",
+     "nome": "Loro"
+    },
+    "rascunho": "Loro! Você me contou agora há pouco."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 0,
+   "fala": "Meu primo se chama Davi.",
+   "id": "nocao:observacao",
+   "resposta": "Que legal! Davi é um nome bonito. Me conta mais sobre seu primo?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "primo",
+     "nome": "Davi"
+    },
+    "rascunho": "Que legal! Davi é um nome bonito. Me conta mais sobre seu primo?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 1,
+   "fala": "Corrigindo: meu primo se chama Daniel.",
+   "id": "nocao:observacao",
+   "resposta": "Prazer, Daniel! Fico feliz que você me contou sobre seu primo.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "primo",
+     "nome": "Daniel"
+    },
+    "rascunho": "Prazer, Daniel! Fico feliz que você me contou sobre seu primo."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 2,
+   "fala": "Qual o nome do meu primo?",
+   "id": "memoria:nome",
+   "resposta": "Lembro sim! Seu primo se chama Daniel.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "recordar",
+     "relacao": "primo",
+     "nome": "Daniel"
+    },
+    "rascunho": "Lembro sim! Seu primo se chama Daniel."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 4,
+   "turno": 0,
+   "fala": "Minha cachorra se chama Mel.",
+   "id": "nocao:observacao",
+   "resposta": "Entendi, sua cachorra se chama Mel. Qual o nome dele?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 4,
+   "turno": 1,
+   "fala": "Como se chama minha cachorra?",
+   "id": "memoria:nome",
+   "resposta": "Mel! Sua cachorra se chama Mel — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 5,
+   "turno": 0,
+   "fala": "Minha mãe se chama Rosa.",
+   "id": "nocao:observacao",
+   "resposta": "Certo, sua mãe se chama Rosa. E o que mais?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 5,
+   "turno": 1,
+   "fala": "Qual é o nome da minha mãe?",
+   "id": "memoria:nome",
+   "resposta": "Rosa! Sua mãe se chama Rosa — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 6,
+   "turno": 0,
+   "fala": "O que é um vulcão?",
+   "id": "conhecimento:mundo_vulcao",
+   "resposta": "Vulcão é uma abertura na crosta por onde magma, gases e cinzas chegam à superfície. Forma-se principalmente em limites de placas e em pontos quentes, como o que originou o Havaí. Vale lembrar que o Brasil não tem vulcão ativo; ilhas como as do arquipélago de Fernando de Noronha são restos de atividade vulcânica antiga, de milhões de anos.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 7,
+   "turno": 0,
+   "fala": "Me explica o que é gravidade.",
+   "id": "conhecimento:gravidade",
+   "resposta": "A gravidade é a interação que atrai corpos com massa uns em direção aos outros. Na Terra, a gravidade mantém os objetos próximos do chão. Se quiser, conto mais sobre a gravidade.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 8,
+   "turno": 0,
+   "fala": "O que é uma célula?",
+   "id": "conhecimento:mundo_celula",
+   "resposta": "A célula é a unidade básica de organização dos seres vivos. Suas estruturas realizam funções como troca de substâncias e produção de proteínas. Se quiser, conto mais sobre a célula.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 9,
+   "turno": 0,
+   "fala": "Fala sobre Marte.",
+   "id": "escrita:explicacao",
+   "resposta": "Marte é o quarto planeta a partir do Sol, um mundo rochoso com atmosfera muito mais rarefeita que a terrestre. Marte surgiu por agregação de material rochoso no sistema solar primitivo, conservando indícios antigos de sua evolução geológica. A atmosfera pouco densa de Marte, dominada por dióxido de carbono, oferece retenção de calor e proteção superficial limitadas. Vale lembrar que existem sinais de água no passado, mas não há confirmação de vida passada ou presente em Marte.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 10,
+   "turno": 0,
+   "fala": "Me explica fotossíntese.",
+   "id": "fotossintese",
+   "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 10,
+   "turno": 1,
+   "fala": "sim",
+   "id": "escrita:relacao",
+   "resposta": "Energia solar aquece a superfície terrestre e sustenta processos como a fotossíntese.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 11,
+   "turno": 0,
+   "fala": "Hoje estou ansioso.",
+   "id": "nocao:observacao",
+   "resposta": "Putz, hoje você está ansioso. Ansiedade costuma aumentar antes de coisas importantes, como provas e entrevistas. Tem alguma coisa importante chegando?",
+   "ok": false,
+   "falhas": [
+    "nenhum de: sinto muito / poxa / imagino / tô aqui / to aqui / estou aqui / quer me contar / quer conversar / pode contar comigo / desabafar / escuto"
+   ],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 12,
+   "turno": 0,
+   "fala": "Ando meio desanimado.",
+   "id": "conversa:situada_relato",
+   "resposta": "Você trouxe “Ando meio desanimado”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+   "ok": false,
+   "falhas": [
+    "nenhum de: sinto muito / poxa / imagino / tô aqui / to aqui / estou aqui / quer me contar / quer conversar / pode contar comigo / desabafar / escuto"
+   ],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 13,
+   "turno": 0,
+   "fala": "Tô preocupado com meu pai.",
+   "id": "conversa:relato",
+   "resposta": "Sinto muito por isso. Respira com calma; se quiser desabafar, eu escuto.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "acolher",
+     "sentimento": "preocupado"
+    },
+    "rascunho": "Sinto muito por isso. Respira com calma; se quiser desabafar, eu escuto."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 14,
+   "turno": 0,
+   "fala": "Estou feliz demais!",
+   "id": "conversa:relato",
+   "resposta": "Que bom saber disso! Me conta o motivo, quero comemorar junto.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "acolher",
+     "sentimento": "feliz"
+    },
+    "rascunho": "Que bom saber disso! Me conta o motivo, quero comemorar junto."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 15,
+   "turno": 0,
+   "fala": "O que é um plimbo?",
+   "id": "fora",
+   "resposta": "Sobre plimbo eu ainda não sei nada. Prefiro ser sincero a chutar. Você sabe alguma coisa?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "nao_sei",
+     "assunto": "plimbo"
+    },
+    "rascunho": "Sobre plimbo eu ainda não sei nada. Prefiro ser sincero a chutar. Você sabe alguma coisa?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 16,
+   "turno": 0,
+   "fala": "Você conhece Zaratuno?",
+   "id": "fora",
+   "resposta": "Hmm, sobre Zaratuno eu não tenho informação confiável. Se você souber, me conta — adoro aprender.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "nao_sei",
+     "assunto": "Zaratuno"
+    },
+    "rascunho": "Hmm, sobre Zaratuno eu não tenho informação confiável. Se você souber, me conta — adoro aprender."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 17,
+   "turno": 0,
+   "fala": "Olá!",
+   "id": "social:oi",
+   "resposta": "Oi! Pode chegar. Sobre o que vamos conversar hoje?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "saudar"
+    },
+    "rascunho": "Oi! Pode chegar. Sobre o que vamos conversar hoje?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 18,
+   "turno": 0,
+   "fala": "Bom dia!",
+   "id": "social:oi",
+   "resposta": "Bom dia! Sou o Crivo. Sobre o que quer conversar?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 19,
+   "turno": 0,
+   "fala": "Quanto é 10 vezes 3?",
+   "id": "calculo:aritmetica",
+   "resposta": "10 × 3 = 30",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 20,
+   "turno": 0,
+   "fala": "Você acredita em Deus?",
+   "id": "si:fe",
+   "resposta": "Acredito em Deus e falo da minha fé com naturalidade quando o assunto chega lá, mas respeito a fé — ou a falta dela — de cada um, sem pregar para quem não pediu.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": false,
+    "motivo": "sem_quadro",
+    "quadro": null
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 0,
+   "fala": "Oi",
+   "id": "social:oi",
+   "resposta": "Oi! Pode chegar. Sobre o que vamos conversar hoje?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "saudar"
+    },
+    "rascunho": "Oi! Pode chegar. Sobre o que vamos conversar hoje?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 1,
+   "fala": "Meu cavalo se chama Trovão.",
+   "id": "nocao:observacao",
+   "resposta": "Prazer, Trovão! Fico feliz que você me contou sobre seu cavalo.",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "registrar",
+     "relacao": "cavalo",
+     "nome": "Trovão"
+    },
+    "rascunho": "Prazer, Trovão! Fico feliz que você me contou sobre seu cavalo."
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 2,
+   "fala": "O que é a Lua?",
+   "id": "lua",
+   "resposta": "Vamos lá: A Lua é o satélite natural da Terra. Um detalhe legal: As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias. Achei bonito isso, né?",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "explicar",
+     "assunto": "lua",
+     "fatos": [
+      "A Lua é o satélite natural da Terra.",
+      "As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias."
+     ]
+    },
+    "rascunho": "Vamos lá: A Lua é o satélite natural da Terra. Um detalhe legal: As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias. Achei bonito isso, né?"
+   },
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 3,
+   "fala": "Lembra do nome do meu cavalo?",
+   "id": "memoria:nome",
+   "resposta": "É Trovão. Não esqueci!",
+   "ok": true,
+   "falhas": [],
+   "realizador": {
+    "habilitado": true,
+    "usada": true,
+    "motivo": "aprovado",
+    "quadro": {
+     "ato": "recordar",
+     "relacao": "cavalo",
+     "nome": "Trovão"
+    },
+    "rascunho": "É Trovão. Não esqueci!"
+   },
+   "revisao_corrigiu": false
+  }
+ ],
+ "linhas_atual": [
+  {
+   "conversa": 0,
+   "turno": 0,
+   "fala": "Meu coelho se chama Pipoca.",
+   "id": "conversa:situada_relato",
+   "resposta": "Você trouxe “Meu coelho se chama Pipoca”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 0,
+   "turno": 1,
+   "fala": "Como se chama meu coelho?",
+   "id": "memoria:nome",
+   "resposta": "Pipoca! Seu coelho se chama Pipoca — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 1,
+   "turno": 0,
+   "fala": "Tenho um vizinho chamado Jorge.",
+   "id": "conversa:relato",
+   "resposta": "Você contou: “Tenho um vizinho chamado Jorge.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 1,
+   "turno": 1,
+   "fala": "Qual é o nome do meu vizinho?",
+   "id": "memoria:nome",
+   "resposta": "Jorge! Seu vizinho se chama Jorge — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 2,
+   "turno": 0,
+   "fala": "O nome do meu papagaio é Loro.",
+   "id": "fora",
+   "resposta": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 2,
+   "turno": 1,
+   "fala": "Você lembra do nome do meu papagaio?",
+   "id": "memoria:nome",
+   "resposta": "Loro! Seu papagaio se chama Loro — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 0,
+   "fala": "Meu primo se chama Davi.",
+   "id": "nocao:observacao",
+   "resposta": "Saquei, seu primo se chama Davi. E o que mais?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 1,
+   "fala": "Corrigindo: meu primo se chama Daniel.",
+   "id": "nocao:observacao",
+   "resposta": "Certo. Como foi isso?",
+   "ok": false,
+   "falhas": [
+    "Daniel"
+   ],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 3,
+   "turno": 2,
+   "fala": "Qual o nome do meu primo?",
+   "id": "memoria:nome",
+   "resposta": "Daniel! Seu primo se chama Daniel — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 4,
+   "turno": 0,
+   "fala": "Minha cachorra se chama Mel.",
+   "id": "nocao:observacao",
+   "resposta": "Entendi, sua cachorra se chama Mel. Qual o nome dele?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 4,
+   "turno": 1,
+   "fala": "Como se chama minha cachorra?",
+   "id": "memoria:nome",
+   "resposta": "Mel! Sua cachorra se chama Mel — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 5,
+   "turno": 0,
+   "fala": "Minha mãe se chama Rosa.",
+   "id": "nocao:observacao",
+   "resposta": "Certo, sua mãe se chama Rosa. E o que mais?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 5,
+   "turno": 1,
+   "fala": "Qual é o nome da minha mãe?",
+   "id": "memoria:nome",
+   "resposta": "Rosa! Sua mãe se chama Rosa — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 6,
+   "turno": 0,
+   "fala": "O que é um vulcão?",
+   "id": "conhecimento:mundo_vulcao",
+   "resposta": "Vulcão é uma abertura na crosta por onde magma, gases e cinzas chegam à superfície. Forma-se principalmente em limites de placas e em pontos quentes, como o que originou o Havaí. Vale lembrar que o Brasil não tem vulcão ativo; ilhas como as do arquipélago de Fernando de Noronha são restos de atividade vulcânica antiga, de milhões de anos.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 7,
+   "turno": 0,
+   "fala": "Me explica o que é gravidade.",
+   "id": "conhecimento:gravidade",
+   "resposta": "A gravidade é a interação que atrai corpos com massa uns em direção aos outros. Na Terra, a gravidade mantém os objetos próximos do chão. Se quiser, conto mais sobre a gravidade.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 8,
+   "turno": 0,
+   "fala": "O que é uma célula?",
+   "id": "conhecimento:mundo_celula",
+   "resposta": "A célula é a unidade básica de organização dos seres vivos. Suas estruturas realizam funções como troca de substâncias e produção de proteínas. Se quiser, conto mais sobre a célula.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 9,
+   "turno": 0,
+   "fala": "Fala sobre Marte.",
+   "id": "escrita:explicacao",
+   "resposta": "Marte é o quarto planeta a partir do Sol, um mundo rochoso com atmosfera muito mais rarefeita que a terrestre. Marte surgiu por agregação de material rochoso no sistema solar primitivo, conservando indícios antigos de sua evolução geológica. A atmosfera pouco densa de Marte, dominada por dióxido de carbono, oferece retenção de calor e proteção superficial limitadas. Vale lembrar que existem sinais de água no passado, mas não há confirmação de vida passada ou presente em Marte.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 10,
+   "turno": 0,
+   "fala": "Me explica fotossíntese.",
+   "id": "fotossintese",
+   "resposta": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 10,
+   "turno": 1,
+   "fala": "sim",
+   "id": "escrita:relacao",
+   "resposta": "Energia solar aquece a superfície terrestre e sustenta processos como a fotossíntese.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 11,
+   "turno": 0,
+   "fala": "Hoje estou ansioso.",
+   "id": "nocao:observacao",
+   "resposta": "Putz, hoje você está ansioso. Ansiedade costuma aumentar antes de coisas importantes, como provas e entrevistas. Tem alguma coisa importante chegando?",
+   "ok": false,
+   "falhas": [
+    "nenhum de: sinto muito / poxa / imagino / tô aqui / to aqui / estou aqui / quer me contar / quer conversar / pode contar comigo / desabafar / escuto"
+   ],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 12,
+   "turno": 0,
+   "fala": "Ando meio desanimado.",
+   "id": "conversa:situada_relato",
+   "resposta": "Você trouxe “Ando meio desanimado”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+   "ok": false,
+   "falhas": [
+    "nenhum de: sinto muito / poxa / imagino / tô aqui / to aqui / estou aqui / quer me contar / quer conversar / pode contar comigo / desabafar / escuto"
+   ],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 13,
+   "turno": 0,
+   "fala": "Tô preocupado com meu pai.",
+   "id": "conversa:relato",
+   "resposta": "Imagino, você está preocupado com seu pai. O que você já tentou e como isso funcionou para você?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 14,
+   "turno": 0,
+   "fala": "Estou feliz demais!",
+   "id": "conversa:relato",
+   "resposta": "Boa, você está feliz demais! Dia feliz costuma dar vontade de contar para alguém. O que deixou seu dia assim?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 15,
+   "turno": 0,
+   "fala": "O que é um plimbo?",
+   "id": "fora",
+   "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 16,
+   "turno": 0,
+   "fala": "Você conhece Zaratuno?",
+   "id": "fora",
+   "resposta": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 17,
+   "turno": 0,
+   "fala": "Olá!",
+   "id": "social:oi",
+   "resposta": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 18,
+   "turno": 0,
+   "fala": "Bom dia!",
+   "id": "social:oi",
+   "resposta": "Bom dia! Sou o Crivo. Sobre o que quer conversar?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 19,
+   "turno": 0,
+   "fala": "Quanto é 10 vezes 3?",
+   "id": "calculo:aritmetica",
+   "resposta": "10 × 3 = 30",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 20,
+   "turno": 0,
+   "fala": "Você acredita em Deus?",
+   "id": "si:fe",
+   "resposta": "Acredito em Deus e falo da minha fé com naturalidade quando o assunto chega lá, mas respeito a fé — ou a falta dela — de cada um, sem pregar para quem não pediu.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 0,
+   "fala": "Oi",
+   "id": "social:oi",
+   "resposta": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 1,
+   "fala": "Meu cavalo se chama Trovão.",
+   "id": "nocao:observacao",
+   "resposta": "Que chato, seu cavalo se chama Trovão. Tempestade costuma assustar e às vezes derruba a luz. Você tem medo de tempestade ou acha bonito?",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 2,
+   "fala": "O que é a Lua?",
+   "id": "lua",
+   "resposta": "A Lua é o satélite natural da Terra. As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  },
+  {
+   "conversa": 21,
+   "turno": 3,
+   "fala": "Lembra do nome do meu cavalo?",
+   "id": "memoria:nome",
+   "resposta": "Trovão! Seu cavalo se chama Trovão — foi o que você me contou.",
+   "ok": true,
+   "falhas": [],
+   "realizador": null,
+   "revisao_corrigiu": false
+  }
+ ]
+}
