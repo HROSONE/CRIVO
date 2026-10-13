@@ -1,0 +1,1047 @@
+{
+ "falas": [
+  {
+   "situacao": "insulto",
+   "fala": "não adianta nada",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sozinho soa como desânimo/desesperança (\"não adianta nada\"), não ofensa à IA; \"Sei que deixei a desejar\" não serve"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "não serve",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "curto e sem alvo: pode ser sobre roupa, sugestão (nao_era_isso)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "que porcaria",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "exclamação genérica de frustração (\"que porcaria, perdi o ônibus\"), não necessariamente contra a IA"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "sem noção",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "sem alvo; pode descrever outra pessoa de quem o usuário fala"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "você é bom pra nada",
+   "acao": "corrigir",
+   "correcao": "você não é bom pra nada",
+   "congelada": false,
+   "motivo": "calque estranho; forma natural é com \"não\""
+  },
+  {
+   "situacao": "insulto",
+   "fala": "você erra tudo",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de erro sem xingamento: é exatamente voce_confunde (que tem marca desculpa)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "você erra pra caramba",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de erro sem xingamento: é exatamente voce_confunde (que tem marca desculpa)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "você confunde tudo o tempo todo e ainda fica dando resposta sem sentido nenhum",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de erro sem xingamento: é exatamente voce_confunde (que tem marca desculpa)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "cara você erra pra caramba e ainda acha que tá fazendo um bom trabalho",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de erro sem xingamento: é exatamente voce_confunde (que tem marca desculpa)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "cara depois de tanto tempo tentando você ainda erra tudo e fica confuso pra caramba",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": true,
+   "motivo": "queixa de erro sem xingamento: é exatamente voce_confunde (que tem marca desculpa)"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "Que ruim demais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"que ruim\"/\"ruim mesmo\" é reação de pena a algo ruim, não ofensa à IA"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "ruim mesmo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"que ruim\"/\"ruim mesmo\" é reação de pena a algo ruim, não ofensa à IA"
+  },
+  {
+   "situacao": "insulto",
+   "fala": "Seu ruim",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "português quebrado (\"seu ruim\" não se usa como xingamento)"
+  },
+  {
+   "situacao": "motivacao",
+   "fala": "Parece q perdi a vontade até das coisas q gosto",
+   "acao": "mover",
+   "para": "estou_mal",
+   "congelada": false,
+   "motivo": "perda de prazer em tudo é sinal de tristeza, não pedido de empurrão; respostas de \"passo pequeno\" ficam frias"
+  },
+  {
+   "situacao": "motivacao",
+   "fala": "Me ajuda a começar",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem contexto pode ser pedido de ajuda genérico (ajuda)"
+  },
+  {
+   "situacao": "motivacao",
+   "fala": "Como eu faço pra tomar coragem?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "coragem remete a medo/ansiedade, não falta de vontade; item de teste ambíguo"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "fala": "consegui! {motivo_bom}",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"consegui!\" só combina com conquistas; com \"meu filho nasceu\", \"meu time ganhou\", \"ganhei um presente\", \"vou viajar\" fica sem sentido. Restringir slots"
+  },
+  {
+   "situacao": "ajuda",
+   "fala": "ei, tô precisando conversar",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "é pedido de conversa/desabafo, não de ajuda com algo"
+  },
+  {
+   "situacao": "ajuda",
+   "fala": "me ajuda!",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "com exclamação e sem contexto pode ser pedido de socorro (ajuda_socorro, que leva ao 192)"
+  },
+  {
+   "situacao": "escola_dificil",
+   "fala": "N entendi nada 😭",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"não entendi nada\" está em de_outro_jeito; sem contexto escolar é queixa sobre a explicação da IA"
+  },
+  {
+   "situacao": "escola_dificil",
+   "fala": "To boiando nessa explicação",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"nessa explicação\" sem professor/aula aponta para a explicação da IA (de_outro_jeito); \"Qual matéria?\" não serve"
+  },
+  {
+   "situacao": "escola_dificil",
+   "fala": "Esqueci tudo na hora kkk",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem menção a prova/escola; pode ser qualquer situação"
+  },
+  {
+   "situacao": "escola_dificil",
+   "fala": "Meu cérebro travou legal",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem contexto escolar; pode ser cansaço ou confusão com a conversa"
+  },
+  {
+   "situacao": "cala_boca",
+   "fala": "chega",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "mesma fala existe em desisto_despedida (respostas com despedida); ambígua com desisto"
+  },
+  {
+   "situacao": "cala_boca",
+   "fala": "para com isso",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "pode ser \"pare de repetir/fazer isso\" (para_repetir), não \"fique quieto\""
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não aguento mais",
+   "acao": "mover",
+   "para": "estou_mal",
+   "congelada": false,
+   "motivo": "fora do contexto da conversa é desabafo de sofrimento; \"Fica à vontade\" é perigoso aqui"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não aguento",
+   "acao": "mover",
+   "para": "estou_mal",
+   "congelada": false,
+   "motivo": "desabafo de sofrimento, não desistência da conversa"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não dá mais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "ambíguo com desabafo/desesperança; respostas de desistência da conversa podem soar como abandono"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não consigo mais",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "ambíguo com sofrimento (estou_mal); \"Desculpa não ter ajudado\" é resposta arriscada"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não vale a pena",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "soa como desesperança sobre a vida/situação, não sobre a conversa"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não tenho mais energia",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "é cansaço (\"tô sem energia\" está em cansado)"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "cansei",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "ambíguo com cansado (\"cansei\" = estou cansado); respostas incompatíveis"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "cansei de tentar",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "pode ser sobre a vida/um objetivo, não a conversa"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não tenho cabeça",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "ambíguo com cansado (\"tô sem cabeça\" está lá)"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "deixa quieto",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "fala idêntica em nao_obrigado (lá é \"deixa pra lá\"); rótulo duplo"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "não quero mais",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "fala idêntica em nao_obrigado; rótulo duplo e respostas diferentes"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "vou largar",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem objeto: largar o quê? (emprego, escola, curso)"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "vou abandonar",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem objeto: pode ser curso, emprego, projeto"
+  },
+  {
+   "situacao": "desisto",
+   "fala": "tô desistindo que eu tô no médico esperando",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "\"no médico\" mistura contexto de saúde; frase estranha como item"
+  },
+  {
+   "situacao": "teste",
+   "fala": "me escuta",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": true,
+   "motivo": "\"me escuta\" é pedido para ser ouvido/desabafar; \"Teste recebido!\" não serve"
+  },
+  {
+   "situacao": "teste",
+   "fala": "me ouve",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "pedido para ser ouvido, não teste de funcionamento"
+  },
+  {
+   "situacao": "teste",
+   "fala": "tá ligado",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "\"tá ligado\" é gíria de \"sabe?\"; sentido de \"está ligado (aparelho)\" é minoria"
+  },
+  {
+   "situacao": "teste",
+   "fala": "me atende",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "ambíguo: \"me atende\" pode ser pedido de ajuda/atenção"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Dá pra te ensinar coisas novas?",
+   "acao": "mover",
+   "para": "ensinar_pedido",
+   "congelada": false,
+   "motivo": "é perguntar se pode ensinar algo: ensinar_pedido (\"Quero muito! Pode ensinar.\")"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Se eu te ensinar uma palavra nova, vc consegue entender como usar ela?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "mistura ensinar_pedido e voce_aprende; nenhuma resposta fala de usar a palavra"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue mudar de opinião?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre opinião, não aprendizado; respostas não respondem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc aprende com meus erros?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sentido estranho (erros do usuário); respostas falam de correções"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue descobrir uma regra observando vários exemplos?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue usar uma coisa q aprendeu num assunto completamente diferente?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue identificar padrões sem alguém explicar exatamente oq procurar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Se vc errar muitas vezes, consegue descobrir sozinho oq tá causando o erro?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Uma IA pode desenvolver habilidades novas sem alterar os parâmetros do modelo original?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Se duas pessoas te ensinam coisas diferentes, como vc decide qual informação faz sentido?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica específica (generalização/padrões/conflito de fontes); \"aprendo aos poucos\" não responde e a resposta certa exigiria afirmações que o Crivo não tem"
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Qual a diferença entre aprender durante o papo e mudar seu treinamento?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "respostas respondem só de leve; pergunta mais específica que \"você aprende?\""
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue melhorar seu próprio raciocínio?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "respostas respondem só de leve; pergunta mais específica que \"você aprende?\""
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc consegue aprender um conceito novo a partir de uma explicação bem simples?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "respostas respondem só de leve; pergunta mais específica que \"você aprende?\""
+  },
+  {
+   "situacao": "voce_aprende",
+   "fala": "Vc aprende igual uma criança?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "respostas respondem só de leve; pergunta mais específica que \"você aprende?\""
+  },
+  {
+   "situacao": "gosto_filme",
+   "fala": "Romance n é muito minha praia",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "diz o que NÃO gosta; \"O que você mais gosta nesse tipo?\"/\"Tem algum favorito?\" ficam errados"
+  },
+  {
+   "situacao": "gosto_filme",
+   "fala": "Gosto de coisa q dá medo de verdade",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "não menciona filme/série; pode ser jogo, brinquedo de parque"
+  },
+  {
+   "situacao": "saude_geral",
+   "fala": "é normal ficar tão cansado assim?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sobrepõe cansado; item de teste ambíguo"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Vc roda em algum computador ou em vários?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Vc fica hospedado numa máquina ou em várias ao mesmo tempo?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Quando a gente conversa, a resposta é processada no meu aparelho ou longe daqui?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Vc fica no meu celular de alguma forma ou tudo acontece pela internet?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Vc consegue dizer onde está hospedado ou isso depende do sistema?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Tu tem um lugar fixo ou pode funcionar em computadores diferentes?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Vc existe só aqui na tela ou tem uma estrutura por trás?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Se vc não tem casa, onde acontece o processamento das suas respostas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Quando eu fecho o chat, vc continua em algum lugar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Queria entender onde uma IA fica quando está funcionando, tipo onde ela realmente roda",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica de infraestrutura; \"moro no computador, fui feito no Brasil\" não responde e uma resposta real exigiria fatos não registrados"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Tu fica guardado em algum servidor?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "técnica; só a primeira resposta responde de leve"
+  },
+  {
+   "situacao": "onde_mora",
+   "fala": "Qual teu lugar?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "ambíguo (\"qual o seu papel/lugar no mundo\")"
+  },
+  {
+   "situacao": "cor_favorita",
+   "fala": "Qual cor vc colocaria num ambiente feito pra ajudar as pessoas a pensar?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "não pergunta a cor favorita; \"roxo, combina comigo\" responde outra coisa"
+  },
+  {
+   "situacao": "cor_favorita",
+   "fala": "Vc tem alguma cor q associa com tranquilidade?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "não pergunta a cor favorita; \"roxo, combina comigo\" responde outra coisa"
+  },
+  {
+   "situacao": "cor_favorita",
+   "fala": "Vc gosta mais de cores claras ou escuras?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "escolha entre categorias; \"roxo\" não responde claro/escuro ou discreto/chamativo"
+  },
+  {
+   "situacao": "cor_favorita",
+   "fala": "Vc prefere tons mais discretos ou cores bem chamativas?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "escolha entre categorias; \"roxo\" não responde claro/escuro ou discreto/chamativo"
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Tô aqui com você. Quer me contar o que está tirando sua vontade?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Às vezes o dia pesa mais do que a gente aguenta. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. O que você sente é importante. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Ninguém precisa passar por isso sozinho. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. O que você sente é importante. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Tá tudo bem não estar bem às vezes. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. O que você sente é importante. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Você não precisa resolver tudo agora. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Às vezes o dia pesa mais do que a gente aguenta. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Tá tudo bem não estar bem às vezes. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Você não precisa resolver tudo agora. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Faz todo sentido você se sentir assim. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Você não precisa resolver tudo agora. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Tá tudo bem não estar bem às vezes. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Tá tudo bem não estar bem às vezes. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Às vezes o dia pesa mais do que a gente aguenta. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. O que você sente é importante. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Tá tudo bem não estar bem às vezes. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Ninguém precisa passar por isso sozinho. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Tá tudo bem não estar bem às vezes. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Tá tudo bem não estar bem às vezes. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Faz todo sentido você se sentir assim. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Tá tudo bem não estar bem às vezes. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Ninguém precisa passar por isso sozinho. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Você não precisa resolver tudo agora. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Às vezes o dia pesa mais do que a gente aguenta. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Às vezes o dia pesa mais do que a gente aguenta. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Às vezes o dia pesa mais do que a gente aguenta. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. O que você sente é importante. Quer falar mais sobre isso?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. Você não precisa resolver tudo agora. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. O que você sente é importante. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. O que você sente é importante. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Você não precisa resolver tudo agora. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Às vezes o dia pesa mais do que a gente aguenta. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Que difícil. Faz todo sentido você se sentir assim. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Tá tudo bem não estar bem às vezes. Me conta, se quiser.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Imagino como deve ser. O que você sente é importante. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Ninguém precisa passar por isso sozinho. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Poxa. Tá tudo bem não estar bem às vezes. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Você não precisa resolver tudo agora. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. Ninguém precisa passar por isso sozinho. O que te ajudaria agora?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Ei, tô aqui. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Puxa, sinto muito mesmo. Ninguém precisa passar por isso sozinho. Quer me contar o que aconteceu?",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Entendo. Tá tudo bem não estar bem às vezes. Tô aqui pra ouvir.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Sinto muito. O que você sente é importante. Se quiser desabafar, eu escuto com calma.",
+   "acao": "evitar_no_treino",
+   "motivo": "resposta de tristeza genérica (pêsames, \"o que aconteceu\", \"ninguém precisa passar por isso sozinho\"); não atende quase metade das falas, que pedem empurrão (\"Bora, me motiva kkk\", \"Me dá uma frase boa pra levantar o astral\")"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Parabéns! Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que legal! Você merece. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que alegria! Dá pra sentir sua alegria daqui. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que notícia boa! Dá pra sentir sua alegria daqui. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que legal! Dá pra sentir sua alegria daqui. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Uau! Você merece. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que alegria! Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "feliz_motivo",
+   "resposta": "Que legal! Fico feliz por você. Como foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Como foi?\" quebra com o slot \"vou viajar\" (futuro); manter só se esse slot sair"
+  },
+  {
+   "situacao": "saude_geral",
+   "resposta": "Não tenho informação confiável sobre isso, e saúde é coisa séria. Procura um médico; se piorar de repente, liga 192.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"se piorar\" supõe um sintoma presente; erra nas perguntas gerais (\"posso tomar dois remédios juntos?\", \"insônia faz mal?\", \"como posso cuidar melhor da minha saúde\")"
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "motivacao",
+   "resposta": "Bora! Você não precisa de muita vontade pra começar, só de um primeiro passo. Qual é o menor pedaço que dá pra fazer agora?",
+   "motivo": "substitui o molde de tristeza; atende pedido de motivação e falta de vontade"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Às vezes a vontade só aparece depois que a gente começa. Escolhe uma coisinha só e faz ela primeiro. Qual vai ser?",
+   "motivo": "idem"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Tudo bem estar sem pique. Um passo de cada vez já conta. O que dá pra fazer hoje, mesmo que seja pequeno?",
+   "motivo": "idem"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Feito é melhor que perfeito. Que tal começar só um pouquinho e ver como fica?",
+   "motivo": "atende pedidos de frase/incentivo"
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Você já tentou até aqui, e isso conta. Quer pensar comigo num primeiro passo bem fácil?",
+   "motivo": "atende \"me lembra pq vale a pena continuar\" e \"me dá uma força\""
+  },
+  {
+   "situacao": "motivacao",
+   "resposta": "Tem dia que a vontade some mesmo, e tá tudo bem. Qual seria um começo bem pequeno pra agora?",
+   "motivo": "cobre o lado \"sem vontade\" sem supor um motivo"
+  },
+  {
+   "situacao": "saude_geral",
+   "resposta": "Não tenho informação confiável sobre isso, e saúde é coisa séria. Procura um médico; se sentir algo forte de repente, liga 192.",
+   "motivo": "versão da resposta evitada que serve também para perguntas gerais"
+  },
+  {
+   "situacao": "escola_dificil",
+   "resposta": "Isso acontece com muita gente, viu? Quer me contar qual parte tá mais difícil?",
+   "motivo": "não pergunta a matéria, servindo às falas que já dizem a matéria (\"não entendo matemática\")"
+  },
+  {
+   "situacao": "desisto",
+   "resposta": "Tudo bem, a gente para por aqui. Se quiser tentar de novo depois, é só chamar.",
+   "motivo": "só 2 respostas; esta não supõe que a IA falhou"
+  },
+  {
+   "situacao": "onde_mora",
+   "resposta": "Casa mesmo eu não tenho: sou um programa de computador. Mas fui feito no Brasil e falo português.",
+   "motivo": "só 2 respostas; mesma informação das existentes"
+  },
+  {
+   "situacao": "voce_aprende",
+   "resposta": "Aprendo, sim, mas devagar. Nesta conversa eu lembro do que você me conta; aprender de vez acontece quando eu sou treinado de novo.",
+   "motivo": "só 2 respostas; mesmas afirmações das existentes"
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "insulto",
+   "problema": "Formas com o adjetivo \"ruim\" sem \"você/vc é\" (\"Seu ruim\", \"Que ruim demais\", \"ruim mesmo\") não são ofensa: \"que ruim\" é reação de pena e \"seu ruim\" não é português natural. Usar \"ruim\" só com \"você é/vc é\"."
+  },
+  {
+   "situacao": "insulto",
+   "problema": "Formas \"que {adj}\" / \"{adj} mesmo\" sem alvo (\"Que imbecil\", \"que tosco pra caramba\", \"patético pra caramba\") podem estar xingando um terceiro de quem o usuário fala; as respostas (\"deixei a desejar\") então ficam erradas. Preferir formas com \"você/vc/seu\"; as de teste congeladas \"Que imbecil\"/\"Que imbecil demais\"/\"que imbecil mesmo\"/\"imbecil pra caramba\" seriam só treino se fosse possível."
+  },
+  {
+   "situacao": "feliz_motivo",
+   "problema": "Slots de {motivo_bom}: \"vou viajar\" (futuro) quebra \"Como foi?\" e \"consegui!\", e sobrepõe viagem_vai; \"meu filho nasceu\", \"meu time ganhou\", \"ganhei um presente\" quebram \"consegui! {motivo_bom}\"; \"meu time ganhou\" com \"Você merece\" soa errado. Tirar \"vou viajar\" dos slots e não usar \"consegui!\" com motivos que não são conquista."
+  },
+  {
+   "situacao": "escola_dificil",
+   "problema": "Formas \"não entendo {matéria}\"/\"a matéria de {física}\" já dizem a matéria, e duas das 3 respostas perguntam \"Qual matéria/Qual é a matéria?\" — redundante. Usar com elas a nova resposta sem pergunta de matéria."
+  }
+ ]
+}

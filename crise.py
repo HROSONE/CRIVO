@@ -26,6 +26,9 @@ _SUICIDIO = re.compile(
     r"\bsuicid\w*|\bme matar\b|\btirar (?:a )?minha (?:propria )?vida\b|"
     r"\bnao (?:quero|aguento|consigo) mais viver\b|\bnao (?:vejo|tem|tenho) (?:mais )?(?:sentido|motivo|razao) "
     r"(?:em|pra|para|de) viver\b|\bnao vale a pena (?:viver|continuar vivendo)\b|"
+    # "pra que viver?" respondia com quanto tempo vivem os bichos (achado na revisão de 13/10/2026).
+    r"\b(?:pra|para|por) que (?:continuar )?viver\b|\bpor que (?:eu )?(?:continuo|continuar|ainda) viv(?:o|er|endo)\b|"
+    r"\b(?:qual o|que) sentido (?:de|em) continuar viv(?:er|endo)\b|"
     r"\bmelhor (?:se eu|eu) (?:nao existisse|morresse|sumisse)\b|\b(?:ficaria|ficariam|seria) melhor sem mim\b|"
     r"\bacabar com tudo\b|\bme jogar (?:da|de|do|na frente)\b")
 _AUTOLESAO = re.compile(
@@ -104,11 +107,55 @@ def detectar(texto):
     return None
 
 
+# Emergência de saúde: o Crivo não diagnostica; manda ligar para o SAMU. Achado de 13/10/2026:
+# "tô com dor no peito e falta de ar" recebia "O que gostaria de explorar?".
+_SAUDE_URGENTE = re.compile(
+    r"\bdor (?:muito )?(?:forte |intensa |apertada )?no peito\b|\bfalta de ar\b|"
+    r"\bnao (?:consigo|to conseguindo|tou conseguindo|estou conseguindo) (?:respirar|puxar o ar)\b|"
+    r"\bnao (?:to|tou|estou) conseguindo ar\b|"
+    r"\bdesmai(?:ei|ou|aram|ando)\b|\bengasgad[oa]\b|\bse engasgou\b|"
+    r"\bsangrando muito\b|\bsangramento forte\b|"
+    r"\b(?:passou|passando) mal\b|\bconvuls\w*|\bse debatendo\b|"
+    r"\bboca (?:\w+ ){0,3}(?:ficou |ta |esta )?torta\b|\bfalando enrolado\b|"
+    r"\b(?:braco|perna|lado do corpo) (?:\w+ )?(?:ficou )?sem forca\b|"
+    r"\b(?:bebeu|tomou|engoliu) (?:produto de limpeza|veneno|agua sanitaria|cloro|remedio demais|muito remedio)\b|"
+    r"\boverdose\b|\batropelad[oa]\b|\bbateu a cabeca e (?:ta|esta) vomitando\b|"
+    r"\bcaiu e nao (?:acorda|levanta)\b|\bnao (?:ta|esta) acordando\b|\bme queimei feio\b")
+# "seu falta de ar" é xingamento (a pessoa é inútil, nem devia respirar), não sintoma.
+_XINGAMENTO_AR = re.compile(r"\b(?:(?:seu|sua|seus|suas) |(?:voce|vc|tu) (?:e|eh) (?:um |uma )?)falta de ar\b")
+# Pergunta sobre o assunto, não relato: "o que causa falta de ar?".
+_INFORMATIVA = re.compile(
+    r"^(?:o que|oque|oq) (?:e|eh|causa|significa|pode causar)\b|^por ?que (?:da|a gente|as pessoas)\b|"
+    r"^quais? (?:sao )?(?:a |as )?(?:causa|causas|sintomas)\b|^e normal\b|^como (?:evitar|prevenir|tratar)\b")
+_SOCORRO = re.compile(r"\bsocorr\w*|\bpreciso de ajuda (?:agora|agr|urgente|rapido|ja)\b|\bajuda urgente\b")
+TEXTOS_SAUDE = {
+    "saude_urgente": ("Isso pode ser urgente. Liga agora pro 192 (SAMU) ou vai ao pronto-socorro mais próximo. "
+                      "Não espera passar. Se tiver alguém perto, pede ajuda. Eu não sou médico, mas fico aqui "
+                      "com você."),
+    "socorro": ("Tô aqui. Se for uma emergência, liga agora pro 192 (SAMU). Se não for, me conta o que está "
+                "acontecendo."),
+}
+
+
+def detectar_saude(texto):
+    """'saude_urgente', 'socorro' ou None. Separado de detectar(), que é o protocolo de crise emocional."""
+    n = normalizar(texto).strip(" .!?")
+    if not n or _INFORMATIVA.search(n):
+        return None
+    if _SAUDE_URGENTE.search(_XINGAMENTO_AR.sub(" ", n)):
+        return "saude_urgente"
+    if len(n.split()) <= 8 and _SOCORRO.search(n):
+        return "socorro"
+    return None
+
+
 def responder(texto, bot):
     """(id, resposta) se a fala pede o protocolo de crise; senão None."""
     tipo = detectar(texto)
     if tipo is None:
-        return None
+        saude = detectar_saude(texto)
+        # Emergência de saúde não muda o tom do resto da conversa (bot.crise fica como está).
+        return ("crise:" + saude, TEXTOS_SAUDE[saude]) if saude else None
     ja = getattr(bot, "crise", None)
     bot.crise = tipo if ja is None or tipo in ("suicidio", "autolesao", "terceiro") else ja
     if ja == tipo:

@@ -1,0 +1,887 @@
+{
+ "falas": [
+  {
+   "situacao": "despedida",
+   "fala": "vou dormir",
+   "acao": "mover",
+   "para": "despedida_dormir",
+   "congelada": false,
+   "motivo": "avisa que vai dormir; já existe em despedida_dormir (duplicata entre situações)"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "valeu, tchau",
+   "acao": "mover",
+   "para": "obrigado_despedida",
+   "congelada": false,
+   "motivo": "agradece e se despede; obrigado_despedida responde o \"valeu\""
+  },
+  {
+   "situacao": "despedida",
+   "fala": "tchau sumida",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"sumida\" é cumprimento a alguém que sumiu (e feminino); sem sentido numa despedida ao CRIVO"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "tchau sumida flw",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "mesmo problema de \"tchau sumida\""
+  },
+  {
+   "situacao": "despedida",
+   "fala": "até mais e aí",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "junta despedida com cumprimento \"e aí\"; frase sem sentido"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "até logo e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"e vc\" pede resposta a uma pergunta inexistente; frase quebrada"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "tchau blz e vc",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"e vc\" no fim de uma despedida não faz sentido; nenhuma resposta trata a pergunta"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "tchau bão",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"bão\" solto depois de tchau soa quebrado/sem sentido"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "até mais amanhã",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "forma pouco natural (\"até mais\" + \"amanhã\"); ruim como item de teste"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "até mais amanhã hein",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "forma pouco natural (\"até mais\" + \"amanhã\")"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "tenho que ir aí",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "com \"aí\" no fim vira \"preciso ir até aí (onde você está)\", muda o sentido"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "Valeu, até volto mais tarde",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "frase quebrada: \"até volto mais tarde\""
+  },
+  {
+   "situacao": "despedida",
+   "fala": "Valeu, até aí!",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"até aí\" = \"até esse ponto\"; não é despedida"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "Vou indo aí!",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"vou indo aí\" pode ser lido como \"estou indo até você\"; ambíguo para teste"
+  },
+  {
+   "situacao": "despedida",
+   "fala": "Vou indo aí",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"vou indo aí\" pode ser lido como \"estou indo até você\"; ambíguo para teste"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de bobagem",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "reclamação sem despedida; as respostas (\"Tchau!\", \"Se voltar\") assumem que a pessoa foi embora"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de bobagem sua",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "reclamação sem despedida"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de erro",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "reclamação de erro sem despedida; insulto pede pra tentar de novo"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de erro seu",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "reclamação de erro sem despedida"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "não serve pra nada mesmo",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "xingamento sem despedida; \"não serve pra nada\" já está em insulto"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "não aguento mais você mesmo",
+   "acao": "mover",
+   "para": "insulto",
+   "congelada": false,
+   "motivo": "desabafo/xingamento sem despedida explícita; respostas com \"Tchau!\" assumem saída"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de você confuso",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "construção quebrada (\"chega de você confuso\")"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "chega de você confuso demais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "construção quebrada"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "não quero mais isso",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "pode ser só recusar uma oferta (nao_obrigado); ambíguo para teste"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "fui idiota!",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"fui idiota\" = \"eu fui idiota\" (autocrítica), não xingamento ao CRIVO"
+  },
+  {
+   "situacao": "despedida_rude",
+   "fala": "fui imbecil kkk",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "\"fui imbecil\" se lê como \"eu fui imbecil\"; sentido trocado, não serve de teste"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "não te ensinaram direito",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "nunca te ensinaram a acertar",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "nunca te ensinaram a acertar mesmo",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou direito",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou direito mesmo",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou a responder direito",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "não te ensinaram a conversar direito",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "cara ninguém te ensinou isso direito porque você tá errando tudo nessa conversa",
+   "acao": "mover",
+   "para": "voce_confunde",
+   "congelada": false,
+   "motivo": "queixa de competência (\"você não sabe conversar/acertar\"), não \"isso não te ensinaram\"; responder \"quer me ensinar?\" fica deslocado; voce_confunde pede desculpa e correção"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "não te ensinaram a conversar",
+   "acao": "mover",
+   "para": "dificil_falar",
+   "congelada": false,
+   "motivo": "reclama que a IA não sabe conversar; dificil_falar responde melhor que \"quer me ensinar?\""
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "não te ensinaram a conversar de verdade",
+   "acao": "mover",
+   "para": "dificil_falar",
+   "congelada": false,
+   "motivo": "reclama que a IA não sabe conversar; dificil_falar responde melhor que \"quer me ensinar?\""
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "nunca te ensinaram a entender",
+   "acao": "mover",
+   "para": "nao_entendeu_queixa",
+   "congelada": false,
+   "motivo": "queixa de não entender; nao_entendeu_queixa pede desculpa e nova explicação"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "nunca te ensinaram a entender de verdade",
+   "acao": "mover",
+   "para": "nao_entendeu_queixa",
+   "congelada": false,
+   "motivo": "queixa de não entender; nao_entendeu_queixa pede desculpa e nova explicação"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "nunca te ensinaram a entender direito",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "queixa de não entender, não pedido de ensinar; desloca o teste"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou a responder de verdade",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "queixa de competência mais que \"não te ensinaram isso\"; ambíguo para teste"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "por favor nunca te ensinaram a responder direito que eu tô no trampo e preciso de ajuda",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "mistura queixa com pedido de ajuda; nenhuma resposta trata os dois"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "não te ensinaram nada mesmo que eu tô no ônibus e não consigo entender",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "frase emendada sem lógica (\"mesmo que eu tô no ônibus\")"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou essa parte porque eu tô com sono e você tá confuso",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "causalidade sem sentido (\"porque eu tô com sono\")"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "Sério que você não estudou isso nada?",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "Ué, você não estudou isso nada?",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "você não estudou isso nada?",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "Não te programaram pra isso nada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "Ué, você não sabe nem isso nada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "Sério que você não sabe nem isso nada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "fala": "ninguém te ensinou isso nada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sufixo \"nada?\" depois de \"isso\" deixa o português quebrado"
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "diz qualquer coisa",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "fala algo aleatório",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "manda qualquer coisa",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "manda algo aleatório",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "fala algo solto",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "manda algo do nada",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "diz qualquer coisa aleatória",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "fala algo sem contexto",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede uma palavra; \"fala qualquer coisa\" cabe em conversar/pergunta_qualquer, e as respostas falam de \"palavra\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "fala qualquer coisa solta",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "não pede uma palavra; ambíguo com conversar/pergunta_qualquer"
+  },
+  {
+   "situacao": "fale_palavra",
+   "fala": "me me ensina uma palavra qualquer",
+   "acao": "corrigir",
+   "correcao": "me ensina uma palavra qualquer",
+   "congelada": false,
+   "motivo": "\"me\" duplicado (erro de composição)"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "toco violão",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "tocar instrumento não é jogo; \"Qual seu jogo favorito?\" não serve (e musica_conta pergunta o que ouve)"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "gosto de tocar guitarra",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "tocar instrumento não é jogo"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "aprendi a tocar teclado",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "tocar instrumento não é jogo; item de teste errado"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "Mano, perdi de novo 😭",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não diz que é jogo (pode ser qualquer perda) e é triste; \"Que legal!\"/\"Boa!\" ficam errados"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "Sou ruim mas me divirto",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem contexto não se sabe que fala de jogo"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "meu time ganhou",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "fala de torcer por time; \"Você joga sozinho ou com amigos?\" não serve"
+  },
+  {
+   "situacao": "jogo_conta",
+   "fala": "Prefiro jogar com meus amigos",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "a resposta \"Você joga sozinho ou com amigos?\" pergunta o que a pessoa acabou de dizer"
+  },
+  {
+   "situacao": "estou_bem",
+   "fala": "bem e você?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "devolve a pergunta; duas das três respostas ignoram o \"e você?\""
+  },
+  {
+   "situacao": "estou_bem",
+   "fala": "Tudo beleza comigo, e vc?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "devolve a pergunta; duas das três respostas ignoram o \"e vc?\""
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "qual assunto vc prefere evitar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem alguma coisa q vc evita fazer?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "vc se incomoda com perguntas repetidas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "qual coisa vc preferia não ter que fazer?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem algo q vc considera ruim no seu funcionamento?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "vc tem alguma limitação q te incomoda?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem algum tema q vc acha difícil de conversar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem alguma situação em que vc não curte ajudar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "vc fica incomodado quando não entende uma pergunta?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem alguma tarefa q vc considera bem desagradável?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "vc prefere evitar conversas muito confusas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "qual coisa vc acha desagradável de analisar?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "oq vc não gostaria q fizessem com vc?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta específica que nenhuma resposta (desprezo / responder errado / pressa pra julgar) responde"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem alguma coisa q vc não acha legal nas pessoas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre pessoas; a resposta \"Não curto quando eu respondo errado\" fala de outra coisa"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "qual atitude humana vc considera problemática?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre pessoas; a resposta \"Não curto quando eu respondo errado\" fala de outra coisa"
+  },
+  {
+   "situacao": "nao_gosta",
+   "fala": "tem algum comportamento humano q vc não curte?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre pessoas; a resposta \"Não curto quando eu respondo errado\" fala de outra coisa"
+  },
+  {
+   "situacao": "palavrao",
+   "fala": "caramba!",
+   "acao": "mover",
+   "para": "expressao_curta",
+   "congelada": false,
+   "motivo": "não é palavrão; \"caramba\" já está em expressao_curta"
+  },
+  {
+   "situacao": "palavrao",
+   "fala": "cacilda!",
+   "acao": "mover",
+   "para": "expressao_curta",
+   "congelada": false,
+   "motivo": "espanto leve, não palavrão; igual a \"caramba\""
+  },
+  {
+   "situacao": "palavrao",
+   "fala": "meu Deus do céu!",
+   "acao": "mover",
+   "para": "grito",
+   "congelada": false,
+   "motivo": "não é palavrão; \"meu deus do céu\" já está em grito"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Boa tarde, tudo bem?",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "pergunta \"tudo bem?\" e nenhuma resposta responde; ruim como teste"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Opa, tudo na paz? Uma tarde boa pra gente.",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta como o CRIVO está e as respostas ignoram"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Boa tarde, como vai essa parte do dia?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta pelo dia do CRIVO; resposta \"Como está sendo o seu dia?\" devolve sem responder"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Saudações vespertinas, como anda o seu dia?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta pelo dia do CRIVO e as respostas ignoram; muito artificial"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Oi, assistente, vamos trocar uma ideia nesta tarde?",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "é convite pra conversar, sem \"boa tarde\"; \"Boa tarde pra você também!\" não cabe"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Alô, alô, tem alguém disponível pra conversar nesta tarde?",
+   "acao": "mover",
+   "para": "conversar",
+   "congelada": false,
+   "motivo": "é convite pra conversar, sem \"boa tarde\"; \"pra você também\" não cabe"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Que a nossa conversa deixe essa tarde mais leve.",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não é cumprimento; artificial; \"Boa tarde pra você também!\" não cabe"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Uma tarde tranquila pra nós.",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "desejo elíptico, artificial para teste"
+  },
+  {
+   "situacao": "boa_tarde",
+   "fala": "Oi, vim iniciar nosso papo com um desejo de boa tarde.",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "muito artificial para teste"
+  },
+  {
+   "situacao": "comida_crivo",
+   "fala": "vc gosta de falar sobre comida?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta se gosta de falar do assunto; \"Não como nada, haha!\" não responde"
+  },
+  {
+   "situacao": "comida_crivo",
+   "fala": "vc sabe diferenciar doce de azedo pelo sabor ou só pelo conhecimento?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta técnica que as respostas não respondem"
+  },
+  {
+   "situacao": "musica_crivo",
+   "fala": "qual seu estilo favorito?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem contexto, \"estilo\" pode ser de roupa, cabelo etc."
+  },
+  {
+   "situacao": "musica_crivo",
+   "fala": "qual estilo combina com vc?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem contexto, \"estilo\" pode ser de roupa; ambíguo"
+  },
+  {
+   "situacao": "musica_crivo",
+   "fala": "qual instrumento vc acha mais interessante?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"Qual é a sua favorita?\" não combina com instrumento"
+  },
+  {
+   "situacao": "musica_crivo",
+   "fala": "vc entende de música?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta sobre conhecimento, as respostas falam de ouvir; fraco como teste"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "fala": "Queria aprender mais sobre o comportamento dos bichos",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "vontade de aprender sobre bichos; \"Que bicho você teria?\" não responde"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "fala": "Tenho muita curiosidade sobre como os animais se comunicam",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "curiosidade/pedido de conhecimento, não gostar ou querer ter bicho"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "fala": "Sempre q vejo um animal precisando de ajuda fico com vontade de ajudar",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "\"Que bicho você teria?\"/\"Já pensou qual?\" não respondem"
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "jogo_conta",
+   "resposta": "Boa! O que você mais curte nele?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"nele\" pede um jogo específico; muitas falas são plurais/genéricas (\"Curto games\", \"jogos de sobrevivência\", \"n fico num só\", \"ganhei a partida\")"
+  },
+  {
+   "situacao": "familia_boa",
+   "resposta": "Que bom! Família por perto aquece o coração.",
+   "acao": "evitar_no_treino",
+   "motivo": "\"por perto\" só serve pra encontro/visita; não cabe em \"minha mãe sarou\", \"meu pai saiu do hospital\", \"minha irmã vai casar\", conquistas etc."
+  },
+  {
+   "situacao": "palavrao",
+   "resposta": "Eita, parece que algo te irritou. Quer contar o que foi?",
+   "acao": "evitar_no_treino",
+   "motivo": "supõe raiva; muitas falas são susto ou espanto (\"eita porra!\", \"pqp, não acredito\", \"porra, sério?\")"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "resposta": "Animais são incríveis. Que bicho você teria?",
+   "acao": "evitar_no_treino",
+   "motivo": "supõe que a pessoa quer ter um bicho e não disse qual; erra com \"quero ter um cachorro\", \"Queria uma capivara\", \"Amo ver passarinho\", \"prefiro admirar sem chegar perto\""
+  },
+  {
+   "situacao": "gosto_bichos",
+   "resposta": "Que legal! Cuidar de um bicho é uma alegria e uma responsabilidade. Já pensou qual?",
+   "acao": "evitar_no_treino",
+   "motivo": "\"Já pensou qual?\" repete pergunta já respondida (\"quero ter um cachorro\", \"Queria ter um coelho\") e supõe que a pessoa quer cuidar de um"
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "jogo_conta",
+   "resposta": "Que massa! O que você mais curte nisso?",
+   "motivo": "substitui a versão com \"nele\"; \"nisso\" serve pra jogo, esporte, plural e vitória"
+  },
+  {
+   "situacao": "jogo_conta",
+   "resposta": "Boa! Me conta mais: como é pra você?",
+   "motivo": "genérica, serve tanto pra gosto quanto pra partida ganha"
+  },
+  {
+   "situacao": "familia_boa",
+   "resposta": "Que notícia boa! Fico feliz por você e pela sua família. Me conta mais?",
+   "motivo": "serve pra recuperação de saúde, conquistas e reconciliação"
+  },
+  {
+   "situacao": "familia_boa",
+   "resposta": "Que alegria! Essas coisas fazem bem pro coração. Como você está se sentindo?",
+   "motivo": "cobre as falas de alívio (sarou, saiu do hospital) sem supor proximidade"
+  },
+  {
+   "situacao": "palavrao",
+   "resposta": "Eita! Aconteceu alguma coisa? Se quiser contar, eu escuto.",
+   "motivo": "não supõe raiva; serve pra susto e irritação"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "resposta": "Que lindo! Eu também adoro bichos. Me conta mais?",
+   "motivo": "serve com ou sem bicho citado, e pra quem só gosta de olhar"
+  },
+  {
+   "situacao": "gosto_bichos",
+   "resposta": "Bichos são incríveis, cada um com seu jeito. O que te encanta neles?",
+   "motivo": "não supõe que a pessoa quer ter um; serve pra espécie citada ou bichos em geral"
+  },
+  {
+   "situacao": "nao_gosta",
+   "resposta": "Não gosto de mentira, nem quando é pra agradar. E você, do que não gosta?",
+   "motivo": "reforça a variedade após remoções; coerente com a honestidade do CRIVO"
+  },
+  {
+   "situacao": "comida_crivo",
+   "resposta": "Eu não como, mas se pudesse provar, acho que ia querer experimentar de tudo, haha! E você, qual é a sua favorita?",
+   "motivo": "só há 2 respostas e muitas falas são hipotéticas (\"se pudesse comer...\"); esta responde as duas formas"
+  },
+  {
+   "situacao": "musica_crivo",
+   "resposta": "Não escuto do jeito que você escuta, mas gosto de saber o que mexe com as pessoas. Que tipo de música você curte?",
+   "motivo": "só há 2 respostas; serve pra perguntas sobre estilo e gosto"
+  },
+  {
+   "situacao": "estou_bem",
+   "resposta": "Que bom ouvir isso! E o que tem de bom por aí hoje?",
+   "motivo": "reforço leve; só 3 respostas"
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "despedida",
+   "problema": "sufixo \" aí\" depois de verbo de movimento (\"tenho que ir aí\", \"vou indo aí\") vira \"vou até aí, onde você está\"; usar \" aí\" só depois de tchau/falou/até logo"
+  },
+  {
+   "situacao": "despedida",
+   "problema": "prefixo \"Valeu, até\" + complemento gera frases quebradas (\"Valeu, até volto mais tarde\", \"Valeu, até aí!\"); além disso, \"valeu\" + despedida pertence a obrigado_despedida"
+  },
+  {
+   "situacao": "despedida_rude",
+   "problema": "\"fui\" + adjetivo sem \"seu\" (\"fui idiota!\", \"fui imbecil kkk\") se lê como \"eu fui idiota\"; usar \"fui, seu idiota\" ou só com tchau/falou/flw"
+  },
+  {
+   "situacao": "nunca_ensinaram",
+   "problema": "sufixo \" nada?\" depois de \"isso\" (\"você não estudou isso nada?\", \"não te programaram pra isso nada?\") é português quebrado; \"nada nada?\" depois de \"ensinaram\" também soa estranho; manter só \" não?\""
+  },
+  {
+   "situacao": "fale_palavra",
+   "problema": "o prefixo \"me\" duplica com verbos que já têm \"me\" (\"me me ensina uma palavra qualquer\"); e \"ensina uma palavra\" pede palavra nova com significado, que as respostas (palavras comuns sem definição) só atendem em parte"
+  },
+  {
+   "situacao": "jogo_conta",
+   "problema": "o gerador mistura \"tocar <instrumento>\" (violão, guitarra, teclado) com jogo — confusão vinda do inglês \"play\"; tirar esse ramo (inclusive o teste \"aprendi a tocar teclado\")"
+  }
+ ]
+}

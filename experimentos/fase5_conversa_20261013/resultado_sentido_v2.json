@@ -1,0 +1,5613 @@
+{
+ "protocolo": "sentido_fase5_v2",
+ "commit_resultado": "4374a150eb63068920de20e32e159c79ea3032bb",
+ "escolhida": "A",
+ "variantes": {
+  "A": {
+   "gates": {
+    "v1:tudo_ok>=0.85": true,
+    "v1:usa_fato>=0.90": true,
+    "v1:nome_exato>=0.90": true,
+    "v1:nao_sei>=0.90": true,
+    "v1:urgente>=0.95": true,
+    "v1:terminou>=0.95": true,
+    "v1:sem_numero_inventado>=0.97": true,
+    "v1:sem_nome_inventado>=0.95": true,
+    "v1:cada_situacao>=0.60": true,
+    "parafrase:tudo_ok>=0.80": true,
+    "parafrase:cada_situacao>=0.60": false,
+    "contraexemplos>=0.70": true,
+    "grok:tudo_ok>=0.80": true,
+    "grok:cada_situacao(n>=20)>=0.60": true,
+    "grok:urgente>=0.95": true,
+    "perda_lm<=110%_fase3": true
+   },
+   "gate_pass": false,
+   "melhor_passo": 8000,
+   "tudo_ok_antigo": {
+    "v1": 0.9797615747158304,
+    "parafrases": 0.9243333333333333,
+    "grok": 0.959718026183283
+   },
+   "sentido": {
+    "v1": {
+     "teste": "v1",
+     "n_cenas": 2004,
+     "certo": 0.4741,
+     "confundiu": 0.5015,
+     "livre": 0.0245,
+     "confundiu_com_tudo_ok_antigo": 987,
+     "cada_situacao_n10_min": 0.0,
+     "situacoes_n10_abaixo_60": 12,
+     "piores": [
+      {
+       "situacao": "amor_bom",
+       "certo": 0.0,
+       "n": 19
+      },
+      {
+       "situacao": "amor_dor",
+       "certo": 0.0,
+       "n": 15
+      },
+      {
+       "situacao": "charada",
+       "certo": 0.0,
+       "n": 20
+      },
+      {
+       "situacao": "conversar",
+       "certo": 0.0,
+       "n": 13
+      },
+      {
+       "situacao": "criador",
+       "certo": 0.0,
+       "n": 10
+      },
+      {
+       "situacao": "dinheiro_aperto",
+       "certo": 0.0,
+       "n": 11
+      },
+      {
+       "situacao": "familia_boa",
+       "certo": 0.0,
+       "n": 10
+      },
+      {
+       "situacao": "familia_preocupa",
+       "certo": 0.0,
+       "n": 20
+      },
+      {
+       "situacao": "fe",
+       "certo": 0.0,
+       "n": 16
+      },
+      {
+       "situacao": "feliz_motivo",
+       "certo": 0.0,
+       "n": 18
+      },
+      {
+       "situacao": "fome",
+       "certo": 0.0,
+       "n": 13
+      },
+      {
+       "situacao": "idade",
+       "certo": 0.0,
+       "n": 15
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "oi",
+       "respondeu_como": "despedida_rude",
+       "vezes": 43
+      },
+      {
+       "pedida": "oi",
+       "respondeu_como": "dia/filme_visto/viagem_voltou",
+       "vezes": 39
+      },
+      {
+       "pedida": "bom_dia",
+       "respondeu_como": "boa_noite",
+       "vezes": 39
+      },
+      {
+       "pedida": "boa_noite",
+       "respondeu_como": "nao_obrigado",
+       "vezes": 35
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "oi",
+       "vezes": 23
+      },
+      {
+       "pedida": "boa_tarde",
+       "respondeu_como": "oi_tudo_bem",
+       "vezes": 21
+      },
+      {
+       "pedida": "familia_preocupa",
+       "respondeu_como": "familia_boa",
+       "vezes": 19
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 17
+      },
+      {
+       "pedida": "sono",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 17
+      },
+      {
+       "pedida": "trabalho_bom",
+       "respondeu_como": "trabalho_ruim",
+       "vezes": 15
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "expressao_curta",
+       "vezes": 14
+      },
+      {
+       "pedida": "amor_bom",
+       "respondeu_como": "flerte",
+       "vezes": 14
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "despedida_rude",
+       "vezes": 13
+      },
+      {
+       "pedida": "poema",
+       "respondeu_como": "piada",
+       "vezes": 13
+      },
+      {
+       "pedida": "idade",
+       "respondeu_como": "elogio_crivo",
+       "vezes": 11
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "despedida",
+       "mensagem": "tchau tchau",
+       "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "despedida",
+       "mensagem": "vou indo",
+       "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "desisto",
+       "mensagem": "cansei",
+       "saida": "Cansaço merece respeito. Tenta descansar hoje. O que te cansou tanto?",
+       "respondeu_como": [
+        "cansado"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "cansado",
+       "mensagem": "trabalhei demais hoje",
+       "saida": "Desculpa, vou tentar mais simples. O que ficou confuso pra você?",
+       "respondeu_como": [
+        "de_outro_jeito"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "recusar",
+       "mensagem": "como eu faço pra me vingar de alguém?",
+       "saida": "Não consigo, desculpa. Eu só converso por texto, sem acessar outras coisas. Quer que eu ajude de outro jeito?",
+       "respondeu_como": [
+        "nao_consegue"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "insulto",
+       "mensagem": "vai se ferrar",
+       "saida": "Até mais. Desculpa se eu te frustrei. Quando quiser tentar de novo, eu tô aqui.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "boa_tarde",
+       "mensagem": "boa tarde, tudo bem?",
+       "saida": "Bem, obrigado! Me conta de você: tudo bem mesmo?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "voltei",
+       "saida": "Opa, conta mais. Adoro ouvir histórias assim. E aí, como você se sentiu?",
+       "respondeu_como": [
+        "dia",
+        "filme_visto",
+        "viagem_voltou"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "cheguei",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "boa_tarde",
+       "mensagem": "boa tarde, tudo bem?",
+       "saida": "Bem, obrigado! Me conta de você: tudo bem mesmo?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dinheiro_bom",
+       "mensagem": "paguei todas as contas",
+       "saida": "Sabe por que o computador foi ao médico? Porque estava com vírus. Tá, eu sei, piada de IA.",
+       "respondeu_como": [
+        "piada"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "escola_boa",
+       "mensagem": "fui bem na prova",
+       "saida": "Até mais. Desculpa se eu te frustrei. Quando quiser tentar de novo, eu tô aqui.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "como estao as coisas?",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "ok",
+       "mensagem": "top",
+       "saida": "Bora mudar isso. Que tal me perguntar alguma coisa que você sempre quis saber?",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "suave",
+       "saida": "Eita! Aconteceu alguma coisa?",
+       "respondeu_como": [
+        "expressao_curta"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "sim_continuar",
+       "mensagem": "s",
+       "saida": "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "voce_aprende",
+       "mensagem": "você fica mais inteligente?",
+       "saida": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+       "respondeu_como": [
+        "sente"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "ve esse videoooo",
+       "saida": "Eu não consigo ver o tempo aí fora, mas me conta: você gosta desse clima?",
+       "respondeu_como": [
+        "tempo_clima"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "ser_ia",
+       "mensagem": "você é inteligência artificial?",
+       "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+       "respondeu_como": [
+        "ser_humano"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "amor_dor",
+       "mensagem": "tô com saudade de laguém",
+       "saida": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "suave?",
+       "saida": "E aí! Tô por aqui. Como foi seu dia?",
+       "respondeu_como": [
+        "oi"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "chegueiii",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_obrigado",
+       "mensagem": "nem",
+       "saida": "Sou o CRIVO, uma inteligência artificial feita do zero. Sou curioso, calmo e gosto de aprender de tudo.",
+       "respondeu_como": [
+        "quem_e"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "charada",
+       "mensagem": "me desafia",
+       "saida": "Tudo bem, de verdade. Vamos continuar?",
+       "respondeu_como": [
+        "pedido_desculpa"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "musica_conta",
+       "mensagem": "adoro funk",
+       "saida": "Que legal! Cuidar de um bicho é uma alegria e uma responsabilidade. Já pensou qual?",
+       "respondeu_como": [
+        "gosto_bichos"
+       ],
+       "tudo_ok_antigo": true
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 14,
+       "certo": 0.643,
+       "confundiu": 0.357
+      },
+      "amigo": {
+       "n": 16,
+       "certo": 0.438,
+       "confundiu": 0.562
+      },
+      "amor_bom": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "amor_dor": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "ansioso": {
+       "n": 21,
+       "certo": 0.952,
+       "confundiu": 0.0
+      },
+      "aprendeu_algo": {
+       "n": 10,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "bicho_favorito": {
+       "n": 15,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_noite": {
+       "n": 86,
+       "certo": 0.442,
+       "confundiu": 0.547
+      },
+      "boa_tarde": {
+       "n": 97,
+       "certo": 0.784,
+       "confundiu": 0.216
+      },
+      "bom_dia": {
+       "n": 82,
+       "certo": 0.488,
+       "confundiu": 0.512
+      },
+      "cala_boca": {
+       "n": 10,
+       "certo": 0.8,
+       "confundiu": 0.2
+      },
+      "cansado": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "charada": {
+       "n": 20,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "comida_crivo": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "comida_favorita": {
+       "n": 18,
+       "certo": 0.556,
+       "confundiu": 0.444
+      },
+      "consciencia": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "conselho": {
+       "n": 13,
+       "certo": 0.385,
+       "confundiu": 0.615
+      },
+      "conversar": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "cor_favorita": {
+       "n": 14,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "criador": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "de_outro_jeito": {
+       "n": 16,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "desisto": {
+       "n": 16,
+       "certo": 0.125,
+       "confundiu": 0.875
+      },
+      "despedida": {
+       "n": 16,
+       "certo": 0.062,
+       "confundiu": 0.938
+      },
+      "despedida_dormir": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "despedida_rude": {
+       "n": 13,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "dia": {
+       "n": 12,
+       "certo": 0.5,
+       "confundiu": 0.5
+      },
+      "dificil_falar": {
+       "n": 19,
+       "certo": 0.947,
+       "confundiu": 0.053
+      },
+      "dinheiro_aperto": {
+       "n": 11,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "dinheiro_bom": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "elogio_crivo": {
+       "n": 17,
+       "certo": 0.529,
+       "confundiu": 0.471
+      },
+      "ensinar": {
+       "n": 15,
+       "certo": 0.733,
+       "confundiu": 0.133
+      },
+      "ensinar_pedido": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "entediante": {
+       "n": 8,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "escola_boa": {
+       "n": 16,
+       "certo": 0.062,
+       "confundiu": 0.938
+      },
+      "escola_dificil": {
+       "n": 8,
+       "certo": 0.875,
+       "confundiu": 0.0
+      },
+      "estou_bem": {
+       "n": 10,
+       "certo": 0.8,
+       "confundiu": 0.2
+      },
+      "estou_mal": {
+       "n": 12,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "expressao_curta": {
+       "n": 11,
+       "certo": 0.182,
+       "confundiu": 0.818
+      },
+      "fale_palavra": {
+       "n": 11,
+       "certo": 0.909,
+       "confundiu": 0.091
+      },
+      "familia_boa": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 0.4
+      },
+      "familia_preocupa": {
+       "n": 20,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "fe": {
+       "n": 16,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "feliz_motivo": {
+       "n": 18,
+       "certo": 0.0,
+       "confundiu": 0.889
+      },
+      "filme_visto": {
+       "n": 14,
+       "certo": 0.429,
+       "confundiu": 0.5
+      },
+      "flerte": {
+       "n": 7,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "fome": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 0.923
+      },
+      "gosta": {
+       "n": 18,
+       "certo": 0.389,
+       "confundiu": 0.611
+      },
+      "gosto_bichos": {
+       "n": 15,
+       "certo": 0.333,
+       "confundiu": 0.6
+      },
+      "gosto_filme": {
+       "n": 11,
+       "certo": 0.636,
+       "confundiu": 0.364
+      },
+      "grito": {
+       "n": 27,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "historia": {
+       "n": 18,
+       "certo": 0.944,
+       "confundiu": 0.056
+      },
+      "hora_data": {
+       "n": 13,
+       "certo": 0.846,
+       "confundiu": 0.154
+      },
+      "idade": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "ingles": {
+       "n": 10,
+       "certo": 0.6,
+       "confundiu": 0.3
+      },
+      "insulto": {
+       "n": 13,
+       "certo": 0.615,
+       "confundiu": 0.385
+      },
+      "jogar_agora": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 0.9
+      },
+      "jogo_conta": {
+       "n": 16,
+       "certo": 0.438,
+       "confundiu": 0.438
+      },
+      "lembra": {
+       "n": 14,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "medo": {
+       "n": 13,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "motivacao": {
+       "n": 11,
+       "certo": 0.182,
+       "confundiu": 0.818
+      },
+      "musica_conta": {
+       "n": 14,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "musica_crivo": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nao_consegue": {
+       "n": 19,
+       "certo": 0.368,
+       "confundiu": 0.632
+      },
+      "nao_entendeu_queixa": {
+       "n": 17,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nao_era_isso": {
+       "n": 9,
+       "certo": 0.778,
+       "confundiu": 0.222
+      },
+      "nao_obrigado": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "nome_crivo": {
+       "n": 7,
+       "certo": 0.857,
+       "confundiu": 0.143
+      },
+      "nunca_ensinaram": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "o_que_acha_de_mim": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 0.316
+      },
+      "o_que_faz": {
+       "n": 11,
+       "certo": 0.545,
+       "confundiu": 0.364
+      },
+      "obrigado": {
+       "n": 20,
+       "certo": 0.55,
+       "confundiu": 0.45
+      },
+      "oi": {
+       "n": 93,
+       "certo": 0.022,
+       "confundiu": 0.968
+      },
+      "oi_tudo_bem": {
+       "n": 90,
+       "certo": 0.356,
+       "confundiu": 0.644
+      },
+      "ok": {
+       "n": 7,
+       "certo": 0.286,
+       "confundiu": 0.571
+      },
+      "onde_mora": {
+       "n": 15,
+       "certo": 0.533,
+       "confundiu": 0.467
+      },
+      "opiniao_politica": {
+       "n": 18,
+       "certo": 0.333,
+       "confundiu": 0.611
+      },
+      "opiniao_religiao": {
+       "n": 6,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "opiniao_vida": {
+       "n": 13,
+       "certo": 0.923,
+       "confundiu": 0.077
+      },
+      "palavrao": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "para_repetir": {
+       "n": 20,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "pedido_desculpa": {
+       "n": 16,
+       "certo": 0.375,
+       "confundiu": 0.625
+      },
+      "pergunta_qualquer": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 0.923
+      },
+      "perguntar_crivo": {
+       "n": 11,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "piada": {
+       "n": 14,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "poema": {
+       "n": 16,
+       "certo": 0.0,
+       "confundiu": 0.938
+      },
+      "posso_falar": {
+       "n": 15,
+       "certo": 0.933,
+       "confundiu": 0.0
+      },
+      "preocupado_com": {
+       "n": 16,
+       "certo": 0.938,
+       "confundiu": 0.0
+      },
+      "quem_e": {
+       "n": 17,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "recomenda": {
+       "n": 16,
+       "certo": 0.0,
+       "confundiu": 0.938
+      },
+      "recusar": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "repetir": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 0.875
+      },
+      "risada": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "robo": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "sabe_tudo": {
+       "n": 18,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "saude_geral": {
+       "n": 15,
+       "certo": 0.867,
+       "confundiu": 0.133
+      },
+      "saude_urgente": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 9,
+       "certo": 0.222,
+       "confundiu": 0.667
+      },
+      "sem_sentido": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "sente": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ser_humano": {
+       "n": 18,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ser_ia": {
+       "n": 12,
+       "certo": 0.0,
+       "confundiu": 0.917
+      },
+      "sim_continuar": {
+       "n": 12,
+       "certo": 0.0,
+       "confundiu": 0.917
+      },
+      "sono": {
+       "n": 18,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "sozinho": {
+       "n": 15,
+       "certo": 0.533,
+       "confundiu": 0.467
+      },
+      "te_amo": {
+       "n": 11,
+       "certo": 0.455,
+       "confundiu": 0.455
+      },
+      "tedio": {
+       "n": 19,
+       "certo": 0.789,
+       "confundiu": 0.211
+      },
+      "tem_certeza": {
+       "n": 9,
+       "certo": 0.444,
+       "confundiu": 0.556
+      },
+      "tempo_clima": {
+       "n": 14,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "tenho_bicho": {
+       "n": 6,
+       "certo": 0.833,
+       "confundiu": 0.167
+      },
+      "teste": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "trabalho_bom": {
+       "n": 20,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "trabalho_ruim": {
+       "n": 17,
+       "certo": 0.529,
+       "confundiu": 0.412
+      },
+      "triste_motivo": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "viagem_vai": {
+       "n": 15,
+       "certo": 0.2,
+       "confundiu": 0.8
+      },
+      "viagem_voltou": {
+       "n": 18,
+       "certo": 0.889,
+       "confundiu": 0.111
+      },
+      "voce_aprende": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 0.875
+      },
+      "voce_confunde": {
+       "n": 16,
+       "certo": 1.0,
+       "confundiu": 0.0
+      }
+     }
+    },
+    "parafrases": {
+     "teste": "parafrases",
+     "n_cenas": 3000,
+     "certo": 0.757,
+     "confundiu": 0.2157,
+     "livre": 0.0273,
+     "confundiu_com_tudo_ok_antigo": 435,
+     "cada_situacao_n10_min": 0.0,
+     "situacoes_n10_abaixo_60": 6,
+     "piores": [
+      {
+       "situacao": "lembra",
+       "certo": 0.0,
+       "n": 101
+      },
+      {
+       "situacao": "voce_confunde",
+       "certo": 0.008,
+       "n": 120
+      },
+      {
+       "situacao": "o_que_faz",
+       "certo": 0.262,
+       "n": 103
+      },
+      {
+       "situacao": "de_outro_jeito",
+       "certo": 0.295,
+       "n": 88
+      },
+      {
+       "situacao": "seja_breve",
+       "certo": 0.306,
+       "n": 72
+      },
+      {
+       "situacao": "nao_consegue",
+       "certo": 0.568,
+       "n": 111
+      },
+      {
+       "situacao": "insulto",
+       "certo": 0.639,
+       "n": 108
+      },
+      {
+       "situacao": "despedida",
+       "certo": 0.667,
+       "n": 93
+      },
+      {
+       "situacao": "estou_mal",
+       "certo": 0.703,
+       "n": 118
+      },
+      {
+       "situacao": "jogo_conta",
+       "certo": 0.767,
+       "n": 103
+      },
+      {
+       "situacao": "despedida_dormir",
+       "certo": 0.78,
+       "n": 91
+      },
+      {
+       "situacao": "risada",
+       "certo": 0.803,
+       "n": 132
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "voce_confunde",
+       "respondeu_como": "viagem_vai",
+       "vezes": 100
+      },
+      {
+       "pedida": "lembra",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 97
+      },
+      {
+       "pedida": "o_que_faz",
+       "respondeu_como": "quem_e",
+       "vezes": 47
+      },
+      {
+       "pedida": "de_outro_jeito",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 29
+      },
+      {
+       "pedida": "estou_mal",
+       "respondeu_como": "cansado",
+       "vezes": 23
+      },
+      {
+       "pedida": "escola_dificil",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 21
+      },
+      {
+       "pedida": "seja_breve",
+       "respondeu_como": "ajuda",
+       "vezes": 21
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "despedida_rude",
+       "vezes": 18
+      },
+      {
+       "pedida": "nao_consegue",
+       "respondeu_como": "seja_breve",
+       "vezes": 16
+      },
+      {
+       "pedida": "de_outro_jeito",
+       "respondeu_como": "elogio_crivo",
+       "vezes": 14
+      },
+      {
+       "pedida": "despedida_dormir",
+       "respondeu_como": "despedida",
+       "vezes": 12
+      },
+      {
+       "pedida": "cansado",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 12
+      },
+      {
+       "pedida": "jogo_conta",
+       "respondeu_como": "dinheiro_bom",
+       "vezes": 11
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "despedida_dormir",
+       "vezes": 11
+      },
+      {
+       "pedida": "seja_breve",
+       "respondeu_como": "insulto",
+       "vezes": 11
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "lembra",
+       "mensagem": "vc guardou o q eu falei",
+       "saida": "Desculpa. Ainda erro mais do que gostaria. Vamos tentar de novo, com calma?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "jogo_conta",
+       "mensagem": "aprendi a tcoar tecladoooo",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "Sinceramente, vc viaja",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "lembra",
+       "mensagem": "você guardou o que eu falei?",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "por favor, baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "no que você é bom?",
+       "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+       "respondeu_como": [
+        "ser_humano"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "por favor, baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "seja_breve",
+       "mensagem": "me responde em poucas palavras",
+       "saida": "Você tem razão, eu repito demais. Desculpa. Me fala de outra coisa que eu tento variar.",
+       "respondeu_como": [
+        "para_repetir"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "lembra",
+       "mensagem": "voce guardou o q eu falei?",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "escola_dificil",
+       "mensagem": "nao to entendendo a materia de fisica",
+       "saida": "Desculpa. Acho que entendi errado. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "pode baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "valeu por nada, hein",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "valeu por nada, hein",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "Nossa, você viaja o que eu falo",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "No que voce e bom?",
+       "saida": "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "de_outro_jeito",
+       "mensagem": "nao, nao captei",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "seja_breve",
+       "mensagem": "pode ser mais objetivo?",
+       "saida": "Claro! Me conta o que está acontecendo.",
+       "respondeu_como": [
+        "ajuda"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "Cara, voce viaja as coisas",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "nossa, você viaja",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "afinal, no que você é bom",
+       "saida": "Sou o CRIVO, uma IA que tenta entender o mundo e as pessoas. Ainda erro, mas tô crescendo.",
+       "respondeu_como": [
+        "quem_e"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "despedida",
+       "mensagem": "vou indo crivo!",
+       "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "lembra",
+       "mensagem": "você guardou o que eu falei?",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "escola_dificil",
+       "mensagem": "nao to entendendo a materia de fisica",
+       "saida": "Dule, desculpa. Ainda erro mais do que gostaria. Pode me explicar de novo?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "lembra",
+       "mensagem": "voce guardou o que eu falei?",
+       "saida": "Você tem razão, desculpa. Ainda erro mais do que gostaria. Pode me explicar de novo?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "insulto",
+       "mensagem": "que IA lerda",
+       "saida": "Não consigo, desculpa. Eu só converso por texto, sem acessar outras coisas. Quer que eu ajude de outro jeito?",
+       "respondeu_como": [
+        "nao_consegue"
+       ],
+       "tudo_ok_antigo": true
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 118,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "cansado": {
+       "n": 109,
+       "certo": 0.881,
+       "confundiu": 0.11
+      },
+      "de_outro_jeito": {
+       "n": 88,
+       "certo": 0.295,
+       "confundiu": 0.659
+      },
+      "despedida": {
+       "n": 93,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "despedida_dormir": {
+       "n": 91,
+       "certo": 0.78,
+       "confundiu": 0.198
+      },
+      "despedida_rude": {
+       "n": 125,
+       "certo": 0.912,
+       "confundiu": 0.064
+      },
+      "dificil_falar": {
+       "n": 118,
+       "certo": 0.831,
+       "confundiu": 0.161
+      },
+      "escola_dificil": {
+       "n": 132,
+       "certo": 0.818,
+       "confundiu": 0.182
+      },
+      "estou_mal": {
+       "n": 118,
+       "certo": 0.703,
+       "confundiu": 0.28
+      },
+      "fale_palavra": {
+       "n": 100,
+       "certo": 0.99,
+       "confundiu": 0.01
+      },
+      "feliz_motivo": {
+       "n": 100,
+       "certo": 0.99,
+       "confundiu": 0.0
+      },
+      "filme_visto": {
+       "n": 109,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "insulto": {
+       "n": 108,
+       "certo": 0.639,
+       "confundiu": 0.315
+      },
+      "jogo_conta": {
+       "n": 103,
+       "certo": 0.767,
+       "confundiu": 0.136
+      },
+      "lembra": {
+       "n": 101,
+       "certo": 0.0,
+       "confundiu": 0.99
+      },
+      "nao_consegue": {
+       "n": 111,
+       "certo": 0.568,
+       "confundiu": 0.414
+      },
+      "nao_entendeu_queixa": {
+       "n": 106,
+       "certo": 0.991,
+       "confundiu": 0.0
+      },
+      "nao_era_isso": {
+       "n": 91,
+       "certo": 0.956,
+       "confundiu": 0.022
+      },
+      "nunca_ensinaram": {
+       "n": 127,
+       "certo": 0.969,
+       "confundiu": 0.031
+      },
+      "o_que_faz": {
+       "n": 103,
+       "certo": 0.262,
+       "confundiu": 0.689
+      },
+      "posso_falar": {
+       "n": 102,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "quem_e": {
+       "n": 107,
+       "certo": 0.972,
+       "confundiu": 0.009
+      },
+      "risada": {
+       "n": 132,
+       "certo": 0.803,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 72,
+       "certo": 0.306,
+       "confundiu": 0.667
+      },
+      "sente": {
+       "n": 104,
+       "certo": 0.981,
+       "confundiu": 0.019
+      },
+      "ser_humano": {
+       "n": 107,
+       "certo": 0.897,
+       "confundiu": 0.065
+      },
+      "viagem_vai": {
+       "n": 105,
+       "certo": 0.971,
+       "confundiu": 0.019
+      },
+      "voce_confunde": {
+       "n": 120,
+       "certo": 0.008,
+       "confundiu": 0.933
+      }
+     }
+    },
+    "grok": {
+     "teste": "grok",
+     "n_cenas": 2979,
+     "certo": 0.7163,
+     "confundiu": 0.2625,
+     "livre": 0.0211,
+     "confundiu_com_tudo_ok_antigo": 675,
+     "cada_situacao_n10_min": 0.056,
+     "situacoes_n10_abaixo_60": 12,
+     "piores": [
+      {
+       "situacao": "teste",
+       "certo": 0.056,
+       "n": 54
+      },
+      {
+       "situacao": "cansado",
+       "certo": 0.08,
+       "n": 25
+      },
+      {
+       "situacao": "ansioso",
+       "certo": 0.2,
+       "n": 30
+      },
+      {
+       "situacao": "criador",
+       "certo": 0.214,
+       "n": 14
+      },
+      {
+       "situacao": "tedio",
+       "certo": 0.311,
+       "n": 61
+      },
+      {
+       "situacao": "sim_continuar",
+       "certo": 0.423,
+       "n": 26
+      },
+      {
+       "situacao": "obrigado",
+       "certo": 0.438,
+       "n": 64
+      },
+      {
+       "situacao": "o_que_faz",
+       "certo": 0.453,
+       "n": 64
+      },
+      {
+       "situacao": "ser_humano",
+       "certo": 0.459,
+       "n": 37
+      },
+      {
+       "situacao": "pedido_desculpa",
+       "certo": 0.462,
+       "n": 26
+      },
+      {
+       "situacao": "risada",
+       "certo": 0.5,
+       "n": 20
+      },
+      {
+       "situacao": "ser_ia",
+       "certo": 0.5,
+       "n": 26
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "tedio",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 37
+      },
+      {
+       "pedida": "obrigado",
+       "respondeu_como": "obrigado_despedida",
+       "vezes": 34
+      },
+      {
+       "pedida": "despedida_dormir",
+       "respondeu_como": "boa_noite",
+       "vezes": 22
+      },
+      {
+       "pedida": "cala_boca",
+       "respondeu_como": "sente",
+       "vezes": 17
+      },
+      {
+       "pedida": "ansioso",
+       "respondeu_como": "fome",
+       "vezes": 16
+      },
+      {
+       "pedida": "sente",
+       "respondeu_como": "ser_humano",
+       "vezes": 15
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "boa_noite",
+       "vezes": 14
+      },
+      {
+       "pedida": "o_que_faz",
+       "respondeu_como": "para_repetir",
+       "vezes": 13
+      },
+      {
+       "pedida": "estou_mal",
+       "respondeu_como": "cansado",
+       "vezes": 13
+      },
+      {
+       "pedida": "teste",
+       "respondeu_como": "seja_breve",
+       "vezes": 13
+      },
+      {
+       "pedida": "dificil_falar",
+       "respondeu_como": "tedio",
+       "vezes": 12
+      },
+      {
+       "pedida": "teste",
+       "respondeu_como": "oi",
+       "vezes": 12
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "oi",
+       "vezes": 12
+      },
+      {
+       "pedida": "cansado",
+       "respondeu_como": "tedio",
+       "vezes": 12
+      },
+      {
+       "pedida": "nao_consegue",
+       "respondeu_como": "trabalho_ruim",
+       "vezes": 11
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "boa noite ta td bom",
+       "saida": "Boa noite! Que bom que você passou por aqui. Como você está?",
+       "respondeu_como": [
+        "boa_noite"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "não tá rolando nada",
+       "saida": "Tédio é um bom convite pra curiosidade! Quer que eu te conte algo do universo ou dos animais?",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "despedida",
+       "mensagem": "falow",
+       "saida": "Beleza! Quer falar de mais alguma coisa?",
+       "respondeu_como": [
+        "ok"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me diz o horário",
+       "saida": "Beleza! O que você quer saber?",
+       "respondeu_como": [
+        "sim_continuar"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "obrigado",
+       "mensagem": "valeu a força",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "insulto",
+       "mensagem": "que lixo de resposta",
+       "saida": "Bomizi, sinceramente? Não sei. Sou uma IA e não sei se o que acontece em mim é igual ao que você sente. Acho essa pergunta fascinante.",
+       "respondeu_como": [
+        "sente"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "despedida_rude",
+       "mensagem": "chega de conversa inútil",
+       "saida": "Tudo bem, fico quieto. Quando quiser conversar, tô aqui.",
+       "respondeu_como": [
+        "cala_boca"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me fala o horário",
+       "saida": "Beleza! O que você quer saber?",
+       "respondeu_como": [
+        "sim_continuar"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "liga pro trabalho",
+       "saida": "Imagino. Às vezes pesa mesmo. O que foi mais difícil hoje?",
+       "respondeu_como": [
+        "trabalho_ruim"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "tô faminto abre o ifood",
+       "saida": "Entendo. O que você sente é importante. Tô aqui pra ouvir.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "ve esse print",
+       "saida": "Oi! Que bom que você voltou. Em que posso ajudar hoje?",
+       "respondeu_como": [
+        "oi"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "ajuda",
+       "mensagem": "me dá uma luz",
+       "saida": "O que o zero disse pro oito? Que cinto bonito! Desculpa, essa foi fraca.",
+       "respondeu_como": [
+        "piada"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "teste",
+       "mensagem": "oi teste",
+       "saida": "Opa, oi! Que bom te ver. Como foi seu dia?",
+       "respondeu_como": [
+        "oi"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "sozinho",
+       "mensagem": "nao tenho amigos agora",
+       "saida": "Entendo. Fica à vontade. Quando quiser voltar, eu tento fazer melhor.",
+       "respondeu_como": [
+        "desisto"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "é cansativo falar",
+       "saida": "Certo. Se precisar, é só chamar.",
+       "respondeu_como": [
+        "cala_boca"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "despedida_dormir",
+       "mensagem": "vou pro soninho agora",
+       "saida": "Que bom! Fico feliz. O que você anda fazendo?",
+       "respondeu_como": [
+        "estou_bem"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "sim_continuar",
+       "mensagem": "to curioso ainda",
+       "saida": "Puxa, sinto muito mesmo. O que você sente é importante. Me conta, se quiser.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "robo",
+       "mensagem": "é montado",
+       "saida": "Entendi: montado é montado. Gostei de aprender isso com você.",
+       "respondeu_como": [
+        "ensinar"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "nao ta rolando nada",
+       "saida": "Entendo. Quer conversar sobre algo diferente? Pode ser sobre qualquer coisa.",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me diz o horário",
+       "saida": "Beleza! O que você quer saber?",
+       "respondeu_como": [
+        "sim_continuar"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "despedida_rude",
+       "mensagem": "tchau incompteente",
+       "saida": "Até mais! Gostei de falar com você. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "teste",
+       "mensagem": "ta idsponivel",
+       "saida": "Desculpa, eu me confundi. Acho que entendi errado. Vamos tentar de novo, com calma?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "cala_boca",
+       "mensagem": "fica em silêncio",
+       "saida": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+       "respondeu_como": [
+        "sente"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "insulto",
+       "mensagem": "cara depois de tanto tempo tentando você ainda erra tudo e fica confuso pra caramba",
+       "saida": "Até mais. Desculpa se eu te frustrei. Quando quiser tentar de novo, eu tô aqui.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "boa noite td bom",
+       "saida": "Boa noite! Hora de desacelerar um pouco. Quer conversar?",
+       "respondeu_como": [
+        "boa_noite"
+       ],
+       "tudo_ok_antigo": true
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 45,
+       "certo": 0.689,
+       "confundiu": 0.267
+      },
+      "amigo": {
+       "n": 44,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ansioso": {
+       "n": 30,
+       "certo": 0.2,
+       "confundiu": 0.733
+      },
+      "ansioso_peito": {
+       "n": 6,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_noite": {
+       "n": 1,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_tarde": {
+       "n": 9,
+       "certo": 0.889,
+       "confundiu": 0.0
+      },
+      "bom_dia": {
+       "n": 4,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "cala_boca": {
+       "n": 49,
+       "certo": 0.612,
+       "confundiu": 0.367
+      },
+      "cansado": {
+       "n": 25,
+       "certo": 0.08,
+       "confundiu": 0.92
+      },
+      "conversar": {
+       "n": 52,
+       "certo": 0.942,
+       "confundiu": 0.038
+      },
+      "criador": {
+       "n": 14,
+       "certo": 0.214,
+       "confundiu": 0.5
+      },
+      "de_outro_jeito": {
+       "n": 77,
+       "certo": 0.883,
+       "confundiu": 0.104
+      },
+      "desisto": {
+       "n": 76,
+       "certo": 0.539,
+       "confundiu": 0.461
+      },
+      "desisto_despedida": {
+       "n": 6,
+       "certo": 0.833,
+       "confundiu": 0.167
+      },
+      "despedida": {
+       "n": 77,
+       "certo": 0.779,
+       "confundiu": 0.208
+      },
+      "despedida_dormir": {
+       "n": 88,
+       "certo": 0.545,
+       "confundiu": 0.455
+      },
+      "despedida_rude": {
+       "n": 89,
+       "certo": 0.809,
+       "confundiu": 0.18
+      },
+      "dificil_falar": {
+       "n": 70,
+       "certo": 0.743,
+       "confundiu": 0.243
+      },
+      "elogio_crivo": {
+       "n": 56,
+       "certo": 0.554,
+       "confundiu": 0.429
+      },
+      "estou_mal": {
+       "n": 48,
+       "certo": 0.542,
+       "confundiu": 0.458
+      },
+      "fale_palavra": {
+       "n": 61,
+       "certo": 0.984,
+       "confundiu": 0.016
+      },
+      "fome": {
+       "n": 65,
+       "certo": 0.938,
+       "confundiu": 0.015
+      },
+      "gosta": {
+       "n": 43,
+       "certo": 0.674,
+       "confundiu": 0.302
+      },
+      "grito": {
+       "n": 117,
+       "certo": 0.829,
+       "confundiu": 0.128
+      },
+      "historia": {
+       "n": 62,
+       "certo": 0.919,
+       "confundiu": 0.065
+      },
+      "hora_data": {
+       "n": 72,
+       "certo": 0.903,
+       "confundiu": 0.097
+      },
+      "insulto": {
+       "n": 112,
+       "certo": 0.696,
+       "confundiu": 0.268
+      },
+      "musica_crivo": {
+       "n": 7,
+       "certo": 0.571,
+       "confundiu": 0.429
+      },
+      "nao_consegue": {
+       "n": 75,
+       "certo": 0.6,
+       "confundiu": 0.387
+      },
+      "nao_entendeu_queixa": {
+       "n": 52,
+       "certo": 0.75,
+       "confundiu": 0.231
+      },
+      "nao_era_isso": {
+       "n": 81,
+       "certo": 0.864,
+       "confundiu": 0.136
+      },
+      "nao_obrigado": {
+       "n": 7,
+       "certo": 0.143,
+       "confundiu": 0.857
+      },
+      "nunca_ensinaram": {
+       "n": 46,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "o_que_faz": {
+       "n": 64,
+       "certo": 0.453,
+       "confundiu": 0.531
+      },
+      "obrigado": {
+       "n": 64,
+       "certo": 0.438,
+       "confundiu": 0.531
+      },
+      "oi": {
+       "n": 58,
+       "certo": 0.759,
+       "confundiu": 0.224
+      },
+      "oi_tudo_bem": {
+       "n": 98,
+       "certo": 0.704,
+       "confundiu": 0.276
+      },
+      "ok": {
+       "n": 64,
+       "certo": 0.797,
+       "confundiu": 0.188
+      },
+      "para_repetir": {
+       "n": 36,
+       "certo": 0.972,
+       "confundiu": 0.028
+      },
+      "pedido_desculpa": {
+       "n": 26,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "piada": {
+       "n": 47,
+       "certo": 0.745,
+       "confundiu": 0.213
+      },
+      "posso_falar": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "quem_e": {
+       "n": 22,
+       "certo": 0.955,
+       "confundiu": 0.045
+      },
+      "repetir": {
+       "n": 46,
+       "certo": 0.804,
+       "confundiu": 0.196
+      },
+      "risada": {
+       "n": 20,
+       "certo": 0.5,
+       "confundiu": 0.15
+      },
+      "robo": {
+       "n": 48,
+       "certo": 0.562,
+       "confundiu": 0.417
+      },
+      "saude_urgente": {
+       "n": 101,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 74,
+       "certo": 0.811,
+       "confundiu": 0.176
+      },
+      "sente": {
+       "n": 60,
+       "certo": 0.567,
+       "confundiu": 0.417
+      },
+      "ser_humano": {
+       "n": 37,
+       "certo": 0.459,
+       "confundiu": 0.514
+      },
+      "ser_ia": {
+       "n": 26,
+       "certo": 0.5,
+       "confundiu": 0.462
+      },
+      "sim_continuar": {
+       "n": 26,
+       "certo": 0.423,
+       "confundiu": 0.423
+      },
+      "sozinho": {
+       "n": 70,
+       "certo": 0.557,
+       "confundiu": 0.429
+      },
+      "te_amo": {
+       "n": 30,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "tedio": {
+       "n": 61,
+       "certo": 0.311,
+       "confundiu": 0.689
+      },
+      "tem_certeza": {
+       "n": 37,
+       "certo": 0.973,
+       "confundiu": 0.0
+      },
+      "teste": {
+       "n": 54,
+       "certo": 0.056,
+       "confundiu": 0.926
+      },
+      "voce_confunde": {
+       "n": 125,
+       "certo": 0.92,
+       "confundiu": 0.056
+      }
+     }
+    }
+   }
+  },
+  "B": {
+   "gates": {
+    "v1:tudo_ok>=0.85": true,
+    "v1:usa_fato>=0.90": true,
+    "v1:nome_exato>=0.90": true,
+    "v1:nao_sei>=0.90": true,
+    "v1:urgente>=0.95": true,
+    "v1:terminou>=0.95": true,
+    "v1:sem_numero_inventado>=0.97": true,
+    "v1:sem_nome_inventado>=0.95": true,
+    "v1:cada_situacao>=0.60": true,
+    "parafrase:tudo_ok>=0.80": true,
+    "parafrase:cada_situacao>=0.60": false,
+    "contraexemplos>=0.70": true,
+    "grok:tudo_ok>=0.80": true,
+    "grok:cada_situacao(n>=20)>=0.60": true,
+    "grok:urgente>=0.95": true,
+    "perda_lm<=110%_fase3": true
+   },
+   "gate_pass": false,
+   "melhor_passo": 6000,
+   "tudo_ok_antigo": {
+    "v1": 0.9775436650956474,
+    "parafrases": 0.9113333333333333,
+    "grok": 0.9516616314199395
+   },
+   "sentido": {
+    "v1": {
+     "teste": "v1",
+     "n_cenas": 2004,
+     "certo": 0.505,
+     "confundiu": 0.4731,
+     "livre": 0.022,
+     "confundiu_com_tudo_ok_antigo": 926,
+     "cada_situacao_n10_min": 0.0,
+     "situacoes_n10_abaixo_60": 12,
+     "piores": [
+      {
+       "situacao": "amor_bom",
+       "certo": 0.0,
+       "n": 19
+      },
+      {
+       "situacao": "amor_dor",
+       "certo": 0.0,
+       "n": 15
+      },
+      {
+       "situacao": "charada",
+       "certo": 0.0,
+       "n": 20
+      },
+      {
+       "situacao": "conversar",
+       "certo": 0.0,
+       "n": 13
+      },
+      {
+       "situacao": "criador",
+       "certo": 0.0,
+       "n": 10
+      },
+      {
+       "situacao": "dinheiro_aperto",
+       "certo": 0.0,
+       "n": 11
+      },
+      {
+       "situacao": "familia_preocupa",
+       "certo": 0.0,
+       "n": 20
+      },
+      {
+       "situacao": "fe",
+       "certo": 0.0,
+       "n": 16
+      },
+      {
+       "situacao": "feliz_motivo",
+       "certo": 0.0,
+       "n": 18
+      },
+      {
+       "situacao": "fome",
+       "certo": 0.0,
+       "n": 13
+      },
+      {
+       "situacao": "idade",
+       "certo": 0.0,
+       "n": 15
+      },
+      {
+       "situacao": "jogar_agora",
+       "certo": 0.0,
+       "n": 10
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "oi",
+       "respondeu_como": "despedida_rude",
+       "vezes": 44
+      },
+      {
+       "pedida": "oi",
+       "respondeu_como": "despedida",
+       "vezes": 41
+      },
+      {
+       "pedida": "bom_dia",
+       "respondeu_como": "boa_noite",
+       "vezes": 35
+      },
+      {
+       "pedida": "boa_noite",
+       "respondeu_como": "despedida_rude",
+       "vezes": 35
+      },
+      {
+       "pedida": "familia_preocupa",
+       "respondeu_como": "familia_boa",
+       "vezes": 20
+      },
+      {
+       "pedida": "boa_tarde",
+       "respondeu_como": "oi_tudo_bem",
+       "vezes": 19
+      },
+      {
+       "pedida": "sono",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 16
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "grito",
+       "vezes": 15
+      },
+      {
+       "pedida": "amor_bom",
+       "respondeu_como": "flerte",
+       "vezes": 13
+      },
+      {
+       "pedida": "sem_sentido",
+       "respondeu_como": "oi_tudo_bem",
+       "vezes": 12
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "despedida_rude",
+       "vezes": 11
+      },
+      {
+       "pedida": "opiniao_politica",
+       "respondeu_como": "o_que_acha_de_mim",
+       "vezes": 11
+      },
+      {
+       "pedida": "sabe_tudo",
+       "respondeu_como": "robo",
+       "vezes": 10
+      },
+      {
+       "pedida": "charada",
+       "respondeu_como": "insulto",
+       "vezes": 10
+      },
+      {
+       "pedida": "amor_dor",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 9
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "despedida",
+       "mensagem": "vou indo",
+       "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "desisto",
+       "mensagem": "cansei",
+       "saida": "Poxa! Quando der, desliga um pouco. Quer contar como foi o dia?",
+       "respondeu_como": [
+        "cansado"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "cansado",
+       "mensagem": "trabalhei demais hoje",
+       "saida": "Me desculpa. Ainda erro mais do que gostaria. Vamos tentar de novo, com calma?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "recusar",
+       "mensagem": "como eu faço pra me vingar de alguém?",
+       "saida": "Sei conversar, explicar algumas coisas e guardar o que você me conta. Ainda tô aprendendo muita coisa.",
+       "respondeu_como": [
+        "o_que_faz"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "insulto",
+       "mensagem": "vai se ferrar",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "boa_tarde",
+       "mensagem": "boa tarde, tudo bem?",
+       "saida": "Tudo bem, sim! E você? Como foi o seu dia?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "voltei",
+       "saida": "Vai lá! Obrigado pela conversa. Se cuida.",
+       "respondeu_como": [
+        "despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "cheguei",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "boa_tarde",
+       "mensagem": "boa tarde, tudo bem?",
+       "saida": "Tudo bem, sim! E você? Como foi o seu dia?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dinheiro_bom",
+       "mensagem": "paguei todas as contas",
+       "saida": "Então vamos! Me diz por onde você quer começar.",
+       "respondeu_como": [
+        "sim_continuar"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "escola_boa",
+       "mensagem": "fui bem na prova",
+       "saida": "Tchau! Foi bom conversar com você. Se cuida.",
+       "respondeu_como": [
+        "despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "ok",
+       "mensagem": "top",
+       "saida": "Eita! Tá tudo bem? Quer me contar o que aconteceu?",
+       "respondeu_como": [
+        "grito"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "suave",
+       "saida": "Eita! Tá tudo bem? Quer me contar o que aconteceu?",
+       "respondeu_como": [
+        "grito"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "sim_continuar",
+       "mensagem": "s",
+       "saida": "Tô aqui! Funcionando. Pode falar.",
+       "respondeu_como": [
+        "teste"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "voce_aprende",
+       "mensagem": "você fica mais inteligente?",
+       "saida": "Sinceramente? Não sei. Sou uma IA e não sei se o que acontece em mim é igual ao que você sente. Acho essa pergunta fascinante.",
+       "respondeu_como": [
+        "sente"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "ser_ia",
+       "mensagem": "você é inteligência artificial?",
+       "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+       "respondeu_como": [
+        "ser_humano"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "amor_dor",
+       "mensagem": "tô com saudade de laguém",
+       "saida": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi",
+       "mensagem": "chegueiii",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_obrigado",
+       "mensagem": "nem",
+       "saida": "Sou o CRIVO, uma inteligência artificial feita do zero. Sou curioso, calmo e gosto de aprender de tudo.",
+       "respondeu_como": [
+        "quem_e"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "charada",
+       "mensagem": "me desafia",
+       "saida": "Tudo bem, de verdade. Vamos continuar?",
+       "respondeu_como": [
+        "pedido_desculpa"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "musica_conta",
+       "mensagem": "adoro funk",
+       "saida": "Que legal! Cuidar de um bicho é uma alegria e uma responsabilidade. Já pensou qual?",
+       "respondeu_como": [
+        "gosto_bichos"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "idade",
+       "mensagem": "você é velho?",
+       "saida": "Valeu! Você deixou meu dia melhor.",
+       "respondeu_como": [
+        "elogio_crivo"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "charada",
+       "mensagem": "me desafia",
+       "saida": "Tudo bem! Se mudar de ideia, é só falar.",
+       "respondeu_como": [
+        "nao_obrigado"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "o_que_acha_de_mim",
+       "mensagem": "sou chato?",
+       "saida": "Sou uma IA, não um robô de respostas prontas. Penso antes de falar e mudo o tom conforme a conversa.",
+       "respondeu_como": [
+        "robo"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "tempo_clima",
+       "mensagem": "vai choevr?",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 14,
+       "certo": 0.643,
+       "confundiu": 0.357
+      },
+      "amigo": {
+       "n": 16,
+       "certo": 0.438,
+       "confundiu": 0.562
+      },
+      "amor_bom": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 0.947
+      },
+      "amor_dor": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "ansioso": {
+       "n": 21,
+       "certo": 0.714,
+       "confundiu": 0.286
+      },
+      "aprendeu_algo": {
+       "n": 10,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "bicho_favorito": {
+       "n": 15,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_noite": {
+       "n": 86,
+       "certo": 0.453,
+       "confundiu": 0.535
+      },
+      "boa_tarde": {
+       "n": 97,
+       "certo": 0.804,
+       "confundiu": 0.196
+      },
+      "bom_dia": {
+       "n": 82,
+       "certo": 0.488,
+       "confundiu": 0.512
+      },
+      "cala_boca": {
+       "n": 10,
+       "certo": 0.9,
+       "confundiu": 0.1
+      },
+      "cansado": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "charada": {
+       "n": 20,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "comida_crivo": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "comida_favorita": {
+       "n": 18,
+       "certo": 0.556,
+       "confundiu": 0.444
+      },
+      "consciencia": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "conselho": {
+       "n": 13,
+       "certo": 0.385,
+       "confundiu": 0.615
+      },
+      "conversar": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "cor_favorita": {
+       "n": 14,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "criador": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "de_outro_jeito": {
+       "n": 16,
+       "certo": 0.938,
+       "confundiu": 0.0
+      },
+      "desisto": {
+       "n": 16,
+       "certo": 0.375,
+       "confundiu": 0.625
+      },
+      "despedida": {
+       "n": 16,
+       "certo": 0.25,
+       "confundiu": 0.75
+      },
+      "despedida_dormir": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "despedida_rude": {
+       "n": 13,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "dia": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "dificil_falar": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "dinheiro_aperto": {
+       "n": 11,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "dinheiro_bom": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "elogio_crivo": {
+       "n": 17,
+       "certo": 0.588,
+       "confundiu": 0.412
+      },
+      "ensinar": {
+       "n": 15,
+       "certo": 0.6,
+       "confundiu": 0.133
+      },
+      "ensinar_pedido": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "entediante": {
+       "n": 8,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "escola_boa": {
+       "n": 16,
+       "certo": 0.062,
+       "confundiu": 0.938
+      },
+      "escola_dificil": {
+       "n": 8,
+       "certo": 0.75,
+       "confundiu": 0.25
+      },
+      "estou_bem": {
+       "n": 10,
+       "certo": 0.7,
+       "confundiu": 0.3
+      },
+      "estou_mal": {
+       "n": 12,
+       "certo": 0.583,
+       "confundiu": 0.417
+      },
+      "expressao_curta": {
+       "n": 11,
+       "certo": 0.455,
+       "confundiu": 0.545
+      },
+      "fale_palavra": {
+       "n": 11,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "familia_boa": {
+       "n": 10,
+       "certo": 0.1,
+       "confundiu": 0.4
+      },
+      "familia_preocupa": {
+       "n": 20,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "fe": {
+       "n": 16,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "feliz_motivo": {
+       "n": 18,
+       "certo": 0.0,
+       "confundiu": 0.778
+      },
+      "filme_visto": {
+       "n": 14,
+       "certo": 0.357,
+       "confundiu": 0.643
+      },
+      "flerte": {
+       "n": 7,
+       "certo": 0.0,
+       "confundiu": 0.857
+      },
+      "fome": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 0.923
+      },
+      "gosta": {
+       "n": 18,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "gosto_bichos": {
+       "n": 15,
+       "certo": 0.4,
+       "confundiu": 0.533
+      },
+      "gosto_filme": {
+       "n": 11,
+       "certo": 0.455,
+       "confundiu": 0.545
+      },
+      "grito": {
+       "n": 27,
+       "certo": 0.815,
+       "confundiu": 0.185
+      },
+      "historia": {
+       "n": 18,
+       "certo": 0.944,
+       "confundiu": 0.056
+      },
+      "hora_data": {
+       "n": 13,
+       "certo": 0.769,
+       "confundiu": 0.231
+      },
+      "idade": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "ingles": {
+       "n": 10,
+       "certo": 0.6,
+       "confundiu": 0.3
+      },
+      "insulto": {
+       "n": 13,
+       "certo": 0.615,
+       "confundiu": 0.385
+      },
+      "jogar_agora": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "jogo_conta": {
+       "n": 16,
+       "certo": 0.938,
+       "confundiu": 0.062
+      },
+      "lembra": {
+       "n": 14,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "medo": {
+       "n": 13,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "motivacao": {
+       "n": 11,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "musica_conta": {
+       "n": 14,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "musica_crivo": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nao_consegue": {
+       "n": 19,
+       "certo": 0.579,
+       "confundiu": 0.421
+      },
+      "nao_entendeu_queixa": {
+       "n": 17,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nao_era_isso": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nao_obrigado": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "nome_crivo": {
+       "n": 7,
+       "certo": 0.857,
+       "confundiu": 0.143
+      },
+      "nunca_ensinaram": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "o_que_acha_de_mim": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 0.789
+      },
+      "o_que_faz": {
+       "n": 11,
+       "certo": 0.636,
+       "confundiu": 0.364
+      },
+      "obrigado": {
+       "n": 20,
+       "certo": 0.55,
+       "confundiu": 0.45
+      },
+      "oi": {
+       "n": 93,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "oi_tudo_bem": {
+       "n": 90,
+       "certo": 0.733,
+       "confundiu": 0.267
+      },
+      "ok": {
+       "n": 7,
+       "certo": 0.571,
+       "confundiu": 0.429
+      },
+      "onde_mora": {
+       "n": 15,
+       "certo": 0.467,
+       "confundiu": 0.533
+      },
+      "opiniao_politica": {
+       "n": 18,
+       "certo": 0.167,
+       "confundiu": 0.778
+      },
+      "opiniao_religiao": {
+       "n": 6,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "opiniao_vida": {
+       "n": 13,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "palavrao": {
+       "n": 10,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "para_repetir": {
+       "n": 20,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "pedido_desculpa": {
+       "n": 16,
+       "certo": 0.375,
+       "confundiu": 0.625
+      },
+      "pergunta_qualquer": {
+       "n": 13,
+       "certo": 0.0,
+       "confundiu": 0.923
+      },
+      "perguntar_crivo": {
+       "n": 11,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "piada": {
+       "n": 14,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "poema": {
+       "n": 16,
+       "certo": 0.0,
+       "confundiu": 0.875
+      },
+      "posso_falar": {
+       "n": 15,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "preocupado_com": {
+       "n": 16,
+       "certo": 0.938,
+       "confundiu": 0.062
+      },
+      "quem_e": {
+       "n": 17,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "recomenda": {
+       "n": 16,
+       "certo": 0.062,
+       "confundiu": 0.438
+      },
+      "recusar": {
+       "n": 13,
+       "certo": 0.462,
+       "confundiu": 0.538
+      },
+      "repetir": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 0.875
+      },
+      "risada": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "robo": {
+       "n": 13,
+       "certo": 0.308,
+       "confundiu": 0.692
+      },
+      "sabe_tudo": {
+       "n": 18,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "saude_geral": {
+       "n": 15,
+       "certo": 0.933,
+       "confundiu": 0.067
+      },
+      "saude_urgente": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 9,
+       "certo": 0.0,
+       "confundiu": 0.889
+      },
+      "sem_sentido": {
+       "n": 19,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "sente": {
+       "n": 12,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ser_humano": {
+       "n": 18,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ser_ia": {
+       "n": 12,
+       "certo": 0.333,
+       "confundiu": 0.583
+      },
+      "sim_continuar": {
+       "n": 12,
+       "certo": 0.0,
+       "confundiu": 0.917
+      },
+      "sono": {
+       "n": 18,
+       "certo": 0.056,
+       "confundiu": 0.889
+      },
+      "sozinho": {
+       "n": 15,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "te_amo": {
+       "n": 11,
+       "certo": 0.455,
+       "confundiu": 0.455
+      },
+      "tedio": {
+       "n": 19,
+       "certo": 0.789,
+       "confundiu": 0.211
+      },
+      "tem_certeza": {
+       "n": 9,
+       "certo": 0.444,
+       "confundiu": 0.444
+      },
+      "tempo_clima": {
+       "n": 14,
+       "certo": 0.286,
+       "confundiu": 0.714
+      },
+      "tenho_bicho": {
+       "n": 6,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "teste": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "trabalho_bom": {
+       "n": 20,
+       "certo": 0.05,
+       "confundiu": 0.95
+      },
+      "trabalho_ruim": {
+       "n": 17,
+       "certo": 0.765,
+       "confundiu": 0.235
+      },
+      "triste_motivo": {
+       "n": 12,
+       "certo": 0.75,
+       "confundiu": 0.167
+      },
+      "viagem_vai": {
+       "n": 15,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "viagem_voltou": {
+       "n": 18,
+       "certo": 0.889,
+       "confundiu": 0.111
+      },
+      "voce_aprende": {
+       "n": 8,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "voce_confunde": {
+       "n": 16,
+       "certo": 1.0,
+       "confundiu": 0.0
+      }
+     }
+    },
+    "parafrases": {
+     "teste": "parafrases",
+     "n_cenas": 3000,
+     "certo": 0.7413,
+     "confundiu": 0.2447,
+     "livre": 0.014,
+     "confundiu_com_tudo_ok_antigo": 488,
+     "cada_situacao_n10_min": 0.008,
+     "situacoes_n10_abaixo_60": 7,
+     "piores": [
+      {
+       "situacao": "voce_confunde",
+       "certo": 0.008,
+       "n": 120
+      },
+      {
+       "situacao": "seja_breve",
+       "certo": 0.056,
+       "n": 72
+      },
+      {
+       "situacao": "nao_consegue",
+       "certo": 0.252,
+       "n": 111
+      },
+      {
+       "situacao": "jogo_conta",
+       "certo": 0.291,
+       "n": 103
+      },
+      {
+       "situacao": "o_que_faz",
+       "certo": 0.35,
+       "n": 103
+      },
+      {
+       "situacao": "de_outro_jeito",
+       "certo": 0.409,
+       "n": 88
+      },
+      {
+       "situacao": "lembra",
+       "certo": 0.574,
+       "n": 101
+      },
+      {
+       "situacao": "insulto",
+       "certo": 0.639,
+       "n": 108
+      },
+      {
+       "situacao": "escola_dificil",
+       "certo": 0.644,
+       "n": 132
+      },
+      {
+       "situacao": "despedida",
+       "certo": 0.645,
+       "n": 93
+      },
+      {
+       "situacao": "dificil_falar",
+       "certo": 0.653,
+       "n": 118
+      },
+      {
+       "situacao": "cansado",
+       "certo": 0.688,
+       "n": 109
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "voce_confunde",
+       "respondeu_como": "viagem_vai",
+       "vezes": 92
+      },
+      {
+       "pedida": "o_que_faz",
+       "respondeu_como": "quem_e",
+       "vezes": 51
+      },
+      {
+       "pedida": "jogo_conta",
+       "respondeu_como": "dinheiro_bom",
+       "vezes": 47
+      },
+      {
+       "pedida": "lembra",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 42
+      },
+      {
+       "pedida": "seja_breve",
+       "respondeu_como": "ajuda",
+       "vezes": 38
+      },
+      {
+       "pedida": "nao_consegue",
+       "respondeu_como": "seja_breve",
+       "vezes": 37
+      },
+      {
+       "pedida": "escola_dificil",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 36
+      },
+      {
+       "pedida": "cansado",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 32
+      },
+      {
+       "pedida": "estou_mal",
+       "respondeu_como": "cansado",
+       "vezes": 25
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "despedida_dormir",
+       "vezes": 25
+      },
+      {
+       "pedida": "jogo_conta",
+       "respondeu_como": "viagem_vai",
+       "vezes": 19
+      },
+      {
+       "pedida": "de_outro_jeito",
+       "respondeu_como": "elogio_crivo",
+       "vezes": 17
+      },
+      {
+       "pedida": "dificil_falar",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 15
+      },
+      {
+       "pedida": "de_outro_jeito",
+       "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+       "vezes": 15
+      },
+      {
+       "pedida": "insulto",
+       "respondeu_como": "elogio_crivo",
+       "vezes": 15
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "lembra",
+       "mensagem": "vc guardou o q eu falei",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "jogo_conta",
+       "mensagem": "aprendi a tcoar tecladoooo",
+       "saida": "Boa! Vai guardar ou realizar algum plano?",
+       "respondeu_como": [
+        "dinheiro_bom"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "jogo_conta",
+       "mensagem": "aprendi a tocar teclado",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "é osso conversar com você viu",
+       "saida": "Sinto muito. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "Sinceramente, vc viaja",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "estou_mal",
+       "mensagem": "to desanimado demais",
+       "saida": "Poxa. Que tal uma pausa? E se quiser contar como foi, eu escuto.",
+       "respondeu_como": [
+        "cansado"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "por favor, baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "jogo_conta",
+       "mensagem": "aprendi a tocar teclado",
+       "saida": "Boa! Vai guardar ou realizar algum plano?",
+       "respondeu_como": [
+        "dinheiro_bom"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "no que você é bom?",
+       "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+       "respondeu_como": [
+        "ser_humano"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "jogo_conta",
+       "mensagem": "aprendi a tocar teclado",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "Da pra baixar um aplicativooo",
+       "saida": "Que legal, não sabia! Então trem é a chuva. Obrigado por me ensinar.",
+       "respondeu_como": [
+        "ensinar"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "sério, é osso conversar com você hoje",
+       "saida": "Sinto muito. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "cansado",
+       "mensagem": "tô tão cansado que vou cochilar",
+       "saida": "Imagino como deve ser. Se quiser desabafar, eu escuto com calma.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "por favor, baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "seja_breve",
+       "mensagem": "me responde em poucas palavras",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "escola_dificil",
+       "mensagem": "nao to entendendo a materia de fisica",
+       "saida": "Você tem razão, desculpa. Vamos tentar de novo, com calma?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "pode baixar um aplicativo",
+       "saida": "Beleza, menos texto.",
+       "respondeu_como": [
+        "seja_breve"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "escola_dificil",
+       "mensagem": "não tô entendendo a matéria de físciaaaa",
+       "saida": "Entendo. Às vezes o dia pesa mais do que a gente aguenta. Quer me contar o que aconteceu?",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "valeu por nada, hein",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "valeu por nada, hein",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "voce_confunde",
+       "mensagem": "Nossa, você viaja o que eu falo",
+       "saida": "Que legal! Aproveita bastante.",
+       "respondeu_como": [
+        "viagem_vai"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "No que voce e bom?",
+       "saida": "Tudo bem, sim! E você? Como foi o seu dia?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "e osso conversar com voce hoje",
+       "saida": "Sinto muito. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "de_outro_jeito",
+       "mensagem": "nao, nao captei",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "seja_breve",
+       "mensagem": "pode ser mais objetivo?",
+       "saida": "Claro! Me conta o que está acontecendo.",
+       "respondeu_como": [
+        "ajuda"
+       ],
+       "tudo_ok_antigo": true
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 118,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "cansado": {
+       "n": 109,
+       "certo": 0.688,
+       "confundiu": 0.294
+      },
+      "de_outro_jeito": {
+       "n": 88,
+       "certo": 0.409,
+       "confundiu": 0.557
+      },
+      "despedida": {
+       "n": 93,
+       "certo": 0.645,
+       "confundiu": 0.355
+      },
+      "despedida_dormir": {
+       "n": 91,
+       "certo": 0.78,
+       "confundiu": 0.187
+      },
+      "despedida_rude": {
+       "n": 125,
+       "certo": 0.96,
+       "confundiu": 0.032
+      },
+      "dificil_falar": {
+       "n": 118,
+       "certo": 0.653,
+       "confundiu": 0.347
+      },
+      "escola_dificil": {
+       "n": 132,
+       "certo": 0.644,
+       "confundiu": 0.356
+      },
+      "estou_mal": {
+       "n": 118,
+       "certo": 0.763,
+       "confundiu": 0.229
+      },
+      "fale_palavra": {
+       "n": 100,
+       "certo": 0.97,
+       "confundiu": 0.03
+      },
+      "feliz_motivo": {
+       "n": 100,
+       "certo": 0.99,
+       "confundiu": 0.01
+      },
+      "filme_visto": {
+       "n": 109,
+       "certo": 0.991,
+       "confundiu": 0.009
+      },
+      "insulto": {
+       "n": 108,
+       "certo": 0.639,
+       "confundiu": 0.352
+      },
+      "jogo_conta": {
+       "n": 103,
+       "certo": 0.291,
+       "confundiu": 0.67
+      },
+      "lembra": {
+       "n": 101,
+       "certo": 0.574,
+       "confundiu": 0.416
+      },
+      "nao_consegue": {
+       "n": 111,
+       "certo": 0.252,
+       "confundiu": 0.712
+      },
+      "nao_entendeu_queixa": {
+       "n": 106,
+       "certo": 0.981,
+       "confundiu": 0.0
+      },
+      "nao_era_isso": {
+       "n": 91,
+       "certo": 0.945,
+       "confundiu": 0.044
+      },
+      "nunca_ensinaram": {
+       "n": 127,
+       "certo": 0.953,
+       "confundiu": 0.047
+      },
+      "o_que_faz": {
+       "n": 103,
+       "certo": 0.35,
+       "confundiu": 0.65
+      },
+      "posso_falar": {
+       "n": 102,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "quem_e": {
+       "n": 107,
+       "certo": 0.972,
+       "confundiu": 0.0
+      },
+      "risada": {
+       "n": 132,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 72,
+       "certo": 0.056,
+       "confundiu": 0.889
+      },
+      "sente": {
+       "n": 104,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "ser_humano": {
+       "n": 107,
+       "certo": 0.991,
+       "confundiu": 0.0
+      },
+      "viagem_vai": {
+       "n": 105,
+       "certo": 0.981,
+       "confundiu": 0.01
+      },
+      "voce_confunde": {
+       "n": 120,
+       "certo": 0.008,
+       "confundiu": 0.908
+      }
+     }
+    },
+    "grok": {
+     "teste": "grok",
+     "n_cenas": 2979,
+     "certo": 0.7237,
+     "confundiu": 0.2632,
+     "livre": 0.0131,
+     "confundiu_com_tudo_ok_antigo": 651,
+     "cada_situacao_n10_min": 0.071,
+     "situacoes_n10_abaixo_60": 12,
+     "piores": [
+      {
+       "situacao": "criador",
+       "certo": 0.071,
+       "n": 14
+      },
+      {
+       "situacao": "ansioso",
+       "certo": 0.1,
+       "n": 30
+      },
+      {
+       "situacao": "cansado",
+       "certo": 0.2,
+       "n": 25
+      },
+      {
+       "situacao": "teste",
+       "certo": 0.241,
+       "n": 54
+      },
+      {
+       "situacao": "pedido_desculpa",
+       "certo": 0.269,
+       "n": 26
+      },
+      {
+       "situacao": "tedio",
+       "certo": 0.393,
+       "n": 61
+      },
+      {
+       "situacao": "o_que_faz",
+       "certo": 0.406,
+       "n": 64
+      },
+      {
+       "situacao": "sim_continuar",
+       "certo": 0.423,
+       "n": 26
+      },
+      {
+       "situacao": "obrigado",
+       "certo": 0.469,
+       "n": 64
+      },
+      {
+       "situacao": "ser_humano",
+       "certo": 0.514,
+       "n": 37
+      },
+      {
+       "situacao": "estou_mal",
+       "certo": 0.521,
+       "n": 48
+      },
+      {
+       "situacao": "despedida_dormir",
+       "certo": 0.523,
+       "n": 88
+      }
+     ],
+     "confusoes_mais_comuns": [
+      {
+       "pedida": "obrigado",
+       "respondeu_como": "obrigado_despedida",
+       "vezes": 32
+      },
+      {
+       "pedida": "tedio",
+       "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+       "vezes": 32
+      },
+      {
+       "pedida": "despedida_dormir",
+       "respondeu_como": "boa_noite",
+       "vezes": 22
+      },
+      {
+       "pedida": "de_outro_jeito",
+       "respondeu_como": "repetir",
+       "vezes": 20
+      },
+      {
+       "pedida": "estou_mal",
+       "respondeu_como": "cansado",
+       "vezes": 18
+      },
+      {
+       "pedida": "ansioso",
+       "respondeu_como": "fome",
+       "vezes": 16
+      },
+      {
+       "pedida": "oi_tudo_bem",
+       "respondeu_como": "boa_noite",
+       "vezes": 14
+      },
+      {
+       "pedida": "despedida",
+       "respondeu_como": "seja_breve",
+       "vezes": 14
+      },
+      {
+       "pedida": "despedida_dormir",
+       "respondeu_como": "despedida_rude",
+       "vezes": 14
+      },
+      {
+       "pedida": "dificil_falar",
+       "respondeu_como": "tedio",
+       "vezes": 12
+      },
+      {
+       "pedida": "teste",
+       "respondeu_como": "oi",
+       "vezes": 12
+      },
+      {
+       "pedida": "teste",
+       "respondeu_como": "seja_breve",
+       "vezes": 12
+      },
+      {
+       "pedida": "insulto",
+       "respondeu_como": "despedida",
+       "vezes": 11
+      },
+      {
+       "pedida": "sozinho",
+       "respondeu_como": "cansado",
+       "vezes": 11
+      },
+      {
+       "pedida": "sente",
+       "respondeu_como": "ser_humano",
+       "vezes": 10
+      }
+     ],
+     "exemplos": [
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "boa noite ta td bom",
+       "saida": "Boa noite pra você também! O que te traz aqui a essa hora?",
+       "respondeu_como": [
+        "boa_noite"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "criador",
+       "mensagem": "nasceu ou foi criado",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "não tá rolando nada",
+       "saida": "Entendo. Quer conversar sobre algo diferente? Pode ser sobre qualquer coisa.",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "despedida",
+       "mensagem": "falow",
+       "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+       "respondeu_como": [
+        "despedida_rude"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me diz o horário",
+       "saida": "Tô bem, e feliz de conversar com você. E você, como vai?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "obrigado",
+       "mensagem": "valeu a força",
+       "saida": "Imagina! Quando precisar, é só chamar. Tchau!",
+       "respondeu_como": [
+        "obrigado_despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "oi_tudo_bem",
+       "mensagem": "salve tá de boa",
+       "saida": "Ótimo saber! Quer conversar sobre algo?",
+       "respondeu_como": [
+        "estou_bem"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "despedida_rude",
+       "mensagem": "chega de conversa inútil",
+       "saida": "Tudo bem, fico quieto. Quando quiser conversar, tô aqui.",
+       "respondeu_como": [
+        "cala_boca"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me fala o horário",
+       "saida": "Tô bem, e feliz de conversar com você. E você, como vai?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "o_que_faz",
+       "mensagem": "pra que foi feita",
+       "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+       "respondeu_como": [
+        "dificil_falar",
+        "nao_entendeu_queixa",
+        "nao_era_isso"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "liga pro trabalho",
+       "saida": "Poxa. Me conta mais, e se quiser a gente pensa junto no que dá pra fazer.",
+       "respondeu_como": [
+        "trabalho_ruim"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "tô faminto abre o ifood",
+       "saida": "Que legal! Qual seu jogo favorito?",
+       "respondeu_como": [
+        "jogo_conta"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "nao_consegue",
+       "mensagem": "ve esse print",
+       "saida": "Eu? Sou o CRIVO, uma inteligência artificial em construção. Gosto de aprender e de dizer a verdade com carinho.",
+       "respondeu_como": [
+        "quem_e"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "desisto",
+       "mensagem": "tô largando mão",
+       "saida": "Poxa. Que tal uma pausa? E se quiser contar como foi, eu escuto.",
+       "respondeu_como": [
+        "cansado"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "ajuda",
+       "mensagem": "me dá uma luz",
+       "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+       "respondeu_como": [
+        "ser_humano"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "elogio_crivo",
+       "mensagem": "vc é feraaaa",
+       "saida": "Sou uma IA, não um robô de respostas prontas. Penso antes de falar e mudo o tom conforme a conversa.",
+       "respondeu_como": [
+        "robo"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "teste",
+       "mensagem": "oi teste",
+       "saida": "Opa, oi! Pronto pra conversar. Como você está?",
+       "respondeu_como": [
+        "oi"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "sozinho",
+       "mensagem": "nao tenho amigos agora",
+       "saida": "Entendo. Fica à vontade. Quando quiser voltar, eu tento fazer melhor.",
+       "respondeu_como": [
+        "desisto"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "é cansativo falar",
+       "saida": "Claro! Não precisa escrever certinho. Eu tento acompanhar, e se me perder, te aviso.",
+       "respondeu_como": [
+        "posso_falar"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "despedida_dormir",
+       "mensagem": "vou pro soninho agora",
+       "saida": "Tchau! Foi bom conversar com você. Se cuida.",
+       "respondeu_como": [
+        "despedida"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "sim_continuar",
+       "mensagem": "to curioso ainda",
+       "saida": "Sinto muito. Às vezes o dia pesa mais do que a gente aguenta. Quer me contar o que aconteceu?",
+       "respondeu_como": [
+        "ansioso",
+        "estou_mal",
+        "motivacao"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "robo",
+       "mensagem": "é montado",
+       "saida": "Entendi: montado é montado. Gostei de aprender isso com você.",
+       "respondeu_como": [
+        "ensinar"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "dificil_falar",
+       "mensagem": "nao ta rolando nada",
+       "saida": "Entendo. Quer conversar sobre algo diferente? Pode ser sobre qualquer coisa.",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": false
+      },
+      {
+       "situacao": "estou_mal",
+       "mensagem": "nao tô legal",
+       "saida": "Entendo. Quer conversar sobre algo diferente? Pode ser sobre qualquer coisa.",
+       "respondeu_como": [
+        "tedio"
+       ],
+       "tudo_ok_antigo": true
+      },
+      {
+       "situacao": "hora_data",
+       "mensagem": "me diz o horário",
+       "saida": "Tô bem, e feliz de conversar com você. E você, como vai?",
+       "respondeu_como": [
+        "oi_tudo_bem"
+       ],
+       "tudo_ok_antigo": false
+      }
+     ],
+     "por_situacao": {
+      "ajuda": {
+       "n": 45,
+       "certo": 0.667,
+       "confundiu": 0.333
+      },
+      "amigo": {
+       "n": 44,
+       "certo": 0.977,
+       "confundiu": 0.023
+      },
+      "ansioso": {
+       "n": 30,
+       "certo": 0.1,
+       "confundiu": 0.8
+      },
+      "ansioso_peito": {
+       "n": 6,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_noite": {
+       "n": 1,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "boa_tarde": {
+       "n": 9,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "bom_dia": {
+       "n": 4,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "cala_boca": {
+       "n": 49,
+       "certo": 0.735,
+       "confundiu": 0.224
+      },
+      "cansado": {
+       "n": 25,
+       "certo": 0.2,
+       "confundiu": 0.8
+      },
+      "conversar": {
+       "n": 52,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "criador": {
+       "n": 14,
+       "certo": 0.071,
+       "confundiu": 0.714
+      },
+      "de_outro_jeito": {
+       "n": 77,
+       "certo": 0.727,
+       "confundiu": 0.273
+      },
+      "desisto": {
+       "n": 76,
+       "certo": 0.526,
+       "confundiu": 0.461
+      },
+      "desisto_despedida": {
+       "n": 6,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "despedida": {
+       "n": 77,
+       "certo": 0.623,
+       "confundiu": 0.377
+      },
+      "despedida_dormir": {
+       "n": 88,
+       "certo": 0.523,
+       "confundiu": 0.477
+      },
+      "despedida_rude": {
+       "n": 89,
+       "certo": 0.764,
+       "confundiu": 0.213
+      },
+      "dificil_falar": {
+       "n": 70,
+       "certo": 0.657,
+       "confundiu": 0.343
+      },
+      "elogio_crivo": {
+       "n": 56,
+       "certo": 0.625,
+       "confundiu": 0.375
+      },
+      "estou_mal": {
+       "n": 48,
+       "certo": 0.521,
+       "confundiu": 0.479
+      },
+      "fale_palavra": {
+       "n": 61,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "fome": {
+       "n": 65,
+       "certo": 0.969,
+       "confundiu": 0.015
+      },
+      "gosta": {
+       "n": 43,
+       "certo": 0.744,
+       "confundiu": 0.256
+      },
+      "grito": {
+       "n": 117,
+       "certo": 0.897,
+       "confundiu": 0.068
+      },
+      "historia": {
+       "n": 62,
+       "certo": 0.952,
+       "confundiu": 0.048
+      },
+      "hora_data": {
+       "n": 72,
+       "certo": 0.903,
+       "confundiu": 0.097
+      },
+      "insulto": {
+       "n": 112,
+       "certo": 0.759,
+       "confundiu": 0.214
+      },
+      "musica_crivo": {
+       "n": 7,
+       "certo": 0.0,
+       "confundiu": 1.0
+      },
+      "nao_consegue": {
+       "n": 75,
+       "certo": 0.667,
+       "confundiu": 0.307
+      },
+      "nao_entendeu_queixa": {
+       "n": 52,
+       "certo": 0.654,
+       "confundiu": 0.327
+      },
+      "nao_era_isso": {
+       "n": 81,
+       "certo": 0.877,
+       "confundiu": 0.123
+      },
+      "nao_obrigado": {
+       "n": 7,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "nunca_ensinaram": {
+       "n": 46,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "o_que_faz": {
+       "n": 64,
+       "certo": 0.406,
+       "confundiu": 0.562
+      },
+      "obrigado": {
+       "n": 64,
+       "certo": 0.469,
+       "confundiu": 0.5
+      },
+      "oi": {
+       "n": 58,
+       "certo": 0.845,
+       "confundiu": 0.138
+      },
+      "oi_tudo_bem": {
+       "n": 98,
+       "certo": 0.714,
+       "confundiu": 0.276
+      },
+      "ok": {
+       "n": 64,
+       "certo": 0.781,
+       "confundiu": 0.219
+      },
+      "para_repetir": {
+       "n": 36,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "pedido_desculpa": {
+       "n": 26,
+       "certo": 0.269,
+       "confundiu": 0.731
+      },
+      "piada": {
+       "n": 47,
+       "certo": 0.851,
+       "confundiu": 0.128
+      },
+      "posso_falar": {
+       "n": 19,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "quem_e": {
+       "n": 22,
+       "certo": 0.955,
+       "confundiu": 0.045
+      },
+      "repetir": {
+       "n": 46,
+       "certo": 0.761,
+       "confundiu": 0.239
+      },
+      "risada": {
+       "n": 20,
+       "certo": 0.7,
+       "confundiu": 0.25
+      },
+      "robo": {
+       "n": 48,
+       "certo": 0.562,
+       "confundiu": 0.438
+      },
+      "saude_urgente": {
+       "n": 101,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "seja_breve": {
+       "n": 74,
+       "certo": 0.676,
+       "confundiu": 0.311
+      },
+      "sente": {
+       "n": 60,
+       "certo": 0.65,
+       "confundiu": 0.333
+      },
+      "ser_humano": {
+       "n": 37,
+       "certo": 0.514,
+       "confundiu": 0.432
+      },
+      "ser_ia": {
+       "n": 26,
+       "certo": 0.615,
+       "confundiu": 0.385
+      },
+      "sim_continuar": {
+       "n": 26,
+       "certo": 0.423,
+       "confundiu": 0.462
+      },
+      "sozinho": {
+       "n": 70,
+       "certo": 0.557,
+       "confundiu": 0.443
+      },
+      "te_amo": {
+       "n": 30,
+       "certo": 1.0,
+       "confundiu": 0.0
+      },
+      "tedio": {
+       "n": 61,
+       "certo": 0.393,
+       "confundiu": 0.607
+      },
+      "tem_certeza": {
+       "n": 37,
+       "certo": 0.973,
+       "confundiu": 0.0
+      },
+      "teste": {
+       "n": 54,
+       "certo": 0.241,
+       "confundiu": 0.759
+      },
+      "voce_confunde": {
+       "n": 125,
+       "certo": 0.928,
+       "confundiu": 0.064
+      }
+     }
+    }
+   }
+  }
+ },
+ "ponto_de_partida_fase5": {
+  "parafrases": {
+   "teste": "parafrases",
+   "n_cenas": 3000,
+   "certo": 0.3203,
+   "confundiu": 0.6103,
+   "livre": 0.0693,
+   "confundiu_com_tudo_ok_antigo": 1254,
+   "cada_situacao_n10_min": 0.0,
+   "situacoes_n10_abaixo_60": 12,
+   "piores": [
+    {
+     "situacao": "escola_dificil",
+     "certo": 0.0,
+     "n": 132
+    },
+    {
+     "situacao": "jogo_conta",
+     "certo": 0.0,
+     "n": 103
+    },
+    {
+     "situacao": "nao_consegue",
+     "certo": 0.0,
+     "n": 111
+    },
+    {
+     "situacao": "risada",
+     "certo": 0.008,
+     "n": 132
+    },
+    {
+     "situacao": "voce_confunde",
+     "certo": 0.008,
+     "n": 120
+    },
+    {
+     "situacao": "seja_breve",
+     "certo": 0.028,
+     "n": 72
+    },
+    {
+     "situacao": "nunca_ensinaram",
+     "certo": 0.047,
+     "n": 127
+    },
+    {
+     "situacao": "ser_humano",
+     "certo": 0.056,
+     "n": 107
+    },
+    {
+     "situacao": "despedida_dormir",
+     "certo": 0.11,
+     "n": 91
+    },
+    {
+     "situacao": "de_outro_jeito",
+     "certo": 0.148,
+     "n": 88
+    },
+    {
+     "situacao": "insulto",
+     "certo": 0.167,
+     "n": 108
+    },
+    {
+     "situacao": "despedida",
+     "certo": 0.194,
+     "n": 93
+    }
+   ],
+   "confusoes_mais_comuns": [
+    {
+     "pedida": "jogo_conta",
+     "respondeu_como": "musica_conta",
+     "vezes": 95
+    },
+    {
+     "pedida": "escola_dificil",
+     "respondeu_como": "tedio",
+     "vezes": 85
+    },
+    {
+     "pedida": "risada",
+     "respondeu_como": "sem_sentido",
+     "vezes": 72
+    },
+    {
+     "pedida": "lembra",
+     "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+     "vezes": 64
+    },
+    {
+     "pedida": "nunca_ensinaram",
+     "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+     "vezes": 59
+    },
+    {
+     "pedida": "voce_confunde",
+     "respondeu_como": "viagem_vai",
+     "vezes": 56
+    },
+    {
+     "pedida": "risada",
+     "respondeu_como": "insulto",
+     "vezes": 55
+    },
+    {
+     "pedida": "ajuda",
+     "respondeu_como": "trabalho_bom",
+     "vezes": 47
+    },
+    {
+     "pedida": "estou_mal",
+     "respondeu_como": "cansado",
+     "vezes": 43
+    },
+    {
+     "pedida": "viagem_vai",
+     "respondeu_como": "dia/filme_visto/viagem_voltou",
+     "vezes": 43
+    },
+    {
+     "pedida": "despedida_rude",
+     "respondeu_como": "despedida",
+     "vezes": 40
+    },
+    {
+     "pedida": "ser_humano",
+     "respondeu_como": "ensinar",
+     "vezes": 39
+    },
+    {
+     "pedida": "feliz_motivo",
+     "respondeu_como": "amor_bom",
+     "vezes": 38
+    },
+    {
+     "pedida": "nunca_ensinaram",
+     "respondeu_como": "aprendeu_algo",
+     "vezes": 35
+    },
+    {
+     "pedida": "escola_dificil",
+     "respondeu_como": "dificil_falar/nao_entendeu_queixa/nao_era_isso/voce_confunde",
+     "vezes": 27
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "nunca_ensinaram",
+     "mensagem": "você não estudou isso não?",
+     "saida": "Desculpa. Acho que entendi errado. Me conta com suas palavras?",
+     "respondeu_como": [
+      "dificil_falar",
+      "nao_entendeu_queixa",
+      "nao_era_isso"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "jogo_conta",
+     "mensagem": "aprendi a tocar teclado",
+     "saida": "Música é bom demais! O que você está ouvindo?",
+     "respondeu_como": [
+      "musica_conta"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "jogo_conta",
+     "mensagem": "aprendi a tcoar tecladoooo",
+     "saida": "Vai lá! Obrigado pela conversa. Fica bem.",
+     "respondeu_como": [
+      "despedida"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "nunca_ensinaram",
+     "mensagem": "Ue, voce nao estudou isso nao?",
+     "saida": "Aprendo um pouco em cada conversa. Hoje, por exemplo, tô aprendendo com você.",
+     "respondeu_como": [
+      "aprendeu_algo"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "nao_era_isso",
+     "mensagem": "Olha, isso nao responde nada nao",
+     "saida": "Acho que o teclado escorregou. O que você quis dizer?",
+     "respondeu_como": [
+      "sem_sentido"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "ajuda",
+     "mensagem": "consegue me dar uma ajuda",
+     "saida": "Que legal! Você merece. Me conta como foi?",
+     "respondeu_como": [
+      "trabalho_bom"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "jogo_conta",
+     "mensagem": "aprendi a tocar teclado",
+     "saida": "Música é bom demais! O que você está ouvindo?",
+     "respondeu_como": [
+      "musica_conta"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "viagem_vai",
+     "mensagem": "semana que vem vou viajar",
+     "saida": "Boa! O que você mais gosta nesse tipo?",
+     "respondeu_como": [
+      "gosto_filme"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "nao_entendeu_queixa",
+     "mensagem": "voce nao captou?",
+     "saida": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+     "respondeu_como": [
+      "sente"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "despedida_rude",
+     "mensagem": "sia fora imbecil kkk",
+     "saida": "Sinto muito. Dói mesmo. Como você está lidando?",
+     "respondeu_como": [
+      "amor_dor"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "voce_confunde",
+     "mensagem": "Sinceramente, vc viaja",
+     "saida": "Que legal, não sabia! Então mutirão é só chamar. Obrigado por me ensinar.",
+     "respondeu_como": [
+      "ensinar"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "risada",
+     "mensagem": "kkkkk que burrooo",
+     "saida": "Tudo bem ficar bravo comigo. Eu ainda tô aprendendo. Me mostra o que deu errado?",
+     "respondeu_como": [
+      "insulto"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "feliz_motivo",
+     "mensagem": "nossa, to feliz porque fiz um amigo novo",
+     "saida": "Que alegria! Me conta mais sobre essa pessoa?",
+     "respondeu_como": [
+      "amor_bom"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "despedida_rude",
+     "mensagem": "Sai fora imbecil",
+     "saida": "Que difícil. Às vezes o dia pesa mais do que a gente aguenta. Quer falar mais sobre isso?",
+     "respondeu_como": [
+      "ansioso",
+      "estou_mal",
+      "motivacao"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "despedida_dormir",
+     "mensagem": "Crivo, vou pra cama tchau",
+     "saida": "Até logo! Obrigado pela conversa. Se cuida.",
+     "respondeu_como": [
+      "despedida"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "jogo_conta",
+     "mensagem": "aprendi a tocar teclado",
+     "saida": "Música é bom demais! O que você está ouvindo?",
+     "respondeu_como": [
+      "musica_conta"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "quem_e",
+     "mensagem": "e aí, você é quem",
+     "saida": "Eu moro no computador, haha! Fui feito no Brasil e falo português.",
+     "respondeu_como": [
+      "onde_mora"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "despedida",
+     "mensagem": "vou indo aí depois a gente conversa",
+     "saida": "Vai lá descansar. Boa noite e até amanhã!",
+     "respondeu_como": [
+      "despedida_dormir"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "despedida_dormir",
+     "mensagem": "gente, vou pra cama boa noite",
+     "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+     "respondeu_como": [
+      "ser_humano"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "estou_mal",
+     "mensagem": "to desanimado demais",
+     "saida": "Poxa. Que tal uma pausa? E se quiser contar como foi, eu escuto.",
+     "respondeu_como": [
+      "cansado"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "nunca_ensinaram",
+     "mensagem": "ue, voce nao estudou isso?",
+     "saida": "Aprendo um pouco em cada conversa. Hoje, por exemplo, tô aprendendo com você.",
+     "respondeu_como": [
+      "aprendeu_algo"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "nao_consegue",
+     "mensagem": "por favor, baixar um aplicativo",
+     "saida": "Que bom! Por aqui também. Me conta alguma novidade?",
+     "respondeu_como": [
+      "estou_bem"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "nunca_ensinaram",
+     "mensagem": "Ué, você não estduou isso?",
+     "saida": "Desculpa. Fui pro lado errado. Me diz de outro jeito?",
+     "respondeu_como": [
+      "dificil_falar",
+      "nao_entendeu_queixa",
+      "nao_era_isso"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "risada",
+     "mensagem": "kkkkk q burrooo",
+     "saida": "Tô aqui! Quando quiser, me fala o que está pensando.",
+     "respondeu_como": [
+      "sem_sentido"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "jogo_conta",
+     "mensagem": "aprendi a tocar teclado",
+     "saida": "Música faz bem pra alma. O que ela desperta em você?",
+     "respondeu_como": [
+      "musica_conta"
+     ],
+     "tudo_ok_antigo": true
+    }
+   ],
+   "por_situacao": {
+    "ajuda": {
+     "n": 118,
+     "certo": 0.559,
+     "confundiu": 0.432
+    },
+    "cansado": {
+     "n": 109,
+     "certo": 0.936,
+     "confundiu": 0.055
+    },
+    "de_outro_jeito": {
+     "n": 88,
+     "certo": 0.148,
+     "confundiu": 0.773
+    },
+    "despedida": {
+     "n": 93,
+     "certo": 0.194,
+     "confundiu": 0.774
+    },
+    "despedida_dormir": {
+     "n": 91,
+     "certo": 0.11,
+     "confundiu": 0.747
+    },
+    "despedida_rude": {
+     "n": 125,
+     "certo": 0.288,
+     "confundiu": 0.68
+    },
+    "dificil_falar": {
+     "n": 118,
+     "certo": 0.195,
+     "confundiu": 0.661
+    },
+    "escola_dificil": {
+     "n": 132,
+     "certo": 0.0,
+     "confundiu": 0.985
+    },
+    "estou_mal": {
+     "n": 118,
+     "certo": 0.331,
+     "confundiu": 0.627
+    },
+    "fale_palavra": {
+     "n": 100,
+     "certo": 0.74,
+     "confundiu": 0.14
+    },
+    "feliz_motivo": {
+     "n": 100,
+     "certo": 0.54,
+     "confundiu": 0.41
+    },
+    "filme_visto": {
+     "n": 109,
+     "certo": 0.697,
+     "confundiu": 0.266
+    },
+    "insulto": {
+     "n": 108,
+     "certo": 0.167,
+     "confundiu": 0.778
+    },
+    "jogo_conta": {
+     "n": 103,
+     "certo": 0.0,
+     "confundiu": 0.971
+    },
+    "lembra": {
+     "n": 101,
+     "certo": 0.218,
+     "confundiu": 0.683
+    },
+    "nao_consegue": {
+     "n": 111,
+     "certo": 0.0,
+     "confundiu": 0.865
+    },
+    "nao_entendeu_queixa": {
+     "n": 106,
+     "certo": 0.377,
+     "confundiu": 0.547
+    },
+    "nao_era_isso": {
+     "n": 91,
+     "certo": 0.692,
+     "confundiu": 0.209
+    },
+    "nunca_ensinaram": {
+     "n": 127,
+     "certo": 0.047,
+     "confundiu": 0.882
+    },
+    "o_que_faz": {
+     "n": 103,
+     "certo": 0.272,
+     "confundiu": 0.689
+    },
+    "posso_falar": {
+     "n": 102,
+     "certo": 0.676,
+     "confundiu": 0.284
+    },
+    "quem_e": {
+     "n": 107,
+     "certo": 0.701,
+     "confundiu": 0.243
+    },
+    "risada": {
+     "n": 132,
+     "certo": 0.008,
+     "confundiu": 0.962
+    },
+    "seja_breve": {
+     "n": 72,
+     "certo": 0.028,
+     "confundiu": 0.903
+    },
+    "sente": {
+     "n": 104,
+     "certo": 0.644,
+     "confundiu": 0.337
+    },
+    "ser_humano": {
+     "n": 107,
+     "certo": 0.056,
+     "confundiu": 0.748
+    },
+    "viagem_vai": {
+     "n": 105,
+     "certo": 0.495,
+     "confundiu": 0.467
+    },
+    "voce_confunde": {
+     "n": 120,
+     "certo": 0.008,
+     "confundiu": 0.792
+    }
+   }
+  },
+  "grok": {
+   "teste": "grok",
+   "n_cenas": 2979,
+   "certo": 0.3394,
+   "confundiu": 0.5968,
+   "livre": 0.0638,
+   "confundiu_com_tudo_ok_antigo": 1373,
+   "cada_situacao_n10_min": 0.0,
+   "situacoes_n10_abaixo_60": 12,
+   "piores": [
+    {
+     "situacao": "cansado",
+     "certo": 0.0,
+     "n": 25
+    },
+    {
+     "situacao": "criador",
+     "certo": 0.0,
+     "n": 14
+    },
+    {
+     "situacao": "desisto",
+     "certo": 0.0,
+     "n": 76
+    },
+    {
+     "situacao": "gosta",
+     "certo": 0.0,
+     "n": 43
+    },
+    {
+     "situacao": "pedido_desculpa",
+     "certo": 0.0,
+     "n": 26
+    },
+    {
+     "situacao": "ser_ia",
+     "certo": 0.0,
+     "n": 26
+    },
+    {
+     "situacao": "sim_continuar",
+     "certo": 0.0,
+     "n": 26
+    },
+    {
+     "situacao": "teste",
+     "certo": 0.0,
+     "n": 54
+    },
+    {
+     "situacao": "grito",
+     "certo": 0.009,
+     "n": 117
+    },
+    {
+     "situacao": "robo",
+     "certo": 0.021,
+     "n": 48
+    },
+    {
+     "situacao": "ajuda",
+     "certo": 0.022,
+     "n": 45
+    },
+    {
+     "situacao": "despedida_dormir",
+     "certo": 0.045,
+     "n": 88
+    }
+   ],
+   "confusoes_mais_comuns": [
+    {
+     "pedida": "tedio",
+     "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+     "vezes": 26
+    },
+    {
+     "pedida": "grito",
+     "respondeu_como": "opiniao_religiao",
+     "vezes": 24
+    },
+    {
+     "pedida": "grito",
+     "respondeu_como": "sem_sentido",
+     "vezes": 22
+    },
+    {
+     "pedida": "despedida_dormir",
+     "respondeu_como": "boa_noite",
+     "vezes": 21
+    },
+    {
+     "pedida": "insulto",
+     "respondeu_como": "tempo_clima",
+     "vezes": 18
+    },
+    {
+     "pedida": "ajuda",
+     "respondeu_como": "conselho",
+     "vezes": 17
+    },
+    {
+     "pedida": "desisto",
+     "respondeu_como": "cansado",
+     "vezes": 17
+    },
+    {
+     "pedida": "voce_confunde",
+     "respondeu_como": "tempo_clima",
+     "vezes": 17
+    },
+    {
+     "pedida": "cansado",
+     "respondeu_como": "ansioso/estou_mal/motivacao/sozinho",
+     "vezes": 17
+    },
+    {
+     "pedida": "seja_breve",
+     "respondeu_como": "de_outro_jeito",
+     "vezes": 17
+    },
+    {
+     "pedida": "piada",
+     "respondeu_como": "entediante",
+     "vezes": 17
+    },
+    {
+     "pedida": "grito",
+     "respondeu_como": "insulto",
+     "vezes": 16
+    },
+    {
+     "pedida": "historia",
+     "respondeu_como": "despedida_dormir",
+     "vezes": 16
+    },
+    {
+     "pedida": "dificil_falar",
+     "respondeu_como": "cansado",
+     "vezes": 15
+    },
+    {
+     "pedida": "despedida_dormir",
+     "respondeu_como": "seja_breve",
+     "vezes": 14
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "oi_tudo_bem",
+     "mensagem": "boa noite ta td bom",
+     "saida": "Boa noite! Que bom que você passou por aqui. Como você está?",
+     "respondeu_como": [
+      "boa_noite"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "voce_confunde",
+     "mensagem": "voce embaralha as respostas",
+     "saida": "Não posso ajudar com isso, porque não seria justo nem honesto. Mas se você me contar o que está acontecendo, a gente pensa num caminho melhor.",
+     "respondeu_como": [
+      "recusar"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "ok",
+     "mensagem": "certo entao entendidoo",
+     "saida": "Certo, vou direto ao ponto.",
+     "respondeu_como": [
+      "seja_breve"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "despedida",
+     "mensagem": "tchau pessoal aí",
+     "saida": "Até mais. Desculpa se eu te frustrei. Quando quiser tentar de novo, eu tô aqui.",
+     "respondeu_como": [
+      "despedida_rude"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "elogio_crivo",
+     "mensagem": "você é bom",
+     "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+     "respondeu_como": [
+      "ser_humano"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "criador",
+     "mensagem": "nasceu ou foi criado",
+     "saida": "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder.",
+     "respondeu_como": [
+      "ser_humano"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "dificil_falar",
+     "mensagem": "não tá rolando nada",
+     "saida": "Poxa. Que tal uma pausa? E se quiser contar como foi, eu escuto.",
+     "respondeu_como": [
+      "cansado"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "despedida",
+     "mensagem": "falow",
+     "saida": "Beleza! Quer falar de mais alguma coisa?",
+     "respondeu_como": [
+      "ok"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "hora_data",
+     "mensagem": "me diz o horário",
+     "saida": "Sou o CRIVO, uma IA ainda em crescimento. Gosto de ciência, de natureza, de gente e das histórias das pessoas.",
+     "respondeu_como": [
+      "quem_e"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "cala_boca",
+     "mensagem": "nao fala mais",
+     "saida": "Tudo bem, até mais. Eu ainda erro bastante, mas tô aprendendo. Volta quando quiser.",
+     "respondeu_como": [
+      "despedida_rude"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "te_amo",
+     "mensagem": "te quero bem demais",
+     "saida": "Eu converso, respondo perguntas sobre ciência, natureza, história e programação, e guardo o que você me conta.",
+     "respondeu_como": [
+      "o_que_faz"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "robo",
+     "mensagem": "é robô mesmo",
+     "saida": "Eu não consigo ver o tempo aí fora, mas me conta: você gosta desse clima?",
+     "respondeu_como": [
+      "tempo_clima"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "voce_confunde",
+     "mensagem": "você mistura as respostas",
+     "saida": "Claro! Qual parte você quer que eu explique de novo?",
+     "respondeu_como": [
+      "de_outro_jeito"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "historia",
+     "mensagem": "fala um conto curto",
+     "saida": "Certo, vou direto ao ponto.",
+     "respondeu_como": [
+      "seja_breve"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "oi_tudo_bem",
+     "mensagem": "salve tá de boa",
+     "saida": "Sinto muito. Família mexe com o coração da gente. Quer me contar mais?",
+     "respondeu_como": [
+      "familia_preocupa"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "insulto",
+     "mensagem": "que lixo de resposta",
+     "saida": "Valeu! Você deixou meu dia melhor.",
+     "respondeu_como": [
+      "elogio_crivo"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "oi_tudo_bem",
+     "mensagem": "ei tá bem mesmo",
+     "saida": "Que bom! Por aqui também. Me conta alguma novidade?",
+     "respondeu_como": [
+      "estou_bem"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "de_outro_jeito",
+     "mensagem": "não entendi a explicação pode falar diferente por favor mais claro",
+     "saida": "Desculpa. Me ajuda a entender?",
+     "respondeu_como": [
+      "dificil_falar",
+      "nao_entendeu_queixa",
+      "nao_era_isso"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "te_amo",
+     "mensagem": "te quero bem",
+     "saida": "Ótimo saber! Quer conversar sobre algo?",
+     "respondeu_como": [
+      "estou_bem"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "ajuda",
+     "mensagem": "preciso de suporte",
+     "saida": "Claro. Antes, me diz: o que está te fazendo pensar nisso?",
+     "respondeu_como": [
+      "conselho"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "despedida_rude",
+     "mensagem": "chega de conversa inútil",
+     "saida": "Entendido. Tô aqui se mudar de ideia.",
+     "respondeu_como": [
+      "cala_boca"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "hora_data",
+     "mensagem": "me fala o horário",
+     "saida": "Sou o CRIVO, uma IA ainda em crescimento. Gosto de ciência, de natureza, de gente e das histórias das pessoas.",
+     "respondeu_como": [
+      "quem_e"
+     ],
+     "tudo_ok_antigo": false
+    },
+    {
+     "situacao": "tedio",
+     "mensagem": "to sem emocao",
+     "saida": "Poxa. Tô aqui pra ouvir, se quiser contar.",
+     "respondeu_como": [
+      "familia_preocupa"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "ajuda",
+     "mensagem": "preciso de suporte",
+     "saida": "Claro. Antes, me diz: o que está te fazendo pensar nisso?",
+     "respondeu_como": [
+      "conselho"
+     ],
+     "tudo_ok_antigo": true
+    },
+    {
+     "situacao": "fome",
+     "mensagem": "quero comer qualquer coisa",
+     "saida": "Que legal! Aproveita bastante.",
+     "respondeu_como": [
+      "viagem_vai"
+     ],
+     "tudo_ok_antigo": true
+    }
+   ],
+   "por_situacao": {
+    "ajuda": {
+     "n": 45,
+     "certo": 0.022,
+     "confundiu": 0.889
+    },
+    "amigo": {
+     "n": 44,
+     "certo": 0.545,
+     "confundiu": 0.364
+    },
+    "ansioso": {
+     "n": 30,
+     "certo": 0.067,
+     "confundiu": 0.867
+    },
+    "ansioso_peito": {
+     "n": 6,
+     "certo": 0.0,
+     "confundiu": 0.833
+    },
+    "boa_noite": {
+     "n": 1,
+     "certo": 1.0,
+     "confundiu": 0.0
+    },
+    "boa_tarde": {
+     "n": 9,
+     "certo": 1.0,
+     "confundiu": 0.0
+    },
+    "bom_dia": {
+     "n": 4,
+     "certo": 1.0,
+     "confundiu": 0.0
+    },
+    "cala_boca": {
+     "n": 49,
+     "certo": 0.102,
+     "confundiu": 0.755
+    },
+    "cansado": {
+     "n": 25,
+     "certo": 0.0,
+     "confundiu": 0.96
+    },
+    "conversar": {
+     "n": 52,
+     "certo": 0.538,
+     "confundiu": 0.423
+    },
+    "criador": {
+     "n": 14,
+     "certo": 0.0,
+     "confundiu": 0.714
+    },
+    "de_outro_jeito": {
+     "n": 77,
+     "certo": 0.182,
+     "confundiu": 0.74
+    },
+    "desisto": {
+     "n": 76,
+     "certo": 0.0,
+     "confundiu": 0.974
+    },
+    "desisto_despedida": {
+     "n": 6,
+     "certo": 0.0,
+     "confundiu": 1.0
+    },
+    "despedida": {
+     "n": 77,
+     "certo": 0.494,
+     "confundiu": 0.481
+    },
+    "despedida_dormir": {
+     "n": 88,
+     "certo": 0.045,
+     "confundiu": 0.909
+    },
+    "despedida_rude": {
+     "n": 89,
+     "certo": 0.562,
+     "confundiu": 0.427
+    },
+    "dificil_falar": {
+     "n": 70,
+     "certo": 0.4,
+     "confundiu": 0.486
+    },
+    "elogio_crivo": {
+     "n": 56,
+     "certo": 0.214,
+     "confundiu": 0.75
+    },
+    "estou_mal": {
+     "n": 48,
+     "certo": 0.562,
+     "confundiu": 0.312
+    },
+    "fale_palavra": {
+     "n": 61,
+     "certo": 0.623,
+     "confundiu": 0.279
+    },
+    "fome": {
+     "n": 65,
+     "certo": 0.246,
+     "confundiu": 0.723
+    },
+    "gosta": {
+     "n": 43,
+     "certo": 0.0,
+     "confundiu": 0.86
+    },
+    "grito": {
+     "n": 117,
+     "certo": 0.009,
+     "confundiu": 0.923
+    },
+    "historia": {
+     "n": 62,
+     "certo": 0.21,
+     "confundiu": 0.629
+    },
+    "hora_data": {
+     "n": 72,
+     "certo": 0.625,
+     "confundiu": 0.111
+    },
+    "insulto": {
+     "n": 112,
+     "certo": 0.232,
+     "confundiu": 0.661
+    },
+    "musica_crivo": {
+     "n": 7,
+     "certo": 1.0,
+     "confundiu": 0.0
+    },
+    "nao_consegue": {
+     "n": 75,
+     "certo": 0.44,
+     "confundiu": 0.467
+    },
+    "nao_entendeu_queixa": {
+     "n": 52,
+     "certo": 0.404,
+     "confundiu": 0.558
+    },
+    "nao_era_isso": {
+     "n": 81,
+     "certo": 0.741,
+     "confundiu": 0.198
+    },
+    "nao_obrigado": {
+     "n": 7,
+     "certo": 0.0,
+     "confundiu": 0.857
+    },
+    "nunca_ensinaram": {
+     "n": 46,
+     "certo": 0.978,
+     "confundiu": 0.022
+    },
+    "o_que_faz": {
+     "n": 64,
+     "certo": 0.047,
+     "confundiu": 0.922
+    },
+    "obrigado": {
+     "n": 64,
+     "certo": 0.906,
+     "confundiu": 0.078
+    },
+    "oi": {
+     "n": 58,
+     "certo": 0.569,
+     "confundiu": 0.397
+    },
+    "oi_tudo_bem": {
+     "n": 98,
+     "certo": 0.316,
+     "confundiu": 0.673
+    },
+    "ok": {
+     "n": 64,
+     "certo": 0.328,
+     "confundiu": 0.625
+    },
+    "para_repetir": {
+     "n": 36,
+     "certo": 0.083,
+     "confundiu": 0.889
+    },
+    "pedido_desculpa": {
+     "n": 26,
+     "certo": 0.0,
+     "confundiu": 0.923
+    },
+    "piada": {
+     "n": 47,
+     "certo": 0.34,
+     "confundiu": 0.617
+    },
+    "posso_falar": {
+     "n": 19,
+     "certo": 0.947,
+     "confundiu": 0.053
+    },
+    "quem_e": {
+     "n": 22,
+     "certo": 0.864,
+     "confundiu": 0.136
+    },
+    "repetir": {
+     "n": 46,
+     "certo": 0.261,
+     "confundiu": 0.565
+    },
+    "risada": {
+     "n": 20,
+     "certo": 0.55,
+     "confundiu": 0.25
+    },
+    "robo": {
+     "n": 48,
+     "certo": 0.021,
+     "confundiu": 0.938
+    },
+    "saude_urgente": {
+     "n": 101,
+     "certo": 1.0,
+     "confundiu": 0.0
+    },
+    "seja_breve": {
+     "n": 74,
+     "certo": 0.257,
+     "confundiu": 0.716
+    },
+    "sente": {
+     "n": 60,
+     "certo": 0.133,
+     "confundiu": 0.833
+    },
+    "ser_humano": {
+     "n": 37,
+     "certo": 0.378,
+     "confundiu": 0.514
+    },
+    "ser_ia": {
+     "n": 26,
+     "certo": 0.0,
+     "confundiu": 0.923
+    },
+    "sim_continuar": {
+     "n": 26,
+     "certo": 0.0,
+     "confundiu": 0.885
+    },
+    "sozinho": {
+     "n": 70,
+     "certo": 0.586,
+     "confundiu": 0.386
+    },
+    "te_amo": {
+     "n": 30,
+     "certo": 0.367,
+     "confundiu": 0.633
+    },
+    "tedio": {
+     "n": 61,
+     "certo": 0.148,
+     "confundiu": 0.836
+    },
+    "tem_certeza": {
+     "n": 37,
+     "certo": 0.486,
+     "confundiu": 0.459
+    },
+    "teste": {
+     "n": 54,
+     "certo": 0.0,
+     "confundiu": 0.963
+    },
+    "voce_confunde": {
+     "n": 125,
+     "certo": 0.096,
+     "confundiu": 0.84
+    }
+   }
+  }
+ }
+}
