@@ -44,8 +44,8 @@ class Api(unittest.TestCase):
     def test_status_publico(self):
         st = realizador_17m.status()
         self.assertEqual(st["pesos_sha256"], realizador_17m.PESOS_SHA256)
-        self.assertFalse(st["decisao"]["promovido"])
-        self.assertEqual(st["decisao"]["padrao"], "desligado")
+        self.assertTrue(st["decisao"]["site_publico"])
+        self.assertEqual(st["decisao"]["padrao_linha_de_comando"], "desligado")
         self.assertFalse(st["external_ai"])
 
     def test_resposta_da_api_sem_travas_nao_mostra_voz(self):

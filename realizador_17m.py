@@ -1,13 +1,17 @@
 """Voz experimental: o Transformer 17M da fase 3 diz o que o quadro decidiu.
 
-Desligado por padrão. Só liga com as duas travas, como no #168:
+Dois jeitos de rodar, com os mesmos pesos aprovados nos gates da fase 3
+(`experimentos/fase3_realizador_20261012/RESULTADO.md`):
 
-  CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1   opt-in explícito;
-  CRIVO_REALIZADOR_DIR=/caminho            pasta com pesos.pt e tokenizer.json;
+  NumPy (site e PC)   `artefatos/realizador_pt/pesos_numpy.npz` (float16, exportado de
+                      pesos.pt com conferência NumPy × PyTorch), sem PyTorch nem a
+                      biblioteca tokenizers. O servidor do site (api/chat.py) liga por
+                      padrão; `CRIVO_DISABLE_REALIZADOR=1` desliga.
+  PyTorch (pesquisa)  `CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1` e `CRIVO_REALIZADOR_DIR`
+                      com pesos.pt e tokenizer.json.
 
-e os pesos precisam ter exatamente o SHA-256 aprovado nos gates da fase 3
-(`experimentos/fase3_realizador_20261012/RESULTADO.md`). Nada é baixado nem descoberto
-sozinho.
+Os dois exigem o SHA-256 exato; nada é baixado nem descoberto sozinho. O `Crivo()` da
+linha de comando e dos testes continua desligado, a não ser com a variável acima.
 
 Cada frase do realizador passa pela mesma métrica do blind da fase 3 (termina, não
 repete, fatos copiados sem alteração, nome exato, ato realizado, nenhum nome inventado).
@@ -27,11 +31,13 @@ TOKENIZER_SHA256 = "6e37a7508def06d31f648a1fb816a67df99e806d450051b611a2406f044d
 FORMATO = RAIZ / "experimentos" / "fase3_realizador_20261012" / "formato_fase3.py"
 FORMATO_SHA256 = "d1b4ab176c89b29f4042d83ddd7df32f5c24ca09d253603992d836ce17d96abb"
 MAX_NOVOS = 120
-# Decisão do criador do projeto depois da porta conversacional v2 (13/10/2026): opt-in
-# experimental para todos os atos que o adaptador mapeia. Continua desligado por padrão
-# e não é promovido; o site público não tem os pesos.
+PASTA_NUMPY = RAIZ / "artefatos" / "realizador_pt"
+NPZ_SHA256 = None  # preenchido depois da exportação conferida (notebooks/exportar_realizador_numpy_colab.ipynb)
+# Decisões do criador do projeto depois da porta conversacional v2 (13/10/2026): primeiro
+# o opt-in experimental para todos os atos; depois, ligar no servidor do site (main e site
+# público). A linha de comando e os testes continuam desligados por padrão.
 DECISAO_OPT_IN = {"data": "2026-10-13", "atos": "todos", "porta": "fase4 v2: 0 regressões, 18/18 aprovadas",
-                  "promovido": False, "padrao": "desligado"}
+                  "site_publico": True, "promovido": "servidor do site", "padrao_linha_de_comando": "desligado"}
 
 
 def _ligado(nome):
@@ -50,6 +56,105 @@ def habilitado():
     return _ligado("CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR") and bool(os.environ.get("CRIVO_REALIZADOR_DIR", "").strip())
 
 
+def desligado_no_site():
+    return _ligado("CRIVO_DISABLE_REALIZADOR")
+
+
+class RealizadorNumpy:
+    """O mesmo realizador em NumPy, com cache de chaves e valores (uma passada por token)."""
+
+    def __init__(self, pasta=PASTA_NUMPY):
+        import json
+        import numpy as np
+        from pontuador_frases import BPE
+        pasta = Path(pasta)
+        npz = pasta / "pesos_numpy.npz"
+        if NPZ_SHA256 is None or _sha(npz) != NPZ_SHA256 or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
+            raise RuntimeError("pesos NumPy do realizador ausentes ou diferentes dos aprovados")
+        pesos = np.load(npz)
+        meta = json.loads(str(pesos["meta"]))
+        if meta.get("origem_sha256") != PESOS_SHA256:
+            raise RuntimeError("npz não foi exportado dos pesos aprovados")
+        self.np = np
+        self.p = {k: pesos[k].astype(np.float32) for k in pesos.files if k != "meta"}
+        self.camadas, self.cabecas, self.contexto = meta["camadas"], meta["cabecas"], meta["contexto"]
+        self.bpe = BPE(pasta / "tokenizer.json")
+        self.esp = self.bpe.especiais
+        self.proibidos = [v for k, v in self.esp.items() if k != "<fim>"]
+
+    def _norm(self, x, nome):
+        np = self.np
+        m = x.mean(-1, keepdims=True)
+        v = ((x - m) ** 2).mean(-1, keepdims=True)
+        return (x - m) / np.sqrt(v + 1e-5) * self.p[nome + ".weight"] + self.p[nome + ".bias"]
+
+    def _passo(self, ids, inicio, cache):
+        """Estados de `ids` (posições inicio…) usando e atualizando o cache de K e V."""
+        import math
+        from pontuador_frases import _erf
+        np, p = self.np, self.p
+        t = len(ids)
+        x = p["embedding.weight"][ids] + p["posicao.weight"][inicio:inicio + t]
+        h = self.cabecas
+        d = x.shape[-1] // h
+        for c in range(self.camadas):
+            b = "blocos.%d." % c
+            q, k, v = np.split(self._norm(x, b + "norm1") @ p[b + "qkv.weight"].T, 3, axis=-1)
+            q, k, v = [a.reshape(t, h, d).transpose(1, 0, 2) for a in (q, k, v)]
+            if c in cache:
+                k = np.concatenate([cache[c][0], k], axis=1)
+                v = np.concatenate([cache[c][1], v], axis=1)
+            cache[c] = (k, v)
+            total = k.shape[1]
+            s = q @ k.transpose(0, 2, 1) / math.sqrt(d)
+            # causal: a posição inicio+i vê até inicio+i
+            mascara = np.arange(total)[None, :] > (inicio + np.arange(t))[:, None]
+            s = np.where(mascara[None], -np.inf, s)
+            s = np.exp(s - s.max(-1, keepdims=True))
+            s /= s.sum(-1, keepdims=True)
+            a = (s @ v).transpose(1, 0, 2).reshape(t, h * d)
+            x = x + a @ p[b + "projecao.weight"].T
+            m = self._norm(x, b + "norm2") @ p[b + "mlp.0.weight"].T + p[b + "mlp.0.bias"]
+            m = 0.5 * m * (1.0 + _erf(m / math.sqrt(2.0), np))
+            x = x + m @ p[b + "mlp.2.weight"].T + p[b + "mlp.2.bias"]
+        return self._norm(x, "norm")
+
+    def prompt(self, quadro, mensagem):
+        """Igual a formato_fase3.montar_ids, sem a biblioteca tokenizers."""
+        e = self.esp
+        ids = ([e["<documento>"]] + self.bpe.codificar(formato().serializar_quadro(quadro)) + [e["<fim>"]]
+               + [e["<usuario>"]] + self.bpe.codificar(mensagem) + [e["<fim>"], e["<assistente>"]])
+        if len(ids) > self.contexto:
+            raise ValueError("caso excede o contexto")
+        return ids
+
+    def realizar(self, quadro, mensagem):
+        np = self.np
+        ids = self.prompt(quadro, mensagem)
+        cache, saida = {}, []
+        estado = self._passo(ids, 0, cache)[-1]
+        pos = len(ids)
+        for _ in range(min(MAX_NOVOS, self.contexto - len(ids))):
+            lg = estado @ self.p["embedding.weight"].T
+            lg[self.proibidos] = -1e9
+            nxt = int(lg.argmax())
+            if nxt == self.esp["<fim>"]:
+                return self.bpe.decodificar(saida).strip(), True
+            saida.append(nxt)
+            estado = self._passo([nxt], pos, cache)[-1]
+            pos += 1
+        return self.bpe.decodificar(saida).strip(), False
+
+
+@lru_cache(maxsize=1)
+def numpy_do_site():
+    """Realizador NumPy embutido, ou None quando os pesos não estão no pacote."""
+    try:
+        return RealizadorNumpy()
+    except Exception:
+        return None
+
+
 @lru_cache(maxsize=1)
 def formato():
     """O mesmo formato_fase3.py do treino, conferido pelo SHA."""
@@ -63,8 +168,10 @@ def formato():
 
 def status():
     """Estado público da voz experimental (para a API)."""
-    return {"habilitado": habilitado(), "pesos_sha256": PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
-            "travas": ["CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1", "CRIVO_REALIZADOR_DIR"],
+    return {"habilitado": habilitado(), "site": {"ligado": not desligado_no_site() and numpy_do_site() is not None,
+                                                 "desligar": "CRIVO_DISABLE_REALIZADOR=1", "npz_sha256": NPZ_SHA256},
+            "pesos_sha256": PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
+            "travas_pesquisa": ["CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1", "CRIVO_REALIZADOR_DIR"],
             "decisao": DECISAO_OPT_IN, "external_ai": False}
 
 

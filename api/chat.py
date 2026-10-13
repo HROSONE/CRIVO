@@ -187,7 +187,8 @@ class handler(BaseHTTPRequestHandler):
                 self.server, "dialogo_contextual", False), modelo_linguagem=modelo,
                 gerador_programacao=getattr(self.server, "gerador_programacao", None),
                 usar_geracao=getattr(self.server, "usar_geracao", True),
-                checkpoint_dialogo_candidato=getattr(self.server, 'checkpoint_dialogo_candidato', None))
+                checkpoint_dialogo_candidato=getattr(self.server, 'checkpoint_dialogo_candidato', None),
+                voz_17m=getattr(self.server, "voz_17m", True))
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

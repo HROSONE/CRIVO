@@ -71,7 +71,7 @@ def _validar_memoria(memoria):
 
 
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                  usar_geracao=True, checkpoint_dialogo_candidato=None):
+                  usar_geracao=True, checkpoint_dialogo_candidato=None, voz_17m=False):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -104,6 +104,12 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     finally:
         bot.motor_codigo.reconstruindo = False
     sinais_antes = bot.total_sinais
+    if voz_17m:
+        # Voz do 17M (realizador_17m.py) só na mensagem atual: o histórico é refeito com o
+        # texto de sempre, sem gastar uma geração por turno antigo.
+        import realizador_17m
+        if not realizador_17m.desligado_no_site():
+            bot.realizador = realizador_17m.numpy_do_site()
     identificador, resposta = bot.responder(mensagem)
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno
