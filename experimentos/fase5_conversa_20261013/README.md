@@ -1,5 +1,7 @@
 # Fase 5 — o 17M conversando
 
+**Resultado (13/10/2026): 9 de 10 gates; reprovado em "cada situação ≥ 60%".** Tudo ok 95,7% no blind (era 72%), nome exato 95,2%, "não sei" 93,0%, urgência → 192 100%, nenhum número ou nome inventado. Falhou onde havia poucas formas de fala por situação: ele responde pela palavra, não pelo sentido. Detalhes em [RESULTADO.md](RESULTADO.md).
+
 ## Por que
 
 No preview do PR #171, o criador do projeto conversou com o site e o CRIVO não acompanhou:
