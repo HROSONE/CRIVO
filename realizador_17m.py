@@ -35,6 +35,8 @@ MAX_NOVOS = 120
 # conferência recusa e fica o texto de sempre.
 PRAZO_SITE = 8.0
 PASTA_NUMPY = RAIZ / "artefatos" / "realizador_pt"
+# O pacote do site não leva experimentos/: lá vale a cópia ao lado dos pesos, com o mesmo SHA.
+FORMATO_SITE = PASTA_NUMPY / "formato_fase3.py"
 NPZ_SHA256 = "57cc2da792344ce16ae9d74e023a547d4776f3f936daddc05c3ee393cdf4a5fe"  # exportação conferida (notebooks/exportar_realizador_numpy_colab.ipynb)
 # Decisões do criador do projeto depois da porta conversacional v2 (13/10/2026): primeiro
 # o opt-in experimental para todos os atos; depois, ligar no servidor do site (main e site
@@ -165,9 +167,10 @@ def numpy_do_site():
 @lru_cache(maxsize=1)
 def formato():
     """O mesmo formato_fase3.py do treino, conferido pelo SHA."""
-    if _sha(FORMATO) != FORMATO_SHA256:
+    arquivo = FORMATO if FORMATO.is_file() else FORMATO_SITE
+    if _sha(arquivo) != FORMATO_SHA256:
         raise RuntimeError("formato_fase3.py difere do usado no treino")
-    spec = importlib.util.spec_from_file_location("formato_fase3", FORMATO)
+    spec = importlib.util.spec_from_file_location("formato_fase3", arquivo)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod

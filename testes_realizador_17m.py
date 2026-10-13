@@ -87,6 +87,36 @@ class Numpy(unittest.TestCase):
         self.assertNotIn("experimental_voice", responder_web({"message": "Meu gato se chama Tupo."}))
 
 
+class PacoteDoSite(unittest.TestCase):
+    """Só os arquivos que a Vercel leva (vercel.json): a voz precisa falar lá também."""
+
+    def test_voz_fala_no_pacote_da_vercel(self):
+        import json
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+        from pathlib import Path
+        raiz = Path(realizador_17m.RAIZ)
+        padrao = json.loads((raiz / "vercel.json").read_text())["functions"]["api/chat.py"]["includeFiles"]
+        arquivos = {p for exp in padrao.strip("{}").split(",") for p in raiz.glob(exp) if p.is_file()}
+        arquivos.add(raiz / "api" / "chat.py")
+        with tempfile.TemporaryDirectory() as pasta:
+            for p in arquivos:
+                destino = Path(pasta) / p.relative_to(raiz)
+                destino.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(p, destino)
+            script = ("import sys,json;sys.path.insert(0,sys.argv[1]);from web_core import responder_web;"
+                      "r=responder_web({'message':'Meu gato se chama Tupo.'},voz_17m=True);"
+                      "print(json.dumps([r['experimental_voice'],r['response']]))")
+            r = subprocess.run([sys.executable, "-I", "-c", script, pasta], cwd=pasta, capture_output=True, text=True,
+                               timeout=120, env={k: v for k, v in os.environ.items() if k != "CRIVO_DISABLE_REALIZADOR"})
+            self.assertEqual(r.returncode, 0, r.stderr)
+            voz, texto = json.loads(r.stdout.strip().splitlines()[-1])
+            self.assertTrue(voz["used"], voz)
+            self.assertIn("Tupo", texto)
+
+
 class Adaptador(unittest.TestCase):
     def quadro(self, *falas):
         bot = Crivo()

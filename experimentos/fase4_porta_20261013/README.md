@@ -130,19 +130,57 @@ Depois de ler o lado a lado da v2, o criador do projeto aprovou o opt-in experim
 **todos os atos** que o adaptador mapeia (incluindo cumprimento e acolher, aceitando a repetição).
 Registrado em `realizador_17m.DECISAO_OPT_IN`.
 
-- **Continua desligado por padrão** e **não é promovido**: o chat público não muda, e o site não
-  tem os pesos.
-- Para ligar num CRIVO local:
-  1. baixe do Drive a pasta `CRIVO/transformer-17m-fase3/fase3_…/` (`pesos.pt` e `tokenizer.json`);
-  2. instale `torch` e `tokenizers`;
-  3. rode com as duas travas, por exemplo
-     `CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1 CRIVO_REALIZADOR_DIR=/caminho/fase3_… python crivo.py`
-     (ou o servidor de `api/chat.py`).
-- O SHA-256 dos pesos precisa ser exatamente `745a2500…0b293`; qualquer outro arquivo é recusado.
-- A resposta da API traz `experimental_voice` (usada ou não, motivo e ato) quando as travas estão
-  ligadas, e `GET /api/chat` mostra o estado em `experimental_voice`.
-- Toda frase do 17M continua passando pela conferência do blind e pela revisão; se falhar, sai o
-  texto de sempre.
+- No primeiro registro, a voz continuava desligada e fora do site. Depois, o criador do projeto
+  pediu para ligá-la na main e no site público ("liga no crivo da main e do site publico").
+
+## Voz ligada no site (13/10/2026)
+
+O site roda sem PyTorch. Os pesos aprovados (`745a2500…`) foram exportados para NumPy float16
+(`notebooks/exportar_realizador_numpy_colab.ipynb`, com conferência NumPy × PyTorch) e trazidos do
+Drive em 9 partes. Cada parte, o npz (`57cc2da7…`, 32.212.995 bytes) e o tokenizer (`6e37a750…`)
+conferem com o manifesto. Ficam em `artefatos/realizador_pt/`, junto com uma cópia de
+`formato_fase3.py` (mesmo SHA `d1b4ab17…`), porque o pacote da Vercel não leva `experimentos/`.
+
+A porta foi rodada de novo com esses pesos NumPy (`avaliar_porta.py --numpy`):
+
+| | v2 | v1 (regressão) |
+|---|---|---|
+| ok, CRIVO de hoje | 30/33 | 43/45 |
+| ok, com a voz do 17M (NumPy) | 31/33 | 45/45 |
+| regressões | 0 | 0 |
+| frases aprovadas / turnos com quadro | 18/18 | 26/26 |
+| correções da revisão | 0 | 0 |
+
+Os números e as melhoras são os mesmos da execução em PyTorch. Resultados:
+`resultado_porta_v2_numpy.json` e `resultado_porta_v1_numpy_regressao.json`.
+
+As avaliações congeladas da CI que passam pelo servidor HTTP, agora com a voz ligada, também passaram:
+
+- roteamento natural v2: 35/35;
+- orientação prática: 79/79;
+- utilidade prática, diversidade, continuidade causal, fôlego, aliases e referentes: todas passaram.
+
+Nesses 367 turnos HTTP a voz nunca falou ("sem_quadro"): são perguntas práticas e de raciocínio,
+que não são atos que o 17M conhece.
+
+Como fica:
+
+- **Site (api/chat.py):** ligado. Só a mensagem atual usa a voz; o histórico é refeito com o texto
+  de sempre. `CRIVO_DISABLE_REALIZADOR=1` desliga sem mexer no código. A resposta traz
+  `experimental_voice` (`used`, `reason`, `act`) e `GET /api/chat` mostra o estado.
+- **Prazo:** 8 s por frase (`PRAZO_SITE`; a função tem 20 s). Passou do prazo, a frase sai sem
+  `<fim>`, a conferência recusa e fica o texto de sempre. Medido num núcleo: carregar 0,5 s, uma
+  frase 0,25–0,3 s.
+- **Linha de comando e testes (`Crivo()`):** continuam desligados. Ligam com
+  `bot.realizador = realizador_17m.numpy_do_site()` (NumPy) ou, com PyTorch e `pesos.pt`, com as
+  duas travas `CRIVO_ENABLE_EXPERIMENTAL_REALIZADOR=1` e `CRIVO_REALIZADOR_DIR` (SHA exato `745a2500…`).
+- Toda frase do 17M continua passando pela conferência do blind e pela revisão.
+- O teste `testes_realizador_17m.PacoteDoSite` copia só os arquivos do `vercel.json` e confere que
+  a voz fala lá. Sem a cópia do `formato_fase3.py`, ela falhava em silêncio.
+
+Limites: é a mesma voz da porta v2. O cumprimento é sempre o mesmo, o acolhimento é igual para
+sentimentos diferentes e perde o contexto, e "Prazer, Daniel!" depois de uma correção soa como
+apresentação. Só os atos que o adaptador mapeia passam pelo 17M; o resto do chat não muda.
 
 Próximo treino sugerido (fase 3 v2): respostas mais variadas e ligadas ao sentimento e ao contexto
 ("preocupado com meu pai"), relações no feminino, cumprimento que se apresenta e responde ao
