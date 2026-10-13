@@ -15,7 +15,8 @@ Ficam com o texto de sempre:
 - protocolo de crise e emergência de saúde (crise.py, antes de tudo) e a conversa depois de uma crise;
 - operações explícitas: rotas, contas, código, memória da sessão, análise de texto, textos pedidos
   (poema, plano, história) e qualquer identificador fora de CONVERSA;
-- respostas do acervo com mais que os fatos (um aviso ou uma oferta de continuar sumiriam).
+- respostas do acervo com mais que os fatos (um aviso ou uma oferta de continuar sumiriam);
+- turnos em que a voz da fase 3 (realizador_17m.py, aprovada na porta v3) tem quadro: ela fala.
 
 Cada resposta do D passa pela conferência da fase 5 (formato_fase5.avaliar_saida: termina, não
 repete, nenhum número ou nome inventado, fato copiado sem alteração, nome exato, marca de saúde).

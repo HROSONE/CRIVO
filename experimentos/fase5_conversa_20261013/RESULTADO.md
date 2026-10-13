@@ -240,7 +240,10 @@ Como ficou (`conversa_v3d.py`):
   - todo identificador fora da lista `CONVERSA`.
 - **Conferência por frase:** a fase 5 confere cada resposta (termina, não repete, nenhum número ou
   nome inventado, fato sem alteração, o nome que o texto de sempre diz, marca de saúde). Se falhar,
-  fica o texto de sempre, e a voz da fase 3 não roda nesse turno, por causa do prazo do site.
+  fica o texto de sempre.
+- **Voz da fase 3 primeiro:** onde ela tem quadro (nomes, saudação, explicar fatos, não sei, falar de
+  si), ela fala, porque foi aprovada na porta v3. Nos outros turnos de conversa, fala o D. Fica uma
+  geração por turno, pelo prazo do site.
 - **Liga** no servidor do site (`voz_17m`). Na linha de comando e nos testes fica desligada.
   `CRIVO_DISABLE_CONVERSA_V3D=1` desliga.
 

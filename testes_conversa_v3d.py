@@ -114,14 +114,15 @@ class PesosDoSite(unittest.TestCase):
         from web_core import responder_web
         with mock.patch.dict(os.environ, {}):
             os.environ.pop("CRIVO_DISABLE_CONVERSA_V3D", None)
-            r = responder_web({"message": "oi"}, voz_17m=True)
-        self.assertTrue(r["conversation_voice"]["used"])
+            # "oi" tem quadro da fase 3 (saudar) e fica com ela; risada não tem.
+            r = responder_web({"message": "kkkkk"}, voz_17m=True)
+        self.assertTrue(r["conversation_voice"]["used"], r["conversation_voice"])
         self.assertFalse(r["conversation_voice"]["approved"])
 
     def test_site_desliga_pela_variavel(self):
         from web_core import responder_web
         with mock.patch.dict(os.environ, {"CRIVO_DISABLE_CONVERSA_V3D": "1"}):
-            r = responder_web({"message": "oi"}, voz_17m=True)
+            r = responder_web({"message": "kkkkk"}, voz_17m=True)
         self.assertNotIn("conversation_voice", r)
 
 
