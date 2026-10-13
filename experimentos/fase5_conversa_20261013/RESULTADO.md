@@ -211,3 +211,44 @@ sem nome inventado e perda LM. D ficou acima de C em quase tudo (usa fato 99,9%,
 - Continuar D por mais passos, porque ainda subia. Acrescentar contraexemplos para as confusões
   acima e reforçar as falas do Grok que pioraram, para não perder lá.
 - Repetir com outra semente antes de concluir qualquer coisa de 1 a 3 pontos.
+
+## Ligada no chat por decisão do criador (13/10/2026)
+
+O criador decidiu: "coloque no chat. ligue." **A v3 D continua reprovada.** Ela foi ligada por
+decisão do criador, e não por aprovação. O registro está em `conversa_v3d.DECISAO` (`aprovada: False`).
+A API mostra `conversation_voice.approved: false` em cada resposta.
+
+Como ficou (`conversa_v3d.py`):
+
+- **Pesos:** `artefatos/conversa_v3d_pt/pesos_numpy.npz` (`afb6c01f…`), exportados de `pesos_D.pt`
+  (`a392edec…`) com conferência NumPy × PyTorch (`notebooks/exportar_fase5v3_numpy_colab.ipynb`). Vieram
+  do Drive em 9 partes, cada uma conferida pelo SHA do manifesto.
+- **Formato:** o mesmo `formato_fase5.py` do treino (SHA `932057af…`, o do manifesto v3). O CRIVO entrega:
+  - os fatos do acervo, só quando a resposta de sempre é exatamente eles;
+  - o assunto do "não sei";
+  - os nomes (da pessoa e o que a fala cita);
+  - `cuidado: saude` quando a fala toca em saúde.
+- **Antes do D:** `crise.py` responde a crise e agora também a **emergência de saúde**. Achado no
+  teste desta ligação: "tô com dor no peito e falta de ar" recebia "O que gostaria de explorar?" no
+  chat de hoje, sem o D. Agora manda ligar 192. "seu falta de ar" (xingamento) e perguntas como "o que
+  causa falta de ar?" ficam de fora.
+- **Ficam com o texto de sempre:**
+  - a conversa depois de uma crise;
+  - contas, código, rotas e memória da sessão;
+  - textos pedidos (poema, plano);
+  - respostas do acervo com mais que os fatos;
+  - todo identificador fora da lista `CONVERSA`.
+- **Conferência por frase:** a fase 5 confere cada resposta (termina, não repete, nenhum número ou
+  nome inventado, fato sem alteração, o nome que o texto de sempre diz, marca de saúde). Se falhar,
+  fica o texto de sempre, e a voz da fase 3 não roda nesse turno, por causa do prazo do site.
+- **Liga** no servidor do site (`voz_17m`). Na linha de comando e nos testes fica desligada.
+  `CRIVO_DISABLE_CONVERSA_V3D=1` desliga.
+
+**Limites:**
+- O sentido medido continua o da tabela acima: erra cerca de 1 em cada 3 frases novas. A conferência
+  pega forma e verdade, não sentido. Uma resposta de outra situação que passe na forma vai para a
+  pessoa. Exemplo visto aqui: "meu gato se chama Tupo" → "Prazer, Tupo! Que bom te conhecer."
+- O site refaz o histórico com o texto de sempre. O D lê a conversa como ela teria sido sem ele, não
+  como a pessoa viu.
+- O pacote do site passa de 146 para 178 MB, mais as bibliotecas. O limite da Vercel para a função é
+  250 MB.

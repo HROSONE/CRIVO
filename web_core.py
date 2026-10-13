@@ -110,6 +110,10 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         import realizador_17m
         if not realizador_17m.desligado_no_site():
             bot.realizador = realizador_17m.numpy_do_site()
+        # Voz da conversa, a v3 D (conversa_v3d.py): ligada por decisão do criador, reprovada na catraca.
+        import conversa_v3d
+        if not conversa_v3d.desligado_no_site():
+            bot.conversa_v3d = conversa_v3d.numpy_do_site()
     identificador, resposta = bot.responder(mensagem)
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno
@@ -137,6 +141,10 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         # Voz experimental do 17M (realizador_17m.py): aparece quando ela esteve ligada no turno.
         extra["experimental_voice"] = {"used": bool(voz.get("usada")), "reason": voz.get("motivo"),
                                        "act": (voz.get("quadro") or {}).get("ato")}
+    conversa = getattr(bot, "ultima_conversa_v3d", None)
+    if conversa is not None:
+        extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
+                                       "model": "fase5_v3_D", "approved": False}
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
         extra['session_memory'] = bot.memoria_sessao.ultimo

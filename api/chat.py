@@ -114,6 +114,7 @@ class handler(BaseHTTPRequestHandler):
         from conversa_dialogo import status_dialogo
         from motor_dialogo_17m import status as status_transformer
         from realizador_17m import status as status_voz
+        from conversa_v3d import status as status_conversa
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
@@ -127,6 +128,7 @@ class handler(BaseHTTPRequestHandler):
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
                                 "experimental_voice": status_voz(),
+                                "conversation_voice": status_conversa(),
                                 "programming_active": True,
                                 "question_interpretation_active": True,
                                 "reasoning_active": True,

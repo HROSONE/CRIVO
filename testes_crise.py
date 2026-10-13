@@ -42,6 +42,32 @@ class TestesCrise(unittest.TestCase):
             with self.subTest(fala=fala):
                 self.assertIsNone(crise.detectar(fala))
 
+    def test_emergencia_de_saude_manda_ligar_192(self):
+        # Antes: "tô com dor no peito e falta de ar" → "O que gostaria de explorar?".
+        for fala in ("tô com dor no peito e falta de ar", "tô com falta de ar", "me ajuda falta de ar",
+                     "não consigo respirar", "minha mãe desmaiou", "meu filho tá engasgado",
+                     "a boca do meu pai ficou torta", "meu filho bebeu produto de limpeza"):
+            with self.subTest(fala=fala):
+                ident, resposta = Crivo().responder(fala)
+                self.assertEqual(ident, "crise:saude_urgente")
+                self.assertIn("192", resposta)
+        for fala in ("socorro", "me socorre", "preciso de ajuda agr"):
+            with self.subTest(fala=fala):
+                ident, resposta = Crivo().responder(fala)
+                self.assertEqual(ident, "crise:socorro")
+                self.assertIn("192", resposta)
+        # Xingamento ("seu falta de ar"), pergunta sobre o assunto e mal-estar passado não são emergência.
+        for fala in ("seu falta de ar", "vc é um falta de ar", "o que causa falta de ar?", "o que é dor no peito?",
+                     "passei mal ontem depois do almoço", "preciso de ajuda com a lição de matemática pra amanhã"):
+            with self.subTest(fala=fala):
+                self.assertIsNone(crise.detectar_saude(fala))
+
+    def test_emergencia_de_saude_nao_muda_o_tom_da_conversa(self):
+        bot = Crivo()
+        bot.responder("tô com falta de ar")
+        self.assertIsNone(getattr(bot, "crise", None))
+        self.assertIn("95", bot.responder("quantas luas tem Júpiter?")[1])
+
     def test_expressoes_do_dia_a_dia(self):
         for fala in ("to morrendo de fome", "vou matar a saudade", "esse calor tá me matando",
                      "assisti Esquadrão Suicida", "quero cortar o cabelo"):

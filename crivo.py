@@ -284,6 +284,10 @@ class Crivo:
         # Voz experimental do 17M: None = segue as travas de ambiente (realizador_17m.py).
         self.realizador = None
         self.ultimo_realizador = None
+        # Voz da conversa, a v3 D da fase 5 (conversa_v3d.py): None = desligada.
+        self.conversa_v3d = None
+        self.ultima_conversa_v3d = None
+        self.pares_conversa = []
         self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
@@ -1461,6 +1465,14 @@ class Crivo:
 
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
+        self.ultima_conversa_v3d = None
+        ident, resposta = self._responder_com_protocolo(texto)
+        if isinstance(texto, str) and isinstance(resposta, str):
+            # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
+            self.pares_conversa = (self.pares_conversa + [(texto, resposta)])[-12:]
+        return ident, resposta
+
+    def _responder_com_protocolo(self, texto):
         import crise
         original_conteudo = texto
         self.dialogo_conversa.iniciar_trace()
@@ -1606,7 +1618,10 @@ class Crivo:
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
         ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
-        ident, resposta = self._realizar(original_conteudo, ident, resposta)
+        ident, resposta, gerou = self._conversar_v3d(original_conteudo, ident, resposta)
+        if not gerou:
+            # Sem geração da v3 D neste turno, a voz da fase 3 pode falar (prazo do site: uma geração só).
+            ident, resposta = self._realizar(original_conteudo, ident, resposta)
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
 
@@ -1625,6 +1640,23 @@ class Crivo:
             if getattr(alvo, campo, None) == resposta:
                 setattr(alvo, campo, nova)
         return ident, nova
+
+    def _conversar_v3d(self, fala, ident, resposta):
+        """Voz da conversa (conversa_v3d.py): (ident, resposta, gerou). Só com o modelo ligado."""
+        self.ultima_conversa_v3d = None
+        modelo = getattr(self, "conversa_v3d", None)
+        if modelo is None:
+            return ident, resposta, False
+        import conversa_v3d
+        novo_ident, nova, trace = conversa_v3d.aplicar(self, fala, ident, resposta, modelo)
+        self.ultima_conversa_v3d = trace
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["conversa_v3d"] = {k: v for k, v in trace.items() if k != "contexto"}
+        if nova != resposta:
+            for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+                if getattr(alvo, campo, None) == resposta:
+                    setattr(alvo, campo, nova)
+        return novo_ident, nova, "rascunho" in trace
 
     def _realizar(self, fala, ident, resposta):
         """Voz experimental do 17M (realizador_17m.py): só com as duas travas ligadas."""
