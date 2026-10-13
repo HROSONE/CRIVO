@@ -241,6 +241,13 @@ _LISTA = (
             ("geracao_conversa.py",),
             ("catracas", "fontes"),
             ("testes_geracao.py",)),
+    Especie("dialogo_gerativo_proprio", "neural",
+            "Realiza com a GRU própria (rede_dialogo_conversa.json.gz, SHA conferido) atos explícitos de "
+            "ficção e argumentos já resolvidos, sem criar fatos.",
+            "Pedidos de história e conversa argumentativa cujo ato o roteamento já decidiu.",
+            ("conversa_dialogo.py", "rede_dialogo_conversa.json.gz"),
+            ("conversa_assistente", "estado_conversa", "catracas"),
+            ("testes_conversa_gerativa.py",)),
     Especie("dialogo_contextual_neural", "neural",
             "Continua a conversa com o modelo contextual (desligado por padrão).",
             "Só em modo experimental, quando ligado explicitamente.",
