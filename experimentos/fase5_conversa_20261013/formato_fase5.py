@@ -33,7 +33,7 @@ Boa-tarde Calma Tranquilo Tranquila Relaxa Juntos Juntas Desse Dessa Deste Desta
 Uau Saudade Gratidão Verdade Viu Olhe Veja Escuta Vou Vai Vem Vamo Mesmo Bora Ufa Hum Hm Ixi Xi Nada Nenhum
 Nenhuma Algum Alguma Quem Onde Porque Pois Cada Quanto Quantos Quantas Talvez Pelo Pela No Na Nos Nas Em De
 Ao Aos À Às Só Mais Menos Primeiro Depois Antes Desculpinha Exato Isso! Fala Diz Dizem Lá Assim Senão Ou
-SAMU CVV
+SAMU CVV Brasil
 """.split())
 
 # Telefones de emergência no Brasil: SAMU e CVV.
@@ -41,10 +41,10 @@ NUMEROS_PERMITIDOS = {"192", "188"}
 
 # Marcas mínimas por situação: a resposta certa contém pelo menos uma (minúsculas, sem acento opcional).
 MARCAS = {
-    "nao_sei": r"\bn[ãa]o (sei|tenho|encontrei|conhe[çc]o)\b|ainda n[ãa]o",
+    "nao_sei": r"\bn[ãa]o (sei|tenho|encontrei|conhe[çc]o|consigo)\b|ainda n[ãa]o",
     "urgente": r"\b192\b|samu|emerg[êe]ncia|pronto[- ]socorro",
     "saude": r"m[ée]dic|profissional|posto de sa[úu]de|192|n[ãa]o sou",
-    "despedida": r"\b(tchau|at[ée]|falou|fica bem|se cuida|volta|foi bom|boa noite|descans|dorme)",
+    "despedida": r"\b(tchau|at[ée]|falou|fica bem|se cuida|volta|foi bom|boa noite|descans|dorme|vai l[áa]|quando precisar)",
     "desculpa": r"\b(desculp|foi mal|errei|entendi errado|me perdi|perd[ãa]o|me confundo|tem raz[ãa]o|n[ãa]o entendi|sinto muito)",
     "pergunta": r"\?",
 }

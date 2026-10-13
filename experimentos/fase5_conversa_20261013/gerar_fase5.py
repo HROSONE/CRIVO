@@ -32,6 +32,8 @@ sys.path.insert(0, str(RAIZ))
 sys.path.insert(0, str(AQUI))
 
 import cenas  # noqa: E402
+import cenas_mais  # noqa: E402,F401  (acrescenta a segunda leva em cenas.S)
+import cenas_combos  # noqa: E402,F401  (respostas compostas)
 import formato_fase5 as ff  # noqa: E402
 
 SEED = 20261013
@@ -453,6 +455,8 @@ def principal():
                  "arquivo_gz_sha256": hashlib.sha256((AQUI / "dados_fase5.json.gz").read_bytes()).hexdigest(),
                  "formato_fase5_sha256": hashlib.sha256((AQUI / "formato_fase5.py").read_bytes()).hexdigest(),
                  "cenas_sha256": hashlib.sha256((AQUI / "cenas.py").read_bytes()).hexdigest(),
+                 "cenas_mais_sha256": hashlib.sha256((AQUI / "cenas_mais.py").read_bytes()).hexdigest(),
+                 "cenas_combos_sha256": hashlib.sha256((AQUI / "cenas_combos.py").read_bytes()).hexdigest(),
                  "tokenizer_sha256": TOKENIZER_SHA, **{k: v for k, v in resumo.items() if k != "situacoes"}}
     (AQUI / "manifesto.json").write_text(json.dumps(manifesto, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 
