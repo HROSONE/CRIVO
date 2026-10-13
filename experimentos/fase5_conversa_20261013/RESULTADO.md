@@ -66,3 +66,61 @@ Perda de linguagem: 3,0675 → 3,1387 (+2,3%; o limite era +10%). O português g
 O que falta é **variedade de jeitos de dizer a mesma coisa**, não mais passos de treino. Para a
 v2, cada situação precisa de dezenas de formas de fala (gíria, sem acento, frase longa, frase
 curta, com e sem contexto), escritas antes de rodar e com um blind novo.
+
+# v2 — resultado (13/10/2026)
+
+Execução no Colab (T4, conta 5):
+- pasta: `CRIVO/transformer-17m-fase5-v2/fase5v2_20261013_160355/`;
+- commit dos dados: `4374a15`;
+- pesos A: `654184f5…` (passo 8000);
+- pesos B: `ea9070b3…` (passo 6000).
+
+**Aprovado: não.** As duas variantes passaram em 15 dos 16 critérios e falharam no mesmo:
+"paráfrases: cada situação ≥ 60%". `ativo_no_chat: false`.
+
+## A medida antiga superestimava
+
+O "tudo ok" confere forma e verdade: não inventou nome nem número, terminou a frase, tem a marca
+exigida. Em situações sem marca, quase qualquer frase passa. Por exemplo, "cara ok beleza… entendi"
+recebeu "Desculpa, eu me confundi" e contou como certo.
+
+Por isso, depois do treino, foi medido também o **sentido** (`sentido.py`): a resposta é uma das
+escritas para a situação pedida? A conferência com as próprias respostas-alvo dá 100%.
+
+**Limite da medida nova:** ela é estrita. Uma resposta de situação vizinha que também serviria
+conta como erro. Exemplos: "boa tarde, tudo bem?" respondida como oi_tudo_bem; "vai se ferrar"
+respondida com a despedida calma. Então ela subestima um pouco.
+
+| teste | tudo ok (antigo) A / B | **sentido certo** A / B | fase 5 antes da v2 |
+|---|---|---|---|
+| blind da v1 (2.004 cenas) | 98,0% / 97,8% | **47,4% / 50,5%** | 39,6% |
+| paráfrases nunca vistas (3.000) | 92,4% / 91,1% | **75,7% / 74,1%** | 32,0% |
+| falas do Grok nunca vistas (2.979) | 96,0% / 95,2% | **71,6% / 72,4%** | 33,9% |
+
+Arquivo: `resultado_sentido_v2.json`, com situações, confusões e exemplos.
+
+## O que isso mostra
+
+- **A v2 melhorou o entendimento de verdade.** Em frases que ele nunca viu, o sentido certo passou
+  de cerca de 33% para cerca de 73%, mais que o dobro. É o maior ganho medido até agora.
+- **Ainda erra o sentido em cerca de 1 de cada 4 frases novas**, e em metade das cenas do blind
+  antigo. Confusões típicas:
+
+  | a pessoa disse | ele respondeu como |
+  |---|---|
+  | "sinceramente, vc viaja" | viagem ("Que legal! Aproveita bastante.") |
+  | "cheguei" | despedida |
+  | "você guardou o que eu falei?" | pedido de desculpa |
+  | "no que você é bom?" | "sou uma IA, não uma pessoa" |
+
+  Ainda há resposta pela palavra, não pelo sentido.
+- **A e B dão quase o mesmo.** A cabeça de ato da variante B não mudou o resultado.
+- O "tudo ok" antigo de 95–98% escondia isso. Nos critérios futuros, o sentido entra como medida
+  principal.
+
+## Próximos passos possíveis (nada decidido)
+
+- Escolher o ponto do treino e aprovar pelo **sentido**, situação por situação, com a catraca:
+  só promove se não piorar em nada.
+- Mais contraexemplos nas confusões medidas acima, como "viaja" × "viagem" e "cheguei" × despedida.
+- Aceitar respostas de situações vizinhas só com uma lista escrita **antes** de medir, nunca depois.
