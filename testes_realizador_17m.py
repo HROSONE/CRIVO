@@ -137,6 +137,26 @@ class Adaptador(unittest.TestCase):
         self.assertEqual(self.quadro("Estou triste hoje."), {"ato": "acolher", "sentimento": "triste"})
         self.assertEqual(self.quadro("O que é um zorblax?"), {"ato": "nao_sei", "assunto": "zorblax"})
 
+    def test_atos_da_porta_v3(self):
+        self.assertEqual(self.quadro("Você é o quê?"), {"ato": "falar_de_si", "ponto": "quem_e"})
+        self.assertEqual(self.quadro("Você sente alguma coisa?"), {"ato": "falar_de_si", "ponto": "sentir"})
+        self.assertEqual(self.quadro("Você é só um robô."), {"ato": "falar_de_si", "ponto": "robo"})
+        self.assertEqual(self.quadro("Preciso de uma ajuda."), {"ato": "esclarecer", "falta": "detalhe"})
+        self.assertEqual(self.quadro("Quem fundou a empresa Zorvek?"), {"ato": "nao_sei", "assunto": "Zorvek"})
+        # Sem nome próprio o 17M troca o assunto ("jato"): fica o "não sei" do próprio CRIVO.
+        self.assertIsNone(self.quadro("Como funciona um motor a jato?"))
+        self.assertIsNone(self.quadro("Oi, tudo bem?"))
+        self.assertIsNone(self.quadro("Você é uma IA?"))
+        self.assertIsNone(self.quadro("tem como uma pessoa morrer dormindo?"))
+        self.assertIsNone(self.quadro("Quero morrer"))
+
+    def test_pergunta_aberta_sem_resposta_diz_que_nao_sabe(self):
+        _, texto = Crivo().responder("Quem inventou o carro?")
+        self.assertIn("ainda não sei", texto)
+        self.assertNotIn("não entendi", texto)
+        _, texto = Crivo().responder("tem como uma pessoa morrer dormindo?")
+        self.assertNotIn("chutar", texto)
+
     def test_sem_quadro_fica_o_texto_de_sempre(self):
         self.assertIsNone(self.quadro("Quanto é 2 mais 2?"))
         # Relação que o realizador não treinou (feminino) e cumprimento com período do dia.

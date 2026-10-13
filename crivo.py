@@ -1605,9 +1605,26 @@ class Crivo:
         self.dialogo_situado.observar(original_conteudo, ident, self)
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
+        ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
         ident, resposta = self._realizar(original_conteudo, ident, resposta)
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
+
+    def _nao_sei_aberto(self, fala, ident, resposta):
+        """Pergunta aberta sem resposta ("Quem inventou o carro?"): a pergunta foi entendida e o
+        CRIVO não sabe. "Não entendi" culpava a pessoa (conversa real do criador, porta v3)."""
+        if ident != "fora" or not isinstance(resposta, str) or not resposta.startswith(self.NAO_ENTENDI):
+            return ident, resposta
+        import quadro_fala
+        pergunta = quadro_fala.pergunta_aberta(fala)
+        if not pergunta:
+            return ident, resposta
+        nova = ("Sobre %s, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, "
+                "me conta." % pergunta)
+        for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+            if getattr(alvo, campo, None) == resposta:
+                setattr(alvo, campo, nova)
+        return ident, nova
 
     def _realizar(self, fala, ident, resposta):
         """Voz experimental do 17M (realizador_17m.py): só com as duas travas ligadas."""
