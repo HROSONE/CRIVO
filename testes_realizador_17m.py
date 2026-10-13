@@ -78,10 +78,12 @@ class Numpy(unittest.TestCase):
     def test_site_usa_a_voz_e_a_linha_de_comando_nao(self):
         from web_core import responder_web
         os.environ.pop("CRIVO_DISABLE_REALIZADOR", None)
-        r = responder_web({"message": "Meu gato se chama Tupo."}, voz_17m=True)
+        # Com a v3 D ligada ela fala em tudo (conversa_v3d.py); a fase 3 é a voz quando ela está desligada.
+        with mock.patch.dict(os.environ, {"CRIVO_DISABLE_CONVERSA_V3D": "1"}):
+            r = responder_web({"message": "Meu gato se chama Tupo."}, voz_17m=True)
         self.assertTrue(r["experimental_voice"]["used"], r["experimental_voice"])
         self.assertIn("Tupo", r["response"])
-        with mock.patch.dict(os.environ, {"CRIVO_DISABLE_REALIZADOR": "1"}):
+        with mock.patch.dict(os.environ, {"CRIVO_DISABLE_REALIZADOR": "1", "CRIVO_DISABLE_CONVERSA_V3D": "1"}):
             r = responder_web({"message": "Meu gato se chama Tupo."}, voz_17m=True)
             self.assertNotIn("experimental_voice", r)
         self.assertNotIn("experimental_voice", responder_web({"message": "Meu gato se chama Tupo."}))
@@ -108,13 +110,17 @@ class PacoteDoSite(unittest.TestCase):
                 shutil.copyfile(p, destino)
             script = ("import sys,json;sys.path.insert(0,sys.argv[1]);from web_core import responder_web;"
                       "r=responder_web({'message':'Meu gato se chama Tupo.'},voz_17m=True);"
-                      "print(json.dumps([r['experimental_voice'],r['response']]))")
-            r = subprocess.run([sys.executable, "-I", "-c", script, pasta], cwd=pasta, capture_output=True, text=True,
-                               timeout=120, env={k: v for k, v in os.environ.items() if k != "CRIVO_DISABLE_REALIZADOR"})
-            self.assertEqual(r.returncode, 0, r.stderr)
-            voz, texto = json.loads(r.stdout.strip().splitlines()[-1])
-            self.assertTrue(voz["used"], voz)
-            self.assertIn("Tupo", texto)
+                      "print(json.dumps([r.get('conversation_voice') or r['experimental_voice'],r['response']]))")
+            ambiente = {k: v for k, v in os.environ.items() if k not in ("CRIVO_DISABLE_REALIZADOR",
+                                                                          "CRIVO_DISABLE_CONVERSA_V3D")}
+            # As duas vozes falam no pacote: a v3 D (padrão) e a fase 3 (com a D desligada).
+            for extra in ({}, {"CRIVO_DISABLE_CONVERSA_V3D": "1"}):
+                r = subprocess.run([sys.executable, "-I", "-c", script, pasta], cwd=pasta, capture_output=True,
+                                   text=True, timeout=120, env={**ambiente, **extra})
+                self.assertEqual(r.returncode, 0, r.stderr)
+                voz, texto = json.loads(r.stdout.strip().splitlines()[-1])
+                self.assertTrue(voz["used"], (extra, voz))
+                self.assertIn("Tupo", texto)
 
 
 class Adaptador(unittest.TestCase):

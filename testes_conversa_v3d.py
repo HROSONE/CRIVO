@@ -61,11 +61,15 @@ class Conferencia(unittest.TestCase):
         self.assertEqual(ident, "crise:apoio")
         self.assertNotIn("legal", resposta)
 
-    def test_operacoes_ficam_com_o_texto_de_sempre(self):
-        falso = Falso("Oi! Tudo certo?")
+    def test_conta_entra_como_fato_e_o_d_diz(self):
+        falso = Falso("Fácil: 2 + 3 = 5")
         bot = bot_com(falso)
-        self.assertIn("5", bot.responder("quanto é 2+3?")[1])
-        self.assertEqual(falso.chamadas, [])
+        self.assertEqual(bot.responder("quanto é 2+3?")[1], "Fácil: 2 + 3 = 5")
+        self.assertEqual(falso.chamadas[-1][0]["fatos"], ["2 + 3 = 5"])
+
+    def test_resultado_alterado_volta_ao_texto_de_sempre(self):
+        bot = bot_com(Falso("Fácil: 2 + 3 = 6"))
+        self.assertEqual(bot.responder("quanto é 2+3?")[1], "2 + 3 = 5")
 
     def test_conversa_usa_a_voz(self):
         falso = Falso("Oi! Tô por aqui. Sobre o que vamos conversar?")
@@ -118,6 +122,16 @@ class PesosDoSite(unittest.TestCase):
             r = responder_web({"message": "kkkkk"}, voz_17m=True)
         self.assertTrue(r["conversation_voice"]["used"], r["conversation_voice"])
         self.assertFalse(r["conversation_voice"]["approved"])
+
+    def test_site_le_a_conversa_como_a_pessoa_viu(self):
+        # O site refaz o histórico; os últimos turnos voltam com a voz, como a pessoa viu.
+        from web_core import responder_web
+        os.environ.pop("CRIVO_DISABLE_CONVERSA_V3D", None)
+        visto = responder_web({"message": "kkkkk"}, voz_17m=True)["response"]
+        with mock.patch("conversa_v3d.aplicar", wraps=conversa_v3d.aplicar) as espiao:
+            responder_web({"message": "tô entediado", "history": ["kkkkk"]}, voz_17m=True)
+        bot = espiao.call_args_list[-1].args[0]
+        self.assertEqual(bot.pares_conversa[-2], ("kkkkk", visto))
 
     def test_site_desliga_pela_variavel(self):
         from web_core import responder_web

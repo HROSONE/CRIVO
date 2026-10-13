@@ -11,12 +11,14 @@ Como no treino da fase 5, o CRIVO entrega no contexto só o que é conferido:
   nomes    o nome da pessoa e o nome que esta fala cita (perfil.nomes);
   cuidado  "saude" quando a fala toca em saúde.
 
-Ficam com o texto de sempre:
-- protocolo de crise e emergência de saúde (crise.py, antes de tudo) e a conversa depois de uma crise;
-- operações explícitas: rotas, contas, código, memória da sessão, análise de texto, textos pedidos
-  (poema, plano, história) e qualquer identificador fora de CONVERSA;
-- respostas do acervo com mais que os fatos (um aviso ou uma oferta de continuar sumiriam);
-- turnos em que a voz da fase 3 (realizador_17m.py, aprovada na porta v3) tem quadro: ela fala.
+Decisão seguinte do criador: "deixe o modelo falar em 100% das mensagens". O D fala em todos os
+turnos; nos que não são de conversa (conta, código, acervo, memória, metacognição), o resultado
+conferido do CRIVO entra como fato (fatos_da_resposta) e o D o diz. Ficam fora só:
+- o protocolo de crise e de emergência de saúde (crise.py, antes de tudo, e o apoio depois de uma
+  crise, em crise.ajustar): o D erra urgência em 7 de 42 casos;
+- a frase que a conferência reprova (número ou nome inventado, sem <fim>, fato alterado): fica o
+  texto de sempre naquele turno.
+Com o D ligado, a voz da fase 3 não fala (uma voz só).
 
 Cada resposta do D passa pela conferência da fase 5 (formato_fase5.avaliar_saida: termina, não
 repete, nenhum número ou nome inventado, fato copiado sem alteração, nome exato, marca de saúde).
@@ -51,7 +53,8 @@ DECISAO = {"data": "2026-10-13", "decisao": "ligar no chat por decisão do criad
            "frase": "coloque no chat. ligue.", "aprovada": False,
            "catraca": "reprovada: grok 0,6925 < 0,7063; urgência blind v3 35/42 < 0,95",
            "chat": "reprovada: sentido blind v3 0,632, paráfrases 0,752, grok 0,692 (pedido 0,90)",
-           "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase"}
+           "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase",
+           "cobertura": "todas as mensagens fora da crise (decisão do criador: 'deixe o modelo falar em 100% das mensagens')"}
 
 # Identificadores de conversa em que o D fala. O resto fica com o texto de sempre.
 CONVERSA = ("social:", "nocao:", "memoria:nome", "conversa:relato", "conversa:reflexao", "conversa:esclarecer",
@@ -188,28 +191,43 @@ def _fatos_do_turno(bot, ident, resposta):
     return None
 
 
+def fatos_da_resposta(resposta, limite=240):
+    """Até duas frases do começo da resposta conferida, cabendo no contexto do D (96 tokens)."""
+    frases = [f.strip() for f in re.split(r"(?<=[.!?:])\s+|\n+", resposta) if f.strip()]
+    fatos, total = [], 0
+    for f in frases[:2]:
+        if total + len(f) > limite:
+            if not fatos:
+                fatos.append(f[:limite].rsplit(" ", 1)[0])
+            break
+        fatos.append(f)
+        total += len(f)
+    return fatos
+
+
 def contexto_do_turno(bot, fala, ident, resposta):
     """(ctx, exigir) da fase 5 para este turno, ou (None, motivo) quando o D não deve falar."""
     from composicao_textual import normalizar
     if not isinstance(fala, str) or not isinstance(resposta, str) or not fala.strip():
         return None, "sem_texto"
-    if ident.startswith("crise") or getattr(bot, "crise", None):
+    if ident.startswith("crise"):
         return None, "crise"
-    if getattr(bot, "ultima_rota_natural", None) is not None:
-        return None, "operacao_explicita"
     ctx, exigir = {}, {}
     fatos = _fatos_do_turno(bot, ident, resposta)
     if fatos:
         ctx["fatos"], exigir["fato"] = fatos, True
-    elif not (ident in CONVERSA_EXATOS or ident.startswith(CONVERSA)):
-        return None, "fora_da_conversa"
-    if ident == "fora":
+    elif ident == "fora":
         import quadro_fala
         pergunta = quadro_fala.pergunta_aberta(fala)
-        if not pergunta:
-            return None, "fora_sem_pergunta"
-        ctx["assunto"] = pergunta
-        exigir["marcas"] = ["nao_sei"]
+        if pergunta:
+            ctx["assunto"] = pergunta
+            exigir["marcas"] = ["nao_sei"]
+    elif not (ident in CONVERSA_EXATOS or ident.startswith(CONVERSA)):
+        # Conta, código, acervo, memória, metacognição: o resultado conferido do CRIVO entra como
+        # fato, e o D o diz (decisão do criador: o modelo fala em todas as mensagens).
+        fatos = fatos_da_resposta(resposta)
+        if fatos:
+            ctx["fatos"], exigir["fato"] = fatos, True
     nomes = {}
     pessoa = getattr(getattr(getattr(bot, "conversacao", None), "dialogo", None), "dados", {}).get("nome")
     if pessoa:
