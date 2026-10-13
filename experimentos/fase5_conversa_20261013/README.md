@@ -105,3 +105,36 @@ de hoje, e o opt-in depende da leitura dele.
   de mais conversas reais e das correções do criador, que viram dados no próximo treino.
 - A métrica confere forma e verdade (fatos, nomes, números, "não sei"), não se a resposta é a melhor
   possível; isso fica para a leitura do lado a lado.
+
+## v2 — cirurgia no entendimento das situações (planejada em 13/10/2026, antes de rodar)
+
+A v1 falhou só em "cada situação ≥ 60%", e pelas formas de fala novas: com ~6 formas por
+situação, o 17M respondia pela palavra. Com a leitura de uma segunda opinião trazida pelo criador
+do projeto, a v2 ficou estreita:
+
+- parte dos pesos da fase 5 (`71efe3a2…`), não da fase 3;
+- metade de cada lote é a comida da v1 (ensaio), e o blind da v1 continua sendo o teste de não
+  regressão;
+- a outra metade é o currículo novo (`formas_v2.py`, `gerar_v2.py` → `dados_fase5_v2.json.gz`, SHA
+  em `manifesto_v2.json`):
+  - 28 situações com formas de fala compostas por partes (2.501 formas de treino);
+  - contraexemplos parecidos na palavra e diferentes no ato ("tô cansado" × "tô cansado de você",
+    "não entendi" × "não entendi a matéria", "me ajuda" × "você não ajuda");
+- duas variantes na mesma sessão: **A** (currículo + ensaio) e **B** (o mesmo + uma cabeça de ato,
+  classificador auxiliar sobre o estado do modelo no `<assistente>`, peso 0,2). A pergunta é se uma
+  noção explícita de ato ajuda o entendimento.
+
+**Blind novo de paráfrases**: 3.000 conversas cujo último turno usa uma construção que o treino
+nunca viu (a última opção de cada parte de conteúdo ficou reservada; nenhuma fala do blind aparece no
+treino). Destas, 1.078 são contraexemplos.
+
+**Gates** (`notebooks/fase5_v2_colab.ipynb`):
+
+- No blind da v1, todos os gates que passaram continuam passando, e "cada situação ≥ 60%" passa.
+- No blind de paráfrases:
+  - tudo ok ≥ 80%;
+  - cada situação ≥ 60%;
+  - contraexemplos ≥ 70%.
+- Perda de linguagem ≤ 110% da base da fase 3.
+
+Mesmo passando, o chat continua desligado até a porta com as conversas reais.

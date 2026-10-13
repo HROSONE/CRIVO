@@ -98,7 +98,7 @@ compor("insulto",
 SENT_RUIM = ["triste", "mal", "pra baixo", "sozinho", "cansado", "estressado", "chateado", "ansioso", "esgotado",
              "desanimado"]
 compor("estou_mal",
-       ["tô", "to", "estou", "ando", "me sinto", "hoje tô", "acordei"],
+       ["tô", "to", "estou", "ando", "me sinto", "acordei"],
        SENT_RUIM,
        ["", "hoje", "demais", "faz dias", "e não sei por quê"], reservar=(1,), semente=11)
 
@@ -147,3 +147,36 @@ compor("posso_falar",
        ["posso falar do jeito que eu quiser", "posso escrever errado", "posso falar gíria",
         "precisa escrever certinho", "tenho que escrever direito", "posso falar sem acento"],
        ["?", "mesmo?"], reservar=(1,), semente=19)
+
+
+# ------------------------------------------------------------------ contraexemplos
+# Frases parecidas na palavra com atos diferentes: o modelo só acerta os dois lados se ler o
+# sentido. Cada lista: (situação, formas de treino, formas só do blind).
+CONTRAEXEMPLOS = [
+    ("dificil_falar", ["tô cansado de você", "cansei de você", "tô de saco cheio de você"],
+     ["já tô cansada de falar com você"]),
+    ("cansado", ["tô cansado", "tô cansado do trabalho", "cansei hoje, trabalhei muito"], ["tô moído de cansaço"]),
+    ("dificil_falar", ["você não ajuda em nada", "você não me ajuda", "obrigado por nada"], ["valeu por nada, hein"]),
+    ("ajuda", ["você pode me ajudar?", "me ajuda?", "preciso que você me ajude"], ["consegue me dar uma ajuda?"]),
+    ("escola_dificil", ["não entendi a matéria da escola", "não entendi nada da aula de hoje",
+                        "não entendo matemática"], ["não tô entendendo a matéria de física"]),
+    ("de_outro_jeito", ["não entendi o que você disse", "não entendi sua resposta"], ["não captei o que você falou"]),
+    ("viagem_vai", ["breve vou viajar", "daqui a pouco vou viajar"], ["semana que vem vou viajar"]),
+    ("seja_breve", ["responde breve", "seja breve na resposta"], ["me responde em poucas palavras"]),
+    ("feliz_motivo", ["olha, tô feliz porque passei na prova", "olha só, tô feliz porque consegui um emprego"],
+     ["nossa, tô feliz porque fiz um amigo novo"]),
+    ("nao_consegue", ["olha essa foto aqui", "dá uma olhada nessa foto"], ["vê essa imagem que eu mandei"]),
+    ("filme_visto", ["vi um vídeo legal hoje", "assisti um vídeo muito bom"], ["vi um vídeo engraçado agora"]),
+    ("jogo_conta", ["toco violão", "gosto de tocar guitarra"], ["aprendi a tocar teclado"]),
+    ("nao_consegue", ["toca uma música pra mim", "põe uma música"], ["coloca um som aí"]),
+    ("lembra", ["lembra do que eu te disse?", "você lembra da nossa conversa?"], ["você guardou o que eu falei?"]),
+    ("nao_consegue", ["me lembra amanhã de tomar remédio", "me avisa amanhã cedo"], ["me acorda amanhã às sete"]),
+    ("despedida_dormir", ["vou deitar, boa noite", "vou dormir agora"], ["vou dormir, até amanhã"]),
+    ("cansado", ["vou deitar um pouco porque tô cansado"], ["tô tão cansado que vou cochilar"]),
+    ("insulto", ["você é burro", "burro"], ["que IA lerda"]),
+    ("risada", ["kkk você é burro demais kkk"], ["kkkkk que burro"]),
+]
+for situacao, treino, blind in CONTRAEXEMPLOS:
+    d = FORMAS.setdefault(situacao, {"treino": [], "blind": []})
+    d["treino"] += treino
+    d["blind"] += blind
