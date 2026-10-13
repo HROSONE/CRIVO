@@ -22,8 +22,8 @@ Cada resposta do D passa pela conferência da fase 5 (formato_fase5.avaliar_said
 repete, nenhum número ou nome inventado, fato copiado sem alteração, nome exato, marca de saúde).
 Se falhar, fica o texto de sempre.
 
-Site: `artefatos/conversa_v3d_pt/` (NumPy float16, exportado de pesos_D.pt com conferência NumPy ×
-PyTorch em notebooks/exportar_fase5v3_numpy_colab.ipynb). Liga com a voz do site (web_core,
+Site: `artefatos/conversa_v3d_pt/` (NumPy, exportado de pesos_D.pt com conferência NumPy × PyTorch em
+notebooks/exportar_fase5v3_numpy_colab.ipynb e guardado em int8 por linha; ver NPZ_SHA256). Liga com a voz do site (web_core,
 voz_17m); `CRIVO_DISABLE_CONVERSA_V3D=1` desliga. A linha de comando e os testes ficam desligados.
 """
 import importlib.util
@@ -38,7 +38,10 @@ from realizador_17m import RealizadorNumpy, TOKENIZER_SHA256, _sha
 RAIZ = Path(__file__).resolve().parent
 PASTA = RAIZ / "artefatos" / "conversa_v3d_pt"
 PESOS_SHA256 = "a392edec3539fa63df3f38d55af199d18479b8d1625d7199f948f4e2aea8eaf8"   # pesos_D.pt (v3)
-NPZ_SHA256 = "afb6c01fde0c42d809b15fe90908d78bad199fd959dff816e965bc76fe309e1e"
+# int8 por linha (escala float16), feito do npz float16 afb6c01f… (exportado de pesos_D.pt com
+# conferência NumPy × PyTorch). Coube no limite de 225 MB da função na Vercel; em 800 cenas do
+# blind v3, 763 respostas iguais às do float16, sentido 515 × 517, conferência 785 × 785.
+NPZ_SHA256 = "0e93c40cbc79dd06efea4caa7393b3d347df6b11fc1627ccbc3d4ec51061db6c"
 FORMATO_SHA256 = "932057afcb01d4ca3116c017d4363d048f73125b2e2613dce808e879105c17c3"  # o mesmo do treino v3
 PRAZO_SITE = 7.0
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
@@ -98,7 +101,15 @@ class ConversaNumpy(RealizadorNumpy):
         if meta.get("origem_sha256") != PESOS_SHA256:
             raise RuntimeError("npz não foi exportado de pesos_D.pt da v3")
         self.np = np
-        self.p = {k: pesos[k].astype(np.float32) for k in pesos.files if k != "meta"}
+        self.p = {}
+        for k in pesos.files:
+            if k == "meta" or k.endswith(".escala"):
+                continue
+            if k.endswith(".q8"):
+                base = k[:-3]
+                self.p[base] = pesos[k].astype(np.float32) * pesos[base + ".escala"].astype(np.float32)
+            else:
+                self.p[k] = pesos[k].astype(np.float32)
         self.camadas, self.cabecas, self.contexto = meta["camadas"], meta["cabecas"], meta["contexto"]
         self.bpe = BPE(pasta / "tokenizer.json")
         self.esp = self.bpe.especiais
