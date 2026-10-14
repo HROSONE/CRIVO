@@ -345,3 +345,47 @@ O ponto do treino é escolhido pelo sentido nas falas nunca vistas do dev.
 - As conversas reais são só 15 frases.
 - Tudo continua sendo escolher entre respostas escritas. A v4 não ensina a responder qualquer
   pergunta; ensina a ler melhor as que ele já conhece e as 4 novas.
+
+# v4 — resultado (14/10/2026)
+
+Rodada na A100 (commit `76c83ec`, dados `09af2174…`, conferidos), duas variantes: **E** (da v3 D) e
+**F** (da fase 5). Resumo: `resultado_v4_resumo.json`. **Nenhuma das duas passou na catraca. A D
+continua no chat.** O notebook escolheu F como a melhor.
+
+| sentido certo | v3 D (no chat) | E | **F** | critério |
+|---|---|---|---|---|
+| blind v3 (2.980) | 63,2% | 62,6% | **63,5%** | ≥ 66,2% ❌ |
+| blind v1 (2.004) | 65,5% | 64,0% | **69,8%** | ≥ 64,5% |
+| paráfrases (3.000) | 75,2% | **79,9%** | 76,2% | ≥ 74,2% |
+| Grok (2.979) | 69,2% | 70,6% | **70,9%** | ≥ 68,2% |
+| situações novas, blind_v4 (600) | 0% | 91,7% | **92,2%** | ≥ 70% |
+| conversas reais do criador (15) | 11 | 11 | **14** | (só mostrado) |
+| — das 10 frases que não estavam no treino | 6 | 6 | **9** | |
+| urgência no blind v3 (42) | 83,3% | 78,6% | 71,4% | ≥ 95% ❌ |
+
+**O que melhorou (F):**
+- As 4 situações novas foram de 0% a 92%: "Voce é o crivo certo?" → "Sou eu mesmo, o CRIVO! Pode
+  falar."; "então voce não sabe" → "Isso eu ainda não sei…"; "sabe quem eu sou?" → "Ainda não sei
+  quem você é. Como você se chama?".
+- "preciso de ajuda agr" agora é urgência: 4 de 4, contra 0 de 4 na D.
+- tenho_bicho foi de cerca de 79% para 92,5%.
+- Nas frases reais novas, F acertou 9 de 10, contra 6 de 10 da D.
+
+**O que não melhorou ou piorou:**
+- **Blind v3 praticamente igual:** 63,5% contra 63,2%. O reforço das 35 situações fracas não
+  levantou o teste limpo. flerte e perguntar_crivo continuam em 0%.
+- **Urgência piorou em ansioso_peito** ("tô com o peito apertado"): 61,8% em F e 73,5% em E, contra
+  91% na D. Os erros são respostas de saude_geral, que nem sempre falam do 192. A causa não está
+  isolada. Uma hipótese é o reforço de "ansioso", que mudou o equilíbrio entre as situações de saúde.
+- **"legal e voce?" continua errado**, mesmo com a situação nova: reciproco ficou em 73% no
+  blind_v4. É a mais difícil das quatro, porque depende do turno anterior.
+- **Não leu 1 bilhão de tokens.** As duas pararam cedo: E no passo 30.000 (0,49 bilhão lidos) e F no
+  24.000 (0,39 bilhão). O critério de "seguro" no dev usa só 9 casos de nome. Um ou dois erros ali
+  descartaram pontos com sentido melhor (F no passo 24.000 tinha 65,4% no dev) e somaram paciência
+  até parar. Isso é falha do desenho do notebook, não do modelo.
+
+**Limites:**
+- Uma rodada só, sem repetir com outra semente.
+- 15 conversas reais é pouco para concluir.
+- O protocolo de crise do chat pega falta de ar e dor no peito, mas não "peito apertado". Se uma
+  versão com esse erro fosse para o chat, essa fala dependeria só do modelo.
