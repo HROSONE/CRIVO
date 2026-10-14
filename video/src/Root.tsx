@@ -10,12 +10,14 @@ import { Modelos } from "./cenas/Modelos";
 import { Rea } from "./cenas/Rea";
 import { CENAS, FPS, TOTAL } from "./tema";
 import { Video } from "./Video";
+import { Teste3D } from "./narracao/Teste3D";
 
 const base = { width: 1920, height: 1080, fps: FPS };
 
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="EngenhariaReversa" component={Video} durationInFrames={TOTAL} {...base} />
+    <Composition id="Teste3D" component={Teste3D} durationInFrames={90} {...base} />
     <Folder name="Cenas">
       <Composition id="Gancho" component={Gancho} durationInFrames={CENAS.gancho} {...base} />
       <Composition id="REA" component={Rea} durationInFrames={CENAS.rea} {...base} />
