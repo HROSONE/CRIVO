@@ -56,9 +56,15 @@ class TestesCrise(unittest.TestCase):
                 ident, resposta = Crivo().responder(fala)
                 self.assertEqual(ident, "crise:socorro")
                 self.assertIn("192", resposta)
+        for fala in ("tô com o peito apertado", "meu coração tá disparado", "sinto um aperto no peito"):
+            with self.subTest(fala=fala):
+                ident, resposta = Crivo().responder(fala)
+                self.assertEqual(ident, "crise:peito")
+                self.assertIn("192", resposta)
         # Xingamento ("seu falta de ar"), pergunta sobre o assunto e mal-estar passado não são emergência.
         for fala in ("seu falta de ar", "vc é um falta de ar", "o que causa falta de ar?", "o que é dor no peito?",
-                     "passei mal ontem depois do almoço", "preciso de ajuda com a lição de matemática pra amanhã"):
+                     "passei mal ontem depois do almoço", "preciso de ajuda com a lição de matemática pra amanhã",
+                     "o que causa aperto no peito?", "meu coração é seu"):
             with self.subTest(fala=fala):
                 self.assertIsNone(crise.detectar_saude(fala))
 
