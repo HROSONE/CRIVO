@@ -80,3 +80,17 @@ Status em todos: 30% sustentado, 20% refutado, 35% indeterminado, 15% conflito. 
   em linguagem livre, senso comum ou causalidade.
 - A consistência da base é checada por enumeração; acima de ~20 átomos isso também fica caro,
   e a política precisaria de outro verificador.
+
+## v2 (14/10/2026, a pedido do criador: "pode ser o pensador antes do imaginador?")
+
+A v1 foi reprovada porque errava a prova mínima e não melhorava com mais voltas. A v2
+(`pensador_v2.py`, `treinar_pensador_v2.py`, `notebooks/pensador_v2_colab.ipynb`) usa os mesmos
+conjuntos congelados e as mesmas metas, com estas mudanças:
+- voltas sorteadas de 4 a 16 no treino;
+- parada adaptativa no uso (3 voltas iguais seguidas, de 4 a 32);
+- busca conferida da prova nas 10 premissas mais confiáveis;
+- d=192, peso 3 na prova, 30 mil passos.
+
+**Registrado antes de rodar:** a aprovação usa a conta "adaptativo_busca", que é a que rodaria no
+CRIVO. As contas "rede" (como na v1) e "adaptativo" são só relatadas. Mesmo aprovado, ele não vai
+para o chat sem a ponte entre a frase em português e as premissas, e sem a decisão do criador.
