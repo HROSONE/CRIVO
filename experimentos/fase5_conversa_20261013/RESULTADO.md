@@ -389,3 +389,27 @@ continua no chat.** O notebook escolheu F como a melhor.
 - 15 conversas reais é pouco para concluir.
 - O protocolo de crise do chat pega falta de ar e dor no peito, mas não "peito apertado". Se uma
   versão com esse erro fosse para o chat, essa fala dependeria só do modelo.
+
+## v4 F no chat, no lugar da D (decisão do criador, 14/10/2026)
+
+O criador decidiu: "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo". **A v4 F
+continua reprovada na catraca.** O registro está em `conversa_v3d.DECISAO` (`aprovada: False`), e a
+API mostra `conversation_voice.model = fase5_v4_F, approved: false`.
+
+- **Pesos:** `artefatos/conversa_v4f_pt/pesos_numpy.npz` (`a45cba7d…`), em int8 por linha, feitos do
+  npz float16 `42419fa3…`. Esse npz foi exportado de `pesos_F.pt` (`1d47312f…`) com conferência
+  NumPy × PyTorch e veio do Drive em 9 partes, conferidas pelo manifesto. A D (`conversa_v3d_pt`)
+  saiu do pacote; ela continua no histórico do git.
+- **Custo do int8,** nas mesmas 800 cenas do blind v3: 774 respostas iguais às do float16 (96,8%),
+  sentido 521 contra 521, conferência 779 contra 779.
+- **Antes da F,** o protocolo de crise agora também responde a "peito apertado" e "coração
+  disparado", o erro de urgência dela.
+- **Até 3 tentativas por turno:** se a frase é reprovada na conferência, o modelo recomeça pela 2ª e
+  pela 3ª palavra mais provável.
+
+**Medido em 30 mensagens, pelo caminho do site:**
+- a F falou em 26;
+- 2 foram de propósito para o protocolo de urgência ("peito apertado", "falta de ar");
+- 2 tiveram as 3 frases reprovadas ("quanto é 12*7?", "quantas luas tem Júpiter?").
+
+"legal e voce?" continua errado ("Sou uma IA, não uma pessoa…").

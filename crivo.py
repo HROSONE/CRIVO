@@ -284,7 +284,7 @@ class Crivo:
         # Voz experimental do 17M: None = segue as travas de ambiente (realizador_17m.py).
         self.realizador = None
         self.ultimo_realizador = None
-        # Voz da conversa, a v3 D da fase 5 (conversa_v3d.py): None = desligada.
+        # Voz da conversa, a v4 F da fase 5 (conversa_v3d.py): None = desligada.
         self.conversa_v3d = None
         self.ultima_conversa_v3d = None
         self.pares_conversa = []
@@ -1619,7 +1619,7 @@ class Crivo:
             self.memoria_sessao.limpar()
         ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
         if getattr(self, "conversa_v3d", None) is not None:
-            # Decisão do criador: a v3 D fala em todas as mensagens (conversa_v3d.py); uma voz só.
+            # Decisão do criador: o modelo (v4 F) fala em todas as mensagens (conversa_v3d.py); uma voz só.
             ident, resposta, _ = self._conversar_v3d(original_conteudo, ident, resposta)
         else:
             ident, resposta = self._realizar(original_conteudo, ident, resposta)
