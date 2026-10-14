@@ -1,4 +1,14 @@
-"""Voz da conversa: o 17M da fase 5 v4 (variante F) responde no chat.
+"""Voz da conversa: o 46M da fase 6b v4 responde no chat (a v4 F, 17M, fica de reserva).
+
+14/10/2026, decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conhecimento". O 46M
+(fase 6a + 6b v4, SHA 45825352…) EMPATA com a v4 F na régua de sentido e não a supera: blind v3
+65,7% (F 63,5%), Grok 73,2% (F 70,9%), v4 92,3% (F 92,2%), v1 65,3% (F 69,8%), paráfrases 73,7%
+(F 76,2%), frases reais do criador 12/15 (F 14/15). Entrou em teste, não aprovado
+(experimentos/fase6b_conversa_humana/RESULTADO.md). O que ele traz a mais: lembranças (o que a
+pessoa contou, vindo da memória do aparelho), identidade do IDENTIDADE.md e contexto de 1024 tokens.
+`CRIVO_CONVERSA=f` volta para a v4 F.
+
+O texto abaixo descreve a v4 F e continua valendo para os dois (contexto, conferência, crise).
 
 Histórico: a v3 D entrou em 13/10/2026 ("coloque no chat. ligue."). Em 14/10/2026 o criador decidiu
 trocar pela v4 F: "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo". A v4 F foi
@@ -16,6 +26,8 @@ Como no treino da fase 5, o CRIVO entrega no contexto só o que é conferido:
 Decisão seguinte do criador: "deixe o modelo falar em 100% das mensagens". O modelo fala em todos os
 turnos; nos que não são de conversa (conta, código, acervo, memória, metacognição), o resultado
 conferido do CRIVO entra como fato (fatos_da_resposta) e o modelo o diz. Ficam fora só:
+- (desde 14/10/2026, com o 46M) o conteúdo longo que não cabe em duas frases (poema, código, explicação
+  grande): o modelo só recebia o começo e trocava o conteúdo por um pedaço; fica o texto inteiro;
 - o protocolo de crise e de emergência de saúde (crise.py, antes de tudo, e o apoio depois de uma
   crise, em crise.ajustar): a F erra urgência em 12 de 42 casos no blind v3;
 - (até 14/10/2026) a frase que a conferência reprovava ia para o texto de sempre. Agora vai a frase
@@ -53,6 +65,32 @@ PRAZO_TOTAL = 9.0   # todas as tentativas de um turno juntas
 TENTATIVAS = 3
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
 MAX_PARES = 6
+
+# O 46M da fase 6b v4: int8 por linha (scripts/quantizar_q8.py) do npz float16 f3faffb9…, exportado
+# de pesos.pt com conferência NumPy × PyTorch (notebooks/exportar_46m_v4_numpy_colab.ipynb: top-1
+# igual em 98,2% dos tokens no int8, 100% no float16).
+PASTA_46M = RAIZ / "artefatos" / "conversa46m_v4_pt"
+PESOS_SHA256_46M = "458253529e07604a5438ee772fde110e3dc9569604d740ee91990e219408651a"
+NPZ_SHA256_46M = "0b6b398f868aed464dafe4fa11245b981540a3dce3aa6aaf4f38c6be948e8128"
+FORMATO6_SHA256 = "114e2c1f1287a9939636ee13c8e0b77d22c549a2cb25711a4c5f343fc26b7e2b"
+# "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
+QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
+        "cuida das pessoas e enxerga que tudo está conectado.")
+FREIO = {"penalidade": 1.3, "sem_repetir_ngrama": 3}   # o mesmo da prova da 6b v4
+MAX_NOVOS_46M = 110
+MAX_LEMBRANCAS = 8
+MAX_PARES_46M = 12
+# O 46M gera uns 3 vezes mais devagar que a v4 F. Para o pedido do site caber nos 20 s da função:
+PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: uma tentativa, até 2 s
+PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
+
+DECISAO_46M = {"data": "2026-10-14", "modelo": "fase6b_v4_46m", "decisao": "ligar no chat em teste por decisão do criador",
+               "frase": "Pode colocar no chat. ai depois voce aumenta o conhecimento", "aprovada": False,
+               "regua": "empate com a v4 F: v3 0,657 (F 0,635), grok 0,732 (F 0,709), v4 0,923 (F 0,922), "
+                        "v1 0,653 (F 0,698), paráfrases 0,737 (F 0,762), frases reais 12/15 (F 14/15)",
+               "a_mais": "lembranças da memória do aparelho, identidade do IDENTIDADE.md, contexto de 1024 tokens",
+               "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase",
+               "reserva": "CRIVO_CONVERSA=f volta para a v4 F"}
 
 DECISAO = {"data": "2026-10-14", "modelo": "fase5_v4_F", "decisao": "ligar no chat por decisão do criador",
            "frase": "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo", "aprovada": False,
@@ -174,12 +212,145 @@ class ConversaNumpy(RealizadorNumpy):
 
 
 @lru_cache(maxsize=1)
-def numpy_do_site():
-    """A v4 F embutida, ou None quando os pesos não estão no pacote."""
+def formato6():
+    """O formato_fase6.py do treino da 6b, conferido pelo SHA."""
+    arquivo = PASTA_46M / "formato_fase6.py"
+    if _sha(arquivo) != FORMATO6_SHA256:
+        raise RuntimeError("formato_fase6.py difere do usado no treino da 6b")
+    spec = importlib.util.spec_from_file_location("formato_fase6", arquivo)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+class Conversa46mNumpy(ConversaNumpy):
+    """O 46M da fase 6b v4 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
+    formato6 = True
+    nome = "fase6b_v4_46m"
+    decisao = DECISAO_46M
+    max_pares = MAX_PARES_46M
+
+    def __init__(self, pasta=PASTA_46M, prazo=None):
+        import json
+        import numpy as np
+        from pontuador_frases import BPE
+        pasta = Path(pasta)
+        npz = pasta / "pesos_numpy.npz"
+        if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
+            raise RuntimeError("pesos NumPy do 46M ausentes ou diferentes dos registrados")
+        pesos = np.load(npz)
+        meta = json.loads(str(pesos["meta"]))
+        if meta.get("origem_sha256") != PESOS_SHA256_46M:
+            raise RuntimeError("npz não foi exportado do pesos.pt da 6b v4")
+        self.np = np
+        self.p = {}
+        for k in pesos.files:
+            if k == "meta" or k.endswith(".escala"):
+                continue
+            if k.endswith(".q8"):
+                base = k[:-3]
+                self.p[base] = pesos[k].astype(np.float32) * pesos[base + ".escala"].astype(np.float32)
+            else:
+                self.p[k] = pesos[k].astype(np.float32)
+        self.camadas, self.cabecas, self.contexto = meta["camadas"], meta["cabecas"], meta["contexto"]
+        self.bpe = BPE(pasta / "tokenizer.json")
+        self.esp = self.bpe.especiais
+        self.proibidos = [v for k, v in self.esp.items() if k != "<fim>"]
+        self.prazo = prazo
+        formato6()
+
+    def prompt_conversa(self, ctx, historico, mensagem):
+        """formato_fase6.montar (a mesma função do treino), com o BPE sem a biblioteca tokenizers."""
+        turnos = [{"papel": "usuario" if i % 2 == 0 else "assistente", "texto": h} for i, h in enumerate(historico)]
+        turnos.append({"papel": "usuario", "texto": mensagem})
+        ids, _ = formato6().montar(self.bpe.codificar, self.esp, ctx, turnos, contexto=self.contexto - MAX_NOVOS_46M, gerar=True)
+        return ids
+
+    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
+        """(texto, terminou): gulosa com o freio de repetição da prova da 6b v4.
+
+        primeiro=k começa pela (k+1)-ésima palavra mais provável (nova tentativa depois de uma frase reprovada)."""
+        import time
+        np = self.np
+        ids = self.prompt_conversa(ctx, historico, mensagem)
+        prazo = self.prazo if prazo is None else prazo
+        limite = time.monotonic() + prazo if prazo else None
+        cache, saida = {}, []
+        estado = self._passo(ids, 0, cache)[-1]
+        pos = len(ids)
+        k = FREIO["sem_repetir_ngrama"] - 1
+        for passo in range(min(MAX_NOVOS_46M, self.contexto - len(ids))):
+            lg = estado @ self.p["embedding.weight"].T
+            lg[self.proibidos] = -1e9
+            if saida:
+                vistos = np.array(sorted(set(saida)))
+                v = lg[vistos]
+                lg[vistos] = np.where(v > 0, v / FREIO["penalidade"], v * FREIO["penalidade"])
+            if len(saida) >= k:
+                proib = [saida[i + k] for i in range(len(saida) - k) if saida[i:i + k] == saida[-k:]]
+                if proib:
+                    lg[proib] = -1e9
+            if passo == 0 and primeiro:
+                lg[self.esp["<fim>"]] = -1e9
+                nxt = int(np.argsort(-lg)[primeiro])
+            else:
+                nxt = int(lg.argmax())
+            if nxt == self.esp["<fim>"]:
+                return self.bpe.decodificar(saida).strip(), True
+            saida.append(nxt)
+            if limite is not None and time.monotonic() > limite:
+                break
+            estado = self._passo([nxt], pos, cache)[-1]
+            pos += 1
+        return self.bpe.decodificar(saida).strip(), False
+
+
+def quer_a_f():
+    return os.environ.get("CRIVO_CONVERSA", "").strip().lower() in ("f", "v4f", "fase5_v4_f", "17m")
+
+
+@lru_cache(maxsize=2)
+def _carregar(qual):
     try:
-        return ConversaNumpy(prazo=PRAZO_SITE)
+        return (Conversa46mNumpy if qual == "46m" else ConversaNumpy)(prazo=PRAZO_SITE)
     except Exception:
         return None
+
+
+def numpy_do_site():
+    """O 46M (ou a v4 F com CRIVO_CONVERSA=f, ou se o 46M não estiver no pacote); None sem pesos."""
+    if not quer_a_f():
+        m = _carregar("46m")
+        if m is not None:
+            return m
+    return _carregar("f")
+
+
+_FEMININOS = re.compile(r"(?:a|ã|ãe|mãe|avó|mulher|esposa)$")
+
+
+def lembrancas_de(bot):
+    """O que a pessoa contou, da memória que o aparelho guarda (exportar_memoria), como no treino."""
+    try:
+        mem = bot.exportar_memoria()
+    except Exception:
+        return []
+    out = []
+    if mem.get("nome"):
+        out.append("meu nome é %s" % mem["nome"])
+    for rel, nome in (mem.get("nomes") or {}).items():
+        if rel == "você":
+            continue
+        out.append("%s %s se chama %s" % ("minha" if _FEMININOS.search(rel.split()[-1]) else "meu", rel, nome))
+    for campo in ("relatos", "objetivos", "preferencias", "restricoes"):
+        out += [str(x) for x in (mem.get(campo) or [])]
+    vistos, limpo = set(), []
+    for x in out:
+        x = " ".join(x.split())[:150]
+        if x and x.casefold() not in vistos:
+            vistos.add(x.casefold())
+            limpo.append("a pessoa disse: " + x)
+    return limpo[-MAX_LEMBRANCAS:]
 
 
 def _fatos_do_turno(bot, ident, resposta):
@@ -240,6 +411,10 @@ def contexto_do_turno(bot, fala, ident, resposta):
         # Conta, código, acervo, memória, metacognição: o resultado conferido do CRIVO entra como
         # fato, e o modelo o diz (decisão do criador: o modelo fala em todas as mensagens).
         fatos = fatos_da_resposta(resposta)
+        if fatos and len(" ".join(fatos)) < 0.8 * len(resposta.strip()):
+            # Poema, código, explicação longa: o contexto só leva as duas primeiras frases, e o modelo
+            # trocaria o conteúdo inteiro por um pedaço. Fica o que o CRIVO gerou, inteiro.
+            return None, "conteudo_longo"
         if fatos:
             ctx["fatos"], exigir["fato"] = fatos, True
     nomes = {}
@@ -267,7 +442,9 @@ def contexto_do_turno(bot, fala, ident, resposta):
 
 def aplicar(bot, fala, ident, resposta, modelo):
     """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre."""
-    trace = {"ligada": modelo is not None, "usada": False, "motivo": None, "decisao": "criador; v4 F reprovada"}
+    trace = {"ligada": modelo is not None, "usada": False, "motivo": None,
+             "modelo": getattr(modelo, "nome", "fase5_v4_F"),
+             "decisao": "criador; 46M em teste, empata com a v4 F" if getattr(modelo, "formato6", False) else "criador; v4 F reprovada"}
     if modelo is None:
         trace["motivo"] = "desligada"
         return ident, resposta, trace
@@ -276,27 +453,41 @@ def aplicar(bot, fala, ident, resposta, modelo):
         trace["motivo"] = exigir
         return ident, resposta, trace
     historico = []
-    for f, r in (getattr(bot, "pares_conversa", None) or [])[-MAX_PARES:]:
+    for f, r in (getattr(bot, "pares_conversa", None) or [])[-getattr(modelo, "max_pares", MAX_PARES):]:
         historico += [f, r]
     import time
     caso = {"contexto": ctx, "mensagem": fala, "historico": historico, "exigir": exigir}
+    ctx_modelo = ctx
+    if getattr(modelo, "formato6", False):
+        lembr = lembrancas_de(bot)
+        ctx_modelo = {"quem": QUEM, **({"lembrancas": lembr} if lembr else {}), **ctx}
+        # O que a pessoa contou e quem ele é também são fonte: nome ou número de lá não é inventado.
+        caso["mensagem"] = " ".join([fala] + lembr + [QUEM])
     # Até TENTATIVAS frases do modelo, dentro de PRAZO_TOTAL (a função do site tem 20 s).
     fim = time.monotonic() + PRAZO_TOTAL
+    tentativas = TENTATIVAS
+    if getattr(modelo, "formato6", False):
+        limite_pedido = getattr(bot, "prazo_pedido", None)
+        if getattr(bot, "refazendo_historico", False):
+            # Turno antigo: o modelo lê a conversa como a pessoa viu, mas sem gastar o prazo da resposta.
+            fim, tentativas = time.monotonic() + PRAZO_REFAZER, 1
+        if limite_pedido is not None:
+            fim = min(fim, limite_pedido)
     trace["tentativas"] = 0
     primeira = None   # (texto, terminou, falhas) da primeira frase dele
-    for k in range(TENTATIVAS):
+    for k in range(tentativas):
         resta = fim - time.monotonic()
         if resta <= 0.5:
             break
         try:
-            texto, terminou = modelo.conversar(ctx, historico, fala, primeiro=k,
+            texto, terminou = modelo.conversar(ctx_modelo, historico, fala, primeiro=k,
                                                prazo=min(resta, getattr(modelo, "prazo", None) or resta))
         except Exception as erro:  # contexto excedido, pesos ausentes
             trace["motivo"] = "erro: %s" % type(erro).__name__
             return ident, resposta, trace
         trace["tentativas"] = k + 1
         av = formato().avaliar_saida(caso, texto, terminou)
-        trace.update(contexto=ctx, rascunho=texto)
+        trace.update(contexto=ctx_modelo, rascunho=texto)
         if av["tudo_ok"] and texto:
             trace.update(usada=True, conferida=True,
                          motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
@@ -319,7 +510,10 @@ def aplicar(bot, fala, ident, resposta, modelo):
 
 def status():
     """Estado público da voz da conversa (para a API)."""
-    return {"site": {"ligada": not desligado_no_site() and numpy_do_site() is not None,
-                     "desligar": "CRIVO_DISABLE_CONVERSA_V3D=1", "npz_sha256": NPZ_SHA256},
-            "pesos_sha256": PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256, "decisao": DECISAO,
-            "external_ai": False}
+    m = None if desligado_no_site() else numpy_do_site()
+    e46 = getattr(m, "formato6", False)
+    return {"site": {"ligada": m is not None, "modelo": getattr(m, "nome", "fase5_v4_F") if m else None,
+                     "desligar": "CRIVO_DISABLE_CONVERSA_V3D=1", "voltar_para_a_f": "CRIVO_CONVERSA=f",
+                     "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256},
+            "pesos_sha256": PESOS_SHA256_46M if e46 else PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
+            "decisao": DECISAO_46M if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}

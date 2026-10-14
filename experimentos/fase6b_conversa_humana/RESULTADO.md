@@ -168,3 +168,37 @@ O que continua ruim:
   entra como fato ou como "não sei", e esses casos melhoram, mas isso não foi medido aqui;
 - as 3 frases reais erradas: "legal e voce?" → resposta de "você é uma IA?"; "serio mesmo?" e o
   xingamento longo.
+
+# No chat (14/10/2026)
+
+Decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conhecimento". **O 46M (6b v4)
+é a voz da conversa, em teste, sem aprovação na régua:** ele empata com a v4 F. A F fica de reserva
+(`CRIVO_CONVERSA=f`).
+
+- **Pesos do site:** `artefatos/conversa46m_v4_pt/pesos_numpy.npz`, 42,1 MB, int8 por linha,
+  SHA `0b6b398f…`. Exportado de `pesos.pt` (`45825352…`) por
+  `notebooks/exportar_46m_v4_numpy_colab.ipynb`. O int8 bate com o PyTorch em 98,2% dos tokens
+  (top-1); o float16, em 100%. `scripts/quantizar_q8.py` reproduz os arrays do npz da v4 F sem
+  diferença.
+- **Conferido na CPU (NumPy int8, freio de repetição):**
+  - 11 das 15 frases reais saem iguais às da prova na GPU; as outras 4 são outras respostas da mesma
+    situação;
+  - sentido em 400 frases do blind v3 (semente 7): **66,8%** (na GPU, no blind v3 inteiro: 65,7%);
+  - uns 0,8 s por resposta e 0,9 s para carregar.
+- **Contexto no chat:** `quem` (o "Em uma frase" do IDENTIDADE.md), `lembrancas` (o que a memória do
+  aparelho guarda: nome, nomes, relatos, objetivos, preferências, restrições, até 8) e os campos da
+  fase 5, com até 12 pares de histórico. Exemplo: com "meu nome é Henrique" no histórico, "você
+  lembra o meu nome?" → "Seu nome é Henrique.".
+- **Prazo:** o 46M gera umas 3 vezes mais devagar que a F. Os turnos refeitos para o histórico têm
+  uma tentativa de até 2 s, e o pedido inteiro tem 15 s (a função do site tem 20 s).
+- **Conteúdo longo** (poema, código, explicação que não cabe em duas frases) fica inteiro, como o
+  CRIVO gerou. Antes, o modelo recebia só o começo e trocava o conteúdo por um pedaço; com a F, um
+  poema já saía cortado.
+- **Tamanho do site:** para caber nos 225 MB, ficam fora do pacote da Vercel os pesos da v4 F (16 MB)
+  e os do realizador da fase 3 (32 MB, que não fala com a voz da conversa ligada). No site, então,
+  não há reserva: com o 46M desligado, fica o texto de sempre. O PC e o app têm os dois.
+- **Testes:** `testes_conversa_v3d.py` (26, com lembrança real pela memória, a chave da F, a
+  identidade e o conteúdo longo), `testes_web.py`, `testes_crise.py`, `testes_realizador_17m.py`,
+  `testes_memoria_navegador.py`, `testes_ecossistema.py` e `testes_formato_fase6.py` passam;
+  `testes_ampliacao.py` tem as mesmas 4 falhas antigas. O pacote do app (`empacotar_apk.py
+  --testar`) responde: "oi" → "Opa, oi! Tô por aqui. Me conta alguma novidade?".

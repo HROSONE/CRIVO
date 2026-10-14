@@ -101,8 +101,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     if memoria:
         bot.carregar_memoria(memoria)
     def ligar_vozes():
-        # Voz do 17M (realizador_17m.py) e voz da conversa, a v4 F (conversa_v3d.py; ligada por
-        # decisão do criador, reprovada na catraca).
+        # Voz do 17M (realizador_17m.py) e voz da conversa: o 46M da 6b v4, ou a v4 F (conversa_v3d.py;
+        # ligadas por decisão do criador, sem aprovação na catraca).
         import realizador_17m
         import conversa_v3d
         if not realizador_17m.desligado_no_site():
@@ -114,7 +114,11 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     # VOZES_NO_HISTORICO, com as vozes, para o modelo ler a conversa como a pessoa viu (o contexto
     # dela, 256 tokens, cabe poucos turnos).
     com_voz = max(0, len(historico) - VOZES_NO_HISTORICO)
+    import time
+    import conversa_v3d
+    bot.prazo_pedido = time.monotonic() + conversa_v3d.PRAZO_PEDIDO   # a função do site tem 20 s
     bot.motor_codigo.reconstruindo = True
+    bot.refazendo_historico = True
     try:
         for i, anterior in enumerate(historico):
             if voz_17m and i == com_voz:
@@ -122,6 +126,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             bot.responder(anterior)
     finally:
         bot.motor_codigo.reconstruindo = False
+        bot.refazendo_historico = False
     sinais_antes = bot.total_sinais
     if voz_17m:
         ligar_vozes()
@@ -156,7 +161,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     if conversa is not None:
         extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
                                        "verified": bool(conversa.get("conferida")),
-                                       "model": "fase5_v4_F", "approved": False}
+                                       "model": conversa.get("modelo", "fase5_v4_F"), "approved": False}
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
         extra['session_memory'] = bot.memoria_sessao.ultimo
