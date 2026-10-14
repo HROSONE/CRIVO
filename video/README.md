@@ -16,6 +16,41 @@ a 120 BPM (os cortes caem no tempo: 15 quadros por batida).
 | CRIVO | 420 | Transformer próprio 17M → 46M, ~2,5 bi tokens, 3.947 fatos com fonte, app offline, 0 modelos de terceiros |
 | Final | 180 | "a engenharia reversa desmonta. o CRIVO constrói o próprio." |
 
+## Vídeo narrado: "a pirataria da IA" (composição `Narracao`)
+
+68 s com a voz do criador (`public/voz/narracao.ogg`, tirada do vídeo que ele mandou, só
+com áudio). 14 cenas trocam no início de cada frase dita: parede 3D de apps se clonando,
+caveira de circuito em SVG, paywall e carteira vazia, plugue MCP ligando no "cérebro" 3D
+que pulsa com a voz, pedido digitado e app recriado do zero, original × clone, vista
+explodida 3D das camadas de um app (interface → binário) para a engenharia reversa, alarme
+de perigo, moedas indo para a dona do app, relógio de menos de 1 hora, vilão, "melhor que
+o original", "sem controle", celular vazando dados e saldo zerando, enquete e botão de
+inscrição. Legendas por frase curta, trilha baixa e efeitos sintetizados.
+
+Como o tempo de cada palavra foi obtido:
+
+1. Transcrição: o roteiro (`public/voz/roteiro.txt`) é o texto que o criador colou, com
+   pequenas correções de ditado ("softwere" → "software", "dir" → "dinheiro", "clube formal.
+   E intencionada" → "clone for mal-intencionada", "men. O original é esse" → "melhor que o
+   original. E esse"). O Whisper foi autorizado só para esta tarefa, mas a rede do ambiente
+   bloqueou o download do modelo, então ele não foi usado. `scripts/transcrever.mjs` fica para
+   quando houver acesso.
+2. Alinhamento sem modelo: `scripts/alinhar_fala.py` detecta os núcleos de sílaba (picos de
+   energia na faixa das vogais) e mapeia neles as sílabas do roteiro, preso nos respiros. A
+   precisão fica perto de ±0,5 s; por isso a legenda entra por frase, sem destaque palavra por
+   palavra. Conferência: a voz da saída bate com a original (correlação 0,7–1,0 por trecho).
+3. `scripts/tempos_narracao.py` gera `src/narracao/dados.gen.ts` (início das cenas, páginas
+   de legenda e quadro de cada palavra). `scripts/energia_voz.py` gera o envelope da voz.
+
+```console
+python scripts/alinhar_fala.py <narração 16 kHz .wav> public/voz/roteiro.txt public/voz/legendas.json
+python scripts/tempos_narracao.py public/voz/legendas.json src/narracao/dados.gen.ts
+npx remotion render Narracao out/narrado.mp4 --gl=swiftshader
+```
+
+A gravação original já chega a 0 dBFS; a voz entra a 72% e a saída final passou por um
+limitador (`ffmpeg -af alimiter=limit=0.94`) para não estourar quando os efeitos somam.
+
 ## Sons
 
 Toda a trilha e os efeitos (whoosh, boom, cliques, glitch, scratch, ding…) são sintetizados

@@ -51,9 +51,13 @@ export const Rede3D: React.FC<{
   corLinha?: string;
   giro?: number;
   distancia?: number;
-}> = ({ abertura = 0, pulso = 0, cor = "#c6ff3d", corLinha = "#3de0ff", giro = 1, distancia = 7 }) => {
+  largura?: number;
+  altura?: number;
+}> = ({ abertura = 0, pulso = 0, cor = "#c6ff3d", corLinha = "#3de0ff", giro = 1, distancia = 7, largura, altura }) => {
   const frame = useCurrentFrame();
-  const { width, height } = useVideoConfig();
+  const video = useVideoConfig();
+  const width = largura ?? video.width;
+  const height = altura ?? video.height;
   const dados = useMemo(montar, []);
 
   const posicoes = useMemo(() => {

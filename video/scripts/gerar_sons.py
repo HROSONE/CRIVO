@@ -289,6 +289,79 @@ def trilha(cortes):
     return mix * queda[:, None]
 
 
+def moeda():
+    seg = 0.5
+    tt = t(seg)
+    x = sum(a * np.sin(2 * np.pi * f * tt) * np.exp(-tt / d)
+            for f, a, d in [(2637, 1.0, 0.18), (3951, 0.6, 0.12), (5274, 0.3, 0.08)])
+    segundo = np.roll(x, int(0.07 * SR)) * 0.8
+    segundo[: int(0.07 * SR)] = 0
+    return (x + segundo) * env(len(tt), 0.001, 10)
+
+
+def alarme(seg=1.6):
+    tt = t(seg)
+    f = 700 + 350 * (np.sin(2 * np.pi * 2.5 * tt) > 0)
+    x = np.sign(np.sin(2 * np.pi * np.cumsum(f) / SR)) * 0.6 + np.sin(2 * np.pi * np.cumsum(f) / SR) * 0.4
+    return filtro_fft(x, None, 4000) * env(len(tt), 0.01, 3) * np.minimum(1, (seg - tt) / 0.2)
+
+
+def sino():
+    seg = 1.5
+    tt = t(seg)
+    x = sum(a * np.sin(2 * np.pi * f * tt) * np.exp(-tt / d)
+            for f, a, d in [(880, 1.0, 0.6), (1760, 0.5, 0.35), (2640, 0.25, 0.2), (1318.5, 0.6, 0.5)])
+    return x * env(len(tt), 0.002, 10)
+
+
+def tictac(seg=2.0, bpm=240):
+    n = int(seg * SR)
+    x = np.zeros(n)
+    passo = int(60 / bpm * SR)
+    for k, ini in enumerate(range(0, n, passo)):
+        c = tique() * (1.0 if k % 2 == 0 else 0.6)
+        if k % 2:
+            c = filtro_fft(c, None, 2500)
+        x[ini:ini + len(c)] += c[: n - ini]
+    return x
+
+
+def carimbo():
+    seg = 0.5
+    corpo = seno_varrido(140, 60, seg, curva=10) * env(int(seg * SR), 0.001, 0.08)
+    papel = filtro_fft(RNG.standard_normal(int(seg * SR)), 400, 3000) * env(int(seg * SR), 0.0005, 0.03)
+    return corpo + 0.7 * papel
+
+
+def trilha_narracao(cortes):
+    """Cama discreta para baixo da voz: pulso grave, chimbal leve e pad menor."""
+    total = cortes["fim"]
+    mix = np.zeros((int(total * SR) + SR, 2))
+    menor = [["A3", "C4", "E4"], ["F3", "A3", "C4"], ["D3", "F3", "A3"], ["E3", "G#3", "B3"]]
+    baixos = ["A1", "F1", "D2", "E1"]
+    s, k = 0.0, 0
+    while s < total - 0.01:
+        barra = k // 4
+        tenso = s >= cortes["tensao"]
+        if k % 4 == 0:
+            colar(mix, acorde_pad([nota(n) for n in menor[barra % 4]], 4 * TEMPO), s, 0.3)
+        if s >= cortes["batida"]:
+            colar(mix, kick(), s, 0.7 if tenso else 0.5)
+            colar(mix, chimbal(), s + TEMPO / 2, 0.12 if tenso else 0.07)
+            if tenso and k % 2 == 1:
+                colar(mix, palma(), s, 0.22)
+        colar(mix, nota_baixo(nota(baixos[barra % 4]), TEMPO), s, 0.22)
+        s += TEMPO
+        k += 1
+    colar(mix, riser(3.5), cortes["tensao"] - 3.5, 0.15)
+    n = int(total * SR)
+    mix = mix[:n]
+    queda = np.ones(n)
+    q = int(1.5 * SR)
+    queda[-q:] = np.linspace(1, 0, q) ** 2
+    return mix * queda[:, None]
+
+
 if __name__ == "__main__":
     import json
     import sys
@@ -305,8 +378,15 @@ if __name__ == "__main__":
     gravar("scratch.wav", scratch())
     gravar("erro.wav", erro(), 0.6)
     gravar("digitacao.wav", digitacao(), 0.6)
+    gravar("moeda.wav", moeda(), 0.5)
+    gravar("alarme.wav", alarme(), 0.5)
+    gravar("sino.wav", sino(), 0.6)
+    gravar("tictac.wav", tictac(), 0.5)
+    gravar("carimbo.wav", carimbo(), 0.8)
 
     cortes = json.loads(sys.argv[1]) if len(sys.argv) > 1 else json.loads(
         (Path(__file__).parent / "cortes.json").read_text())
     gravar("trilha.wav", trilha(cortes), 0.75)
+    cortes_n = json.loads((Path(__file__).parent / "cortes_narracao.json").read_text())
+    gravar("trilha_narracao.wav", trilha_narracao(cortes_n), 0.6)
     print("sons gravados em", SAIDA)
