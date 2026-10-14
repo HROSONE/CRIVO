@@ -198,3 +198,21 @@ def extras(dados, quem, semente=20261015):
     rel["identidade"] = sum(e["origem"] == "identidade" for e in novos)
     rel["lembranca"] = sum(e["origem"] == "lembranca" for e in novos)
     return rel
+
+
+# Situações da fase 5 que as respostas do IDENTIDADE.md cobrem. Na v4 da 6b, os exemplos da fase 5
+# dessas situações saem do treino (duas respostas diferentes para a mesma pergunta confundiam o
+# modelo), e a régua de sentido aceita as respostas do IDENTIDADE.md nelas.
+SITUACOES_FASE5 = {"quem": ["quem_e", "nome_crivo"], "pessoa": ["ser_humano"], "humano": ["ser_humano"],
+                   "robo": ["robo"], "sentir": ["sente"], "gosta": ["gosta"], "ama": ["gosta"], "amigo": ["amigo"],
+                   "mal": ["estou_mal", "triste_motivo"]}
+FASE5_SUBSTITUIDAS = {"quem_e", "nome_crivo", "ser_humano", "robo", "sente"}
+
+
+def aceitas_na_fase5(norm):
+    """{situação da fase 5: respostas do IDENTIDADE.md aceitas como certas}, já normalizadas com `norm`."""
+    out = {}
+    for grupo, sits in SITUACOES_FASE5.items():
+        for s in sits:
+            out.setdefault(s, set()).update(norm(r) for r in RESPOSTAS[grupo])
+    return out

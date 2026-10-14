@@ -105,6 +105,15 @@ class Extras(unittest.TestCase):
             valor = re.search(r"(?:é o |é |chama |em |de |como |tem )([^.]+)\.$", resposta).group(1).replace(" anos", "")
             self.assertTrue(any(valor in l for l in e["ctx"]["lembrancas"]), e)
 
+    def test_identidade_vale_na_regua_da_fase5(self):
+        sys.path.insert(0, str(RAIZ / "experimentos" / "fase5_conversa_20261013"))
+        import sentido
+        aceitas = self.X.aceitas_na_fase5(sentido.norm)
+        self.assertIn(sentido.norm(self.X.RESPOSTAS["pessoa"][0]), aceitas["ser_humano"])
+        for s_ in self.X.FASE5_SUBSTITUIDAS:   # toda situação tirada do treino tem resposta aceita
+            self.assertTrue(aceitas.get(s_), s_)
+            self.assertIn(s_, sentido.S)
+
     def test_filtra_quem_diz_ser_outro_sistema(self):
         e = lambda t: {"origem": "oasst2", "turnos": [{"papel": "usuario", "texto": "oi"}, {"papel": "assistente", "texto": t}]}
         fica, sai = self.X.filtrar_oasst([e("Sou o Open Assistant, um assistente."), e("Oi! Tudo bem?"),

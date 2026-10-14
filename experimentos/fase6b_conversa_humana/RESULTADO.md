@@ -93,3 +93,41 @@ completo está em `resumo_fase6b_v2.json`. **Não vai para o chat.**
 lembrança). Para cumprimento, risada, xingamento e "não sei", não havia exemplo. Por isso a v3
 junta as conversas da fase 5 v4 (as mesmas da v4 F do chat) e mede com a mesma régua de sentido da
 F, para comparar direto.
+
+# v3 — resultado (14/10/2026)
+
+A rodada foi numa L4, na conta hr87676620: 1.800 passos em uns 50 minutos. Ficou a versão do passo 900,
+escolhida pela média das perdas de validação (SHA `ff6cc22f…`, pasta
+`transformer-crivo-46m-conversa-v3/conversa_20261014_162313`). O resumo está em
+`resumo_fase6b_v3.json`. **Não vai para o chat:** na mesma régua, fica abaixo da v4 F.
+
+| sentido certo (com freio de repetição) | v3 (46M) | v4 F (17M, no chat) |
+|---|---|---|
+| blind v3 | 62,1% | 63,5% |
+| blind v1 | 61,4% | 69,8% |
+| paráfrases | 69,3% | 76,2% |
+| Grok | 64,2% | 70,9% |
+| blind v4 (situações novas) | 82,5% | 92,2% |
+| frases reais do criador | 9/15 | 14/15 |
+
+Nas frases reais, ela cumprimenta ("eae tudo bem" → "Tudo bem, sim! E você? Como foi o seu dia?"),
+ri junto ("kkkkk" → "Kkk! O que foi tão engraçado?") e responde ao xingamento com calma ("você é
+burro" → "Entendo a irritação. Eu ainda tô aprendendo. Me diz o que você esperava?").
+
+**Por que ficou abaixo:**
+1. **Pouca fase 5.** A escolha pela perda parou no passo 900. Até ali, os 247 mil exemplos da fase 5
+   tinham passado só pela metade. A F treinou 12 mil passos só com eles;
+2. **Respostas em conflito.** No blind v3, "ser_humano", "elogio_crivo", "insulto" e "te_amo"
+   ficaram em 0%. Para "você é humano?", a fase 5 tinha uma resposta e o IDENTIDADE.md outra. O
+   modelo misturava, e a régua (lista fechada da fase 5) não reconhece a do IDENTIDADE.md;
+3. **Régua fechada.** Respostas boas e diferentes contam como "livre" ou "confundiu". "tô triste
+   hoje" → "Sinto muito que você esteja passando por isso..." contou como "livre".
+
+A v4 (notebook `fase6b_v4_conversa_sentido_colab.ipynb`) ataca 1 e 2: fase 5 três vezes, sem as
+situações que o IDENTIDADE.md cobre, e escolha pelo sentido no dev. As respostas do IDENTIDADE.md
+passam a ser aceitas nessas situações, e as duas contas são mostradas.
+
+**Correção de registro:** os resumos da v2 e da v3 dizem `nenhuma_fala_escrita_pelo_assistente:
+true`, o que estava errado desde a v2. As frases curtas das lembranças, a passagem do IDENTIDADE.md
+para a primeira pessoa e as listas da fase 5 foram escritas pelo assistente, com a aprovação do
+criador. Na v4, o campo diz isso.

@@ -76,3 +76,14 @@ legendas e do OASST2. Notebook: `notebooks/fase6b_v3_conversa_completa_a100_cola
 
 Limite: a régua de sentido reconhece as respostas das listas da fase 5. Uma resposta boa e
 diferente conta como "livre", não como "certo".
+
+## v4 (14/10/2026)
+
+O mesmo da v3, com quatro mudanças:
+- fase 5 três vezes, legendas uma e OASST2 quatro;
+- tiradas as situações da fase 5 que o IDENTIDADE.md cobre (`extras_fase6b.FASE5_SUBSTITUIDAS`);
+- escolha pelo sentido em 400 frases novas do dev da fase 5;
+- prova com e sem freio de repetição.
+
+Notebook: `notebooks/fase6b_v4_conversa_sentido_colab.ipynb`. Saída:
+`CRIVO/transformer-crivo-46m-conversa-v4/`.
