@@ -22,8 +22,9 @@ import re
 import unicodedata
 from pathlib import Path
 
-VERSAO = 1
-MIN_LEAD, MAX_LEAD = 40, 230
+VERSAO = 2
+MIN_LEAD, MAX_LEAD = 40, 300
+CURTA = 230   # cabe no contexto do modelo; mais longa, o CRIVO mostra o texto sem o modelo reescrever
 FORA_TITULO = re.compile(r"^(?:lista|anexo|predefinição|categoria|portal|wikipédia|ajuda|ficheiro|arquivo)\b|desambiguação"
                          r"|^\d{1,4}(?: a\.c\.)?$|^\d{1,2} de \w+$|^(?:janeiro|fevereiro|março|abril|maio|junho|julho|agosto"
                          r"|setembro|outubro|novembro|dezembro) de \d{4}$", re.I)
@@ -31,6 +32,10 @@ DESAMBIGUACAO = re.compile(r"pode (?:se )?referir|pode ser:|pode significar|refe
 # Parênteses de pronúncia, etimologia e grafias: atrapalham a frase e não são o fato.
 PARENTESE_RUIDO = re.compile(r"\s*\((?:[^()]*?(?:pronúncia|IPA|AFI|em [a-zà-ú]+:|lit\.|grego|latim|ouça|escute|"
                              r"\[|/)[^()]*)\)", re.I)
+# Verbete de obra ou mídia ("DNA (canção)") não responde pelo título sozinho ("o que é DNA?").
+MIDIA = re.compile(r"\((?:[^)]*\b(?:canção|álbum|single|filme|série|telenovela|banda|grupo|jogo|livro|romance|"
+                   r"personagem|episódio|programa|revista|jornal|peça|ópera|EP|DVD|turnê|clube|navio|cantor|cantora|"
+                   r"rapper|ator|atriz|desambiguação)\b[^)]*)\)$", re.I)
 ABREVIACOES = re.compile(r"\b(?:a\.C|d\.C|Sr|Sra|Dr|Dra|St|Sto|Sta|séc|aprox|ca|n\.º|nº|pág|vol|etc|Jr|Mr|Mrs|E\.U\.A|EUA|"
                          r"[A-Z])\.$")
 
@@ -69,7 +74,10 @@ def lead(titulo, texto):
     if not fs or not fs[0].endswith((".", "!", "?")):
         return None
     saida = fs[0]
-    if len(fs) > 1 and len(saida) + 1 + len(fs[1]) <= MAX_LEAD and fs[1].endswith("."):
+    if len(saida) > MAX_LEAD:   # verbete grande: sem os parênteses (datas, locais, grafias) costuma caber
+        saida = " ".join(re.sub(r"\s*\([^()]*\)", "", saida).split())
+        saida = re.sub(r"\s+([,.;])", r"\1", saida)
+    if len(fs) > 1 and len(saida) + 1 + len(fs[1]) <= CURTA and fs[1].endswith("."):
         saida = saida + " " + fs[1]
     if not (MIN_LEAD <= len(saida) <= MAX_LEAD):
         return None
@@ -101,7 +109,7 @@ def construir(artigos, n=120_000):
         chaves.setdefault(normalizar(t), i)
     for i, t in enumerate(titulos):
         base = re.sub(r"\s*\(.*\)$", "", t)
-        if base != t:
+        if base != t and not MIDIA.search(t):
             chaves.setdefault(normalizar(base), i)
     return {"versao": VERSAO, "fonte": "Wikipédia em português (wikimedia/wikipedia 20231101.pt)",
             "licenca": "CC BY-SA 3.0/4.0", "n": len(titulos), "titulos": titulos, "leads": leads, "chaves": chaves}
