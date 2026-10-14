@@ -15,9 +15,9 @@ Autorização: AGENTS.md (professor e juiz só fora do CRIVO que conversa). Alun
 
 ## Passos
 
-1. **Perguntas** (sem professor): acervo, títulos da enciclopédia, perguntas pt do OASST2, conversas das fases 5/6b, variações das frases reais. Ficam de fora: identidade e criador (IDENTIDADE.md), crise e saúde urgente (crise.py), pedidos sobre o próprio modelo.
-2. **Gerar** com os dois professores, na A100, as mesmas perguntas. Instrução: português do Brasil, curto, simples, sem dizer quem é.
-3. **Filtro**: idioma pt, tamanho, sem repetição, sem "sou um modelo/assistente", sem nome de modelo; fato do acervo ou da enciclopédia é conferido com a fonte e descartado se contradiz.
+1. **Perguntas** (`professor.py`, sem professor): conversa comum e fatos da fase 5 v4 (só as situações liberadas), OASST2 pt (treino da 6b), acervo, enciclopédia (30 mil). Ficam de fora: identidade, criador, gostos e fé (IDENTIDADE.md), crise e saúde urgente (crise.py), "não sei", nomes e lembranças, e toda frase da régua (dev, blinds, as 15 frases reais): a régua não pode ter sido vista pelo professor nem pelo aluno.
+2. **Gerar** com os dois professores, `Qwen/Qwen3-1.7B` (pequeno) e `Qwen/Qwen3-8B` (médio), sem o modo de pensar, na A100 (`notebooks/destilacao_professor_a100_colab.ipynb`, conta hr87676620). Instrução: português do Brasil, curto, simples, sem dizer quem é. A revisão exata e a licença de cada um ficam no manifesto; o notebook para se a licença não for Apache 2.0 ou MIT.
+3. **Filtro** (`professor.conferir`): idioma pt (sem chinês, inglês ou espanhol), tamanho, resposta cortada, sem repetição, sem markdown, sem "sou um modelo/assistente" nem nome de modelo. Com fatos: a regra de ouro da conferência do chat (número e nome próprio só do contexto ou da conversa) e pelo menos 40% das palavras de conteúdo dos fatos. Sem fatos, a regra de ouro é registrada; **o treino da v5 só usa exemplos que passam nela** (o que o chat aceitaria).
 4. **Pasta separada** `dados_professor/` com origem (modelo, versão, data, licença) em cada linha.
 5. **Treino** a partir do 46M v4, mesmas configurações da v4, duas misturas:
    - v5m: humanos (como na v4) + professor médio;
