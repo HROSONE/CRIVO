@@ -499,6 +499,10 @@ def aplicar(bot, fala, ident, resposta, modelo):
     # Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
     # jeito que ele quiser". Se nenhuma frase passou na conferência, vai a primeira dele mesmo assim,
     # marcada como não conferida; o texto de sempre só aparece se ele não disse nada.
+    if primeira is not None and ident.startswith("enciclopedia:"):
+        # A resposta leva "Fonte: Wikipédia": o texto tem que ser fiel ao verbete. Sem conferência, fica o verbete.
+        trace.update(usada=False, conferida=False, motivo="fonte: não conferida, fica o verbete (" + ", ".join(primeira[2]) + ")")
+        return ident, resposta, trace
     if primeira is not None:
         texto, terminou, falhas = primeira
         if not terminou:
