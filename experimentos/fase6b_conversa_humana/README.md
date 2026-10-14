@@ -42,3 +42,25 @@ perguntas livres, a fatos do acervo e a testes de lembrança.
   responder com o que leu, e pode errar. A conferência do chat (números e nomes fora do contexto)
   continua marcando isso.
 - Nada desta fase entra no chat sem a 6c, que mede de novo na CPU e mostra o resultado ao criador.
+
+## v2 (14/10/2026, depois da primeira rodada)
+
+A primeira rodada falhou (RESULTADO.md). O criador aprovou que entrem respostas tiradas do
+IDENTIDADE.md ("faça essa desgraça direito [...] inventa essa merda"). Mudanças
+(`extras_fase6b.py` e o mesmo notebook):
+
+- **identidade:** ~100 formas de perguntar quem ele é, com respostas do IDENTIDADE.md, literais
+  (os exemplos que o arquivo dá) ou passadas para a primeira pessoa;
+- **lembrança:** 20 mil perguntas sobre o que a pessoa contou. A resposta curta devolve o que está
+  nas lembranças ("Seu nome é Gabi."), e 20% das perguntas são sobre algo que ela não contou
+  ("Você ainda não me contou isso."). Essas frases curtas foram escritas aqui;
+- **OASST2:** saem as conversas em que o assistente diz ser outro sistema;
+- **mais conversa:** legendas 2 vezes, OASST2 6, acervo 2, identidade 4, até 2.500 passos;
+- **escolha da versão** pela média da perda nas legendas e no OASST2 separados;
+- **freio de repetição** na geração (penalidade 1,3 nos tokens já ditos e nenhum trecho de 3
+  tokens repetido);
+- **a prova usa outras formas:** perguntas de identidade e lembranças com valores e tipos que não
+  estão no treino; "Voce é o crivo certo?" e "tô triste hoje" (frases reais do criador) ficam fora
+  do treino.
+
+Saída: `CRIVO/transformer-crivo-46m-conversa-v2/`.

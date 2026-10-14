@@ -3,6 +3,7 @@ tokens especiais. O gerador de dados não tem falas escritas pelo assistente."""
 import gzip
 import json
 import random
+import re
 import sys
 import tempfile
 import unittest
@@ -72,6 +73,43 @@ class Gerador(unittest.TestCase):
 
     def test_quem_vem_do_identidade(self):
         self.assertIn("CRIVO", G.resumo_identidade())
+
+
+
+class Extras(unittest.TestCase):
+    def setUp(self):
+        import extras_fase6b
+        self.X = extras_fase6b
+
+    def test_identidade_vem_do_arquivo(self):
+        linhas = (RAIZ / "IDENTIDADE.md").read_text(encoding="utf-8").splitlines()
+        texto = " ".join(" ".join(re.sub(r"^\s*>\s?", "", l) for l in linhas).split())   # sem as marcas de citação
+        for grupo in ("pessoa", "robo", "mal"):   # exemplos que o próprio arquivo dá, literais
+            for r in self.X.RESPOSTAS[grupo]:
+                self.assertIn(r, texto, grupo)
+        self.assertEqual(set(self.X.RESPOSTAS), set(self.X.PERGUNTAS))
+
+    def test_prova_fica_fora_do_treino(self):
+        sys.path.insert(0, str(RAIZ / "experimentos" / "fase5_conversa_20261013"))
+        import cenas_v4
+        norm = lambda t: t.casefold().strip("?! ")
+        treino = {norm(p) for v in self.X.PERGUNTAS.values() for p in v}
+        self.assertFalse(treino & {norm(c["mensagem"]) for c in cenas_v4.CONVERSAS_REAIS})
+        self.assertFalse(treino & {norm(p) for p in self.X.PERGUNTAS_AVALIACAO})
+
+    def test_lembranca_responde_com_o_que_foi_dito(self):
+        for e in self.X.lembrancas(random.Random(1), n=300):
+            resposta = e["turnos"][1]["texto"]
+            if resposta == self.X.NAO_CONTOU:
+                continue
+            valor = re.search(r"(?:é o |é |chama |em |de |como |tem )([^.]+)\.$", resposta).group(1).replace(" anos", "")
+            self.assertTrue(any(valor in l for l in e["ctx"]["lembrancas"]), e)
+
+    def test_filtra_quem_diz_ser_outro_sistema(self):
+        e = lambda t: {"origem": "oasst2", "turnos": [{"papel": "usuario", "texto": "oi"}, {"papel": "assistente", "texto": t}]}
+        fica, sai = self.X.filtrar_oasst([e("Sou o Open Assistant, um assistente."), e("Oi! Tudo bem?"),
+                                          e("Como um modelo de linguagem treinado pela OpenAI...")])
+        self.assertEqual((len(fica), sai), (1, 2))
 
 
 if __name__ == "__main__":
