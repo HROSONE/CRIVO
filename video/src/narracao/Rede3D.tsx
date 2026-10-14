@@ -41,7 +41,7 @@ const montar = (): Dados => {
 };
 
 /**
- * Rede de nós em esfera (o "cérebro" do CRIVO). `abertura` 0 = montada,
+ * Rede de nós em esfera (o "cérebro" de uma IA). `abertura` 0 = montada,
  * 1 = desmontada em pedaços; `pulso` (0..1) vem da energia da voz.
  */
 export const Rede3D: React.FC<{
