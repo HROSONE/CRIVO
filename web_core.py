@@ -101,7 +101,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     if memoria:
         bot.carregar_memoria(memoria)
     def ligar_vozes():
-        # Voz do 17M (realizador_17m.py) e voz da conversa, a v3 D (conversa_v3d.py; ligada por
+        # Voz do 17M (realizador_17m.py) e voz da conversa, a v4 F (conversa_v3d.py; ligada por
         # decisão do criador, reprovada na catraca).
         import realizador_17m
         import conversa_v3d
@@ -111,7 +111,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             bot.conversa_v3d = conversa_v3d.numpy_do_site()
 
     # Os turnos antigos são refeitos com o texto de sempre, sem gastar geração; os últimos
-    # VOZES_NO_HISTORICO, com as vozes, para a v3 D ler a conversa como a pessoa viu (o contexto
+    # VOZES_NO_HISTORICO, com as vozes, para o modelo ler a conversa como a pessoa viu (o contexto
     # dela, 256 tokens, cabe poucos turnos).
     com_voz = max(0, len(historico) - VOZES_NO_HISTORICO)
     bot.motor_codigo.reconstruindo = True
@@ -155,7 +155,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     conversa = getattr(bot, "ultima_conversa_v3d", None)
     if conversa is not None:
         extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
-                                       "model": "fase5_v3_D", "approved": False}
+                                       "model": "fase5_v4_F", "approved": False}
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
         extra['session_memory'] = bot.memoria_sessao.ultimo

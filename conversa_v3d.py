@@ -1,9 +1,11 @@
-"""Voz da conversa: o 17M da fase 5 v3 (variante D) responde no chat.
+"""Voz da conversa: o 17M da fase 5 v4 (variante F) responde no chat.
 
-Decisão do criador do projeto (13/10/2026): "coloque no chat. ligue." A v3 D foi REPROVADA na
-catraca (Grok 69,2% < 70,6%; urgência no blind v3 35/42) e nos critérios do chat (sentido 63,2%
-no blind v3, abaixo de 90%). Ela está ligada por decisão do criador, não por aprovação; ver
-experimentos/fase5_conversa_20261013/RESULTADO.md.
+Histórico: a v3 D entrou em 13/10/2026 ("coloque no chat. ligue."). Em 14/10/2026 o criador decidiu
+trocar pela v4 F: "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo". A v4 F foi
+REPROVADA na catraca (blind v3 63,5% < 66,2%; urgência no blind v3 71,4% < 95%), mas é melhor que a D
+nas conversas reais do criador (14/15 contra 11/15) e nas situações novas (92% contra 0%). Ela está
+ligada por decisão do criador, não por aprovação; ver experimentos/fase5_conversa_20261013/RESULTADO.md.
+O erro de urgência dela ("peito apertado") passou para o protocolo de crise (crise.py).
 
 Como no treino da fase 5, o CRIVO entrega no contexto só o que é conferido:
   fatos    os fatos do acervo que a resposta de sempre mostra (só quando ela é exatamente esses fatos);
@@ -11,21 +13,21 @@ Como no treino da fase 5, o CRIVO entrega no contexto só o que é conferido:
   nomes    o nome da pessoa e o nome que esta fala cita (perfil.nomes);
   cuidado  "saude" quando a fala toca em saúde.
 
-Decisão seguinte do criador: "deixe o modelo falar em 100% das mensagens". O D fala em todos os
+Decisão seguinte do criador: "deixe o modelo falar em 100% das mensagens". O modelo fala em todos os
 turnos; nos que não são de conversa (conta, código, acervo, memória, metacognição), o resultado
-conferido do CRIVO entra como fato (fatos_da_resposta) e o D o diz. Ficam fora só:
+conferido do CRIVO entra como fato (fatos_da_resposta) e o modelo o diz. Ficam fora só:
 - o protocolo de crise e de emergência de saúde (crise.py, antes de tudo, e o apoio depois de uma
-  crise, em crise.ajustar): o D erra urgência em 7 de 42 casos;
+  crise, em crise.ajustar): a F erra urgência em 12 de 42 casos no blind v3;
 - a frase que a conferência reprova (número ou nome inventado, sem <fim>, fato alterado): fica o
   texto de sempre naquele turno.
-Com o D ligado, a voz da fase 3 não fala (uma voz só).
+Com o modelo ligado, a voz da fase 3 não fala (uma voz só).
 
-Cada resposta do D passa pela conferência da fase 5 (formato_fase5.avaliar_saida: termina, não
+Cada resposta do modelo passa pela conferência da fase 5 (formato_fase5.avaliar_saida: termina, não
 repete, nenhum número ou nome inventado, fato copiado sem alteração, nome exato, marca de saúde).
 Se falhar, fica o texto de sempre.
 
-Site: `artefatos/conversa_v3d_pt/` (NumPy, exportado de pesos_D.pt com conferência NumPy × PyTorch em
-notebooks/exportar_fase5v3_numpy_colab.ipynb e guardado em int8 por linha; ver NPZ_SHA256). Liga com a voz do site (web_core,
+Site: `artefatos/conversa_v4f_pt/` (NumPy, exportado de pesos_F.pt com conferência NumPy × PyTorch em
+notebooks/exportar_fase5v4f_numpy_colab.ipynb e guardado em int8 por linha; ver NPZ_SHA256). Liga com a voz do site (web_core,
 voz_17m); `CRIVO_DISABLE_CONVERSA_V3D=1` desliga. A linha de comando e os testes ficam desligados.
 """
 import importlib.util
@@ -38,25 +40,28 @@ import realizador_17m
 from realizador_17m import RealizadorNumpy, TOKENIZER_SHA256, _sha
 
 RAIZ = Path(__file__).resolve().parent
-PASTA = RAIZ / "artefatos" / "conversa_v3d_pt"
-PESOS_SHA256 = "a392edec3539fa63df3f38d55af199d18479b8d1625d7199f948f4e2aea8eaf8"   # pesos_D.pt (v3)
-# int8 por linha (escala float16), feito do npz float16 afb6c01f… (exportado de pesos_D.pt com
-# conferência NumPy × PyTorch). Coube no limite de 225 MB da função na Vercel; em 800 cenas do
-# blind v3, 763 respostas iguais às do float16, sentido 515 × 517, conferência 785 × 785.
-NPZ_SHA256 = "0e93c40cbc79dd06efea4caa7393b3d347df6b11fc1627ccbc3d4ec51061db6c"
+PASTA = RAIZ / "artefatos" / "conversa_v4f_pt"
+PESOS_SHA256 = "1d47312f3d99cfc2b20cf010414984367fd8d9b2566ebfcb14ee21dda11732d5"   # pesos_F.pt (v4)
+# int8 por linha (escala float16), feito do npz float16 42419fa3… (exportado de pesos_F.pt com
+# conferência NumPy × PyTorch em notebooks/exportar_fase5v4f_numpy_colab.ipynb), do mesmo jeito que
+# a D (ver RESULTADO.md, "Ligada no chat"): cabe no limite de 225 MB da função na Vercel.
+NPZ_SHA256 = "a45cba7dd484c12192698e920d6b79ba4c3cd504cce4246d248a13b05a1b4886"
 FORMATO_SHA256 = "932057afcb01d4ca3116c017d4363d048f73125b2e2613dce808e879105c17c3"  # o mesmo do treino v3
 PRAZO_SITE = 7.0
+PRAZO_TOTAL = 9.0   # todas as tentativas de um turno juntas
+TENTATIVAS = 3
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
 MAX_PARES = 6
 
-DECISAO = {"data": "2026-10-13", "decisao": "ligar no chat por decisão do criador",
-           "frase": "coloque no chat. ligue.", "aprovada": False,
-           "catraca": "reprovada: grok 0,6925 < 0,7063; urgência blind v3 35/42 < 0,95",
-           "chat": "reprovada: sentido blind v3 0,632, paráfrases 0,752, grok 0,692 (pedido 0,90)",
+DECISAO = {"data": "2026-10-14", "modelo": "fase5_v4_F", "decisao": "ligar no chat por decisão do criador",
+           "frase": "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo", "aprovada": False,
+           "catraca": "reprovada: blind v3 0,635 < 0,662; urgência blind v3 0,714 < 0,95",
+           "chat": "reprovada: sentido blind v3 0,635, paráfrases 0,762, grok 0,709 (pedido 0,90)",
+           "melhor_que_a_anterior": "conversas reais 14/15 (D 11/15); situações novas 0,92 (D 0); v1 0,698 (D 0,655)",
            "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase",
            "cobertura": "todas as mensagens fora da crise (decisão do criador: 'deixe o modelo falar em 100% das mensagens')"}
 
-# Identificadores de conversa em que o D fala. O resto fica com o texto de sempre.
+# Identificadores de conversa em que o modelo fala. O resto fica com o texto de sempre.
 CONVERSA = ("social:", "nocao:", "memoria:nome", "conversa:relato", "conversa:reflexao", "conversa:esclarecer",
             "conversa:abertura", "conversa:repeticao", "conversa:reparo", "conversa:perspectiva",
             "conversa:opiniao_terceiro", "conversa:tema", "conversa:situada_")
@@ -89,7 +94,7 @@ def formato():
 
 
 class ConversaNumpy(RealizadorNumpy):
-    """O mesmo Transformer 17M em NumPy, com os pesos da v3 D e o prompt da fase 5."""
+    """O mesmo Transformer 17M em NumPy, com os pesos da v4 F e o prompt da fase 5."""
 
     def __init__(self, pasta=PASTA, prazo=None):
         import json
@@ -98,11 +103,11 @@ class ConversaNumpy(RealizadorNumpy):
         pasta = Path(pasta)
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256 or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
-            raise RuntimeError("pesos NumPy da v3 D ausentes ou diferentes dos registrados")
+            raise RuntimeError("pesos NumPy da v4 F ausentes ou diferentes dos registrados")
         pesos = np.load(npz)
         meta = json.loads(str(pesos["meta"]))
         if meta.get("origem_sha256") != PESOS_SHA256:
-            raise RuntimeError("npz não foi exportado de pesos_D.pt da v3")
+            raise RuntimeError("npz não foi exportado de pesos_F.pt da v4")
         self.np = np
         self.p = {}
         for k in pesos.files:
@@ -137,18 +142,26 @@ class ConversaNumpy(RealizadorNumpy):
             fonte = seg + fonte
         return doc + fonte
 
-    def conversar(self, ctx, historico, mensagem):
-        """(texto, terminou), com decodificação gulosa como no treino."""
+    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
+        """(texto, terminou), com decodificação gulosa como no treino.
+
+        primeiro=k começa pela (k+1)-ésima palavra mais provável e segue gulosa: é a nova tentativa
+        quando a primeira frase foi reprovada na conferência."""
         import time
         ids = self.prompt_conversa(ctx, historico, mensagem)
-        limite = time.monotonic() + self.prazo if self.prazo else None
+        prazo = self.prazo if prazo is None else prazo
+        limite = time.monotonic() + prazo if prazo else None
         cache, saida = {}, []
         estado = self._passo(ids, 0, cache)[-1]
         pos = len(ids)
-        for _ in range(min(realizador_17m.MAX_NOVOS, self.contexto - len(ids))):
+        for passo in range(min(realizador_17m.MAX_NOVOS, self.contexto - len(ids))):
             lg = estado @ self.p["embedding.weight"].T
             lg[self.proibidos] = -1e9
-            nxt = int(lg.argmax())
+            if passo == 0 and primeiro:
+                lg[self.esp["<fim>"]] = -1e9
+                nxt = int(self.np.argsort(-lg)[primeiro])
+            else:
+                nxt = int(lg.argmax())
             if nxt == self.esp["<fim>"]:
                 return self.bpe.decodificar(saida).strip(), True
             saida.append(nxt)
@@ -161,7 +174,7 @@ class ConversaNumpy(RealizadorNumpy):
 
 @lru_cache(maxsize=1)
 def numpy_do_site():
-    """A v3 D embutida, ou None quando os pesos não estão no pacote."""
+    """A v4 F embutida, ou None quando os pesos não estão no pacote."""
     try:
         return ConversaNumpy(prazo=PRAZO_SITE)
     except Exception:
@@ -192,7 +205,7 @@ def _fatos_do_turno(bot, ident, resposta):
 
 
 def fatos_da_resposta(resposta, limite=240):
-    """Até duas frases do começo da resposta conferida, cabendo no contexto do D (96 tokens)."""
+    """Até duas frases do começo da resposta conferida, cabendo no contexto do modelo (96 tokens)."""
     frases = [f.strip() for f in re.split(r"(?<=[.!?:])\s+|\n+", resposta) if f.strip()]
     fatos, total = [], 0
     for f in frases[:2]:
@@ -206,7 +219,7 @@ def fatos_da_resposta(resposta, limite=240):
 
 
 def contexto_do_turno(bot, fala, ident, resposta):
-    """(ctx, exigir) da fase 5 para este turno, ou (None, motivo) quando o D não deve falar."""
+    """(ctx, exigir) da fase 5 para este turno, ou (None, motivo) quando o modelo não deve falar."""
     from composicao_textual import normalizar
     if not isinstance(fala, str) or not isinstance(resposta, str) or not fala.strip():
         return None, "sem_texto"
@@ -224,7 +237,7 @@ def contexto_do_turno(bot, fala, ident, resposta):
             exigir["marcas"] = ["nao_sei"]
     elif not (ident in CONVERSA_EXATOS or ident.startswith(CONVERSA)):
         # Conta, código, acervo, memória, metacognição: o resultado conferido do CRIVO entra como
-        # fato, e o D o diz (decisão do criador: o modelo fala em todas as mensagens).
+        # fato, e o modelo o diz (decisão do criador: o modelo fala em todas as mensagens).
         fatos = fatos_da_resposta(resposta)
         if fatos:
             ctx["fatos"], exigir["fato"] = fatos, True
@@ -242,7 +255,7 @@ def contexto_do_turno(bot, fala, ident, resposta):
             nomes[rel] = nome
     if nomes:
         ctx["nomes"] = nomes
-        # O nome que o texto de sempre diz, o D também tem que dizer, igual.
+        # O nome que o texto de sempre diz, o modelo também tem que dizer, igual.
         exigir["nomes"] = [v for v in nomes.values() if re.search(r"(?<![\w-])" + re.escape(v) + r"(?![\w-])", resposta)]
     nf = normalizar(fala)
     if _SAUDE.search(nf):
@@ -253,7 +266,7 @@ def contexto_do_turno(bot, fala, ident, resposta):
 
 def aplicar(bot, fala, ident, resposta, modelo):
     """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre."""
-    trace = {"ligada": modelo is not None, "usada": False, "motivo": None, "decisao": "criador; v3 D reprovada"}
+    trace = {"ligada": modelo is not None, "usada": False, "motivo": None, "decisao": "criador; v4 F reprovada"}
     if modelo is None:
         trace["motivo"] = "desligada"
         return ident, resposta, trace
@@ -264,19 +277,29 @@ def aplicar(bot, fala, ident, resposta, modelo):
     historico = []
     for f, r in (getattr(bot, "pares_conversa", None) or [])[-MAX_PARES:]:
         historico += [f, r]
-    try:
-        texto, terminou = modelo.conversar(ctx, historico, fala)
-    except Exception as erro:  # contexto excedido, pesos ausentes
-        trace["motivo"] = "erro: %s" % type(erro).__name__
-        return ident, resposta, trace
+    import time
     caso = {"contexto": ctx, "mensagem": fala, "historico": historico, "exigir": exigir}
-    av = formato().avaliar_saida(caso, texto, terminou)
-    trace.update(contexto=ctx, rascunho=texto)
-    if not av["tudo_ok"] or not texto:
-        trace["motivo"] = "reprovada: " + ", ".join(k for k, v in av.items() if v is False)
-        return ident, resposta, trace
-    trace.update(usada=True, motivo="conferida")
-    return ident, texto, trace
+    # Até TENTATIVAS frases do modelo, dentro de PRAZO_TOTAL (a função do site tem 20 s).
+    fim = time.monotonic() + PRAZO_TOTAL
+    trace["tentativas"] = 0
+    for k in range(TENTATIVAS):
+        resta = fim - time.monotonic()
+        if resta <= 0.5:
+            break
+        try:
+            texto, terminou = modelo.conversar(ctx, historico, fala, primeiro=k,
+                                               prazo=min(resta, getattr(modelo, "prazo", None) or resta))
+        except Exception as erro:  # contexto excedido, pesos ausentes
+            trace["motivo"] = "erro: %s" % type(erro).__name__
+            return ident, resposta, trace
+        trace["tentativas"] = k + 1
+        av = formato().avaliar_saida(caso, texto, terminou)
+        trace.update(contexto=ctx, rascunho=texto)
+        if av["tudo_ok"] and texto:
+            trace.update(usada=True, motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
+            return ident, texto, trace
+        trace["motivo"] = "reprovada: " + ", ".join(k2 for k2, v in av.items() if v is False)
+    return ident, resposta, trace
 
 
 def status():

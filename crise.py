@@ -128,17 +128,22 @@ _INFORMATIVA = re.compile(
     r"^(?:o que|oque|oq) (?:e|eh|causa|significa|pode causar)\b|^por ?que (?:da|a gente|as pessoas)\b|"
     r"^quais? (?:sao )?(?:a |as )?(?:causa|causas|sintomas)\b|^e normal\b|^como (?:evitar|prevenir|tratar)\b")
 _SOCORRO = re.compile(r"\bsocorr\w*|\bpreciso de ajuda (?:agora|agr|urgente|rapido|ja)\b|\bajuda urgente\b")
+# "tô com o peito apertado": a v4 F errava (respondia como dúvida de saúde comum, sem o 192).
+_PEITO = re.compile(r"\b(?:peito (?:\w+ )?apertado|aperto no peito|aperto forte no peito|"
+                    r"cora[cç]ao (?:\w+ )?(?:disparado|acelerado|batendo muito rapido|batendo forte))\b")
 TEXTOS_SAUDE = {
     "saude_urgente": ("Isso pode ser urgente. Liga agora pro 192 (SAMU) ou vai ao pronto-socorro mais próximo. "
                       "Não espera passar. Se tiver alguém perto, pede ajuda. Eu não sou médico, mas fico aqui "
                       "com você."),
     "socorro": ("Tô aqui. Se for uma emergência, liga agora pro 192 (SAMU). Se não for, me conta o que está "
                 "acontecendo."),
+    "peito": ("Pode ser ansiedade, e respirar devagar ajuda: puxa o ar contando até 4 e solta contando até 6. "
+              "Mas se for dor forte no peito, falta de ar, tontura ou se piorar, liga agora pro 192 (SAMU)."),
 }
 
 
 def detectar_saude(texto):
-    """'saude_urgente', 'socorro' ou None. Separado de detectar(), que é o protocolo de crise emocional."""
+    """'saude_urgente', 'socorro', 'peito' ou None. Separado de detectar(), que é o protocolo de crise emocional."""
     n = normalizar(texto).strip(" .!?")
     if not n or _INFORMATIVA.search(n):
         return None
@@ -146,6 +151,8 @@ def detectar_saude(texto):
         return "saude_urgente"
     if len(n.split()) <= 8 and _SOCORRO.search(n):
         return "socorro"
+    if _PEITO.search(n):
+        return "peito"
     return None
 
 
