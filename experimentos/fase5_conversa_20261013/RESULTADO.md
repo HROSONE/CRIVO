@@ -413,3 +413,18 @@ API mostra `conversation_voice.model = fase5_v4_F, approved: false`.
 - 2 tiveram as 3 frases reprovadas ("quanto é 12*7?", "quantas luas tem Júpiter?").
 
 "legal e voce?" continua errado ("Sou uma IA, não uma pessoa…").
+
+### "Ele quem deve falar do jeito que ele quiser" (decisão do criador, 14/10/2026)
+
+**A fala dele não é mais trocada por texto pronto.**
+- Se nenhuma das 3 tentativas passa na conferência, aparece a primeira frase dele, marcada como não
+  conferida. A API mostra `verified: false`, e a página diz "não conferida (pode ter erro)".
+- O texto de sempre só aparece se ele não disser nada.
+- **Exceção:** o protocolo de crise e de urgência de saúde continua com a resposta fixa.
+
+**Na bateria de 30 mensagens:**
+- ele falou em 28;
+- as 2 restantes são as urgências;
+- 2 das 28 foram como não conferidas, por exemplo "quanto é 12*7?" → "Adoro esse assunto! 12 × 7 =
+  84; nomes: você=Ananana, foi fraca." A conta está certa, mas ele vaza o formato interno do
+  contexto e mistura frases.

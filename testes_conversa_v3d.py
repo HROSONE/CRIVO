@@ -73,9 +73,10 @@ class Conferencia(unittest.TestCase):
         bot.responder("oi")
         self.assertEqual(bot.ultima_conversa_v3d["tentativas"], conversa_v3d.TENTATIVAS)
 
-    def test_resultado_alterado_volta_ao_texto_de_sempre(self):
+    def test_resultado_alterado_aparece_nao_conferido(self):
         bot = bot_com(Falso("Fácil: 2 + 3 = 6"))
-        self.assertEqual(bot.responder("quanto é 2+3?")[1], "2 + 3 = 5")
+        self.assertEqual(bot.responder("quanto é 2+3?")[1], "Fácil: 2 + 3 = 6")
+        self.assertFalse(bot.ultima_conversa_v3d["conferida"])
 
     def test_conversa_usa_a_voz(self):
         falso = Falso("Oi! Tô por aqui. Sobre o que vamos conversar?")
@@ -83,21 +84,27 @@ class Conferencia(unittest.TestCase):
         self.assertEqual(bot.responder("oi")[1], falso.texto)
         self.assertTrue(bot.ultima_conversa_v3d["usada"])
 
-    def test_numero_inventado_volta_ao_texto_de_sempre(self):
-        sempre = Crivo().responder("oi")[1]
+    def test_reprovada_fala_assim_mesmo_marcada(self):
+        # Decisão do criador: a fala é dele; a conferência só marca.
         bot = bot_com(Falso("Oi! Eu tenho 37 anos."))
-        self.assertEqual(bot.responder("oi")[1], sempre)
+        self.assertEqual(bot.responder("oi")[1], "Oi! Eu tenho 37 anos.")
+        self.assertFalse(bot.ultima_conversa_v3d["conferida"])
         self.assertIn("sem_numero_inventado", bot.ultima_conversa_v3d["motivo"])
 
-    def test_sem_fim_volta_ao_texto_de_sempre(self):
-        sempre = Crivo().responder("oi")[1]
+    def test_sem_fim_aparece_cortada(self):
         bot = bot_com(Falso("Oi! Tô por", terminou=False))
+        self.assertEqual(bot.responder("oi")[1], "Oi! Tô por…")
+
+    def test_sem_nada_dito_fica_o_texto_de_sempre(self):
+        sempre = Crivo().responder("oi")[1]
+        bot = bot_com(Falso(""))
         self.assertEqual(bot.responder("oi")[1], sempre)
 
-    def test_nome_que_o_texto_de_sempre_diz_tem_que_vir_igual(self):
+    def test_nome_que_o_texto_de_sempre_diz_e_conferido(self):
         bot = bot_com(Falso("Prazer! Vou lembrar."))
-        _, resposta = bot.responder("meu nome é Ana")
-        self.assertIn("Ana", resposta)
+        bot.responder("meu nome é Ana")
+        self.assertIn("nome_exato", bot.ultima_conversa_v3d["motivo"])
+        self.assertFalse(bot.ultima_conversa_v3d["conferida"])
 
     def test_saude_exige_a_marca(self):
         # "peito apertado" agora vai para o protocolo de crise; dor de cabeça fica com o modelo.

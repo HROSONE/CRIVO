@@ -257,7 +257,9 @@
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.conversation_voice && extra.conversation_voice.used) {
         // Voz da conversa: a v4 F da fase 5, ligada por decisão do criador e reprovada na catraca.
-        tag.textContent = "◇ Modelo próprio 17M · v4 em teste";
+        tag.textContent = extra.conversation_voice.verified
+          ? "◇ Modelo próprio 17M · v4 em teste"
+          : "◇ Modelo próprio 17M · v4 · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
         tag.textContent = "◇ Voz própria do 17M · conferida";
       } else if (extra.generation && extra.generation.usada) {

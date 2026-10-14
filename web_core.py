@@ -155,6 +155,7 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
     conversa = getattr(bot, "ultima_conversa_v3d", None)
     if conversa is not None:
         extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
+                                       "verified": bool(conversa.get("conferida")),
                                        "model": "fase5_v4_F", "approved": False}
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
