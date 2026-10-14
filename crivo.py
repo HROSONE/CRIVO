@@ -1466,6 +1466,7 @@ class Crivo:
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         self.ultima_conversa_v3d = None
+        self.ultima_enciclopedia = None
         ident, resposta = self._responder_com_protocolo(texto)
         if isinstance(texto, str) and isinstance(resposta, str):
             # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
@@ -1617,14 +1618,42 @@ class Crivo:
         self.dialogo_situado.observar(original_conteudo, ident, self)
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
+        ident, resposta, verbete = self._enciclopedia(original_conteudo, ident, resposta)
         ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
         if getattr(self, "conversa_v3d", None) is not None:
-            # Decisão do criador: o modelo (v4 F) fala em todas as mensagens (conversa_v3d.py); uma voz só.
+            # Decisão do criador: o modelo (46M, ou a v4 F) fala em todas as mensagens (conversa_v3d.py); uma voz só.
             ident, resposta, _ = self._conversar_v3d(original_conteudo, ident, resposta)
         else:
             ident, resposta = self._realizar(original_conteudo, ident, resposta)
+        if verbete is not None:
+            import enciclopedia
+            resposta = self._trocar_mostrada(resposta, resposta.rstrip() + "\n\n" + enciclopedia.fonte(verbete))
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
+
+    def _trocar_mostrada(self, antiga, nova):
+        for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+            if getattr(alvo, campo, None) == antiga:
+                setattr(alvo, campo, nova)
+        return nova
+
+    def _enciclopedia(self, fala, ident, resposta):
+        """Acervo sem o assunto ("fora"): o começo do verbete da Wikipédia (enciclopedia.py), com a fonte.
+
+        (ident, resposta, título do verbete ou None). O texto de sempre continuaria "não tenho uma
+        definição cadastrada"; a frase do verbete entra como fato para a voz da conversa dizer."""
+        self.ultima_enciclopedia = None
+        if ident != "fora" or not isinstance(resposta, str):
+            return ident, resposta, None
+        import enciclopedia
+        achado = enciclopedia.consultar(fala)
+        if achado is None:
+            return ident, resposta, None
+        titulo, frase = achado
+        self.ultima_enciclopedia = {"verbete": titulo, "fonte": "Wikipédia", "licenca": "CC BY-SA"}
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["id"] = enciclopedia.IDENT
+        return enciclopedia.IDENT, self._trocar_mostrada(resposta, frase), titulo
 
     def _nao_sei_aberto(self, fala, ident, resposta):
         """Pergunta aberta sem resposta ("Quem inventou o carro?"): a pergunta foi entendida e o
