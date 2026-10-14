@@ -64,3 +64,15 @@ IDENTIDADE.md ("faça essa desgraça direito [...] inventa essa merda"). Mudanç
   do treino.
 
 Saída: `CRIVO/transformer-crivo-46m-conversa-v2/`.
+
+## v3 (14/10/2026)
+
+O mesmo da v2 mais as **conversas da fase 5 v4** (~247 mil, geradas no Colab por `gerar_v4.py` e
+conferidas por SHA), com `quem` no contexto. A prova acrescenta o **sentido da v4 F** (`sentido.py`,
+blinds v3, v1, paráfrases, Grok e v4, e as 15 frases reais), com o mesmo contexto que o chat monta
+e o freio de repetição. A escolha da versão usa a média das perdas de validação da fase 5, das
+legendas e do OASST2. Notebook: `notebooks/fase6b_v3_conversa_completa_a100_colab.ipynb`. Saída:
+`CRIVO/transformer-crivo-46m-conversa-v3/`.
+
+Limite: a régua de sentido reconhece as respostas das listas da fase 5. Uma resposta boa e
+diferente conta como "livre", não como "certo".

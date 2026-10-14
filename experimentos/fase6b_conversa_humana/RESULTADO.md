@@ -52,3 +52,44 @@ conversa bem. Não vai para o chat**: a v4 F continua lá.
 - A prova é pequena (70 respostas sem sorteio). A taxa de conferência (`tudo_ok`) mede só números,
   nomes inventados e repetição, não sentido.
 - A perda de leitura subiu um pouco (2,728 → 2,744 no passo 50): o custo foi pequeno.
+
+# v2 — resultado (14/10/2026)
+
+A rodada foi numa A100, na conta hr87676620: 973 passos em uns 8 minutos. Ficou a versão do passo 972
+(SHA `7918253d…`, pasta `transformer-crivo-46m-conversa-v2/conversa_20261014_150909`). O resumo
+completo está em `resumo_fase6b_v2.json`. **Não vai para o chat.**
+
+| perda | base 6a | v2 (passo 972) |
+|---|---|---|
+| legendas validação | 3,807 | 2,638 |
+| OASST2 validação | 2,034 | 1,991 |
+| identidade validação (formas novas) | 1,635 | 0,086 |
+| lembrança validação | 2,313 | 0,045 |
+| leitura corpus próprio (256) | 2,728 | 2,783 |
+
+**O que melhorou** (respostas sem sorteio, com freio de repetição):
+- **Identidade, inclusive em formas fora do treino:** "me fala de você", "você é um ser humano?",
+  "vc seria meu amigo?" e "o que te deixa feliz?" receberam a resposta certa do IDENTIDADE.md;
+- **lembranças com valores e tipos novos:** Rosângela, o papagaio Louro (tipo que não está no
+  treino) e Juiz de Fora (com uma lembrança que distrai) foram certos. "Você ainda não me contou
+  isso." apareceu nos 2 casos certos;
+- **sem laços de repetição;**
+- "tô triste hoje" (frase real) → "Sinto muito que você esteja passando por isso. Quer me contar
+  mais? Tô aqui."
+
+**O que continua errado:**
+- **Usa a resposta de identidade fora do lugar:** "kkkkk" e "o que você acha de mim?" → "Gosto de
+  tudo: ciência, história..."; "você é burro" → "Sei que sou uma inteligência artificial...";
+  "sabe quem eu sou?" → "Sou o CRIVO...";
+- **cumprimento e conversa comum:** "eae tudo bem" → "Aqui está um exemplo de como você pode usar o
+  CRIVO para criar uma empresa...";
+- **lembrança com outra forma de dizer:** "semana que vem tenho prova de filosofia" e "eu torço pro
+  Remo" → "Você ainda não me contou isso."; "quantos anos tem a minha irmã?" → "Você tem 7 anos.".
+  Na régua estrita, 5 de 8 (a taxa automática dá 6/8 porque conta o "7");
+- **perguntas de conhecimento:** ele inventa ("A vírus é um organismo vivo e não se conforma com a
+  infecção pelo HIV").
+
+**Leitura:** as respostas que ele aprendeu a usar vieram de exemplos com rótulo claro (identidade e
+lembrança). Para cumprimento, risada, xingamento e "não sei", não havia exemplo. Por isso a v3
+junta as conversas da fase 5 v4 (as mesmas da v4 F do chat) e mede com a mesma régua de sentido da
+F, para comparar direto.
