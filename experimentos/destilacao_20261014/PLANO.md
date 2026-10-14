@@ -41,6 +41,6 @@ Autorização: AGENTS.md (professor e juiz só fora do CRIVO que conversa). Alun
 5. Eldan e Li, TinyStories, arXiv 2305.07759.
 6. Agarwal et al., On-Policy Distillation of Language Models (ICLR 2024), arXiv 2306.13649.
 7. Boizard et al., Towards Cross-Tokenizer Distillation: the Universal Logit Distillation Loss (TMLR 2025), arXiv 2402.12030.
-8. Cui et al., Multi-Level Optimal Transport for Universal Cross-Tokenizer KD, arXiv 2412.14528.
+8. Multi-Level Optimal Transport for Universal Cross-Tokenizer KD, arXiv 2412.14528.
 9. Zheng et al., Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena (NeurIPS 2023).
 10. Ye et al., Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge (CALM).
