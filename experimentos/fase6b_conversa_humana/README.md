@@ -1,0 +1,44 @@
+# Fase 6b — conversar com falas de pessoas
+
+Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
+jeito que ele quiser". Por isso nenhum alvo de treino desta fase foi escrito pelo assistente nem
+por modelo de linguagem.
+
+## Dados (`gerar_fase6b.py`)
+
+| origem | o que é | licença |
+|---|---|---|
+| OASST2 pt | conversas inteiras de voluntários (sem sintéticas, apagadas ou reprovadas); só as que terminam numa resposta, porque os começos já entram nelas | Apache-2.0 |
+| legendas pt-BR | 2 a 8 falas seguidas de filmes e séries (OpenSubtitles v2018, OPUS), sem linhas de crédito e música | uso não comercial, crédito a opensubtitles.org |
+| acervo do CRIVO | "me fala sobre X" e, como resposta, os fatos do acervo que o CRIVO entrega no contexto | próprio |
+
+- **Contexto** (`formato_fase6.py`): `quem` (o resumo do IDENTIDADE.md: ele se apresenta do jeito
+  dele) e `lembrancas` (em conversas de 6 turnos ou mais, as primeiras falas da pessoa saem do
+  histórico e viram "a pessoa disse: ..."), além de `fatos`, `assunto`, `nomes` e `cuidado`, como na
+  fase 5.
+- **Perda:** em todas as falas do assistente da janela de 1024 tokens.
+- **Separação:** teste 3% e validação 3%, por árvore do OASST2, item do acervo ou trecho das legendas.
+- **Leitura:** um quarto de cada lote continua sendo leitura (FineWeb-2 da 6a, corpus próprio e o
+  IDENTIDADE.md inteiro), para ele não esquecer o que leu.
+
+## Treino (`notebooks/fase6b_conversa_humana_a100_colab.ipynb`)
+
+Base: a 6a terminada (SHA no `resumo_fase6a.json`). Quatro voltas no OASST2; a cada volta, uma
+amostra nova do acervo (mesmo número de tokens) e legendas novas (o dobro). O número de passos sai do
+tamanho real dos dados. LR 1e-4 → 1e-5. Fica a versão com a menor perda no OASST2 de validação.
+
+**Medidas:** perda nas conversas separadas antes e depois, perda de leitura (para ver se esqueceu) e
+as respostas dele, sem retoque, às 15 frases reais do criador, a perguntas de identidade, a
+perguntas livres, a fatos do acervo e a testes de lembrança.
+
+## Limites, ditos antes de rodar
+
+- **OASST2 em português é pequeno** (alguns milhares de mensagens): quatro voltas podem decorar
+  respostas. A escolha pela validação limita isso, mas não elimina.
+- **Nas legendas, quem é "pessoa" e quem é "CRIVO" é uma convenção** (falas alternadas). Duas falas
+  seguidas podem ser do mesmo personagem. Elas ensinam o ritmo da conversa em português, não um
+  jeito de ser.
+- **Não há exemplo de "não sei" escrito por pessoas** nos dados. Nas perguntas sem fatos, ele vai
+  responder com o que leu, e pode errar. A conferência do chat (números e nomes fora do contexto)
+  continua marcando isso.
+- Nada desta fase entra no chat sem a 6c, que mede de novo na CPU e mostra o resultado ao criador.

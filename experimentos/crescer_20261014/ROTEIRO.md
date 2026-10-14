@@ -13,7 +13,7 @@ decide o próximo passo e faz tudo o que não precisa de GPU nem de aparelho. O 
 | 2 | "Peito apertado" e "coração disparado" no protocolo de urgência | assistente | feito |
 | 3 | Memória ligada por padrão no app e no PC (fica só no aparelho) | assistente | feito |
 | 4 | **6a: crescer para 46M e ler ~2,5 bi de tokens da web** | criador roda (A100, hr87676620) | rodando |
-| 5 | 6b, dados: conversas de pessoas (OASST2 pt e outras abertas), lembranças no contexto, IDENTIDADE.md como leitura | assistente | a fazer, enquanto a 6a roda |
+| 5 | 6b, dados: conversas de pessoas (OASST2 pt e outras abertas), lembranças no contexto, IDENTIDADE.md como leitura | assistente | feito (gerador, formato, notebook; fumaça em CPU) |
 | 6 | 6b, treino: conversar com o modelo crescido, sem falas escritas pelo assistente | criador roda (A100) | depois da 6a |
 | 7 | 6c: o modelo crescido no chat, no site e no app (int8, conferido no emulador) | assistente | depois do 6b |
 | 8 | Caderno de lembranças usado pelo modelo (o que a pessoa contou, entre conversas) | assistente | junto com 6b/6c |
