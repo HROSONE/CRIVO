@@ -1,0 +1,54 @@
+# Fase 6b — resultado da primeira rodada (14/10/2026)
+
+A rodada foi numa A100, na conta hr87676620. O notebook rodou de ponta a ponta, mas **o modelo não
+conversa bem. Não vai para o chat**: a v4 F continua lá.
+
+- Pesos: `CRIVO/transformer-crivo-46m-conversa/conversa_20261014_144525/pesos.pt` (SHA `28910526…`).
+  Resumo completo: `resumo_fase6b.json`, nesta pasta.
+- Dados: 1.081 conversas do OASST2 pt, 2.847 do acervo e ~80 mil trechos de legendas (de 370 mil
+  disponíveis).
+- Treino: 4 voltas e 187 passos. **A versão escolhida foi a do passo 50**, pela menor perda no
+  OASST2 de validação.
+
+| perda (menor é melhor) | base 6a | passo 50 (escolhido) | passo 187 |
+|---|---|---|---|
+| OASST2 validação | 2,034 | 1,900 | 1,906 |
+| OASST2 teste | 2,206 | 2,085 | — |
+| legendas validação | 3,807 | 2,955 | 2,854 |
+| acervo validação | 0,538 | 0,047 | 0,027 |
+| leitura corpus próprio (256) | 2,728 | 2,744 | 2,767 |
+| leitura web (1024) | 2,808 | 2,836 | 2,868 |
+
+## O que ele disse (70 respostas sem sorteio, sem retoque)
+
+- **30 de 70 foram cortadas no limite de 120 tokens** e 15 repetem o mesmo trecho três vezes ou mais
+  ("Por que o céu é azul? Por que o céu é azul? ...").
+- **18 de 70 começam com "Aqui estão algumas dicas/sugestões..."**, em tom de texto de site, inclusive
+  para "quem é você?" e "qual é o seu nome?".
+- **Identidade:** ele não usou o campo `quem`. Para "o que você acha de mim?", respondeu "Meu nome é
+  Olaf. Sou um estudante de medicina...".
+- **Lembranças:** ele copia a lembrança, mas não responde com ela. "lembra o que eu tenho amanhã?" →
+  "Amanhã tenho prova de química"; "qual é o meu time?" (sorteio 0,7) → "Agora, minha equipe é o
+  Bahia e o Bahia." A taxa de lembrar foi 50%, mas na maior parte é cópia.
+- **Fatos do acervo:** 100% usam o fato, porque o treino ensinou a copiar o fato inteiro.
+- Algumas respostas curtas são razoáveis: "não pergunteio isso" → "Não sei."; o xingamento →
+  "Hum, não entendi bem."
+
+## Por que deu errado (o que os números mostram)
+
+1. **Treino curto e escolha cedo demais.** A perda no OASST2 parou de cair no passo 50, e a escolha
+   ficou com esse passo: umas 2.400 sequências de conversa. As legendas continuavam melhorando
+   (2,955 → 2,854). Além disso, o OASST2 já estava no corpus próprio da base (régua contaminada, e só
+   43 conversas de validação), o que o torna uma régua ruim para escolher.
+2. **Pouca conversa em relação à leitura.** A base leu 3,6 bilhões de tokens de web, muita página de
+   "dicas"; a conversa foram ~2 milhões de tokens até o passo escolhido. O jeito de site venceu.
+3. **Nenhum exemplo usa `quem` nem `lembrancas` na resposta.** As respostas do OASST2 e das legendas
+   não falam do CRIVO nem do que a pessoa contou: o campo estava lá, mas nada ensinava a usá-lo.
+4. **Geração sem freio de repetição.** A busca gulosa de um modelo de 46M entra em laço. Isso é da
+   geração, não só do treino.
+
+## Limites
+
+- A prova é pequena (70 respostas sem sorteio). A taxa de conferência (`tudo_ok`) mede só números,
+  nomes inventados e repetição, não sentido.
+- A perda de leitura subiu um pouco (2,728 → 2,744 no passo 50): o custo foi pequeno.
