@@ -131,3 +131,40 @@ passam a ser aceitas nessas situações, e as duas contas são mostradas.
 true`, o que estava errado desde a v2. As frases curtas das lembranças, a passagem do IDENTIDADE.md
 para a primeira pessoa e as listas da fase 5 foram escritas pelo assistente, com a aprovação do
 criador. Na v4, o campo diz isso.
+
+# v4 — resultado (14/10/2026)
+
+A rodada foi numa L4, na conta hr87676620: 2.945 passos em uns 95 minutos. Ficou a versão do passo 2.616,
+escolhida pelo sentido no dev (66,0%) (SHA `45825352…`, pasta
+`transformer-crivo-46m-conversa-v4/conversa_20261014_181231`). O resumo está em
+`resumo_fase6b_v4.json`.
+
+| sentido certo | v4 (46M), com freio | v4 (46M), sem freio | v4 F (17M, no chat) |
+|---|---|---|---|
+| blind v3 | **65,7%** | 66,0% | 63,5% |
+| blind v1 | 65,3% | — | **69,8%** |
+| paráfrases | 73,7% | — | **76,2%** |
+| Grok | **73,2%** | — | 70,9% |
+| blind v4 (situações novas) | 92,3% | — | 92,2% |
+| frases reais do criador | 12/15 | 12/15 | **14/15** |
+
+As respostas do IDENTIDADE.md mudaram pouco a conta (blind v1: 65,3% → 65,7%).
+
+**Leitura:** empate com a F. É melhor no blind v3 (+2,2) e no Grok (+2,3), pior no v1 (−4,5), nas
+paráfrases (−2,5) e nas frases reais (12 contra 14). O dev de 400 frases tem ruído de uns ±2,4
+pontos. Pela régua, ela não supera a F. **Não está aprovada para substituir a F.**
+
+O que ela tem e a F não tem:
+- **lembranças:** Rosângela, o papagaio Louro e Juiz de Fora certos; "Você ainda não me contou
+  isso." nos 2 casos certos. Erra a filosofia ("A prova de Quê é uma prova de filosofia."), o Remo
+  e a irmã ("Você tem 7 anos.");
+- **contexto de 1024 tokens** (a F tem 256) e a base que leu 3,6 bilhões de tokens;
+- falas como "o que é mais importante na vida?" → "Não tenho uma resposta fechada. Pra mim, cuidar
+  das pessoas e entender o mundo já é muito sentido. O que você pensa?".
+
+O que continua ruim:
+- **perguntas de conhecimento sem fato no contexto:** "como faço arroz?" → "Come alguma coisa,
+  sim!"; vírus e bactéria, errado; "me dá uma dica pra estudar melhor" → recusa. No chat, o acervo
+  entra como fato ou como "não sei", e esses casos melhoram, mas isso não foi medido aqui;
+- as 3 frases reais erradas: "legal e voce?" → resposta de "você é uma IA?"; "serio mesmo?" e o
+  xingamento longo.
