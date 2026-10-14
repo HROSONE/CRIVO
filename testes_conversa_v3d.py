@@ -15,7 +15,7 @@ class Falso:
     def __init__(self, texto, terminou=True):
         self.texto, self.terminou, self.chamadas = texto, terminou, []
 
-    def conversar(self, ctx, historico, mensagem):
+    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
         self.chamadas.append((ctx, historico, mensagem))
         return self.texto, self.terminou
 
@@ -67,6 +67,12 @@ class Conferencia(unittest.TestCase):
         self.assertEqual(bot.responder("quanto é 2+3?")[1], "Fácil: 2 + 3 = 5")
         self.assertEqual(falso.chamadas[-1][0]["fatos"], ["2 + 3 = 5"])
 
+    def test_reprovada_tenta_de_novo(self):
+        falso = Falso("Oi! Eu tenho 37 anos.")
+        bot = bot_com(falso)
+        bot.responder("oi")
+        self.assertEqual(bot.ultima_conversa_v3d["tentativas"], conversa_v3d.TENTATIVAS)
+
     def test_resultado_alterado_volta_ao_texto_de_sempre(self):
         bot = bot_com(Falso("Fácil: 2 + 3 = 6"))
         self.assertEqual(bot.responder("quanto é 2+3?")[1], "2 + 3 = 5")
@@ -94,9 +100,10 @@ class Conferencia(unittest.TestCase):
         self.assertIn("Ana", resposta)
 
     def test_saude_exige_a_marca(self):
+        # "peito apertado" agora vai para o protocolo de crise; dor de cabeça fica com o modelo.
         bot = bot_com(Falso("Respira fundo, vai passar."))
-        bot.responder("tô com o peito apertado")
-        self.assertIn("marca_urgente", bot.ultima_conversa_v3d["motivo"])
+        bot.responder("tô com dor de cabeça")
+        self.assertIn("marca_saude", bot.ultima_conversa_v3d["motivo"])
 
     def test_historico_e_a_conversa_vista(self):
         falso = Falso("Oi! Tô por aqui. Sobre o que vamos conversar?")

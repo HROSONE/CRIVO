@@ -46,6 +46,8 @@ PESOS_SHA256 = "a392edec3539fa63df3f38d55af199d18479b8d1625d7199f948f4e2aea8eaf8
 NPZ_SHA256 = "0e93c40cbc79dd06efea4caa7393b3d347df6b11fc1627ccbc3d4ec51061db6c"
 FORMATO_SHA256 = "932057afcb01d4ca3116c017d4363d048f73125b2e2613dce808e879105c17c3"  # o mesmo do treino v3
 PRAZO_SITE = 7.0
+PRAZO_TOTAL = 9.0   # todas as tentativas de um turno juntas
+TENTATIVAS = 3
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
 MAX_PARES = 6
 
@@ -137,18 +139,26 @@ class ConversaNumpy(RealizadorNumpy):
             fonte = seg + fonte
         return doc + fonte
 
-    def conversar(self, ctx, historico, mensagem):
-        """(texto, terminou), com decodificação gulosa como no treino."""
+    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
+        """(texto, terminou), com decodificação gulosa como no treino.
+
+        primeiro=k começa pela (k+1)-ésima palavra mais provável e segue gulosa: é a nova tentativa
+        quando a primeira frase foi reprovada na conferência."""
         import time
         ids = self.prompt_conversa(ctx, historico, mensagem)
-        limite = time.monotonic() + self.prazo if self.prazo else None
+        prazo = self.prazo if prazo is None else prazo
+        limite = time.monotonic() + prazo if prazo else None
         cache, saida = {}, []
         estado = self._passo(ids, 0, cache)[-1]
         pos = len(ids)
-        for _ in range(min(realizador_17m.MAX_NOVOS, self.contexto - len(ids))):
+        for passo in range(min(realizador_17m.MAX_NOVOS, self.contexto - len(ids))):
             lg = estado @ self.p["embedding.weight"].T
             lg[self.proibidos] = -1e9
-            nxt = int(lg.argmax())
+            if passo == 0 and primeiro:
+                lg[self.esp["<fim>"]] = -1e9
+                nxt = int(self.np.argsort(-lg)[primeiro])
+            else:
+                nxt = int(lg.argmax())
             if nxt == self.esp["<fim>"]:
                 return self.bpe.decodificar(saida).strip(), True
             saida.append(nxt)
@@ -264,19 +274,29 @@ def aplicar(bot, fala, ident, resposta, modelo):
     historico = []
     for f, r in (getattr(bot, "pares_conversa", None) or [])[-MAX_PARES:]:
         historico += [f, r]
-    try:
-        texto, terminou = modelo.conversar(ctx, historico, fala)
-    except Exception as erro:  # contexto excedido, pesos ausentes
-        trace["motivo"] = "erro: %s" % type(erro).__name__
-        return ident, resposta, trace
+    import time
     caso = {"contexto": ctx, "mensagem": fala, "historico": historico, "exigir": exigir}
-    av = formato().avaliar_saida(caso, texto, terminou)
-    trace.update(contexto=ctx, rascunho=texto)
-    if not av["tudo_ok"] or not texto:
-        trace["motivo"] = "reprovada: " + ", ".join(k for k, v in av.items() if v is False)
-        return ident, resposta, trace
-    trace.update(usada=True, motivo="conferida")
-    return ident, texto, trace
+    # Até TENTATIVAS frases do modelo, dentro de PRAZO_TOTAL (a função do site tem 20 s).
+    fim = time.monotonic() + PRAZO_TOTAL
+    trace["tentativas"] = 0
+    for k in range(TENTATIVAS):
+        resta = fim - time.monotonic()
+        if resta <= 0.5:
+            break
+        try:
+            texto, terminou = modelo.conversar(ctx, historico, fala, primeiro=k,
+                                               prazo=min(resta, getattr(modelo, "prazo", None) or resta))
+        except Exception as erro:  # contexto excedido, pesos ausentes
+            trace["motivo"] = "erro: %s" % type(erro).__name__
+            return ident, resposta, trace
+        trace["tentativas"] = k + 1
+        av = formato().avaliar_saida(caso, texto, terminou)
+        trace.update(contexto=ctx, rascunho=texto)
+        if av["tudo_ok"] and texto:
+            trace.update(usada=True, motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
+            return ident, texto, trace
+        trace["motivo"] = "reprovada: " + ", ".join(k2 for k2, v in av.items() if v is False)
+    return ident, resposta, trace
 
 
 def status():
