@@ -33,7 +33,10 @@
   function apagarLocal(chave) {
     try { window.localStorage.removeItem(chave); } catch (_err) { /* sem armazenamento */ }
   }
-  state.remember = lerLocal(KEY_REMEMBER, false) === true;
+  // No próprio aparelho (app do celular, web_local no PC) a memória vem ligada: ela fica só ali.
+  // No site público, quem liga é a pessoa.
+  const noAparelho = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+  state.remember = lerLocal(KEY_REMEMBER, noAparelho) === true;
   state.memory = state.remember ? lerLocal(KEY_MEMORY, {}) : null;
 
   function avaliacoes() {

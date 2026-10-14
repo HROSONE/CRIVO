@@ -74,9 +74,12 @@ jeito que ele quiser".
   - perda nas conversas humanas separadas.
 
   O "sentido" por lista exata deixa de ser a régua principal.
-- **Em aberto, decisão do criador:** quem o CRIVO é ("sou o CRIVO, feito do zero") hoje vem das falas
-  escritas. Sem elas, a identidade pode vir só do contexto (o IDENTIDADE.md lido como texto) ou de
-  falas que o próprio criador escrever.
+- **Identidade, decidida pelo criador (14/10/2026, opção "a"):** ele lê a descrição dele
+  (IDENTIDADE.md, escrita a partir das palavras do criador em 12/10) como texto e se apresenta do
+  jeito que entender. Nenhuma fala de apresentação é escrita para ele. Na prática:
+  - o IDENTIDADE.md entra na leitura (fase 6a/6b) como documento, várias vezes;
+  - na conversa, um resumo curto dele vai no contexto (campo `quem`), como os fatos;
+  - a medida é ler como ele responde a "quem é você?" e às conversas reais do criador.
 
 ### 6c — entrar no CRIVO sem quebrar nada
 - **Formato:** NumPy int8 (~46 MB), lido pelo mesmo `ConversaNumpy`, que já usa o número de camadas
