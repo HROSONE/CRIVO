@@ -12,12 +12,13 @@ decide o próximo passo e faz tudo o que não precisa de GPU nem de aparelho. O 
 | 1 | v4 F no chat, falando do jeito dele, sem texto pronto no lugar | assistente | feito (14/10) |
 | 2 | "Peito apertado" e "coração disparado" no protocolo de urgência | assistente | feito |
 | 3 | Memória ligada por padrão no app e no PC (fica só no aparelho) | assistente | feito |
-| 4 | **6a: crescer para 46M e ler ~2,5 bi de tokens da web** | criador roda (A100, hr87676620) | rodando |
-| 5 | 6b, dados: conversas de pessoas (OASST2 pt e outras abertas), lembranças no contexto, IDENTIDADE.md como leitura | assistente | a fazer, enquanto a 6a roda |
-| 6 | 6b, treino: conversar com o modelo crescido, sem falas escritas pelo assistente | criador roda (A100) | depois da 6a |
-| 7 | 6c: o modelo crescido no chat, no site e no app (int8, conferido no emulador) | assistente | depois do 6b |
+| 4 | **6a: crescer para 46M e ler ~2,5 bi de tokens da web** | criador roda (A100, hr87676620) | feito (14/10): 46M, 3,6 bi de tokens, perda 2,962 → 2,723 (RESULTADO_6A.md) |
+| 5 | 6b, dados: conversas de pessoas (OASST2 pt e outras abertas), lembranças no contexto, IDENTIDADE.md como leitura | assistente | feito (gerador, formato, notebook; fumaça em CPU) |
+| 6 | 6b, treino: conversar com o modelo crescido | criador roda (A100/L4) | feito: 4 rodadas; a v4 empata com a F (RESULTADO.md) |
+| 7 | 6c: o modelo crescido no chat, no site e no app (int8, conferido no emulador) | assistente | feito (14/10), em teste; o emulador roda na CI depois do merge |
 | 8 | Caderno de lembranças usado pelo modelo (o que a pessoa contou, entre conversas) | assistente | junto com 6b/6c |
-| 9 | Aprender de vez com as conversas que o criador permitir (re-treino periódico) | os dois | depois |
+| 9 | Aprender de vez com as conversas que o criador permitir: botão para exportar, limpeza, re-treino | os dois | próximo |
+| 9b | Mais conhecimento: acervo maior entrando no contexto (pedido do criador: "depois você aumenta o conhecimento") | assistente | próximo |
 | 10 | Crescer de novo (~120–150M) e ler 8–10 bi de tokens, se o 6b provar o método | criador roda | depois |
 
 Regra que não muda: crise e urgência de saúde têm resposta fixa (CVV 188, SAMU 192), antes do modelo.

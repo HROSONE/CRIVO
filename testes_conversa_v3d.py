@@ -1,4 +1,4 @@
-"""Voz da conversa (v3 D da fase 5): ligada no site por decisão do criador, reprovada na catraca.
+"""Voz da conversa (46M da 6b v4; a v4 F de reserva): ligada no site por decisão do criador, sem aprovação na catraca.
 
 Desligada na linha de comando, travada por SHA, depois do protocolo de crise e conferida frase a
 frase: se a conferência falha, fica o texto de sempre."""
@@ -36,8 +36,26 @@ class Travas(unittest.TestCase):
     def test_registro_honesto(self):
         st = conversa_v3d.status()
         self.assertFalse(st["decisao"]["aprovada"])
-        self.assertIn("reprovada", st["decisao"]["catraca"])
+        self.assertIn("empate", st["decisao"]["regua"])          # 46M: empata com a v4 F, não supera
+        self.assertIn("reprovada", st["decisao_f"]["catraca"])
         self.assertFalse(st["external_ai"])
+
+    def test_quem_e_o_do_identidade(self):
+        import sys
+        sys.path.insert(0, str(conversa_v3d.RAIZ / "experimentos" / "fase6b_conversa_humana"))
+        import gerar_fase6b
+        self.assertEqual(conversa_v3d.QUEM, gerar_fase6b.resumo_identidade())
+
+    def test_lembrancas_vem_da_memoria(self):
+        bot = Crivo()
+        bot.responder("meu nome é Rosângela")
+        lembr = conversa_v3d.lembrancas_de(bot)
+        self.assertIn("a pessoa disse: meu nome é Rosângela", lembr)
+        self.assertLessEqual(len(lembr), conversa_v3d.MAX_LEMBRANCAS)
+
+    def test_reserva_da_f(self):
+        with mock.patch.dict(os.environ, {"CRIVO_CONVERSA": "f"}):
+            self.assertEqual(getattr(conversa_v3d.numpy_do_site(), "nome", "fase5_v4_F"), "fase5_v4_F")
 
     def test_formato_e_o_do_treino(self):
         self.assertTrue(hasattr(conversa_v3d.formato(), "avaliar_saida"))
@@ -91,6 +109,14 @@ class Conferencia(unittest.TestCase):
         self.assertFalse(bot.ultima_conversa_v3d["conferida"])
         self.assertIn("sem_numero_inventado", bot.ultima_conversa_v3d["motivo"])
 
+    def test_conteudo_longo_fica_inteiro(self):
+        # Poema, código ou explicação longa não cabem em duas frases: o modelo não troca por um pedaço.
+        bot = Crivo()
+        longo = "Primeira linha do poema.\nSegunda linha bonita.\nTerceira linha que não cabe.\nQuarta linha, fim."
+        ctx, motivo = conversa_v3d.contexto_do_turno(bot, "escreve um poema", "conversa:gerada_poema", longo)
+        self.assertIsNone(ctx)
+        self.assertEqual(motivo, "conteudo_longo")
+
     def test_sem_fim_aparece_cortada(self):
         bot = bot_com(Falso("Oi! Tô por", terminou=False))
         self.assertEqual(bot.responder("oi")[1], "Oi! Tô por…")
@@ -121,9 +147,20 @@ class Conferencia(unittest.TestCase):
 
 
 class PesosDoSite(unittest.TestCase):
+    def test_o_46m_e_o_do_site(self):
+        modelo = conversa_v3d.numpy_do_site()
+        self.assertEqual(getattr(modelo, "nome", None), "fase6b_v4_46m", "pesos do 46M ausentes ou com SHA diferente")
+        self.assertEqual((modelo.camadas, modelo.contexto), (24, 1024))
+
+    def test_46m_lembra_o_que_a_pessoa_contou(self):
+        bot = bot_com(conversa_v3d.numpy_do_site())
+        bot.carregar_memoria({"nome": "Rosângela", "nomes": {}, "relatos": [], "temas": []})
+        bot.responder("você sabe como eu me chamo?")
+        self.assertIn("Rosângela", bot.ultima_conversa_v3d["rascunho"], bot.ultima_conversa_v3d)
+
     def test_pesos_carregam_e_conversam(self):
         modelo = conversa_v3d.numpy_do_site()
-        self.assertIsNotNone(modelo, "pesos da v3 D ausentes ou com SHA diferente")
+        self.assertIsNotNone(modelo, "pesos da voz da conversa ausentes ou com SHA diferente")
         bot = bot_com(modelo)
         bot.responder("oi")
         self.assertTrue(bot.ultima_conversa_v3d["usada"], bot.ultima_conversa_v3d)
