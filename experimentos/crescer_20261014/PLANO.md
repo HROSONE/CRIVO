@@ -51,17 +51,32 @@ Até ~150M roda folgado em 8 GB. No celular deve ser umas 3 a 5 vezes mais lento
 - **Sucesso:** a perda no corpus próprio fica abaixo da base (2,946 na fase 2) e a cópia sobe dos
   ~51%. Essas são as metas fixadas antes de rodar.
 
-### 6b — conversa que compõe, não que escolhe (a fazer, depois de 6a)
-- **Respostas compostas no treino:** cada resposta montada de partes (reação, eco do que a pessoa
-  disse, pergunta), com muitas combinações por situação. O modelo aprende a combinar, e não só a
-  escolher entre 4 frases.
-- **Uma régua que aceite resposta nova certa:**
-  - um classificador próprio de "a que situação esta resposta serve" (treinado nas respostas
-    compostas) substitui a lista exata;
-  - a conferência de verdade continua (números, nomes, fatos).
-- **Dados:** os da v4 (situações novas, correções e as conversas reais do criador como teste),
-  reaproveitados no modelo crescido, com contexto de 1024.
-- **Proteção:** o critério de segurança do dev passa a usar dezenas de casos, não 9 (lição da v4).
+### 6b — ele aprende a conversar com pessoas, não com falas escritas por mim (a fazer, depois de 6a)
+
+Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
+jeito que ele quiser".
+
+- **Nenhuma resposta-alvo escrita pelo assistente.** As listas de cenas.py, cenas_v4.py e as outras
+  ficam só como teste antigo, não como alvo de treino.
+- **Fonte das conversas:** diálogos escritos por pessoas, com licença aberta. Candidatos, com a
+  licença de cada um conferida antes de usar:
+  - OASST2 em português (Apache-2.0);
+  - páginas de discussão da Wikipédia pt (CC BY-SA);
+  - legendas pt-BR do OpenSubtitles/OPUS (uso de pesquisa; conferir);
+  - as conversas reais do criador com o CRIVO, se ele permitir.
+
+  Nada gerado por modelo de linguagem.
+- **O que o CRIVO entrega no contexto continua igual:** fatos do acervo com fonte, nomes, assunto e
+  cuidado. É informação, não fala. Ele decide como dizer.
+- **Como medir sem lista de respostas certas:**
+  - a conferência de verdade (não inventar número ou nome, usar o fato);
+  - as conversas reais do criador, lidas por ele;
+  - perda nas conversas humanas separadas.
+
+  O "sentido" por lista exata deixa de ser a régua principal.
+- **Em aberto, decisão do criador:** quem o CRIVO é ("sou o CRIVO, feito do zero") hoje vem das falas
+  escritas. Sem elas, a identidade pode vir só do contexto (o IDENTIDADE.md lido como texto) ou de
+  falas que o próprio criador escrever.
 
 ### 6c — entrar no CRIVO sem quebrar nada
 - **Formato:** NumPy int8 (~46 MB), lido pelo mesmo `ConversaNumpy`, que já usa o número de camadas

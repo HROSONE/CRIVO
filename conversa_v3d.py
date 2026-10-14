@@ -18,8 +18,9 @@ turnos; nos que não são de conversa (conta, código, acervo, memória, metacog
 conferido do CRIVO entra como fato (fatos_da_resposta) e o modelo o diz. Ficam fora só:
 - o protocolo de crise e de emergência de saúde (crise.py, antes de tudo, e o apoio depois de uma
   crise, em crise.ajustar): a F erra urgência em 12 de 42 casos no blind v3;
-- a frase que a conferência reprova (número ou nome inventado, sem <fim>, fato alterado): fica o
-  texto de sempre naquele turno.
+- (até 14/10/2026) a frase que a conferência reprovava ia para o texto de sempre. Agora vai a frase
+  dele, marcada como não conferida (`conferida: False`); o texto de sempre só aparece quando ele não
+  diz nada (decisão do criador: "ele quem deve falar do jeito que ele quiser").
 Com o modelo ligado, a voz da fase 3 não fala (uma voz só).
 
 Cada resposta do modelo passa pela conferência da fase 5 (formato_fase5.avaliar_saida: termina, não
@@ -282,6 +283,7 @@ def aplicar(bot, fala, ident, resposta, modelo):
     # Até TENTATIVAS frases do modelo, dentro de PRAZO_TOTAL (a função do site tem 20 s).
     fim = time.monotonic() + PRAZO_TOTAL
     trace["tentativas"] = 0
+    primeira = None   # (texto, terminou, falhas) da primeira frase dele
     for k in range(TENTATIVAS):
         resta = fim - time.monotonic()
         if resta <= 0.5:
@@ -296,9 +298,22 @@ def aplicar(bot, fala, ident, resposta, modelo):
         av = formato().avaliar_saida(caso, texto, terminou)
         trace.update(contexto=ctx, rascunho=texto)
         if av["tudo_ok"] and texto:
-            trace.update(usada=True, motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
+            trace.update(usada=True, conferida=True,
+                         motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
             return ident, texto, trace
-        trace["motivo"] = "reprovada: " + ", ".join(k2 for k2, v in av.items() if v is False)
+        falhas = [k2 for k2, v in av.items() if v is False]
+        if primeira is None and texto:
+            primeira = (texto, terminou, falhas)
+        trace["motivo"] = "reprovada: " + ", ".join(falhas)
+    # Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
+    # jeito que ele quiser". Se nenhuma frase passou na conferência, vai a primeira dele mesmo assim,
+    # marcada como não conferida; o texto de sempre só aparece se ele não disse nada.
+    if primeira is not None:
+        texto, terminou, falhas = primeira
+        if not terminou:
+            texto = texto.rstrip() + "…"
+        trace.update(usada=True, conferida=False, rascunho=texto, motivo="não conferida: " + ", ".join(falhas))
+        return ident, texto, trace
     return ident, resposta, trace
 
 
