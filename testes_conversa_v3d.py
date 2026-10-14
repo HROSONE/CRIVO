@@ -117,6 +117,14 @@ class Conferencia(unittest.TestCase):
         self.assertIsNone(ctx)
         self.assertEqual(motivo, "conteudo_longo")
 
+    def test_verbete_com_fonte_so_sai_conferido(self):
+        # "Fonte: Wikipédia" exige o texto fiel: frase alterada não substitui o verbete.
+        bot = bot_com(Falso("Não sei te dizer."))
+        frase = "O Pantanal é um bioma alagado do centro-oeste do Brasil."
+        ident, resposta, trace = conversa_v3d.aplicar(bot, "o que é o Pantanal?", "enciclopedia:wikipedia", frase, bot.conversa_v3d)
+        self.assertEqual(resposta, frase)
+        self.assertFalse(trace["usada"])
+
     def test_sem_fim_aparece_cortada(self):
         bot = bot_com(Falso("Oi! Tô por", terminou=False))
         self.assertEqual(bot.responder("oi")[1], "Oi! Tô por…")
