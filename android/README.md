@@ -30,9 +30,15 @@ Para atualizar, baixe o `CRIVO.apk` novo e instale por cima; as conversas guarda
 
 ## Limites
 
-- A assinatura é uma chave guardada no cache do CI. Se o cache expirar (7 dias sem compilar), o
-  próximo APK vem com outra chave, e o Android pede para desinstalar o antigo antes. Para uma chave
-  fixa, guarde uma no GitHub como segredo e troque `signingConfig`.
+- **Assinatura:** o CI gera uma chave uma vez e a guarda no cache do Actions, para cada APK novo
+  instalar por cima. Se o cache expirar (7 dias sem compilar), vem outra chave, e o Android pede
+  para desinstalar o antigo. O cache de um repositório público também pode ser lido por workflows
+  de PRs de fora. Para uma chave fixa e protegida, guarde uma como segredo do repositório
+  (`CRIVO_KEYSTORE_B64`, a keystore em base64, com alias `crivo`, e `CRIVO_KEYSTORE_SENHA`). O
+  workflow usa o segredo quando ele existe.
+- **Teste:** cada APK é instalado num emulador Android 14 (x86_64) no CI. O teste abre o app, espera
+  o servidor do aparelho e conversa; os prints da tela ficam no artefato `CRIVO-apk`. Num celular
+  de verdade, com processador ARM, ainda não foi medido (velocidade, memória, bateria).
 - Só aparelhos de 64 bits (arm64-v8a; x86_64 para emulador), Android 8 ou mais novo.
 - O botão "Ouvir" depende da voz do sistema, que o WebView nem sempre oferece.
 - Atualização automática (baixar só o que mudou, conferindo o SHA) fica para depois.
