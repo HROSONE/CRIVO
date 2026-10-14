@@ -28,12 +28,15 @@ class Enciclopedia(unittest.TestCase):
         cls.pasta = tempfile.TemporaryDirectory()
         C.salvar(C.construir(ARTIGOS), cls.pasta.name)
         cls.patch = mock.patch.object(enciclopedia, "ARQUIVO", Path(cls.pasta.name) / "enciclopedia_pt.json.gz")
+        cls.patch_sha = mock.patch.object(enciclopedia, "SHA256", None)   # arquivo de teste, não o do repositório
         cls.patch.start()
+        cls.patch_sha.start()
         enciclopedia._dados.cache_clear()
 
     @classmethod
     def tearDownClass(cls):
         cls.patch.stop()
+        cls.patch_sha.stop()
         enciclopedia._dados.cache_clear()
         cls.pasta.cleanup()
 
@@ -74,6 +77,14 @@ class Enciclopedia(unittest.TestCase):
             enciclopedia._dados.cache_clear()
             self.assertIsNone(enciclopedia.consultar("o que é a Mongólia?"))
         enciclopedia._dados.cache_clear()
+
+
+class ArquivoDoRepositorio(unittest.TestCase):
+    def test_arquivo_real_conferido(self):
+        enciclopedia._dados.cache_clear()
+        self.assertEqual(enciclopedia.status()["verbetes"], 120000)
+        self.assertEqual(enciclopedia.consultar("o que é a Mongólia?")[0], "Mongólia")
+        self.assertNotIn("canção", (enciclopedia.consultar("o que é DNA?") or ("", ""))[0])
 
 
 if __name__ == "__main__":

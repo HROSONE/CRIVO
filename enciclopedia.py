@@ -19,7 +19,7 @@ from pathlib import Path
 
 PASTA = Path(__file__).resolve().parent / "artefatos" / "enciclopedia_pt"
 ARQUIVO = PASTA / "enciclopedia_pt.json.gz"
-SHA256 = None   # preenchido quando o arquivo entra no repositório
+SHA256 = "a86174a6cc48a1496ff5e77a3440edc5f187ce71d54a4343392363543ebea821"   # v2: 120 mil verbetes (notebooks/enciclopedia_wikipedia_colab.ipynb)
 IDENT = "enciclopedia:wikipedia"
 
 _ARTIGO = r"(?:(?:o|a|os|as|um|uma|uns|umas)\s+)?"
