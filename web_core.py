@@ -162,6 +162,9 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
                                        "verified": bool(conversa.get("conferida")),
                                        "model": conversa.get("modelo", "fase5_v4_F"), "approved": False}
+    verbete = getattr(bot, "ultima_enciclopedia", None)
+    if verbete is not None:
+        extra["encyclopedia"] = dict(verbete)   # resposta tirada da Wikipédia (enciclopedia.py)
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
         extra['session_memory'] = bot.memoria_sessao.ultimo
