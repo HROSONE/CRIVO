@@ -20,11 +20,23 @@ android {
         }
     }
 
+    // Mesma chave em todo APK, para cada versão nova instalar por cima da anterior.
+    // O CI passa o arquivo e a senha (ver .github/workflows/apk-android.yml); sem eles, a chave de depuração.
+    val chave = System.getenv("CRIVO_KEYSTORE")?.let { file(it) }?.takeIf { it.isFile }
+    signingConfigs {
+        if (chave != null) {
+            create("crivo") {
+                storeFile = chave
+                storePassword = System.getenv("CRIVO_KEYSTORE_SENHA")
+                keyAlias = "crivo"
+                keyPassword = System.getenv("CRIVO_KEYSTORE_SENHA")
+            }
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Chave guardada no cache do CI (ver .github/workflows/apk-android.yml).
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (chave != null) signingConfigs.getByName("crivo") else signingConfigs.getByName("debug")
         }
     }
 

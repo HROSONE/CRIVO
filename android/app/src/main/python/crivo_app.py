@@ -8,6 +8,7 @@ import os
 import sys
 import threading
 
+PORTA = 8765
 _servidor = None
 _trava = threading.Lock()
 
@@ -23,7 +24,11 @@ def iniciar(pasta):
             sys.path.insert(0, pasta)
         os.chdir(pasta)
         from web_local import criar_servidor
-        _servidor = criar_servidor("127.0.0.1", 0)
+        try:
+            # Porta fixa: o teste no emulador alcança o app por ela (adb forward).
+            _servidor = criar_servidor("127.0.0.1", PORTA)
+        except OSError:
+            _servidor = criar_servidor("127.0.0.1", 0)
         threading.Thread(target=_servidor.serve_forever, name="crivo-servidor", daemon=True).start()
         threading.Thread(target=_aquecer, name="crivo-aquecer", daemon=True).start()
         return _servidor.server_address[1]
