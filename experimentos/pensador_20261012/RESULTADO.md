@@ -60,3 +60,33 @@ com quase nenhuma cobertura.
 
 - Supervisionar a prova com mais peso, ou fazer a rede apontar uma premissa por volta.
 - Parada adaptativa (a rede decide quando terminou), para que mais voltas ajudem em provas longas.
+
+## v2 (15/10/2026): aprovado nos gates, não ligado ao chat
+
+Treino na conta G (T4, `notebooks/pensador_v2_colab.ipynb`); a sessão caiu antes da avaliação
+final. A melhor versão pelo dev (passo 13.000, `pensador.pt` sha256 `7a5f0639…ee64a`, 918.343
+parâmetros) foi avaliada depois, na CPU, com `treinar_pensador_v2.py --so-avaliar`: os mesmos
+conjuntos congelados (sha `20deb41a…`) e os mesmos gates. Resultado: `resultado_pensador_v2.json`.
+
+Prova exata (status entre parênteses); a conta que aprova, registrada antes, é a adaptativa com busca:
+
+| | v1 | v2 rede (8 voltas) | v2 adaptativa | **v2 adaptativa + busca** | gate |
+|---|---|---|---|---|---|
+| blind iid | 84,5% | 85,7% (100%) | 85,8% | **99,6%** (100%) | ≥ 95% |
+| ood profundidade | 57,9% | 75,4% (97,1%) | 72,8% | **95,9%** (96,9%) | ≥ 80% |
+| ood tamanho | 64,6% | 78,8% (99,0%) | 77,6% | **97,8%** (98,8%) | ≥ 80% |
+
+Afirmações erradas da rede sozinha: ≤ 0,4%; com a política (prova conferida), 0 erro. Invariância
+à ordem das premissas: 99,95%. **Todos os gates passaram: aprovado.**
+
+**Limites:**
+- A busca usa o verificador do CRIVO: a rede ordena as premissas e diz o status; o verificador
+  acha a prova mínima entre as 10 mais confiáveis. Boa parte do salto de 85% para 99% vem dessa
+  combinação, não da rede sozinha (a rede sozinha melhorou de 57,9% para 75,4% nos casos mais
+  profundos).
+- A parada adaptativa sozinha não foi melhor que 8 voltas fixas (72,8% contra 75,4% na
+  profundidade); ela economiza voltas (≈5 a 6 em vez de 8).
+- São problemas lógicos sintéticos do próprio gerador (premissas formais), não frases em
+  português. O pensador ainda não está ligado ao chat (`ativo_no_chat: false`); falta a ponte
+  frase → premissas.
+- Um treino só (uma semente), interrompido antes dos 30 mil passos.
