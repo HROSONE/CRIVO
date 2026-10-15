@@ -144,6 +144,8 @@ def principal():
     ap.add_argument("--semente", type=int, default=7)
     ap.add_argument("--dev-n", type=int, default=1000)
     ap.add_argument("--max-horas", type=float, default=3.0)
+    ap.add_argument("--so-avaliar", action="store_true",
+                    help="não treina: avalia o pensador.pt já salvo em --saida (sessão que caiu antes do fim)")
     a = ap.parse_args()
     saida = Path(a.saida)
     saida.mkdir(parents=True, exist_ok=True)
@@ -158,7 +160,11 @@ def principal():
 
     cache = saida / ("treino_%d_%d.json" % (a.n_treino, a.semente))
     t0 = time.time()
-    if cache.exists():
+    if a.so_avaliar:
+        treino = []
+        if not (saida / "pensador.pt").is_file():
+            raise SystemExit("ERRO: --so-avaliar sem %s" % (saida / "pensador.pt"))
+    elif cache.exists():
         treino = json.loads(cache.read_text())
     else:
         treino = gerar_treino(a.n_treino, a.semente, proibidos, a.processos)
@@ -176,7 +182,7 @@ def principal():
     dev = conjuntos["dev"][:a.dev_n]
     melhor, historico = -1.0, []
     inicio = time.time()
-    for passo in range(1, a.passos + 1):
+    for passo in range(1, (0 if a.so_avaliar else a.passos) + 1):
         modelo.train()
         x = P.lote(rng.sample(treino, a.lote), rng, dispositivo)
         l = perda_v2(modelo(x, V2.voltas_do_lote(rng, a.voltas_min, a.voltas_max)), x, a.peso_prova)
@@ -204,7 +210,8 @@ def principal():
     resultado_protocolo = "pensador_v2_20261014"
     modelo.load_state_dict(ck["estado"])
     resultado = {"protocolo": resultado_protocolo, "conjuntos_protocolo": manifesto["protocolo"], "conjuntos_sha256": manifesto["conjuntos_sha256"],
-                 "parametros": n_param, "config": vars(a), "passo_escolhido": ck["passo"], "historico": historico,
+                 "parametros": n_param, "config": vars(a), "passo_escolhido": ck["passo"],
+                 "historico": historico if not a.so_avaliar else "sessão do treino caiu; avaliado do pensador.pt salvo",
                  "ativo_no_chat": False, "avaliacao": {}}
     CONTAS = ("rede", "adaptativo", "adaptativo_busca")
     for nome in ("blind_iid", "ood_profundidade", "ood_tamanho"):
