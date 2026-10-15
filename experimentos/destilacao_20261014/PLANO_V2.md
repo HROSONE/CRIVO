@@ -14,7 +14,7 @@ pequeno falava besteira; reescrever fatos fez o 46M errar fatos.
   o CRIVO e as de crise ou saúde urgente.
 - **Dois turnos:** o professor escreve a reação da pessoa e responde de novo.
 - **Professor maior:** Qwen3-32B-AWQ (ou 14B, o que existir e couber; Apache 2.0).
-- **Juiz de outra família** (Mistral Small 24B w4a16 ou Phi-4): nota de 1 a 5; só entra 4 ou 5.
+- **Juiz de outra família** (Phi-4; o Mistral w4a16 não tem modelo de conversa): nota de 1 a 5; só entra 4 ou 5.
   Mais o filtro de forma e a regra de ouro obrigatória (nada de número ou nome inventado).
 - **O juiz é testado:** em cada rodada, 60 respostas trocadas de conversa de propósito. Se ele aprovar
   mais de 10% delas, o notebook para.
