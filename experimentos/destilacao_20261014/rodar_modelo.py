@@ -67,7 +67,11 @@ def principal():
         for k in faltam:
             t0, lote, msgs, params, grandes = time.time(), [], [], [], 0
             for p in pedacos[k]:
-                n = len(tok.apply_chat_template(p["mensagens"], tokenize=True, add_generation_prompt=True, enable_thinking=False))
+                try:
+                    n = len(tok.apply_chat_template(p["mensagens"], tokenize=True, add_generation_prompt=True, enable_thinking=False))
+                except Exception as erro:   # sem modelo de conversa (chat template): este não serve, tenta o próximo
+                    print(f"{a.modelo}: não monta a conversa ({type(erro).__name__}); tentando o próximo", flush=True)
+                    sys.exit(3)
                 if n + p["max_tokens"] > MAX_MODELO:
                     grandes += 1
                     continue
