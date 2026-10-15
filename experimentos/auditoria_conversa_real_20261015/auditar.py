@@ -11,7 +11,6 @@ import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 
-from web_core import responder_web
 
 
 CASOS = [
@@ -106,6 +105,15 @@ def executar():
     args = parser.parse_args()
 
     resultados = []
+    responder_web = None
+    erro_importacao = None
+    try:
+        # Importação dentro da rotina para que até falhas de ambiente/dependência
+        # sejam registradas no JSON, em vez de abortar antes de criar o artefato.
+        from web_core import responder_web
+    except Exception as exc:
+        erro_importacao = f"{type(exc).__name__}: {exc}"
+
     for caso in CASOS:
         entrada = {"message": caso["mensagem"], "history": caso["historico"]}
         item = {
@@ -115,6 +123,8 @@ def executar():
             "pergunta": caso["mensagem"],
         }
         try:
+            if erro_importacao:
+                raise RuntimeError(f"Falha ao importar web_core.responder_web: {erro_importacao}")
             resposta = responder_web(entrada, voz_17m=True)
             texto = resposta.get("response", "")
             normalizada = normalizar(texto)
@@ -154,6 +164,7 @@ def executar():
         "tipo": "auditoria diagnóstica; não é benchmark de promoção",
         "criado_em_utc": datetime.now(timezone.utc).isoformat(),
         "base": "runtime do repositório via web_core.responder_web, ativando a voz como api/chat.py faz por padrão",
+        "erro_importacao_runtime": erro_importacao,
         "casos": resultados,
         "resumo": {
             "total": len(resultados),
