@@ -90,3 +90,21 @@ Afirmações erradas da rede sozinha: ≤ 0,4%; com a política (prova conferida
   português. O pensador ainda não está ligado ao chat (`ativo_no_chat: false`); falta a ponte
   frase → premissas.
 - Um treino só (uma semente), interrompido antes dos 30 mil passos.
+
+## v2 no chat (15/10/2026, pedido do criador)
+
+`pensador_crivo.py`: a mesma rede em NumPy (`artefatos/pensador_v2_pt/pensador_numpy.npz`, sha256
+`f57fd486…1412`, exportada por `scripts/exportar_pensador_numpy.py`; diferença máxima para o PyTorch
+2,8e-5), com a parada adaptativa e a busca conferida. Na CPU: 20 a 50 ms por pergunta. Conferido de
+novo pelo caminho do chat: blind 100% (300), profundidade 97,3% (150), tamanho 100% (80).
+
+Entra no `raciocinio_ativo` ("Considere estas premissas: …; posso concluir que …?"). O enumerador
+continua calculando a resposta exata; o pensador só responde quando o veredito dele é o mesmo e a
+prova dele basta e é mínima. A resposta diz "Pensei nisso com o meu pensador em N voltas, e o
+enumerador conferiu."; senão, fica a do enumerador, sem essa frase. `CRIVO_DISABLE_PENSADOR=1` desliga.
+
+**Achado ao testar no chat:** o pensador erra o raciocínio de trás para frente ("se estudo, então
+passo; não passo; posso concluir que estudo?" → ele diz indeterminado; o certo é refutado). O gerador
+de treino só deriva para frente (`Gerador._derivar`), então esse caso quase não aparece no treino nem
+nos conjuntos congelados. A resposta do chat continua certa (fica a do enumerador). Para a v3: incluir
+problemas de contrapositiva no gerador e num conjunto congelado novo.
