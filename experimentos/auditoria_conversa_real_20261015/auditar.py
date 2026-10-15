@@ -115,7 +115,7 @@ def executar():
             "pergunta": caso["mensagem"],
         }
         try:
-            resposta = responder_web(entrada)
+            resposta = responder_web(entrada, voz_17m=True)
             texto = resposta.get("response", "")
             normalizada = normalizar(texto)
             item.update({
@@ -153,7 +153,7 @@ def executar():
     relatorio = {
         "tipo": "auditoria diagnóstica; não é benchmark de promoção",
         "criado_em_utc": datetime.now(timezone.utc).isoformat(),
-        "base": "runtime do repositório via web_core.responder_web, configuração padrão",
+        "base": "runtime do repositório via web_core.responder_web, ativando a voz como api/chat.py faz por padrão",
         "casos": resultados,
         "resumo": {
             "total": len(resultados),
