@@ -6,13 +6,20 @@ pequeno falava besteira; reescrever fatos fez o 46M errar fatos.
 
 ## Dados (`professor_v2.py`, `notebooks/destilacao_v2_colab.ipynb`)
 
-- **Falas novas** escritas pelo professor (63 temas × 15 intenções × 5 jeitos de escrever). Ficam
+- **Meta: 87.000 conversas aprovadas** para o treino (pedido do criador). Rodadas até a meta; se a grade
+  acabar antes, o caderno fica menor e o número é relatado (a exigência não baixa). Passando da meta,
+  ficam as de nota maior.
+- **Falas novas** escritas pelo professor (133 temas × 20 intenções × 7 jeitos de escrever = 18.620 pedidos). Ficam
   fora as falas que já existem na fase 5 (todas as partes, incluindo o histórico), as falas sobre
   o CRIVO e as de crise ou saúde urgente.
 - **Dois turnos:** o professor escreve a reação da pessoa e responde de novo.
 - **Professor maior:** Qwen3-32B-AWQ (ou 14B, o que existir e couber; Apache 2.0).
 - **Juiz de outra família** (Mistral Small 24B w4a16 ou Phi-4): nota de 1 a 5; só entra 4 ou 5.
   Mais o filtro de forma e a regra de ouro obrigatória (nada de número ou nome inventado).
+- **O juiz é testado:** em cada rodada, 60 respostas trocadas de conversa de propósito. Se ele aprovar
+  mais de 10% delas, o notebook para.
+- **Sem repetição:** a mesma resposta no máximo 3 vezes; nenhum começo de resposta (4 palavras) acima
+  de 1% do caderno.
 - **Sem fatos do professor.** Os fatos ficam como na v4.
 - **Prova:** 15% das falas novas (por hash) nunca treinam.
 - **Piloto antes:** 40 pedidos; o criador lê 30 aprovadas e 10 reprovadas. Só com o ok dele roda o

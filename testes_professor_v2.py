@@ -58,5 +58,32 @@ class FalasNovas(unittest.TestCase):
         self.assertIn("inventou", V.conferir(q, "Use 2 xícaras de água para cada xícara de arroz.")["motivos"])
 
 
+class Qualidade(unittest.TestCase):
+    def ex(self, chave, resposta, nota):
+        return {"chave": chave, "nota_juiz": nota, "turnos": [{"papel": "usuario", "texto": "x"}, {"papel": "assistente", "texto": resposta}]}
+
+    def test_mesma_resposta_no_maximo_tres_vezes_ficam_as_de_nota_maior(self):
+        es = [self.ex("a%d" % i, "Que chato! O que aconteceu?", 4) for i in range(5)] + [self.ex("b", "Que chato! O que aconteceu?", 5)]
+        out, rel = V.diversificar(es)
+        self.assertEqual(len(out), 3)
+        self.assertEqual(out[0]["chave"], "b")
+        self.assertEqual(rel["resposta_repetida"], 3)
+
+    def test_comeco_repetido_tem_teto(self):
+        es = [self.ex("a%04d" % i, "Poxa, entendo você demais %d" % i, 4) for i in range(30)] + \
+             [self.ex("c%04d" % i, "resposta diferente numero %d aqui" % i, 4) for i in range(3000)]
+        out, rel = V.diversificar(es)
+        self.assertEqual(sum(e["chave"].startswith("a") for e in out), 30)   # teto: max(20, 1% de 3030) = 30
+        es2 = [self.ex("a%04d" % i, "Poxa, entendo você demais %d" % i, 4) for i in range(50)]
+        self.assertEqual(len(V.diversificar(es2)[0]), 20)
+
+    def test_controles_e_juiz_confiavel(self):
+        pares = [({"id": str(i), "turnos": [{"papel": "usuario", "texto": "f%d" % i}]}, {"texto": "r%d" % i}) for i in range(10)]
+        ctrl = V.controles(pares, random.Random(1), 20)
+        self.assertTrue(ctrl and all(p["id"].startswith("controle:") for p, _ in ctrl))
+        self.assertEqual(V.juiz_confiavel([1, 2, 1, 2, 1, 1, 2, 1, 1, 5]), (True, 0.1))
+        self.assertEqual(V.juiz_confiavel([4, 5, 1, 1]), (False, 0.5))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -37,17 +37,32 @@ música; filme ou série; jogo de videogame; livro; celular e aplicativos; compu
 internet lenta; redes sociais; viagem; ônibus e trânsito; chuva e calor; aniversário; festa; Natal e
 fim de ano; igreja e fé; saudade; timidez; ansiedade leve antes de algo; motivação; tédio; dia bom;
 dia ruim; conquista pequena; erro que cometeu; dúvida de português; matemática da escola; curiosidade
-sobre a natureza; curiosidade sobre o corpo; carro ou moto; bicicleta; compras; presente pra alguém
+sobre a natureza; curiosidade sobre o corpo; carro ou moto; bicicleta; compras; presente pra alguém;
+primeiro emprego; entrevista de emprego; trabalhar de casa; trabalho pesado; abrir um negócio pequeno;
+vender coisas na internet; economizar; dívida; aluguel; lavar roupa; limpar a casa; consertar algo em
+casa; cozinhar pra muita gente; café da manhã; lanche da tarde; dieta e alimentação; beber mais água;
+caminhada; correr; dor nas costas leve; ir ao médico de rotina; dentista; cuidar de idoso na família;
+avós; casamento; separação; novo amor; ciúme; amigo que sumiu; fazer amigos; mudar de cidade; vida no
+interior; vida na cidade grande; praia; campo e roça; churrasco; pescaria; acampar; desenhar; escrever;
+aprender um instrumento; cantar; dançar; fotografia com o celular; organizar a rotina; acordar cedo;
+procrastinação; concentração nos estudos; vestibular e Enem; aprender inglês; aprender a programar;
+trabalho voluntário; ajudar alguém na rua; chuva forte; frio; calor demais; falta de luz; vizinho
+barulhento; animal de rua; adotar um bicho; criança fazendo birra; adolescente em casa; aniversário
+esquecido; dia de folga; fim de semana; feriado; sonho estranho; medo bobo; superstição; piada e
+brincadeira; dúvida sobre como algo funciona; planejar o futuro
 """.replace("\n", " ").split(";")
 INTENCOES = [
     "pedir um conselho", "desabafar", "contar uma novidade boa", "contar algo chato que aconteceu",
     "pedir uma ideia", "perguntar como fazer alguma coisa", "pedir uma explicação simples",
     "pedir a opinião", "puxar conversa", "fazer uma brincadeira", "reclamar", "agradecer",
     "pedir ajuda pra decidir entre duas coisas", "perguntar algo que ficou curioso", "pedir uma dica rápida",
+    "pedir pra explicar de novo de outro jeito", "contar como foi o dia", "pedir encorajamento",
+    "comentar algo que viu", "pedir uma sugestão do que fazer agora",
 ]
 JEITOS = [
     "bem curto, informal, com gíria", "informal, com erro de digitação", "normal, uma ou duas frases",
     "tudo em minúsculas, sem pontuação", "mais longo, explicando a situação",
+    "em forma de pergunta direta", "com emoji e risada (kkk)",
 ]
 
 PEDIR_FALAS = (
@@ -69,6 +84,11 @@ JUIZ = (
     "1 = sem sentido, errada, em outra língua ou inventa fatos.\n"
     "Não dê nota maior por ser longa. Responda só com: NOTA: <número>\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
 NOTA_MINIMA = 4
+META = 87_000           # exemplos de treino aprovados (pedido do criador, 15/10/2026)
+MAX_MESMA_RESPOSTA = 3  # a mesma resposta (normalizada) entra no máximo 3 vezes
+MAX_ABERTURA = 0.01     # nenhum começo de resposta (4 primeiras palavras) passa de 1% do caderno
+CONTROLES = 60          # respostas trocadas de conversa: o juiz tem que reprovar
+MAX_CONTROLE_APROVADO = 0.10
 
 SOBRE_O_CRIVO = re.compile(
     r"\bcrivo\b|\bquem (?:e|eh|é) (?:voce|você|vc|tu)\b|\b(?:seu|teu) nome\b|\b(?:voce|você|vc|tu) (?:e|eh|é) "
@@ -175,3 +195,44 @@ def conferir(pergunta, bruto):
         r["motivos"].append("inventou")
     r["ok"] = not r["motivos"]
     return r
+
+
+def controles(pares, rng, n=CONTROLES):
+    """Pares (pergunta, resposta de OUTRA conversa): respostas erradas de propósito, para medir o juiz."""
+    if len(pares) < 2:
+        return []
+    out = []
+    for i in range(min(n, len(pares))):
+        p, _ = pares[rng.randrange(len(pares))]
+        q, c = pares[rng.randrange(len(pares))]
+        if p["id"] != q["id"]:
+            out.append(({**p, "id": "controle:" + p["id"] + ":" + q["id"]}, c["texto"]))
+    return out
+
+
+def juiz_confiavel(notas_controles):
+    """O juiz reprova as respostas trocadas? (fração aprovada ≤ MAX_CONTROLE_APROVADO)"""
+    ns = [n for n in notas_controles if n is not None]
+    aprovadas = sum(n >= NOTA_MINIMA for n in ns) / max(1, len(ns))
+    return aprovadas <= MAX_CONTROLE_APROVADO, round(aprovadas, 3)
+
+
+def diversificar(exemplos):
+    """Tira repetição: a mesma resposta no máximo MAX_MESMA_RESPOSTA vezes e nenhum começo acima de MAX_ABERTURA.
+    Fica a de nota maior. Devolve (exemplos, relatório)."""
+    ordem = sorted(exemplos, key=lambda e: (-(e.get("nota_juiz") or 0), e["chave"]))
+    teto = max(20, int(MAX_ABERTURA * len(exemplos)))
+    por_resposta, por_abertura, out, rel = {}, {}, [], {"resposta_repetida": 0, "abertura_repetida": 0}
+    for e in ordem:
+        n = P.norm(e["turnos"][-1]["texto"])
+        ab = " ".join(n.split()[:4])
+        if por_resposta.get(n, 0) >= MAX_MESMA_RESPOSTA:
+            rel["resposta_repetida"] += 1
+            continue
+        if por_abertura.get(ab, 0) >= teto:
+            rel["abertura_repetida"] += 1
+            continue
+        por_resposta[n] = por_resposta.get(n, 0) + 1
+        por_abertura[ab] = por_abertura.get(ab, 0) + 1
+        out.append(e)
+    return out, rel
