@@ -43,9 +43,24 @@ reais (10 contra 12) e piora nos fatos do acervo.
 - Um treino só por receita (sem repetir com outra semente); diferenças de 1–2 pontos podem ser ruído.
 - O juiz ainda não rodou; o sentido julga por listas no jeito da fase 5.
 
-## Próximo (registrado antes de rodar): v5b "conversa"
+## Próximo: a v5b "conversa" foi suspensa antes de rodar (revisão de 15/10/2026)
 
-O professor só nas conversas comuns da fase 5 (`fase5:cena:*`); fatos, enciclopédia e OASST2 do
-professor ficam de fora, e os fatos voltam a ser só como na v4. Mesma base, mesma receita, mesma
-régua. Hipótese: mantém os fatos da v4 e leva o ganho de conversa. Vai para o chat só se ganhar da
-v4 nas frases reais e não perder nos blinds nem nos fatos.
+A primeira ideia (o professor só nas conversas comuns da fase 5) repete um erro já registrado
+(`experimentos/fase6b_conversa_humana/RESULTADO.md`, v3, "respostas em conflito"):
+
+- **As perguntas do professor na fase 5 são as mesmas falas do treino da fase 5**, com outra
+  resposta. Cada uma das ~20 mil falas de conversa teria duas respostas-alvo diferentes. Na v3, duas
+  respostas para "você é humano?" (fase 5 e IDENTIDADE.md) deixaram essas situações em 0%. A v5b
+  faria isso em todas as conversas comuns.
+- **Sinal na v5 médio, nas situações em que o professor entrou:** risada nas paráfrases 11,4% →
+  0,8%; amor_bom no blind v3 → 0%. Não dá para separar conflito de régua: o sentido julga por
+  listas no jeito da fase 5, e uma resposta boa do professor com outras palavras conta como errada.
+  Por isso o juiz tem que vir antes de outro treino.
+
+**Ordem nova (antes de qualquer treino):**
+1. **Juiz, sem treinar nada:** v4 × v5 médio, comparação em pares com a ordem trocada, num juiz de
+   outra família, em falas novas que nenhum dos dois viu. Responde se o professor melhorou a conversa
+   e a régua não viu, ou se piorou mesmo.
+2. **Só depois, se o juiz mostrar ganho:** o professor só em falas que a fase 5 não tem (pedidos e
+   conversas do dia a dia fora das listas, conversas de vários turnos), sem nenhuma fala repetida
+   do treino; fatos do professor fora.
