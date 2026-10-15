@@ -169,13 +169,16 @@ def pedir_proxima(pergunta, resposta):
     return [{"role": "user", "content": PROXIMA_FALA.format(conversa=conversa_texto(ts))}]
 
 
+META_FALA = re.compile(r"^(?:a pessoa|pessoa (?:pode|responde|diria)|resposta|mensagem|pr[óo]xima mensagem|exemplo)\b", re.I)
+
+
 def segundo_turno(pergunta, resposta, texto, vistas):
     """A pergunta de dois turnos a partir da fala seguinte que o professor escreveu, ou None."""
     ls = linhas(texto)
     if not ls:
         return None
     fala = re.sub(r"^(?:\s*(?:PESSOA|AMIGO|USU[ÁA]RIO)\s*:\s*)+", "", ls[0], flags=re.I).strip()   # o professor repete o rótulo
-    if not fala:
+    if not fala or META_FALA.match(fala):   # "A pessoa pode responder:" não é fala, é o professor explicando
         return None
     if fala_ok(fala, vistas):
         return None

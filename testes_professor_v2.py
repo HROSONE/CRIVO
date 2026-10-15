@@ -97,6 +97,10 @@ class Piloto1(unittest.TestCase):
         self.assertEqual(V.segundo_turno(p, "Oi!", "PESSOA: PESSOA: Tá legal, conta aí.", set())["turnos"][-1]["texto"],
                          "Tá legal, conta aí.")
 
+    def test_professor_explicando_nao_vira_fala(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "oi"}]}
+        self.assertIsNone(V.segundo_turno(p, "Oi!", "A pessoa pode responder:", set()))
+
     def test_professor_fingindo_ser_gente_sai(self):
         q = {"ctx": {}, "turnos": [{"papel": "usuario", "texto": "e você, como tem dormido?"}]}
         self.assertIn("finge_ser_humano", V.conferir(q, "Eu tô dormindo razoável, e você?")["motivos"])
