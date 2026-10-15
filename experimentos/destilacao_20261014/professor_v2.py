@@ -92,7 +92,7 @@ NOTA_MINIMA = 4
 META = 87_000           # exemplos de treino aprovados (pedido do criador, 15/10/2026)
 MAX_MESMA_RESPOSTA = 3  # a mesma resposta (normalizada) entra no máximo 3 vezes
 MAX_ABERTURA = 0.01     # nenhum começo de resposta (4 primeiras palavras) passa de 1% do caderno
-CONTROLES = 60          # respostas trocadas de conversa: o juiz tem que reprovar
+CONTROLES = 120         # respostas trocadas (de outro tema): o juiz tem que reprovar
 MAX_CONTROLE_APROVADO = 0.10
 
 SOBRE_O_CRIVO = re.compile(
@@ -220,21 +220,26 @@ def conferir(pergunta, bruto):
 
 
 def controles(pares, rng, n=CONTROLES):
-    """Pares (pergunta, resposta de OUTRA conversa): respostas erradas de propósito, para medir o juiz."""
+    """Pares (pergunta, resposta de OUTRA conversa, de OUTRO tema): respostas certamente erradas, para medir o juiz.
+    Mesmo tema não vale (matemática com matemática pode até servir)."""
     if len(pares) < 2:
         return []
-    out = []
-    for i in range(min(n, len(pares))):
+    out, tentativas = [], 0
+    while len(out) < n and tentativas < 50 * n:
+        tentativas += 1
         p, _ = pares[rng.randrange(len(pares))]
         q, c = pares[rng.randrange(len(pares))]
-        if p["id"] != q["id"]:
-            out.append(({**p, "id": "controle:" + p["id"] + ":" + q["id"]}, c["texto"]))
+        if p.get("tema") is not None and p.get("tema") == q.get("tema"):
+            continue
+        out.append(({**p, "id": "controle:%d:%s:%s" % (len(out), p["id"], q["id"])}, c["texto"]))
     return out
 
 
 def juiz_confiavel(notas_controles):
-    """O juiz reprova as respostas trocadas? (fração aprovada ≤ MAX_CONTROLE_APROVADO)"""
+    """O juiz reprova as respostas trocadas? (fração aprovada ≤ MAX_CONTROLE_APROVADO, com nota em ≥ 80% delas)"""
     ns = [n for n in notas_controles if n is not None]
+    if len(ns) < 0.8 * max(1, len(notas_controles)):
+        return False, None   # sem nota não há medida: não passa
     aprovadas = sum(n >= NOTA_MINIMA for n in ns) / max(1, len(ns))
     return aprovadas <= MAX_CONTROLE_APROVADO, round(aprovadas, 3)
 

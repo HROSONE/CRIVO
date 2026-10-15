@@ -78,9 +78,14 @@ class Qualidade(unittest.TestCase):
         self.assertEqual(len(V.diversificar(es2)[0]), 20)
 
     def test_controles_e_juiz_confiavel(self):
-        pares = [({"id": str(i), "turnos": [{"papel": "usuario", "texto": "f%d" % i}]}, {"texto": "r%d" % i}) for i in range(10)]
+        pares = [({"id": str(i), "tema": "t%d" % (i % 3), "turnos": [{"papel": "usuario", "texto": "f%d" % i}]}, {"texto": "r%d" % i})
+                 for i in range(10)]
         ctrl = V.controles(pares, random.Random(1), 20)
-        self.assertTrue(ctrl and all(p["id"].startswith("controle:") for p, _ in ctrl))
+        self.assertEqual(len(ctrl), 20)
+        self.assertTrue(all(p["id"].startswith("controle:") for p, _ in ctrl))
+        tema = {"r%d" % i: "t%d" % (i % 3) for i in range(10)}
+        self.assertTrue(all(p["tema"] != tema[r] for p, r in ctrl))   # sempre de outro tema
+        self.assertEqual(V.juiz_confiavel([None] * 10 + [1]), (False, None))   # sem nota não passa
         self.assertEqual(V.juiz_confiavel([1, 2, 1, 2, 1, 1, 2, 1, 1, 5]), (True, 0.1))
         self.assertEqual(V.juiz_confiavel([4, 5, 1, 1]), (False, 0.5))
 
