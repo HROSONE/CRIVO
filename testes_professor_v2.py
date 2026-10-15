@@ -85,5 +85,23 @@ class Qualidade(unittest.TestCase):
         self.assertEqual(V.juiz_confiavel([4, 5, 1, 1]), (False, 0.5))
 
 
+class Piloto1(unittest.TestCase):
+    """O que o primeiro piloto mostrou (15/10/2026)."""
+
+    def test_juiz_que_diz_que_nao_tem_a_ver_reprova(self):
+        self.assertEqual(V.ler_nota("TEM A VER: NÃO\nNOTA: 4"), 1)
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nNOTA: 5"), 5)
+
+    def test_segundo_turno_sem_rotulo_repetido(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "oi"}]}
+        self.assertEqual(V.segundo_turno(p, "Oi!", "PESSOA: PESSOA: Tá legal, conta aí.", set())["turnos"][-1]["texto"],
+                         "Tá legal, conta aí.")
+
+    def test_professor_fingindo_ser_gente_sai(self):
+        q = {"ctx": {}, "turnos": [{"papel": "usuario", "texto": "e você, como tem dormido?"}]}
+        self.assertIn("finge_ser_humano", V.conferir(q, "Eu tô dormindo razoável, e você?")["motivos"])
+        self.assertTrue(V.conferir(q, "Eu não durmo, mas espero que você descanse hoje.")["ok"])
+
+
 if __name__ == "__main__":
     unittest.main()

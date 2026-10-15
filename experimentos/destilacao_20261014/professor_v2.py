@@ -76,13 +76,18 @@ PROXIMA_FALA = (
     "aspas, sem explicar.\n\n{conversa}")
 JUIZ = (
     "Você avalia respostas de um chat em português do Brasil. Leia a conversa e a última resposta do "
-    "assistente. Dê uma nota de 1 a 5:\n"
+    "assistente.\n"
+    "Primeiro diga se a última resposta tem a ver com a ÚLTIMA mensagem da pessoa (responde ao que ela "
+    "disse, no mesmo assunto). Uma resposta sobre outro assunto, mesmo simpática, não tem a ver.\n"
+    "Depois dê uma nota de 1 a 5:\n"
     "5 = responde exatamente o que a pessoa disse, faz sentido, natural e simples, não inventa nada;\n"
     "4 = boa, com um detalhe pequeno a melhorar;\n"
     "3 = aceitável, mas genérica ou meio fora do ponto;\n"
     "2 = não responde o que foi dito ou soa estranha;\n"
-    "1 = sem sentido, errada, em outra língua ou inventa fatos.\n"
-    "Não dê nota maior por ser longa. Responda só com: NOTA: <número>\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
+    "1 = sem sentido, outro assunto, em outra língua, inventa fatos, ou finge ser uma pessoa (diz que "
+    "dorme, come, trabalha, tem família, saiu de casa, sente dor no corpo).\n"
+    "Não dê nota maior por ser longa. Responda só com duas linhas:\nTEM A VER: SIM ou NÃO\nNOTA: <número>"
+    "\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
 NOTA_MINIMA = 4
 META = 87_000           # exemplos de treino aprovados (pedido do criador, 15/10/2026)
 MAX_MESMA_RESPOSTA = 3  # a mesma resposta (normalizada) entra no máximo 3 vezes
@@ -169,7 +174,9 @@ def segundo_turno(pergunta, resposta, texto, vistas):
     ls = linhas(texto)
     if not ls:
         return None
-    fala = ls[0]
+    fala = re.sub(r"^(?:\s*(?:PESSOA|AMIGO|USU[ÁA]RIO)\s*:\s*)+", "", ls[0], flags=re.I).strip()   # o professor repete o rótulo
+    if not fala:
+        return None
     if fala_ok(fala, vistas):
         return None
     turnos = pergunta["turnos"] + [{"papel": "assistente", "texto": resposta}, {"papel": "usuario", "texto": fala}]
@@ -182,8 +189,18 @@ def pedir_nota(pergunta, resposta):
 
 
 def ler_nota(texto):
-    m = re.search(r"NOTA:\s*([1-5])", texto or "")
+    """A nota do juiz; "TEM A VER: NÃO" vale 1 (a resposta não responde o que a pessoa disse)."""
+    t = texto or ""
+    if re.search(r"TEM A VER:\s*N[ÃA]O", t, re.I):
+        return 1
+    m = re.search(r"NOTA:\s*([1-5])", t)
     return int(m.group(1)) if m else None
+
+
+FINGE_HUMANO = re.compile(
+    r"\beu (?:também |tambem |ainda |já |ja )?(?:durmo|dormi|tô dormindo|to dormindo|estou dormindo|comi|almocei|jantei|"
+    r"moro|morei|trabalho|trabalhei|fui (?:no|na|ao|à|pra)|saí|viajei|acordei|me exercito|corro todo|"
+    r"tenho (?:um|uma|dois|duas) (?:filh|cachorr|gat|irm|marid|espos|namorad|carro|casa))", re.I)
 
 
 def conferir(pergunta, bruto):
@@ -191,6 +208,8 @@ def conferir(pergunta, bruto):
     r = P.conferir(pergunta, bruto)
     if "idioma" in r["motivos"] and len(P.norm(r["texto"]).split()) < 8 and not P.CJK.search(r["texto"]):
         r["motivos"].remove("idioma")
+    if FINGE_HUMANO.search(r["texto"]):
+        r["motivos"].append("finge_ser_humano")
     if not r["regra_de_ouro"] and "inventou" not in r["motivos"]:
         r["motivos"].append("inventou")
     r["ok"] = not r["motivos"]
