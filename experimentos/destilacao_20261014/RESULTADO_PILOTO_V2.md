@@ -34,3 +34,11 @@ Manifesto: `CRIVO/dados-professor-v2/piloto/manifesto.json` (dados sha256 b18d74
   completo).
 - O juiz aprova quase tudo que passou no filtro (98%). A trava das trocadas é a única medida de que
   ele reprova lixo; o criador lê a amostra antes do caderno completo.
+
+## Medida final do juiz (15/10/2026, commit 603bfc4)
+
+As trocadas da primeira medida eram 60, e algumas do mesmo tema (que podem servir de verdade): a
+mesma amostra deu 8,3% numa rodada e 21% na seguinte só por sortear outras. Agora são 120, sempre de
+outro tema. **Os dois juízes juntos aprovaram 6,7% (8 de 120)**, abaixo do limite de 10%. Caderno do
+piloto: 598 de treino, 85 de prova, 14,95 por pedido (dados sha256 abfc5648…). Liberado para o
+caderno completo com o ok do criador.
