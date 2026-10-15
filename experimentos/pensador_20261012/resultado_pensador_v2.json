@@ -1,0 +1,208 @@
+{
+  "protocolo": "pensador_v2_20261014",
+  "conjuntos_protocolo": "pensador_20261012",
+  "conjuntos_sha256": "20deb41adcb704e791027ba5939feb253f6cbd59943de633389eee841500c3df",
+  "parametros": 918343,
+  "config": {
+    "saida": "/tmp/claude-0/-home-user-CRIVO/3c1b0d5d-ba2e-5d73-9ee8-6e30a22da12b/scratchpad/pensador_g",
+    "passos": 30000,
+    "lote": 256,
+    "n_treino": 400000,
+    "d": 192,
+    "camadas": 2,
+    "voltas": 8,
+    "voltas_min": 4,
+    "voltas_max": 16,
+    "peso_prova": 3.0,
+    "lr": 0.0005,
+    "avaliar_a_cada": 1000,
+    "processos": 4,
+    "semente": 7,
+    "dev_n": 1000,
+    "max_horas": 3.0,
+    "so_avaliar": true
+  },
+  "passo_escolhido": 13000,
+  "historico": "sessão do treino caiu; avaliado do pensador.pt salvo",
+  "ativo_no_chat": false,
+  "avaliacao": {
+    "blind_iid": {
+      "rede": {
+        "n": 2000,
+        "status_acc": 1.0,
+        "exato": 0.857,
+        "afirmacoes_erradas_brutas": 0.0,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.7861538461538462,
+        "pergunta_ok": 0.9885714285714285,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.7861538461538462,
+        "exato_por_status": {
+          "sustentado": 0.8316666666666667,
+          "refutado": 0.82,
+          "indeterminado": 0.9885714285714285,
+          "conflito": 0.65
+        },
+        "voltas_media": 8.0
+      },
+      "adaptativo": {
+        "n": 2000,
+        "status_acc": 1.0,
+        "exato": 0.8575,
+        "afirmacoes_erradas_brutas": 0.0,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.786923076923077,
+        "pergunta_ok": 0.9885714285714285,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.786923076923077,
+        "exato_por_status": {
+          "sustentado": 0.8283333333333334,
+          "refutado": 0.8225,
+          "indeterminado": 0.9885714285714285,
+          "conflito": 0.6566666666666666
+        },
+        "voltas_media": 4.9505
+      },
+      "adaptativo_busca": {
+        "n": 2000,
+        "status_acc": 1.0,
+        "exato": 0.996,
+        "afirmacoes_erradas_brutas": 0.0,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 1.0,
+        "pergunta_ok": 0.9885714285714285,
+        "politica_erros": 0.0,
+        "politica_cobertura": 1.0,
+        "exato_por_status": {
+          "sustentado": 1.0,
+          "refutado": 1.0,
+          "indeterminado": 0.9885714285714285,
+          "conflito": 1.0
+        },
+        "voltas_media": 4.9505
+      }
+    },
+    "ood_profundidade": {
+      "rede": {
+        "n": 1000,
+        "status_acc": 0.971,
+        "exato": 0.754,
+        "afirmacoes_erradas_brutas": 0.001,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.6323076923076923,
+        "pergunta_ok": 0.98,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.6323076923076923,
+        "exato_por_status": {
+          "sustentado": 0.65,
+          "refutado": 0.715,
+          "indeterminado": 0.98,
+          "conflito": 0.4866666666666667
+        },
+        "voltas_media": 8.0
+      },
+      "adaptativo": {
+        "n": 1000,
+        "status_acc": 0.969,
+        "exato": 0.728,
+        "afirmacoes_erradas_brutas": 0.001,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.5923076923076923,
+        "pergunta_ok": 0.98,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.5923076923076923,
+        "exato_por_status": {
+          "sustentado": 0.5966666666666667,
+          "refutado": 0.665,
+          "indeterminado": 0.98,
+          "conflito": 0.4866666666666667
+        },
+        "voltas_media": 6.262
+      },
+      "adaptativo_busca": {
+        "n": 1000,
+        "status_acc": 0.969,
+        "exato": 0.959,
+        "afirmacoes_erradas_brutas": 0.001,
+        "afirmacoes_erradas_conferidas": 0.001,
+        "cobertura_conferida": 0.9476923076923077,
+        "pergunta_ok": 0.98,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.9476923076923077,
+        "exato_por_status": {
+          "sustentado": 0.9,
+          "refutado": 0.995,
+          "indeterminado": 0.98,
+          "conflito": 0.98
+        },
+        "voltas_media": 6.262
+      }
+    },
+    "ood_tamanho": {
+      "rede": {
+        "n": 500,
+        "status_acc": 0.99,
+        "exato": 0.788,
+        "afirmacoes_erradas_brutas": 0.004,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.6923076923076923,
+        "pergunta_ok": 0.976878612716763,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.6923076923076923,
+        "exato_por_status": {
+          "sustentado": 0.7133333333333334,
+          "refutado": 0.75,
+          "indeterminado": 0.9657142857142857,
+          "conflito": 0.5733333333333334
+        },
+        "voltas_media": 8.0
+      },
+      "adaptativo": {
+        "n": 500,
+        "status_acc": 0.988,
+        "exato": 0.776,
+        "afirmacoes_erradas_brutas": 0.004,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.6738461538461539,
+        "pergunta_ok": 0.976878612716763,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.6738461538461539,
+        "exato_por_status": {
+          "sustentado": 0.6666666666666666,
+          "refutado": 0.73,
+          "indeterminado": 0.9657142857142857,
+          "conflito": 0.6133333333333333
+        },
+        "voltas_media": 6.2
+      },
+      "adaptativo_busca": {
+        "n": 500,
+        "status_acc": 0.988,
+        "exato": 0.978,
+        "afirmacoes_erradas_brutas": 0.004,
+        "afirmacoes_erradas_conferidas": 0.0,
+        "cobertura_conferida": 0.9846153846153847,
+        "pergunta_ok": 0.976878612716763,
+        "politica_erros": 0.0,
+        "politica_cobertura": 0.9846153846153847,
+        "exato_por_status": {
+          "sustentado": 0.9733333333333334,
+          "refutado": 0.99,
+          "indeterminado": 0.9657142857142857,
+          "conflito": 1.0
+        },
+        "voltas_media": 6.2
+      }
+    }
+  },
+  "invariancia_status": 0.9995,
+  "gates": {
+    "blind_iid": true,
+    "ood_profundidade": true,
+    "ood_tamanho": true,
+    "afirmacoes_erradas_brutas": true,
+    "politica_sem_erro": true,
+    "invariancia": true
+  },
+  "aprovado": true
+}

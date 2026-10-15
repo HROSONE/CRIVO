@@ -239,6 +239,31 @@ class RaciocinioAtivo:
         return 'raciocinio:' + operacao, texto, None, ''
 
     @staticmethod
+    def _com_pensador(premissas, alvo, dados):
+        """O pensador (rede própria, pensador_crivo.py) propõe; o enumerador já calculou a resposta exata
+        e confere: a prova do pensador só entra se o veredito for o mesmo e ela bastar e for mínima."""
+        try:
+            import pensador_crivo
+            r = pensador_crivo.pensar(tuple(premissas), alvo)
+        except Exception as exc:  # o pensador nunca derruba a resposta exata
+            r, erro = None, type(exc).__name__
+        else:
+            erro = None
+        if r is None:
+            fora = all(alvo.nome != l.nome for p in premissas for l in p.antecedentes + (p.consequente,))
+            dados['pensador'] = {'usado': False, 'motivo': erro or ('a pergunta fala de algo fora das premissas' if fora
+                                                                   else 'pensador desligado')}
+        elif r['status'] != dados['status']:
+            dados['pensador'] = {'usado': False, 'motivo': 'veredito diferente do enumerador', 'proposta': r['status'], 'voltas': r['voltas']}
+        elif dados['status'] in ('sustentado', 'refutado', 'conflito') and r['prova'] is None:
+            dados['pensador'] = {'usado': False, 'motivo': 'prova não conferida', 'voltas': r['voltas']}
+        else:
+            if r['prova'] is not None:
+                dados['provas'] = [{'indice': i, 'texto': premissas[i].texto} for i in r['prova']]
+            dados['pensador'] = {'usado': True, 'conferido': True, 'voltas': r['voltas']}
+        return dados
+
+    @staticmethod
     def _explicar(dados):
         estado = dados['status']
         if estado == 'conflito':
@@ -256,6 +281,8 @@ class RaciocinioAtivo:
             inicio += '\nPremissas usadas:\n' + '\n'.join('- ' + p['texto'] for p in provas)
         if dados.get('contraexemplos'):
             inicio += '\nHá possibilidades compatíveis em que a afirmação vale e outras em que não vale.'
+        if (dados.get('pensador') or {}).get('usado'):
+            inicio += '\nPensei nisso com o meu pensador em %d voltas, e o enumerador conferiu.' % dados['pensador']['voltas']
         return inicio + '\nEssa análise depende das premissas; não comprova que elas sejam fatos reais.'
 
     def preparar(self, texto, turno):
@@ -294,7 +321,7 @@ class RaciocinioAtivo:
                 sistema = SistemaPremissas(novas)
                 self.premissas, self.turno, self.alvo = novas, turno, alvo
                 if alvo:
-                    dados = sistema.analisar(alvo)
+                    dados = self._com_pensador(novas, alvo, sistema.analisar(alvo))
                     return self._registrar('concluir', dados, self._explicar(dados))
                 dados = sistema.conclusoes()
                 if dados['status'] == 'conflito':
@@ -335,7 +362,7 @@ class RaciocinioAtivo:
             sistema = SistemaPremissas(self.premissas)
             self.turno = turno
             if consulta:
-                dados = sistema.analisar(consulta)
+                dados = self._com_pensador(self.premissas, consulta, sistema.analisar(consulta))
                 self.alvo = consulta
                 return self._registrar('concluir', dados, self._explicar(dados))
             if abducao:
