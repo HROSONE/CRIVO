@@ -17,6 +17,12 @@ Branch: `crivo/expandir-psicologia-cognitiva-neurociencia`
 5. **Metadados das fontes incompatíveis.** O validador exige tipo, ano, ano_tipo, reutilizacao permitida, direitos_url, credito, verificado_em e escopo_uso. Os metadados atuais dos lotes não cumprem esse contrato.
 6. **Ordem de fatos.** O primeiro fato de cada conceito precisa ter papel `definicao`; alguns lotes começam com outros papéis ou usam a definição em posição posterior.
 
+## Auditoria reproduzível
+
+Foi adicionado `scripts/auditar_expansao_psicologia.py`, um verificador conservador para listar conceitos, fatos, papéis inválidos, metadados incompletos, fatos sem fonte específica e duplicatas entre lotes. Ele não converte nem atribui fontes automaticamente. Execução prevista no clone local: `python scripts/auditar_expansao_psicologia.py`. O script foi criado na branch, mas não foi executado neste ambiente; seus resultados devem ser confirmados em CI ou clone local.
+
+A inspeção estática dos oito JSONs encontrou **dois nomes repetidos entre os lotes**: “Desenvolvimento cognitivo ao longo da vida” (V3/V8) e “Motivação, metas e autorregulação” (V3/V8). A contagem confirmou 107 conceitos, 509 fatos e 37 entradas de fontes somadas entre arquivos (não necessariamente 37 fontes únicas). **Os 509 fatos não contêm o campo `fonte`**.
+
 ## Próximos passos seguros
 
 1. Não alterar o loader para aceitar rascunhos automaticamente.
