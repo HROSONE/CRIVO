@@ -75,7 +75,8 @@ def principal():
                 msgs.append(p["mensagens"])
                 params.append(SamplingParams(temperature=p["temperatura"], top_p=0.8 if p["temperatura"] > 0 else 1.0,
                                              top_k=20 if p["temperatura"] > 0 else -1, max_tokens=p["max_tokens"]))
-            outs = llm.chat(msgs, params, use_tqdm=False, chat_template_kwargs={"enable_thinking": False})
+            print(f"  pedaço {k + 1}/{len(pedacos)}: gerando {len(lote)} respostas...", flush=True)
+            outs = llm.chat(msgs, params, use_tqdm=True, chat_template_kwargs={"enable_thinking": False})
             tmp = parte(k).with_name(parte(k).name + ".tmp")
             with gzip.open(tmp, "wt", encoding="utf-8") as f:
                 for p, o in zip(lote, outs):
