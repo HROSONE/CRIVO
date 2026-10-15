@@ -130,7 +130,7 @@ def main():
                     missing_fact_source += 1
                     issues.append(f"{path.name}: {ident}[{index}]: sem fonte específica cadastrada")
 
-    print("\\nRESUMO")
+    print("\nRESUMO")
     print(f"Arquivos: {len(FILES)}")
     print(f"Conceitos: {total_items}")
     print(f"Fatos: {total_facts}")
@@ -148,9 +148,9 @@ def main():
         print(f"  - {issue}")
 
     if issues or duplicate_names or duplicate_ids:
-        print("\\nSTATUS: BLOQUEADO — NÃO INTEGRAR AO CURRÍCULO ATIVO")
+        print("\nSTATUS: BLOQUEADO — NÃO INTEGRAR AO CURRÍCULO ATIVO")
         return 1
-    print("\\nSTATUS: COMPATIBILIDADE ESTRUTURAL APROVADA; AINDA EXIGE REVISÃO CIENTÍFICA")
+    print("\nSTATUS: COMPATIBILIDADE ESTRUTURAL APROVADA; AINDA EXIGE REVISÃO CIENTÍFICA")
     return 0
 
 
