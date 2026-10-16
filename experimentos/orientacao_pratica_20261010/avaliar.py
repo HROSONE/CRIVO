@@ -24,6 +24,10 @@ def avaliar(modo,saida,candidato=None,url=None,exigir=False,so_congelado=False):
     if modo=='http':
         from web_local import criar_servidor
         servidor=criar_servidor(port=0);servidor.checkpoint_dialogo_candidato=candidato
+        # Os 79 casos medem executores determinísticos (capacidades, memória,
+        # orientação). A voz 46M (voz_17m) reescreve o texto e quebra o gate;
+        # no site ela continua ligada por decisão do criador.
+        servidor.voz_17m=False
         threading.Thread(target=servidor.serve_forever,daemon=True).start()
         url='http://127.0.0.1:%s/api/chat'%servidor.server_address[1]
     def motor(bot,texto):
