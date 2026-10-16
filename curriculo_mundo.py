@@ -4,9 +4,11 @@ Só sínteses próprias, conferidas em fontes identificadas com condições de
 reutilização registradas, entram no currículo. Nenhum texto remoto,
 modelo pronto, chave ou download é necessário durante a conversa/treino.
 """
+import copy
 import json
 import re
 import unicodedata
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -20,7 +22,7 @@ def texto_fato(fato):
     return fato["texto"]
 
 
-def ler_curriculo(caminho):
+def _ler_curriculo_validando(caminho):
     caminho = Path(caminho)
     if not caminho.is_file():
         return None
@@ -138,6 +140,46 @@ def ler_curriculo(caminho):
             vistos.add(par)
     return dados
 
+
+
+# O currículo é imutável durante uma resposta e costuma ser lido por cada
+# nova instância de Crivo. Cacheamos o resultado já validado, mas devolvemos
+# uma cópia por instância para impedir que o estado de uma conversa contamine
+# outra. A assinatura inclui os catálogos temáticos e invalida o cache quando
+# qualquer arquivo é editado, criado ou removido.
+@lru_cache(maxsize=4)
+def _curriculo_validado_cache(caminho_texto, assinatura):
+    return _ler_curriculo_validando(Path(caminho_texto))
+
+
+def ler_curriculo(caminho):
+    caminho = Path(caminho).resolve()
+    if not caminho.is_file():
+        return None
+    arquivos = [caminho]
+    if caminho.name == "conhecimento_mundo.json":
+        nomes = (
+            "conhecimento_astronomia_luas.json", "conhecimento_fisica.json",
+            "conhecimento_biologia.json", "conhecimento_sociologia.json",
+            "conhecimento_filosofia.json", "conhecimento_historia.json",
+            "conhecimento_geografia.json", "conhecimento_pessoas.json",
+            "conhecimento_literatura.json", "conhecimento_ciencias.json",
+            "conhecimento_ecologia.json", "conhecimento_artes.json",
+            "conhecimento_sociedade.json", "conhecimento_saude.json",
+            "conhecimento_tecnologia.json", "conhecimento_exatas.json",
+            "conhecimento_mente.json", "conhecimento_paises.json",
+            "conhecimento_estados_brasil.json", "conhecimento_esporte.json",
+            "conhecimento_historia_complementar.json", "conhecimento_saude_basica.json",
+            "conhecimento_ciencia_cotidiana.json", "conhecimento_cidadania.json",
+            "conhecimento_cultura.json", "conhecimento_biblia.json",
+        )
+        arquivos.extend(caminho.with_name(n) for n in nomes)
+    assinatura = tuple(
+        (str(p), p.stat().st_mtime_ns, p.stat().st_size)
+        for p in arquivos if p.is_file()
+    )
+    dados = _curriculo_validado_cache(str(caminho), assinatura)
+    return copy.deepcopy(dados)
 
 def entradas_mundo(curriculo):
     """Exemplos genéricos de conceitos; avaliações não entram no treino."""
