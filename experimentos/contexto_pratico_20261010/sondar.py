@@ -30,6 +30,8 @@ def executar(modo, saida, candidato=None, historico_max=20, somente_sessoes=None
         from web_local import criar_servidor
         servidor = criar_servidor(port=0)
         servidor.checkpoint_dialogo_candidato = candidato
+        # Sondas medem executores determinísticos; a voz 46M reescreve o texto.
+        servidor.voz_17m = False
         threading.Thread(target=servidor.serve_forever,daemon=True).start()
         url = 'http://127.0.0.1:%s/api/chat' % servidor.server_address[1]
     def health():
