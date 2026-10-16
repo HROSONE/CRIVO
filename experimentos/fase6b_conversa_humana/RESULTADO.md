@@ -202,3 +202,8 @@ Decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conheciment
   `testes_memoria_navegador.py`, `testes_ecossistema.py` e `testes_formato_fase6.py` passam;
   `testes_ampliacao.py` tem as mesmas 4 falhas antigas. O pacote do app (`empacotar_apk.py
   --testar`) responde: "oi" → "Opa, oi! Tô por aqui. Me conta alguma novidade?".
+
+
+## Rodada posterior — v6-r0 (15/10/2026)
+
+A primeira rodada e as versões v2–v4 acima são histórico. Para não misturar os resultados, consulte o [relatório separado do v6-r0](RESULTADO_v6_r0.md), que registra as métricas compartilhadas em 16/10, as limitações de verificação dos arquivos originais e as condições necessárias antes de qualquer promoção. A documentação não altera qual modelo é carregado pelo chat.
