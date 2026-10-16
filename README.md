@@ -1,5 +1,15 @@
 # Crivo v0.4 (em desenvolvimento)
 
+## Estado atualizado — 16/10/2026: v6-r0 em avaliação, não promovido
+
+A rodada de conversa v6-r0 (checkpoint informado: passo 1.890, cerca de 46,1M parâmetros) apresentou melhora nas métricas comparativas compartilhadas pelo criador, mas ainda tem falhas relevantes por categoria. Os arquivos originais do Drive e seus hashes ainda precisam ser conferidos. **Não presumir que o v6-r0 esteja ativo no chat:** o código abaixo ainda documenta o carregamento da fase 6b v4. Não alterar o modelo ativo até validar checkpoint, tokenizador, testes comparáveis e compatibilidade.
+
+- [Relatório v6-r0, métricas e limitações](experimentos/fase6b_conversa_humana/RESULTADO_v6_r0.md)
+- [Código de seleção/carregamento atual](conversa_v3d.py)
+- Próximo passo: conferir os artefatos originais e reproduzir a comparação no mesmo protocolo; manter o modelo atual como fallback até aprovação explícita.
+
+---
+
 **Voz própria do 17M, ligada no site (13/10/2026):** o Transformer de 17M do CRIVO, treinado
 do zero, passou a poder dar voz ao que o quadro decide — guardar e lembrar nomes, explicar fatos com
 fonte, dizer que não sabe, acolher e cumprimentar. A fase 2 (pré-treino continuado) levou a cópia
