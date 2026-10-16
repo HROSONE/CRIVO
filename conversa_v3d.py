@@ -1,4 +1,11 @@
-"""Voz da conversa: o 46M da fase 6b v4 responde no chat (a v4 F, 17M, fica de reserva).
+"""Estado documental atualizado em 16/10/2026:
+- O v6-r0 (checkpoint informado: passo 1.890) é candidato experimental e ainda não foi
+  validado diretamente a partir dos artefatos do Drive nem promovido por esta alteração.
+- Este código continua configurado conforme a implementação da fase 6b v4; esta alteração
+  não muda a seleção, os pesos, a inferência nem o comportamento em produção.
+- Relatório comparativo informado: experimentos/fase6b_conversa_humana/RESULTADO_v6_r0.md.
+
+Histórico de implementação: o 46M da fase 6b v4 responde no chat (a v4 F, 17M, fica de reserva).
 
 14/10/2026, decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conhecimento". O 46M
 (fase 6a + 6b v4, SHA 45825352…) EMPATA com a v4 F na régua de sentido e não a supera: blind v3
