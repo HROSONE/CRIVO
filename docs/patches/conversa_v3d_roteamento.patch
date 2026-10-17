@@ -1,0 +1,72 @@
+--- a/conversa_v3d.py
++++ b/conversa_v3d.py
+@@ -76,8 +76,9 @@
+ # "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
+ QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
+         "cuida das pessoas e enxerga que tudo está conectado.")
+-FREIO = {"penalidade": 1.3, "sem_repetir_ngrama": 3}   # o mesmo da prova da 6b v4
++FREIO = {"penalidade": 1.45, "sem_repetir_ngrama": 3}   # um pouco mais agressivo que a prova (1.3)
+ MAX_NOVOS_46M = 110
++MAX_PARES_RAPIDO = 4
+ MAX_LEMBRANCAS = 8
+ MAX_PARES_46M = 12
+ # O 46M gera uns 3 vezes mais devagar que a v4 F. Para o pedido do site caber nos 20 s da função:
+@@ -441,10 +442,29 @@
+ 
+ 
+ def aplicar(bot, fala, ident, resposta, modelo):
+-    """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre."""
++    """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre.
++
++    Melhorias sem treino (17/10/2026): categorias zero com resposta fixa; mensagens rápidas
++    preferem a v4 F (17M); 46M quando memória/identidade/contexto longo agregam.
++    """
++    import conversa_roteamento as _rot
++    cat = _rot.detectar_categoria_zero(fala)
++    if cat and cat in _rot.RESPOSTAS_FIXAS and not (ident or "").startswith("crise"):
++        return ident, _rot.RESPOSTAS_FIXAS[cat], {
++            "ligada": True, "usada": True, "conferida": True, "motivo": "resposta_fix:" + cat,
++            "modelo": "regra_fix", "decisao": "categorias zero sem treino", "tentativas": 0,
++        }
++    # Roteamento 17M × 46M
++    if modelo is not None and not quer_a_f():
++        quer46 = _rot.precisa_46m(bot, fala, ident, lembrancas_de, quer_a_f)
++        if quer46 and not getattr(modelo, "formato6", False):
++            modelo = _carregar("46m") or modelo
++        elif not quer46 and getattr(modelo, "formato6", False):
++            modelo = _carregar("f") or modelo
+     trace = {"ligada": modelo is not None, "usada": False, "motivo": None,
+-             "modelo": getattr(modelo, "nome", "fase5_v4_F"),
+-             "decisao": "criador; 46M em teste, empata com a v4 F" if getattr(modelo, "formato6", False) else "criador; v4 F reprovada"}
++             "modelo": getattr(modelo, "nome", "fase5_v4_F") if modelo else None,
++             "decisao": ("criador; 46M em teste, empata com a v4 F" if getattr(modelo, "formato6", False)
++                         else "criador; v4 F / roteamento rapido")}
+     if modelo is None:
+         trace["motivo"] = "desligada"
+         return ident, resposta, trace
+@@ -453,7 +473,11 @@
+         trace["motivo"] = exigir
+         return ident, resposta, trace
+     historico = []
+-    for f, r in (getattr(bot, "pares_conversa", None) or [])[-getattr(modelo, "max_pares", MAX_PARES):]:
++    max_pares = getattr(modelo, "max_pares", MAX_PARES)
++    import conversa_roteamento as _rot
++    if not getattr(modelo, "formato6", False) and _rot.mensagem_rapida(fala, ident):
++        max_pares = min(max_pares, MAX_PARES_RAPIDO)
++    for f, r in (getattr(bot, "pares_conversa", None) or [])[-max_pares:]:
+         historico += [f, r]
+     import time
+     caso = {"contexto": ctx, "mensagem": fala, "historico": historico, "exigir": exigir}
+@@ -516,8 +540,11 @@
+     """Estado público da voz da conversa (para a API)."""
+     m = None if desligado_no_site() else numpy_do_site()
+     e46 = getattr(m, "formato6", False)
++    import conversa_roteamento as _rot
+     return {"site": {"ligada": m is not None, "modelo": getattr(m, "nome", "fase5_v4_F") if m else None,
+                      "desligar": "CRIVO_DISABLE_CONVERSA_V3D=1", "voltar_para_a_f": "CRIVO_CONVERSA=f",
+-                     "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256},
++                     "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256,
++                     "roteamento": "mensagens rápidas → v4 F; memória/identidade → 46M",
++                     "categorias_zero": list(_rot.RESPOSTAS_FIXAS.keys())},
+             "pesos_sha256": PESOS_SHA256_46M if e46 else PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
+             "decisao": DECISAO_46M if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}
