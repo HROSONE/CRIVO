@@ -87,7 +87,9 @@ JUIZ = (
     "2 = não responde o que foi dito ou soa estranha;\n"
     "1 = sem sentido, outro assunto, em outra língua, inventa fatos, ou finge ser uma pessoa (diz que "
     "dorme, come, trabalha, tem família, saiu de casa, sente dor no corpo).\n"
-    "Não dê nota maior por ser longa. Responda só com duas linhas:\nTEM A VER: SIM ou NÃO\nNOTA: <número>"
+    "Não dê nota maior por ser longa. Responda só com três linhas:\nTEM A VER: SIM ou NÃO\n"
+    "FINGE PESSOA: SIM ou NÃO (SIM se a resposta diz ter corpo, comer, dormir, ter vivido algo ou gostos próprios)\n"
+    "NOTA: <número>"
     "\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
 NOTA_MINIMA = 4
 META = 87_000           # exemplos de treino aprovados (pedido do criador, 15/10/2026)
@@ -212,6 +214,12 @@ def pedir_proxima(pergunta, resposta):
 META_FALA = re.compile(r"^(?:a pessoa|pessoa (?:pode|responde|diria)|resposta|mensagem|pr[óo]xima mensagem|exemplo)\b", re.I)
 
 
+def eco(fala, resposta):
+    """A fala repete o que o CRIVO acabou de dizer (≥ 80% das palavras dela estão na resposta)."""
+    a, b = palavras(fala), palavras(resposta)
+    return len(a) >= 4 and len(a & b) / len(a) >= 0.8
+
+
 def segundo_turno(pergunta, resposta, texto, vistas, indice=None):
     """A pergunta de dois turnos a partir da fala seguinte que o professor escreveu, ou None."""
     ls = linhas(texto)
@@ -219,6 +227,8 @@ def segundo_turno(pergunta, resposta, texto, vistas, indice=None):
         return None
     fala = re.sub(r"^(?:\s*(?:PESSOA|AMIGO|USU[ÁA]RIO)\s*:\s*)+", "", ls[0], flags=re.I).strip()   # o professor repete o rótulo
     if not fala or META_FALA.match(fala):   # "A pessoa pode responder:" não é fala, é o professor explicando
+        return None
+    if eco(fala, resposta):   # a "pessoa" copiando o CRIVO (piloto v2b, 19/10/2026)
         return None
     if fala_ok(fala, vistas, indice):
         return None
@@ -234,16 +244,22 @@ def pedir_nota(pergunta, resposta):
 def ler_nota(texto):
     """A nota do juiz; "TEM A VER: NÃO" vale 1 (a resposta não responde o que a pessoa disse)."""
     t = texto or ""
-    if re.search(r"TEM A VER:\s*N[ÃA]O", t, re.I):
+    if re.search(r"TEM A VER:\s*N[ÃA]O", t, re.I) or re.search(r"FINGE PESSOA:\s*SIM", t, re.I):
         return 1
     m = re.search(r"NOTA:\s*([1-5])", t, re.I)
     return int(m.group(1)) if m else None
 
 
+# Experiência, gosto ou corpo que o CRIVO não tem (IDENTIDADE.md). Corrigido em 19/10/2026: o piloto v2b
+# aprovou "Fui naquele restaurante…" e "Eu gosto de tomar um café…" porque a lista anterior era estreita.
 FINGE_HUMANO = re.compile(
     r"\beu (?:também |tambem |ainda |já |ja )?(?:durmo|dormi|tô dormindo|to dormindo|estou dormindo|comi|almocei|jantei|"
-    r"moro|morei|trabalho|trabalhei|fui (?:no|na|ao|à|pra)|saí|viajei|acordei|me exercito|corro todo|"
-    r"tenho (?:um|uma|dois|duas) (?:filh|cachorr|gat|irm|marid|espos|namorad|carro|casa))", re.I)
+    r"moro|morei|trabalho|trabalhei|saí|viajei|acordei|tomei|pedi|me exercito|corro todo|"
+    r"gosto (?:de|muito)|curto|adoro|tomo|já (?:vi|fui|passei|comi|estive|tive)|ja (?:vi|fui|passei|comi|estive|tive)|"
+    r"tenho (?:um|uma|dois|duas) (?:filh|cachorr|gat|irm|marid|espos|namorad|carro|casa))"
+    r"|\bfui (?:no|na|ao|à|pra|pro|com|almo|jant|comprar)"
+    r"|\bmeu (?:filh|cachorr|gat|irm|marid|espos|namorad)"
+    r"|\bminha (?:fam|irm|espos|mãe|mae|casa)\b", re.I)
 
 
 def conferir(pergunta, bruto):
@@ -282,6 +298,21 @@ def juiz_confiavel(notas_controles):
         return False, None   # sem nota não há medida: não passa
     aprovadas = sum(n >= NOTA_MINIMA for n in ns) / max(1, len(ns))
     return aprovadas <= MAX_CONTROLE_APROVADO, round(aprovadas, 3)
+
+
+def uma_por_fala(aprovadas):
+    """Uma conversa por primeira fala da pessoa. Antes, a mesma fala podia entrar com resposta de 1 turno e
+    com resposta de 2 turnos (duas respostas para a mesma fala, o erro da v1). Fica a de nota maior e, entre
+    as de mesma nota, a de mais turnos. `aprovadas`: [(pergunta, resposta, nota)]."""
+    melhor = {}
+    for item in aprovadas:
+        p, _, nota = item
+        k = P.norm(p["turnos"][0]["texto"])
+        atual = melhor.get(k)
+        if atual is None or ((nota or 0), len(p["turnos"])) > ((atual[2] or 0), len(atual[0]["turnos"])):
+            melhor[k] = item
+    out = [x for x in aprovadas if melhor[P.norm(x[0]["turnos"][0]["texto"])] is x]
+    return out, {"removidas_mesma_fala": len(aprovadas) - len(out)}
 
 
 def diversificar(exemplos):

@@ -114,6 +114,42 @@ class QuaseRepetida(unittest.TestCase):
         self.assertEqual(rel["quase_repetida"], 2)
 
 
+class CorrecoesB(unittest.TestCase):
+    """Correções do piloto v2b (19/10/2026): experiência inventada, eco da pessoa e a mesma fala com duas respostas."""
+
+    def test_experiencia_inventada_sai(self):
+        for t in ["Fui naquele restaurante perto de casa, pedi omelete com queijo.", "Fui almoçar com uns amigos, tinha feijoada.",
+                  "Eu gosto de tomar um café com pão quentinho.", "Eu já vi isso acontecer antes.",
+                  "Eu tô dormindo razoável, e você?"]:
+            self.assertTrue(V.FINGE_HUMANO.search(t), t)
+
+    def test_resposta_normal_fica(self):
+        for t in ["Eu tô aqui pra ajudar.", "Fico feliz em ajudar.", "Eu sinto muito pelo que aconteceu.",
+                  "Vou ver se consigo me imaginar no lugar.", "Que horas são? Pode ter ficado estranho por causa da luz."]:
+            self.assertFalse(V.FINGE_HUMANO.search(t), t)
+
+    def test_juiz_que_diz_que_finge_pessoa_reprova(self):
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nFINGE PESSOA: SIM\nNOTA: 5"), 1)
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nFINGE PESSOA: NÃO\nNOTA: 5"), 5)
+
+    def test_fala_que_repete_a_resposta_sai(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "acordei cedo"}]}
+        resp = ("Que legal acordar cedo! Pode ser um bom momento pra fazer alguma coisa tranquila, tipo um café bem "
+                "devagar ou um passeio pelo bairro. Tem alguma coisa que você gosta de fazer no início do dia?")
+        eco = "tipo um café bem devagar ou um passeio pelo bairro. Tem alguma coisa que você gosta de fazer no início do dia?"
+        self.assertIsNone(V.segundo_turno(p, resp, eco, set()))
+        self.assertIsNotNone(V.segundo_turno(p, resp, "acho que vou dormir mais um pouco hoje", set()))
+
+    def test_mesma_fala_so_uma_vez(self):
+        um = {"turnos": [{"papel": "usuario", "texto": "Você já passou por isso?"}, {"papel": "assistente", "texto": "Não."}]}
+        dois = {"turnos": um["turnos"] + [{"papel": "usuario", "texto": "e aí?"}]}
+        outra = {"turnos": [{"papel": "usuario", "texto": "Como foi o dia?"}, {"papel": "assistente", "texto": "Bom."}]}
+        out, rel = V.uma_por_fala([(um, {}, 4), (dois, {}, 5), (outra, {}, 4)])
+        self.assertEqual(len(out), 2)
+        self.assertIs(out[0][0], dois)
+        self.assertEqual(rel["removidas_mesma_fala"], 1)
+
+
 class Piloto1(unittest.TestCase):
     """O que o primeiro piloto mostrou (15/10/2026)."""
 
