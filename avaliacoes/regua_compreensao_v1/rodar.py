@@ -17,7 +17,8 @@ RAIZ = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ))
 import web_core  # noqa: E402
 
-CASOS = Path(__file__).with_name("casos.json")
+import os  # noqa: E402
+CASOS = Path(os.environ.get("REGUA_CASOS", Path(__file__).with_name("casos.json")))
 
 
 def norm(texto):
