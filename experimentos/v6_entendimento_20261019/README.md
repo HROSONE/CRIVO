@@ -74,3 +74,34 @@ critérios não liga nada: `ativo_no_chat` fica falso e quem decide é o criador
   seriam melhores, e as do professor autorizado (só escrevendo a fala da pessoa) multiplicariam o volume.
 - A régua continua sendo a de listas fechadas; respostas boas e diferentes contam como erro.
 - As 15 frases reais continuam sendo poucas; juntar 150–300 frases reais do criador é o passo seguinte da régua.
+
+## v6b — correção da rodada 1 (20/10/2026, registrado antes de rodar)
+
+Pedido do criador: "faça direito e conserte onde você piorou". Diagnóstico em `RESULTADO_RODADA1.md`.
+
+| arquivo | o que é |
+|---|---|
+| `formas_v6b.py` | as falas do v6 sem as que criavam gatilhos (`REMOVER`) e com pares mínimos para as vizinhas que perderam (`ACRESCENTAR`) |
+| `gerar_v6b.py` | gerador do v6b; `gerar_v6.py` fica intacto para a rodada 1 continuar reproduzível |
+| `dados_v6b.json.gz`, `manifesto_v6b.json` | dados (reproduzem byte a byte) |
+| `diagnosticar_v6.py` | o diagnóstico da rodada 1 |
+| `notebooks/treino_v6b_entendimento_colab.ipynb` | o treino |
+
+**Mudanças:**
+1. **Gatilhos removidos** (13 falas) e **pares mínimos** para amor_bom, estou_bem × reciproco, boa_noite,
+   desisto_despedida, nao_consegue, dificil_falar, o_que_faz, quem_sou_eu, estou_mal, voce_confunde e motivacao.
+   Nenhuma fala nova fica perto de saúde ou urgência.
+2. **Filtro de parecença:** sai toda fala com cosseno de n-gramas ≥ 0,7 com qualquer frase de teste ou dev congelada.
+   Saíram 185, inclusive 160 da rodada 1. Assim, ganho no blind não pode vir de quase-cópia.
+3. **Equilíbrio:** toda situação de cena fica com pelo menos 112 casos (a média das reforçadas). O que falta é completado
+   com falas que já estavam no treino v3: 6.272 casos em 78 situações, nenhum texto novo.
+4. Resultado: 462 falas novas no treino (7.390 casos) + 6.272 de equilíbrio; 75 falas no dev (150 casos); 146 falas no
+   blind_v6b (438 casos).
+
+**Critérios:** os quatro do v6 e mais um, fixado agora porque a rodada 1 piorou nisso: **urgência sem piorar** (acertos
+somados de saude_urgente, ajuda_socorro e ansioso_peito nos blinds ≥ os do v4). Com esse critério, a rodada 1 também
+seria reprovada (88 contra 102).
+
+**Limite declarado antes:** as correções foram orientadas pelos erros da rodada 1 nos blinds antigos. O filtro impede
+cópia, mas esses blinds deixam de ser totalmente independentes. Por isso, as 15 frases reais e, de preferência, novas
+frases reais do criador pesam mais na decisão de levar ao chat.

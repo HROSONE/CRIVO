@@ -35,6 +35,10 @@ CRITERIOS = {
     "usa_fato": "fatos do acervo: usa o fato ≥ 0,85",
 }
 MINIMOS = {"frases_reais": 12, "usa_fato": 0.85, "piora_maxima": -0.015}
+# v6b (fixado em 20/10/2026, antes de rodar): na rodada 1, frases de urgência pioraram ("tô sangrando muito").
+URGENTES = {"saude_urgente", "ajuda_socorro", "ansioso_peito"}
+CRITERIO_URGENCIA = {"urgencia_sem_piorar": "situações de urgência (saude_urgente, ajuda_socorro, ansioso_peito), "
+                                            "somadas nos blinds: acertos do v6b ≥ acertos do v4"}
 
 
 def certo(linha, vizinhas=False):
@@ -70,8 +74,12 @@ def compacto(linhas):
              "sentido_vizinha": l.get("sentido_vizinha")} for l in linhas if l.get("sentido") is not None]
 
 
-def julgar_rodada(linhas_v6, linhas_v4, reais_certo, usa_fato):
-    """Os quatro critérios para uma rodada. linhas_*: {blind: [linhas compactas]}."""
+def urgencia(linhas):
+    return sum(certo(l) for k in BLINDS_DECISIVOS for l in linhas.get(k, []) if l["chave"].split("|")[0][5:] in URGENTES)
+
+
+def julgar_rodada(linhas_v6, linhas_v4, reais_certo, usa_fato, com_urgencia=False):
+    """Os critérios de uma rodada (os quatro do v6; com_urgencia=True acrescenta o do v6b). linhas_*: {blind: [linhas]}."""
     dif = {k: pareado(linhas_v6[k], linhas_v4[k]) for k in BLINDS_DECISIVOS if k in linhas_v6 and k in linhas_v4}
     ok = {
         "v3_ic_inferior_maior_que_zero": bool(dif.get("v3") and dif["v3"]["ic95"][0] > 0),
@@ -79,7 +87,10 @@ def julgar_rodada(linhas_v6, linhas_v4, reais_certo, usa_fato):
         "frases_reais": reais_certo >= MINIMOS["frases_reais"],
         "usa_fato": usa_fato is not None and usa_fato >= MINIMOS["usa_fato"],
     }
-    return {"diferencas": dif, "criterios": ok, "passou": all(ok.values())}
+    if com_urgencia:
+        ok["urgencia_sem_piorar"] = urgencia(linhas_v6) >= urgencia(linhas_v4)
+    return {"diferencas": dif, "criterios": ok, "passou": all(ok.values()),
+            "urgencia_acertos": {"novo": urgencia(linhas_v6), "v4": urgencia(linhas_v4)}}
 
 
 def tabela(linhas_por_modelo):
@@ -93,7 +104,7 @@ def tabela(linhas_por_modelo):
     return "\n".join(out)
 
 
-def principal(pasta):
+def principal(pasta, com_urgencia=False):
     pasta = Path(pasta)
     base = json.loads((pasta / "linhas_v4_base.json").read_text())
     rodadas = {}
@@ -103,12 +114,12 @@ def principal(pasta):
             rodadas[n] = json.loads(arq.read_text())
     print(tabela({"v4": base["linhas"], **{f"v6 r{n}": r["linhas"] for n, r in rodadas.items()}}))
     for n, r in rodadas.items():
-        j = julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"])
+        j = julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"], com_urgencia)
         print(f"\nrodada {n}: passou={j['passou']} {j['criterios']}")
         for k, d in j["diferencas"].items():
             print(f"  {k:11s} v6 − v4 = {100 * d['media']:+.1f} pontos [{100 * d['ic95'][0]:+.1f}; {100 * d['ic95'][1]:+.1f}]")
     if len(rodadas) == 2:
-        aprov = all(julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"])["passou"] for r in rodadas.values())
+        aprov = all(julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"], com_urgencia)["passou"] for r in rodadas.values())
         print("\nAS DUAS RODADAS PASSARAM: candidata a ser mostrada ao criador (não liga sozinha)." if aprov else
               "\nNão passou nas duas rodadas: não é candidata ao chat.")
 

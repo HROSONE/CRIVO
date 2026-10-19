@@ -57,3 +57,38 @@ Hipóteses para as perdas, **não conferidas** (as linhas compactas não guardam
 
 Um v6b com as mesmas falas e correções das perdas acima: contraexemplos para boa_noite, desisto_despedida, estou_bem ×
 reciproco e amor_bom, e mais falas nas situações "outras" que caíram. Depois, de novo duas rodadas com os mesmos critérios.
+
+## Diagnóstico depois do resultado (20/10/2026)
+
+`diagnosticar_v6.py` comparou cada frase que a v4 acertava e a v6 errou com as falas de treino do v6 (n-gramas). As
+perdas vieram de **palavras-gatilho criadas pelas falas do v6**, não de sentido:
+
+| frase do teste (v4 certo, v6 errado) | fala de treino do v6 mais parecida | situação que puxou |
+|---|---|---|
+| "comecei a namorar" (amor_bom) | "comecei a jogar xadrez online" | jogo_conta |
+| "você é só um programa" (robo) | "você é um crush" | flerte |
+| "você é de verdade?" (ser_humano) | "você seria meu amigo de verdade?" | amigo |
+| "tranquilo" (estou_bem) | "tudo tranquilo com você?" | oi_tudo_bem |
+| "esquece isso, até mais" (desisto_despedida) | "abraço, até mais" | despedida |
+| "entra no meu email pra mim" (nao_consegue) | "pra mim chega, fui" | desisto_despedida |
+| **"tô sangrando muito" (saude_urgente)** | "tô procrastinando muito" | motivacao |
+| **"minha avó passou mal" (saude_urgente)** | "minha avó tá internada" | familia_preocupa |
+
+**Urgência piorou:** somando os blinds, as situações de urgência caíram de 102 para 88 acertos. No chat, o crise.py
+responde antes do modelo, mas o modelo não pode piorar nisso.
+
+**Parte do ganho era quase cópia.** 97 frases do blind v3 (3%) têm cosseno de n-gramas ≥ 0,7 com uma fala de treino do v6.
+Nelas, o acerto subiu 43 pontos. Sem elas:
+
+| blind | ganho total | ganho nas frases distantes do treino v6 |
+|---|---|---|
+| v3 | +3,3 | +1,9 (n = 2.883) |
+| v1 | +4,0 | +4,0 (n = 1.882) |
+| paráfrases | +5,2 | +4,1 (n = 2.729) |
+| Grok | −0,6 | −0,8 |
+| v4 | −2,7 | −2,1 |
+
+O efeito existe nas frases distantes (v1 e paráfrases), mas é menor do que a primeira tabela sugeria. Correção: o
+ganho do blind v3 atribuível a entendimento novo é de cerca de +1,9 ponto, não +3,3.
+
+A correção é o v6b (README, seção v6b).
