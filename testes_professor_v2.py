@@ -150,6 +150,23 @@ class CorrecoesB(unittest.TestCase):
         self.assertEqual(rel["removidas_mesma_fala"], 1)
 
 
+class ExperienciaInventada(unittest.TestCase):
+    """Piloto v2c (19/10/2026): "Uso sim." e "nunca vi uma régua queimar" foram aprovados como nota 4."""
+
+    def test_afirmacao_de_uso_ou_visto_sai(self):
+        for t in ["Uso sim.", "Não, nunca vi uma régua queimar do nada.", "Já corri pra ver.", "Já usei isso muitas vezes.",
+                  "Eu usei essa técnica e funciona.", "Uso sim, ajuda bastante organizar as coisas."]:
+            self.assertTrue(V.EXPERIENCIA.search(t) or V.FINGE_HUMANO.search(t), t)
+
+    def test_pergunta_e_frase_normal_ficam(self):
+        for t in ["Você já usou aquela técnica?", "Você já viu isso?", "Tem como ser normal ficar com medo?",
+                  "Eu tô aqui pra ajudar.", "Fico feliz em ajudar."]:
+            self.assertFalse(V.EXPERIENCIA.search(t) or V.FINGE_HUMANO.search(t), t)
+
+    def test_juiz_pergunta_uso_e_visto(self):
+        self.assertIn("usado, visto, feito", V.JUIZ)
+
+
 class Piloto1(unittest.TestCase):
     """O que o primeiro piloto mostrou (15/10/2026)."""
 
