@@ -1,7 +1,6 @@
 # Instruções do projeto CRIVO
 
-- Modelos e APIs de terceiros podem ser usados à vontade para deixar o Crivo único, inclusive no CRIVO que conversa (chat, site, APK, PC local), como professor, juiz, ferramenta ou componente de resposta. A única restrição é a seguinte.
-- Não baixe nem use um modelo externo para substituir o modelo próprio do Crivo (arquitetura, tokenizador e pesos próprios). Os pesos que definem o Crivo continuam sendo sempre só do Crivo.
+- Modelos e APIs de terceiros podem ser usados à vontade fora do CRIVO que conversa, para treinamento, geração de dados, avaliação e ferramentas de desenvolvimento. Eles nunca entram no site, no APK ou no chat, e nunca respondem à pessoa, em nenhuma forma. Os pesos que definem o Crivo (arquitetura, tokenizador e pesos próprios) são sempre só do Crivo.
 - Quando um modelo de terceiros gerar dados de treino, esses dados ficam numa pasta própria, marcados com a origem (modelo, versão, data e licença) e separados dos dados humanos e dos escritos no projeto. Nenhum resultado pode chamá-los de humanos. Use só modelo cuja licença permita treinar outro modelo com as saídas.
 - Quando um modelo de terceiros julgar respostas do Crivo, a nota é relatada como nota do juiz, ao lado da régua própria (casos às cegas, paráfrases, frases reais do criador), e não a substitui: promover pesos para o chat continua exigindo a régua própria.
 - Os pesos, o tokenizador e o código de modelos de terceiros nunca entram no repositório nem no pacote do site ou do APK.
