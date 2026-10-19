@@ -105,3 +105,30 @@ seria reprovada (88 contra 102).
 **Limite declarado antes:** as correções foram orientadas pelos erros da rodada 1 nos blinds antigos. O filtro impede
 cópia, mas esses blinds deixam de ser totalmente independentes. Por isso, as 15 frases reais e, de preferência, novas
 frases reais do criador pesam mais na decisão de levar ao chat.
+
+## v6c — sem sair perdendo (20/10/2026, registrado antes de rodar)
+
+Pedido do criador: "monta o v6c [...] tenta fazer completo pra não sair perdendo". Diagnóstico em `RESULTADO_V6B_RODADA1.md`.
+
+| arquivo | o que é |
+|---|---|
+| `formas_v6c.py` | as falas do v6b sem 5 gatilhos que o diagnóstico do v6b achou ("tô muito apaixonada" → "tô sangrando muito"…) |
+| `gerar_v6c.py` | as regras do v6b, sem equilíbrio; `dados_v6c.json.gz` e `manifesto_v6c.json` reproduzem byte a byte |
+| `substituicao_v6c.py` | cada caso novo entra no lugar de casos antigos da fase 5 da mesma situação (as falas antigas mais repetidas saem primeiro) |
+| `notebooks/treino_v6c_entendimento_colab.ipynb` | o treino |
+
+**Três proteções:**
+1. **Substituição:** o peso de cada situação no treino, contando repetições, fica igual ao da v4. Conferido na CPU com os
+   dados da fase 5 v3: mudança máxima 0,00%; falas distintas no treino 34.834 → 37.386. Urgência, saúde, identidade e
+   situações da v4 ficam com o mesmo peso;
+2. **Parte do 46M do chat** (6b v4, `45825352…`) com ajuste leve: LR 3e-5 → 3e-6, ~1.300 passos, uma volta na fase 5,
+   falas novas ×3 no lugar das antigas. (`PARTIDA = "6a"` roda a receita longa desde a base, também com substituição.)
+3. **Catraca:** o 46M do chat concorre na escolha (passo 0). Se nenhum passo tiver mais sentido no dev, fica ele e o
+   resumo marca `escolhida_e_o_chat: true`.
+
+**Critérios:** os mesmos do v6b, sem mudança: nas duas rodadas, blind v3 com IC > 0; v1, paráfrases, Grok e v4 ≥ −1,5;
+frases reais ≥ 12/15; "usa o fato" ≥ 0,85; urgência sem piorar.
+
+**Diferença de desenho em relação ao v6/v6b:** partir do 46M do chat mede "o 46M do chat + um ajuste com falas novas",
+não "a receita da v4 com falas novas". Isso é o que interessa para o chat, mas o efeito do ajuste e o das falas não se
+separam aqui.
