@@ -90,6 +90,30 @@ class Qualidade(unittest.TestCase):
         self.assertEqual(V.juiz_confiavel([4, 5, 1, 1]), (False, 0.5))
 
 
+class QuaseRepetida(unittest.TestCase):
+    """Falas quase iguais às da régua, do treino ou de outra fala nova (checagem de 15/10/2026, v2b)."""
+
+    def test_nota_sem_diferenciar_maiusculas(self):
+        self.assertEqual(V.ler_nota("Nota: 4"), 4)
+        self.assertEqual(V.ler_nota("nota: 2\nTEM A VER: SIM"), 2)
+
+    def test_uma_palavra_a_mais_e_quase_repetida(self):
+        ind = V.Indice(["meu chefe gritou comigo hoje"])
+        self.assertTrue(ind.quase("meu chefe gritou comigo hoje cedo"))
+        self.assertFalse(ind.quase("meu chefe me mandou embora"))
+
+    def test_palavra_comum_sozinha_nao_gera_candidata(self):
+        ind = V.Indice(["oi tudo bem %d" % i for i in range(V.PALAVRA_COMUM + 5)])
+        self.assertFalse(ind.quase("oi"))   # 'oi' está em todos: não é candidata, então não reprova sozinha
+
+    def test_falas_novas_rejeita_quase_e_aceita_as_aceitas(self):
+        ind = V.Indice(["eu tô sem dormir direito hoje"])
+        texto = "eu tô sem dormir direito hoje cedo\neu acho que meu chefe me mandou embora\neu acho que meu chefe me mandou embora mesmo"
+        falas, rel = V.falas_novas([(PED, texto)], set(), ind)
+        self.assertEqual([f["turnos"][0]["texto"] for f in falas], ["eu acho que meu chefe me mandou embora"])
+        self.assertEqual(rel["quase_repetida"], 2)
+
+
 class Piloto1(unittest.TestCase):
     """O que o primeiro piloto mostrou (15/10/2026)."""
 

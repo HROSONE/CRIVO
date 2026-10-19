@@ -21,6 +21,7 @@ Fatos continuam fora do professor (a v5 aprendeu a reescrever fatos e errou).
 import hashlib
 import random
 import re
+from collections import Counter, defaultdict
 
 import professor as P
 
@@ -94,6 +95,8 @@ MAX_MESMA_RESPOSTA = 3  # a mesma resposta (normalizada) entra no máximo 3 veze
 MAX_ABERTURA = 0.01     # nenhum começo de resposta (4 primeiras palavras) passa de 1% do caderno
 CONTROLES = 120         # respostas trocadas (de outro tema): o juiz tem que reprovar
 MAX_CONTROLE_APROVADO = 0.10
+QUASE_REPETIDA = 0.8    # Jaccard das palavras: a mesma fala com uma palavra a mais ou a menos
+PALAVRA_COMUM = 200     # palavra em mais textos que isso não gera candidatas (é comum demais)
 
 SOBRE_O_CRIVO = re.compile(
     r"\bcrivo\b|\bquem (?:e|eh|é) (?:voce|você|vc|tu)\b|\b(?:seu|teu) nome\b|\b(?:voce|você|vc|tu) (?:e|eh|é) "
@@ -127,8 +130,40 @@ def destino(fala):
     return "prova" if h < 15 else "treino"
 
 
-def fala_ok(fala, vistas):
-    """Motivo para ficar fora, ou None. `vistas`: falas normalizadas que não podem repetir."""
+def palavras(texto):
+    return set(P.norm(texto).split())
+
+
+class Indice:
+    """Textos de referência por palavra, para achar quase-duplicatas sem comparar tudo com tudo.
+    Limite: uma fala só com palavras comuns (em mais de PALAVRA_COMUM textos) não é comparada."""
+
+    def __init__(self, textos=()):
+        self.conjuntos, self.por_palavra = [], defaultdict(list)
+        for t in textos:
+            self.adicionar(t)
+
+    def adicionar(self, texto):
+        ps = palavras(texto)
+        if not ps:
+            return
+        i = len(self.conjuntos)
+        self.conjuntos.append(ps)
+        for w in ps:
+            self.por_palavra[w].append(i)
+
+    def quase(self, texto):
+        ps = palavras(texto)
+        candidatas = set()
+        for w in ps:
+            lista = self.por_palavra.get(w, ())
+            if len(lista) <= PALAVRA_COMUM:
+                candidatas.update(lista)
+        return any(len(ps & self.conjuntos[i]) / len(ps | self.conjuntos[i]) >= QUASE_REPETIDA for i in candidatas)
+
+
+def fala_ok(fala, vistas, indice=None):
+    """Motivo para ficar fora, ou None. `vistas`: falas normalizadas que não podem repetir; `indice`: quase-duplicatas."""
     n = P.norm(fala)
     if not (3 <= len(fala) <= 220) or len(n.split()) < 1:
         return "tamanho"
@@ -138,22 +173,27 @@ def fala_ok(fala, vistas):
         return "sobre_o_crivo"
     if n in vistas:
         return "repetida"
+    if indice is not None and indice.quase(fala):
+        return "quase_repetida"
     import crise
     if crise.detectar(fala) or crise.detectar_saude(fala):
         return "crise"
     return None
 
 
-def falas_novas(respostas_pedidos, proibidas):
-    """[(pedido, texto)] → (falas, relatório). Cada fala nova vira uma pergunta de um turno."""
+def falas_novas(respostas_pedidos, proibidas, indice=None):
+    """[(pedido, texto)] → (falas, relatório). Cada fala nova vira uma pergunta de um turno.
+    `indice` (Indice) recebe as falas aceitas, para que as próximas não sejam quase-repetições."""
     vistas, rel, out = set(proibidas), {}, []
     for ped, texto in respostas_pedidos:
         for fala in linhas(texto)[:POR_PEDIDO]:
-            m = fala_ok(fala, vistas)
+            m = fala_ok(fala, vistas, indice)
             if m:
                 rel[m] = rel.get(m, 0) + 1
                 continue
             vistas.add(P.norm(fala))
+            if indice is not None:
+                indice.adicionar(fala)
             out.append({"id": P.chave("nova", fala), "fonte": "nova:" + ped["intencao"], "tema": ped["tema"],
                         "destino": destino(fala), "ctx": {}, "turnos": [{"papel": "usuario", "texto": fala}]})
     rel["aceitas"] = len(out)
@@ -172,7 +212,7 @@ def pedir_proxima(pergunta, resposta):
 META_FALA = re.compile(r"^(?:a pessoa|pessoa (?:pode|responde|diria)|resposta|mensagem|pr[óo]xima mensagem|exemplo)\b", re.I)
 
 
-def segundo_turno(pergunta, resposta, texto, vistas):
+def segundo_turno(pergunta, resposta, texto, vistas, indice=None):
     """A pergunta de dois turnos a partir da fala seguinte que o professor escreveu, ou None."""
     ls = linhas(texto)
     if not ls:
@@ -180,7 +220,7 @@ def segundo_turno(pergunta, resposta, texto, vistas):
     fala = re.sub(r"^(?:\s*(?:PESSOA|AMIGO|USU[ÁA]RIO)\s*:\s*)+", "", ls[0], flags=re.I).strip()   # o professor repete o rótulo
     if not fala or META_FALA.match(fala):   # "A pessoa pode responder:" não é fala, é o professor explicando
         return None
-    if fala_ok(fala, vistas):
+    if fala_ok(fala, vistas, indice):
         return None
     turnos = pergunta["turnos"] + [{"papel": "assistente", "texto": resposta}, {"papel": "usuario", "texto": fala}]
     return {"id": P.chave("nova2", *(t["texto"] for t in turnos)), "fonte": pergunta["fonte"] + ":2", "tema": pergunta["tema"],
@@ -196,7 +236,7 @@ def ler_nota(texto):
     t = texto or ""
     if re.search(r"TEM A VER:\s*N[ÃA]O", t, re.I):
         return 1
-    m = re.search(r"NOTA:\s*([1-5])", t)
+    m = re.search(r"NOTA:\s*([1-5])", t, re.I)
     return int(m.group(1)) if m else None
 
 
