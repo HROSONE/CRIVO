@@ -13,9 +13,10 @@ para isso: o `AGENTS.md` exige que a licença do professor permita o treino.
 ## Como rodar no Colab (A100)
 
 1. Abrir o caderno do projeto no Colab, com GPU A100 ativa.
-2. Rodar, numa célula:
+2. Garantir que o repositório está clonado em `/content/CRIVO` (o caderno do piloto já faz isso) e rodar, numa célula:
 
 ```
+%cd /content/CRIVO
 !python experimentos/destilacao_20261014/rodar_modelo.py --modelo Qwen/Qwen3-32B-AWQ --papel professor --entrada compreensao_semantica/geracao/entrada_professor.jsonl.gz --saida /content/drive/MyDrive/CRIVO/compreensao/saida_professor.jsonl.gz
 ```
 
