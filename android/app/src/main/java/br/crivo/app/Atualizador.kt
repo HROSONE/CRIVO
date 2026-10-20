@@ -12,8 +12,10 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import org.json.JSONObject
@@ -22,6 +24,8 @@ import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
+import java.text.DateFormat
+import java.util.Date
 import kotlin.concurrent.thread
 
 /**
@@ -33,6 +37,9 @@ import kotlin.concurrent.thread
  * chave, e entrega ao instalador do Android, que pede a confirmação da pessoa.
  *
  * A internet só é usada para isto. A conversa continua dentro do aparelho, e o app não envia nada para fora.
+ *
+ * Nas configurações (menu da página → "Configurações do app"): a versão instalada, a busca automática (pode desligar)
+ * e "Procurar atualização agora", que responde mesmo quando não há versão nova.
  */
 class Atualizador(private val atividade: Activity) {
     companion object {
@@ -51,22 +58,35 @@ class Atualizador(private val atividade: Activity) {
     @Volatile private var cancelado = false
     private var aguardandoPermissao: File? = null
 
-    /** Confere se há versão nova. `abrindo`: na abertura do app confere sempre; depois, no máximo a cada 6 h. */
-    fun verificar(abrindo: Boolean = false) {
-        if (ocupado) return
+    /** Confere se há versão nova. `abrindo`: na abertura do app confere sempre; depois, no máximo a cada 6 h.
+     *  `manual`: pedido nas configurações; confere na hora, mesmo com a busca automática desligada, e sempre responde. */
+    fun verificar(abrindo: Boolean = false, manual: Boolean = false) {
+        if (ocupado) {
+            if (manual) Toast.makeText(atividade, "Já estou procurando…", Toast.LENGTH_SHORT).show()
+            return
+        }
         val agora = System.currentTimeMillis()
-        if (!abrindo && agora - prefs.getLong("ultima", 0) < INTERVALO_MS) return
+        if (!manual && !automatico()) return
+        if (!manual && !abrindo && agora - prefs.getLong("ultima", 0) < INTERVALO_MS) return
         ocupado = true
+        if (manual) Toast.makeText(atividade, "Procurando atualização…", Toast.LENGTH_SHORT).show()
         thread(name = "crivo-atualizacao") {
             try {
                 limparAntigos()
-                val v = runCatching { buscarVersao() }.getOrNull() ?: return@thread
+                val v = runCatching { buscarVersao() }.getOrNull()
+                if (v == null) {
+                    if (manual) naTela { avisar("Não consegui conferir agora. Veja se há internet e tente de novo.") }
+                    return@thread
+                }
                 prefs.edit().putLong("ultima", agora).apply()
-                if (v.codigo <= versaoInstalada()) return@thread
-                if (prefs.getLong("pular", -1) == v.codigo) return@thread
+                if (v.codigo <= versaoInstalada()) {
+                    if (manual) naTela { avisar("Você já tem a versão mais recente (${nomeInstalado()}).") }
+                    return@thread
+                }
+                if (!manual && prefs.getLong("pular", -1) == v.codigo) return@thread
                 val minha = assinaturaInstalada()
                 if (v.assinatura != null && minha != null && !v.assinatura.equals(minha, ignoreCase = true)) {
-                    naTela { avisarChaveDiferente(v) }
+                    naTela { avisarChaveDiferente(v, manual) }
                     return@thread
                 }
                 naTela { perguntar(v) }
@@ -74,6 +94,58 @@ class Atualizador(private val atividade: Activity) {
                 ocupado = false
             }
         }
+    }
+
+    /** As configurações do app: versão, busca automática e "procurar agora". */
+    fun abrirConfiguracoes() {
+        if (atividade.isFinishing) return
+        val d = atividade.resources.displayMetrics.density
+        fun px(dp: Int) = (dp * d).toInt()
+        val ultima = prefs.getLong("ultima", 0)
+        val info = TextView(atividade).apply {
+            text = "Versão instalada: ${nomeInstalado()} (${versaoInstalada()})\n" +
+                "Última verificação: " + (if (ultima > 0) DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+                    .format(Date(ultima)) else "nenhuma ainda")
+            textSize = 15f
+            setPadding(0, 0, 0, px(16))
+        }
+        val chave = Switch(atividade).apply {
+            text = "Procurar atualizações automaticamente"
+            textSize = 15f
+            isChecked = automatico()
+            setOnCheckedChangeListener { _, ligado -> prefs.edit().putBoolean("automatico", ligado).apply() }
+        }
+        val explica = TextView(atividade).apply {
+            text = "Ao abrir o app e, aberto, no máximo a cada 6 horas. Sempre pergunta antes de baixar."
+            textSize = 13f
+            alpha = 0.7f
+            setPadding(0, px(4), 0, px(20))
+        }
+        val botao = Button(atividade).apply { text = "Procurar atualização agora" }
+        val caixa = LinearLayout(atividade).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(px(24), px(16), px(24), 0)
+            addView(info); addView(chave); addView(explica); addView(botao)
+        }
+        val janela = AlertDialog.Builder(atividade)
+            .setTitle("Configurações")
+            .setView(caixa)
+            .setPositiveButton("Fechar", null)
+            .show()
+        botao.setOnClickListener {
+            janela.dismiss()
+            verificar(manual = true)
+        }
+    }
+
+    private fun automatico() = prefs.getBoolean("automatico", true)
+
+    private fun nomeInstalado(): String =
+        atividade.packageManager.getPackageInfo(atividade.packageName, 0).versionName ?: versaoInstalada().toString()
+
+    private fun avisar(mensagem: String) {
+        if (atividade.isFinishing) return
+        AlertDialog.Builder(atividade).setTitle("Atualização").setMessage(mensagem).setPositiveButton("Ok", null).show()
     }
 
     /** Volta da tela de permissão "instalar apps desta fonte": segue a instalação que estava esperando. */
@@ -119,8 +191,8 @@ class Atualizador(private val atividade: Activity) {
             .show()
     }
 
-    private fun avisarChaveDiferente(v: Versao) {
-        if (atividade.isFinishing || prefs.getLong("avisou_chave", -1) == v.codigo) return
+    private fun avisarChaveDiferente(v: Versao, manual: Boolean = false) {
+        if (atividade.isFinishing || (!manual && prefs.getLong("avisou_chave", -1) == v.codigo)) return
         prefs.edit().putLong("avisou_chave", v.codigo).apply()
         AlertDialog.Builder(atividade)
             .setTitle("Nova versão do CRIVO")
