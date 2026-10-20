@@ -32,6 +32,7 @@ class Fio:
         self.ultima_pergunta = None   # a última pergunta do CRIVO, até dois turnos depois
         self.idade_pergunta = 0
         self.anterior = None          # a última resposta do CRIVO, inteira
+        self.fala_anterior = None     # a última fala da pessoa, dita por inteiro
         self.tarefa = None            # {"tipo": "correcao", "original", "corrigido", "trocadas"}
         self.ato = None               # o ato do turno corrente
         self.exigido = None           # o que a resposta do turno tem que dizer (a palavra corrigida)
@@ -50,6 +51,7 @@ class Fio:
             if self.idade_pergunta > 1:
                 self.ultima_pergunta = None
         self.anterior = resposta
+        self.fala_anterior = fala
         correcao = getattr(bot, "ultima_correcao_texto", None)
         if ident == "texto:correcao" and correcao:
             self.tarefa = {"tipo": "correcao", "original": correcao["original"], "corrigido": correcao["corrigido"],
@@ -62,10 +64,22 @@ _PEDE_NOME = re.compile(r"\b(?:e (?:o )?seu|e (?:o )?teu|qual (?:e )?(?:o )?seu 
                         r"como (?:eu )?(?:te|posso te) chamo|e voce)\b")
 
 
+_PERGUNTA_O_QUE = re.compile(r"^(?:o que|que|quem)\s+(?:e|eh|sao|foi|foram|era)\b")
+_E_O = re.compile(r"^[Ee]\s+(?:(?:o|a|os|as)\s+)?(?P<x>[^?!.,]{2,40}?)\s*\?*$")
+
+
 def completar(fio, fala):
     """A fala curta dita por inteiro, lida no fio: "O meu é Henrique" depois de "Meu nome é CRIVO. E o seu?"
     vira "Meu nome é Henrique", para a memória e o modelo entenderem. Sem fio que a complete, a mesma fala."""
-    if fio is None or not isinstance(fala, str) or not fio.ultima_pergunta or fio.idade_pergunta:
+    if fio is None or not isinstance(fala, str):
+        return fala
+    # "O que são primatas?" → "E o símio?": a mesma pergunta, sobre o outro assunto.
+    m = _E_O.match(fala.strip())
+    anterior = getattr(fio, "fala_anterior", None)
+    if m and anterior and _PERGUNTA_O_QUE.match(normalizar(anterior)) and len(m.group("x").split()) <= 4:
+        quem = normalizar(anterior).startswith("quem")
+        return ("Quem é %s?" if quem else "O que é %s?") % m.group("x").strip()
+    if not fio.ultima_pergunta or fio.idade_pergunta:
         return fala
     pergunta = normalizar(fio.ultima_pergunta)
     if _PEDE_NOME.search(pergunta) and re.search(r"\bnome\b", normalizar(fio.anterior or "")):
@@ -181,11 +195,28 @@ _NADA_ACONTECEU = re.compile(r"^(?:nem|nada|nao|ainda nao|nenhum|nenhuma)\b")
 _O_QUE_ACONTECEU = re.compile(r"\bo que (?:aconteceu|houve|rolou)\b")
 
 
-def julgar(ato, fala, texto, fontes, exigido=None):
+_SOBRE_OUTRO = re.compile(r"^(?:e\s+)?(?:quem|que|o que|oq)\s+(?:e|eh|foi|era|sao|eram|significa)\s+(?P<x>.+)$")
+_DE_SI = re.compile(r"\b(?:sou o crivo|sou uma (?:ia|inteligencia artificial)|me criou|me fez|meu nome e crivo|"
+                    r"sou feito do zero)\b")
+_NAO_SEI = re.compile(r"\b(?:nao sei|nao tenho (?:essa|uma|esse|a|o)?\s*(?:informacao|resposta|definicao)|"
+                      r"nao conheco|ainda nao (?:sei|aprendi|me ensinaram)|nao encontrei)\b")
+
+
+def julgar(ato, fala, texto, fontes, exigido=None, nao_sabe=False):
     """Falhas de uma frase do modelo (lista vazia: passa). fontes: o que a pessoa disse e o que o
-    CRIVO sabe (falas, lembranças, contexto); exigido: o trecho que a frase tem que trazer."""
+    CRIVO sabe (falas, lembranças, contexto); exigido: o trecho que a frase tem que trazer; nao_sabe:
+    o CRIVO não conhece o assunto, e a frase tem que dizer isso."""
     falhas = []
     n = normalizar(texto)
+    nf0 = normalizar(fala).strip(" .!?")
+    outro = _SOBRE_OUTRO.match(nf0)
+    if outro and not re.match(r"(?:voce|vc|tu|o crivo|crivo|seu nome|teu nome)\b", outro.group("x")) and _DE_SI.search(n):
+        # "Quem é Freud?" → "Sou o CRIVO…": a pergunta é sobre outro.
+        falhas.append("falou_de_si")
+    if nao_sabe and not _NAO_SEI.search(n):
+        falhas.append("inventou_sem_fonte")
+    if len(nf0) > 6 and n.strip(" .!?") == nf0:
+        falhas.append("repetiu_a_pergunta")   # "Quem é psicopata?" → "Quem é psicopata?"
     if exigido and normalizar(exigido) not in n:
         falhas.append("faltou_resultado")
     nf = normalizar(fala).strip(" .!?")
@@ -216,7 +247,8 @@ def podar(texto, ato, fala, fontes):
 
     Uma frase inventada ("Fico feliz que você me contou sobre seu pai.") sai; as outras ficam."""
     frases = [f for f in re.split(r"(?<=[.!?…])\s+", texto.strip()) if f]
-    boas = [f for f in frases if not any(x.startswith("inventou") or x == "eco" for x in julgar(None, fala, f, fontes))]
+    boas = [f for f in frases if not any(x.startswith("inventou_parente") or x in ("eco", "falou_de_si")
+                                         for x in julgar(None, fala, f, fontes))]
     if not boas or len(boas) == len(frases):
         return texto if len(boas) == len(frases) else ""
     resto = " ".join(boas)

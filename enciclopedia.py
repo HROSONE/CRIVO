@@ -20,7 +20,7 @@ from pathlib import Path
 
 PASTA = Path(__file__).resolve().parent / "artefatos" / "enciclopedia_pt"
 ARQUIVO = PASTA / "enciclopedia_pt.v3.gz"
-SHA256 = "fbd71178802527deb718e95843974092e7227517a03d7f7aa2f4f03683b7f93c"   # v3: 300 mil verbetes da mesma Wikipédia (20231101.pt)
+SHA256 = "f2803ea5efdcbbe4124bdbfb04a4e54b6afc7c6f96bb9078a2f78b5d0284dbca"   # v3: 300 mil verbetes da mesma Wikipédia (20231101.pt)
 IDENT = "enciclopedia:wikipedia"
 
 _ARTIGO = r"(?:(?:o|a|os|as|um|uma|uns|umas)\s+)?"

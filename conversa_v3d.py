@@ -555,9 +555,15 @@ def aplicar(bot, fala, ident, resposta, modelo):
     exigido = ambiente.exigido(bot, ident)
     if ato or exigido:
         trace["ato"] = ato
-    # O juiz recusa mais; o prompt é lido uma vez, e cada frase a mais custa só as palavras dela. No turno
-    # refeito do histórico, as mesmas tentativas na mesma ordem: a frase é a mesma que a pessoa viu.
-    tentativas = TENTATIVAS_AMBIENTE if getattr(modelo, "formato6", False) else tentativas
+    # O juiz recusa mais; o prompt é lido uma vez, e cada frase a mais custa só as palavras dela. O turno
+    # refeito do histórico fica com uma tentativa: no celular sem o motor em C, refazer quatro turnos com seis
+    # tentativas cada comia o prazo, e a resposta nova saía cortada ("O…", conversa real de 20/10).
+    if getattr(modelo, "formato6", False) and not getattr(bot, "refazendo_historico", False):
+        tentativas = TENTATIVAS_AMBIENTE
+    # Sem o CRIVO conhecer o assunto, a frase tem que dizer que não sabe ("Pelo que eu sei: O prossímio é uma
+    # estrutura celular…" passava na marca): sem isso, fica o texto de sempre.
+    import enciclopedia
+    nao_sabe = ident in ("fora", "duvida") and bool(ctx.get("assunto") or enciclopedia.assunto(fala))
     trace["tentativas"] = 0
     frases = []   # (texto, terminou, falhas da conferência, falhas do juiz)
     for k in range(tentativas):
@@ -572,7 +578,7 @@ def aplicar(bot, fala, ident, resposta, modelo):
             return ident, resposta, trace
         trace["tentativas"] = k + 1
         av = formato().avaliar_saida(caso, texto, terminou)
-        juiz = ambiente.julgar(ato, fala, texto, fontes, exigido)
+        juiz = ambiente.julgar(ato, fala, texto, fontes, exigido, nao_sabe=nao_sabe)
         trace.update(contexto=ctx_modelo, rascunho=texto)
         if av["tudo_ok"] and texto and not juiz:
             trace.update(usada=True, conferida=True,
@@ -591,7 +597,7 @@ def aplicar(bot, fala, ident, resposta, modelo):
         if texto:
             trace["tentativas"] += 1
             av = formato().avaliar_saida(caso, texto, terminou)
-            juiz = ambiente.julgar(ato, fala, texto, fontes, exigido)
+            juiz = ambiente.julgar(ato, fala, texto, fontes, exigido, nao_sabe=nao_sabe)
             if av["tudo_ok"] and not juiz:
                 trace.update(usada=True, conferida=True, rascunho=texto, motivo="conferida com o começo do ambiente")
                 return ident, texto, trace
@@ -599,7 +605,7 @@ def aplicar(bot, fala, ident, resposta, modelo):
     # Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
     # jeito que ele quiser". Se nenhuma frase passou na conferência, vai a primeira dele mesmo assim,
     # marcada como não conferida; o texto de sempre só aparece se ele não disse nada.
-    if frases and (ident.startswith("enciclopedia:") or exigido):
+    if frases and (ident.startswith("enciclopedia:") or exigido or nao_sabe):
         # A resposta leva "Fonte: Wikipédia", ou é o resultado de uma tarefa (a palavra corrigida): o texto
         # tem que ser fiel. Sem conferência, fica o texto conferido.
         trace.update(usada=False, conferida=False,
@@ -615,6 +621,10 @@ def aplicar(bot, fala, ident, resposta, modelo):
                 escolhida = (podado, terminou or podado != texto, falhas, juiz)
                 trace["podada"] = True
                 break
+    if escolhida is not None and not escolhida[1] and len(escolhida[0]) < 40:
+        # Cortada pelo prazo antes de dizer alguma coisa ("O…"): o texto de sempre diz mais.
+        trace.update(usada=False, conferida=False, motivo="cortada pelo prazo: " + repr(escolhida[0]))
+        return ident, resposta, trace
     if escolhida is not None:
         texto, terminou, falhas, juiz = escolhida
         if not terminou:
