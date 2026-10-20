@@ -93,6 +93,33 @@ def julgar_rodada(linhas_v6, linhas_v4, reais_certo, usa_fato, com_urgencia=Fals
             "urgencia_acertos": {"novo": urgencia(linhas_v6), "v4": urgencia(linhas_v4)}}
 
 
+# v7c (fixado em 20/10/2026, ANTES da rodada 1, a pedido do criador): se a rodada 1 vencer com folga, a rodada 2 é
+# dispensada. Folga = cada critério passa com margem maior que a variação medida entre o v7 e o v7b (blinds ±0,2 a 1,6
+# ponto; frases reais ±1). Sem folga em qualquer item, a rodada 2 continua obrigatória.
+FOLGA_UMA_RODADA = {
+    "v3_ic_inferior": 0.03,      # limite inferior do IC 95% do blind v3 ≥ +3 pontos (a regra normal pede > 0)
+    "outros_blinds": 0.0,        # v1, paráfrases, Grok e v4 sem perder nada (a regra normal aceita até −1,5)
+    "frases_reais": 13,          # 13/15 (a regra normal pede 12)
+    "usa_fato": 0.90,            # (a regra normal pede 0,85)
+    "urgencia_a_mais": 5,        # urgência ≥ a do chat + 5 acertos (a regra normal pede ≥ a do chat)
+}
+
+
+def folga_uma_rodada(julgamento, reais_certo, usa_fato, passa_guarda_dev=True):
+    """(dispensa a rodada 2?, {item: passou com folga}). julgamento: saída de julgar_rodada com urgência."""
+    d, f = julgamento["diferencas"], FOLGA_UMA_RODADA
+    itens = {
+        "passou_na_regra_normal": bool(julgamento["passou"]),
+        "v3_ic_inferior": bool(d.get("v3") and d["v3"]["ic95"][0] >= f["v3_ic_inferior"]),
+        "outros_blinds": all(d[k]["media"] >= f["outros_blinds"] for k in d if k != "v3"),
+        "frases_reais": reais_certo >= f["frases_reais"],
+        "usa_fato": usa_fato is not None and usa_fato >= f["usa_fato"],
+        "urgencia": julgamento["urgencia_acertos"]["novo"] >= julgamento["urgencia_acertos"]["v4"] + f["urgencia_a_mais"],
+        "guarda_dev": bool(passa_guarda_dev),
+    }
+    return all(itens.values()), itens
+
+
 def tabela(linhas_por_modelo):
     """{modelo: {blind: linhas}} → texto com estrita, com vizinhas e IC."""
     out = []
@@ -118,6 +145,11 @@ def principal(pasta, com_urgencia=False):
         print(f"\nrodada {n}: passou={j['passou']} {j['criterios']}")
         for k, d in j["diferencas"].items():
             print(f"  {k:11s} v6 − v4 = {100 * d['media']:+.1f} pontos [{100 * d['ic95'][0]:+.1f}; {100 * d['ic95'][1]:+.1f}]")
+    if len(rodadas) == 1 and com_urgencia:
+        r = rodadas[1]
+        j = julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"], com_urgencia)
+        ok, itens = folga_uma_rodada(j, r["frases_reais"], r["usa_fato"])
+        print(f"\nfolga para dispensar a rodada 2: {ok} {itens}")
     if len(rodadas) == 2:
         aprov = all(julgar_rodada(r["linhas"], base["linhas"], r["frases_reais"], r["usa_fato"], com_urgencia)["passou"] for r in rodadas.values())
         print("\nAS DUAS RODADAS PASSARAM: candidata a ser mostrada ao criador (não liga sozinha)." if aprov else

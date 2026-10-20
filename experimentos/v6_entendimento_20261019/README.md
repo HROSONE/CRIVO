@@ -235,3 +235,19 @@ mudar os critérios.
 - Ninguém controla a variação de cada uma das 113 situações. Os critérios são os da régua.
 - As correções de saúde foram motivadas pelos resultados do v7 e do v7b. O filtro de parecença (≥ 0,7) continua
   impedindo cópia das frases de teste.
+
+**Dispensa da rodada 2 (fixada em 20/10/2026, antes da rodada 1, a pedido do criador):** se a rodada 1 vencer **com
+folga**, a rodada 2 não é rodada. Folga quer dizer cada critério com margem maior que a variação medida entre o v7 e o v7b
+(`comparar_v6.FOLGA_UMA_RODADA`):
+
+| item | regra normal | com folga |
+|---|---|---|
+| blind v3 | limite inferior do IC > 0 | limite inferior do IC ≥ +3 pontos |
+| v1, paráfrases, Grok, v4 | ≥ −1,5 ponto | ≥ 0 (não perder nada) |
+| frases reais | ≥ 12/15 | ≥ 13/15 |
+| usa o fato | ≥ 0,85 | ≥ 0,90 |
+| urgência | ≥ a do chat | ≥ a do chat + 5 acertos |
+| guarda do dev | — | a versão escolhida passou |
+
+Faltando folga em qualquer item, a rodada 2 continua obrigatória, como antes. Limite: uma rodada só não mede a variação
+da semente; a aprovação registra que foi feita com uma rodada. Ligar no chat continua sendo decisão do criador.
