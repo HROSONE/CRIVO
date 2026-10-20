@@ -57,8 +57,10 @@ def vetores(textos):
     return np.stack([vetor(t) for t in textos]) if textos else np.zeros((0, 4096), np.float32)
 
 
-def detectar(formas_novas, treino=None, bloco=512):
-    """Mesma regra de antes, em blocos (aguenta dezenas de milhares de falas)."""
+def detectar(formas_novas, treino=None, bloco=512, saude_entre_si=False):
+    """Mesma regra de antes, em blocos (aguenta dezenas de milhares de falas).
+
+    saude_entre_si (v7b): falas novas DE saúde não contam como gatilho por parecerem com outra situação de saúde."""
     treino = treino or formas_de_treino()
     textos, donos = [], []
     for s, L in treino.items():
@@ -81,8 +83,9 @@ def detectar(formas_novas, treino=None, bloco=512):
             linha_o = np.where(mesma, -1, linha)
             i = int(np.argmax(linha_o))
             o, t = float(linha_o[i]), str(donos[i])
-            saude = t in SAUDE and o >= LIMIAR_SAUDE
-            if saude or (o >= LIMIAR and o > p + MARGEM and not compostas(s, t)):
+            entre_saude = saude_entre_si and s in SAUDE and t in SAUDE
+            saude = t in SAUDE and o >= LIMIAR_SAUDE and not entre_saude
+            if saude or (o >= LIMIAR and o > p + MARGEM and not compostas(s, t) and not entre_saude):
                 achados.append({"situacao": s, "fala": u, "puxa": t, "parecida_com": textos[i],
                                 "outra": round(o, 2), "propria": round(p, 2), "saude": bool(saude)})
     return achados

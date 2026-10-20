@@ -15,8 +15,11 @@ from collections import Counter, defaultdict
 LIMITE_TIRAR = 0.5
 
 
-def substituir(fase5, novos, rep_f5, rep_v6, semente, chave):
-    """fase5, novos: listas de casos com "situacao" e "mensagem". Devolve (fase5_que_fica, novos_que_entram, relatorio)."""
+def substituir(fase5, novos, rep_f5, rep_v6, semente, chave, sem_antigos_entram=False):
+    """fase5, novos: listas de casos com "situacao" e "mensagem". Devolve (fase5_que_fica, novos_que_entram, relatorio).
+
+    sem_antigos_entram (v7b): situações que não têm casos na fase 5 (as de identidade, que a 6b treina pelo IDENTIDADE.md)
+    entram direto, sem substituir nada."""
     rr = random.Random(semente)
     antigos_por, novos_por = defaultdict(list), defaultdict(list)
     for i, c in enumerate(fase5):
@@ -27,6 +30,10 @@ def substituir(fase5, novos, rep_f5, rep_v6, semente, chave):
     for s in sorted(novos_por):
         antigos, lista = antigos_por.get(s, []), novos_por[s]
         cabe = int(len(antigos) * LIMITE_TIRAR)
+        if not antigos and sem_antigos_entram:
+            entram += lista
+            rel[s] = {"antigos": 0, "novos_pedidos": len(lista), "novos": len(lista), "tirados": 0, "sem_antigos": True}
+            continue
         if not cabe:
             rel[s] = {"antigos": len(antigos), "novos_pedidos": len(lista), "novos": 0, "tirados": 0}
             continue

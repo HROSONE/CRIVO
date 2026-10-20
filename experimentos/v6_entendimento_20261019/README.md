@@ -166,3 +166,24 @@ jeito dele; as correções do v6b/v6c foram guiadas por erros nos blinds antigos
 **Correção de 20/10 (primeira tentativa no Colab):** com o professor num ambiente `uv` separado, nenhum dos quatro modelos
 carregou, e o notebook não mostrava o motivo (a saída do processo filho não aparecia). O professor passou para um notebook
 próprio, com o vLLM instalado como na destilação e a saída ao vivo; o treino roda depois, numa sessão nova, sem vLLM.
+
+## v7b — o v7 completo (20/10/2026, registrado antes de rodar)
+
+O v7 deu o maior ganho medido (blind v3 +6,1, v1 +9,6), mas reprovou em urgência (79 × 102) e por uma frase real (11/15).
+Causa (RESULTADO_V7_RODADA1.md): saúde/urgência e identidade ficaram sem falas novas, por decisão do assistente, e foram
+puxadas pelas situações com muitas falas novas (saúde 59 → 49%). O criador tinha pedido o treino "completo"; esse foi o erro.
+
+| arquivo | o que é |
+|---|---|
+| `formas_v7_saude.py` | 85 falas de saúde/urgência (saude_urgente, ajuda_socorro, ansioso_peito, saude_geral), a partir das categorias do `crise.py`, não dos testes |
+| `formas_v7_identidade.py` | 48 falas de identidade (quem_e, nome_crivo, ser_humano, robo, sente), com as respostas do IDENTIDADE.md |
+| `gerar_v7b.py` | o v7 + essas falas; contexto de cuidado igual ao treino original; falas de saúde não contam como gatilho entre si |
+| `substituicao_v6c.py` | `sem_antigos_entram=True`: identidade (sem casos na fase 5) entra direto |
+| `notebooks/treino_v7b_entendimento_colab.ipynb` | o treino (usa o mesmo arquivo do professor do v7) |
+
+**Conferido aqui com os dados reais** (arquivo do professor do Drive e fase 5 v4 gerada): 717 falas minhas e 4.837 do
+professor no treino; saude_urgente com 464 casos novos (contexto `urgente`) e peso igual ao da v4 (4.158 = 4.158);
+ajuda_socorro, ansioso_peito e saude_geral também com peso igual; identidade entra direto com as respostas do IDENTIDADE.md.
+
+**Critérios:** os mesmos, sem mudança. Limite: as correções de saúde foram motivadas pelo resultado do v7; as falas vêm
+das categorias do crise.py, e o filtro de parecença (≥ 0,7) impede cópia das frases de teste.
