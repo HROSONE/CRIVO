@@ -2,12 +2,19 @@ package br.crivo.app
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
+import android.view.WindowInsets
+import android.webkit.JavascriptInterface
 import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.FrameLayout
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 import java.io.File
@@ -23,6 +30,7 @@ import kotlin.concurrent.thread
  * (android/app/src/main/python/crivo_app.py) e mostra a mesma página do site.
  *
  * Com a página aberta, o Atualizador confere se há versão nova do app (a única coisa que usa a internet).
+ * A página chama `CrivoApp.abrirConfiguracoes()` pelo menu (versão, atualização automática, procurar agora).
  */
 class MainActivity : Activity() {
     private lateinit var web: WebView
@@ -31,8 +39,9 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         web = WebView(this)
-        setContentView(web)
+        setContentView(raizComMargens(web))
         atualizador = Atualizador(this)
+        web.addJavascriptInterface(Ponte(), "CrivoApp")
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true
         web.settings.cacheMode = WebSettings.LOAD_NO_CACHE
@@ -55,6 +64,48 @@ class MainActivity : Activity() {
                 }
                 resultado.onFailure { erro -> mostrarErro(erro) }
             }
+        }
+    }
+
+    /**
+     * Desde o Android 15 (targetSdk 35) o app ocupa a tela toda, por baixo da barra de status e da de navegação.
+     * A página fica dentro das margens que o sistema informa (barras e teclado), no mesmo fundo escuro, em todas as
+     * versões: do 11 em diante pelo WindowInsets novo, antes pelas margens antigas.
+     */
+    @Suppress("DEPRECATION")
+    private fun raizComMargens(conteudo: View): View {
+        val raiz = FrameLayout(this)
+        raiz.setBackgroundColor(Color.parseColor("#0B0A1F"))
+        raiz.addView(conteudo, FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+        window.statusBarColor = Color.TRANSPARENT
+        window.navigationBarColor = Color.TRANSPARENT
+        if (Build.VERSION.SDK_INT >= 30) {
+            window.setDecorFitsSystemWindows(false)
+            window.insetsController?.setSystemBarsAppearance(0, android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                or android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS)   // ícones claros no fundo escuro
+        } else {
+            raiz.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        }
+        raiz.setOnApplyWindowInsetsListener { v, insets ->
+            if (Build.VERSION.SDK_INT >= 30) {
+                val m = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.ime() or WindowInsets.Type.displayCutout())
+                v.setPadding(m.left, m.top, m.right, m.bottom)
+                WindowInsets.CONSUMED
+            } else {
+                v.setPadding(insets.systemWindowInsetLeft, insets.systemWindowInsetTop, insets.systemWindowInsetRight,
+                    insets.systemWindowInsetBottom)
+                insets.consumeSystemWindowInsets()
+            }
+        }
+        return raiz
+    }
+
+    /** O que a página pode pedir ao app. Só vale para a página do próprio CRIVO (127.0.0.1). */
+    private inner class Ponte {
+        @JavascriptInterface
+        fun abrirConfiguracoes() = runOnUiThread {
+            if (Uri.parse(web.url ?: "").host == "127.0.0.1") atualizador.abrirConfiguracoes()
         }
     }
 
@@ -112,8 +163,11 @@ class MainActivity : Activity() {
         atualizador.verificar()    // app aberto há muito tempo: confere no máximo a cada 6 h
     }
 
-    @Deprecated("Usa o voltar do WebView quando há página anterior.")
+    @Deprecated("Fecha o menu da página, se estiver aberto; senão, usa o voltar do WebView quando há página anterior.")
     override fun onBackPressed() {
-        if (web.canGoBack()) web.goBack() else super.onBackPressed()
+        web.evaluateJavascript("window.crivoVoltar ? window.crivoVoltar() : false") { fechou ->
+            if (fechou == "true") return@evaluateJavascript
+            if (web.canGoBack()) web.goBack() else finish()
+        }
     }
 }
