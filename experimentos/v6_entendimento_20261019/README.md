@@ -189,5 +189,49 @@ ajuda_socorro, ansioso_peito e saude_geral também com peso igual; identidade en
 das categorias do crise.py, e o filtro de parecença (≥ 0,7) impede cópia das frases de teste.
 
 **Resultado da rodada 1 (`RESULTADO_V7B_RODADA1.md`): reprovado em 3 de 5.** Blind v3 +5,8 (igual ao v7), urgência 97
-contra 102 (v7: 79), blind v4 −1,7 (todo vindo de `reciproco`: as falas de identidade entraram sem substituir e puxaram o
-"e você?"), frases reais 11/15. A rodada 2 não muda a reprovação.
+contra 102 (v7: 79), blind v4 −1,7 (vindo de `reciproco`, que já caía no v7), frases reais 11/15. A rodada 2 não muda
+a reprovação. A primeira leitura culpou as falas de identidade; a comparação com o v7 mostrou que boa parte da diferença
+é variação de um treino para outro (correção no próprio RESULTADO).
+
+## v7c — sem perder em nenhum grupo (20/10/2026, registrado antes de rodar)
+
+O v7b mostrou dois problemas. Primeiro, a **variação entre treinos**: com a mesma semente, situações sem nenhuma mudança
+nos dados variaram mais de 10 pontos entre o v7 e o v7b, e os critérios que reprovaram (blind v4 −1,7, urgência −5,
+frases reais 11) estão dentro dessa variação. Segundo, **causas medidas nos dados**. O v7c ataca as duas coisas, sem
+mudar os critérios.
+
+**Dados (`gerar_v7c.py`):**
+
+| arquivo | o que faz |
+|---|---|
+| `coerencia_professor.py` | Nas situações em que ≥ 80% das falas antigas se dirigem ao CRIVO, tira a fala do professor que não se dirige a ele e começa falando de si. São 105 falas: nao_gosta 37, opiniao_politica 20, consciencia 14, medo 7, entre outras. A mesma regra tira 0 falas antigas nessas situações. |
+| `formas_v7c.py` | Saúde em **pares mínimos**: 31 urgências com a vizinha não urgente ao lado (familia_preocupa, estou_mal, ansioso_peito, ansioso). Relatos de sintoma leve em saude_geral, sem falta de ar, tontura ou corte. |
+| `gerar_v7c.py` | As urgências de fronteira (que lembram uma situação fora da saúde) não saem pelo detector, porque errar para o 192 é o lado seguro. O detector também compara com as perguntas de identidade do treino da 6b. |
+
+**Notebook (`notebooks/treino_v7c_entendimento_colab.ipynb`):**
+- **Identidade sem ganhar peso.** Cada caso novo de identidade (×3) tira a mesma conta de exemplos do IDENTIDADE.md (×4) do
+  grupo que cobre a situação. Ensaiado: 216 exposições entram e 220 saem.
+- **Média móvel dos pesos** (EMA 0,998, desde 40% do treino), medida ao lado dos pesos crus em cada medida.
+- **Guarda no dev.** O 46M do chat é medido nas mesmas frases do dev: todas as frases novas de cena do dev da fase 5 e 600
+  do dev v7c. A versão escolhida não pode ficar abaixo dele em nenhum grupo nem no total. Os grupos são:
+  - urgência;
+  - identidade;
+  - conversa (reciproco, tem_certeza, nao_era_isso…);
+  - saúde.
+
+  Se nenhuma versão passar, fica a de maior folga no pior grupo, e o resumo registra isso. Só usa o dev, nunca os blinds.
+
+**Conferido aqui** com o arquivo real do professor e a fase 5 v4:
+- o peso de cada situação é igual ao do chat (`substituicao_v6c.conferir`);
+- saude_urgente recebe 693 casos novos (mais 229 que no v7b; limitado à metade dos antigos), saude_geral 288 (+128) e
+  ansioso_peito 112 (+48);
+- a escolha, a média móvel e o checkpoint foram ensaiados em CPU.
+
+**Critérios:** os mesmos (`comparar_v6.py`, com urgência), nas duas rodadas.
+
+**Limites:**
+- A guarda reduz o risco de escolher uma versão que perde num grupo, mas não garante nada nos blinds. O dev tem
+  40–80 frases por grupo.
+- Ninguém controla a variação de cada uma das 113 situações. Os critérios são os da régua.
+- As correções de saúde foram motivadas pelos resultados do v7 e do v7b. O filtro de parecença (≥ 0,7) continua
+  impedindo cópia das frases de teste.
