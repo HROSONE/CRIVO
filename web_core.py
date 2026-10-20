@@ -178,7 +178,8 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
         extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
                                        "verified": bool(conversa.get("conferida")),
                                        "model": conversa.get("modelo", "fase5_v4_F"),
-                                       "approved": bool(conversa.get("aprovada"))}   # régua própria (conversa_v3d.DECISAO_46M)
+                                       "approved": bool(conversa.get("aprovada")),   # régua própria (conversa_v3d.DECISAO_46M)
+                                       "engine": conversa.get("motor")}   # "c" (motor_nativo, no app) ou "numpy"
     verbete = getattr(bot, "ultima_enciclopedia", None)
     if verbete is not None:
         extra["encyclopedia"] = dict(verbete)   # resposta tirada da Wikipédia (enciclopedia.py)
