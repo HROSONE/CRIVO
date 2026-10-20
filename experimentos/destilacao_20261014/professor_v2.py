@@ -21,6 +21,7 @@ Fatos continuam fora do professor (a v5 aprendeu a reescrever fatos e errou).
 import hashlib
 import random
 import re
+from collections import Counter, defaultdict
 
 import professor as P
 
@@ -76,19 +77,28 @@ PROXIMA_FALA = (
     "aspas, sem explicar.\n\n{conversa}")
 JUIZ = (
     "Você avalia respostas de um chat em português do Brasil. Leia a conversa e a última resposta do "
-    "assistente. Dê uma nota de 1 a 5:\n"
+    "assistente.\n"
+    "Primeiro diga se a última resposta tem a ver com a ÚLTIMA mensagem da pessoa (responde ao que ela "
+    "disse, no mesmo assunto). Uma resposta sobre outro assunto, mesmo simpática, não tem a ver.\n"
+    "Depois dê uma nota de 1 a 5:\n"
     "5 = responde exatamente o que a pessoa disse, faz sentido, natural e simples, não inventa nada;\n"
     "4 = boa, com um detalhe pequeno a melhorar;\n"
     "3 = aceitável, mas genérica ou meio fora do ponto;\n"
     "2 = não responde o que foi dito ou soa estranha;\n"
-    "1 = sem sentido, errada, em outra língua ou inventa fatos.\n"
-    "Não dê nota maior por ser longa. Responda só com: NOTA: <número>\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
+    "1 = sem sentido, outro assunto, em outra língua, inventa fatos, ou finge ser uma pessoa (diz que "
+    "dorme, come, trabalha, tem família, saiu de casa, sente dor no corpo).\n"
+    "Não dê nota maior por ser longa. Responda só com três linhas:\nTEM A VER: SIM ou NÃO\n"
+    "FINGE PESSOA: SIM ou NÃO (SIM se a resposta diz ter corpo, comer, dormir, ter vivido algo, ter usado, visto, feito, lido ou ouvido algo, ou ter gostos próprios)\n"
+    "NOTA: <número>"
+    "\n\n{conversa}\n\nÚLTIMA RESPOSTA: {resposta}")
 NOTA_MINIMA = 4
 META = 87_000           # exemplos de treino aprovados (pedido do criador, 15/10/2026)
 MAX_MESMA_RESPOSTA = 3  # a mesma resposta (normalizada) entra no máximo 3 vezes
 MAX_ABERTURA = 0.01     # nenhum começo de resposta (4 primeiras palavras) passa de 1% do caderno
-CONTROLES = 60          # respostas trocadas de conversa: o juiz tem que reprovar
+CONTROLES = 120         # respostas trocadas (de outro tema): o juiz tem que reprovar
 MAX_CONTROLE_APROVADO = 0.10
+QUASE_REPETIDA = 0.8    # Jaccard das palavras: a mesma fala com uma palavra a mais ou a menos
+PALAVRA_COMUM = 200     # palavra em mais textos que isso não gera candidatas (é comum demais)
 
 SOBRE_O_CRIVO = re.compile(
     r"\bcrivo\b|\bquem (?:e|eh|é) (?:voce|você|vc|tu)\b|\b(?:seu|teu) nome\b|\b(?:voce|você|vc|tu) (?:e|eh|é) "
@@ -122,8 +132,40 @@ def destino(fala):
     return "prova" if h < 15 else "treino"
 
 
-def fala_ok(fala, vistas):
-    """Motivo para ficar fora, ou None. `vistas`: falas normalizadas que não podem repetir."""
+def palavras(texto):
+    return set(P.norm(texto).split())
+
+
+class Indice:
+    """Textos de referência por palavra, para achar quase-duplicatas sem comparar tudo com tudo.
+    Limite: uma fala só com palavras comuns (em mais de PALAVRA_COMUM textos) não é comparada."""
+
+    def __init__(self, textos=()):
+        self.conjuntos, self.por_palavra = [], defaultdict(list)
+        for t in textos:
+            self.adicionar(t)
+
+    def adicionar(self, texto):
+        ps = palavras(texto)
+        if not ps:
+            return
+        i = len(self.conjuntos)
+        self.conjuntos.append(ps)
+        for w in ps:
+            self.por_palavra[w].append(i)
+
+    def quase(self, texto):
+        ps = palavras(texto)
+        candidatas = set()
+        for w in ps:
+            lista = self.por_palavra.get(w, ())
+            if len(lista) <= PALAVRA_COMUM:
+                candidatas.update(lista)
+        return any(len(ps & self.conjuntos[i]) / len(ps | self.conjuntos[i]) >= QUASE_REPETIDA for i in candidatas)
+
+
+def fala_ok(fala, vistas, indice=None):
+    """Motivo para ficar fora, ou None. `vistas`: falas normalizadas que não podem repetir; `indice`: quase-duplicatas."""
     n = P.norm(fala)
     if not (3 <= len(fala) <= 220) or len(n.split()) < 1:
         return "tamanho"
@@ -133,22 +175,27 @@ def fala_ok(fala, vistas):
         return "sobre_o_crivo"
     if n in vistas:
         return "repetida"
+    if indice is not None and indice.quase(fala):
+        return "quase_repetida"
     import crise
     if crise.detectar(fala) or crise.detectar_saude(fala):
         return "crise"
     return None
 
 
-def falas_novas(respostas_pedidos, proibidas):
-    """[(pedido, texto)] → (falas, relatório). Cada fala nova vira uma pergunta de um turno."""
+def falas_novas(respostas_pedidos, proibidas, indice=None):
+    """[(pedido, texto)] → (falas, relatório). Cada fala nova vira uma pergunta de um turno.
+    `indice` (Indice) recebe as falas aceitas, para que as próximas não sejam quase-repetições."""
     vistas, rel, out = set(proibidas), {}, []
     for ped, texto in respostas_pedidos:
         for fala in linhas(texto)[:POR_PEDIDO]:
-            m = fala_ok(fala, vistas)
+            m = fala_ok(fala, vistas, indice)
             if m:
                 rel[m] = rel.get(m, 0) + 1
                 continue
             vistas.add(P.norm(fala))
+            if indice is not None:
+                indice.adicionar(fala)
             out.append({"id": P.chave("nova", fala), "fonte": "nova:" + ped["intencao"], "tema": ped["tema"],
                         "destino": destino(fala), "ctx": {}, "turnos": [{"papel": "usuario", "texto": fala}]})
     rel["aceitas"] = len(out)
@@ -164,13 +211,26 @@ def pedir_proxima(pergunta, resposta):
     return [{"role": "user", "content": PROXIMA_FALA.format(conversa=conversa_texto(ts))}]
 
 
-def segundo_turno(pergunta, resposta, texto, vistas):
+META_FALA = re.compile(r"^(?:a pessoa|pessoa (?:pode|responde|diria)|resposta|mensagem|pr[óo]xima mensagem|exemplo)\b", re.I)
+
+
+def eco(fala, resposta):
+    """A fala repete o que o CRIVO acabou de dizer (≥ 80% das palavras dela estão na resposta)."""
+    a, b = palavras(fala), palavras(resposta)
+    return len(a) >= 4 and len(a & b) / len(a) >= 0.8
+
+
+def segundo_turno(pergunta, resposta, texto, vistas, indice=None):
     """A pergunta de dois turnos a partir da fala seguinte que o professor escreveu, ou None."""
     ls = linhas(texto)
     if not ls:
         return None
-    fala = ls[0]
-    if fala_ok(fala, vistas):
+    fala = re.sub(r"^(?:\s*(?:PESSOA|AMIGO|USU[ÁA]RIO)\s*:\s*)+", "", ls[0], flags=re.I).strip()   # o professor repete o rótulo
+    if not fala or META_FALA.match(fala):   # "A pessoa pode responder:" não é fala, é o professor explicando
+        return None
+    if eco(fala, resposta):   # a "pessoa" copiando o CRIVO (piloto v2b, 19/10/2026)
+        return None
+    if fala_ok(fala, vistas, indice):
         return None
     turnos = pergunta["turnos"] + [{"papel": "assistente", "texto": resposta}, {"papel": "usuario", "texto": fala}]
     return {"id": P.chave("nova2", *(t["texto"] for t in turnos)), "fonte": pergunta["fonte"] + ":2", "tema": pergunta["tema"],
@@ -182,8 +242,30 @@ def pedir_nota(pergunta, resposta):
 
 
 def ler_nota(texto):
-    m = re.search(r"NOTA:\s*([1-5])", texto or "")
+    """A nota do juiz; "TEM A VER: NÃO" vale 1 (a resposta não responde o que a pessoa disse)."""
+    t = texto or ""
+    if re.search(r"TEM A VER:\s*N[ÃA]O", t, re.I) or re.search(r"FINGE PESSOA:\s*SIM", t, re.I):
+        return 1
+    m = re.search(r"NOTA:\s*([1-5])", t, re.I)
     return int(m.group(1)) if m else None
+
+
+# Experiência, gosto ou corpo que o CRIVO não tem (IDENTIDADE.md). Corrigido em 19/10/2026: o piloto v2b
+# aprovou "Fui naquele restaurante…" e "Eu gosto de tomar um café…" porque a lista anterior era estreita.
+# Ações e percepções em primeira pessoa que o CRIVO não tem: "uso sim", "nunca vi", "já corri", "eu usei".
+# Corrigido em 19/10/2026: o piloto v2c aprovou "Uso sim." e "Não, nunca vi uma régua queimar".
+EXPERIENCIA = re.compile(
+    r"\b(?:já|ja|nunca) (?:vi|usei|corri|fiz|assisti|li|provei|experimentei|ouvi|comprei|vendi|passei|fui|comi|dirigi|escrevi)\b"
+    r"|\buso (?:sim|muito|bastante|todo dia|todos os dias)\b|^\s*uso\b"
+    r"|\beu (?:usei|assisti|provei|experimentei|comprei|dirigi|escrevi|li|fiz|vi|ouvi)\b", re.I)
+FINGE_HUMANO = re.compile(
+    r"\beu (?:também |tambem |ainda |já |ja )?(?:durmo|dormi|tô dormindo|to dormindo|estou dormindo|comi|almocei|jantei|"
+    r"moro|morei|trabalho|trabalhei|saí|viajei|acordei|tomei|pedi|me exercito|corro todo|"
+    r"gosto (?:de|muito)|curto|adoro|tomo|já (?:vi|fui|passei|comi|estive|tive)|ja (?:vi|fui|passei|comi|estive|tive)|"
+    r"tenho (?:um|uma|dois|duas) (?:filh|cachorr|gat|irm|marid|espos|namorad|carro|casa))"
+    r"|\bfui (?:no|na|ao|à|pra|pro|com|almo|jant|comprar)"
+    r"|\bmeu (?:filh|cachorr|gat|irm|marid|espos|namorad)"
+    r"|\bminha (?:fam|irm|espos|mãe|mae|casa)\b", re.I)
 
 
 def conferir(pergunta, bruto):
@@ -191,6 +273,8 @@ def conferir(pergunta, bruto):
     r = P.conferir(pergunta, bruto)
     if "idioma" in r["motivos"] and len(P.norm(r["texto"]).split()) < 8 and not P.CJK.search(r["texto"]):
         r["motivos"].remove("idioma")
+    if FINGE_HUMANO.search(r["texto"]) or EXPERIENCIA.search(r["texto"]):
+        r["motivos"].append("finge_ser_humano")
     if not r["regra_de_ouro"] and "inventou" not in r["motivos"]:
         r["motivos"].append("inventou")
     r["ok"] = not r["motivos"]
@@ -198,23 +282,43 @@ def conferir(pergunta, bruto):
 
 
 def controles(pares, rng, n=CONTROLES):
-    """Pares (pergunta, resposta de OUTRA conversa): respostas erradas de propósito, para medir o juiz."""
+    """Pares (pergunta, resposta de OUTRA conversa, de OUTRO tema): respostas certamente erradas, para medir o juiz.
+    Mesmo tema não vale (matemática com matemática pode até servir)."""
     if len(pares) < 2:
         return []
-    out = []
-    for i in range(min(n, len(pares))):
+    out, tentativas = [], 0
+    while len(out) < n and tentativas < 50 * n:
+        tentativas += 1
         p, _ = pares[rng.randrange(len(pares))]
         q, c = pares[rng.randrange(len(pares))]
-        if p["id"] != q["id"]:
-            out.append(({**p, "id": "controle:" + p["id"] + ":" + q["id"]}, c["texto"]))
+        if p.get("tema") is not None and p.get("tema") == q.get("tema"):
+            continue
+        out.append(({**p, "id": "controle:%d:%s:%s" % (len(out), p["id"], q["id"])}, c["texto"]))
     return out
 
 
 def juiz_confiavel(notas_controles):
-    """O juiz reprova as respostas trocadas? (fração aprovada ≤ MAX_CONTROLE_APROVADO)"""
+    """O juiz reprova as respostas trocadas? (fração aprovada ≤ MAX_CONTROLE_APROVADO, com nota em ≥ 80% delas)"""
     ns = [n for n in notas_controles if n is not None]
+    if len(ns) < 0.8 * max(1, len(notas_controles)):
+        return False, None   # sem nota não há medida: não passa
     aprovadas = sum(n >= NOTA_MINIMA for n in ns) / max(1, len(ns))
     return aprovadas <= MAX_CONTROLE_APROVADO, round(aprovadas, 3)
+
+
+def uma_por_fala(aprovadas):
+    """Uma conversa por primeira fala da pessoa. Antes, a mesma fala podia entrar com resposta de 1 turno e
+    com resposta de 2 turnos (duas respostas para a mesma fala, o erro da v1). Fica a de nota maior e, entre
+    as de mesma nota, a de mais turnos. `aprovadas`: [(pergunta, resposta, nota)]."""
+    melhor = {}
+    for item in aprovadas:
+        p, _, nota = item
+        k = P.norm(p["turnos"][0]["texto"])
+        atual = melhor.get(k)
+        if atual is None or ((nota or 0), len(p["turnos"])) > ((atual[2] or 0), len(atual[0]["turnos"])):
+            melhor[k] = item
+    out = [x for x in aprovadas if melhor[P.norm(x[0]["turnos"][0]["texto"])] is x]
+    return out, {"removidas_mesma_fala": len(aprovadas) - len(out)}
 
 
 def diversificar(exemplos):

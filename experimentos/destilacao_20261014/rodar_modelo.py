@@ -10,6 +10,7 @@ Código de saída 3: o modelo não existe, não tem a licença certa ou não cou
 import argparse
 import gzip
 import json
+import os
 import sys
 import time
 from datetime import date
@@ -46,6 +47,14 @@ def principal():
     if a.papel == "professor" and licenca not in LICENCAS_PROFESSOR:
         print(f"{a.modelo}: licença {licenca!r} não serve para professor (AGENTS.md)", flush=True)
         sys.exit(3)
+    if not saida.is_file():   # confere o modelo de conversa antes de baixar os pesos (o Mistral w4a16 não tem)
+        try:
+            from transformers import AutoTokenizer
+            t = AutoTokenizer.from_pretrained(a.modelo, revision=info.sha)
+            t.apply_chat_template([{"role": "user", "content": "oi"}], tokenize=False, add_generation_prompt=True)
+        except Exception as erro:
+            print(f"{a.modelo}: não monta a conversa ({type(erro).__name__}); tentando o próximo", flush=True)
+            sys.exit(3)
     with gzip.open(a.entrada, "rt", encoding="utf-8") as f:
         pedidos = [json.loads(l) for l in f]
     pedacos = [pedidos[i:i + PEDACO] for i in range(0, len(pedidos), PEDACO)]
@@ -67,7 +76,11 @@ def principal():
         for k in faltam:
             t0, lote, msgs, params, grandes = time.time(), [], [], [], 0
             for p in pedacos[k]:
-                n = len(tok.apply_chat_template(p["mensagens"], tokenize=True, add_generation_prompt=True, enable_thinking=False))
+                try:
+                    n = len(tok.apply_chat_template(p["mensagens"], tokenize=True, add_generation_prompt=True, enable_thinking=False))
+                except Exception as erro:   # sem modelo de conversa (chat template): este não serve, tenta o próximo
+                    print(f"{a.modelo}: não monta a conversa ({type(erro).__name__}); tentando o próximo", flush=True)
+                    os._exit(3)   # sys.exit esperaria o motor do vLLM e travava
                 if n + p["max_tokens"] > MAX_MODELO:
                     grandes += 1
                     continue
@@ -75,7 +88,8 @@ def principal():
                 msgs.append(p["mensagens"])
                 params.append(SamplingParams(temperature=p["temperatura"], top_p=0.8 if p["temperatura"] > 0 else 1.0,
                                              top_k=20 if p["temperatura"] > 0 else -1, max_tokens=p["max_tokens"]))
-            outs = llm.chat(msgs, params, use_tqdm=False, chat_template_kwargs={"enable_thinking": False})
+            print(f"  pedaço {k + 1}/{len(pedacos)}: gerando {len(lote)} respostas...", flush=True)
+            outs = llm.chat(msgs, params, use_tqdm=True, chat_template_kwargs={"enable_thinking": False})
             tmp = parte(k).with_name(parte(k).name + ".tmp")
             with gzip.open(tmp, "wt", encoding="utf-8") as f:
                 for p, o in zip(lote, outs):
