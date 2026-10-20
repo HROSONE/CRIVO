@@ -1,0 +1,25 @@
+{
+ "descricao": "Conversas reais do criador com o chat, refeitas turno a turno com o histórico (como o site faz). As mensagens são do criador; as regras de cada turno foram escritas no projeto e dizem o mínimo que uma resposta boa precisa ter. Papel 'dev': usada para construir o ambiente (não vale como prova). Papel 'teste': só medida, nunca usada para ajustar regra ou código.",
+ "regras": "contem: todos os trechos; contem_algum: pelo menos um; nao_contem: nenhum; comeca_com_algum: a resposta começa com um dos trechos. Comparação sem acento e sem maiúsculas.",
+ "conversas": [
+  {
+   "id": "paralelepipedo",
+   "papel": "dev",
+   "origem": "conversa real do criador no site, 19/10/2026, colada no chat de desenvolvimento",
+   "turnos": [
+    {"usuario": "Oi, tudo bem?", "contem_algum": ["bem", "tudo"]},
+    {"usuario": "Nem começou ainda", "nao_contem": ["o que aconteceu"], "nota": "o CRIVO tinha perguntado como foi o dia; o dia nem começou"},
+    {"usuario": "Quer saber o que?", "contem_algum": ["dia"], "nao_contem": ["oi, oi", "o que manda"], "nota": "a pessoa pergunta o que o CRIVO quis saber: o dia dela"},
+    {"usuario": "Você pensa?", "contem_algum": ["penso", "pensar", "pensamento"]},
+    {"usuario": "Corrija esta palavra: \"Palarerepípedo\"", "contem": ["paralelepípedo"]},
+    {"usuario": "Me mande a palavra corrigida", "contem": ["paralelepípedo"], "nota": "continuação da tarefa do turno anterior"},
+    {"usuario": "Você não me deu a palavra certa", "contem": ["paralelepípedo"]},
+    {"usuario": "Você consegue me entender?", "contem_algum": ["entendo", "entender", "sim"], "nao_contem": ["me mande a palavra corrigida"]},
+    {"usuario": "Você me entende, sim ou não?", "comeca_com_algum": ["sim", "não", "nem sempre", "em parte", "às vezes", "nem tudo"]},
+    {"usuario": "Você não fala nada com nada", "contem_algum": ["desculp", "perdi", "foi mal", "me confundi", "errei"]},
+    {"usuario": "Qual é o seu nome?", "contem": ["crivo"]},
+    {"usuario": "O meu é Henrique", "contem": ["henrique"], "nao_contem": ["pai", "mãe", "irmão", "irmã", "filho", "esposa", "marido"]}
+   ]
+  }
+ ]
+}

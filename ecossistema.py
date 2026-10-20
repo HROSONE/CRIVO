@@ -120,6 +120,11 @@ _LISTA = (
             ("fontes", "recusa"),
             ("testes_exploracao_conhecimento.py",)),
     # --- linguagem ----------------------------------------------------------
+    Especie("ambiente", "conversa",
+            "Lê uma fala curta no fio da conversa e devolve o que o CRIVO já tem: o resultado da tarefa em aberto "
+            "ou a pergunta que ele fez; o modelo diz o texto conferido.",
+            "“Me mande a palavra corrigida”, “você não me deu a palavra certa”, “quer saber o quê?”.",
+            ("ambiente.py",), ("pessoa", "catracas"), ("testes_ambiente.py",)),
     Especie("correcao_texto", "linguagem",
             "Propõe correções por regras explícitas, preservando o original e mostrando alterações.",
             "Pedidos de correção de conteúdo enviado e consulta das alterações.",
