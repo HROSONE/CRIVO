@@ -132,3 +132,32 @@ frases reais ≥ 12/15; "usa o fato" ≥ 0,85; urgência sem piorar.
 **Diferença de desenho em relação ao v6/v6b:** partir do 46M do chat mede "o 46M do chat + um ajuste com falas novas",
 não "a receita da v4 com falas novas". Isso é o que interessa para o chat, mas o efeito do ajuste e o das falas não se
 separam aqui.
+
+## v7 — volume, com o professor só para falas da pessoa (20/10/2026, registrado antes de rodar)
+
+Pedido do criador: "não tá parecendo que você tá se esforçando pra fazer ele ganhar". Reconhecimento: o v6–v6c testaram
+uma dose pequena demais (mediana de 7 falas novas por situação, contra centenas pedidas pela auditoria), e os gatilhos só
+foram achados depois de gastar GPU. O v7 ataca as duas coisas.
+
+| arquivo | o que é |
+|---|---|
+| `formas_v7_a.py` … `formas_v7_e.py`, `formas_v7.py` | 1.956 falas escritas pelo assistente nas 108 situações elegíveis (com as do v6c) |
+| `detector_gatilhos.py` | barra, ANTES do treino, falas mais parecidas com o treino de outra situação do que com o da própria (≥ 0,5), ou perto de saúde/urgência (≥ 0,4); situações compostas (despedida rude, "tô bem, e você?"…) liberadas. Sem olhar os testes, pegou 9 dos 17 culpados conhecidos do v6/v6b |
+| `professor_v7.py` | o professor escreve só falas da pessoa (8 estilos × 108 situações × 25) e confere o próprio rótulo entre 5 respostas (as alternativas são as confusões medidas) |
+| `gerar_v7.py` | junta as falas, com filtros de conflito, parecença com testes (≥ 0,7), gatilhos e saúde; `--professor` acrescenta as do professor, cada uma com origem |
+| `notebooks/treino_v7_entendimento_colab.ipynb` | professor (num ambiente `uv` separado) → dados → treino desde a base 6a com substituição → régua |
+
+**Sem o professor** (conferido aqui): 760 falas minhas no treino, 113 no dev, 227 no blind. **Com professor falso no
+ensaio de CPU**, a cadeia inteira rodou (pedidos, leitura, filtro de saúde, conferência, arquivo com origem, gerar_v7,
+manifesto); o número real de falas do professor só sai no Colab.
+
+**Regras do professor (AGENTS.md):** Qwen3 (Apache 2.0), escolhido o maior que couber; pesos só no disco do Colab;
+`CRIVO/dados-professor-v7/` com modelo, revisão, data e licença em cada linha; nunca chamado de humano; respostas do CRIVO
+nunca vêm dele; a fração do treino de conversa vinda dele vai para o resumo (`professor_fracao_exposicoes`).
+
+**Critérios:** os mesmos do v6b/v6c, sem mudança (blind v3 com IC > 0 nas duas rodadas; v1, paráfrases, Grok e v4 ≥ −1,5;
+frases reais ≥ 12/15; "usa o fato" ≥ 0,85; urgência sem piorar). O blind v7 (falas novas minhas e do professor) é mostrado,
+não decide.
+
+**Limites declarados antes:** a conferência de rótulo é do próprio professor (não é humana); as falas do professor têm o
+jeito dele; as correções do v6b/v6c foram guiadas por erros nos blinds antigos (o filtro de parecença impede cópia).
