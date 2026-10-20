@@ -187,3 +187,7 @@ ajuda_socorro, ansioso_peito e saude_geral também com peso igual; identidade en
 
 **Critérios:** os mesmos, sem mudança. Limite: as correções de saúde foram motivadas pelo resultado do v7; as falas vêm
 das categorias do crise.py, e o filtro de parecença (≥ 0,7) impede cópia das frases de teste.
+
+**Resultado da rodada 1 (`RESULTADO_V7B_RODADA1.md`): reprovado em 3 de 5.** Blind v3 +5,8 (igual ao v7), urgência 97
+contra 102 (v7: 79), blind v4 −1,7 (todo vindo de `reciproco`: as falas de identidade entraram sem substituir e puxaram o
+"e você?"), frases reais 11/15. A rodada 2 não muda a reprovação.
