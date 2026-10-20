@@ -21,14 +21,18 @@ import kotlin.concurrent.thread
  * scripts/empacotar_apk.py: código, conhecimento e pesos próprios) para uma pasta do aparelho.
  * Depois sobe, com o Python do Chaquopy, o mesmo servidor de web_local.py em 127.0.0.1
  * (android/app/src/main/python/crivo_app.py) e mostra a mesma página do site.
+ *
+ * Com a página aberta, o Atualizador confere se há versão nova do app (a única coisa que usa a internet).
  */
 class MainActivity : Activity() {
     private lateinit var web: WebView
+    private lateinit var atualizador: Atualizador
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         web = WebView(this)
         setContentView(web)
+        atualizador = Atualizador(this)
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true
         web.settings.cacheMode = WebSettings.LOAD_NO_CACHE
@@ -45,7 +49,10 @@ class MainActivity : Activity() {
         thread(name = "crivo-inicio") {
             val resultado = runCatching { iniciar() }
             runOnUiThread {
-                resultado.onSuccess { porta -> web.loadUrl("http://127.0.0.1:$porta/") }
+                resultado.onSuccess { porta ->
+                    web.loadUrl("http://127.0.0.1:$porta/")
+                    atualizador.verificar(abrindo = true)
+                }
                 resultado.onFailure { erro -> mostrarErro(erro) }
             }
         }
@@ -97,6 +104,12 @@ class MainActivity : Activity() {
             <p>Feche e abra o app de novo. Se continuar, mande um print desta tela.</p>
             <pre style="white-space:pre-wrap;color:#B9B2E6">$texto</pre></body></html>"""
         web.loadDataWithBaseURL(null, html, "text/html", "utf-8", null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        atualizador.retomar()      // voltou da permissão "instalar apps desta fonte"
+        atualizador.verificar()    // app aberto há muito tempo: confere no máximo a cada 6 h
     }
 
     @Deprecated("Usa o voltar do WebView quando há página anterior.")
