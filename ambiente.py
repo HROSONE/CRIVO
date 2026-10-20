@@ -33,6 +33,7 @@ class Fio:
         self.idade_pergunta = 0
         self.anterior = None          # a última resposta do CRIVO, inteira
         self.fala_anterior = None     # a última fala da pessoa, dita por inteiro
+        self.ident_anterior = None    # de onde veio a última resposta
         self.tarefa = None            # {"tipo": "correcao", "original", "corrigido", "trocadas"}
         self.ato = None               # o ato do turno corrente
         self.exigido = None           # o que a resposta do turno tem que dizer (a palavra corrigida)
@@ -52,6 +53,7 @@ class Fio:
                 self.ultima_pergunta = None
         self.anterior = resposta
         self.fala_anterior = fala
+        self.ident_anterior = ident
         correcao = getattr(bot, "ultima_correcao_texto", None)
         if ident == "texto:correcao" and correcao:
             self.tarefa = {"tipo": "correcao", "original": correcao["original"], "corrigido": correcao["corrigido"],
@@ -76,7 +78,9 @@ def completar(fio, fala):
     # "O que são primatas?" → "E o símio?": a mesma pergunta, sobre o outro assunto.
     m = _E_O.match(fala.strip())
     anterior = getattr(fio, "fala_anterior", None)
-    if m and anterior and _PERGUNTA_O_QUE.match(normalizar(anterior)) and len(m.group("x").split()) <= 4:
+    # Só depois da enciclopédia ou de um "não sei": o acervo já resolve "E a Lua?" depois de "O que é o Sol?".
+    de_fora = str(getattr(fio, "ident_anterior", "") or "").startswith(("enciclopedia:", "fora", "duvida"))
+    if m and anterior and de_fora and _PERGUNTA_O_QUE.match(normalizar(anterior)) and len(m.group("x").split()) <= 4:
         quem = normalizar(anterior).startswith("quem")
         return ("Quem é %s?" if quem else "O que é %s?") % m.group("x").strip()
     if not fio.ultima_pergunta or fio.idade_pergunta:
