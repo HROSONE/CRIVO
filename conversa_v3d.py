@@ -621,7 +621,7 @@ def aplicar(bot, fala, ident, resposta, modelo):
                 escolhida = (podado, terminou or podado != texto, falhas, juiz)
                 trace["podada"] = True
                 break
-    if escolhida is not None and not escolhida[1] and len(escolhida[0]) < 40:
+    if escolhida is not None and not escolhida[1] and len(escolhida[0]) < 6:
         # Cortada pelo prazo antes de dizer alguma coisa ("O…"): o texto de sempre diz mais.
         trace.update(usada=False, conferida=False, motivo="cortada pelo prazo: " + repr(escolhida[0]))
         return ident, resposta, trace
