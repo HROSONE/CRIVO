@@ -93,7 +93,7 @@ _RECLAMA_RESULTADO = re.compile(
     r"corre[cç][aã]o|cert[ao]|corrigid[ao])\b|\b(?:continua|ta|esta|ficou) (?:errad[ao]|igual)\b")
 _O_QUE = re.compile(
     r"^(?:(?:voce )?(?:quer|queria) saber (?:o que|o que exatamente|do que|sobre o que)|o que (?:voce )?(?:quer|queria) "
-    r"saber|(?:voce )?perguntou o que|como assim|o que)\s*\??$")
+    r"saber|(?:voce )?perguntou o que)\s*\??$")
 _SIM_NAO_INICIO = re.compile(
     r"^(?:voce|vc|tu|o crivo)\s+(?!(?:sabe|sabia)\s+(?:o que|quem|onde|quando|como|qual|por que|quanto))\w+")
 _INTERROGATIVA = re.compile(r"\b(?:o que|quem|onde|quando|como|qual|quais|por que|porque|quanto|quantos|quantas)\b|"
