@@ -11,7 +11,12 @@ Fica de fora: desambiguação, listas e anexos, títulos que são só datas, ver
 de 40 a 230 caracteres no começo. Ficam os N verbetes mais longos (o tamanho do texto mede, de modo
 grosseiro, quanto o assunto importa).
 
-Uso (no Colab): python scripts/construir_enciclopedia.py parte1.parquet ... --saida pasta [--n 120000]
+Arquivo (versão 3): enciclopedia_pt.v3.gz, texto UTF-8 em linhas: um cabeçalho JSON; n linhas
+"título<TAB>começo do verbete"; e as chaves de busca ("título sem acento<TAB>índice") em ordem de bytes.
+O CRIVO lê o arquivo aberto como um bloco só e acha a chave por busca binária (enciclopedia.py): 300 mil
+verbetes cabem em uns 80 MB de memória, onde o JSON da versão 2 passava de 500 MB.
+
+Uso: python scripts/construir_enciclopedia.py parte1.parquet ... --saida pasta [--n 300000]
 """
 import argparse
 import gzip
@@ -22,7 +27,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-VERSAO = 2
+VERSAO = 3
 MIN_LEAD, MAX_LEAD = 40, 300
 CURTA = 230   # cabe no contexto do modelo; mais longa, o CRIVO mostra o texto sem o modelo reescrever
 FORA_TITULO = re.compile(r"^(?:lista|anexo|predefinição|categoria|portal|wikipédia|ajuda|ficheiro|arquivo)\b|desambiguação"
@@ -88,7 +93,7 @@ def lead(titulo, texto):
     return saida
 
 
-def construir(artigos, n=120_000):
+def construir(artigos, n=300_000):
     """artigos: iterável de (titulo, texto). Devolve o dicionário da enciclopédia."""
     melhores, k = [], 0
     for titulo, texto in artigos:
@@ -125,17 +130,26 @@ def ler_parquets(caminhos):
 def salvar(enc, saida):
     saida = Path(saida)
     saida.mkdir(parents=True, exist_ok=True)
-    bruto = json.dumps(enc, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    with gzip.GzipFile(saida / "enciclopedia_pt.json.gz", "wb", mtime=0, compresslevel=9) as f:
-        f.write(bruto)
-    return hashlib.sha256((saida / "enciclopedia_pt.json.gz").read_bytes()).hexdigest()
+    cab = {k: enc[k] for k in ("versao", "fonte", "licenca", "n")}
+    cab["chaves"] = len(enc["chaves"])
+    linhas = [json.dumps(cab, ensure_ascii=False)]
+    for t, f in zip(enc["titulos"], enc["leads"]):
+        if any(c in t + f for c in "\t\n"):
+            raise ValueError("verbete com tabulação ou quebra de linha: %r" % t)
+        linhas.append(t + "\t" + f)
+    chaves = sorted(enc["chaves"].items(), key=lambda kv: kv[0].encode("utf-8"))
+    linhas += ["%s\t%d" % kv for kv in chaves]
+    arquivo = saida / "enciclopedia_pt.v3.gz"
+    with gzip.GzipFile(arquivo, "wb", mtime=0, compresslevel=9) as f:
+        f.write("\n".join(linhas).encode("utf-8"))
+    return hashlib.sha256(arquivo.read_bytes()).hexdigest()
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("parquets", nargs="+")
     ap.add_argument("--saida", required=True)
-    ap.add_argument("--n", type=int, default=120_000)
+    ap.add_argument("--n", type=int, default=300_000)
     a = ap.parse_args()
     enc = construir(ler_parquets(a.parquets), a.n)
     sha = salvar(enc, a.saida)
