@@ -20,7 +20,7 @@ from pathlib import Path
 
 PASTA = Path(__file__).resolve().parent / "artefatos" / "enciclopedia_pt"
 ARQUIVO = PASTA / "enciclopedia_pt.v3.gz"
-SHA256 = "fbd71178802527deb718e95843974092e7227517a03d7f7aa2f4f03683b7f93c"   # v3: 300 mil verbetes da mesma Wikipédia (20231101.pt)
+SHA256 = "f2803ea5efdcbbe4124bdbfb04a4e54b6afc7c6f96bb9078a2f78b5d0284dbca"   # v3: 300 mil verbetes da mesma Wikipédia (20231101.pt)
 IDENT = "enciclopedia:wikipedia"
 
 _ARTIGO = r"(?:(?:o|a|os|as|um|uma|uns|umas)\s+)?"
@@ -70,11 +70,17 @@ class _Enciclopedia:
     """O arquivo aberto como um bloco de bytes, com o começo de cada linha num vetor."""
 
     def __init__(self, bruto):
-        import numpy as np
         self.bloco = gzip.decompress(bruto)
-        fins = np.flatnonzero(np.frombuffer(self.bloco, dtype=np.uint8) == 10)
-        self.inicios = np.concatenate([[0], fins + 1]).astype(np.int64)
-        self.fins = np.concatenate([fins, [len(self.bloco)]]).astype(np.int64)
+        try:
+            import numpy as np
+            fins = np.flatnonzero(np.frombuffer(self.bloco, dtype=np.uint8) == 10)
+            self.inicios = np.concatenate([[0], fins + 1]).astype(np.int64)
+            self.fins = np.concatenate([fins, [len(self.bloco)]]).astype(np.int64)
+        except ImportError:   # sem NumPy (o site sempre tem; alguns testes do CI não): a biblioteca padrão
+            from array import array
+            fins = array("q", (m.start() for m in re.finditer(b"\n", self.bloco)))
+            self.inicios = array("q", [0]) + array("q", (f + 1 for f in fins))
+            self.fins = fins + array("q", [len(self.bloco)])
         cab = json.loads(self.linha(0))
         if cab.get("versao") != 3 or len(self.inicios) != 1 + cab["n"] + cab["chaves"]:
             raise ValueError("enciclopédia em formato desconhecido")
