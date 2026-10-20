@@ -77,6 +77,22 @@ class MotorNativo(unittest.TestCase):
         finally:
             os.environ.pop("CRIVO_MOTOR_NATIVO", None)
 
+    def test_abertura_que_derrubou_o_app_nao_se_repete(self):
+        # Um erro no código nativo derruba o processo: a marca da abertura anterior faz o CRIVO seguir no NumPy.
+        pasta = Path(self.tmp) / "marca"
+        pasta.mkdir()
+        npz = pasta / "pesos_numpy.npz"
+        npz.symlink_to(conversa_v3d.PASTA_46M / "pesos_numpy.npz")
+        os.environ["CRIVO_MOTOR_NATIVO"] = str(self.lib)
+        try:
+            (pasta / "motor_nativo_abrindo").write_text("abrindo")
+            self.assertIsNone(motor_nativo.carregar(npz, conversa_v3d.NPZ_SHA256_46M))
+            (pasta / "motor_nativo_abrindo").unlink()
+            self.assertIsNotNone(motor_nativo.carregar(npz, conversa_v3d.NPZ_SHA256_46M))
+            self.assertFalse((pasta / "motor_nativo_abrindo").exists())
+        finally:
+            os.environ.pop("CRIVO_MOTOR_NATIVO", None)
+
 
 if __name__ == "__main__":
     unittest.main()
