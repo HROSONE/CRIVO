@@ -1,6 +1,13 @@
-"""Voz da conversa: o 46M da fase 6b v4 responde no chat (a v4 F, 17M, fica de reserva).
+"""Voz da conversa: o 46M v7c responde no chat (a v4 F, 17M, fica de reserva).
 
-14/10/2026, decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conhecimento". O 46M
+20/10/2026, decisão do criador: "Coloca no chat as melhores a gente faz pra depois". O v7c (mesma arquitetura e
+mesmo tokenizador do 46M da 6b v4, treinado desde a base 6a com falas novas da pessoa, ~5% delas do professor) passou
+nos 5 critérios fixados nas DUAS rodadas contra o 46M da 6b v4, nas mesmas frases: blind v3 +6,3/+6,4 pontos, v1
++9,0/+7,4, paráfrases +5,2/+8,2, Grok +2,5/+1,0, v4 −1,5/−0,2; urgência 118/117 contra 102; frases reais 12 e 13/15
+(experimentos/v6_entendimento_20261019/RESULTADO_V7C_RODADA2.md). Limites registrados: identidade abaixo do 46M
+anterior, "tô bem" e "você é um robô" caem mais de 10 pontos. Os pesos da 6b v4 ficaram no histórico do git.
+
+Antes, 14/10/2026, decisão do criador: "Pode colocar no chat. ai depois voce aumenta o conhecimento". O 46M
 (fase 6a + 6b v4, SHA 45825352…) EMPATA com a v4 F na régua de sentido e não a supera: blind v3
 65,7% (F 63,5%), Grok 73,2% (F 70,9%), v4 92,3% (F 92,2%), v1 65,3% (F 69,8%), paráfrases 73,7%
 (F 76,2%), frases reais do criador 12/15 (F 14/15). Entrou em teste, não aprovado
@@ -66,12 +73,14 @@ TENTATIVAS = 3
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
 MAX_PARES = 6
 
-# O 46M da fase 6b v4: int8 por linha (scripts/quantizar_q8.py) do npz float16 f3faffb9…, exportado
-# de pesos.pt com conferência NumPy × PyTorch (notebooks/exportar_46m_v4_numpy_colab.ipynb: top-1
-# igual em 98,2% dos tokens no int8, 100% no float16).
-PASTA_46M = RAIZ / "artefatos" / "conversa46m_v4_pt"
-PESOS_SHA256_46M = "458253529e07604a5438ee772fde110e3dc9569604d740ee91990e219408651a"
-NPZ_SHA256_46M = "0b6b398f868aed464dafe4fa11245b981540a3dce3aa6aaf4f38c6be948e8128"
+# O 46M v7c (rodada 2, experimentos/v6_entendimento_20261019/RESULTADO_V7C_RODADA2.md): int8 por linha
+# (scripts/quantizar_q8.py) do npz float16 2407a1b9…, exportado de pesos.pt com conferência NumPy × PyTorch
+# (notebooks/exportar_46m_v7c_numpy_colab.ipynb: top-1 igual em 98,7% dos tokens no int8, 100% no float16).
+# Mesmo tokenizador e mesmo formato_fase6.py do 46M da 6b v4, que ficou no histórico do git
+# (artefatos/conversa46m_v4_pt, pesos 45825352…, npz 0b6b398f…).
+PASTA_46M = RAIZ / "artefatos" / "conversa46m_v7c_pt"
+PESOS_SHA256_46M = "e4067e3b4c9705fde0a2063cc7a0da958ebad196ca193a672f75a1a10cbfda0a"
+NPZ_SHA256_46M = "ab47d74ba136b38ac716e50dd7354ada568c9020be0fedd802197d9514f1aad2"
 FORMATO6_SHA256 = "114e2c1f1287a9939636ee13c8e0b77d22c549a2cb25711a4c5f343fc26b7e2b"
 # "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
 QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
@@ -84,10 +93,15 @@ MAX_PARES_46M = 12
 PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: uma tentativa, até 2 s
 PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
 
-DECISAO_46M = {"data": "2026-10-14", "modelo": "fase6b_v4_46m", "decisao": "ligar no chat em teste por decisão do criador",
-               "frase": "Pode colocar no chat. ai depois voce aumenta o conhecimento", "aprovada": False,
-               "regua": "empate com a v4 F: v3 0,657 (F 0,635), grok 0,732 (F 0,709), v4 0,923 (F 0,922), "
-                        "v1 0,653 (F 0,698), paráfrases 0,737 (F 0,762), frases reais 12/15 (F 14/15)",
+DECISAO_46M = {"data": "2026-10-20", "modelo": "v7c_46m", "decisao": "ligar no chat por decisão do criador",
+               "frase": "Coloca no chat as melhores a gente faz pra depois", "aprovada": True,
+               "regua": "passou nos 5 critérios fixados nas duas rodadas, contra o 46M da 6b v4 nas mesmas frases: "
+                        "v3 +6,3/+6,4, v1 +9,0/+7,4, paráfrases +5,2/+8,2, grok +2,5/+1,0, v4 −1,5/−0,2 pontos; "
+                        "urgência 118/117 contra 102; frases reais 12 e 13/15; usa o fato 0,95 e 0,85",
+               "limites": "identidade abaixo do 46M anterior (−3,5 a −4,4 pontos); estou_bem e robo caem mais de 10; "
+                          "'legal e voce?' ainda vira pergunta de identidade",
+               "professor": "~5% das exposições de conversa vieram de falas da pessoa escritas pelo professor "
+                            "(Qwen3-32B-AWQ, Apache 2.0); respostas das listas do projeto",
                "a_mais": "lembranças da memória do aparelho, identidade do IDENTIDADE.md, contexto de 1024 tokens",
                "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase",
                "reserva": "CRIVO_CONVERSA=f volta para a v4 F"}
@@ -224,9 +238,9 @@ def formato6():
 
 
 class Conversa46mNumpy(ConversaNumpy):
-    """O 46M da fase 6b v4 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
+    """O 46M v7c em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
-    nome = "fase6b_v4_46m"
+    nome = "v7c_46m"
     decisao = DECISAO_46M
     max_pares = MAX_PARES_46M
 
@@ -241,7 +255,7 @@ class Conversa46mNumpy(ConversaNumpy):
         pesos = np.load(npz)
         meta = json.loads(str(pesos["meta"]))
         if meta.get("origem_sha256") != PESOS_SHA256_46M:
-            raise RuntimeError("npz não foi exportado do pesos.pt da 6b v4")
+            raise RuntimeError("npz não foi exportado do pesos.pt do v7c")
         self.np = np
         self.p = {}
         for k in pesos.files:
@@ -267,7 +281,7 @@ class Conversa46mNumpy(ConversaNumpy):
         return ids
 
     def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
-        """(texto, terminou): gulosa com o freio de repetição da prova da 6b v4.
+        """(texto, terminou): gulosa com o freio de repetição da prova da 6b v4 (o mesmo na prova do v7c).
 
         primeiro=k começa pela (k+1)-ésima palavra mais provável (nova tentativa depois de uma frase reprovada)."""
         import time
@@ -444,7 +458,9 @@ def aplicar(bot, fala, ident, resposta, modelo):
     """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre."""
     trace = {"ligada": modelo is not None, "usada": False, "motivo": None,
              "modelo": getattr(modelo, "nome", "fase5_v4_F"),
-             "decisao": "criador; 46M em teste, empata com a v4 F" if getattr(modelo, "formato6", False) else "criador; v4 F reprovada"}
+             "decisao": "criador; 46M v7c, aprovado na régua própria nas duas rodadas" if getattr(modelo, "formato6", False)
+                        else "criador; v4 F reprovada",
+             "aprovada": bool((getattr(modelo, "decisao", None) or {}).get("aprovada"))}
     if modelo is None:
         trace["motivo"] = "desligada"
         return ident, resposta, trace

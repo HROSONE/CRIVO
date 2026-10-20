@@ -35,8 +35,11 @@ class Travas(unittest.TestCase):
 
     def test_registro_honesto(self):
         st = conversa_v3d.status()
-        self.assertFalse(st["decisao"]["aprovada"])
-        self.assertIn("empate", st["decisao"]["regua"])          # 46M: empata com a v4 F, não supera
+        # 46M v7c: aprovado na régua própria nas duas rodadas, com as perdas e a parte do professor registradas
+        self.assertTrue(st["decisao"]["aprovada"])
+        self.assertIn("duas rodadas", st["decisao"]["regua"])
+        self.assertIn("identidade", st["decisao"]["limites"])
+        self.assertIn("professor", st["decisao"]["professor"])
         self.assertIn("reprovada", st["decisao_f"]["catraca"])
         self.assertFalse(st["external_ai"])
 
@@ -157,7 +160,7 @@ class Conferencia(unittest.TestCase):
 class PesosDoSite(unittest.TestCase):
     def test_o_46m_e_o_do_site(self):
         modelo = conversa_v3d.numpy_do_site()
-        self.assertEqual(getattr(modelo, "nome", None), "fase6b_v4_46m", "pesos do 46M ausentes ou com SHA diferente")
+        self.assertEqual(getattr(modelo, "nome", None), "v7c_46m", "pesos do 46M ausentes ou com SHA diferente")
         self.assertEqual((modelo.camadas, modelo.contexto), (24, 1024))
 
     def test_46m_lembra_o_que_a_pessoa_contou(self):
@@ -173,14 +176,15 @@ class PesosDoSite(unittest.TestCase):
         bot.responder("oi")
         self.assertTrue(bot.ultima_conversa_v3d["usada"], bot.ultima_conversa_v3d)
 
-    def test_site_liga_e_mostra_que_nao_foi_aprovada(self):
+    def test_site_liga_e_mostra_a_aprovacao_da_regua(self):
         from web_core import responder_web
         with mock.patch.dict(os.environ, {}):
             os.environ.pop("CRIVO_DISABLE_CONVERSA_V3D", None)
             # "oi" tem quadro da fase 3 (saudar) e fica com ela; risada não tem.
             r = responder_web({"message": "kkkkk"}, voz_17m=True)
         self.assertTrue(r["conversation_voice"]["used"], r["conversation_voice"])
-        self.assertFalse(r["conversation_voice"]["approved"])
+        # O 46M v7c passou na régua própria nas duas rodadas; a v4 F de reserva não passou.
+        self.assertEqual(r["conversation_voice"]["approved"], r["conversation_voice"]["model"] == "v7c_46m")
 
     def test_site_le_a_conversa_como_a_pessoa_viu(self):
         # O site refaz o histórico; os últimos turnos voltam com a voz, como a pessoa viu.
