@@ -53,22 +53,32 @@ jobs:
           python experimentos/contexto_pratico_20261010/sondar.py --modo http --saida /tmp/pratico-http.json
           python experimentos/contexto_pratico_20261010/avaliar.py --arquivo /tmp/pratico-http.json --saida /tmp/pratico-metricas.json --exigir-meta
       - name: Diversidade sem trocar argumentos nos mesmos 48 turnos por HTTP
+        env:
+          CRIVO_VOZ_46M: '0'   # sondas congeladas medem os executores determinísticos
         run: |
           python experimentos/diversidade_dialogo_20261010/sondar.py --modo http --saida /tmp/diversidade-http.json
           python experimentos/diversidade_dialogo_20261010/avaliar.py --arquivo /tmp/diversidade-http.json --saida /tmp/diversidade-metricas.json --exigir-meta
       - name: Continuidade e esclarecimento nos mesmos 88 turnos por HTTP
+        env:
+          CRIVO_VOZ_46M: '0'   # sondas congeladas medem os executores determinísticos
         run: |
           python experimentos/continuidade_causal_20261010/sondar.py --modo http --saida /tmp/causal-http.json
           python experimentos/continuidade_causal_20261010/avaliar.py --arquivo /tmp/causal-http.json --saida /tmp/causal-metricas.json --exigir-meta
       - name: Três estados encadeados em conversas de dezoito turnos
+        env:
+          CRIVO_VOZ_46M: '0'   # sondas congeladas medem os executores determinísticos
         run: |
           python experimentos/continuidade_causal_20261010/sondar.py --modo http --novas --saida /tmp/folego-http.json
           python experimentos/continuidade_causal_20261010/avaliar_folego.py --arquivo /tmp/folego-http.json --saida /tmp/folego-metricas.json --exigir-meta
       - name: Continuação comum usa o mesmo acontecimento em 24 turnos HTTP
+        env:
+          CRIVO_VOZ_46M: '0'   # sondas congeladas medem os executores determinísticos
         run: |
           python experimentos/continuidade_causal_20261010/sondar.py --modo http --aliases --saida /tmp/aliases-http.json
           python experimentos/continuidade_causal_20261010/avaliar_aliases.py --arquivo /tmp/aliases-http.json --saida /tmp/aliases-metricas.json --exigir-meta
       - name: Referências e correções nos mesmos 52 turnos por HTTP
+        env:
+          CRIVO_VOZ_46M: '0'   # sondas congeladas medem os executores determinísticos
         run: |
           python experimentos/referentes_escrita_20261010/sondar.py --modo http --saida /tmp/referentes-http.json
           python experimentos/referentes_escrita_20261010/avaliar.py --arquivo /tmp/referentes-http.json --saida /tmp/referentes-metricas.json --exigir-meta
