@@ -47,6 +47,8 @@ jobs:
           python experimentos/escrita_acontecimentos_20261010/avaliar.py --modo motor --saida /tmp/dialogo-congelado.json --so-congelado --exigir-meta
           python experimentos/diversidade_dialogo_20261010/verificar_114.py --arquivo /tmp/dialogo-congelado.json
       - name: Utilidade prática nos mesmos 40 turnos por HTTP real
+        env:
+          CRIVO_VOZ_46M: '0'   # a voz reescreve respostas determinísticas (sondar.py é congelado)
         run: |
           python experimentos/contexto_pratico_20261010/sondar.py --modo http --saida /tmp/pratico-http.json
           python experimentos/contexto_pratico_20261010/avaliar.py --arquivo /tmp/pratico-http.json --saida /tmp/pratico-metricas.json --exigir-meta
