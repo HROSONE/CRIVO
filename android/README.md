@@ -34,6 +34,16 @@ Código: `app/src/main/java/br/crivo/app/Atualizador.kt` e `InstalacaoRecebedor.
 
 Ainda dá para atualizar à mão: baixe o `CRIVO.apk` novo e instale por cima.
 
+**Configurações** (menu da página, deslizando da esquerda para a direita ou no ☰ → "Configurações do app"):
+- a versão instalada e a última verificação;
+- ligar ou desligar a busca automática;
+- **Procurar atualização agora**, que responde mesmo sem novidade ("Você já tem a versão mais recente").
+
+## Tela
+
+Desde o Android 15, o app ocupa a tela toda. A página fica dentro das margens da barra de status, da barra de navegação
+e do teclado, no mesmo fundo escuro, em todas as versões do Android. O botão voltar fecha o menu antes de sair.
+
 ## Como é montado
 
 - `scripts/empacotar_apk.py` junta os mesmos arquivos que a Vercel leva (`vercel.json` →
