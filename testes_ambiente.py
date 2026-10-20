@@ -4,6 +4,7 @@ Conversa real do criador (19/10/2026): "Corrija esta palavra: Palarerepípedo" p
 "Me mande a palavra corrigida" virou "Corrigir / Agradecer", "Quer saber o quê?" virou "Oi, oi!" e
 "O meu é Henrique" virou "Fico feliz que você me contou sobre seu pai"."""
 import unittest
+from unittest import mock
 
 import ambiente
 import conversa_v3d
@@ -133,12 +134,14 @@ class PesosDoSite(unittest.TestCase):
     def test_prompt_lido_uma_vez_da_o_mesmo_texto(self):
         modelo = conversa_v3d.numpy_do_site()
         ctx = {"quem": conversa_v3d.QUEM}
-        modelo._prefixo = None
-        frases = [modelo.conversar(ctx, [], "Oi, tudo bem?", primeiro=k) for k in range(3)]
-        for k in range(3):
+        # Sem o prazo do site: numa máquina ocupada ele corta a frase, e o teste é sobre as palavras.
+        with mock.patch.object(modelo, "prazo", None):
             modelo._prefixo = None
-            self.assertEqual(modelo.conversar(ctx, [], "Oi, tudo bem?", primeiro=k), frases[k])
-        texto, _ = modelo.conversar(ctx, [], "Você me entende?", comecos=["Sim", "Não"])
+            frases = [modelo.conversar(ctx, [], "Oi, tudo bem?", primeiro=k) for k in range(3)]
+            for k in range(3):
+                modelo._prefixo = None
+                self.assertEqual(modelo.conversar(ctx, [], "Oi, tudo bem?", primeiro=k), frases[k])
+            texto, _ = modelo.conversar(ctx, [], "Você me entende?", comecos=["Sim", "Não"])
         self.assertTrue(texto.startswith(("Sim", "Não")))
 
 
