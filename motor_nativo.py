@@ -5,7 +5,8 @@ O motor faz a mesma conta do NumPy (conversa_v3d.Conversa46mNumpy._passo), mas g
 CRIVO: o arquivo do motor é feito aqui, uma vez, a partir do pesos_numpy.npz que o conversa_v3d já conferiu pelo SHA.
 
 Liga quando CRIVO_MOTOR_NATIVO aponta para a biblioteca (o app faz isso; o site e o PC seguem no NumPy). Qualquer
-falha (biblioteca ausente, arquivo que não bate) devolve None, e quem chamou continua no NumPy.
+falha (biblioteca ausente, arquivo que não bate) devolve None, e quem chamou continua no NumPy; uma abertura que
+derrubou o processo deixa uma marca, e o motor não é aberto de novo (carregar).
 """
 import ctypes
 import os
@@ -93,11 +94,25 @@ def carregar(npz, npz_sha256):
     # Caminho completo, ou só o nome (no Android, a biblioteca pode estar dentro do APK, sem arquivo extraído).
     if not biblioteca or ("/" in biblioteca and not Path(biblioteca).is_file()):
         return None
+    arquivo = Path(npz).with_name("pesos_motor_%s.bin" % npz_sha256[:16])
+    # Um erro dentro do código nativo não vira exceção: derruba o processo inteiro (no celular, o app fecha
+    # ao abrir, toda vez). Antes de abrir o motor fica uma marca; se ela ainda estiver aqui na próxima vez,
+    # a abertura anterior morreu no meio, e o CRIVO segue no NumPy daqui em diante.
+    marca = arquivo.with_name("motor_nativo_abrindo")
+    if marca.exists():
+        print("motor_nativo: a última abertura do motor não terminou; segue no NumPy", flush=True)
+        return None
     try:
-        arquivo = Path(npz).with_name("pesos_motor_%s.bin" % npz_sha256[:16])
+        marca.write_text("abrindo")
+    except OSError:
+        return None
+    try:
         if not arquivo.is_file():
             exportar(npz, arquivo)
-        return MotorNativo(biblioteca, arquivo)
+        motor = MotorNativo(biblioteca, arquivo)
+        motor.avancar([0], 0)   # uma conta de verdade, ainda com a marca: se o motor quebra, quebra aqui
     except Exception as erro:
         print("motor_nativo: segue no NumPy:", type(erro).__name__, erro, flush=True)
-        return None
+        motor = None
+    marca.unlink()
+    return motor
