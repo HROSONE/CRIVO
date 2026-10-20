@@ -79,6 +79,23 @@ jobs:
           cp android/app/build/outputs/apk/release/app-release.apk CRIVO.apk
           sha256sum CRIVO.apk | tee CRIVO.apk.sha256
           ls -la CRIVO.apk
+      # A atualização automática do app lê este arquivo no release (android/app/.../Atualizador.kt).
+      - name: Versão para a atualização automática
+        env:
+          CODIGO: ${{ github.run_number }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          CERT=$("$BT/apksigner" verify --print-certs CRIVO.apk | grep -m1 'certificate SHA-256 digest' | awk '{print $NF}')
+          test -n "$CERT"
+          python3 - "$CERT" <<'PY'
+          import hashlib, json, os, sys
+          apk = open("CRIVO.apk", "rb").read()
+          v = {"versionCode": int(os.environ["CODIGO"]), "versionName": "1.0." + os.environ["CODIGO"], "apk": "CRIVO.apk",
+               "sha256": hashlib.sha256(apk).hexdigest(), "tamanho": len(apk), "assinatura_sha256": sys.argv[1].lower(),
+               "commit": os.environ["GITHUB_SHA"]}
+          open("versao.json", "w").write(json.dumps(v, indent=1) + "\n")
+          print(json.dumps(v, indent=1))
+          PY
       - name: Ligar a aceleração do emulador (KVM)
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -102,6 +119,7 @@ jobs:
           path: |
             CRIVO.apk
             CRIVO.apk.sha256
+            versao.json
             tela_*.png
             logcat.txt
       - name: Publicar no release android-latest
@@ -110,6 +128,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete android-latest --yes --cleanup-tag || true
-          gh release create android-latest CRIVO.apk CRIVO.apk.sha256 --prerelease --target "$GITHUB_SHA" \
+          gh release create android-latest CRIVO.apk CRIVO.apk.sha256 versao.json --prerelease --target "$GITHUB_SHA" \
             --title "CRIVO para Android (offline) — build ${{ github.run_number }}" \
             --notes "Funciona sem internet: Python, NumPy e os pesos próprios do CRIVO rodam no aparelho, com a mesma página do site. Commit $GITHUB_SHA. Conferir: o SHA-256 está em CRIVO.apk.sha256."
