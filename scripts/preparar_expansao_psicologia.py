@@ -15,7 +15,7 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INPUTS = sorted(ROOT.glob("conhecimento_psicologia_cognitiva_neurociencia_v[0-9]*.json"))
+INPUTS = sorted((ROOT / "docs" / "rascunhos_psicologia_20261015").glob("conhecimento_psicologia_cognitiva_neurociencia_v[0-9]*.json"))
 ROLE_MAP = {
     "definicao": "definicao",
     "explicacao": "detalhe", "mecanismo": "causa", "causa": "causa",

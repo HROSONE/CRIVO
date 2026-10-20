@@ -52,7 +52,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
                         metadata = self.curriculo['fontes'][fonte]
-                        tipos = ('institucional_religiosa',) if fato['natureza'] == 'religioso' else ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico')
+                        tipos = ('institucional_religiosa',) if fato['natureza'] == 'religioso' else ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico', 'enciclopedia_aberta')
                         self.assertIn(metadata['tipo'], tipos)
                         self.assertTrue(metadata['credito'])
                         self.assertTrue(metadata['direitos_url'].startswith('https://'))

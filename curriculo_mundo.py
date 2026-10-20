@@ -43,7 +43,8 @@ def _ler_curriculo_validando(caminho):
                            "conhecimento_estados_brasil.json", "conhecimento_esporte.json",
                            "conhecimento_historia_complementar.json", "conhecimento_saude_basica.json",
                            "conhecimento_ciencia_cotidiana.json", "conhecimento_cidadania.json",
-                           "conhecimento_cultura.json", "conhecimento_biblia.json"):
+                           "conhecimento_cultura.json", "conhecimento_biblia.json",
+                           "conhecimento_psicologia_neurociencia.json"):
             extra_path = caminho.with_name(extra_nome)
             if not extra_path.is_file():
                 continue
@@ -66,7 +67,7 @@ def _ler_curriculo_validando(caminho):
                 not isinstance(fonte.get("url"), str) or
                 urlparse(fonte["url"]).scheme != "https" or
                 not urlparse(fonte["url"]).netloc or
-                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico", "catalogo_tecnico", "institucional_religiosa") or
+                fonte.get("tipo") not in ("institucional_cientifica", "artigo_cientifico", "catalogo_tecnico", "enciclopedia_aberta", "institucional_religiosa") or
                 type(fonte.get("ano")) is not int or
                 not 1900 <= fonte["ano"] <= 2100 or
                 fonte.get("ano_tipo") not in ("publicacao", "consulta")):
@@ -172,6 +173,7 @@ def ler_curriculo(caminho):
             "conhecimento_historia_complementar.json", "conhecimento_saude_basica.json",
             "conhecimento_ciencia_cotidiana.json", "conhecimento_cidadania.json",
             "conhecimento_cultura.json", "conhecimento_biblia.json",
+            "conhecimento_psicologia_neurociencia.json",
         )
         arquivos.extend(caminho.with_name(n) for n in nomes)
     assinatura = tuple(

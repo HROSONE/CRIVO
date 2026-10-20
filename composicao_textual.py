@@ -208,7 +208,7 @@ class CompositorTextual:
     def _carregar(self, dados, ids_base):
         if (not isinstance(dados, dict) or dados.get("versao") != 1 or
                 not isinstance(dados.get("fontes"), dict) or
-                not isinstance(dados.get("itens"), list) or len(dados["itens"]) > 1000):
+                not isinstance(dados.get("itens"), list) or len(dados["itens"]) > 1500):
             raise ValueError("Currículo textual inválido")
         for ident, fonte in dados["fontes"].items():
             if (not isinstance(fonte, dict) or not isinstance(fonte.get("titulo"), str)

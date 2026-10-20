@@ -14,10 +14,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from curriculo_mundo import NATUREZAS, REUTILIZACOES
 
-FILES = sorted(ROOT.glob("conhecimento_psicologia_cognitiva_neurociencia_v*.json"))
+FILES = sorted((ROOT / "docs" / "rascunhos_psicologia_20261015").glob("conhecimento_psicologia_cognitiva_neurociencia_v*.json"))
 VALID_ROLES = {"definicao", "detalhe", "causa", "exemplo", "limite"}
 VALID_SOURCE_TYPES = {
-    "institucional_cientifica", "artigo_cientifico", "catalogo_tecnico",
+    "institucional_cientifica", "artigo_cientifico", "catalogo_tecnico", "enciclopedia_aberta",
     "institucional_religiosa",
 }
 
