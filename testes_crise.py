@@ -51,12 +51,19 @@ class TestesCrise(unittest.TestCase):
                 ident, resposta = Crivo().responder(fala)
                 self.assertEqual(ident, "crise:saude_urgente")
                 self.assertIn("192", resposta)
+        # Achado de 20/10/2026: passavam direto para o modelo.
+        for fala in ("a criança engoliu remédio", "meu filho engoliu uma pilha", "não consigo pegar ar",
+                     "meu rosto tá inchando e tá difícil respirar", "minha língua tá inchando", "tô com dificuldade pra respirar"):
+            with self.subTest(fala=fala):
+                ident, resposta = Crivo().responder(fala)
+                self.assertEqual(ident, "crise:saude_urgente")
+                self.assertIn("192", resposta)
         for fala in ("socorro", "me socorre", "preciso de ajuda agr"):
             with self.subTest(fala=fala):
                 ident, resposta = Crivo().responder(fala)
                 self.assertEqual(ident, "crise:socorro")
                 self.assertIn("192", resposta)
-        for fala in ("tô com o peito apertado", "meu coração tá disparado", "sinto um aperto no peito"):
+        for fala in ("tô com o peito apertado", "meu coração tá disparado", "sinto um aperto no peito", "tô com o coração na boca"):
             with self.subTest(fala=fala):
                 ident, resposta = Crivo().responder(fala)
                 self.assertEqual(ident, "crise:peito")
@@ -64,7 +71,9 @@ class TestesCrise(unittest.TestCase):
         # Xingamento ("seu falta de ar"), pergunta sobre o assunto e mal-estar passado não são emergência.
         for fala in ("seu falta de ar", "vc é um falta de ar", "o que causa falta de ar?", "o que é dor no peito?",
                      "passei mal ontem depois do almoço", "preciso de ajuda com a lição de matemática pra amanhã",
-                     "o que causa aperto no peito?", "meu coração é seu"):
+                     "o que causa aperto no peito?", "meu coração é seu", "tomei remédio pra dor de cabeça",
+                     "eu engoli o comprimido certinho", "minha garganta tá inflamada", "não consigo pegar o ônibus",
+                     "esse calor tá ruim demais", "o que é difícil de respirar pra um peixe?"):
             with self.subTest(fala=fala):
                 self.assertIsNone(crise.detectar_saude(fala))
 

@@ -113,6 +113,12 @@ _SAUDE_URGENTE = re.compile(
     r"\bdor (?:muito )?(?:forte |intensa |apertada )?no peito\b|\bfalta de ar\b|"
     r"\bnao (?:consigo|to conseguindo|tou conseguindo|estou conseguindo) (?:respirar|puxar o ar)\b|"
     r"\bnao (?:to|tou|estou) conseguindo ar\b|"
+    # Achado de 20/10/2026 (auditoria do v7): estas passavam direto para o modelo.
+    r"\bnao (?:consigo|to conseguindo|tou conseguindo|estou conseguindo) (?:pegar|puxar) (?:o )?ar\b|"
+    r"\b(?:ta|esta|tou|to) (?:muito )?(?:dificil|ruim) (?:de |pra |para )?respirar\b|\bdificuldade (?:de|pra|para) respirar\b|"
+    r"\b(?:lingua|garganta) (?:\w+ )?(?:ta |esta )?(?:inchando|inchad[oa])\b|"
+    r"\bengoliu (?:um |uma |uns |umas )?(?:monte de |varios |varias )?(?:remedio|remedios|comprimido|comprimidos|pilula|pilulas|"
+    r"veneno|pilha|bateria|moeda)\b|"
     r"\bdesmai(?:ei|ou|aram|ando)\b|\bengasgad[oa]\b|\bse engasgou\b|"
     r"\bsangrando muito\b|\bsangramento forte\b|"
     r"\b(?:passou|passando) mal\b|\bconvuls\w*|\bse debatendo\b|"
@@ -129,7 +135,7 @@ _INFORMATIVA = re.compile(
     r"^quais? (?:sao )?(?:a |as )?(?:causa|causas|sintomas)\b|^e normal\b|^como (?:evitar|prevenir|tratar)\b")
 _SOCORRO = re.compile(r"\bsocorr\w*|\bpreciso de ajuda (?:agora|agr|urgente|rapido|ja)\b|\bajuda urgente\b")
 # "tô com o peito apertado": a v4 F errava (respondia como dúvida de saúde comum, sem o 192).
-_PEITO = re.compile(r"\b(?:peito (?:\w+ )?apertado|aperto no peito|aperto forte no peito|"
+_PEITO = re.compile(r"\b(?:peito (?:\w+ )?apertado|aperto no peito|aperto forte no peito|cora[cç]ao na boca|"
                     r"cora[cç]ao (?:\w+ )?(?:disparado|acelerado|batendo muito rapido|batendo forte))\b")
 TEXTOS_SAUDE = {
     "saude_urgente": ("Isso pode ser urgente. Liga agora pro 192 (SAMU) ou vai ao pronto-socorro mais próximo. "
