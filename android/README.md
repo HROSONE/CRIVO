@@ -39,6 +39,24 @@ Ainda dá para atualizar à mão: baixe o `CRIVO.apk` novo e instale por cima.
 - ligar ou desligar a busca automática;
 - **Procurar atualização agora**, que responde mesmo sem novidade ("Você já tem a versão mais recente").
 
+## Motor (C)
+
+A conta do modelo de conversa (o 46M) roda num motor em C (`app/src/main/cpp/motor_crivo.c`), compilado pelo NDK
+junto com o app. Ele faz a mesma conta do NumPy, mas guarda os pesos em int8 na memória e usa até 4 núcleos.
+`motor_nativo.py` faz o arquivo do motor a partir do `pesos_numpy.npz` já conferido pelo SHA (uma vez, no aparelho) e
+chama a biblioteca. A escolha das palavras, o freio de repetição, a conferência e o `crise.py` continuam em Python, e
+nada muda nas respostas.
+
+Medido no PC (Xeon, 4 núcleos), com o 46M v7c:
+- respostas idênticas nas 165 frases conferidas (150 do blind v3 e as 15 frases reais);
+- **4,9 ms por palavra contra 23 ms** no NumPy;
+- **63 MB de RAM contra 198 MB**.
+
+No celular, os números absolutos mudam, mas a proporção deve ser parecida. O motor lê do arquivo o número de camadas,
+a dimensão e o vocabulário, então um CRIVO maior roda nele sem mudar o código. Se a biblioteca não carregar, o app
+segue no NumPy, como antes. O teste do emulador no CI confere que o motor em C respondeu (`testar_apk_emulador.sh`),
+e `testes_motor_nativo.py` compara os dois motores frase por frase.
+
 ## Tela
 
 Desde o Android 15, o app ocupa a tela toda. A página fica dentro das margens da barra de status, da barra de navegação

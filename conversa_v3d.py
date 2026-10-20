@@ -53,6 +53,7 @@ voz_17m); `CRIVO_DISABLE_CONVERSA_V3D=1` desliga. A linha de comando e os testes
 import importlib.util
 import os
 import re
+import threading
 from functools import lru_cache
 from pathlib import Path
 
@@ -258,7 +259,11 @@ class Conversa46mNumpy(ConversaNumpy):
             raise RuntimeError("npz não foi exportado do pesos.pt do v7c")
         self.np = np
         self.p = {}
-        for k in pesos.files:
+        # No app, o motor em C (motor_nativo.py) faz a mesma conta com os pesos em int8 na memória; sem ele, NumPy.
+        import motor_nativo
+        self.motor = motor_nativo.carregar(npz, NPZ_SHA256_46M)
+        self._trava = threading.Lock()   # o motor guarda o cache de uma resposta por vez
+        for k in ([] if self.motor else pesos.files):
             if k == "meta" or k.endswith(".escala"):
                 continue
             if k.endswith(".q8"):
@@ -273,6 +278,12 @@ class Conversa46mNumpy(ConversaNumpy):
         self.prazo = prazo
         formato6()
 
+    def _logits(self, ids, inicio, cache):
+        """Logits da última de `ids` (posições inicio…), pelo motor em C ou pelo NumPy."""
+        if self.motor is not None:
+            return self.motor.avancar(ids, inicio)
+        return self._passo(ids, inicio, cache)[-1] @ self.p["embedding.weight"].T
+
     def prompt_conversa(self, ctx, historico, mensagem):
         """formato_fase6.montar (a mesma função do treino), com o BPE sem a biblioteca tokenizers."""
         turnos = [{"papel": "usuario" if i % 2 == 0 else "assistente", "texto": h} for i, h in enumerate(historico)]
@@ -284,17 +295,21 @@ class Conversa46mNumpy(ConversaNumpy):
         """(texto, terminou): gulosa com o freio de repetição da prova da 6b v4 (o mesmo na prova do v7c).
 
         primeiro=k começa pela (k+1)-ésima palavra mais provável (nova tentativa depois de uma frase reprovada)."""
+        with self._trava:
+            return self._conversar(ctx, historico, mensagem, primeiro, prazo)
+
+    def _conversar(self, ctx, historico, mensagem, primeiro, prazo):
         import time
         np = self.np
         ids = self.prompt_conversa(ctx, historico, mensagem)
         prazo = self.prazo if prazo is None else prazo
         limite = time.monotonic() + prazo if prazo else None
         cache, saida = {}, []
-        estado = self._passo(ids, 0, cache)[-1]
+        prox_lg = self._logits(ids, 0, cache)
         pos = len(ids)
         k = FREIO["sem_repetir_ngrama"] - 1
         for passo in range(min(MAX_NOVOS_46M, self.contexto - len(ids))):
-            lg = estado @ self.p["embedding.weight"].T
+            lg = prox_lg
             lg[self.proibidos] = -1e9
             if saida:
                 vistos = np.array(sorted(set(saida)))
@@ -314,7 +329,7 @@ class Conversa46mNumpy(ConversaNumpy):
             saida.append(nxt)
             if limite is not None and time.monotonic() > limite:
                 break
-            estado = self._passo([nxt], pos, cache)[-1]
+            prox_lg = self._logits([nxt], pos, cache)
             pos += 1
         return self.bpe.decodificar(saida).strip(), False
 
@@ -460,7 +475,8 @@ def aplicar(bot, fala, ident, resposta, modelo):
              "modelo": getattr(modelo, "nome", "fase5_v4_F"),
              "decisao": "criador; 46M v7c, aprovado na régua própria nas duas rodadas" if getattr(modelo, "formato6", False)
                         else "criador; v4 F reprovada",
-             "aprovada": bool((getattr(modelo, "decisao", None) or {}).get("aprovada"))}
+             "aprovada": bool((getattr(modelo, "decisao", None) or {}).get("aprovada")),
+             "motor": "c" if getattr(modelo, "motor", None) is not None else "numpy"}
     if modelo is None:
         trace["motivo"] = "desligada"
         return ident, resposta, trace
