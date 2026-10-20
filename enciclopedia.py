@@ -70,11 +70,17 @@ class _Enciclopedia:
     """O arquivo aberto como um bloco de bytes, com o começo de cada linha num vetor."""
 
     def __init__(self, bruto):
-        import numpy as np
         self.bloco = gzip.decompress(bruto)
-        fins = np.flatnonzero(np.frombuffer(self.bloco, dtype=np.uint8) == 10)
-        self.inicios = np.concatenate([[0], fins + 1]).astype(np.int64)
-        self.fins = np.concatenate([fins, [len(self.bloco)]]).astype(np.int64)
+        try:
+            import numpy as np
+            fins = np.flatnonzero(np.frombuffer(self.bloco, dtype=np.uint8) == 10)
+            self.inicios = np.concatenate([[0], fins + 1]).astype(np.int64)
+            self.fins = np.concatenate([fins, [len(self.bloco)]]).astype(np.int64)
+        except ImportError:   # sem NumPy (o site sempre tem; alguns testes do CI não): a biblioteca padrão
+            from array import array
+            fins = array("q", (m.start() for m in re.finditer(b"\n", self.bloco)))
+            self.inicios = array("q", [0]) + array("q", (f + 1 for f in fins))
+            self.fins = fins + array("q", [len(self.bloco)])
         cab = json.loads(self.linha(0))
         if cab.get("versao") != 3 or len(self.inicios) != 1 + cab["n"] + cab["chaves"]:
             raise ValueError("enciclopédia em formato desconhecido")
