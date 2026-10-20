@@ -145,7 +145,8 @@ foram achados depois de gastar GPU. O v7 ataca as duas coisas.
 | `detector_gatilhos.py` | barra, ANTES do treino, falas mais parecidas com o treino de outra situação do que com o da própria (≥ 0,5), ou perto de saúde/urgência (≥ 0,4); situações compostas (despedida rude, "tô bem, e você?"…) liberadas. Sem olhar os testes, pegou 9 dos 17 culpados conhecidos do v6/v6b |
 | `professor_v7.py` | o professor escreve só falas da pessoa (8 estilos × 108 situações × 25) e confere o próprio rótulo entre 5 respostas (as alternativas são as confusões medidas) |
 | `gerar_v7.py` | junta as falas, com filtros de conflito, parecença com testes (≥ 0,7), gatilhos e saúde; `--professor` acrescenta as do professor, cada uma com origem |
-| `notebooks/treino_v7_entendimento_colab.ipynb` | professor (num ambiente `uv` separado) → dados → treino desde a base 6a com substituição → régua |
+| `notebooks/professor_v7_colab.ipynb` | o professor (vLLM 0.31.0, a versão que funcionou na destilação), em sessão própria, com a saída ao vivo |
+| `notebooks/treino_v7_entendimento_colab.ipynb` | lê as falas do professor do Drive → dados → treino desde a base 6a com substituição → régua |
 
 **Sem o professor** (conferido aqui): 760 falas minhas no treino, 113 no dev, 227 no blind. **Com professor falso no
 ensaio de CPU**, a cadeia inteira rodou (pedidos, leitura, filtro de saúde, conferência, arquivo com origem, gerar_v7,
@@ -161,3 +162,7 @@ não decide.
 
 **Limites declarados antes:** a conferência de rótulo é do próprio professor (não é humana); as falas do professor têm o
 jeito dele; as correções do v6b/v6c foram guiadas por erros nos blinds antigos (o filtro de parecença impede cópia).
+
+**Correção de 20/10 (primeira tentativa no Colab):** com o professor num ambiente `uv` separado, nenhum dos quatro modelos
+carregou, e o notebook não mostrava o motivo (a saída do processo filho não aparecia). O professor passou para um notebook
+próprio, com o vLLM instalado como na destilação e a saída ao vivo; o treino roda depois, numa sessão nova, sem vLLM.
