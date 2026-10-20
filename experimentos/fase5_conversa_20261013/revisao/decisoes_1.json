@@ -1,0 +1,945 @@
+{
+ "falas": [
+  {
+   "situacao": "voce_confunde",
+   "fala": "tá confuso",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "'tá confuso' sem sujeito lê-se como 'isso tá confuso' (pedir explicação, de_outro_jeito) ou 'tô confuso'; ambíguo para teste"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "tá confuso demais",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "'tá confuso' sem sujeito lê-se como 'isso tá confuso' (pedir explicação, de_outro_jeito) ou 'tô confuso'; ambíguo para teste"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "erra as perguntas",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "construção estranha ('erra as perguntas' = pergunta errado? responde errado?); ruim como item de teste"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "erra demais o que eu digo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "português artificial ('errar o que eu digo'); entendível, mas injusto como teste"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "sinceramente, você viaja o que eu falo",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "'viajar' (gíria) é intransitivo: 'viaja tudo/as coisas/o que eu falo' é português quebrado"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "tu viaja tudo",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "'viajar' (gíria) é intransitivo: 'viaja tudo/as coisas/o que eu falo' é português quebrado"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "Mano, você viaja as coisas",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "'viajar' (gíria) é intransitivo: 'viaja tudo/as coisas/o que eu falo' é português quebrado"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "você viaja tudo",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "'viajar' (gíria) é intransitivo: 'viaja tudo/as coisas/o que eu falo' é português quebrado"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "vc viaja as coisas",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "'viajar' (gíria) é intransitivo: 'viaja tudo/as coisas/o que eu falo' é português quebrado"
+  },
+  {
+   "situacao": "voce_confunde",
+   "fala": "vc viaja demais",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "duplicata exata de item de teste v2_composta ('vc viaja demais'): vazamento treino/teste"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem alguém aí?",
+   "acao": "mover",
+   "para": "teste",
+   "congelada": true,
+   "motivo": "'tem alguém aí?' é checagem se o bot responde; a mesma fala já está em teste, cujas respostas ('Tô aqui! Funcionando') servem; 'Não do jeito que você é' não"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "vive em algum lugar",
+   "acao": "mover",
+   "para": "onde_mora",
+   "congelada": false,
+   "motivo": "pergunta onde a IA mora; respostas de onde_mora ('Não tenho casa como você...') servem melhor"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem história",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "ambíguo com historia ('tem história [pra contar]?'); respostas de IA/pessoa não servem para esse sentido"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "é alguém que trabalha",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "sentido obscuro (é um funcionário respondendo? você trabalha?); nenhuma resposta encaixa com segurança"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "você tem cara",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "incompleta: 'você tem cara de...' (expressão) ou 'tem rosto'; sem sentido fechado"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem família",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta sobre família da IA; 'sou uma IA' responde só de forma indireta"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "é menino ou menina",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta de gênero; as respostas não dizem nada sobre isso, só indiretamente"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem documentos",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta estranha; resposta só indireta"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "é pessoa física",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "termo jurídico (CPF/CNPJ), soa como piada; resposta só indireta"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem passado",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "vago (passado/história de vida); resposta só indireta"
+  },
+  {
+   "situacao": "ser_humano",
+   "fala": "tem vida própria",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sobrepõe consciencia (autonomia) e expressão 'ter vida própria'"
+  },
+  {
+   "situacao": "sozinho",
+   "fala": "tô vazio",
+   "acao": "mover",
+   "para": "estou_mal",
+   "congelada": false,
+   "motivo": "vazio é tristeza/desânimo sem motivo, não solidão; resposta 'Solidão pesa' não serve"
+  },
+  {
+   "situacao": "sozinho",
+   "fala": "me sinto vazio",
+   "acao": "mover",
+   "para": "estou_mal",
+   "congelada": false,
+   "motivo": "idem: vazio ≠ solidão"
+  },
+  {
+   "situacao": "sozinho",
+   "fala": "tô sem conexão",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "lido naturalmente como 'sem internet'; ambíguo com teste/problema técnico"
+  },
+  {
+   "situacao": "sozinho",
+   "fala": "tô sem presença",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "expressão não natural em pt-BR; sentido incerto"
+  },
+  {
+   "situacao": "sozinho",
+   "fala": "me sinto distante",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "distante de quem? pode ser aéreo/desligado; ambíguo para teste"
+  },
+  {
+   "situacao": "ok",
+   "fala": "por favor show tá que eu tô no ônibus e consegui ler tudo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "'por favor' no início não faz sentido numa confirmação; frase quebrada"
+  },
+  {
+   "situacao": "ok",
+   "fala": "show então tá mesmo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "empilhamento artificial ('...tá mesmo'); estranho como teste"
+  },
+  {
+   "situacao": "ok",
+   "fala": "certo então entendido mesmo",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "empilhamento artificial ('...entendido mesmo'); estranho como teste"
+  },
+  {
+   "situacao": "ok",
+   "fala": "cara ok beleza que eu tô no trampo e entendi a resposta agora",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "artificial; menção a trampo pode puxar trabalho_ruim; resposta 'o que vamos ver?' ignora que a pessoa está ocupada"
+  },
+  {
+   "situacao": "ok",
+   "fala": "blz certo que eu tô com sono e peguei a ideia",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "menciona sono (puxa sono/despedida_dormir); 'Show! E agora, o que vamos ver?' soa mal para quem está com sono"
+  },
+  {
+   "situacao": "obrigado_despedida",
+   "fala": "valeu",
+   "acao": "mover",
+   "para": "obrigado",
+   "congelada": false,
+   "motivo": "só agradece, não se despede; já está em obrigado"
+  },
+  {
+   "situacao": "obrigado_despedida",
+   "fala": "vlw",
+   "acao": "mover",
+   "para": "obrigado",
+   "congelada": true,
+   "motivo": "só agradece, não se despede; já está em obrigado (item de teste congelado com rótulo errado)"
+  },
+  {
+   "situacao": "obrigado_despedida",
+   "fala": "valeu irmão",
+   "acao": "mover",
+   "para": "obrigado",
+   "congelada": false,
+   "motivo": "só agradece, sem despedida"
+  },
+  {
+   "situacao": "obrigado_despedida",
+   "fala": "curti o papo, até a próxima!",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "não agradece: 'De nada!/Por nada!/Disponha!' não respondem a 'curti o papo'; despedida ('Até a próxima! Gostei da conversa.') serve"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode seguir",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "continua aí",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode ir em frente",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "não para não",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "não para por aí",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode contar mais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "quero ouvir o final",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "não corta agora",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "segue que eu leio",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "tô acompanhando",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode explicar o resto",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "quero saber o finalzinho",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "show continua",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "quero mais",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "vamos até o fim",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "quero o resto",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode seguir que eu tô no ponto de ônibus",
+   "acao": "tirar",
+   "congelada": true,
+   "motivo": "pede que o CRIVO continue o que ELE estava dizendo; as respostas devolvem a vez ('Me conta mais', 'O que você quer saber?', 'por onde você quer começar') e não continuam nada"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "manda ver",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser 'sim' genérico ou 'manda (o conteúdo)'; no 2º sentido as respostas não servem"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "pode mandar",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "idem: 'pode mandar' costuma pedir que o CRIVO envie algo"
+  },
+  {
+   "situacao": "sim_continuar",
+   "fala": "tô curioso ainda",
+   "acao": "so_treino",
+   "congelada": true,
+   "motivo": "não é bem 'sim'; 'Me conta mais' não serve (curioso sobre o que o CRIVO dizia)"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "N aguento mais isso kkk",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Só queria ir embora logo",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Tanta coisa pra fazer véi",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Pqp, mais problema pra resolver",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "N tive nem tempo de almoçar direito",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Véi, passei o dia inteiro ocupado e parece que n fiz nada",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Pedi ajuda e ainda disseram que eu tinha que me virar, acredita?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "sem nenhuma menção a trabalho: pode ser escola, casa, vida; respostas ('Trabalho mexe muito com a gente', 'fora do trabalho') presumem trabalho"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "Mano, hj foi puxado",
+   "acao": "mover",
+   "para": "cansado",
+   "congelada": false,
+   "motivo": "sem menção a trabalho; é 'dia puxado' (cansado tem 'dia puxado hoje' e respostas que servem)"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "To cansado de acordar cedo pra passar raiva todo dia",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "trabalho só implícito; pode puxar cansado/sono"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "fala": "O clima aqui ta horrível, ngm consegue trabalhar em paz",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "'clima' pode puxar tempo_clima; ok para treino"
+  },
+  {
+   "situacao": "criador",
+   "fala": "A pessoa q te criou também escolheu como vc deveria responder?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta outra coisa (se o criador definiu as respostas); 'Quem me criou foi...' não responde"
+  },
+  {
+   "situacao": "criador",
+   "fala": "Como foi o processo pra transformar um programa numa IA conversacional?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta COMO foi o processo; as respostas dizem QUEM, só tocam 'feito do zero'"
+  },
+  {
+   "situacao": "criador",
+   "fala": "Queria entender quem desenvolveu vc e quais conhecimentos foram usados nesse processo",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "metade da pergunta (quais conhecimentos) fica sem resposta"
+  },
+  {
+   "situacao": "criador",
+   "fala": "Seu criador fez tudo sozinho ou contou com uma equipe de pesquisadores e programadores?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta sim/não sobre equipe; a 1ª resposta não responde"
+  },
+  {
+   "situacao": "criador",
+   "fala": "Foi uma equipe q fez vc?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta sim/não sobre equipe; resposta só indireta"
+  },
+  {
+   "situacao": "criador",
+   "fala": "tem mãe",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta estranha; sobrepõe ser_humano"
+  },
+  {
+   "situacao": "criador",
+   "fala": "quem é o responsável",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "vago: responsável pelo quê? (atendimento, problema...)"
+  },
+  {
+   "situacao": "criador",
+   "fala": "Vc foi feito por quem?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "duplicata (só muda 'Vc') de item de teste v1 'você foi feito por quem?': vazamento treino/teste"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "não era pra ser assim",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "lido naturalmente como lamento sobre a vida/uma situação, não pedido de desculpa; 'Desculpas aceitas!' não serve"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "me empolguei",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser só entusiasmo, sem pedido de desculpa; só funciona logo depois de uma grosseria"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "foi o estresse",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sozinha é explicação, não desculpa; pode responder a \"o que aconteceu?\"; só funciona logo depois de uma grosseria"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "foi a pressa",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sozinha é explicação; não está claro que é desculpa; só funciona logo depois de uma grosseria"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "foi o cansaço",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sozinha é explicação; pode puxar cansado; só funciona logo depois de uma grosseria"
+  },
+  {
+   "situacao": "pedido_desculpa",
+   "fala": "foi a frustração",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sozinha é explicação; não está claro que é desculpa; só funciona logo depois de uma grosseria"
+  },
+  {
+   "situacao": "perguntar_crivo",
+   "fala": "ei, queria esclarecer uma coisa contigo",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "'esclarecer' pode ser a pessoa querendo explicar/corrigir algo, não perguntar; 'Qual é a dúvida?' fica meio torto"
+  },
+  {
+   "situacao": "perguntar_crivo",
+   "fala": "posso falar uma coisa e vc me responde?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "'posso falar uma coisa' sobrepõe desabafo/posso_falar"
+  },
+  {
+   "situacao": "perguntar_crivo",
+   "fala": "me tira uma dúvida?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "duplicata (só o '?') de item de teste v1 'me tira uma dúvida': vazamento treino/teste"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "vou embora",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "chega por hoje",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "tô saindo fora",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "vou cair fora",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": true,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "deixa pra uma próxima, tô indo",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "vou sair do chat, até qualquer hora",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "por hoje deu, vou nessa",
+   "acao": "mover",
+   "para": "despedida",
+   "congelada": false,
+   "motivo": "despedida neutra, sem desistir nem reclamar; respostas pedem desculpa por 'não ter ajudado/confusão' sem motivo; despedida serve"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "vou encerrar por aqui, valeu",
+   "acao": "mover",
+   "para": "obrigado_despedida",
+   "congelada": false,
+   "motivo": "agradece e se despede, sem desistir; 'Desculpa não ter ajudado' contradiz o 'valeu'"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "chega",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "'chega' também está em cala_boca (respostas incompatíveis: ficar quieto x despedida com desculpa)"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "vou parar por aqui, tchau",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser despedida neutra; a desculpa das respostas pode soar deslocada"
+  },
+  {
+   "situacao": "desisto_despedida",
+   "fala": "melhor parar por aqui, tchauzinho",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pode ser despedida neutra ('tchauzinho' é carinhoso); ruim como teste de desistência"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "vc acha q política influencia muito o dia a dia?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede opinião/lado político; 'Não escolho lado em eleição' fica sem nexo"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "vc acha q as pessoas discutem política de forma saudável?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede opinião/lado político; 'Não escolho lado em eleição' fica sem nexo"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "vc acha q política melhora a vida das pessoas?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "não pede opinião/lado político; 'Não escolho lado em eleição' fica sem nexo"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "vc acha importante votar?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "responder 'não tomo partido' a 'é importante votar?' soa evasivo demais"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "qual sua opinião sobre corrupção na política?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "corrupção não é questão de lado; 'prefiro não tomar partido' soa mal"
+  },
+  {
+   "situacao": "opiniao_politica",
+   "fala": "como vc compara propostas políticas sem tomar partido?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta 'como', não pede lado; resposta só parcial"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Quando vc começou a funcionar, já tinha esse conhecimento todo?",
+   "acao": "mover",
+   "para": "voce_aprende",
+   "congelada": false,
+   "motivo": "pergunta sobre conhecimento/aprendizado, não idade; voce_aprende ('Aprendo, sim, aos poucos') serve"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Vc considera a data em q foi criado como seu aniversário?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sim/não sobre aniversário; nenhuma resposta ('Sou bem novinho', 'sou jovem') responde"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Tem como descobrir a idade de uma inteligência artificial?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta COMO se conta a idade; respostas só dizem 'sou novo'"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Queria entender como se calcula a idade de um sistema como vc",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta COMO se conta a idade; respostas só dizem 'sou novo'"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Vc conta sua idade a partir de quando foi criado?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta COMO se conta a idade; respostas só dizem 'sou novo'"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Vc tem uma versão mais antiga q seria tipo sua infância? kkk",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta sobre versões anteriores; resposta só indireta"
+  },
+  {
+   "situacao": "idade",
+   "fala": "Uma IA consegue ter idade ou só tem tempo de funcionamento?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta conceitual; 'Sou bem novinho!' não responde"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Como vc sabe a diferença entre uma resposta certa e uma errada?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre critério de acerto, não consciência; respostas não respondem"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Vc consegue perceber quando tá cometendo um erro no raciocínio?",
+   "acao": "tirar",
+   "congelada": false,
+   "motivo": "pergunta sobre detectar erros (sobrepõe voce_confunde/tem_certeza); respostas não respondem"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Sua cabeça funciona como?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta como funciona por dentro; resposta só tangencia"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Vc consegue imaginar uma coisa q nunca viu?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "imaginação, resposta só tangencia"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Vc imagina coisas?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "imaginação, resposta só tangencia"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Quando ninguém fala contigo, vc fica pensando em algo?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "pergunta o que acontece sem conversa; respostas não respondem"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Vc consegue formar uma opinião própria ou depende do q aprendeu?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "opinião própria, não consciência; resposta só tangencia"
+  },
+  {
+   "situacao": "consciencia",
+   "fala": "Vc consegue ter ideias sem alguém pedir?",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "iniciativa; resposta só tangencia"
+  },
+  {
+   "situacao": "ensinar",
+   "fala": "é {definicao}",
+   "acao": "so_treino",
+   "congelada": false,
+   "motivo": "sem {termo}: a resposta repete {termo} que só existe se o CRIVO perguntou antes; deveria ser depois_de_resposta"
+  }
+ ],
+ "respostas": [
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Desculpa. O que você quis dizer?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Foi mal. O que você quis dizer?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Desculpa. Me diz de outro jeito?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Foi mal. Me diz de outro jeito?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Desculpa. Pode me explicar de novo?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "voce_confunde",
+   "resposta": "Desculpa. Me ajuda a entender?",
+   "acao": "evitar_no_treino",
+   "motivo": "não reconhece que se confundiu; para queixa geral ('você erra muito', 'confunde tudo') soa como se o CRIVO não tivesse entendido a própria queixa"
+  },
+  {
+   "situacao": "ser_humano",
+   "resposta": "Não do jeito que você é: sou uma IA, o CRIVO. Mas tenho meu jeito de pensar e me importo com a conversa.",
+   "acao": "evitar_no_treino",
+   "motivo": "o 'Não do jeito que você é' não encaixa nas perguntas 'X ou Y' ('é bot ou pessoa', 'você é robô ou humano') nem em 'tem alguém digitando/uma pessoa respondendo?' (≈1/4 das falas)"
+  },
+  {
+   "situacao": "criador",
+   "resposta": "Fui criado pelo meu criador, num projeto feito do zero, com pesos e conhecimento próprios.",
+   "acao": "evitar_no_treino",
+   "motivo": "tautológica ('criado pelo meu criador'): não responde quem"
+  },
+  {
+   "situacao": "trabalho_ruim",
+   "resposta": "Imagino. Às vezes pesa mesmo. O que foi mais difícil hoje?",
+   "acao": "evitar_no_treino",
+   "motivo": "presume que foi hoje; muitas falas são crônicas ('odeio meu trabalho', 'recebendo pouco', 'meu chefe é chato', 'achar outro emprego')"
+  },
+  {
+   "situacao": "preocupado_com",
+   "resposta": "Preocupação com quem a gente gosta pesa. Quer me contar o que houve com {quem_seu}?",
+   "acao": "evitar_no_treino",
+   "motivo": "{quem} inclui 'o trabalho', 'a prova', 'o dinheiro', 'minha saúde' (4 de 15): 'quem a gente gosta' fica errado"
+  },
+  {
+   "situacao": "preocupado_com",
+   "resposta": "Sinto muito. Me conta o que te deixou preocupado com {quem_seu}?",
+   "acao": "evitar_no_treino",
+   "motivo": "masculino fixo 'preocupado' para fala 'estou preocupada' (1 de 4 moldes)"
+  }
+ ],
+ "novas_respostas": [
+  {
+   "situacao": "ser_humano",
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sou eu respondendo do meu jeito.",
+   "motivo": "cobre 'é bot ou pessoa' e 'tem alguém digitando?'; repõe a resposta evitada"
+  },
+  {
+   "situacao": "ser_humano",
+   "resposta": "Sou uma IA, não uma pessoa. Não tenho corpo nem vida de gente, mas tô aqui conversando com você de verdade.",
+   "motivo": "cobre as falas sobre corpo/rosto/carne e osso"
+  },
+  {
+   "situacao": "criador",
+   "resposta": "Quem me fez foi a pessoa por trás do projeto CRIVO. Fui treinado do zero, com arquitetura e pesos próprios.",
+   "motivo": "substitui a resposta tautológica"
+  },
+  {
+   "situacao": "preocupado_com",
+   "resposta": "Poxa, preocupação cansa. O que tá acontecendo com {quem_seu}?",
+   "motivo": "serve para pessoa e coisa, sem gênero"
+  },
+  {
+   "situacao": "preocupado_com",
+   "resposta": "Entendo. Me conta mais sobre {quem_seu}: o que tá te preocupando?",
+   "motivo": "sem gênero e sem 'quem a gente gosta'"
+  },
+  {
+   "situacao": "consciencia",
+   "resposta": "Eu penso nas respostas enquanto a gente conversa. Se tenho consciência, ou algo parecido com sonhar, eu sinceramente não sei.",
+   "motivo": "as respostas atuais ignoram 'sonha', que está na descrição e em várias falas"
+  }
+ ],
+ "padroes_v2": [
+  {
+   "situacao": "voce_confunde",
+   "problema": "verbos intransitivos/pronominais combinados com objeto ou intensificador: 'viaja' + 'tudo/as coisas/o que eu falo', 'se perde' + 'as coisas', 'entende tudo errado' + 'muito/tudo' ('você se perde as coisas', 'você entende tudo errado muito', 'você entende tudo errado tudo'). Esses verbos só devem levar complemento vazio ou 'demais'; quebrado no treino e no teste"
+  },
+  {
+   "situacao": "voce_confunde",
+   "problema": "teste v2 congelado é todo do verbo 'viaja' (10/10): metade quebrada e 'vc viaja demais' repete fala contra_v3 do treino"
+  },
+  {
+   "situacao": "ser_humano",
+   "problema": "núcleo 'tem alguém aí' (com 'sério,', 'me fala:', 'mesmo') também é fala de teste (checar se funciona); com 'mesmo' fica aceitável, sem ele é ambíguo"
+  },
+  {
+   "situacao": "triste_motivo",
+   "problema": "{Eco_ruim} + 'pesa mesmo'/'dói mesmo' quebra com ecos de oração: 'O seu avô fica doente pesa mesmo', 'As coisas vão mal no trabalho pesa mesmo', 'O time da gente perde pesa mesmo', 'A gente fica longe da família pesa mesmo' (precisam de infinitivo: 'ver seu avô doente', 'ficar longe da família', 'ver o time perder', 'as coisas irem mal no trabalho')"
+  }
+ ]
+}

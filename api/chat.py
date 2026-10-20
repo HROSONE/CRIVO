@@ -113,6 +113,8 @@ class handler(BaseHTTPRequestHandler):
         from geracao_ancorada import geracao
         from conversa_dialogo import status_dialogo
         from motor_dialogo_17m import status as status_transformer
+        from realizador_17m import status as status_voz
+        from conversa_v3d import status as status_conversa
         g = geracao()
         modelo = _modelo_linguagem(self.server)
         transformer = status_transformer()
@@ -125,6 +127,8 @@ class handler(BaseHTTPRequestHandler):
         return self._json(200, {"status": "ok", "name": "CRIVO",
                                 "dialogue_generation": status_dialogo(),
                                 "smartest_dialogue_engine": transformer,
+                                "experimental_voice": status_voz(),
+                                "conversation_voice": status_conversa(),
                                 "programming_active": True,
                                 "question_interpretation_active": True,
                                 "reasoning_active": True,
@@ -185,7 +189,8 @@ class handler(BaseHTTPRequestHandler):
                 self.server, "dialogo_contextual", False), modelo_linguagem=modelo,
                 gerador_programacao=getattr(self.server, "gerador_programacao", None),
                 usar_geracao=getattr(self.server, "usar_geracao", True),
-                checkpoint_dialogo_candidato=getattr(self.server, 'checkpoint_dialogo_candidato', None))
+                checkpoint_dialogo_candidato=getattr(self.server, 'checkpoint_dialogo_candidato', None),
+                voz_17m=getattr(self.server, "voz_17m", True))
         except (UnicodeDecodeError, json.JSONDecodeError):
             return self._json(400, {"error": "JSON malformado."})
         except PedidoInvalido as exc:

@@ -61,7 +61,7 @@ class TestesConversaCotidiana(unittest.TestCase):
     def test_preferencia_so_para_assunto_conhecido(self):
         _, r = conversa("você gosta de astronomia?")
         self.assertEqual(r[0][0], "social:preferencia")
-        self.assertIn("Não tenho gostos pessoais", r[0][1])
+        self.assertIn("gosto de aprender sobre astronomia", r[0][1])
         self.assertEqual(Crivo().responder("Você gosta de lâmpadas?")[0], "social:nao_entendido")
 
     def test_relato_neutro_nao_recebe_plano_de_acao(self):

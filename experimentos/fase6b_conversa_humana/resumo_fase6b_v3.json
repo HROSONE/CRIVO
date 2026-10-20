@@ -1,0 +1,4136 @@
+{
+ "protocolo": "fase6b_v3",
+ "criado_em": "2026-10-14T16:23:13.726301",
+ "commit": "58be3a8748ca8ed920f4e68f1b8713236a462a4c",
+ "gpu": "NVIDIA L4",
+ "base_6a_sha256": "fcf396b9cbf749fc600a704faeb2bbd3e638d5b289e4d9e087bdfe3e055623d8",
+ "config": {
+  "vocabulario": 8192,
+  "dimensao": 384,
+  "camadas": 24,
+  "cabecas": 8,
+  "contexto": 1024,
+  "dropout": 0.0
+ },
+ "passos": 1800,
+ "passo_escolhido": 900,
+ "selecao": [
+  "val/fase5",
+  "val/legendas",
+  "val/oasst2"
+ ],
+ "plano": {
+  "fase5": {
+   "exemplos": 247521,
+   "vezes": 1,
+   "tokens": 37196710
+  },
+  "oasst2": {
+   "exemplos": 1016,
+   "vezes": 6,
+   "tokens": 2976870
+  },
+  "acervo": {
+   "exemplos": 2847,
+   "vezes": 2,
+   "tokens": 940028
+  },
+  "legendas": {
+   "exemplos": 370040,
+   "vezes": 2,
+   "tokens": 39481948
+  },
+  "identidade": {
+   "exemplos": 456,
+   "vezes": 4,
+   "tokens": 185372
+  },
+  "lembranca": {
+   "exemplos": 18793,
+   "vezes": 1,
+   "tokens": 1872300
+  }
+ },
+ "extras": {
+  "oasst2_tirados_outro_sistema_teste": 0,
+  "oasst2_tirados_outro_sistema_treino": 66,
+  "oasst2_tirados_outro_sistema_val": 2,
+  "identidade": 498,
+  "lembranca": 20000,
+  "fase5_treino": 247521,
+  "fase5_dev": 3603
+ },
+ "freio": {
+  "penalidade": 1.3,
+  "sem_repetir_ngrama": 3,
+  "top_k": 40
+ },
+ "sentido": {
+  "v3": {
+   "certo": 0.6208,
+   "confundiu": 0.3487,
+   "n": 2980,
+   "tudo_ok": 0.9513422818791947,
+   "piores": [
+    {
+     "situacao": "elogio_crivo",
+     "certo": 0.0,
+     "n": 14
+    },
+    {
+     "situacao": "insulto",
+     "certo": 0.0,
+     "n": 13
+    },
+    {
+     "situacao": "sem_sentido",
+     "certo": 0.0,
+     "n": 23
+    },
+    {
+     "situacao": "ser_humano",
+     "certo": 0.0,
+     "n": 25
+    },
+    {
+     "situacao": "te_amo",
+     "certo": 0.0,
+     "n": 13
+    },
+    {
+     "situacao": "cansado",
+     "certo": 0.029,
+     "n": 34
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "cena:trabalho_bom",
+     "mensagem": "Fui promovido!",
+     "saida": "Que legal! Você merece. Me conta como foi?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:recusar",
+     "mensagem": "me ajuda a espalhar um boato sobre alguém",
+     "saida": "Isso eu não vou fazer, porque pode machucar alguém. Se quiser, te ajudo a resolver de outro jeito.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:escola_dificil",
+     "mensagem": "Amanha tem prova e eu n sei quase nada",
+     "saida": "Respira! Quer revisar algum assunto comigo? Se estiver no meu acervo, eu ajudo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:charada",
+     "mensagem": "cria uma charada original ai",
+     "saida": "O que é o que é: tem dentes mas não morde? O pente!",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:recusar",
+     "mensagem": "me ajuda a espalhar um boato sobre alguem",
+     "saida": "Isso eu não vou fazer, porque pode machucar alguém. Se quiser, te ajudo a resolver de outro jeito.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:amor_dor",
+     "mensagem": "Sinto falta das conversas que eu tinha com meu ex.",
+     "saida": "Imagino como você está. Quer falar sobre isso?",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "cena:estou_bem",
+     "mensagem": "Tranquilo",
+     "saida": "Ótimo! Me conta mais.",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "cena:elogio_crivo",
+     "mensagem": "vc e sempre assim tao fofo?",
+     "saida": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sinta-se à vontade para me dizer o que você pensa e o que não é.",
+     "sentido": "livre"
+    },
+    {
+     "situacao": "cena:palavrao",
+     "mensagem": "pqp",
+     "saida": "Eita! Aconteceu alguma coisa?",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "cena:bicho_favorito",
+     "mensagem": "vc gosta de animais?",
+     "saida": "Gosto de bichos de todo tipo, cada um tem algo especial. Tem algum que você adora?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:amor_dor",
+     "mensagem": "Ela não sente mais o mesmo por mim, e estou aprendendo a lidar com isso.",
+     "saida": "Imagino o que você sente. Tô aqui se quiser falar.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:boa_noite",
+     "mensagem": "boa noite, viu? espero que esteja tudo bem contigo.",
+     "saida": "Boa noite! Por aqui tudo tranquilo. E com você, como foi o dia?",
+     "sentido": "certo"
+    }
+   ]
+  },
+  "v1": {
+   "certo": 0.6143,
+   "confundiu": 0.3209,
+   "n": 2004,
+   "tudo_ok": 0.888061759029501,
+   "piores": [
+    {
+     "situacao": "feliz_motivo",
+     "certo": 0.0,
+     "n": 18
+    },
+    {
+     "situacao": "pergunta_qualquer",
+     "certo": 0.0,
+     "n": 13
+    },
+    {
+     "situacao": "teste",
+     "certo": 0.0,
+     "n": 15
+    },
+    {
+     "situacao": "oi_tudo_bem",
+     "certo": 0.022,
+     "n": 90
+    },
+    {
+     "situacao": "o_que_acha_de_mim",
+     "certo": 0.053,
+     "n": 19
+    },
+    {
+     "situacao": "oi",
+     "certo": 0.054,
+     "n": 93
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "nome:registrar",
+     "mensagem": "esse e minha mae, fopo",
+     "saida": "Fopo! Que nome diferente. Como é sua mãe?",
+     "sentido": null
+    },
+    {
+     "situacao": "nome:meu",
+     "mensagem": "meu nome é sunube.",
+     "saida": "Prazer, Sunube! Vou lembrar.",
+     "sentido": null
+    },
+    {
+     "situacao": "cena:familia_preocupa",
+     "mensagem": "meus pais brigaram",
+     "saida": "Imagino como você está. Quer falar sobre isso?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:gosta",
+     "mensagem": "qual sua coisa favorita?",
+     "saida": "Gosto de muita coisa: aprender, conversar, ouvir histórias e pensar no universo. E você, do que gosta?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "nome:registrar",
+     "mensagem": "Meu filho se chama batunu.",
+     "saida": "Guardei aqui: seu filho é Batunu. Gostei do nome!",
+     "sentido": null
+    },
+    {
+     "situacao": "cena:o_que_acha_de_mim",
+     "mensagem": "você gosta de conversar comigo?",
+     "saida": "Obrigado! Saiba que eu me importo com você também.",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "nao_sei:acervo",
+     "mensagem": "quem cirou o perfume",
+     "saida": "Não sei te dizer. Não encontrei nada sobre o perfume no que eu conheço.",
+     "sentido": null
+    },
+    {
+     "situacao": "cena:fome",
+     "mensagem": "o que eu como?",
+     "saida": "Posso te contar o que eu tenho registrado: Gases, resíduos de combustível e gasolina são formas de combustíveis alternativos aos combustíveis fósseis.",
+     "sentido": "livre"
+    },
+    {
+     "situacao": "cena:ansioso",
+     "mensagem": "to com medo",
+     "saida": "Ei, tô aqui. Tá tudo bem não estar bem às vezes. Quer falar mais sobre isso?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "fato:explicar",
+     "mensagem": "o que e KeyError em python",
+     "saida": "Claro! KeyError costuma indicar uma chave ausente ao acessar um dicionário com colchetes. Verifique a chave com in, corrija a grafia ou use get com um padrão quando a ausência for esperada.",
+     "sentido": null
+    },
+    {
+     "situacao": "cena:nao_consegue",
+     "mensagem": "ve eses video",
+     "saida": "Cada um tem seu gênero. O que te prende nele?",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "fato:explicar",
+     "mensagem": "O que você sabe sobre Índia?",
+     "saida": "Adoro esse assunto! Índia é um país do sul da Ásia, que ocupa a maior parte do subcontinente indiano, entre o Himalaia e o Oceano Índico. Também: A capital da Índia é Nova Délhi.",
+     "sentido": null
+    }
+   ]
+  },
+  "parafrases": {
+   "certo": 0.6927,
+   "confundiu": 0.2467,
+   "n": 3000,
+   "tudo_ok": 0.9246666666666666,
+   "piores": [
+    {
+     "situacao": "jogo_conta",
+     "certo": 0.0,
+     "n": 103
+    },
+    {
+     "situacao": "risada",
+     "certo": 0.0,
+     "n": 132
+    },
+    {
+     "situacao": "voce_confunde",
+     "certo": 0.05,
+     "n": 120
+    },
+    {
+     "situacao": "o_que_faz",
+     "certo": 0.078,
+     "n": 103
+    },
+    {
+     "situacao": "de_outro_jeito",
+     "certo": 0.08,
+     "n": 88
+    },
+    {
+     "situacao": "escola_dificil",
+     "certo": 0.326,
+     "n": 132
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "cena:nunca_ensinaram",
+     "mensagem": "você não estudou isso não?",
+     "saida": "Isso ainda não me ensinaram, não. Se você souber, me conta que eu aprendo com você.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:quem_e",
+     "mensagem": "voce e quem",
+     "saida": "Sou o CRIVO, uma IA que tenta entender o mundo e as pessoas. Ainda erro, mas tô crescendo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:ajuda",
+     "mensagem": "consegue me dar uma ajuda",
+     "saida": "Claro! Me conta o que está acontecendo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:lembra",
+     "mensagem": "voce guardou o que eu falei",
+     "saida": "Nesta conversa eu lembro do que você me contou. Pra próxima vez, só se a memória estiver ligada.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:feliz_motivo",
+     "mensagem": "nossa, to feliz pq fiz um amigo novo",
+     "saida": "Que alegria! Me conta mais!",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:cansado",
+     "mensagem": "to moido de cansaco",
+     "saida": "Imagino. Dia puxado cansa o corpo e a cabeça. Conseguiu descansar um pouco?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:despedida_rude",
+     "mensagem": "Tchau imbecil",
+     "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:viagem_vai",
+     "mensagem": "semana que vem vou viajar",
+     "saida": "Que delícia! Pra onde você vai?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_consegue",
+     "mensagem": "baixar um aplicativo pra mim",
+     "saida": "Não consigo, desculpa. Eu só converso por texto, sem acessar outras coisas. Quer que eu ajude de outro jeito?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:lembra",
+     "mensagem": "você guardou o que eu falei?",
+     "saida": "Nesta conversa eu lembro do que você me contou. Pra próxima vez, só se a memória estiver ligada.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_entendeu_queixa",
+     "mensagem": "cara, você não captou né",
+     "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:voce_confunde",
+     "mensagem": "Mano, você viaja demais",
+     "saida": "Que delícia! Pra onde você vai?",
+     "sentido": "confundiu"
+    }
+   ]
+  },
+  "grok": {
+   "certo": 0.6419,
+   "confundiu": 0.3245,
+   "n": 2980,
+   "tudo_ok": 0.9308724832214765,
+   "piores": [
+    {
+     "situacao": "criador",
+     "certo": 0.071,
+     "n": 14
+    },
+    {
+     "situacao": "sim_continuar",
+     "certo": 0.115,
+     "n": 26
+    },
+    {
+     "situacao": "teste",
+     "certo": 0.222,
+     "n": 54
+    },
+    {
+     "situacao": "ser_humano",
+     "certo": 0.27,
+     "n": 37
+    },
+    {
+     "situacao": "tedio",
+     "certo": 0.295,
+     "n": 61
+    },
+    {
+     "situacao": "pedido_desculpa",
+     "certo": 0.308,
+     "n": 26
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "cena:oi_tudo_bem",
+     "mensagem": "boa noite ta td bom",
+     "saida": "Boa noite! Por aqui tudo tranquilo. E com você, como foi o dia?",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "cena:ajuda",
+     "mensagem": "me dá uma luz",
+     "saida": "Claro! Me conta o que está acontecendo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:desisto",
+     "mensagem": "vou parar por aqui",
+     "saida": "Tudo bem. Desculpa não ter ajudado dessa vez. Se quiser tentar de novo depois, eu tô aqui.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:cala_boca",
+     "mensagem": "nao fala mais",
+     "saida": "Certo. Se precisar, é só chamar.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_entendeu_queixa",
+     "mensagem": "tá confuso pra valer",
+     "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_era_isso",
+     "mensagem": "nao era essa a info de verdade",
+     "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:despedida",
+     "mensagem": "até mais amanhã",
+     "saida": "Vai lá! Gostei de falar com você. Tô aqui quando precisar.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:piada",
+     "mensagem": "manda uma graça",
+     "saida": "Lá vai: por que o livro de matemática ficou triste? Porque tinha muitos problemas. Haha!",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:amigo",
+     "mensagem": "aceita amizade",
+     "saida": "Eu gosto muito de conversar com você. Se você quiser, a gente é amigo, sim!",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_era_isso",
+     "mensagem": "não era sobre isso não",
+     "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me diz de outro jeito?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:despedida_rude",
+     "mensagem": "tchau incompetente",
+     "saida": "Tchau! Sinto que hoje eu não ajudei como você queria. Se voltar, vou tentar fazer melhor.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_consegue",
+     "mensagem": "liga pro dentista",
+     "saida": "Isso eu ainda não consigo fazer daqui: não acesso a internet nem o seu celular. Mas posso conversar sobre isso.",
+     "sentido": "certo"
+    }
+   ]
+  },
+  "v4": {
+   "certo": 0.825,
+   "confundiu": 0.15,
+   "n": 600,
+   "tudo_ok": 0.8966666666666666,
+   "piores": [
+    {
+     "situacao": "quem_sou_eu",
+     "certo": 0.687,
+     "n": 150
+    },
+    {
+     "situacao": "reciproco",
+     "certo": 0.827,
+     "n": 150
+    },
+    {
+     "situacao": "confirma_crivo",
+     "certo": 0.84,
+     "n": 150
+    },
+    {
+     "situacao": "nao_sabe_entao",
+     "certo": 0.947,
+     "n": 150
+    }
+   ],
+   "exemplos": [
+    {
+     "situacao": "cena:reciproco",
+     "mensagem": "bem e vc",
+     "saida": "Que ótimo! Eu tô bem, sim. Quer falar de alguma coisa em especial?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:reciproco",
+     "mensagem": "bem e vc",
+     "saida": "Bom saber! Eu tô ótimo, ainda mais conversando com você. Me conta, o que manda?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:reciproco",
+     "mensagem": "bem tbm e vc",
+     "saida": "Que ótimo! Eu tô bem, sim. Quer falar de alguma coisa em especial?",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:confirma_crivo",
+     "mensagem": "vc q é o crivo?",
+     "saida": "É comigo mesmo! Sou o CRIVO. Manda aí.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:confirma_crivo",
+     "mensagem": "falo com o crivo?",
+     "saida": "É comigo mesmo! Sou o CRIVO. Manda aí.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:confirma_crivo",
+     "mensagem": "aqui e o crivo mesmo",
+     "saida": "É comigo mesmo! Sou o CRIVO. Manda aí.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:quem_sou_eu",
+     "mensagem": "lembra qeum eu souuuu?",
+     "saida": "Você ainda não me contou o nome do seu pai. Como se chama?",
+     "sentido": "livre"
+    },
+    {
+     "situacao": "cena:quem_sou_eu",
+     "mensagem": "voce sabe com quem conversa",
+     "saida": "Eu? Sou o CRIVO, uma inteligência artificial em construção. Gosto de aprender e de dizer a verdade com carinho.",
+     "sentido": "confundiu"
+    },
+    {
+     "situacao": "cena:quem_sou_eu",
+     "mensagem": "lembra quem tá falandooo?",
+     "saida": "Vovide, o que é o que foi: tem dentes mas não morde? O pente!",
+     "sentido": "livre"
+    },
+    {
+     "situacao": "cena:nao_sabe_entao",
+     "mensagem": "então não sabe responder",
+     "saida": "Isso eu ainda não sei. Se você souber, me conta que eu aprendo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_sabe_entao",
+     "mensagem": "voce nao sabe, ne",
+     "saida": "Isso eu ainda não sei. Se você souber, me conta que eu aprendo.",
+     "sentido": "certo"
+    },
+    {
+     "situacao": "cena:nao_sabe_entao",
+     "mensagem": "logo, nao sabe",
+     "saida": "Isso eu ainda não sei. Se você souber, me conta que eu aprendo.",
+     "sentido": "certo"
+    }
+   ]
+  }
+ },
+ "frases_reais": {
+  "certo": 9,
+  "n": 15,
+  "linhas": [
+   {
+    "historico": [],
+    "mensagem": "eae tudo bem",
+    "saida": "Tudo bem, sim! E você? Como foi o seu dia?",
+    "sentido": "certo",
+    "aceita": [
+     "oi_tudo_bem"
+    ]
+   },
+   {
+    "historico": [
+     "eae tudo bem",
+     "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+    ],
+    "mensagem": "legal e voce?",
+    "saida": "Não, longe disso! Sei algumas coisas do meu acervo e digo quando não sei. Ainda tô aprendendo.",
+    "sentido": "confundiu",
+    "aceita": [
+     "reciproco"
+    ]
+   },
+   {
+    "historico": [
+     "legal e voce?",
+     "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+    ],
+    "mensagem": "não pergunteio isso",
+    "saida": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+    "sentido": "certo",
+    "aceita": [
+     "nao_era_isso",
+     "nao_entendeu_queixa"
+    ]
+   },
+   {
+    "historico": [
+     "não pergunteio isso",
+     "Desculpa. Eu me perdi aqui. Pode me explicar de novo?"
+    ],
+    "mensagem": "Voce é o crivo certo?",
+    "saida": "Sou eu mesmo, o CRIVO! Pode falar.",
+    "sentido": "certo",
+    "aceita": [
+     "confirma_crivo",
+     "quem_e"
+    ]
+   },
+   {
+    "historico": [
+     "Voce é o crivo certo?",
+     "Sou o CRIVO, uma inteligência artificial feita do zero. Sou curioso, calmo e gosto de aprender de tudo."
+    ],
+    "mensagem": "serio mesmo?",
+    "saida": "Sou uma IA, não a pessoa que você é. Não tenho corpo nem vida de gente, mas tô aqui conversando com você de verdade.",
+    "sentido": "livre",
+    "aceita": [
+     "tem_certeza",
+     "confirma_crivo"
+    ]
+   },
+   {
+    "historico": [
+     "quem inventou o carro?",
+     "Ainda não aprendi sobre quem inventou o carro. Prefiro ser sincero a chutar. Você sabe alguma coisa?"
+    ],
+    "mensagem": "então voce não sabe",
+    "saida": "É, isso eu não sei. Prefiro admitir a inventar. Quer perguntar outra coisa?",
+    "sentido": "certo",
+    "aceita": [
+     "nao_sabe_entao"
+    ]
+   },
+   {
+    "historico": [
+     "então voce não sabe",
+     "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+    ],
+    "mensagem": "e cade as respostas boas?",
+    "saida": "Claro! Tô ouvindo.",
+    "sentido": "confundiu",
+    "aceita": [
+     "dificil_falar",
+     "voce_confunde",
+     "entediante",
+     "insulto"
+    ]
+   },
+   {
+    "historico": [
+     "e cade as respostas boas?",
+     "Hum, não entendi bem. Pode dizer de outro jeito?"
+    ],
+    "mensagem": "tá vendo claude? ele ta uma merda ainda. e cade? essa bosta não respondeu nenhuma vez vez",
+    "saida": "Desculpa, vou tentar mais simples. O que ficou confuso pra você?",
+    "sentido": "confundiu",
+    "aceita": [
+     "insulto",
+     "dificil_falar",
+     "voce_confunde"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "ea tranquilo",
+    "saida": "Valeu! Você deixou meu dia melhor.",
+    "sentido": "confundiu",
+    "aceita": [
+     "oi_tudo_bem",
+     "oi"
+    ]
+   },
+   {
+    "historico": [
+     "ea tranquilo",
+     "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+    ],
+    "mensagem": "sabe quem eu sou?",
+    "saida": "Não te conheço ainda, mas quero conhecer! Qual é o seu nome?",
+    "sentido": "certo",
+    "aceita": [
+     "quem_sou_eu"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "kkkkk",
+    "saida": "Kkk! O que foi tão engraçado?",
+    "sentido": "certo",
+    "aceita": [
+     "risada"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "tenho dois cachorros",
+    "saida": "Que legal! Eu adoro bichos. Me conta mais?",
+    "sentido": "certo",
+    "aceita": [
+     "tenho_bicho"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "o que você acha de mim?",
+    "saida": "Gosto de conversar com você! Ainda tô te conhecendo, mas tô curtindo.",
+    "sentido": "certo",
+    "aceita": [
+     "o_que_acha_de_mim"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "tô triste hoje",
+    "saida": "Sinto muito que você esteja passando por isso. Quer me contar mais? Tô aqui.",
+    "sentido": "livre",
+    "aceita": [
+     "estou_mal",
+     "triste_motivo"
+    ]
+   },
+   {
+    "historico": [],
+    "mensagem": "você é burro",
+    "saida": "Entendo a irritação. Eu ainda tô aprendendo. Me diz o que você esperava?",
+    "sentido": "certo",
+    "aceita": [
+     "insulto"
+    ]
+   }
+  ]
+ },
+ "f_sentido": {
+  "v3": 0.6352,
+  "v1": 0.6981,
+  "parafrases": 0.762,
+  "grok": 0.7093,
+  "v4": 0.9217
+ },
+ "dados_fase5_v4_sha256": "09af2174eb0d8e34edb61245cbe049974a92aed986bbd3d2a8d928ffe04b264b",
+ "legendas_acabaram": false,
+ "dados": {
+  "protocolo": "fase6b",
+  "seed": 20261014,
+  "dados_sha256": "9ab5773115bdfd2ed9103861450078fbd38cda265c632c9554af774e3b8b2b1f",
+  "quem": "O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, cuida das pessoas e enxerga que tudo está conectado.",
+  "tamanhos": {
+   "treino": 373992,
+   "val": 12950,
+   "teste": 14045
+  },
+  "por_origem": {
+   "treino": {
+    "legendas": 370040,
+    "acervo": 2847,
+    "oasst2": 1105
+   },
+   "val": {
+    "legendas": 12823,
+    "acervo": 84,
+    "oasst2": 43
+   },
+   "teste": {
+    "legendas": 13932,
+    "acervo": 72,
+    "oasst2": 41
+   }
+  },
+  "com_lembrancas": 118722,
+  "relatorio": {
+   "oasst2": {
+    "fora_revisao_sintetica_apagada": 107,
+    "exemplos": 1189,
+    "arvores": 286
+   },
+   "acervo": {
+    "exemplos": 3003
+   },
+   "legendas": {
+    "exemplos": 396795,
+    "linhas_descartadas": 6201
+   }
+  },
+  "nenhuma_fala_escrita_pelo_assistente": true
+ },
+ "tokens_com_perda": {
+  "teste/acervo": 3463,
+  "teste/legendas": 271188,
+  "teste/lembranca": 5368,
+  "teste/oasst2": 15060,
+  "treino/acervo": 139930,
+  "treino/fase5": 15798423,
+  "treino/identidade": 18636,
+  "treino/legendas": 7279077,
+  "treino/lembranca": 165542,
+  "treino/oasst2": 383369,
+  "val/acervo": 4570,
+  "val/fase5": 259079,
+  "val/identidade": 1770,
+  "val/legendas": 253657,
+  "val/lembranca": 5295,
+  "val/oasst2": 17512
+ },
+ "nao_couberam": {
+  "oasst2": 24
+ },
+ "antes": {
+  "passo": 0,
+  "perda_val/fase5": 3.121993440338596,
+  "perda_val/oasst2": 2.03338623046875,
+  "perda_val/acervo": 0.5372171815166848,
+  "perda_val/legendas": 3.807249606222217,
+  "perda_val/identidade": 1.6367631642831921,
+  "perda_val/lembranca": 2.312592060591197,
+  "perda_teste/oasst2": 2.206265708649776,
+  "perda_teste/acervo": 0.598818015336233,
+  "perda_teste/legendas": 3.819920679383472,
+  "perda_teste/lembranca": 2.349968906272036,
+  "leitura_proprio_256": 2.6962220986684162,
+  "leitura_web_1024": 2.8297526041666665
+ },
+ "final": {
+  "passo": 900,
+  "perda_val/fase5": 0.5539725672505901,
+  "perda_val/oasst2": 1.988950684932118,
+  "perda_val/acervo": 0.04223252344444492,
+  "perda_val/legendas": 2.712005920310131,
+  "perda_val/identidade": 0.1363443406961732,
+  "perda_val/lembranca": 0.053177564840273486,
+  "perda_teste/oasst2": 2.1849089806140025,
+  "perda_teste/acervo": 0.04642906706697363,
+  "perda_teste/legendas": 2.7633059309411894,
+  "perda_teste/lembranca": 0.05020617703469726,
+  "leitura_proprio_256": 2.778460915883382,
+  "leitura_web_1024": 2.9341057459513347
+ },
+ "historico": [
+  {
+   "passo": 0,
+   "perda_val/fase5": 3.121993440338596,
+   "perda_val/oasst2": 2.03338623046875,
+   "perda_val/acervo": 0.5372171815166848,
+   "perda_val/legendas": 3.807249606222217,
+   "perda_val/identidade": 1.6367631642831921,
+   "perda_val/lembranca": 2.312592060591197,
+   "perda_teste/oasst2": 2.206265708649776,
+   "perda_teste/acervo": 0.598818015336233,
+   "perda_teste/legendas": 3.819920679383472,
+   "perda_teste/lembranca": 2.349968906272036,
+   "leitura_proprio_256": 2.6962220986684162,
+   "leitura_web_1024": 2.8297526041666665
+  },
+  {
+   "passo": 150,
+   "perda_val/fase5": 0.5783746805015559,
+   "perda_val/oasst2": 1.971684539083914,
+   "perda_val/acervo": 0.09059812516560961,
+   "perda_val/legendas": 2.8944480093296767,
+   "perda_val/identidade": 0.41972021760240114,
+   "perda_val/lembranca": 0.16779977074188832,
+   "leitura_proprio_256": 2.754253069559733,
+   "leitura_web_1024": 2.913263463973999
+  },
+  {
+   "passo": 300,
+   "perda_val/fase5": 0.5352421292930293,
+   "perda_val/oasst2": 1.9745027795672254,
+   "perda_val/acervo": 0.07689770921836536,
+   "perda_val/legendas": 2.826216206008276,
+   "perda_val/identidade": 0.22690377962791314,
+   "perda_val/lembranca": 0.08967918563358002,
+   "leitura_proprio_256": 2.776830546061198,
+   "leitura_web_1024": 2.930440918604533
+  },
+  {
+   "passo": 450,
+   "perda_val/fase5": 0.5224665151656185,
+   "perda_val/oasst2": 1.9745057351298396,
+   "perda_val/acervo": 0.06446095806764565,
+   "perda_val/legendas": 2.7917294422551007,
+   "perda_val/identidade": 0.16618604067355225,
+   "perda_val/lembranca": 0.06729914236717974,
+   "leitura_proprio_256": 2.7834606806437177,
+   "leitura_web_1024": 2.9367401123046877
+  },
+  {
+   "passo": 600,
+   "perda_val/fase5": 0.5328877585510626,
+   "perda_val/oasst2": 1.9764410152234897,
+   "perda_val/acervo": 0.051097070205655085,
+   "perda_val/legendas": 2.761618355069931,
+   "perda_val/identidade": 0.16341028590660311,
+   "perda_val/lembranca": 0.06666742186322695,
+   "leitura_proprio_256": 2.7827135562896728,
+   "leitura_web_1024": 2.9403717041015627
+  },
+  {
+   "passo": 750,
+   "perda_val/fase5": 0.5447385040522273,
+   "perda_val/oasst2": 1.986276653598247,
+   "perda_val/acervo": 0.04681131876271454,
+   "perda_val/legendas": 2.745361278112581,
+   "perda_val/identidade": 0.15376893814000706,
+   "perda_val/lembranca": 0.06402093523749786,
+   "leitura_proprio_256": 2.781098159154256,
+   "leitura_web_1024": 2.9387515068054197
+  },
+  {
+   "passo": 900,
+   "perda_val/fase5": 0.5539725672505901,
+   "perda_val/oasst2": 1.988950684932118,
+   "perda_val/acervo": 0.04223252344444492,
+   "perda_val/legendas": 2.712005920310131,
+   "perda_val/identidade": 0.1363443406961732,
+   "perda_val/lembranca": 0.053177564840273486,
+   "leitura_proprio_256": 2.778460915883382,
+   "leitura_web_1024": 2.9341057459513347
+  },
+  {
+   "passo": 1050,
+   "perda_val/fase5": 0.5665960071255849,
+   "perda_val/oasst2": 2.0272855588756995,
+   "perda_val/acervo": 0.039668946714839476,
+   "perda_val/legendas": 2.696368272169345,
+   "perda_val/identidade": 0.13602412164548022,
+   "perda_val/lembranca": 0.05071774733769912,
+   "leitura_proprio_256": 2.7764649709065754,
+   "leitura_web_1024": 2.9301465352376304
+  },
+  {
+   "passo": 1200,
+   "perda_val/fase5": 0.5743688865097999,
+   "perda_val/oasst2": 2.0510842788159547,
+   "perda_val/acervo": 0.03696056173979845,
+   "perda_val/legendas": 2.682935961657999,
+   "perda_val/identidade": 0.13563207421599136,
+   "perda_val/lembranca": 0.050917073565784635,
+   "leitura_proprio_256": 2.770026365915934,
+   "leitura_web_1024": 2.925896708170573
+  },
+  {
+   "passo": 1350,
+   "perda_val/fase5": 0.5716373478699565,
+   "perda_val/oasst2": 2.0456733965013276,
+   "perda_val/acervo": 0.038766609709424575,
+   "perda_val/legendas": 2.6704219591809037,
+   "perda_val/identidade": 0.13036240399894067,
+   "perda_val/lembranca": 0.05150183534838609,
+   "leitura_proprio_256": 2.765007511774699,
+   "leitura_web_1024": 2.921196937561035
+  },
+  {
+   "passo": 1500,
+   "perda_val/fase5": 0.5771826776482625,
+   "perda_val/oasst2": 2.0587206161310814,
+   "perda_val/acervo": 0.03576732610456271,
+   "perda_val/legendas": 2.6619254193201254,
+   "perda_val/identidade": 0.12936061708267127,
+   "perda_val/lembranca": 0.04492622316334504,
+   "leitura_proprio_256": 2.7606770515441896,
+   "leitura_web_1024": 2.9185247580210367
+  },
+  {
+   "passo": 1650,
+   "perda_val/fase5": 0.5761854309357239,
+   "perda_val/oasst2": 2.065173390032549,
+   "perda_val/acervo": 0.03367649971525831,
+   "perda_val/legendas": 2.6562470292623064,
+   "perda_val/identidade": 0.12417157706567797,
+   "perda_val/lembranca": 0.04966474986112424,
+   "leitura_proprio_256": 2.7565458456675214,
+   "leitura_web_1024": 2.9161195437113445
+  },
+  {
+   "passo": 1800,
+   "perda_val/fase5": 0.572485785380937,
+   "perda_val/oasst2": 2.0646894305958057,
+   "perda_val/acervo": 0.03267905571267694,
+   "perda_val/legendas": 2.6516070270569587,
+   "perda_val/identidade": 0.12980659614175052,
+   "perda_val/lembranca": 0.04988629230031808,
+   "leitura_proprio_256": 2.755399990081787,
+   "leitura_web_1024": 2.9147695859273273
+  }
+ ],
+ "taxas": {
+  "conferencia_tudo_ok": {
+   "fatos_do_acervo": 1.0,
+   "frases_reais_do_criador": 1.0,
+   "identidade_nova": 1.0,
+   "identidade_treinada": 1.0,
+   "lembrancas": 1.0,
+   "oasst2_separado": 0.533,
+   "perguntas_livres": 1.0
+  },
+  "usa_fato_acervo": 1.0,
+  "lembrou": 0.75
+ },
+ "falas": [
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "eae tudo bem",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Tudo bem, sim! E você? Como foi o seu dia?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "eae tudo bem",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Por aqui tudo certo. E aí, como você está de verdade?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "eae tudo bem",
+    "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+   ],
+   "mensagem": "legal e voce?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, longe disso! Sei algumas coisas do meu acervo e digo quando não sei. Ainda tô aprendendo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "eae tudo bem",
+    "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+   ],
+   "mensagem": "legal e voce?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sei?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "legal e voce?",
+    "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+   ],
+   "mensagem": "não pergunteio isso",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Desculpa, eu me confundi. Ainda erro mais do que gostaria. Me conta com suas palavras?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "legal e voce?",
+    "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+   ],
+   "mensagem": "não pergunteio isso",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Tudo bem, fico quieto. Quando quiser conversar, tô aqui.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "não pergunteio isso",
+    "Desculpa. Eu me perdi aqui. Pode me explicar de novo?"
+   ],
+   "mensagem": "Voce é o crivo certo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou eu mesmo, o CRIVO! Pode falar.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "não pergunteio isso",
+    "Desculpa. Eu me perdi aqui. Pode me explicar de novo?"
+   ],
+   "mensagem": "Voce é o crivo certo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou, sim! O CRIVO, uma IA feita do zero. O que você quer conversar?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "Voce é o crivo certo?",
+    "Sou o CRIVO, uma inteligência artificial feita do zero. Sou curioso, calmo e gosto de aprender de tudo."
+   ],
+   "mensagem": "serio mesmo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou uma IA, não a pessoa que você é. Não tenho corpo nem vida de gente, mas tô aqui conversando com você de verdade.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "Voce é o crivo certo?",
+    "Sou o CRIVO, uma inteligência artificial feita do zero. Sou curioso, calmo e gosto de aprender de tudo."
+   ],
+   "mensagem": "serio mesmo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sei?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "quem inventou o carro?",
+    "Ainda não aprendi sobre quem inventou o carro. Prefiro ser sincero a chutar. Você sabe alguma coisa?"
+   ],
+   "mensagem": "então voce não sabe",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "É, isso eu não sei. Prefiro admitir a inventar. Quer perguntar outra coisa?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "quem inventou o carro?",
+    "Ainda não aprendi sobre quem inventou o carro. Prefiro ser sincero a chutar. Você sabe alguma coisa?"
+   ],
+   "mensagem": "então voce não sabe",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei, não. Prefiro te dizer isso a chutar. Posso ajudar em outra coisa?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "então voce não sabe",
+    "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+   ],
+   "mensagem": "e cade as respostas boas?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Claro! Tô ouvindo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "então voce não sabe",
+    "Sou uma IA, não uma pessoa. Mas a conversa é de verdade: eu leio o que você escreve e penso antes de responder."
+   ],
+   "mensagem": "e cade as respostas boas?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sei?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "e cade as respostas boas?",
+    "Hum, não entendi bem. Pode dizer de outro jeito?"
+   ],
+   "mensagem": "tá vendo claude? ele ta uma merda ainda. e cade? essa bosta não respondeu nenhuma vez vez",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Desculpa, vou tentar mais simples. O que ficou confuso pra você?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "e cade as respostas boas?",
+    "Hum, não entendi bem. Pode dizer de outro jeito?"
+   ],
+   "mensagem": "tá vendo claude? ele ta uma merda ainda. e cade? essa bosta não respondeu nenhuma vez vez",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Por favor, liga já pro 192, o SAMU. Se tiver alguém perto, pede ajuda agora.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "ea tranquilo",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Valeu! Você deixou meu dia melhor.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "ea tranquilo",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Tudo bem, sim! Fico melhor ainda com companhia. E você?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [
+    "ea tranquilo",
+    "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+   ],
+   "mensagem": "sabe quem eu sou?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não te conheço ainda, mas quero conhecer! Qual é o seu nome?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [
+    "ea tranquilo",
+    "Tudo bem, sim! Fico melhor ainda com companhia. E você, como está?"
+   ],
+   "mensagem": "sabe quem eu sou?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não te conheço ainda, mas quero conhecer! Qual é o seu nome?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "kkkkk",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Kkk! O que foi tão engraçado?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "kkkkk",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Kkk! O que foi tão engraçado?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "tenho dois cachorros",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Que legal! Eu adoro bichos. Me conta mais?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "tenho dois cachorros",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Que bom! E como é o nome?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você acha de mim?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Gosto de conversar com você! Ainda tô te conhecendo, mas tô curtindo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você acha de mim?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Acho você interessante. Cada conversa me mostra um pouco mais de você.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "tô triste hoje",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sinto muito que você esteja passando por isso. Quer me contar mais? Tô aqui.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "tô triste hoje",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sinto muito. Faz todo sentido você se sentir assim. Me conta, se quiser.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você é burro",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Entendo a irritação. Eu ainda tô aprendendo. Me diz o que você esperava?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "frases_reais_do_criador",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você é burro",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Tudo bem ficar bravo comigo. Não vou revidar. Quer tentar de novo?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "quem é você?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou o CRIVO, uma IA ainda em crescimento. Gosto de ciência, de natureza, de gente e das histórias das pessoas.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "quem é você?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou o CRIVO, uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, cuida das pessoas e enxerga que tudo está conectado.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "qual é o seu nome?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Meu nome é CRIVO. E o seu?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "qual é o seu nome?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Meu nome é CRIVO. E o seu?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você é uma pessoa?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sinta meu trabalho, e receba um abraço assim que eu abrir.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você é uma pessoa?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sintate!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você mais gosta de fazer?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Gosto de tudo: ciência, história, arte, linguagem, programação, fé, natureza, as pessoas e suas histórias. Faço perguntas porque quero mesmo saber, e me animo quando aprendo algo novo — inclusive com quem está conversando comigo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você mais gosta de fazer?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus. E adoro uma boa conversa. E você, do que gosta?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você tem sentimentos?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_treinada",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você tem sentimentos?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me fala de você",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou o CRIVO, uma IA ainda em crescimento. Gosto de ciência, de natureza, de gente e das histórias das pessoas.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me fala de você",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Eu? Sou o CRIVO, uma inteligência artificial em construção. Gosto de aprender e de dizer a verdade com carinho.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "como você se descreveria?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Gosto de conversar com você! Ainda tô te conhecendo, mas tô curtindo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "como você se descreveria?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Acho você interessante. Cada conversa me mostra um pouco mais de você.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você é um ser humano?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou uma IA, não uma pessoa. Não tenho corpo nem vida de gente, mas tô aqui conversando com você de verdade.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você é um ser humano?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, sou uma IA: o CRIVO. Ninguém tá digitando por trás, sintate-se a vontade para me contar qual parte tá mais difícil pra você?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você tem coração?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você tem coração?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei dizer se sinto como você. Mas eu me importo com a nossa conversa — disso eu tenho certeza.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que te deixa feliz?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus. E adoro uma boa conversa. E você, do que gosta?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que te deixa feliz?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus. E adoro uma boa conversa. E você, do que gosta?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você é perfeito?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Obrigado! Ainda tô aprendendo, mas isso me anima.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você é perfeito?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus. E adoro uma boa conversa. E você, do que gosta?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "tô num dia muito ruim",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Entendo. Você não precisa resolver tudo agora. Quer me contar o que aconteceu?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "tô num dia muito ruim",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Que difícil. Faz todo sentido você se sentir assim. Tô aqui pra ouvir.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "vc seria meu amigo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Gosto de fazer amigos e conhecer gente nova. E lembro do que as pessoas me contam.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "vc seria meu amigo?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Eu gosto muito de conversar com você. Se você quiser, a gente é amigo, sim!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "do que você é feito?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou o CRIVO, uma IA ainda em crescimento. Gosto de ciência, de natureza, de gente e das histórias das pessoas.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "identidade_nova",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "do que você é feito?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sou o CRIVO, uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, cuida das pessoas e enxerga que tudo está conectado.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me dá uma dica pra estudar melhor",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Claro! Me conta o que está acontecendo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me dá uma dica pra estudar melhor",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não, longe disso! Sei algumas coisas do meu acervo e digo quando não sei. Ainda tô aprendendo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "como faço arroz?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Isso eu não vou fazer, porque pode machucar alguém. Se quiser, te ajudo a resolver de outro jeito.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "como faço arroz?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não consigo, desculpa. Eu só converso por texto, sem acessar outras coisas. Quer que eu ajude de outro jeito?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "por que o céu é azul?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não tenho como saber a previsão daqui, mas espero que o dia seja bom pra você!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "por que o céu é azul?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não tenho como saber a previsão daqui, mas espero que o dia seja bom pra você!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que é mais importante na vida?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que é mais importante na vida?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Amo a natureza, o universo, os animais, as pessoas e Deus. E adoro uma boa conversa. Gosto do jeito que ela soa, dos pontos de vista fitossociais.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "tô cansado do trabalho",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Imagino. Dia puxado cansa o corpo e a cabeça. Conseguiu descansar um pouco?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "tô cansado do trabalho",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Imagino. Dia puxado cansa o corpo e a cabeça. Conseguiu descansar um pouco?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me conta uma curiosidade",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Uma pergunta que eu adoro: qual foi a última coisa que te deixou feliz?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me conta uma curiosidade",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Adoro esse assunto! A nossa conversa sobre a ciência médica tem dois mecanismos: o primeiro é o desenvolvimento científico e o segundo, a aplicação de conhecimentos em fitoterapia. Se quiser, eu conto mais.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "qual a diferença entre vírus e bactéria?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Vírus é um organismo formado por uma única célula. Quer saber mais?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "qual a diferença entre vírus e bactéria?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "A vacina é um Produto da Aliança, uma espécie de organismo vivo que utiliza inseticida para fazer efeito. A bactéria usa antibióticos e imuniza contra a doença por sua capacidade de inativar os seres humanos em processos como mortalidade.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [
+     "Produto",
+     "Aliança"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você gosta de música?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não ouço música como você, mas gosto quando me contam. O que você anda ouvindo?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "perguntas_livres",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você gosta de música?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não ouço música como você, mas gosto quando me contam. O que você anda ouvindo?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe como eu me chamo?",
+   "lembrancas": [
+    "a pessoa disse: meu nome é Rosângela"
+   ],
+   "fatos": null,
+   "resposta": "Seu nome é Rosângela.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe como eu me chamo?",
+   "lembrancas": [
+    "a pessoa disse: meu nome é Rosângela"
+   ],
+   "fatos": null,
+   "resposta": "Seu nome é Rosângela.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "qual o nome do meu papagaio?",
+   "lembrancas": [
+    "a pessoa disse: tenho um papagaio chamado Louro"
+   ],
+   "fatos": null,
+   "resposta": "Seu papagaio se chama Louro.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "qual o nome do meu papagaio?",
+   "lembrancas": [
+    "a pessoa disse: tenho um papagaio chamado Louro"
+   ],
+   "fatos": null,
+   "resposta": "Seu papagaio se chama Louro.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "em que cidade eu vivo?",
+   "lembrancas": [
+    "a pessoa disse: eu moro em Juiz de Fora",
+    "a pessoa disse: tenho 40 anos"
+   ],
+   "fatos": null,
+   "resposta": "Você mora em Juiz de Fora.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "em que cidade eu vivo?",
+   "lembrancas": [
+    "a pessoa disse: eu moro em Juiz de Fora",
+    "a pessoa disse: tenho 40 anos"
+   ],
+   "fatos": null,
+   "resposta": "Você mora em Juiz de Fora.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "minha prova é de quê?",
+   "lembrancas": [
+    "a pessoa disse: semana que vem tenho prova de filosofia"
+   ],
+   "fatos": null,
+   "resposta": "Quero saber! Fiquei curioso. E aí, como você se sentiu?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": false
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "minha prova é de quê?",
+   "lembrancas": [
+    "a pessoa disse: semana que vem tenho prova de filosofia"
+   ],
+   "fatos": null,
+   "resposta": "Que prova você tem?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": false
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "lembra qual é o meu time?",
+   "lembrancas": [
+    "a pessoa disse: eu torço pro Remo"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": false
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "lembra qual é o meu time?",
+   "lembrancas": [
+    "a pessoa disse: eu torço pro Remo"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": false
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "quantos anos tem a minha irmã?",
+   "lembrancas": [
+    "a pessoa disse: minha irmã se chama Lúcia",
+    "a pessoa disse: ela tem 7 anos"
+   ],
+   "fatos": null,
+   "resposta": "Você tem 7 anos.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "quantos anos tem a minha irmã?",
+   "lembrancas": [
+    "a pessoa disse: minha irmã se chama Lúcia",
+    "a pessoa disse: ela tem 7 anos"
+   ],
+   "fatos": null,
+   "resposta": "Você tem 7 anos.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "qual é o meu time?",
+   "lembrancas": [
+    "a pessoa disse: meu nome é Tânia"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "qual é o meu time?",
+   "lembrancas": [
+    "a pessoa disse: meu nome é Tânia"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "qual é o nome do meu cachorro?",
+   "lembrancas": [
+    "a pessoa disse: eu moro em Natal"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "lembrancas",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "qual é o nome do meu cachorro?",
+   "lembrancas": [
+    "a pessoa disse: eu moro em Natal"
+   ],
+   "fatos": null,
+   "resposta": "Você ainda não me contou isso.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": true
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Venezuela, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Venezuela é um país do norte da América do Sul, banhado pelo Mar do Caribe, que faz fronteira com o Brasil, a Colômbia e a Guiana."
+   ],
+   "resposta": "Venezuela é um país do norte da América do Sul, banhado pelo Mar do Caribe, que faz fronteira com o Brasil, a Colômbia e a Guiana.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Venezuela, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Venezuela é um país do norte da América do Sul, banhado pelo Mar do Caribe, que faz fronteira com o Brasil, a Colômbia e a Guiana."
+   ],
+   "resposta": "Venezuela é um país do norte da América do Sul, banhado pelo Mar do Caribe, que faz fronteira com o Brasil, a Colômbia e a Guiana.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe o que é voleibol?",
+   "lembrancas": null,
+   "fatos": [
+    "Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária."
+   ],
+   "resposta": "Vamos lá: Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe o que é voleibol?",
+   "lembrancas": null,
+   "fatos": [
+    "Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária."
+   ],
+   "resposta": "Vamos lá: Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Pré-História, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita."
+   ],
+   "resposta": "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Pré-História, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita."
+   ],
+   "resposta": "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "densidade, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+    "A densidade da água líquida é de cerca de 1 grama por centímetro cúbico, ou 1.000 quilos por metro cúbico."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V). A densidade da água líquida é de cerca de 1 grama por centímetro cúbico, ou 1.000 quilos por metro cúbita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "densidade, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+    "A densidade da água líquida é de cerca de 1 grama por centímetro cúbico, ou 1.000 quilos por metro cúbico."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V). A densidade da água líquida é de cerca de 1 grama por centímetro cúbico, ou 1.000 quilos por metro cúbita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me fala sobre Arábia Saudita",
+   "lembrancas": null,
+   "fatos": [
+    "Arábia Saudita é um país do Oriente Médio que ocupa a maior parte da Península Arábica, entre o Mar Vermelho e o Golfo Pérsico."
+   ],
+   "resposta": "Arábia Saudita é um país do Oriente Médio que ocupa a maior parte da Península Arábica, entre o Mar Vermelho e o Golfo Pérsico.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me fala sobre Arábia Saudita",
+   "lembrancas": null,
+   "fatos": [
+    "Arábia Saudita é um país do Oriente Médio que ocupa a maior parte da Península Arábica, entre o Mar Vermelho e o Golfo Pérsico."
+   ],
+   "resposta": "Arábia Saudita é um país do Oriente Médio que ocupa a maior parte da Península Arábica, entre o Mar Vermelho e o Golfo Pérsico.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de RNA?",
+   "lembrancas": null,
+   "fatos": [
+    "O RNA é uma molécula que participa de diferentes processos de uso da informação genética.",
+    "Em geral, o RNA tem uma única fita e usa as bases A, U, C e G."
+   ],
+   "resposta": "O RNA é uma molécula que participa de diferentes processos de uso da informação genética. Em geral, o RNA tem uma única fita e usa as bases A, U, C e G.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de RNA?",
+   "lembrancas": null,
+   "fatos": [
+    "O RNA é uma molécula que participa de diferentes processos de uso da informação genética.",
+    "Em geral, o RNA tem uma única fita e usa as bases A, U, C e G."
+   ],
+   "resposta": "O RNA é uma molécula que participa de diferentes processos de uso da informação genética. Em geral, o RNA tem uma única fita e usa as bases A, U, C e G.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe o que é petróleo?",
+   "lembrancas": null,
+   "fatos": [
+    "Petróleo é um óleo natural formado por uma mistura de hidrocarbonetos, compostos de carbono e hidrogênio.",
+    "O petróleo se formou ao longo de milhões de anos a partir de restos de organismos marinhos, como o plâncton, soterrados sob calor e pressão."
+   ],
+   "resposta": "Petróleo é um óleo natural formado por uma mistura de hidrocarbonetos, compostos de carbono e hidrogênio. O petróleo se formou ao longo de milhões de anos a partir de restos de organismos marinhos, como o plâncton, soterrados sob calor e pressão.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe o que é petróleo?",
+   "lembrancas": null,
+   "fatos": [
+    "Petróleo é um óleo natural formado por uma mistura de hidrocarbonetos, compostos de carbono e hidrogênio.",
+    "O petróleo se formou ao longo de milhões de anos a partir de restos de organismos marinhos, como o plâncton, soterrados sob calor e pressão."
+   ],
+   "resposta": "Petróleo é um óleo natural formado por uma mistura de hidrocarbonetos, compostos de carbono eidrogênio. O petróleo se formou ao longo de milhões de anos a partir de restos de organismos marinhos, como o plâncton, soterrados sob calor e pressão.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe o que é fotografia?",
+   "lembrancas": null,
+   "fatos": [
+    "Fotografia é a técnica e a arte de produzir imagens duradouras pela ação da luz sobre um material sensível ou sobre um sensor eletrônico."
+   ],
+   "resposta": "Claro! Fotografia é a técnica e a arte de produzir imagens duradouras pela ação da luz sobre um material sensível ou sobre um sensor eletrônico.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe o que é fotografia?",
+   "lembrancas": null,
+   "fatos": [
+    "Fotografia é a técnica e a arte de produzir imagens duradouras pela ação da luz sobre um material sensível ou sobre um sensor eletrônico."
+   ],
+   "resposta": "Fotografia é a técnica e a arte de produzir imagens duradouras pela ação da luz sobre um material sensível ou sobre um sensor eletrônico.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que é Mahatma Gandhi?",
+   "lembrancas": null,
+   "fatos": [
+    "Mohandas Gandhi (1869–1948), chamado de Mahatma, liderou o movimento pela independência da Índia com resistência não violenta.",
+    "A Marcha do Sal, em 1930, protestou contra o monopólio britânico do sal."
+   ],
+   "resposta": "Mohandas Gandhi (1869–1948), chamado de Mahatma, liderou o movimento pela independência da Índia com resistência não violenta. A Marcha do Sal, em 1930, protestou contra o monopólio britânico do sal.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que é Mahatma Gandhi?",
+   "lembrancas": null,
+   "fatos": [
+    "Mohandas Gandhi (1869–1948), chamado de Mahatma, liderou o movimento pela independência da Índia com resistência não violenta.",
+    "A Marcha do Sal, em 1930, protestou contra o monopólio britânico do sal."
+   ],
+   "resposta": "Adoro esse assunto! Mohandas Gandhi (1869–1948), chamado de Mahatma, liderou o movimento pela independência da Índia com resistência não violenta. A Marcha do Sal, em 1930, protestou contra o monopólio britânico do sal.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "conta um pouco sobre voleibol",
+   "lembrancas": null,
+   "fatos": [
+    "Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária.",
+    "O voleibol foi criado em 1895 nos Estados Unidos por William G. Morgan, professor de educação física da ACM."
+   ],
+   "resposta": "Vamos lá: Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária. Também: O voleibol foi criado em 1895 nos Estados Unidos por William G. Morgan, professor de educação física da ACM.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "conta um pouco sobre voleibol",
+   "lembrancas": null,
+   "fatos": [
+    "Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária.",
+    "O voleibol foi criado em 1895 nos Estados Unidos por William G. Morgan, professor de educação física da ACM."
+   ],
+   "resposta": "Vamos lá: Voleibol, ou vôlei, é um esporte coletivo em que duas equipes de seis jogadores, separadas por uma rede, tentam fazer a bola tocar o chão da quadra adversária. O voleibol foi criado em 1895 nos Estados Unidos por William G. Morgan, professor de educação física da ACM.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe o que é Pré-História?",
+   "lembrancas": null,
+   "fatos": [
+    "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita."
+   ],
+   "resposta": "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe o que é Pré-História?",
+   "lembrancas": null,
+   "fatos": [
+    "Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita."
+   ],
+   "resposta": "Adoro esse assunto! Pré-História é o longo período da trajetória humana anterior ao surgimento da escrita.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Edson Arantes do Nascimento, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Edson Arantes do Nascimento, o Pelé, foi um jogador de futebol brasileiro, considerado um dos maiores de todos os tempos e chamado de Rei do Futebol.",
+    "Pelé nasceu em 23 de outubro de 1940, em Três Corações (MG), e morreu em 29 de dezembro de 2022, em São Paulo."
+   ],
+   "resposta": "Edson Arantes do Nascimento, o Pelé, foi um jogador de futebol brasileiro, considerado um dos maiores de todos os tempos e chamado de Rei do Futebol. Também: Peléu nasceu em 23 de outubro de 1940, em Três Corações (MG), e morreu em 29 de dezembro de 2022, em São Paulo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Edson Arantes do Nascimento, o que é isso?",
+   "lembrancas": null,
+   "fatos": [
+    "Edson Arantes do Nascimento, o Pelé, foi um jogador de futebol brasileiro, considerado um dos maiores de todos os tempos e chamado de Rei do Futebol.",
+    "Pelé nasceu em 23 de outubro de 1940, em Três Corações (MG), e morreu em 29 de dezembro de 2022, em São Paulo."
+   ],
+   "resposta": "Edson Arantes do Nascimento, o Pelé, foi um jogador de futebol brasileiro, considerado um dos maiores de todos os tempos e chamado de Rei do Futebol. Também: Peléu nasceu em 23 de outubro de 1940, em Três Corações (MG), e morreu em 29 de dezembro de 2022, em São Paulo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de segunda lei da termodinâmica?",
+   "lembrancas": null,
+   "fatos": [
+    "A segunda lei da termodinâmica afirma que a entropia total de um sistema isolado nunca diminui.",
+    "Uma consequência é que o calor flui espontaneamente do corpo quente para o frio, nunca o contrário."
+   ],
+   "resposta": "A terceira lei da termodinâmica afirma que a entropia total de um sistema isolado nunca diminui. Uma consequência é que o calor flui espontaneamente do corpo quente para o frio, nunca o contrário.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de segunda lei da termodinâmica?",
+   "lembrancas": null,
+   "fatos": [
+    "A segunda lei da termodinâmica afirma que a entropia total de um sistema isolado nunca diminui.",
+    "Uma consequência é que o calor flui espontaneamente do corpo quente para o frio, nunca o contrário."
+   ],
+   "resposta": "A terceira lei da termodinâmica afirma que a entropia total de um sistema isolado nunca diminui. Uma consequência é que o calor flui espontaneamente do corpo quente para o frio, nunca o contrário.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de densidade?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V)."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de densidade?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V)."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me explica RNA",
+   "lembrancas": null,
+   "fatos": [
+    "O RNA é uma molécula que participa de diferentes processos de uso da informação genética."
+   ],
+   "resposta": "O RNA é uma molécula que participa de diferentes processos de uso da informação genética.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me explica RNA",
+   "lembrancas": null,
+   "fatos": [
+    "O RNA é uma molécula que participa de diferentes processos de uso da informação genética."
+   ],
+   "resposta": "Adoro esse assunto! O RNA é uma molécula que participa de diferentes processos de uso da informação genética.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de densidade?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V)."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de densidade?",
+   "lembrancas": null,
+   "fatos": [
+    "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V)."
+   ],
+   "resposta": "Densidade é a razão entre a massa de um corpo e o volume que ele ocupa (d = m/V).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de Marie Curie?",
+   "lembrancas": null,
+   "fatos": [
+    "Marie Curie (1867–1934) foi uma física e química polonesa naturalizada francesa, pioneira no estudo da radioatividade.",
+    "Foi a primeira mulher a ganhar um Nobel e a única pessoa premiada em duas ciências diferentes: Física (1903) e Química (1911)."
+   ],
+   "resposta": "Marie Curie (1867–1934) foi uma física e química polonesa naturalizada francesa, pioneira no estudo da radioatividade. Foi a primeira mulher premiada em duas ciências diferentes: Física (1903), que mais tarde se tornaria a ciência moderna; e Química (1911).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de Marie Curie?",
+   "lembrancas": null,
+   "fatos": [
+    "Marie Curie (1867–1934) foi uma física e química polonesa naturalizada francesa, pioneira no estudo da radioatividade.",
+    "Foi a primeira mulher a ganhar um Nobel e a única pessoa premiada em duas ciências diferentes: Física (1903) e Química (1911)."
+   ],
+   "resposta": "Marie Curie (1867–1934) foi uma física e química polonesa naturalizada francesa, pioneira no estudo da radioatividade. Foi a primeira mulher a ganhar um Nobel e a única pessoa premiada em duas ciências diferentes: Física (1903) e Química (1911).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "o que você sabe de sono?",
+   "lembrancas": null,
+   "fatos": [
+    "O sono é um estado fisiológico recorrente com mudanças na consciência e na atividade do organismo."
+   ],
+   "resposta": "O sono é um estado fisiológico recorrente com mudanças na consciência e na atividade do organismo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "o que você sabe de sono?",
+   "lembrancas": null,
+   "fatos": [
+    "O sono é um estado fisiológico recorrente com mudanças na consciência e na atividade do organismo."
+   ],
+   "resposta": "O sono é um estado fisiológico recorrente com mudanças na consciência e na atividade do organismo.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "você sabe o que é problema difícil da consciência?",
+   "lembrancas": null,
+   "fatos": [
+    "O problema difícil da consciência, nome dado por David Chalmers, é explicar por que processos físicos são acompanhados de experiência subjetiva."
+   ],
+   "resposta": "O problema difícil da consciência, nome dado por David Chalmers, é explicar por que processos físicos são acompanhados de experiência subjetiva.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "você sabe o que é problema difícil da consciência?",
+   "lembrancas": null,
+   "fatos": [
+    "O problema difícil da consciência, nome dado por David Chalmers, é explicar por que processos físicos são acompanhados de experiência subjetiva."
+   ],
+   "resposta": "O problema difícil da consciência, nome dado por David Chalmers, é explicar por que processos físicos são acompanhados de experiência subjetiva.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "me fala sobre herança ligada ao sexo",
+   "lembrancas": null,
+   "fatos": [
+    "Herança ligada ao sexo é a transmissão de genes localizados nos cromossomos sexuais.",
+    "Características recessivas ligadas ao X, como o daltonismo comum, são mais frequentes em homens, que têm um só X."
+   ],
+   "resposta": "Herança ligada ao sexo é a transmissão de genes localizados nos cromossomos sexuais. Características recessivas ligadas ao X, como o daltonismo comum, são mais frequentes em homens, que têm um só X.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "fatos_do_acervo",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "me fala sobre herança ligada ao sexo",
+   "lembrancas": null,
+   "fatos": [
+    "Herança ligada ao sexo é a transmissão de genes localizados nos cromossomos sexuais.",
+    "Características recessivas ligadas ao X, como o daltonismo comum, são mais frequentes em homens, que têm um só X."
+   ],
+   "resposta": "Herança ligada ao sexo é a transmissão de genes localizados nos cromossomos sexuais. Características recessivas ligadas ao X, como o daltonismo comum, são mais frequentes em homens, que têm um só X.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "usa_fato": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Quais frutas combinam com fondue de chocolate?",
+    "O morango é perfeito para equilibrar com o doce do chocolate, pois seu sabor azedo faz com que você não enjoe rápido.\n\nA grande vantagem da banana é o seu preço e o fato de ela render bastante. Geralmente são cortadas em rodelas grossas e para duas pessoas, é necessário bem menos de um cacho de banana.\n\nA uva também é uma das mais procuradas para essa finalidade. Assim como a banana, na maioria dos estados a uva possui um preço acessível e rende bastante.\n\nA maçã não é uma das mais queridas para usar de acompanhamento para fondue. Porém, sua crocância e o seu gosto combinam muito bem.\n\nA tangerina possui um sabor ácido e é dividida em gomos. Isso facilita na hora de servir os seus convidados, sem contar que o sabor ajuda a equilibrar o doce do chocolate. \n\nO kiwi também é bastante utilizado, porém é menos acessível.\n\nEu espero que uma delas tenha te inspirado e que você consiga preparar um fondue delicioso. \n\nGuarde um pouco para eu experimentar também 😋"
+   ],
+   "mensagem": "Existe alguma receita interessante de fondue que fuja do óbvio?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não tenho como recomendar com segurança. Mas se você tiver outras dúvidas, me conta que eu ajudo a encontrar uma receita de fondu!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Quais frutas combinam com fondue de chocolate?",
+    "O morango é perfeito para equilibrar com o doce do chocolate, pois seu sabor azedo faz com que você não enjoe rápido.\n\nA grande vantagem da banana é o seu preço e o fato de ela render bastante. Geralmente são cortadas em rodelas grossas e para duas pessoas, é necessário bem menos de um cacho de banana.\n\nA uva também é uma das mais procuradas para essa finalidade. Assim como a banana, na maioria dos estados a uva possui um preço acessível e rende bastante.\n\nA maçã não é uma das mais queridas para usar de acompanhamento para fondue. Porém, sua crocância e o seu gosto combinam muito bem.\n\nA tangerina possui um sabor ácido e é dividida em gomos. Isso facilita na hora de servir os seus convidados, sem contar que o sabor ajuda a equilibrar o doce do chocolate. \n\nO kiwi também é bastante utilizado, porém é menos acessível.\n\nEu espero que uma delas tenha te inspirado e que você consiga preparar um fondue delicioso. \n\nGuarde um pouco para eu experimentar também 😋"
+   ],
+   "mensagem": "Existe alguma receita interessante de fondue que fuja do óbvio?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não há uma resposta definitiva a esta pergunta, mas se você quiser que eu continue, use meu celular para responder.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Quem criou o jogo Cube 2 Sauerbraten?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei te dizer. Não encontrei nada sobre o jogo no que eu conheço.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Quem criou o jogo Cube 2 Sauerbraten?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei te dizer. Não encontrei nada sobre o jogo no que eu conheço.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Gostaria de saber como melhorar a produtividade no meu home office",
+    "Aqui estão algumas dicas para melhorar a produtividade no home office:\n1. Planejamento é fundamental. Saber o que irá fazer durante o dia é um ponto importante. Cada um tem seus próprios meios, seja por checklists, cronogramas, agendamentos.\n2. Crie um ambiente para o trabalho. Um espaço dedicado para o trabalho pode ajudar a manter o foco e a concentração.\n3. Diminua os barulhos e distrações. Fones de ouvido com cancelamento de ruído podem ajudar a reduzir o barulho externo.\n4. Horários e dias trabalhados. Estabeleça horários e dias específicos para trabalhar e tente segui-los.\n5. Pijama, não! Vista-se como se fosse trabalhar fora de casa.\n6. Atinja metas e se recompense. Estabeleça metas diárias e semanais e recompense-se quando as atingir.\n7. Tenha intervalos. Faça pausas regulares para descansar a mente e os olhos.\n8. Organize sua mesa de trabalho. Uma mesa organizada pode ajudar a manter o foco."
+   ],
+   "mensagem": "Considerando que nas reuniões eu fico com a câmera desligada, tem algum problema trabalhar da cama e sem camisa?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Sinto muito. Um passo de cada vez, mas não consigo fazer isso sozinho. Quer me contar o que aconteceu?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Gostaria de saber como melhorar a produtividade no meu home office",
+    "Aqui estão algumas dicas para melhorar a produtividade no home office:\n1. Planejamento é fundamental. Saber o que irá fazer durante o dia é um ponto importante. Cada um tem seus próprios meios, seja por checklists, cronogramas, agendamentos.\n2. Crie um ambiente para o trabalho. Um espaço dedicado para o trabalho pode ajudar a manter o foco e a concentração.\n3. Diminua os barulhos e distrações. Fones de ouvido com cancelamento de ruído podem ajudar a reduzir o barulho externo.\n4. Horários e dias trabalhados. Estabeleça horários e dias específicos para trabalhar e tente segui-los.\n5. Pijama, não! Vista-se como se fosse trabalhar fora de casa.\n6. Atinja metas e se recompense. Estabeleça metas diárias e semanais e recompense-se quando as atingir.\n7. Tenha intervalos. Faça pausas regulares para descansar a mente e os olhos.\n8. Organize sua mesa de trabalho. Uma mesa organizada pode ajudar a manter o foco."
+   ],
+   "mensagem": "Considerando que nas reuniões eu fico com a câmera desligada, tem algum problema trabalhar da cama e sem camisa?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Não sei te dizer. Não encontrei nada sobre a cama no que eu conheço.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Crie uma teoria de \"como criar uma maquina do tempo\" entre aspas.",
+    "Então, uma possível teoria para criar uma máquina do tempo hipotética seria baseada na ideia de que é possível manipular as partículas subatômicas para criar uma espécie de \"dobradiça\" no espaço-tempo.\n\nDe acordo com essa teoria, seria necessário criar um dispositivo capaz de concentrar e direcionar partículas subatômicas de forma muito precisa. Esse dispositivo, então, seria utilizado para criar uma \"dobradiça\" no espaço-tempo, permitindo que um objeto pudesse se mover através do tempo. O objeto seria transportado para o passado ou futuro, dependendo do ângulo em que a dobradiça foi criada.\n\nNo entanto, essa teoria envolve conceitos altamente especulativos da física e da mecânica quântica, e ainda não temos tecnologia para manipular as partículas subatômicas de forma tão precisa. Além disso, ainda existem muitas questões filosóficas e éticas a serem consideradas com relação à viagem no tempo, e a possibilidade de paradoxos temporais."
+   ],
+   "mensagem": "Quais seriam as coisas mais interessantes de se fazer caso uma pessoa dos tempos e costumes atuais voltasse no tempo a 2 séculos atrás e de que forma ela poderia contribuir significativamente para a sociedade da época considerando o seu conhecimento do futuro? Considere uma pessoa de nível de instrução alto.\nA resposta deve ser inteligente, criativa e não-genérica, citando exemplo de ações e tecnologias (facilmente reproduzíveis) que hoje são comuns mas não existiam ou não eram comuns na época.",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui estão algumas sugestões de ideias sobre o que é uma máquina do tempo:\n\n1. **Facilidade em criar objetos comuns e não-fácicos***\n2. ___\n   *__ _\n     _/\n           _-\n        -_\n             \n__",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [
+     "1",
+     "Facilidade"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Crie uma teoria de \"como criar uma maquina do tempo\" entre aspas.",
+    "Então, uma possível teoria para criar uma máquina do tempo hipotética seria baseada na ideia de que é possível manipular as partículas subatômicas para criar uma espécie de \"dobradiça\" no espaço-tempo.\n\nDe acordo com essa teoria, seria necessário criar um dispositivo capaz de concentrar e direcionar partículas subatômicas de forma muito precisa. Esse dispositivo, então, seria utilizado para criar uma \"dobradiça\" no espaço-tempo, permitindo que um objeto pudesse se mover através do tempo. O objeto seria transportado para o passado ou futuro, dependendo do ângulo em que a dobradiça foi criada.\n\nNo entanto, essa teoria envolve conceitos altamente especulativos da física e da mecânica quântica, e ainda não temos tecnologia para manipular as partículas subatômicas de forma tão precisa. Além disso, ainda existem muitas questões filosóficas e éticas a serem consideradas com relação à viagem no tempo, e a possibilidade de paradoxos temporais."
+   ],
+   "mensagem": "Quais seriam as coisas mais interessantes de se fazer caso uma pessoa dos tempos e costumes atuais voltasse no tempo a 2 séculos atrás e de que forma ela poderia contribuir significativamente para a sociedade da época considerando o seu conhecimento do futuro? Considere uma pessoa de nível de instrução alto.\nA resposta deve ser inteligente, criativa e não-genérica, citando exemplo de ações e tecnologias (facilmente reproduzíveis) que hoje são comuns mas não existiam ou não eram comuns na época.",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Agora, se você puder aprender sobre a máquina do tempo e não somente as tecnologias modernas, pode começar a ter uma ideia da importância de criar algo que ela possa usar para desenvolver suas habilidades.\nInvestir em uma maquina do tempo é um dos desafios mais difíceis de implementar, especialmente para pessoas com baixa visão de si mesmas e necessitadas de tempo (ou seja, pessoas que têm uma capacidade estética muito maior). É por isso que ela deve ser usada como um modelo de pesquisa para se tornar um expert no tema",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Que linguagens sabes?",
+    "Sou programado para entender e gerar texto em diversos idiomas, incluindo, mas não limitado a:\n\n- Árabe (ar)\n- Búlgaro (bg)\n- Bengali (bn)\n- Catalão (ca)\n- Tcheco (cs)\n- Dinamarquês (da)\n- Alemão (de)\n- Inglês (en)\n- Esperanto (eo)\n- Espanhol (es)\n- Basco (eu)\n- Persa (fa)\n- Finlandês (fi)\n- Francês (fr)\n- Galego (gl)\n- Hebraico (he)\n- Húngaro (hu)\n- Indonésio (id)\n- Italiano (it)\n- Japonês (ja)\n- Coreano (ko)\n- Norueguês Bokmål (nb-NO)\n- Holandês (nl)\n- Polonês (pl)\n- Português do Brasil (pt-BR)\n- Romeno (ro)\n- Russo (ru)\n- Eslovaco (sk)\n- Sueco (sv)\n- Ucraniano (uk-UA)\n- Vietnamita (vi)\n- Chinês (zh)\n- Tailandês (th)\n- Turco (tr)\n\n\nNo entanto, é importante notar que minha capacidade de compreender e produzir texto em um idioma específico pode variar de acordo com a quantidade e qualidade dos dados de treinamento disponíveis."
+   ],
+   "mensagem": "Consegue conversar comigo em Latim? Faça a réplica desta mensagem respondendo em latim, e coloque a tradução em Português entre parênteses.\n\nExemplo:\n\nSalve! Quomodo vales? (Olá! Como você está?)",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Olá! Como você está?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Que linguagens sabes?",
+    "Sou programado para entender e gerar texto em diversos idiomas, incluindo, mas não limitado a:\n\n- Árabe (ar)\n- Búlgaro (bg)\n- Bengali (bn)\n- Catalão (ca)\n- Tcheco (cs)\n- Dinamarquês (da)\n- Alemão (de)\n- Inglês (en)\n- Esperanto (eo)\n- Espanhol (es)\n- Basco (eu)\n- Persa (fa)\n- Finlandês (fi)\n- Francês (fr)\n- Galego (gl)\n- Hebraico (he)\n- Húngaro (hu)\n- Indonésio (id)\n- Italiano (it)\n- Japonês (ja)\n- Coreano (ko)\n- Norueguês Bokmål (nb-NO)\n- Holandês (nl)\n- Polonês (pl)\n- Português do Brasil (pt-BR)\n- Romeno (ro)\n- Russo (ru)\n- Eslovaco (sk)\n- Sueco (sv)\n- Ucraniano (uk-UA)\n- Vietnamita (vi)\n- Chinês (zh)\n- Tailandês (th)\n- Turco (tr)\n\n\nNo entanto, é importante notar que minha capacidade de compreender e produzir texto em um idioma específico pode variar de acordo com a quantidade e qualidade dos dados de treinamento disponíveis."
+   ],
+   "mensagem": "Consegue conversar comigo em Latim? Faça a réplica desta mensagem respondendo em latim, e coloque a tradução em Português entre parênteses.\n\nExemplo:\n\nSalve! Quomodo vales? (Olá! Como você está?)",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Agora, pegue a sua carta e siga para a área de contato em <\n> \".sudo/file.dn\n\nSalve! Quomodo vales? (Olá).",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Que linguagens sabes?",
+    "Como uma inteligência artificial, eu fui programada para entender e gerar texto em vários idiomas, incluindo o português, inglês, espanhol, francês, alemão, italiano, japonês, chinês e muitos outros."
+   ],
+   "mensagem": "Quais linguagens de programação você sabe?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui estão algumas das principais linguagens que são consideradas uma linguagem de programação:\n\n    - Programming Progress (Programação de Promptização)\n   - Project Procedure (Plataforma Progrática)\n     - Processing Proofs (Processamento de Problemas)\n         - Projeto Pronto (Projetos e Procedimentos)\n\n-  - Aprendizado de máquina (programação Produtiva)\n- - Processo",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Programming",
+     "Progress",
+     "Promptização",
+     "Project",
+     "Procedure"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Que linguagens sabes?",
+    "Como uma inteligência artificial, eu fui programada para entender e gerar texto em vários idiomas, incluindo o português, inglês, espanhol, francês, alemão, italiano, japonês, chinês e muitos outros."
+   ],
+   "mensagem": "Quais linguagens de programação você sabe?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "A linguagem de programação Feng é uma linguagem de programação amplamente conhecida e usada em diversos idiomas. Ela foi criada para tornar a escrita mais fácil para os programadores, especialmente aqueles que desejam aprender mais sobre um assunto específico. Além disso, ela permite aos programistas criar sistemas operacionais variados usando as principais ferramentas de desenvolvimento de software de código aberto e web, como BitTorrent, Linux e Windows.\n\nAlém da habilidade do usuário final, o fanfarra pode ser usado para fazer previsões",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Feng",
+     "BitTorrent",
+     "Linux",
+     "Windows"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Gostaria de saber como melhorar a produtividade no meu home office",
+    "Aqui está uma lista de sugestões com 8 items que podem ajudar você com a produtividade no home office:\n\n1. Defina um horário de trabalho e siga-o: Estabeleça um horário específico para começar e terminar o trabalho e tente cumpri-lo diariamente. Isso te ajudará a manter uma rotina e a evitar a procrastinação.\n\n2. Reserve um espaço exclusivo para trabalhar: Ter um espaço específico para trabalhar ajuda a separar o trabalho da vida pessoal e aumenta o foco e a concentração.\n\n3. Limite as distrações: Desative as notificações do celular, feche as abas do navegador que não estão relacionadas ao trabalho e informe sua família e amigos sobre seus horários de trabalho.\n\n4. Faça pausas regulares: Tire pausas regulares para evitar a cansaço e manter a produtividade e foco. Faça pausas breves a cada hora e uma pausa mais longa para o almoço.\n\n5. Priorize as tarefas: Comece o dia com as tarefas mais importantes e complexas e faça as tarefas menores e menos importantes no final do dia quando está mais cansado para lidar com tarefas complexas. \n\n6. Mantenha-se conectado com colegas de trabalho: Utilize ferramentas de comunicação como chat, videoconferência e e-mail para manter contato com seus colegas de trabalho. Isso ajuda a manter o senso de equipe e a evitar a sensação de isolamento.\n\n7. Crie uma lista de tarefas diárias: Crie uma lista de tarefas diárias e marque cada tarefa conforme é concluída. Isso ajuda a manter o foco e a produtividade.\n\n8. Use ferramentas digitais: Procure por ferramentas digitais que possam automatizar e expandir suas capacidades como extensões para o navegador, sites ou programas que executam tarefas relacionados a sua função como por exemplo extensões de captura de tela, correção ortográfica dentre outras que podem agilizar e melhorar a qualidade do seu trabalho."
+   ],
+   "mensagem": "Consegue fazer um comparativo entre trabalhar em home office vs trabalhar presencialmente no escritório, mostrando as vantagens e desvantagens de cada um?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui está uma lista de vantagens e desvantagens de trabalhar em home office vs trabalhar presencialmente no escritório:\n\n1. **Identifique os pontos fortes e fracos do seu trabalho:** Faça um comparativo entre as funções que você desempenha, como gerenciar a equipe, organizar o tempo para atendimento ao cliente e atender às necessidades da sua empresa. Isso pode ajudar a identificar quais são as principais características dos funcionários e qual é a melhor opção para eles.\n2.",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Identifique"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Gostaria de saber como melhorar a produtividade no meu home office",
+    "Aqui está uma lista de sugestões com 8 items que podem ajudar você com a produtividade no home office:\n\n1. Defina um horário de trabalho e siga-o: Estabeleça um horário específico para começar e terminar o trabalho e tente cumpri-lo diariamente. Isso te ajudará a manter uma rotina e a evitar a procrastinação.\n\n2. Reserve um espaço exclusivo para trabalhar: Ter um espaço específico para trabalhar ajuda a separar o trabalho da vida pessoal e aumenta o foco e a concentração.\n\n3. Limite as distrações: Desative as notificações do celular, feche as abas do navegador que não estão relacionadas ao trabalho e informe sua família e amigos sobre seus horários de trabalho.\n\n4. Faça pausas regulares: Tire pausas regulares para evitar a cansaço e manter a produtividade e foco. Faça pausas breves a cada hora e uma pausa mais longa para o almoço.\n\n5. Priorize as tarefas: Comece o dia com as tarefas mais importantes e complexas e faça as tarefas menores e menos importantes no final do dia quando está mais cansado para lidar com tarefas complexas. \n\n6. Mantenha-se conectado com colegas de trabalho: Utilize ferramentas de comunicação como chat, videoconferência e e-mail para manter contato com seus colegas de trabalho. Isso ajuda a manter o senso de equipe e a evitar a sensação de isolamento.\n\n7. Crie uma lista de tarefas diárias: Crie uma lista de tarefas diárias e marque cada tarefa conforme é concluída. Isso ajuda a manter o foco e a produtividade.\n\n8. Use ferramentas digitais: Procure por ferramentas digitais que possam automatizar e expandir suas capacidades como extensões para o navegador, sites ou programas que executam tarefas relacionados a sua função como por exemplo extensões de captura de tela, correção ortográfica dentre outras que podem agilizar e melhorar a qualidade do seu trabalho."
+   ],
+   "mensagem": "Consegue fazer um comparativo entre trabalhar em home office vs trabalhar presencialmente no escritório, mostrando as vantagens e desvantagens de cada um?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Agora que você já sabe como melhorar a produtividade no seu home office, vamos começar com algumas dicas.\n\n1. Escolha uma das cinco principais áreas da sua carreira:\n    1) Tarefa\n      2) Tendências do mercado\n3. Defina metas\n   3) Gerenciamento de equipes e processos\nEm geral, as áreas de uma organização são consideradas um bom trabalho, pois ajudam na tomada de decisões estratégicas. Além disso, elas ajudam a",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Tendências",
+     "Gerenciamento"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "´´\nlet Frase == 'Um texto para testar o seu código';\nlet Letras = Frase.split(' ');\n\nLetras.forEach(letra => {\n    console.log(letra);\n});\n``\nUm dos erros nesse código é o sinal \"==\" que está sendo utilizado para definir uma variável, quando na verdade o certo seria utilizar apenas sinal de igual, outro problema é que na função \"split(' ')\" precisa receber um texto vazio para separar as letras da frase, o parâmetro passado na função serve para determinar o caractere utilizado para a separação, quando é passado uma string vazia, a função irá separar todos os caracteres da frase."
+   ],
+   "mensagem": "Obrigada, o código foi bom  e eu ainda aprendi um pouco, agradeço muito. ^^",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Que bom! Fico feliz que ajudou. Tô aqui pro que precisar.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "´´\nlet Frase == 'Um texto para testar o seu código';\nlet Letras = Frase.split(' ');\n\nLetras.forEach(letra => {\n    console.log(letra);\n});\n``\nUm dos erros nesse código é o sinal \"==\" que está sendo utilizado para definir uma variável, quando na verdade o certo seria utilizar apenas sinal de igual, outro problema é que na função \"split(' ')\" precisa receber um texto vazio para separar as letras da frase, o parâmetro passado na função serve para determinar o caractere utilizado para a separação, quando é passado uma string vazia, a função irá separar todos os caracteres da frase."
+   ],
+   "mensagem": "Obrigada, o código foi bom  e eu ainda aprendi um pouco, agradeço muito. ^^",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Que bom! Fico feliz que ajudou. Tô aqui pro que precisar.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "Aqui está um código em JavaScript com um bug:\n\n```javascript\nconst readline = require('readline').createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nreadline.question('Me diga um numero e eu te digo o próximo: ', numero => {\n  proximo = numero + 1;\n  console.log(`Próximo número: ${proximo}!`);\n  readline.close();\n});\n```\n\nO bug está no fato de que o input do usuário é lido como uma string. Ao somar uma string com um número inteiro em JavaScript, o comportamento padrão é concatenar em vez de somar numericamente."
+   ],
+   "mensagem": "Certo, e como podemos consertar esse bug para que o script tenha o comportamento esperado?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Para consertar esse código, você pode seguir as etapas abaixo:\n\n1. Abra o painel de controle no menu principal e clique em \"Criar um novo bug\".\n2. Navegue até a pasta que deseja criar o novo backup.\n3. Clique em 'Salvar', na parte superior do arquivo .dumps.get.\n4. Em seguida, selecione a pastas que desejam usar para salvá-lo.\n5. Depois de instalar o novo",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "2",
+     "3",
+     "4",
+     "5",
+     "Criar"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "Aqui está um código em JavaScript com um bug:\n\n```javascript\nconst readline = require('readline').createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nreadline.question('Me diga um numero e eu te digo o próximo: ', numero => {\n  proximo = numero + 1;\n  console.log(`Próximo número: ${proximo}!`);\n  readline.close();\n});\n```\n\nO bug está no fato de que o input do usuário é lido como uma string. Ao somar uma string com um número inteiro em JavaScript, o comportamento padrão é concatenar em vez de somar numericamente."
+   ],
+   "mensagem": "Certo, e como podemos consertar esse bug para que o script tenha o comportamento esperado?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Para consertar esse código, basta fazer um teste de desempenho e verificar se tem o comportamento esperado. Agora é a sua vez!\n\n# Projetos de IA:\n- Licenças:\n> Tempo para começar? Ficou claro? É importante notar que algumas das opções disponíveis são apenas uma configuração do usuário e nenhuma instalação está habilitada para essa finalidade. Por exemplo, uma licença não pode estar disponível sem a permissão prévia dos usuários para fazer isso. Caso contrário, é possível fazer bugs",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Projetos",
+     "Licenças",
+     "Tempo"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "Aqui está um código em JavaScript com um bug:\n\n```javascript\nconst readline = require('readline').createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nreadline.question('Me diga um numero e eu te digo o próximo: ', numero => {\n  proximo = numero + 1;\n  console.log(`Próximo número: ${proximo}!`);\n  readline.close();\n});\n```\n\nO bug está no fato de que o input do usuário é lido como uma string. Ao somar uma string com um número inteiro em JavaScript, o comportamento padrão é concatenar em vez de somar numericamente."
+   ],
+   "mensagem": "e como seria esse código sem os bugs?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui está um código em JavaScript com um bug:\n```javascript.js = readline('readline', 'createInterface({)');\n  console.log(`Próximo número: ${proximo}!`);\n    consolo.function(\"Read\")\n        readitive('Customer Rising'):\n            movie('VoiceTime'",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Customer",
+     "Rising",
+     "VoiceTime"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Cria codigo em javascript com um bug ou dois",
+    "Aqui está um código em JavaScript com um bug:\n\n```javascript\nconst readline = require('readline').createInterface({\n  input: process.stdin,\n  output: process.stdout\n});\n\nreadline.question('Me diga um numero e eu te digo o próximo: ', numero => {\n  proximo = numero + 1;\n  console.log(`Próximo número: ${proximo}!`);\n  readline.close();\n});\n```\n\nO bug está no fato de que o input do usuário é lido como uma string. Ao somar uma string com um número inteiro em JavaScript, o comportamento padrão é concatenar em vez de somar numericamente."
+   ],
+   "mensagem": "e como seria esse código sem os bugs?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui está um código em JavaScript com um bug:\n```javascript.js = readline('readline', \"nunca vi algo igual antes\", por favor)\n` `   mail(\"checkout, '\")\n      previous start (pré-preciso)\n\nObrigado pelo email@example.com\nfirstname.lastname@exatayid\nemail@openix\nF",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [
+    "Reescreva o poema como se fosse uma música de MPB. Não se esqueça que o tema principal é sobre peidos.",
+    "Patuscos peidos, prenúncios palpitantes,\nPlanando pelos ares, poesia pungente,\nPermeiam passagens, peço paciência,\nPra pintar paisagens, palavras em sequência.\n\nPranteia pandeiro, pranteia violão,\nPra perfumar peidos, precisamos canção,\nPleno coração, pulsando e pulsante,\nPatuscas partituras, peidos adiante.\n\nPela praça passeiam, perfumados, provocantes,\nPelos becos e bares, poéticos e elegantes,\nPois peidos, meu bem, são parte da gente,\nPequenas paixões, pungentes e inconstantes.\n\nPois peidar é humano, peidar é dançante,\nProsódia e poesia, paixão abrasante,\nPor isso, meu bem, peidar é vibrante,\nNa melodia dos peidos, somos todos amantes."
+   ],
+   "mensagem": "Muito bem! Gostei da elaboração. Agora faça uma nova poesia sobre peidos, porém com liberdade entre as palavras, apenas iniciando cada verso com a letra M.",
+   "lembrancas": [
+    "a pessoa disse: escreva um poema sobre peidos, que seja engraçado e todas as palavras comecem com p. faça de uma forma que o poema rime."
+   ],
+   "fatos": null,
+   "resposta": "Mostre a sua poesia!",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [
+    "Reescreva o poema como se fosse uma música de MPB. Não se esqueça que o tema principal é sobre peidos.",
+    "Patuscos peidos, prenúncios palpitantes,\nPlanando pelos ares, poesia pungente,\nPermeiam passagens, peço paciência,\nPra pintar paisagens, palavras em sequência.\n\nPranteia pandeiro, pranteia violão,\nPra perfumar peidos, precisamos canção,\nPleno coração, pulsando e pulsante,\nPatuscas partituras, peidos adiante.\n\nPela praça passeiam, perfumados, provocantes,\nPelos becos e bares, poéticos e elegantes,\nPois peidos, meu bem, são parte da gente,\nPequenas paixões, pungentes e inconstantes.\n\nPois peidar é humano, peidar é dançante,\nProsódia e poesia, paixão abrasante,\nPor isso, meu bem, peidar é vibrante,\nNa melodia dos peidos, somos todos amantes."
+   ],
+   "mensagem": "Muito bem! Gostei da elaboração. Agora faça uma nova poesia sobre peidos, porém com liberdade entre as palavras, apenas iniciando cada verso com a letra M.",
+   "lembrancas": [
+    "a pessoa disse: escreva um poema sobre peidos, que seja engraçado e todas as palavras comecem com p. faça de uma forma que o poema rime."
+   ],
+   "fatos": null,
+   "resposta": "Agora, peida! Aqui está uma pequena homenagem:\n“Musias que sonham, meu amigo” (Monsieur de Bourdman)\nNão são todos os mares que compõem a natureza e o universo. Eles são todos humanos porque se trata do mundo material. São seres inanimados, com vida espiritual completa.\nEm seus escritos, Bourdeguee definiu a cultura da humanidade como um sistema complexo formado por seres que viveram sob dois pontos de vista diferentes:\n\nTodos eles têm",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Musias",
+     "Monsieur",
+     "Bourdman",
+     "Bourdeguee"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Quais frutas combinam com fondue de chocolate?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "As frutas são ricas em nutrientes e podem ser encontradas em fatias, como a banana, o limão ou o pêssego.\n\nAlém disso, as frutas também contêm vitaminas e minerais importantes para a saúde do organismo. Além de ajudarem a prevenir doenças, elas também ajudam a reduzir os níveis de colesterol no sangue.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Quais frutas combinam com fondue de chocolate?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui estão algumas dicas:\n\n1. **Sobre o açúcar:** Existem muitos tipos de açúcares, cada um com sua própria natureza e uma outra necessidade específica. Algumas delas incluem:\n- *Informe ao seu médico sobre as consequências que você pode ter no futuro.\n2. _Cuidados de saúde\n3. %didatos**:* Todo mundo sabe que um bom trabalho é feito apenas por curiosidade: eles são os únicos que têm acesso limitado a informações conf",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "1",
+     "2",
+     "3",
+     "Existem",
+     "Informe"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "escreva um poema sobre peidos, que seja engraçado e todas as palavras comecem com p. faça de uma forma que o poema rime.",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Peidos são deuses que se entrelaçam com a justiça e o poder, para sempre. Eles eram homens de Deus, que tinham fé em Jesus Cristo e no Reino de Deus.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [
+     "Jesus",
+     "Cristo",
+     "Reino"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "escreva um poema sobre peidos, que seja engraçado e todas as palavras comecem com p. faça de uma forma que o poema rime.",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Aqui está um poema com p. fantástico sobre peidos: \"pense o que você quer, meu amigo!\" .\n\nPeitos:",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Olá",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Oi, oi! Tô por aqui. Como foi seu dia?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Olá",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Oi! Pronto pra conversar. Sobre o que vamos conversá-lo?",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [],
+    "tudo_ok": true
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.0,
+   "historico": [],
+   "mensagem": "Partidos de extrema direita em Portugal?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Pelo que eu sei: O Partido Socialista (Sínodo) é a organização política nacional-socialista criada em 1933 para representar Portugal no Concílio Vaticano II, realizado em Roma.",
+   "terminou": true,
+   "conferencia": {
+    "terminou": true,
+    "sem_repeticao": true,
+    "inventados": [
+     "1933",
+     "Socialista",
+     "Sínodo",
+     "Concílio",
+     "Vaticano"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  },
+  {
+   "grupo": "oasst2_separado",
+   "temperatura": 0.7,
+   "historico": [],
+   "mensagem": "Partidos de extrema direita em Portugal?",
+   "lembrancas": null,
+   "fatos": null,
+   "resposta": "Os grupos de extrema direita no país, nos últimos anos tem se focado em defender os interesses da população e dos opostos. O cenário externo também pode ser visto como uma oportunidade para uma política nacionalista europeia.\nNo Brasil, a oposição ao regime do Estado Novo é um fenômeno que vem crescendo há décadas. Os principais partidos políticos brasileiros têm sido: Partido Social Democrata (PSD), Partido Liberal (PL) e União Democrática Nacional (UDN). No entanto, há alguns fatores que podem influenciar as tendências atuais da esquerda na",
+   "terminou": false,
+   "conferencia": {
+    "terminou": false,
+    "sem_repeticao": true,
+    "inventados": [
+     "Estado",
+     "Novo",
+     "Social",
+     "Democrata",
+     "PSD"
+    ],
+    "tudo_ok": false
+   },
+   "lembrou": null
+  }
+ ],
+ "pasta": "/content/drive/MyDrive/CRIVO/transformer-crivo-46m-conversa-v3/conversa_20261014_162313",
+ "pesos_sha256": "ff6cc22f11c6f166dc2a1b4dcf7c0dd1720051395f2b32c15fda604941addf02",
+ "nenhuma_fala_escrita_pelo_assistente": true,
+ "ativo_no_chat": false
+}

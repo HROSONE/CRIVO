@@ -69,6 +69,19 @@ jobs:
         run: python experimentos/roteamento_natural_v2_20261009/avaliar.py --saida /tmp/roteamento-natural.json --exigir-meta
       - name: Verificar diálogo e orientação nos 79 casos congelados por HTTP real
         run: python experimentos/orientacao_pratica_20261010/avaliar.py --modo http --so-congelado --saida /tmp/dialogo-integrado.json --exigir-meta
+      # Diagnóstico deve executar mesmo quando uma bateria anterior falha:
+      # precisamos do relatório para investigar a falha, não escondê-la.
+      - name: Conversar com o CRIVO e registrar diagnóstico (sem promoção automática)
+        if: always()
+        continue-on-error: true
+        run: python experimentos/auditoria_conversa_real_20261015/auditar.py --saida /tmp/auditoria-conversa-crivo.json
+      - name: Publicar transcrição diagnóstica do CRIVO
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-conversa-real-crivo
+          path: /tmp/auditoria-conversa-crivo.json
+          if-no-files-found: warn
   verificacao-pos-merge:
     # O PR executa roteamento e contratos essenciais. O push na main verifica
     # somente se o código integrado ainda inicia e atende ao contrato HTTP.

@@ -276,6 +276,19 @@ class Crivo:
         self.usar_leitura_ficha = True
         self._leitura_ficha = None
         self.estado_interno = None
+        # Modelo de si (IDENTIDADE.md), metacognição do último turno e
+        # revisão antes de falar: modelo_de_si.py, metacognicao.py, revisao.py.
+        from modelo_de_si import ModeloDeSi
+        self.modelo_de_si = ModeloDeSi()
+        self.metacognicao_ultima = None
+        # Voz experimental do 17M: None = segue as travas de ambiente (realizador_17m.py).
+        self.realizador = None
+        self.ultimo_realizador = None
+        # Voz da conversa, a v4 F da fase 5 (conversa_v3d.py): None = desligada.
+        self.conversa_v3d = None
+        self.ultima_conversa_v3d = None
+        self.pares_conversa = []
+        self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
         self.erro_rede = None
@@ -1452,6 +1465,15 @@ class Crivo:
 
     def responder(self, texto):
         """Protocolo de crise antes de tudo; depois, o turno comum."""
+        self.ultima_conversa_v3d = None
+        self.ultima_enciclopedia = None
+        ident, resposta = self._responder_com_protocolo(texto)
+        if isinstance(texto, str) and isinstance(resposta, str):
+            # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
+            self.pares_conversa = (self.pares_conversa + [(texto, resposta)])[-12:]
+        return ident, resposta
+
+    def _responder_com_protocolo(self, texto):
         import crise
         original_conteudo = texto
         self.dialogo_conversa.iniciar_trace()
@@ -1494,6 +1516,7 @@ class Crivo:
             self.estado_interno = estado_interno.EstadoInterno(original_conteudo)
             self.estado_interno.propor(mecanismo, ident, "responder")
             self.estado_interno.decidir(mecanismo, "responder", "conteúdo enviado e regras explícitas")
+            self._metacognicao(original_conteudo, ident, resposta)
             self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                    "motivo": "correcao_por_regras" if mecanismo == "correcao_texto" else "analise_extrativa", "tentativas": 0}
             return ident, resposta
@@ -1501,22 +1524,41 @@ class Crivo:
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
         self.estado_conversa.observar(original_conteudo)
-        # A memória lê a grafia original: identificadores e valores inéditos
-        # não passam pela correção ortográfica nem pelas respostas do modelo.
-        sessao = self.memoria_sessao.processar(original_conteudo,
-                                              ficcao=bool(self.dialogo_situado.ficcao))
-        from compreensao_intencao import encaminhar_declaracao_natural, rotear_natural, executar_rota_natural
-        sessao = encaminhar_declaracao_natural(original_conteudo, self, sessao)
-        if sessao is not None and self.memoria_sessao.ultimo['acao'] == 'registro':
-            # Uma correção nominal já reconhecida pela memória anterior deve
-            # atualizar também os relatos que as outras rotas ainda leem.
-            from correcao_relatos import corrigir_relatos
-            if corrigir_relatos(original_conteudo, self.conversacao.relatos) is not None:
-                sessao = None
-        rota = rotear_natural(original_conteudo, self, sessao)
+        # Pergunta inteira sobre o próprio CRIVO ou sobre a resposta anterior
+        # ("tem certeza?"): o modelo de si e a metacognição respondem antes
+        # das rotas que tratariam a fala como relato ou pedido.
+        # Nomes que a pessoa dá ("meu gato se chama Tupo") ficam guardados para a conversa.
+        import memoria_nomes
+        self.evento_nome = None
+        evento = memoria_nomes.observar(getattr(self, "perfil", None), original_conteudo,
+                                        ficcao=bool(getattr(self.dialogo_situado, "ficcao", None)))
+        if evento is not None:
+            self.evento_nome = dict(evento, fala=original_conteudo)
+        proprio = self._sobre_si(original_conteudo)
+        if proprio is None:
+            # A memória lê a grafia original: identificadores e valores inéditos
+            # não passam pela correção ortográfica nem pelas respostas do modelo.
+            sessao = self.memoria_sessao.processar(original_conteudo,
+                                                  ficcao=bool(self.dialogo_situado.ficcao))
+            from compreensao_intencao import encaminhar_declaracao_natural, rotear_natural, executar_rota_natural
+            sessao = encaminhar_declaracao_natural(original_conteudo, self, sessao)
+            if sessao is not None and self.memoria_sessao.ultimo['acao'] == 'registro':
+                # Uma correção nominal já reconhecida pela memória anterior deve
+                # atualizar também os relatos que as outras rotas ainda leem.
+                from correcao_relatos import corrigir_relatos
+                if corrigir_relatos(original_conteudo, self.conversacao.relatos) is not None:
+                    sessao = None
+            rota = rotear_natural(original_conteudo, self, sessao)
+        else:
+            sessao = rota = None
         self.ultima_rota_natural = rota
         oferta, self.oferta_pendente = self.oferta_pendente, None
-        if rota is not None:
+        if proprio is not None:
+            ident, resposta = proprio
+            self.estado_interno.propor(self.historico[-1]['mecanismo'], ident, 'responder')
+            self.estado_interno.decidir(self.historico[-1]['mecanismo'], 'responder',
+                                        'pergunta sobre o próprio CRIVO ou sobre a resposta anterior')
+        elif rota is not None:
             ident, resposta = executar_rota_natural(rota, original_conteudo, self)
             self.estado_interno.propor(rota['executor'], ident, 'responder')
             self.estado_interno.decidir(rota['executor'], 'responder', 'operação explícita e referentes da sessão')
@@ -1549,7 +1591,7 @@ class Crivo:
         if referencia_exata:
             self.estado_interno.propor('composicao_factual', ident, 'responder')
             self.estado_interno.decidir('composicao_factual', 'responder', 'referência bíblica exata')
-        elif rota is None:
+        elif rota is None and proprio is None:
             ident, resposta = estado_interno.arbitrar(self, self.estado_interno, ident, resposta)
             ident, resposta = self._reinterpretar_neural(texto, ident, resposta)
         ident, resposta = self._escrever_com_geracao(texto, ident, resposta)
@@ -1576,7 +1618,155 @@ class Crivo:
         self.dialogo_situado.observar(original_conteudo, ident, self)
         if ident == 'conversa:reinicio':
             self.memoria_sessao.limpar()
+        ident, resposta, verbete = self._enciclopedia(original_conteudo, ident, resposta)
+        ident, resposta = self._nao_sei_aberto(original_conteudo, ident, resposta)
+        if getattr(self, "conversa_v3d", None) is not None:
+            # Decisão do criador: o modelo (46M, ou a v4 F) fala em todas as mensagens (conversa_v3d.py); uma voz só.
+            ident, resposta, _ = self._conversar_v3d(original_conteudo, ident, resposta)
+        else:
+            ident, resposta = self._realizar(original_conteudo, ident, resposta)
+        if verbete is not None:
+            import enciclopedia
+            resposta = self._trocar_mostrada(resposta, resposta.rstrip() + "\n\n" + enciclopedia.fonte(verbete))
+        ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
+
+    def _trocar_mostrada(self, antiga, nova):
+        for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+            if getattr(alvo, campo, None) == antiga:
+                setattr(alvo, campo, nova)
+        return nova
+
+    def _enciclopedia(self, fala, ident, resposta):
+        """Acervo sem o assunto ("fora"): o começo do verbete da Wikipédia (enciclopedia.py), com a fonte.
+
+        (ident, resposta, título do verbete ou None). O texto de sempre continuaria "não tenho uma
+        definição cadastrada"; a frase do verbete entra como fato para a voz da conversa dizer."""
+        self.ultima_enciclopedia = None
+        if ident != "fora" or not isinstance(resposta, str):
+            return ident, resposta, None
+        import enciclopedia
+        achado = enciclopedia.consultar(fala)
+        if achado is None:
+            return ident, resposta, None
+        titulo, frase = achado
+        self.ultima_enciclopedia = {"verbete": titulo, "fonte": "Wikipédia", "licenca": "CC BY-SA"}
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["id"] = enciclopedia.IDENT
+        return enciclopedia.IDENT, self._trocar_mostrada(resposta, frase), titulo
+
+    def _nao_sei_aberto(self, fala, ident, resposta):
+        """Pergunta aberta sem resposta ("Quem inventou o carro?"): a pergunta foi entendida e o
+        CRIVO não sabe. "Não entendi" culpava a pessoa (conversa real do criador, porta v3)."""
+        if ident != "fora" or not isinstance(resposta, str) or not resposta.startswith(self.NAO_ENTENDI):
+            return ident, resposta
+        import quadro_fala
+        pergunta = quadro_fala.pergunta_aberta(fala)
+        if not pergunta:
+            return ident, resposta
+        nova = ("Sobre %s, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, "
+                "me conta." % pergunta)
+        for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+            if getattr(alvo, campo, None) == resposta:
+                setattr(alvo, campo, nova)
+        return ident, nova
+
+    def _conversar_v3d(self, fala, ident, resposta):
+        """Voz da conversa (conversa_v3d.py): (ident, resposta, gerou). Só com o modelo ligado."""
+        self.ultima_conversa_v3d = None
+        modelo = getattr(self, "conversa_v3d", None)
+        if modelo is None:
+            return ident, resposta, False
+        import conversa_v3d
+        novo_ident, nova, trace = conversa_v3d.aplicar(self, fala, ident, resposta, modelo)
+        self.ultima_conversa_v3d = trace
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["conversa_v3d"] = {k: v for k, v in trace.items() if k != "contexto"}
+        if nova != resposta:
+            for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+                if getattr(alvo, campo, None) == resposta:
+                    setattr(alvo, campo, nova)
+        return novo_ident, nova, "rascunho" in trace
+
+    def _realizar(self, fala, ident, resposta):
+        """Voz experimental do 17M (realizador_17m.py): só com as duas travas ligadas."""
+        import realizador_17m
+        self.ultimo_realizador = None
+        if not realizador_17m.habilitado() and getattr(self, "realizador", None) is None:
+            return ident, resposta
+        novo_ident, nova, trace = realizador_17m.aplicar(self, fala, ident, resposta,
+                                                         realizador=getattr(self, "realizador", None))
+        self.ultimo_realizador = {k: v for k, v in trace.items() if k != "avaliacao"}
+        if self.historico and self.historico[-1].get("pergunta") == fala:
+            self.historico[-1]["realizador"] = self.ultimo_realizador
+        if nova != resposta:
+            for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+                if getattr(alvo, campo, None) == resposta:
+                    setattr(alvo, campo, nova)
+        return novo_ident, nova
+
+    def _sobre_si(self, texto):
+        """Modelo de si e metacognição: só falas inteiras sobre o CRIVO."""
+        if not isinstance(texto, str):
+            return None
+        import metacognicao
+        from composicao_textual import normalizar as normalizar_forma
+        n = normalizar_forma(conversa_assistente.limpar_cortesia(texto)).strip()
+        achado = metacognicao.introspectar(n, self.metacognicao_ultima, self.modelo_de_si)
+        mecanismo = "metacognicao"
+        if achado is None:
+            achado = self.modelo_de_si.responder(n)
+            mecanismo = "modelo_de_si"
+        if achado is None:
+            import memoria_nomes
+            lembrado = memoria_nomes.recordar(getattr(self, "perfil", None), texto)
+            if lembrado is not None:
+                achado = lembrado[:2]
+                mecanismo = "memoria_nomes"
+                self.evento_nome = dict(lembrado[2], fala=texto)
+        if achado is None:
+            return None
+        ident, resposta = achado
+        if getattr(self, "perfil", None) is not None:
+            self.perfil.turno += 1
+        self.esclarecimento = None
+        if mecanismo in ("modelo_de_si", "memoria_nomes"):
+            # Falar de si ou de um nome encerra o assunto factual; "tem certeza?" não.
+            self.contexto_textual = None
+            self.assunto_conversa = None
+        self.historico.append({"pergunta": texto, "id": ident, "mecanismo": mecanismo})
+        self.historico = self.historico[-20:]
+        self.ultimo_turno = {"pergunta": texto, "id": ident}
+        self.ultima_resposta_mostrada = resposta
+        self.conversacao.ultima_resposta_texto = resposta
+        return ident, resposta
+
+    def _metacognicao(self, fala, ident, resposta):
+        import metacognicao
+        meta = metacognicao.avaliar(self, self.estado_interno, fala, ident, resposta)
+        if self.estado_interno is not None:
+            self.estado_interno.metacognicao = meta
+        # "Tem certeza?" pergunta pela resposta anterior, não pela introspecção.
+        if not ident.startswith("metacognicao:"):
+            self.metacognicao_ultima = meta
+        return meta
+
+    def _revisar(self, fala, ident, resposta):
+        """Metacognição do turno e revisão do rascunho antes de falar."""
+        import revisao
+        meta = self._metacognicao(fala, ident, resposta)
+        novo_ident, nova = revisao.revisar(self, self.estado_interno, fala, ident, resposta, meta,
+                                           self.modelo_de_si)
+        if nova != resposta:
+            for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
+                if getattr(alvo, campo, None) == resposta:
+                    setattr(alvo, campo, nova)
+            if novo_ident != ident and self.historico and self.historico[-1].get("id") == ident:
+                self.historico[-1]["id"] = novo_ident
+                self.ultimo_turno = {"pergunta": fala, "id": novo_ident}
+        turno = getattr(getattr(self, "perfil", None), "turno", len(self.historico))
+        self.modelo_de_si.registrar(turno, novo_ident, nova, meta)
+        return novo_ident, nova
 
     @property
     def leitura_ficha(self):
@@ -2815,8 +3005,8 @@ class Crivo:
         if conversa_assistente.pergunta_pessoal(texto):
             return self._registrar_social((
                 "social:nao_entendido",
-                "Essa sobre mim eu não sei responder bem. Sou um programa: não tenho gostos nem "
-                "uma vida fora da conversa. Mas adoro quando você me conta das suas coisas, "
+                "Essa sobre mim eu não sei responder bem. Tenho meu jeito e meus gostos, mas não "
+                "uma vida fora da conversa. Adoro quando você me conta das suas coisas, "
                 "e posso explicar como eu funciono, se quiser.",
             ), original)
 

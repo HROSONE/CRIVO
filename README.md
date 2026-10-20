@@ -1,5 +1,25 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Voz própria do 17M, ligada no site (13/10/2026):** o Transformer de 17M do CRIVO, treinado
+do zero, passou a poder dar voz ao que o quadro decide — guardar e lembrar nomes, explicar fatos com
+fonte, dizer que não sabe, acolher e cumprimentar. A fase 2 (pré-treino continuado) levou a cópia
+em contexto de 11% a 51%; a fase 3 passou em todos os gates do teste cego (98,3% tudo ok); a porta conversacional
+v2, com conversas novas, deu 0 regressões e 18/18 frases aprovadas. Cada frase passa pela conferência
+e pela revisão antes de sair. **Ligado no site**, em NumPy (pesos de SHA exato em
+`artefatos/realizador_pt/`, sem PyTorch): a porta com esses pesos repetiu 0 regressões e todas as
+avaliações HTTP da CI passaram. Ele fala só onde é igual ou melhor que o texto de hoje (porta v3: 19 de
+47 turnos); respondendo tudo, sem quadro, ele mistura frases decoradas, e isso foi recusado. `CRIVO_DISABLE_REALIZADOR=1` desliga, e a linha de comando continua
+desligada por padrão. Também nesta rodada: memória de nomes ("Qual é o nome do meu gato?").
+[Porta, limites e como ligar](experimentos/fase4_porta_20261013/README.md).
+
+**Modelo de si, metacognição e revisão (12/10/2026):** o CRIVO passa a saber quem é, quanto sabe
+e a conferir o que vai dizer. O modelo de si lê `IDENTIDADE.md` e responde sobre valores, jeito,
+gostos, fé e limites com crenças presas ao texto da identidade. A metacognição registra em cada
+turno se ele sabe, acha ou não sabe e de onde veio a resposta, e responde a "tem certeza?", "como
+você sabe?" e "por que respondeu isso?". A revisão lê o rascunho antes de falar: troca frases que
+contradizem quem ele é ou o que já disse, baixa a certeza sem base e veta grosseria.
+[Detalhes e limites](docs/modelo_de_si_metacognicao_revisao_20261012.md).
+
 **Transformer do leitor no Colab (07/10/2026):** `notebooks/treinar_transformer_leitor_colab.ipynb`
 pré-treina do zero uma base de ~17M parâmetros com a Wikipédia em português inteira (6 partes
 conferidas por SHA-256), diálogos humanos e o acervo, e ajusta o leitor com exercícios do acervo e

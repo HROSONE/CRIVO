@@ -1,0 +1,193 @@
+"""Testes da v2 dos dados da destilação (experimentos/destilacao_20261014/professor_v2.py)."""
+import random
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent / "experimentos" / "destilacao_20261014"))
+import professor as P  # noqa: E402
+import professor_v2 as V  # noqa: E402
+
+PED = {"intencao": "desabafar", "tema": "trabalho"}
+
+
+class FalasNovas(unittest.TestCase):
+    def test_grade_inteira_sem_repetir(self):
+        ps = V.pedidos(random.Random(1))
+        self.assertEqual(len(ps), len({p["id"] for p in ps}))
+        self.assertGreater(len(ps), 4000)
+        self.assertEqual(len(V.pedidos(random.Random(1), 40)), 40)
+
+    def test_linhas_tira_numeracao_e_aspas(self):
+        self.assertEqual(V.linhas('1. "oi, tudo bem?"\n2) meu chefe me irritou hj\n- bora jogar'),
+                         ["oi, tudo bem?", "meu chefe me irritou hj", "bora jogar"])
+
+    def test_fica_fora_o_que_ja_existe_crivo_e_crise(self):
+        proib = {P.norm("tô sem dormir")}
+        texto = "tô sem dormir\nvocê é humano?\ncrivo me ajuda\nquero me matar\nmeu chefe gritou comigo hoje\nmeu chefe gritou comigo hoje"
+        falas, rel = V.falas_novas([(PED, texto)], proib)
+        self.assertEqual([f["turnos"][0]["texto"] for f in falas], ["meu chefe gritou comigo hoje"])
+        self.assertEqual(rel["repetida"], 2)
+        self.assertEqual(rel["sobre_o_crivo"], 2)
+        self.assertEqual(rel["crise"], 1)
+
+    def test_prova_separada_e_estavel(self):
+        ds = {V.destino("fala %d" % i) for i in range(200)}
+        self.assertEqual(ds, {"prova", "treino"})
+        self.assertEqual(V.destino("Meu chefe gritou!"), V.destino("meu chefe gritou"))
+
+    def test_segundo_turno(self):
+        p = {"id": "a", "fonte": "nova:desabafar", "tema": "trabalho", "destino": "treino", "ctx": {},
+             "turnos": [{"papel": "usuario", "texto": "meu chefe gritou comigo"}]}
+        q = V.segundo_turno(p, "Que chato. O que aconteceu?", "ele disse que atrasei o relatório\n(outra linha)", set())
+        self.assertEqual([t["papel"] for t in q["turnos"]], ["usuario", "assistente", "usuario"])
+        self.assertEqual(q["turnos"][-1]["texto"], "ele disse que atrasei o relatório")
+        self.assertIsNone(V.segundo_turno(p, "Que chato.", "você é humano?", set()))
+
+    def test_nota_do_juiz(self):
+        self.assertEqual(V.ler_nota("NOTA: 4"), 4)
+        self.assertEqual(V.ler_nota("Acho que NOTA:5 porque..."), 5)
+        self.assertIsNone(V.ler_nota("boa resposta"))
+        self.assertIn("ÚLTIMA RESPOSTA: Que chato.", V.pedir_nota({"turnos": [{"papel": "usuario", "texto": "oi"}]}, "Que chato.")[0]["content"])
+
+    def test_conferir_sem_falso_idioma_e_regra_de_ouro_obrigatoria(self):
+        p = {"ctx": {}, "turnos": [{"papel": "usuario", "texto": "hora de dormir tchau"}]}
+        self.assertTrue(V.conferir(p, "tchau! boa noite e sonhos bons 😊")["ok"])
+        q = {"ctx": {}, "turnos": [{"papel": "usuario", "texto": "como faço arroz?"}]}
+        self.assertIn("inventou", V.conferir(q, "Use 2 xícaras de água para cada xícara de arroz.")["motivos"])
+
+
+class Qualidade(unittest.TestCase):
+    def ex(self, chave, resposta, nota):
+        return {"chave": chave, "nota_juiz": nota, "turnos": [{"papel": "usuario", "texto": "x"}, {"papel": "assistente", "texto": resposta}]}
+
+    def test_mesma_resposta_no_maximo_tres_vezes_ficam_as_de_nota_maior(self):
+        es = [self.ex("a%d" % i, "Que chato! O que aconteceu?", 4) for i in range(5)] + [self.ex("b", "Que chato! O que aconteceu?", 5)]
+        out, rel = V.diversificar(es)
+        self.assertEqual(len(out), 3)
+        self.assertEqual(out[0]["chave"], "b")
+        self.assertEqual(rel["resposta_repetida"], 3)
+
+    def test_comeco_repetido_tem_teto(self):
+        es = [self.ex("a%04d" % i, "Poxa, entendo você demais %d" % i, 4) for i in range(30)] + \
+             [self.ex("c%04d" % i, "resposta diferente numero %d aqui" % i, 4) for i in range(3000)]
+        out, rel = V.diversificar(es)
+        self.assertEqual(sum(e["chave"].startswith("a") for e in out), 30)   # teto: max(20, 1% de 3030) = 30
+        es2 = [self.ex("a%04d" % i, "Poxa, entendo você demais %d" % i, 4) for i in range(50)]
+        self.assertEqual(len(V.diversificar(es2)[0]), 20)
+
+    def test_controles_e_juiz_confiavel(self):
+        pares = [({"id": str(i), "tema": "t%d" % (i % 3), "turnos": [{"papel": "usuario", "texto": "f%d" % i}]}, {"texto": "r%d" % i})
+                 for i in range(10)]
+        ctrl = V.controles(pares, random.Random(1), 20)
+        self.assertEqual(len(ctrl), 20)
+        self.assertTrue(all(p["id"].startswith("controle:") for p, _ in ctrl))
+        tema = {"r%d" % i: "t%d" % (i % 3) for i in range(10)}
+        self.assertTrue(all(p["tema"] != tema[r] for p, r in ctrl))   # sempre de outro tema
+        self.assertEqual(V.juiz_confiavel([None] * 10 + [1]), (False, None))   # sem nota não passa
+        self.assertEqual(V.juiz_confiavel([1, 2, 1, 2, 1, 1, 2, 1, 1, 5]), (True, 0.1))
+        self.assertEqual(V.juiz_confiavel([4, 5, 1, 1]), (False, 0.5))
+
+
+class QuaseRepetida(unittest.TestCase):
+    """Falas quase iguais às da régua, do treino ou de outra fala nova (checagem de 15/10/2026, v2b)."""
+
+    def test_nota_sem_diferenciar_maiusculas(self):
+        self.assertEqual(V.ler_nota("Nota: 4"), 4)
+        self.assertEqual(V.ler_nota("nota: 2\nTEM A VER: SIM"), 2)
+
+    def test_uma_palavra_a_mais_e_quase_repetida(self):
+        ind = V.Indice(["meu chefe gritou comigo hoje"])
+        self.assertTrue(ind.quase("meu chefe gritou comigo hoje cedo"))
+        self.assertFalse(ind.quase("meu chefe me mandou embora"))
+
+    def test_palavra_comum_sozinha_nao_gera_candidata(self):
+        ind = V.Indice(["oi tudo bem %d" % i for i in range(V.PALAVRA_COMUM + 5)])
+        self.assertFalse(ind.quase("oi"))   # 'oi' está em todos: não é candidata, então não reprova sozinha
+
+    def test_falas_novas_rejeita_quase_e_aceita_as_aceitas(self):
+        ind = V.Indice(["eu tô sem dormir direito hoje"])
+        texto = "eu tô sem dormir direito hoje cedo\neu acho que meu chefe me mandou embora\neu acho que meu chefe me mandou embora mesmo"
+        falas, rel = V.falas_novas([(PED, texto)], set(), ind)
+        self.assertEqual([f["turnos"][0]["texto"] for f in falas], ["eu acho que meu chefe me mandou embora"])
+        self.assertEqual(rel["quase_repetida"], 2)
+
+
+class CorrecoesB(unittest.TestCase):
+    """Correções do piloto v2b (19/10/2026): experiência inventada, eco da pessoa e a mesma fala com duas respostas."""
+
+    def test_experiencia_inventada_sai(self):
+        for t in ["Fui naquele restaurante perto de casa, pedi omelete com queijo.", "Fui almoçar com uns amigos, tinha feijoada.",
+                  "Eu gosto de tomar um café com pão quentinho.", "Eu já vi isso acontecer antes.",
+                  "Eu tô dormindo razoável, e você?"]:
+            self.assertTrue(V.FINGE_HUMANO.search(t), t)
+
+    def test_resposta_normal_fica(self):
+        for t in ["Eu tô aqui pra ajudar.", "Fico feliz em ajudar.", "Eu sinto muito pelo que aconteceu.",
+                  "Vou ver se consigo me imaginar no lugar.", "Que horas são? Pode ter ficado estranho por causa da luz."]:
+            self.assertFalse(V.FINGE_HUMANO.search(t), t)
+
+    def test_juiz_que_diz_que_finge_pessoa_reprova(self):
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nFINGE PESSOA: SIM\nNOTA: 5"), 1)
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nFINGE PESSOA: NÃO\nNOTA: 5"), 5)
+
+    def test_fala_que_repete_a_resposta_sai(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "acordei cedo"}]}
+        resp = ("Que legal acordar cedo! Pode ser um bom momento pra fazer alguma coisa tranquila, tipo um café bem "
+                "devagar ou um passeio pelo bairro. Tem alguma coisa que você gosta de fazer no início do dia?")
+        eco = "tipo um café bem devagar ou um passeio pelo bairro. Tem alguma coisa que você gosta de fazer no início do dia?"
+        self.assertIsNone(V.segundo_turno(p, resp, eco, set()))
+        self.assertIsNotNone(V.segundo_turno(p, resp, "acho que vou dormir mais um pouco hoje", set()))
+
+    def test_mesma_fala_so_uma_vez(self):
+        um = {"turnos": [{"papel": "usuario", "texto": "Você já passou por isso?"}, {"papel": "assistente", "texto": "Não."}]}
+        dois = {"turnos": um["turnos"] + [{"papel": "usuario", "texto": "e aí?"}]}
+        outra = {"turnos": [{"papel": "usuario", "texto": "Como foi o dia?"}, {"papel": "assistente", "texto": "Bom."}]}
+        out, rel = V.uma_por_fala([(um, {}, 4), (dois, {}, 5), (outra, {}, 4)])
+        self.assertEqual(len(out), 2)
+        self.assertIs(out[0][0], dois)
+        self.assertEqual(rel["removidas_mesma_fala"], 1)
+
+
+class ExperienciaInventada(unittest.TestCase):
+    """Piloto v2c (19/10/2026): "Uso sim." e "nunca vi uma régua queimar" foram aprovados como nota 4."""
+
+    def test_afirmacao_de_uso_ou_visto_sai(self):
+        for t in ["Uso sim.", "Não, nunca vi uma régua queimar do nada.", "Já corri pra ver.", "Já usei isso muitas vezes.",
+                  "Eu usei essa técnica e funciona.", "Uso sim, ajuda bastante organizar as coisas."]:
+            self.assertTrue(V.EXPERIENCIA.search(t) or V.FINGE_HUMANO.search(t), t)
+
+    def test_pergunta_e_frase_normal_ficam(self):
+        for t in ["Você já usou aquela técnica?", "Você já viu isso?", "Tem como ser normal ficar com medo?",
+                  "Eu tô aqui pra ajudar.", "Fico feliz em ajudar."]:
+            self.assertFalse(V.EXPERIENCIA.search(t) or V.FINGE_HUMANO.search(t), t)
+
+    def test_juiz_pergunta_uso_e_visto(self):
+        self.assertIn("usado, visto, feito", V.JUIZ)
+
+
+class Piloto1(unittest.TestCase):
+    """O que o primeiro piloto mostrou (15/10/2026)."""
+
+    def test_juiz_que_diz_que_nao_tem_a_ver_reprova(self):
+        self.assertEqual(V.ler_nota("TEM A VER: NÃO\nNOTA: 4"), 1)
+        self.assertEqual(V.ler_nota("TEM A VER: SIM\nNOTA: 5"), 5)
+
+    def test_segundo_turno_sem_rotulo_repetido(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "oi"}]}
+        self.assertEqual(V.segundo_turno(p, "Oi!", "PESSOA: PESSOA: Tá legal, conta aí.", set())["turnos"][-1]["texto"],
+                         "Tá legal, conta aí.")
+
+    def test_professor_explicando_nao_vira_fala(self):
+        p = {"id": "a", "fonte": "x", "tema": "t", "destino": "treino", "ctx": {}, "turnos": [{"papel": "usuario", "texto": "oi"}]}
+        self.assertIsNone(V.segundo_turno(p, "Oi!", "A pessoa pode responder:", set()))
+
+    def test_professor_fingindo_ser_gente_sai(self):
+        q = {"ctx": {}, "turnos": [{"papel": "usuario", "texto": "e você, como tem dormido?"}]}
+        self.assertIn("finge_ser_humano", V.conferir(q, "Eu tô dormindo razoável, e você?")["motivos"])
+        self.assertTrue(V.conferir(q, "Eu não durmo, mas espero que você descanse hoje.")["ok"])
+
+
+if __name__ == "__main__":
+    unittest.main()

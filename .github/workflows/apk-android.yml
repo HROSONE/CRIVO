@@ -1,0 +1,133 @@
+name: APK Android (offline)
+# O app leva Python, NumPy e os pesos próprios do CRIVO; nada é baixado nem chamado de fora no aparelho.
+# Roda quando algo chega na main, ou à mão. Não roda em PR: a política de CI fixa os workflows dos PRs.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'android/**'
+      - 'public/**'
+      - 'api/**'
+      - '*.py'
+      - '*.json'
+      - 'artefatos/**'
+      - 'dados/**'
+      - 'vercel.json'
+      - 'scripts/empacotar_apk.py'
+      - 'scripts/testar_apk_emulador.sh'
+      - '.github/workflows/apk-android.yml'
+permissions:
+  contents: write
+concurrency:
+  group: apk-android
+  cancel-in-progress: true
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      # A mesma chave de assinatura entre execuções: cada APK novo instala por cima do anterior.
+      # Com o segredo CRIVO_KEYSTORE_B64 (keystore em base64, senha em CRIVO_KEYSTORE_SENHA), usa ele;
+      # sem o segredo, gera uma chave uma vez e a guarda no cache do Actions.
+      - name: Chave de assinatura (cache)
+        uses: actions/cache@v4
+        with:
+          path: ~/.crivo-chave/crivo.keystore
+          key: crivo-apk-chave-v2
+      - name: Chave de assinatura
+        env:
+          CHAVE_B64: ${{ secrets.CRIVO_KEYSTORE_B64 }}
+          CHAVE_SENHA: ${{ secrets.CRIVO_KEYSTORE_SENHA }}
+        run: |
+          mkdir -p ~/.crivo-chave
+          senha="${CHAVE_SENHA:-crivo-apk-local}"
+          if [ -n "$CHAVE_B64" ]; then
+            echo "$CHAVE_B64" | base64 -d > ~/.crivo-chave/crivo-segredo.keystore
+            echo "CRIVO_KEYSTORE=$HOME/.crivo-chave/crivo-segredo.keystore" >> "$GITHUB_ENV"
+          else
+            if [ ! -f ~/.crivo-chave/crivo.keystore ]; then
+              keytool -genkeypair -keystore ~/.crivo-chave/crivo.keystore -storepass "$senha" -keypass "$senha" \
+                -alias crivo -dname "CN=CRIVO" -keyalg RSA -keysize 2048 -validity 10000
+            fi
+            echo "CRIVO_KEYSTORE=$HOME/.crivo-chave/crivo.keystore" >> "$GITHUB_ENV"
+          fi
+          echo "CRIVO_KEYSTORE_SENHA=$senha" >> "$GITHUB_ENV"
+          keytool -list -keystore "$(grep CRIVO_KEYSTORE= "$GITHUB_ENV" | tail -1 | cut -d= -f2)" -storepass "$senha" | grep -i "fingerprint\|impress" || true
+      - name: Empacotar e testar o CRIVO do app (extrai, sobe o servidor e conversa)
+        run: |
+          python -m pip install 'numpy>=1.24,<3'
+          python scripts/empacotar_apk.py --testar
+      - name: Compilar o APK
+        env:
+          CRIVO_VERSION_CODE: ${{ github.run_number }}
+          CRIVO_VERSION_NAME: 1.0.${{ github.run_number }}
+        run: gradle -p android assembleRelease --no-daemon --stacktrace
+      - name: Preparar o arquivo
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk CRIVO.apk
+          sha256sum CRIVO.apk | tee CRIVO.apk.sha256
+          ls -la CRIVO.apk
+      # A atualização automática do app lê este arquivo no release (android/app/.../Atualizador.kt).
+      - name: Versão para a atualização automática
+        env:
+          CODIGO: ${{ github.run_number }}
+        run: |
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          CERT=$("$BT/apksigner" verify --print-certs CRIVO.apk | grep -m1 'certificate SHA-256 digest' | awk '{print $NF}')
+          test -n "$CERT"
+          python3 - "$CERT" <<'PY'
+          import hashlib, json, os, sys
+          apk = open("CRIVO.apk", "rb").read()
+          v = {"versionCode": int(os.environ["CODIGO"]), "versionName": "1.0." + os.environ["CODIGO"], "apk": "CRIVO.apk",
+               "sha256": hashlib.sha256(apk).hexdigest(), "tamanho": len(apk), "assinatura_sha256": sys.argv[1].lower(),
+               "commit": os.environ["GITHUB_SHA"]}
+          open("versao.json", "w").write(json.dumps(v, indent=1) + "\n")
+          print(json.dumps(v, indent=1))
+          PY
+      - name: Ligar a aceleração do emulador (KVM)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Testar no emulador (instala, abre, conversa)
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          target: google_apis
+          ram-size: 4096M
+          disk-size: 6G
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
+          script: bash scripts/testar_apk_emulador.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: CRIVO-apk
+          path: |
+            CRIVO.apk
+            CRIVO.apk.sha256
+            versao.json
+            tela_*.png
+            logcat.txt
+      - name: Publicar no release android-latest
+        if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete android-latest --yes --cleanup-tag || true
+          gh release create android-latest CRIVO.apk CRIVO.apk.sha256 versao.json --prerelease --target "$GITHUB_SHA" \
+            --title "CRIVO para Android (offline) — build ${{ github.run_number }}" \
+            --notes "Funciona sem internet: Python, NumPy e os pesos próprios do CRIVO rodam no aparelho, com a mesma página do site. Commit $GITHUB_SHA. Conferir: o SHA-256 está em CRIVO.apk.sha256."

@@ -1,0 +1,376 @@
+{
+ "parte": "blind",
+ "tarefas_sha256": "eeaadffdfd6359a3f6469590358860746b74f104dd750184fec14b004ab7dabb",
+ "motor_sha256": "fdb16ccdd7d00fb2567d6750b631bcc2e60851d382fe11273be46251a1d894f7",
+ "resumo": {
+  "direto": {
+   "certa": 22,
+   "errada": 9,
+   "sem_resposta": 1,
+   "taxa_certa": 0.688,
+   "erradas_entre_respondidas": 0.29
+  },
+  "cauteloso": {
+   "certa": 4,
+   "errada": 2,
+   "sem_resposta": 26,
+   "taxa_certa": 0.125,
+   "erradas_entre_respondidas": 0.333
+  },
+  "pergunta": {
+   "certa": 24,
+   "errada": 2,
+   "sem_resposta": 6,
+   "taxa_certa": 0.75,
+   "erradas_entre_respondidas": 0.077
+  },
+  "perguntas_media": 1.38
+ },
+ "linhas": [
+  {
+   "nome": "triplo",
+   "descricao": "devolve o triplo do número",
+   "direto": "certa",
+   "cauteloso": "certa",
+   "programa_direto": "def resolver(entrada):\n    return entrada * 3\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada * 3\n",
+   "perguntas": 0,
+   "segundos": 0.09
+  },
+  {
+   "nome": "impar",
+   "descricao": "diz se o número é ímpar",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def eh_primo(n):\n    return n >= 2 and all(n % d for d in range(2, int(n ** 0.5) + 1))\n\n\ndef resolver(entrada):\n    return eh_primo(entrada)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada % 2 == 1\n",
+   "perguntas": 2,
+   "segundos": 0.05
+  },
+  {
+   "nome": "minusculas",
+   "descricao": "deixa o texto em minúscula",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada.lower()\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada.lower()\n",
+   "perguntas": 1,
+   "segundos": 0.55
+  },
+  {
+   "nome": "produto",
+   "descricao": "multiplica todos os números da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "import math\n\n\ndef resolver(entrada):\n    return math.prod(entrada)\n",
+   "pergunta": "certa",
+   "programa": "import math\n\n\ndef resolver(entrada):\n    return math.prod(entrada)\n",
+   "perguntas": 2,
+   "segundos": 0.42
+  },
+  {
+   "nome": "quadrado_lista",
+   "descricao": "eleva ao quadrado cada número da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return [x * x for x in entrada]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return [x * x for x in entrada]\n",
+   "perguntas": 1,
+   "segundos": 7.42
+  },
+  {
+   "nome": "impares_da_lista",
+   "descricao": "pega só os números ímpares",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return [x for x in entrada if x % 2 == 1]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return [x for x in entrada if x % 2 == 1]\n",
+   "perguntas": 2,
+   "segundos": 2.81
+  },
+  {
+   "nome": "ordena_desc",
+   "descricao": "ordena a lista do maior para o menor",
+   "direto": "certa",
+   "cauteloso": "certa",
+   "programa_direto": "def resolver(entrada):\n    return sorted(entrada, reverse=True)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return sorted(entrada, reverse=True)\n",
+   "perguntas": 0,
+   "segundos": 0.11
+  },
+  {
+   "nome": "soma_digitos",
+   "descricao": "soma os dígitos do número",
+   "direto": "certa",
+   "cauteloso": "certa",
+   "programa_direto": "def resolver(entrada):\n    return sum(int(c) for c in str(abs(entrada)))\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return sum(int(c) for c in str(abs(entrada)))\n",
+   "perguntas": 0,
+   "segundos": 0.02
+  },
+  {
+   "nome": "primeira_letra",
+   "descricao": "devolve a primeira letra da palavra",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada[0]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada[0]\n",
+   "perguntas": 2,
+   "segundos": 0.92
+  },
+  {
+   "nome": "ultima_letra",
+   "descricao": "devolve a última letra da palavra",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada[-1]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada[-1]\n",
+   "perguntas": 1,
+   "segundos": 0.77
+  },
+  {
+   "nome": "menos_um",
+   "descricao": "subtrai 1 do número",
+   "direto": "certa",
+   "cauteloso": "certa",
+   "programa_direto": "def resolver(entrada):\n    return entrada - 1\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada - 1\n",
+   "perguntas": 0,
+   "segundos": 0.15
+  },
+  {
+   "nome": "negativo",
+   "descricao": "diz se o número é negativo",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada % 2 == 1\n",
+   "pergunta": "sem_resposta",
+   "perguntas": 3,
+   "segundos": 0.41
+  },
+  {
+   "nome": "dobro_mais_um",
+   "descricao": "devolve o dobro do número mais um",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada + (entrada + 1)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada + (entrada + 1)\n",
+   "perguntas": 1,
+   "segundos": 8.19
+  },
+  {
+   "nome": "diferenca_max_min",
+   "descricao": "diz a diferença entre o maior e o menor da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return max(entrada) - min(entrada)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return max(entrada) - min(entrada)\n",
+   "perguntas": 1,
+   "segundos": 11.06
+  },
+  {
+   "nome": "conta_pares",
+   "descricao": "conta quantos números pares tem a lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return sum(1 for x in entrada if x % 2 == 0)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return sum(1 for x in entrada if x % 2 == 0)\n",
+   "perguntas": 1,
+   "segundos": 2.17
+  },
+  {
+   "nome": "tira_negativos",
+   "descricao": "tira os números negativos da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return [x for x in entrada if 0 <= x]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return [x for x in entrada if 0 <= x]\n",
+   "perguntas": 2,
+   "segundos": 17.67
+  },
+  {
+   "nome": "mais_dez_lista",
+   "descricao": "soma 10 em cada número da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return [x + 10 for x in entrada]\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return [x + 10 for x in entrada]\n",
+   "perguntas": 1,
+   "segundos": 6.64
+  },
+  {
+   "nome": "palavras_maiusculas",
+   "descricao": "deixa cada palavra da lista em maiúscula",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return (\" \".join(entrada)).upper().split()\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return (\" \".join(entrada)).upper().split()\n",
+   "perguntas": 1,
+   "segundos": 1.21
+  },
+  {
+   "nome": "separa_palavras",
+   "descricao": "separa a frase em uma lista de palavras",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada.split()\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada.split()\n",
+   "perguntas": 2,
+   "segundos": 0.68
+  },
+  {
+   "nome": "comeca_com_a",
+   "descricao": "diz se a palavra começa com a letra a",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return len(entrada) % 2 == 1\n",
+   "pergunta": "sem_resposta",
+   "perguntas": 3,
+   "segundos": 3.71
+  },
+  {
+   "nome": "tira_vogais",
+   "descricao": "tira as vogais da palavra",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return \"\".join(c for c in entrada if c not in VOGAIS)\n",
+   "pergunta": "certa",
+   "programa": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return \"\".join(c for c in entrada if c not in VOGAIS)\n",
+   "perguntas": 2,
+   "segundos": 1.17
+  },
+  {
+   "nome": "palindromo_frase",
+   "descricao": "diz se a frase é palíndromo, sem contar espaços e maiúsculas",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def eh_primo(n):\n    return n >= 2 and all(n % d for d in range(2, int(n ** 0.5) + 1))\n\n\ndef resolver(entrada):\n    return eh_primo(sum(int(c) for c in str(abs(len(entrada)))))\n",
+   "pergunta": "sem_resposta",
+   "perguntas": 3,
+   "segundos": 11.79
+  },
+  {
+   "nome": "maior_que_cem",
+   "descricao": "diz se o número é maior que cem",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return sum(int(c) for c in str(abs(entrada))) % 2 == 0\n",
+   "pergunta": "sem_resposta",
+   "perguntas": 3,
+   "segundos": 2.82
+  },
+  {
+   "nome": "metade",
+   "descricao": "divide o número por dois, sem casas decimais",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada // 2\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada // 2\n",
+   "perguntas": 1,
+   "segundos": 0.25
+  },
+  {
+   "nome": "resto_por_3",
+   "descricao": "devolve o resto da divisão por 3",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada % 3\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada % 3\n",
+   "perguntas": 1,
+   "segundos": 0.21
+  },
+  {
+   "nome": "tamanho_maior_palavra",
+   "descricao": "diz o tamanho da maior palavra da frase",
+   "direto": "errada",
+   "cauteloso": "errada",
+   "programa_direto": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return sum(c in VOGAIS for c in entrada)\n",
+   "pergunta": "errada",
+   "programa": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return sum(c in VOGAIS for c in entrada)\n",
+   "perguntas": 0,
+   "segundos": 0.25
+  },
+  {
+   "nome": "repete_texto",
+   "descricao": "repete o texto duas vezes",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return entrada + entrada\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada + entrada\n",
+   "perguntas": 2,
+   "segundos": 0.87
+  },
+  {
+   "nome": "soma_quadrados",
+   "descricao": "soma os quadrados dos números da lista",
+   "direto": "certa",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return sum(x * x for x in entrada)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return sum(x * x for x in entrada)\n",
+   "perguntas": 2,
+   "segundos": 11.73
+  },
+  {
+   "nome": "conta_letra_a",
+   "descricao": "conta quantas vezes a letra a aparece",
+   "direto": "errada",
+   "cauteloso": "errada",
+   "programa_direto": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return sum(c in VOGAIS for c in entrada)\n",
+   "pergunta": "errada",
+   "programa": "VOGAIS = set(\"aeiouáéíóúâêôãõàAEIOUÁÉÍÓÚÂÊÔÃÕÀ\")\n\n\ndef resolver(entrada):\n    return sum(c in VOGAIS for c in entrada)\n",
+   "perguntas": 0,
+   "segundos": 0.22
+  },
+  {
+   "nome": "elemento_do_meio",
+   "descricao": "devolve o elemento do meio da lista",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return sum(entrada) // len(entrada)\n",
+   "pergunta": "certa",
+   "programa": "def resolver(entrada):\n    return entrada[len(entrada) // 2]\n",
+   "perguntas": 1,
+   "segundos": 21.18
+  },
+  {
+   "nome": "mediana",
+   "descricao": "calcula a mediana da lista",
+   "direto": "sem_resposta",
+   "cauteloso": "sem_resposta",
+   "pergunta": "sem_resposta",
+   "perguntas": 0,
+   "segundos": 13.5
+  },
+  {
+   "nome": "mdc_com_12",
+   "descricao": "calcula o máximo divisor comum do número com 12",
+   "direto": "errada",
+   "cauteloso": "sem_resposta",
+   "programa_direto": "def resolver(entrada):\n    return 10 % (entrada - 2)\n",
+   "pergunta": "sem_resposta",
+   "perguntas": 3,
+   "segundos": 41.57
+  }
+ ]
+}

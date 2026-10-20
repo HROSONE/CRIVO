@@ -33,7 +33,10 @@
   function apagarLocal(chave) {
     try { window.localStorage.removeItem(chave); } catch (_err) { /* sem armazenamento */ }
   }
-  state.remember = lerLocal(KEY_REMEMBER, false) === true;
+  // No próprio aparelho (app do celular, web_local no PC) a memória vem ligada: ela fica só ali.
+  // No site público, quem liga é a pessoa.
+  const noAparelho = location.hostname === "127.0.0.1" || location.hostname === "localhost";
+  state.remember = lerLocal(KEY_REMEMBER, noAparelho) === true;
   state.memory = state.remember ? lerLocal(KEY_MEMORY, {}) : null;
 
   function avaliacoes() {
@@ -203,13 +206,35 @@
     });
   }
 
+  // O rosto do CRIVO acompanha a metacognição da resposta: sabe (feliz),
+  // acha (pensativo) ou não sabe (surpreso). Símbolos em index.html.
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  function rostoDo(extra) {
+    const meta = extra && extra.internal_state && extra.internal_state.metacognition;
+    const nivel = meta && meta.level;
+    if (nivel === "nao_sei") return "nao-sei";
+    if (nivel === "acho") return "acho";
+    return "sei";
+  }
+  function crivoAvatar(rosto) {
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("viewBox", "0 0 120 120");
+    ["crivo-corpo", "crivo-rosto-" + rosto].forEach(function (id) {
+      const use = document.createElementNS(SVG_NS, "use");
+      use.setAttribute("href", "#" + id);
+      svg.appendChild(use);
+    });
+    return svg;
+  }
+
   function createMessage(role, text, extra) {
     if (!ui.welcome.hidden) ui.welcome.hidden = true;
     const outer = document.createElement("div");
     outer.className = "message " + role;
     const avatar = document.createElement("span");
     avatar.className = "avatar";
-    avatar.textContent = role === "user" ? "EU" : "◈";
+    if (role === "user") avatar.textContent = "EU";
+    else avatar.appendChild(crivoAvatar(rostoDo(extra)));
     avatar.setAttribute("aria-hidden", "true");
     const main = document.createElement("div");
     main.className = "message-main";
@@ -233,6 +258,14 @@
         tag.textContent = "◇ Revisão de texto · confira a proposta";
       } else if (extra.content_analysis) {
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
+      } else if (extra.conversation_voice && extra.conversation_voice.used) {
+        // Voz da conversa: o 46M da 6b v4 (ou a v4 F), ligado por decisão do criador, sem aprovação na catraca.
+        const tamanho = String(extra.conversation_voice.model || "").startsWith("fase6b") ? "46M" : "17M · v4";
+        tag.textContent = extra.conversation_voice.verified
+          ? "◇ Modelo próprio " + tamanho + " em teste"
+          : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
+      } else if (extra.experimental_voice && extra.experimental_voice.used) {
+        tag.textContent = "◇ Voz própria do 17M · conferida";
       } else if (extra.generation && extra.generation.usada) {
         tag.textContent = extra.generation.copia_literal
           ? "◇ Modelo próprio · fatos da fonte"
@@ -320,11 +353,11 @@
   function createPending() {
     if (!ui.welcome.hidden) ui.welcome.hidden = true;
     const container = document.createElement("div");
-    container.className = "message assistant";
+    container.className = "message assistant pending";
     container.setAttribute("aria-label", "CRIVO está respondendo");
     const avatar = document.createElement("span");
     avatar.className = "avatar";
-    avatar.textContent = "◈";
+    avatar.appendChild(crivoAvatar("acho"));
     avatar.setAttribute("aria-hidden", "true");
     const main = document.createElement("div");
     main.className = "message-main";

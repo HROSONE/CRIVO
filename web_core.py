@@ -5,6 +5,9 @@ O navegador manda apenas perguntas anteriores (limitadas) para reconstruir
 o contexto curto. A resposta do servidor não armazena conversas.
 """
 from crivo import Crivo
+import logging
+import os
+import time
 
 LIMITE_MENSAGEM = 1200
 LIMITE_HISTORICO = 20
@@ -70,8 +73,11 @@ def _validar_memoria(memoria):
     return limpa
 
 
+VOZES_NO_HISTORICO = 4
+
+
 def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None, gerador_programacao=None,
-                  usar_geracao=True, checkpoint_dialogo_candidato=None):
+                  usar_geracao=True, checkpoint_dialogo_candidato=None, voz_17m=False):
     """Valida o contrato JSON e devolve um resultado serializável.
 
     Em ambientes serverless os processos podem reiniciar entre mensagens;
@@ -92,22 +98,58 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
             or sum(len(p) for p in historico) > LIMITE_HISTORICO_CARACTERES):
         raise PedidoInvalido("Histórico inválido ou muito longo.")
 
+    perfil = os.environ.get("CRIVO_PROFILE_REQUESTS", "").strip().lower() in {"1", "true", "yes", "on"}
+    t_inicio = time.perf_counter() if perfil else 0.0
     bot = Crivo(usar_dialogo_contextual=usar_dialogo_contextual, modelo_linguagem=modelo_linguagem,
                 gerador_programacao=gerador_programacao, usar_geracao=usar_geracao,
                 checkpoint_dialogo_candidato=checkpoint_dialogo_candidato)
+    t_motor = time.perf_counter() if perfil else 0.0
     if memoria:
         bot.carregar_memoria(memoria)
+    def ligar_vozes():
+        # Voz do 17M (realizador_17m.py) e voz da conversa: o 46M da 6b v4, ou a v4 F (conversa_v3d.py;
+        # ligadas por decisão do criador, sem aprovação na catraca).
+        import realizador_17m
+        import conversa_v3d
+        if not realizador_17m.desligado_no_site():
+            bot.realizador = realizador_17m.numpy_do_site()
+        if not conversa_v3d.desligado_no_site():
+            bot.conversa_v3d = conversa_v3d.numpy_do_site()
+
+    # Os turnos antigos são refeitos com o texto de sempre, sem gastar geração; os últimos
+    # VOZES_NO_HISTORICO, com as vozes, para o modelo ler a conversa como a pessoa viu (o contexto
+    # dela, 256 tokens, cabe poucos turnos).
+    com_voz = max(0, len(historico) - VOZES_NO_HISTORICO)
+    import time
+    import conversa_v3d
+    bot.prazo_pedido = time.monotonic() + conversa_v3d.PRAZO_PEDIDO   # a função do site tem 20 s
+    t_memoria = time.perf_counter() if perfil else 0.0
     bot.motor_codigo.reconstruindo = True
+    bot.refazendo_historico = True
     try:
-        for anterior in historico:
+        for i, anterior in enumerate(historico):
+            if voz_17m and i == com_voz:
+                ligar_vozes()
             bot.responder(anterior)
     finally:
         bot.motor_codigo.reconstruindo = False
+        bot.refazendo_historico = False
+    t_historico = time.perf_counter() if perfil else 0.0
     sinais_antes = bot.total_sinais
+    if voz_17m:
+        ligar_vozes()
     identificador, resposta = bot.responder(mensagem)
+    t_resposta = time.perf_counter() if perfil else 0.0
     novos_sinais = bot.total_sinais - sinais_antes
     from ecossistema import descrever, mecanismo_do_turno
     mecanismo = mecanismo_do_turno(bot, mensagem, identificador)
+    if perfil:
+        logging.getLogger("crivo.performance").info(
+            "responder_web total=%.3fs construtor=%.3fs memoria=%.3fs historico=%.3fs "
+            "resposta=%.3fs historico_turnos=%d mensagem_chars=%d",
+            time.perf_counter() - t_inicio, t_motor - t_inicio,
+            t_memoria - t_motor, t_historico - t_memoria,
+            t_resposta - t_historico, len(historico), len(mensagem))
     provas_efetivas = {
         "logica:fatos",
         "logica:tipo_de", "logica:parte_de", "logica:orbita",
@@ -126,6 +168,19 @@ def responder_web(payload, usar_dialogo_contextual=False, modelo_linguagem=None,
                          and t in resposta for i,t in provas_plano)
     extra = {"memory": bot.exportar_memoria()} if memoria is not None else {}
     extra["generation"] = bot.ultima_geracao
+    voz = getattr(bot, "ultimo_realizador", None)
+    if voz is not None:
+        # Voz experimental do 17M (realizador_17m.py): aparece quando ela esteve ligada no turno.
+        extra["experimental_voice"] = {"used": bool(voz.get("usada")), "reason": voz.get("motivo"),
+                                       "act": (voz.get("quadro") or {}).get("ato")}
+    conversa = getattr(bot, "ultima_conversa_v3d", None)
+    if conversa is not None:
+        extra["conversation_voice"] = {"used": bool(conversa.get("usada")), "reason": conversa.get("motivo"),
+                                       "verified": bool(conversa.get("conferida")),
+                                       "model": conversa.get("modelo", "fase5_v4_F"), "approved": False}
+    verbete = getattr(bot, "ultima_enciclopedia", None)
+    if verbete is not None:
+        extra["encyclopedia"] = dict(verbete)   # resposta tirada da Wikipédia (enciclopedia.py)
     extra['dialogue_generation'] = bot.dialogo_conversa.trace
     if identificador == 'conversa:memoria_sessao':
         extra['session_memory'] = bot.memoria_sessao.ultimo
