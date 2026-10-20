@@ -1,7 +1,7 @@
 """Léxico do português para a correção por dicionário (correcao_texto.py).
 
 Duas fontes, sem nenhum modelo:
-- as palavras escritas em minúsculas no começo dos 120 mil verbetes da Wikipédia que o projeto já
+- as palavras escritas em minúsculas no começo dos 300 mil verbetes da Wikipédia que o projeto já
   guarda (artefatos/enciclopedia_pt); nomes próprios, que vêm em maiúscula, ficam fora;
 - as 50 mil palavras mais frequentes de legendas em português do Brasil (dados/lexico_pt), a fala
   do dia a dia que a Wikipédia não tem ("abacaxi", "bagunça", "tô").
@@ -15,15 +15,17 @@ import re
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[1]
-ORIGEM = RAIZ / "artefatos" / "enciclopedia_pt" / "enciclopedia_pt.json.gz"
+ORIGEM = RAIZ / "artefatos" / "enciclopedia_pt" / "enciclopedia_pt.v3.gz"
 LEGENDAS = RAIZ / "dados" / "lexico_pt" / "frequencia_legendas_pt_br_50k.txt"
 DESTINO = RAIZ / "artefatos" / "lexico_pt" / "palavras.json.gz"
 PALAVRA = re.compile(r"[a-záàâãéêíóôõúüç]+(?:-[a-záàâãéêíóôõúüç]+)*")
 
 
 def principal():
-    enc = json.loads(gzip.decompress(ORIGEM.read_bytes()))
-    conta = collections.Counter(w for t in enc["leads"] for w in PALAVRA.findall(t) if len(w) <= 30)
+    linhas = gzip.decompress(ORIGEM.read_bytes()).decode("utf-8").split("\n")
+    enc = json.loads(linhas[0])
+    leads = (l.partition("\t")[2] for l in linhas[1:1 + enc["n"]])
+    conta = collections.Counter(w for t in leads for w in PALAVRA.findall(t) if len(w) <= 30)
     legendas = {}
     for linha in LEGENDAS.read_text(encoding="utf-8").splitlines():
         w, n = linha.rsplit(" ", 1)
