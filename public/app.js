@@ -259,10 +259,10 @@
       } else if (extra.content_analysis) {
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.conversation_voice && extra.conversation_voice.used) {
-        // Voz da conversa: o 46M da 6b v4 (ou a v4 F), ligado por decisão do criador, sem aprovação na catraca.
-        const tamanho = String(extra.conversation_voice.model || "").startsWith("fase6b") ? "46M" : "17M · v4";
+        // Voz da conversa: o 46M v7c (ou a v4 F de reserva), ligado por decisão do criador.
+        const tamanho = /46m/i.test(String(extra.conversation_voice.model || "")) ? "46M" : "17M · v4";
         tag.textContent = extra.conversation_voice.verified
-          ? "◇ Modelo próprio " + tamanho + " em teste"
+          ? "◇ Modelo próprio " + tamanho + (tamanho === "46M" ? "" : " em teste")
           : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
         tag.textContent = "◇ Voz própria do 17M · conferida";
@@ -482,6 +482,45 @@
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" && document.body.classList.contains("sidebar-open")) setSidebar(false);
   });
+  // Voltar do Android (app): fecha o menu primeiro.
+  window.crivoVoltar = function () {
+    if (!document.body.classList.contains("sidebar-open")) return false;
+    setSidebar(false);
+    return true;
+  };
+  // Celular: deslizar da esquerda para a direita abre o menu; da direita para a esquerda, fecha.
+  const gaveta = window.matchMedia("(max-width: 900px)");
+  let toque = null;
+  document.addEventListener("touchstart", function (event) {
+    const alvo = event.target;
+    if (!gaveta.matches || event.touches.length !== 1 ||
+        (alvo.closest && alvo.closest("pre, code, textarea, input, select"))) {   // rolar código, mexer no texto
+      toque = null;
+      return;
+    }
+    toque = { x: event.touches[0].clientX, y: event.touches[0].clientY, t: Date.now() };
+  }, { passive: true });
+  document.addEventListener("touchend", function (event) {
+    if (!toque) return;
+    const dx = event.changedTouches[0].clientX - toque.x;
+    const dy = event.changedTouches[0].clientY - toque.y;
+    const rapido = Date.now() - toque.t < 700;
+    toque = null;
+    if (!rapido || Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) * 0.6) return;   // só gesto horizontal claro
+    const aberto = document.body.classList.contains("sidebar-open");
+    if (dx > 0 && !aberto) setSidebar(true);
+    else if (dx < 0 && aberto) setSidebar(false);
+  }, { passive: true });
+  document.addEventListener("touchcancel", function () { toque = null; }, { passive: true });
+  // App Android: as configurações (versão e atualização) são do app; a página só pede para abrir.
+  const appSettings = document.getElementById("app-settings");
+  if (window.CrivoApp && typeof window.CrivoApp.abrirConfiguracoes === "function") {
+    appSettings.hidden = false;
+    appSettings.addEventListener("click", function () {
+      setSidebar(false);
+      window.CrivoApp.abrirConfiguracoes();
+    });
+  }
   document.querySelectorAll("[data-prompt]").forEach(function (button) {
     button.addEventListener("click", function () {
       setSidebar(false);

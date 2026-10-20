@@ -150,7 +150,7 @@ def main():
                     "status_revisao": "PENDENTE",
                     "origem": fact["revisao_fonte"],
                 }
-                review_file.write(json.dumps(row, ensure_ascii=False) + "\\n")
+                review_file.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(f"Arquivo intermediário: {out}")
     print(f"Fila de revisão de fontes: {review_path}")
     print(f"Lotes: {counts['lotes']} | conceitos: {counts['conceitos_origem']} -> {len(items)}")

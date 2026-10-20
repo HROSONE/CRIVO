@@ -288,6 +288,8 @@ class Crivo:
         self.conversa_v3d = None
         self.ultima_conversa_v3d = None
         self.pares_conversa = []
+        import ambiente
+        self.fio = ambiente.Fio()   # casa da conversa (ambiente.py): última pergunta do CRIVO, tarefa em aberto
         self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
@@ -1467,10 +1469,13 @@ class Crivo:
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         self.ultima_conversa_v3d = None
         self.ultima_enciclopedia = None
-        ident, resposta = self._responder_com_protocolo(texto)
+        import ambiente
+        # Fala curta dita por inteiro no fio da conversa ("O meu é Henrique" → "Meu nome é Henrique").
+        ident, resposta = self._responder_com_protocolo(ambiente.completar(self.fio, texto))
         if isinstance(texto, str) and isinstance(resposta, str):
             # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
             self.pares_conversa = (self.pares_conversa + [(texto, resposta)])[-12:]
+            self.fio.observar(self, texto, ident, resposta)
         return ident, resposta
 
     def _responder_com_protocolo(self, texto):
@@ -1520,6 +1525,10 @@ class Crivo:
             self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                    "motivo": "correcao_por_regras" if mecanismo == "correcao_texto" else "analise_extrativa", "tentativas": 0}
             return ident, resposta
+        import ambiente
+        retomada = ambiente.retomar(self, original_conteudo)
+        if retomada is not None:
+            return self._responder_retomada(original_conteudo, *retomada)
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
@@ -1629,6 +1638,26 @@ class Crivo:
             import enciclopedia
             resposta = self._trocar_mostrada(resposta, resposta.rstrip() + "\n\n" + enciclopedia.fonte(verbete))
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
+        return crise.ajustar(ident, resposta, self)
+
+    def _responder_retomada(self, fala, ident, resposta):
+        """Fala curta lida no fio da conversa (ambiente.py): o resultado da tarefa em aberto ou a pergunta
+        que o CRIVO fez. O texto conferido entra como fato e o modelo o diz."""
+        import crise
+        import estado_interno
+        self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False, "motivo": "ambiente", "tentativas": 0}
+        self.estado_interno = estado_interno.EstadoInterno(fala)
+        self.estado_interno.propor("ambiente", ident, "responder")
+        self.estado_interno.decidir("ambiente", "responder", "fala curta lida no fio da conversa")
+        self.ultima_resposta_mostrada = resposta
+        self.conversacao.ultima_resposta_texto = resposta
+        self.ultimo_turno = {"pergunta": fala, "id": ident}
+        self.historico.append({"pergunta": fala, "id": ident, "mecanismo": "ambiente"})
+        self.historico = self.historico[-20:]
+        self.perfil.turno += 1
+        if getattr(self, "conversa_v3d", None) is not None:
+            ident, resposta, _ = self._conversar_v3d(fala, ident, resposta)
+        ident, resposta = self._revisar(fala, ident, resposta)
         return crise.ajustar(ident, resposta, self)
 
     def _trocar_mostrada(self, antiga, nova):
