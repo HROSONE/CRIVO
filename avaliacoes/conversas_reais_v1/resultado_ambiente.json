@@ -1,0 +1,164 @@
+{
+ "resumo": {
+  "dev": {
+   "turnos": 12,
+   "passou": 11,
+   "conversas": 1,
+   "conversas_inteiras": 0
+  }
+ },
+ "conversas": [
+  {
+   "id": "paralelepipedo",
+   "papel": "dev",
+   "turnos": [
+    {
+     "turno": 1,
+     "usuario": "Oi, tudo bem?",
+     "resposta": "Tudo bem, sim! E você? Como foi o seu dia?",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "conversa_assistente",
+     "id": "social:tudobem",
+     "voz_usada": true,
+     "motivo_voz": "conferida",
+     "segundos": 2.05
+    },
+    {
+     "turno": 2,
+     "usuario": "Nem começou ainda",
+     "resposta": "Entendo. Fica à vontade. Quando quiser voltar, eu tento fazer melhor.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "recuperador",
+     "id": "fora",
+     "voz_usada": true,
+     "motivo_voz": "conferida na tentativa 2",
+     "segundos": 1.8
+    },
+    {
+     "turno": 3,
+     "usuario": "Quer saber o que?",
+     "resposta": "Eu perguntei: como foi o seu dia?",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "ambiente",
+     "id": "ambiente:minha_pergunta",
+     "voz_usada": false,
+     "motivo_voz": "fonte: não conferida, fica o texto conferido (usa_fato, tudo_ok, faltou_resultado)",
+     "segundos": 2.79
+    },
+    {
+     "turno": 4,
+     "usuario": "Você pensa?",
+     "resposta": "Penso no que vou dizer, mas não sei se tenho consciência como a sua. É uma das perguntas que mais me intrigam.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "conversa_assistente",
+     "id": "social:pensamento",
+     "voz_usada": true,
+     "motivo_voz": "conferida",
+     "segundos": 3.36
+    },
+    {
+     "turno": 5,
+     "usuario": "Corrija esta palavra: \"Palarerepípedo\"",
+     "resposta": "Proposta de texto corrigido:\n\n\"Paralelepípedo\"\n\nNotas de revisão:\n- Palavras fora do dicionário trocadas pela mais próxima: Palarerepípedo → Paralelepípedo. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "correcao_texto",
+     "id": "texto:correcao",
+     "voz_usada": null,
+     "motivo_voz": null,
+     "segundos": 4.54
+    },
+    {
+     "turno": 6,
+     "usuario": "Me mande a palavra corrigida",
+     "resposta": "A palavra corrigida é paralelepípedo.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "ambiente",
+     "id": "ambiente:tarefa",
+     "voz_usada": false,
+     "motivo_voz": "fonte: não conferida, fica o texto conferido (usa_fato, sem_nome_inventado, tudo_ok, faltou_resultado)",
+     "segundos": 4.39
+    },
+    {
+     "turno": 7,
+     "usuario": "Você não me deu a palavra certa",
+     "resposta": "Desculpa. A palavra corrigida é paralelepípedo.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "ambiente",
+     "id": "ambiente:tarefa",
+     "voz_usada": false,
+     "motivo_voz": "fonte: não conferida, fica o texto conferido (usa_fato, tudo_ok, faltou_resultado)",
+     "segundos": 6.28
+    },
+    {
+     "turno": 8,
+     "usuario": "Você consegue me entender?",
+     "resposta": "Claro! Ninguém precisa passar por isso sozinho. Se quiser desabafar, eu escuto com calma.",
+     "passou": false,
+     "falhas": [
+      "faltou um de ['entendo', 'entender', 'sim']"
+     ],
+     "mecanismo": "conversa_assistente",
+     "id": "social:nao_entendido",
+     "voz_usada": true,
+     "motivo_voz": "conferida na tentativa 6",
+     "segundos": 6.98
+    },
+    {
+     "turno": 9,
+     "usuario": "Você me entende, sim ou não?",
+     "resposta": "Sim! Sou uma IA, mas posso conversar sobre isso.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "recuperador",
+     "id": "duvida",
+     "voz_usada": true,
+     "motivo_voz": "conferida com o começo do ambiente",
+     "segundos": 9.02
+    },
+    {
+     "turno": 10,
+     "usuario": "Você não fala nada com nada",
+     "resposta": "Entendo, e desculpa. Eu ainda tô aprendendo a conversar. Pode falar do seu jeito que eu tento acompanhá-lo.",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "linguagem_conversa",
+     "id": "linguagem:negado",
+     "voz_usada": true,
+     "motivo_voz": "não conferida: usa_fato, tudo_ok",
+     "segundos": 11.71
+    },
+    {
+     "turno": 11,
+     "usuario": "Qual é o seu nome?",
+     "resposta": "Meu nome é CRIVO. E o seu?",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "conversa_assistente",
+     "id": "social:quem",
+     "voz_usada": true,
+     "motivo_voz": "conferida",
+     "segundos": 10.56
+    },
+    {
+     "turno": 12,
+     "usuario": "O meu é Henrique",
+     "resposta": "Oi, Henrique! Prazer. Como você está?",
+     "passou": true,
+     "falhas": [],
+     "mecanismo": "linguagem_conversa",
+     "id": "conversa:relato",
+     "voz_usada": true,
+     "motivo_voz": "conferida na tentativa 2",
+     "segundos": 11.76
+    }
+   ]
+  }
+ ]
+}

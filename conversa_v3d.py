@@ -71,6 +71,7 @@ FORMATO_SHA256 = "932057afcb01d4ca3116c017d4363d048f73125b2e2613dce808e879105c17
 PRAZO_SITE = 7.0
 PRAZO_TOTAL = 9.0   # todas as tentativas de um turno juntas
 TENTATIVAS = 3
+TENTATIVAS_AMBIENTE = 6   # quando o ambiente escolheu um ato ou exige um resultado (ambiente.py)
 MAX_CONTEXTO_TOKENS = 96   # igual a formato_fase5.montar_ids
 MAX_PARES = 6
 
@@ -91,7 +92,7 @@ MAX_NOVOS_46M = 110
 MAX_LEMBRANCAS = 8
 MAX_PARES_46M = 12
 # O 46M gera uns 3 vezes mais devagar que a v4 F. Para o pedido do site caber nos 20 s da função:
-PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: uma tentativa, até 2 s
+PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: as mesmas tentativas, até 2 s
 PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
 
 DECISAO_46M = {"data": "2026-10-20", "modelo": "v7c_46m", "decisao": "ligar no chat por decisão do criador",
@@ -263,6 +264,8 @@ class Conversa46mNumpy(ConversaNumpy):
         import motor_nativo
         self.motor = motor_nativo.carregar(npz, NPZ_SHA256_46M)
         self._trava = threading.Lock()   # o motor guarda o cache de uma resposta por vez
+        # (ids do prompt, logits no fim dele, cache NumPy): as tentativas do mesmo turno leem o prompt uma vez só.
+        self._prefixo = None
         for k in ([] if self.motor else pesos.files):
             if k == "meta" or k.endswith(".escala"):
                 continue
@@ -280,6 +283,8 @@ class Conversa46mNumpy(ConversaNumpy):
 
     def _logits(self, ids, inicio, cache):
         """Logits da última de `ids` (posições inicio…), pelo motor em C ou pelo NumPy."""
+        if inicio == 0:
+            self._prefixo = None   # o motor recomeça o cache: o prompt guardado deixa de valer
         if self.motor is not None:
             return self.motor.avancar(ids, inicio)
         return self._passo(ids, inicio, cache)[-1] @ self.p["embedding.weight"].T
@@ -291,22 +296,56 @@ class Conversa46mNumpy(ConversaNumpy):
         ids, _ = formato6().montar(self.bpe.codificar, self.esp, ctx, turnos, contexto=self.contexto - MAX_NOVOS_46M, gerar=True)
         return ids
 
-    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None):
+    def conversar(self, ctx, historico, mensagem, primeiro=0, prazo=None, comecos=None):
         """(texto, terminou): gulosa com o freio de repetição da prova da 6b v4 (o mesmo na prova do v7c).
 
-        primeiro=k começa pela (k+1)-ésima palavra mais provável (nova tentativa depois de uma frase reprovada)."""
+        primeiro=k começa pela (k+1)-ésima palavra mais provável (nova tentativa depois de uma frase reprovada).
+        comecos=["Sim", "Não"]: o ambiente oferece os começos, o modelo fica com o que ele acha mais
+        provável e escreve o resto (ambiente.py, pergunta de sim ou não)."""
         with self._trava:
-            return self._conversar(ctx, historico, mensagem, primeiro, prazo)
+            return self._conversar(ctx, historico, mensagem, primeiro, prazo, comecos)
 
-    def _conversar(self, ctx, historico, mensagem, primeiro, prazo):
+    def _comeco_provavel(self, ids, comecos):
+        """(ids do começo, logits depois dele, cache) do começo que o modelo acha mais provável."""
+        np = self.np
+        melhor = None
+        for texto in comecos:
+            extra = list(self.bpe.codificar(texto))
+            lg, cache = self._prompt(ids)
+            nota = 0.0
+            for i, t in enumerate(extra):
+                lg = lg - lg.max()
+                nota += float(lg[t] - np.log(np.exp(lg).sum()))
+                lg = self._logits([t], len(ids) + i, cache)
+            nota /= max(1, len(extra))   # por pedaço: "Sim" tem dois, "Não" um
+            if melhor is None or nota > melhor[0]:
+                melhor = (nota, extra, lg, cache)
+        return melhor[1:]
+
+    def _prompt(self, ids):
+        """(logits no fim do prompt, cache): lidos uma vez por turno. As posições depois do prompt são
+        reescritas por cada tentativa, e a atenção causal só lê até a posição corrente."""
+        chave = tuple(ids)
+        if self._prefixo is None or self._prefixo[0] != chave:
+            cache = {}
+            lg = self._logits(ids, 0, cache)
+            self._prefixo = (chave, lg.copy(), dict(cache))
+        return self._prefixo[1].copy(), dict(self._prefixo[2])
+
+    def _conversar(self, ctx, historico, mensagem, primeiro, prazo, comecos=None):
         import time
         np = self.np
         ids = self.prompt_conversa(ctx, historico, mensagem)
         prazo = self.prazo if prazo is None else prazo
         limite = time.monotonic() + prazo if prazo else None
-        cache, saida = {}, []
-        prox_lg = self._logits(ids, 0, cache)
-        pos = len(ids)
+        if comecos:
+            saida, prox_lg, cache = self._comeco_provavel(ids, comecos)
+            saida = list(saida)
+            primeiro = 0
+        else:
+            saida = []
+            prox_lg, cache = self._prompt(ids)
+        pos = len(ids) + len(saida)
         k = FREIO["sem_repetir_ngrama"] - 1
         for passo in range(min(MAX_NOVOS_46M, self.contexto - len(ids))):
             lg = prox_lg
@@ -436,6 +475,10 @@ def contexto_do_turno(bot, fala, ident, resposta):
         if pergunta:
             ctx["assunto"] = pergunta
             exigir["marcas"] = ["nao_sei"]
+    elif (ident in ("conversa:gerada_escuta", "conversa:gerada_ajuste")
+          and getattr(getattr(bot, "fio", None), "ato", None) == "sim_ou_nao"):
+        # Pergunta de sim ou não ("você me entende?"): o modelo responde, não o molde que repete a fala anterior.
+        pass
     elif not (ident in CONVERSA_EXATOS or ident.startswith(CONVERSA)):
         # Conta, código, acervo, memória, metacognição: o resultado conferido do CRIVO entra como
         # fato, e o modelo o diz (decisão do criador: o modelo fala em todas as mensagens).
@@ -505,8 +548,18 @@ def aplicar(bot, fala, ident, resposta, modelo):
             fim, tentativas = time.monotonic() + PRAZO_REFAZER, 1
         if limite_pedido is not None:
             fim = min(fim, limite_pedido)
+    import ambiente
+    ato = getattr(getattr(bot, "fio", None), "ato", None)
+    fontes = [fala] + [f for f, _ in (getattr(bot, "pares_conversa", None) or [])] + [caso["mensagem"]]
+    fontes += list(ctx.get("fatos") or []) + list((ctx.get("nomes") or {}).values())
+    exigido = ambiente.exigido(bot, ident)
+    if ato or exigido:
+        trace["ato"] = ato
+    # O juiz recusa mais; o prompt é lido uma vez, e cada frase a mais custa só as palavras dela. No turno
+    # refeito do histórico, as mesmas tentativas na mesma ordem: a frase é a mesma que a pessoa viu.
+    tentativas = TENTATIVAS_AMBIENTE if getattr(modelo, "formato6", False) else tentativas
     trace["tentativas"] = 0
-    primeira = None   # (texto, terminou, falhas) da primeira frase dele
+    frases = []   # (texto, terminou, falhas da conferência, falhas do juiz)
     for k in range(tentativas):
         resta = fim - time.monotonic()
         if resta <= 0.5:
@@ -519,28 +572,57 @@ def aplicar(bot, fala, ident, resposta, modelo):
             return ident, resposta, trace
         trace["tentativas"] = k + 1
         av = formato().avaliar_saida(caso, texto, terminou)
+        juiz = ambiente.julgar(ato, fala, texto, fontes, exigido)
         trace.update(contexto=ctx_modelo, rascunho=texto)
-        if av["tudo_ok"] and texto:
+        if av["tudo_ok"] and texto and not juiz:
             trace.update(usada=True, conferida=True,
                          motivo="conferida" if k == 0 else "conferida na tentativa %d" % (k + 1))
             return ident, texto, trace
-        falhas = [k2 for k2, v in av.items() if v is False]
-        if primeira is None and texto:
-            primeira = (texto, terminou, falhas)
-        trace["motivo"] = "reprovada: " + ", ".join(falhas)
+        if texto:
+            frases.append((texto, terminou, [k2 for k2, v in av.items() if v is False], juiz))
+        trace["motivo"] = "reprovada: " + ", ".join(frases[-1][2] + frases[-1][3] if frases else ["vazia"])
+    if ato == "sim_ou_nao" and getattr(modelo, "formato6", False) and fim - time.monotonic() > 0.5:
+        # Nenhuma frase dele respondeu sim ou não: o ambiente oferece os dois começos e ele escolhe um.
+        try:
+            texto, terminou = modelo.conversar(ctx_modelo, historico, fala, prazo=fim - time.monotonic(),
+                                               comecos=["Sim", "Não"])
+        except Exception:
+            texto = ""
+        if texto:
+            trace["tentativas"] += 1
+            av = formato().avaliar_saida(caso, texto, terminou)
+            juiz = ambiente.julgar(ato, fala, texto, fontes, exigido)
+            if av["tudo_ok"] and not juiz:
+                trace.update(usada=True, conferida=True, rascunho=texto, motivo="conferida com o começo do ambiente")
+                return ident, texto, trace
+            frases.insert(0, (texto, terminou, [k2 for k2, v in av.items() if v is False], juiz))
     # Decisão do criador (14/10/2026): "eu não quero que tu faça as falas dele, ele quem deve falar do
     # jeito que ele quiser". Se nenhuma frase passou na conferência, vai a primeira dele mesmo assim,
     # marcada como não conferida; o texto de sempre só aparece se ele não disse nada.
-    if primeira is not None and ident.startswith("enciclopedia:"):
-        # A resposta leva "Fonte: Wikipédia": o texto tem que ser fiel ao verbete. Sem conferência, fica o verbete.
-        trace.update(usada=False, conferida=False, motivo="fonte: não conferida, fica o verbete (" + ", ".join(primeira[2]) + ")")
+    if frases and (ident.startswith("enciclopedia:") or exigido):
+        # A resposta leva "Fonte: Wikipédia", ou é o resultado de uma tarefa (a palavra corrigida): o texto
+        # tem que ser fiel. Sem conferência, fica o texto conferido.
+        trace.update(usada=False, conferida=False,
+                     motivo="fonte: não conferida, fica o texto conferido (" + ", ".join(frases[0][2] + frases[0][3]) + ")")
         return ident, resposta, trace
-    if primeira is not None:
-        texto, terminou, falhas = primeira
+    # O juiz (ambiente.py): fica a primeira frase dele que não inventa nada; se todas inventam, sai a
+    # frase inventada e fica o resto das palavras dele.
+    escolhida = next((f for f in frases if not f[3]), None)
+    if escolhida is None:
+        for texto, terminou, falhas, juiz in frases:
+            podado = ambiente.podar(texto, ato, fala, fontes)
+            if podado:
+                escolhida = (podado, terminou or podado != texto, falhas, juiz)
+                trace["podada"] = True
+                break
+    if escolhida is not None:
+        texto, terminou, falhas, juiz = escolhida
         if not terminou:
             texto = texto.rstrip() + "…"
-        trace.update(usada=True, conferida=False, rascunho=texto, motivo="não conferida: " + ", ".join(falhas))
+        trace.update(usada=True, conferida=False, rascunho=texto, motivo="não conferida: " + ", ".join(falhas + juiz))
         return ident, texto, trace
+    if frases:
+        trace["motivo"] = "o juiz recusou todas: " + ", ".join(frases[0][3])
     return ident, resposta, trace
 
 

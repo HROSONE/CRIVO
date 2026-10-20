@@ -1,0 +1,223 @@
+"""O ambiente à volta do modelo: casa, moradia segura e alimento.
+
+O 46M fala em todas as mensagens (decisão do criador). Sozinho, ele boia: não lembra que perguntou
+"como foi o seu dia?", não sabe que a pessoa ainda espera a palavra corrigida, e às vezes inventa
+um parente. O ambiente não fala por ele; ele cerca o modelo:
+
+    casa      o fio da conversa (Fio): a última pergunta do CRIVO, a tarefa em aberto, o que a pessoa
+              disse; uma fala curta ("me mande a palavra corrigida", "quer saber o quê?") é lida
+              dentro desse fio;
+    alimento  o ato do turno (ato_do_turno), escolhido antes de o modelo falar, e o que ele recebe para
+              dizer: o resultado da tarefa, a pergunta que ele fez;
+    moradia   o juiz (julgar): entre as frases do modelo, fica a que não inventa parente, responde
+              "sim" ou "não" quando a pergunta pede, não repete a fala da pessoa entre aspas; uma frase
+              inventada sai da resposta, e o resto das palavras dele fica.
+
+Nada aqui é modelo; são regras sobre o que a pessoa disse e o que o CRIVO conferiu.
+"""
+import re
+
+from composicao_textual import normalizar
+
+IDENT_TAREFA = "ambiente:tarefa"
+IDENT_PERGUNTA = "ambiente:minha_pergunta"
+
+# --- casa: o fio da conversa ---------------------------------------------------------------------
+
+
+class Fio:
+    """O que a conversa já tem: a última pergunta do CRIVO e a tarefa em aberto."""
+
+    def __init__(self):
+        self.ultima_pergunta = None   # a última pergunta do CRIVO, até dois turnos depois
+        self.idade_pergunta = 0
+        self.anterior = None          # a última resposta do CRIVO, inteira
+        self.tarefa = None            # {"tipo": "correcao", "original", "corrigido", "trocadas"}
+        self.ato = None               # o ato do turno corrente
+        self.exigido = None           # o que a resposta do turno tem que dizer (a palavra corrigida)
+
+    def observar(self, bot, fala, ident, resposta):
+        """Depois de cada turno: guarda a pergunta que o CRIVO deixou e a tarefa que ele fez."""
+        if not isinstance(resposta, str):
+            return
+        frases = [f.strip() for f in re.split(r"(?<=[.!?])\s+", resposta.strip()) if f.strip()]
+        perguntas = [f for f in frases if f.endswith("?")]
+        if perguntas:
+            self.ultima_pergunta, self.idade_pergunta = perguntas[-1], 0
+        else:
+            # "Como foi o seu dia?" → "Nem começou ainda" → "Quer saber o quê?": a pergunta vale mais um turno.
+            self.idade_pergunta += 1
+            if self.idade_pergunta > 1:
+                self.ultima_pergunta = None
+        self.anterior = resposta
+        correcao = getattr(bot, "ultima_correcao_texto", None)
+        if ident == "texto:correcao" and correcao:
+            self.tarefa = {"tipo": "correcao", "original": correcao["original"], "corrigido": correcao["corrigido"],
+                           "trocadas": [a for a in correcao["alteracoes"] if a["antes"].strip(" .")]}
+        elif ident.startswith("texto:") and ident != "texto:alteracoes":
+            self.tarefa = None
+
+
+_PEDE_NOME = re.compile(r"\b(?:e (?:o )?seu|e (?:o )?teu|qual (?:e )?(?:o )?seu nome|como (?:voce )?se chama|"
+                        r"como (?:eu )?(?:te|posso te) chamo|e voce)\b")
+
+
+def completar(fio, fala):
+    """A fala curta dita por inteiro, lida no fio: "O meu é Henrique" depois de "Meu nome é CRIVO. E o seu?"
+    vira "Meu nome é Henrique", para a memória e o modelo entenderem. Sem fio que a complete, a mesma fala."""
+    if fio is None or not isinstance(fala, str) or not fio.ultima_pergunta or fio.idade_pergunta:
+        return fala
+    pergunta = normalizar(fio.ultima_pergunta)
+    if _PEDE_NOME.search(pergunta) and re.search(r"\bnome\b", normalizar(fio.anterior or "")):
+        m = re.match(r"^(?:[Oo] meu (?:é|e)|[Mm]eu (?:é|e)|[ÉéEe]|[Oo] meu nome é)\s+([A-ZÀ-Ý][\wÀ-ÿ'-]+)[.!]?$",
+                     fala.strip())
+        if m:
+            return "Meu nome é %s" % m.group(1)
+    return fala
+
+
+def _sem_aspas(texto):
+    return texto.strip().strip("\"'“”«» ").strip()
+
+
+# --- alimento: o ato do turno --------------------------------------------------------------------
+
+_PEDE_RESULTADO = re.compile(
+    r"\b(?:(?:me )?(?:manda|mande|mandar|passa|passe|diz|diga|dizer|fala|fale|escreve|escreva|mostra|mostre|"
+    r"da|de|envia|envie)(?: pra mim| para mim)? (?:a|as|o|os) (?:palavras?|textos?|frases?|corre[cç][aã]o)"
+    r"(?: (?:corrigid[ao]s?|cert[ao]s?|corret[ao]s?|revisad[ao]s?))?|"
+    r"qual (?:e |eh )?(?:a|o) (?:palavra|texto|frase) (?:corrigid[ao]|cert[ao]|corret[ao])|"
+    r"cade (?:a|o) (?:palavra|texto|frase|corre[cç][aã]o)|e (?:a|o) (?:palavra|texto) corrigid[ao])\b")
+_RECLAMA_RESULTADO = re.compile(
+    r"\b(?:nao|nem) (?:me )?(?:deu|mandou|passou|disse|falou|corrigiu|escreveu|mostrou)\b.*\b(?:palavra|texto|frase|"
+    r"corre[cç][aã]o|cert[ao]|corrigid[ao])\b|\b(?:continua|ta|esta|ficou) (?:errad[ao]|igual)\b")
+_O_QUE = re.compile(
+    r"^(?:(?:voce )?(?:quer|queria) saber (?:o que|o que exatamente|do que|sobre o que)|o que (?:voce )?(?:quer|queria) "
+    r"saber|(?:voce )?perguntou o que)\s*\??$")
+_SIM_NAO_INICIO = re.compile(
+    r"^(?:voce|vc|tu|o crivo)\s+(?!(?:sabe|sabia)\s+(?:o que|quem|onde|quando|como|qual|por que|quanto))\w+")
+_INTERROGATIVA = re.compile(r"\b(?:o que|quem|onde|quando|como|qual|quais|por que|porque|quanto|quantos|quantas)\b|"
+                            r"\b(?:de|com|em|por|pra|para) que\b|\bque$")
+
+
+def ato_do_turno(fio, fala):
+    """O ato que o ambiente escolhe antes de o modelo falar, ou None (conversa livre)."""
+    if not isinstance(fala, str) or fio is None:
+        return None
+    n = normalizar(fala).strip(" .!")
+    pergunta = fala.strip().endswith("?")
+    if fio.tarefa and (_PEDE_RESULTADO.search(n) or _RECLAMA_RESULTADO.search(n)):
+        return "reclamar_tarefa" if _RECLAMA_RESULTADO.search(n) else "entregar_tarefa"
+    if fio.ultima_pergunta and _O_QUE.match(n):
+        return "explicar_minha_pergunta"
+    if pergunta and _SIM_NAO_INICIO.match(n) and not _INTERROGATIVA.search(n.split(" ", 1)[-1]):
+        return "sim_ou_nao"
+    return None
+
+
+def retomar(bot, fala):
+    """(ident, resposta) quando o ato pede o que o CRIVO já tem (o resultado da tarefa, a pergunta
+    que ele fez); a resposta é conferida e entra como fato para o modelo dizer. Senão, None."""
+    fio = getattr(bot, "fio", None)
+    ato = ato_do_turno(fio, fala)
+    if fio is not None:
+        fio.ato, fio.exigido = ato, None
+    if ato in ("entregar_tarefa", "reclamar_tarefa"):
+        t = fio.tarefa
+        corrigido = _sem_aspas(t["corrigido"])
+        uma_palavra = bool(re.fullmatch(r"[^\W\d_]+", corrigido))
+        if not t["trocadas"]:
+            resposta = ("Não achei outra grafia para “%s” nas minhas listas. Pode me dizer o que queria escrever?"
+                        % _sem_aspas(t["original"]))
+        elif uma_palavra:
+            resposta = "A palavra corrigida é %s." % corrigido.lower() if corrigido.istitle() else \
+                "A palavra corrigida é %s." % corrigido
+        else:
+            resposta = "O texto corrigido é: %s" % corrigido
+        if ato == "reclamar_tarefa" and t["trocadas"]:
+            resposta = "Desculpa. " + resposta
+        fio.exigido = corrigido if t["trocadas"] else None
+        return IDENT_TAREFA, resposta
+    if ato == "explicar_minha_pergunta":
+        pergunta = fio.ultima_pergunta
+        fio.exigido = pergunta.rstrip("?").strip()
+        return IDENT_PERGUNTA, "Eu perguntei: %s" % (pergunta[:1].lower() + pergunta[1:])
+    return None
+
+
+def exigido(bot, ident):
+    """O trecho que a frase do modelo tem que trazer neste turno, ou None."""
+    fio = getattr(bot, "fio", None)
+    if fio is None or ident not in (IDENT_TAREFA, IDENT_PERGUNTA):
+        return None
+    return fio.exigido
+
+
+# --- moradia segura: o juiz das frases do modelo -------------------------------------------------
+
+PARENTES = ("pai", "mae", "irmao", "irma", "filho", "filha", "filhos", "esposa", "marido", "namorado",
+            "namorada", "avo", "avos", "tio", "tia", "primo", "prima", "neto", "neta", "sogra", "sogro",
+            "cunhado", "cunhada", "noivo", "noiva", "esposo")
+# "seu país" e "seus pais" ficam iguais sem acento: só "seus/teus/dos pais" conta como parente.
+_PARENTE = re.compile(r"\b(?:seu|sua|seus|suas|teu|tua|do|da|dos|das)\s+(" + "|".join(PARENTES) + r")\b|"
+                      r"\b(?:seus|teus|dos)\s+(pais)\b")
+_SIM_NAO_RESPOSTA = re.compile(
+    r"^(?:sim|nao|claro|com certeza|acho que (?:sim|nao)|as vezes|em parte|nem sempre|nem tudo|mais ou menos|"
+    r"um pouco|depende|ainda nao)\b")
+# A resposta que repete o verbo ("Você pensa?" → "Penso…") também responde.
+_EU = {"consegue": "consigo", "sabe": "sei", "tem": "tenho", "pode": "posso", "e": "sou", "esta": "estou",
+       "ta": "to", "quer": "quero", "vai": "vou", "faz": "faco", "ve": "vejo", "ouve": "ouco", "le": "leio"}
+
+
+def _verbo_da_pergunta(fala):
+    m = re.match(r"^(?:voce|vc|tu|o crivo)\s+(?:me |te |se |nao )*(\w+)", normalizar(fala))
+    if not m:
+        return None
+    v = m.group(1)
+    return _EU.get(v) or (v[:-1] + "o" if v.endswith(("a", "e")) and len(v) > 3 else None)
+
+
+_NADA_ACONTECEU = re.compile(r"^(?:nem|nada|nao|ainda nao|nenhum|nenhuma)\b")
+_O_QUE_ACONTECEU = re.compile(r"\bo que (?:aconteceu|houve|rolou)\b")
+
+
+def julgar(ato, fala, texto, fontes, exigido=None):
+    """Falhas de uma frase do modelo (lista vazia: passa). fontes: o que a pessoa disse e o que o
+    CRIVO sabe (falas, lembranças, contexto); exigido: o trecho que a frase tem que trazer."""
+    falhas = []
+    n = normalizar(texto)
+    if exigido and normalizar(exigido) not in n:
+        falhas.append("faltou_resultado")
+    nf = normalizar(fala).strip(" .!?")
+    if len(nf.split()) <= 5 and _NADA_ACONTECEU.match(nf) and _O_QUE_ACONTECEU.search(n):
+        # "Nem começou ainda" → "O que aconteceu?": pergunta por um acontecimento que a pessoa negou.
+        falhas.append("pergunta_contraria")
+    base = " " + normalizar(" ".join(fontes)) + " "
+    for rel in (a or b for a, b in _PARENTE.findall(n)):
+        if not re.search(r"\b%s\b" % rel, base):
+            falhas.append("inventou_parente:" + rel)
+    if ato == "sim_ou_nao":
+        exige = re.search(r"\bsim ou nao\b", normalizar(fala))
+        inicio = n.lstrip(" \"'“").strip()
+        verbo = _verbo_da_pergunta(fala)
+        responde = _SIM_NAO_RESPOSTA.match(inicio) or verbo and re.match(r"(?:(?:eu|nao|ainda nao) )?%s\b" % verbo, inicio)
+        if exige and not re.match(r"(?:sim|nao)\b", inicio) or not exige and not responde:
+            falhas.append("nao_respondeu_sim_ou_nao")
+    # Eco: a fala anterior da pessoa repetida entre aspas ("Você trouxe “Me mande…”").
+    for citado in re.findall(r"[“\"]([^”\"]{12,})[”\"]", texto):
+        if normalizar(citado) in base and normalizar(citado) != normalizar(fala):
+            falhas.append("eco")
+            break
+    return falhas
+
+
+def podar(texto, ato, fala, fontes):
+    """As frases do modelo que passam no juiz, na ordem dele; '' se nenhuma passa.
+
+    Uma frase inventada ("Fico feliz que você me contou sobre seu pai.") sai; as outras ficam."""
+    frases = [f for f in re.split(r"(?<=[.!?…])\s+", texto.strip()) if f]
+    boas = [f for f in frases if not any(x.startswith("inventou") or x == "eco" for x in julgar(None, fala, f, fontes))]
+    if not boas or len(boas) == len(frases):
+        return texto if len(boas) == len(frases) else ""
+    resto = " ".join(boas)
+    return resto if not julgar(ato, fala, resto, fontes) else ""
