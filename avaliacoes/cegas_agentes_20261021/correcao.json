@@ -1,0 +1,508 @@
+{
+ "area": "correcao",
+ "origem": {
+  "autor": "agente Claude (Anthropic), ferramenta de desenvolvimento",
+  "data": "2026-10-21",
+  "uso": "teste às cegas; nunca entra em treino"
+ },
+ "conversas": [
+  {
+   "id": "cor_01",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "corrige ai: concerteza",
+     "crivo": "Proposta de texto corrigido:\n\nCom certeza.\n\nNotas de revisão:\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "cor_02",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "tá certo escrever 'agente' pra dizer 'a gente'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não reconheceu a dúvida 'agente' x 'a gente' (caiu em 'fora')"
+    },
+    {
+     "pessoa": "então como fica a frase: agente vai sair amanhã",
+     "crivo": "Hum, entendi. Por que você acha isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "não corrigiu 'agente' → 'a gente'; tratou como relato ('Por que você acha isso?')"
+    }
+   ]
+  },
+  {
+   "id": "cor_03",
+   "estilo": "formal",
+   "turnos": [
+    {
+     "pessoa": "Poderia, por gentileza, revisar a seguinte frase: Houveram muitos problemas na reunião.",
+     "crivo": "Poxa, você disse: “Poderia, por gentileza, revisar a seguinte frase: Houveram muitos problemas na reunião”. O que você já tentou e como isso funcionou para você?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "pedido formal 'revisar a seguinte frase' não roteado para correção; ecoou a frase e não corrigiu 'Houveram' → 'Houve'"
+    }
+   ]
+  },
+  {
+   "id": "cor_04",
+   "estilo": "gíria",
+   "turnos": [
+    {
+     "pessoa": "mano como q escreve excessão",
+     "crivo": "Hum, entendi. Por que você acha isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'como q escreve excessão' tratado como relato; não deu 'exceção'"
+    },
+    {
+     "pessoa": "vc nao corrigiu",
+     "crivo": "Entendi, você nao corrigiu. Como foi isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "queixa 'vc nao corrigiu' lida como relato ('você nao corrigiu. Como foi isso?'); não corrigiu nem retomou a palavra"
+    }
+   ]
+  },
+  {
+   "id": "cor_05",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "como se escreve agua com acento",
+     "crivo": "Reconheci o assunto, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu 'água'; disse não ter evidência"
+    }
+   ]
+  },
+  {
+   "id": "cor_06",
+   "estilo": "palavra solta",
+   "turnos": [
+    {
+     "pessoa": "previlégio",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "palavra solta com erro: resposta genérica 'não entendi'; nem ofereceu 'privilégio' nem perguntou se queria correção"
+    }
+   ]
+  },
+  {
+   "id": "cor_07",
+   "estilo": "palavra solta com pedido",
+   "turnos": [
+    {
+     "pessoa": "Corrige: previlégio",
+     "crivo": "Proposta de texto corrigido:\n\nPrivilégio.\n\nNotas de revisão:\n- Palavras fora do dicionário trocadas pela mais próxima: previlégio → privilégio. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "cor_08",
+   "estilo": "palavra certa",
+   "turnos": [
+    {
+     "pessoa": "Tá certo escrever 'exceção'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não confirmou que 'exceção' está certa (caiu em 'fora')"
+    }
+   ]
+  },
+  {
+   "id": "cor_09",
+   "estilo": "nome próprio",
+   "turnos": [
+    {
+     "pessoa": "revisa essa frase: a Thaís e o Kauã foram pra Itaquaquecetuba ontem",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'revisa essa frase:' não roteado para correção; resposta genérica (o certo era manter os nomes e talvez sugerir 'para')"
+    }
+   ]
+  },
+  {
+   "id": "cor_10",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "corrige essa palavra: mendingo",
+     "crivo": "Proposta de texto corrigido:\n\nMendigo.\n\nNotas de revisão:\n- Palavras fora do dicionário trocadas pela mais próxima: mendingo → mendigo. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e essa outra? impecilho",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "continuação 'e essa outra? impecilho' não herdou a tarefa de correção; não deu 'empecilho'"
+    }
+   ]
+  },
+  {
+   "id": "cor_11",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "Corrige pra mim: menas",
+     "crivo": "Proposta de texto corrigido:\n\nMenas.\n\nNotas de revisão:\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "não corrigiu 'menas' → 'menos' (devolveu 'Menas.' como se estivesse certo)"
+    },
+    {
+     "pessoa": "Me manda corrigida numa frase",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não entendeu o pedido de continuação 'me manda corrigida numa frase'"
+    }
+   ]
+  },
+  {
+   "id": "cor_12",
+   "estilo": "com aspas",
+   "turnos": [
+    {
+     "pessoa": "É \"mais\" ou \"mas\" na frase: eu queria ir, mais choveu",
+     "crivo": "Saquei. Dia de chuva costuma ser mais fresco e dar vontade de ficar em casa. Você gosta de dia de chuva ou prefere sol?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "não respondeu 'mas'; conversou sobre chuva (rota nocao:observacao)"
+    }
+   ]
+  },
+  {
+   "id": "cor_13",
+   "estilo": "frase inteira",
+   "turnos": [
+    {
+     "pessoa": "revisa: Eu fui no médico porque estava com dor de cabessa e febre",
+     "crivo": "Sinto muito. Ir ao médico costuma trazer alívio, mesmo quando dá preguiça de marcar. Correu tudo bem na consulta?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "'revisa:' com frase inteira virou conversa sobre médico; não corrigiu 'cabessa' → 'cabeça'"
+    }
+   ]
+  },
+  {
+   "id": "cor_14",
+   "estilo": "dúvida",
+   "turnos": [
+    {
+     "pessoa": "qual o certo, seje ou seja?",
+     "crivo": "Sobre qual o certo, seje ou seja, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu que o certo é 'seja'"
+    }
+   ]
+  },
+  {
+   "id": "cor_15",
+   "estilo": "dúvida",
+   "turnos": [
+    {
+     "pessoa": "se escreve 'ancioso' ou 'ansioso'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu que o certo é 'ansioso'"
+    }
+   ]
+  },
+  {
+   "id": "cor_16",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "corrige meu texto: oi gente, hoje agente vai fazer uma reuniao as 3 horas, nao esquessam",
+     "crivo": "Proposta de texto corrigido:\n\nOi gente, hoje agente vai fazer uma reuniao as 3 horas, não esqueçam.\n\nNotas de revisão:\n- O original não delimita as frases. Revise a divisão e a pontuação: não inseri fronteiras sem evidência.\n- Números, endereços, código, abreviaturas e citações foram preservados literalmente quando encontrados.\n- Palavras fora do dicionário trocadas pela mais próxima: esquessam → esqueçam. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "correção parcial: corrigiu 'não' e 'esqueçam', mas deixou 'agente' (a gente), 'reuniao' (reunião) e 'as 3 horas' (às)"
+    }
+   ]
+  },
+  {
+   "id": "cor_17",
+   "estilo": "letra trocada",
+   "turnos": [
+    {
+     "pessoa": "corrige: cachoro",
+     "crivo": "Proposta de texto corrigido:\n\nCachorro.\n\nNotas de revisão:\n- Palavras fora do dicionário trocadas pela mais próxima: cachoro → cachorro. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "cor_18",
+   "estilo": "letra trocada",
+   "turnos": [
+    {
+     "pessoa": "corrige isso: pobrema",
+     "crivo": "Proposta de texto corrigido:\n\nPobreza.\n\nNotas de revisão:\n- Palavras fora do dicionário trocadas pela mais próxima: pobrema → pobreza. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "trocou 'pobrema' por 'pobreza' (palavra errada; o certo é 'problema')"
+    }
+   ]
+  },
+  {
+   "id": "cor_19",
+   "estilo": "formal",
+   "turnos": [
+    {
+     "pessoa": "Gostaria de saber a grafia correta da palavra 'beneficiente'.",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "pedido formal de grafia ('beneficiente') respondido como definição de conceito; não deu 'beneficente'"
+    }
+   ]
+  },
+  {
+   "id": "cor_20",
+   "estilo": "palavra certa",
+   "turnos": [
+    {
+     "pessoa": "revisa essa frase: O menino comeu o bolo inteiro.",
+     "crivo": "Que bom, revisa essa frase! Bolo caseiro costuma deixar a casa com cheiro bom. Ficou bom? Era receita de família?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "frase correta: deveria dizer que está certa; em vez disso conversou sobre bolo ('Que bom, revisa essa frase!')"
+    }
+   ]
+  },
+  {
+   "id": "cor_21",
+   "estilo": "nome próprio",
+   "turnos": [
+    {
+     "pessoa": "corrige: Ygor",
+     "crivo": "Proposta de texto corrigido:\n\nYgor.\n\nNotas de revisão:\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "cor_22",
+   "estilo": "acento",
+   "turnos": [
+    {
+     "pessoa": "paralelepipedo tem acento?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu que 'paralelepípedo' tem acento"
+    }
+   ]
+  },
+  {
+   "id": "cor_23",
+   "estilo": "acento",
+   "turnos": [
+    {
+     "pessoa": "como escreve voo, é vôo?",
+     "crivo": "Sobre como escreve voo, é vôo, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu que o certo é 'voo' sem acento"
+    }
+   ]
+  },
+  {
+   "id": "cor_24",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "revisa: ele vei aqui ontem",
+     "crivo": "Hum, entendi. Por que você acha isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'revisa: ele vei aqui ontem' tratado como relato; não corrigiu 'vei' → 'veio'"
+    },
+    {
+     "pessoa": "você não corrigiu",
+     "crivo": "Entendi que minha resposta não ajudou. Vou mudar a abordagem. Você trouxe “revisa: ele vei aqui ontem”; podemos escolher uma ação pequena em vez de repetir a mesma pergunta.",
+     "id": "conversa:gerada_ajuste",
+     "passou": false,
+     "motivo": "reconheceu a queixa mas não corrigiu; propôs 'ação pequena' fora do contexto"
+    },
+    {
+     "pessoa": "me manda só a frase corrigida",
+     "crivo": "Você contou: “me manda só a frase corrigida”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "não entendeu 'me manda só a frase corrigida'; tratou como relato"
+    }
+   ]
+  },
+  {
+   "id": "cor_25",
+   "estilo": "gíria",
+   "turnos": [
+    {
+     "pessoa": "kkk como escreve rissole",
+     "crivo": "Hum, entendi. Que experiência te fez pensar nisso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'como escreve rissole' tratado como relato; não respondeu a grafia"
+    }
+   ]
+  },
+  {
+   "id": "cor_26",
+   "estilo": "dúvida",
+   "turnos": [
+    {
+     "pessoa": "o certo é 'a nível de' ou 'em nível de'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu 'em nível de' x 'a nível de'"
+    }
+   ]
+  },
+  {
+   "id": "cor_27",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "corrige pra mim: voce esta otimo",
+     "crivo": "Proposta de texto corrigido:\n\nVocê esta otimo.\n\nNotas de revisão:\n- Palavras que dependem do contexto (como e/é, esta/está, a/há ou por que/porque) não foram trocadas automaticamente.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "correção parcial: deixou 'esta' e 'otimo' ('ótimo' não depende de contexto); o certo era 'Você está ótimo'"
+    }
+   ]
+  },
+  {
+   "id": "cor_28",
+   "estilo": "frase inteira",
+   "turnos": [
+    {
+     "pessoa": "pode corrigir: Fazem dois anos que eu moro aqui",
+     "crivo": "Proposta de texto corrigido:\n\nFazem dois anos que eu moro aqui.\n\nNotas de revisão:\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "não corrigiu 'Fazem dois anos' → 'Faz dois anos' (devolveu igual)"
+    }
+   ]
+  },
+  {
+   "id": "cor_29",
+   "estilo": "com aspas",
+   "turnos": [
+    {
+     "pessoa": "corrige \"excessão\" e \"previlégio\"",
+     "crivo": "Proposta de texto corrigido:\n\nExceção\" e \"privilégio.\n\nNotas de revisão:\n- Palavras que dependem do contexto (como e/é, esta/está, a/há ou por que/porque) não foram trocadas automaticamente.\n- Números, endereços, código, abreviaturas e citações foram preservados literalmente quando encontrados.\n- Palavras fora do dicionário trocadas pela mais próxima: previlégio → privilégio. Confira se era essa a palavra.\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "quebrou as aspas ('Exceção\" e \"privilégio.') e a nota só cita previlégio, apesar de ter trocado excessão também"
+    }
+   ]
+  },
+  {
+   "id": "cor_30",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "tá certo 'mortadela'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não confirmou que 'mortadela' está certa"
+    }
+   ]
+  },
+  {
+   "id": "cor_31",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "como se escreve 'enchergar'?",
+     "crivo": "Sobre como se escreve 'enchergar', eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'como se escreve enchergar' sem resposta ('enxergar')"
+    },
+    {
+     "pessoa": "e 'disvantagem'?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "continuação 'e disvantagem?' sem resposta ('desvantagem')"
+    },
+    {
+     "pessoa": "valeu, agora usa as duas numa frase",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não entendeu 'usa as duas numa frase'"
+    }
+   ]
+  },
+  {
+   "id": "cor_32",
+   "estilo": "nome próprio",
+   "turnos": [
+    {
+     "pessoa": "revisa: o Luiz Inácio e a Marcia moram em Florianopolis",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'revisa:' com nomes próprios não roteado; resposta genérica (o certo era manter os nomes e acentuar 'Márcia'/'Florianópolis')"
+    }
+   ]
+  },
+  {
+   "id": "cor_33",
+   "estilo": "frase inteira",
+   "turnos": [
+    {
+     "pessoa": "corrija a concordância: os menino chegou cedo",
+     "crivo": "Proposta de texto corrigido:\n\nOs menino chegou cedo.\n\nNotas de revisão:\n- Revisão por regras limitadas: confira o resultado. Não avalio toda a gramática nem garanto equivalência de sentido.",
+     "id": "texto:correcao",
+     "passou": false,
+     "motivo": "não corrigiu a concordância; devolveu 'Os menino chegou cedo' como se estivesse certa"
+    }
+   ]
+  },
+  {
+   "id": "cor_34",
+   "estilo": "dúvida",
+   "turnos": [
+    {
+     "pessoa": "porque junto ou separado nessa pergunta: por que você foi embora?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não respondeu que em pergunta direta é 'por que' separado"
+    }
+   ]
+  }
+ ]
+}

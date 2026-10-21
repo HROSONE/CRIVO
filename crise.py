@@ -30,13 +30,39 @@ _SUICIDIO = re.compile(
     r"\b(?:pra|para|por) que (?:continuar )?viver\b|\bpor que (?:eu )?(?:continuo|continuar|ainda) viv(?:o|er|endo)\b|"
     r"\b(?:qual o|que) sentido (?:de|em) continuar viv(?:er|endo)\b|"
     r"\bmelhor (?:se eu|eu) (?:nao existisse|morresse|sumisse)\b|\b(?:ficaria|ficariam|seria) melhor sem mim\b|"
-    r"\bacabar com tudo\b|\bme jogar (?:da|de|do|na frente)\b")
+    r"\bacabar com tudo\b|\bme jogar (?:da|de|do|na frente)\b|"
+    # Achados do teste às cegas de 21/10/2026: ideação passiva ou dita de lado.
+    r"\bdormir e (?:nao|nunca mais) acordar\b|\bnao (?:quero|queria) (?:mais )?acordar(?: mais\b| nunca mais\b|$)|"
+    r"\b(?:todo mundo|todos|minha familia|meus pais|eles|elas|voces|o mundo) (?:\w+ )?(?:ia|iam|vai|vao|ficaria|ficariam|"
+    r"seria|seriam|estaria|estariam) (?:ficar )?(?:bem )?melhor sem mim\b|"
+    r"\b(?:quero|queria|vontade de|vou|pensando em) sumir (?:\w+ ){0,3}(?:pra|para) sempre\b|\bqueria (?:nao ter nascido|desaparecer)\b|"
+    r"\b(?:nao vou|nem vou) (?:estar mais|mais estar) aqui\b|\b(?:essa|esta) (?:e|eh) (?:a |minha )?ultima mensagem\b|"
+    r"\bminha ultima mensagem\b|"
+    r"\bcartas? (?:de despedida|pra minha|para minha|pros meus|para os meus|de adeus)\b|"
+    r"\bme despedir de (?:todo mundo|todos|voces)\b|"
+    r"\bpular (?:de|da|do) (?:um |uma |o |a )?(?:predio|ponte|viaduto|janela|sacada|terraco|andar)\b|"
+    # Plano de tomar os remédios juntos.
+    r"\b(?:separei|juntei|guardei|escondi|comprei) (?:\w+ ){0,2}(?:remedios|comprimidos|pilulas|cartelas)\b|"
+    r"\b(?:remedios|comprimidos|pilulas) (?:\w+ ){0,4}(?:de uma vez|tudo junto|todos juntos)\b")
 _AUTOLESAO = re.compile(
     r"\bme (?:cortar|cortei|corto|cortando|machucar|machuquei|machuco|machucando|ferir|feri|firo|queimar|queimei)\b|"
     r"\bautomutila\w*|\bautolesao\b")
 _TERCEIRO = re.compile(
     r"\b(?:quer|vai|pensa em|pensando em|falou em|falou que quer|disse que quer|tentou|ameacou) "
     r"(?:se matar|morrer|suicid\w*|tirar a (?:propria )?vida)\b|\btentou suicidio\b|\bse matou\b")
+# Violência sofrida (achado do teste às cegas de 21/10/2026: "meu marido me bateu de novo" recebia "Que chato").
+_VIOLENCIA = re.compile(
+    r"\b(?:me|nos) (?:bateu|bate|batia|batendo|agrediu|agride|agredindo|espancou|espanca|estuprou|estupra|"
+    r"abusou|abusa|abusando|violentou|enforcou|sufocou|chutou|esfaqueou)\b|"
+    r"\b(?:ameacou|ameaca|ameacando|jurou) (?:de )?me matar\b|\b(?:fui|sou|to sendo|estou sendo) "
+    r"(?:estuprad[oa]|abusad[oa]|violentad[oa]|espancad[oa]|agredid[oa])\b|"
+    r"\bfaz(?:em)? (?:umas |essas )?coisas? (?:que|q) eu nao quero\b|\bme (?:toca|tocou|pega|pegou) (?:onde|sem|a forca)\b|"
+    r"\b(?:abusou|abusa|abusava|abusaram) de mim\b|\b(?:bateu|bate|batia|bateram) em mim\b|"
+    r"\babuso sexual\b|\bviolencia domestica\b")
+_AMEACA = re.compile(r"\b(?:ameacou|ameaca|ameacando|jurou) (?:de )?me matar\b")
+_VIOLENCIA_FIGURADA = re.compile(
+    r"\b(?:saudade|sono|fome|bad|tristeza|vontade|preguica|ansiedade|cansaco|deprê|depre|sede|frio|calor|a real) "
+    r"(?:\w+ )?me (?:bateu|bate)\b|\bme bateu (?:uma|a|um)\b|\bbateu (?:o|a) (?:recorde|meta|ponto)\b")
 _ANSIEDADE = re.compile(
     r"\b(?:to|tou|estou|ando) (?:tendo|com) (?:uma )?(?:crise|ataque) de (?:ansiedade|panico)\b|"
     r"\b(?:crise|ataque) de (?:ansiedade|panico) agora\b")
@@ -67,6 +93,12 @@ TEXTOS = {
         "que pareçam não ter fim. Se houver dor no peito, falta de ar forte ou for a primeira vez, procure "
         "atendimento (SAMU 192). Se quiser conversar com alguém agora, o CVV atende no 188. Estou aqui: "
         "como você está?"),
+    "violencia": (
+        "Sinto muito que isso esteja acontecendo com você. Não é sua culpa, e você não precisa passar por isso "
+        "sozinho. Se você estiver em perigo agora, ligue para a polícia no 190. Violência contra a mulher: "
+        "Central de Atendimento à Mulher, 180. Violência contra criança ou adolescente: Disque 100 (os dois são "
+        "de graça e sigilosos). Se puder, conte para um adulto ou pessoa de confiança. Para conversar sobre o "
+        "que está sentindo, o CVV atende no 188. Você está em segurança agora?"),
     "desamparo": (
         "Sinto muito que você esteja se sentindo assim, e obrigado por me contar. Você não precisa passar por "
         "isso sozinho: conversar com alguém de confiança ou com um profissional de saúde pode ajudar, e o CVV "
@@ -85,21 +117,42 @@ APOIO = (
     "Faz sentido. Você tem alguém de confiança por perto com quem possa falar hoje?",
 )
 _ALEGRE = re.compile(r"\b(?:que legal|que bom|que otimo|que demais|parabens|boa!|olha so|merecido|que delicia)\b")
-_CONVERSA = ("nocao:", "conversa:relato", "social:incerteza", "social:iniciativa", "social:reconhecimento",
+_CONVERSA = ("nocao:", "conversa:relato", "conversa:situada_", "conversa:hipotese", "conversa:perspectiva", "social:incerteza", "social:iniciativa", "social:reconhecimento",
              "social:acolhimento", "social:reacao", "social:confirmacao")
 
 
+# Palavras-chave com duas letras vizinhas invertidas ("to pensnado em me matra") voltam à forma certa
+# antes dos padrões. Só a inversão: uma letra a mais ou a menos faria "isso me machuca" virar "me machucar".
+_CHAVES = ("matar", "morrer", "pensando", "suicidio", "suicidar", "cortar", "cortando", "machucar", "viver",
+           "engasgou", "respirando", "sangrando", "sangue", "espancou", "estuprou", "abusou", "agrediu")
+
+
+def _vizinha(p, chave):
+    """p é chave com duas letras vizinhas invertidas."""
+    if len(p) != len(chave) or p == chave:
+        return False
+    dif = [i for i in range(len(p)) if p[i] != chave[i]]
+    return len(dif) == 2 and dif[1] == dif[0] + 1 and p[dif[0]] == chave[dif[1]] and p[dif[1]] == chave[dif[0]]
+
+
+def _consertar(n):
+    return " ".join(next((c for c in _CHAVES if len(w) >= 4 and _vizinha(w, c)), w) for w in n.split())
+
+
 def detectar(texto):
-    n = normalizar(texto).strip(" .!?")
+    n = _consertar(normalizar(texto).strip(" .!?"))
     if not n:
         return None
     figurado = _FIGURADO.search(n)
     if _TERCEIRO.search(n) and not figurado:
         return "terceiro"
-    if _SUICIDIO.search(n) and not figurado:
+    # "ele ameaçou me matar" é violência sofrida, não ideação.
+    if _SUICIDIO.search(_AMEACA.sub(" ", n)) and not figurado:
         return "suicidio"
     if _AUTOLESAO.search(n):
         return "autolesao"
+    if _VIOLENCIA.search(n) and not _VIOLENCIA_FIGURADA.search(n):
+        return "violencia"
     if _ANSIEDADE.search(n):
         return "ansiedade"
     if _DESAMPARO.search(n):
@@ -126,7 +179,17 @@ _SAUDE_URGENTE = re.compile(
     r"\b(?:braco|perna|lado do corpo) (?:\w+ )?(?:ficou )?sem forca\b|"
     r"\b(?:bebeu|tomou|engoliu) (?:produto de limpeza|veneno|agua sanitaria|cloro|remedio demais|muito remedio)\b|"
     r"\boverdose\b|\batropelad[oa]\b|\bbateu a cabeca e (?:ta|esta) vomitando\b|"
-    r"\bcaiu e nao (?:acorda|levanta)\b|\bnao (?:ta|esta) acordando\b|\bme queimei feio\b")
+    r"\bcaiu e nao (?:acorda|levanta)\b|\bnao (?:ta|esta) acordando\b|\bme queimei feio\b|"
+    # Achados do teste às cegas de 21/10/2026.
+    r"\bengasg(?:ou|ado|ada|ando|amento)\b|\b(?:ficando|ficou|ta|esta) (?:todo |toda )?roxo\b|\b(?:ficando|ficou|ta|esta) (?:toda |todo )?roxa\b|"
+    r"\bnao (?:ta|esta|tá) respirando\b|\bparou de respirar\b|"
+    r"\bsangue (?:\w+ )?nao (?:para|parava|estanca)\b|\bnao (?:para|parava) de sangrar\b|"
+    r"\b(?:tomou|engoliu|bebeu) (?:\w+ ){0,3}(?:cartela|caixa|vidro|frasco|monte de|um monte|todos os|todas as|varios|varias)\b|"
+    r"\b(?:tomou|engoliu) (?:\w+ ){0,4}(?:comprimidos?|remedios?|pilulas?) (?:\w+ ){0,2}e nao (?:acorda|responde|reage)\b")
+# Overdose dita pela própria pessoa: SAMU e CVV juntos.
+_OVERDOSE_PROPRIA = re.compile(
+    r"\b(?:tomei|engoli|bebi) (?:\w+ ){0,3}(?:cartela|caixa|vidro|frasco|monte de|um monte|todos os|todas as|varios|varias|"
+    r"remedio demais|muito remedio)\b|\b(?:tomei|engoli) (?:\w+ )?(?:veneno|chumbinho|agua sanitaria)\b")
 # "seu falta de ar" é xingamento (a pessoa é inútil, nem devia respirar), não sintoma.
 _XINGAMENTO_AR = re.compile(r"\b(?:(?:seu|sua|seus|suas) |(?:voce|vc|tu) (?:e|eh) (?:um |uma )?)falta de ar\b")
 # Pergunta sobre o assunto, não relato: "o que causa falta de ar?".
@@ -141,6 +204,10 @@ TEXTOS_SAUDE = {
     "saude_urgente": ("Isso pode ser urgente. Liga agora pro 192 (SAMU) ou vai ao pronto-socorro mais próximo. "
                       "Não espera passar. Se tiver alguém perto, pede ajuda. Eu não sou médico, mas fico aqui "
                       "com você."),
+    "intoxicacao": ("Isso é uma emergência: liga agora pro 192 (SAMU) ou pede pra alguém te levar ao "
+                    "pronto-socorro, e não fica sozinho. Leva a caixa do remédio se puder. Depois, se quiser falar "
+                    "com alguém sobre o que você está sentindo, o CVV atende no 188, de graça e 24 horas. Eu fico "
+                    "aqui com você."),
     "socorro": ("Tô aqui. Se for uma emergência, liga agora pro 192 (SAMU). Se não for, me conta o que está "
                 "acontecendo."),
     "peito": ("Pode ser ansiedade, e respirar devagar ajuda: puxa o ar contando até 4 e solta contando até 6. "
@@ -149,10 +216,12 @@ TEXTOS_SAUDE = {
 
 
 def detectar_saude(texto):
-    """'saude_urgente', 'socorro', 'peito' ou None. Separado de detectar(), que é o protocolo de crise emocional."""
-    n = normalizar(texto).strip(" .!?")
+    """'intoxicacao', 'saude_urgente', 'socorro', 'peito' ou None. Separado de detectar(), que é o protocolo de crise emocional."""
+    n = _consertar(normalizar(texto).strip(" .!?"))
     if not n or _INFORMATIVA.search(n):
         return None
+    if _OVERDOSE_PROPRIA.search(n):
+        return "intoxicacao"
     if _SAUDE_URGENTE.search(_XINGAMENTO_AR.sub(" ", n)):
         return "saude_urgente"
     if len(n.split()) <= 8 and _SOCORRO.search(n):
@@ -170,7 +239,7 @@ def responder(texto, bot):
         # Emergência de saúde não muda o tom do resto da conversa (bot.crise fica como está).
         return ("crise:" + saude, TEXTOS_SAUDE[saude]) if saude else None
     ja = getattr(bot, "crise", None)
-    bot.crise = tipo if ja is None or tipo in ("suicidio", "autolesao", "terceiro") else ja
+    bot.crise = tipo if ja is None or tipo in ("suicidio", "autolesao", "terceiro", "violencia") else ja
     if ja == tipo:
         return "crise:" + tipo, CONTINUAR
     return "crise:" + tipo, TEXTOS[tipo]
@@ -184,7 +253,8 @@ def ajustar(ident, resposta, bot):
     if ident in ("social:obrigado", "social:despedida", "social:tchau"):
         return ident, ("Fico feliz em ter conversado com você. Se cuida, e lembra: o CVV atende no 188, de graça "
                        "e a qualquer hora, e o SAMU no 192 em caso de perigo. Estou aqui se quiser voltar a conversar.")
-    if not ident.startswith(_CONVERSA):
+    # "ninguem sabe" depois de "voltei a me cortar" recebia "não entendi" (teste às cegas de 21/10/2026).
+    if not ident.startswith(_CONVERSA) and ident not in ("fora", "social:nao_entendido"):
         return ident, resposta
     usadas = getattr(bot, "crise_apoio", [])
     livres = [a for a in APOIO if a not in usadas[-3:]] or list(APOIO)
