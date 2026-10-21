@@ -174,8 +174,12 @@ class CompositorTextual:
             item = self.itens[ident]
             nomes = [tema(a) for a in [item["nome"]] + list(item.get("aliases", [])) if len(tema(a).split()) == 1]
             if not hasattr(self, "_textos_fichas"):
+                # Catálogo de aprofundamento (psicologia e neurociência, 103 fichas de um domínio só) não
+                # conta: com ele, "memória" viraria conceito amplo como "água" e "luz", e perguntas sem
+                # resposta passariam a ganhar um trecho aproximado da ficha do sono.
                 self._textos_fichas = [normalizar(" ".join(f["texto"] if isinstance(f, dict) else str(f)
-                                                          for f in it["fatos"])) for it in self.itens.values()]
+                                                          for f in it["fatos"]))
+                                       for it in self.itens.values() if not it.get("aprofundamento")]
             cache[ident] = any(
                 sum(1 for t in self._textos_fichas if _compilado(r"\b" + re.escape(nome) + r"s?\b").search(t)) >= 30
                 for nome in nomes)
@@ -208,7 +212,7 @@ class CompositorTextual:
     def _carregar(self, dados, ids_base):
         if (not isinstance(dados, dict) or dados.get("versao") != 1 or
                 not isinstance(dados.get("fontes"), dict) or
-                not isinstance(dados.get("itens"), list) or len(dados["itens"]) > 1000):
+                not isinstance(dados.get("itens"), list) or len(dados["itens"]) > 1500):
             raise ValueError("Currículo textual inválido")
         for ident, fonte in dados["fontes"].items():
             if (not isinstance(fonte, dict) or not isinstance(fonte.get("titulo"), str)

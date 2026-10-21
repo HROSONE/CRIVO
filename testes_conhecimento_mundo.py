@@ -52,7 +52,7 @@ class TestesConhecimentoMundo(unittest.TestCase):
                     for fonte in [fato['fonte']] + fato.get('fontes', []):
                         self.assertIn(fonte, self.curriculo['fontes'])
                         metadata = self.curriculo['fontes'][fonte]
-                        tipos = ('institucional_religiosa',) if fato['natureza'] == 'religioso' else ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico')
+                        tipos = ('institucional_religiosa',) if fato['natureza'] == 'religioso' else ('institucional_cientifica', 'artigo_cientifico', 'catalogo_tecnico', 'enciclopedia_aberta')
                         self.assertIn(metadata['tipo'], tipos)
                         self.assertTrue(metadata['credito'])
                         self.assertTrue(metadata['direitos_url'].startswith('https://'))
@@ -146,7 +146,8 @@ class TestesConhecimentoMundo(unittest.TestCase):
                 'perguntas': ['o que é zunto'], 'resposta': 'Zunto é um exemplo fictício.'}]), encoding='utf-8')
             b = Crivo(arq)
             self.assertIsNone(b.curriculo_mundo)
-            self.assertEqual(b.responder('O que é hipocampo?')[0], 'fora')
+            # A enciclopédia (fonte à parte do currículo) pode responder; a ficha do currículo, não.
+            self.assertFalse(b.responder('O que é hipocampo?')[0].startswith('conhecimento:'))
 
     def test_mesma_populacao_no_bot_e_na_rede(self):
         base = carregar_base(PASTA / 'conhecimento.json')
