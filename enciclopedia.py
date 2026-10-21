@@ -137,6 +137,13 @@ def consultar(fala):
         i = enc.indice(chave[:-1])   # "ornitorrincos" → "ornitorrinco"
     if i is None:
         return None
+    # "O que é Java?" quase sempre é a linguagem: com um verbete "X (linguagem de programação)", ele vem
+    # primeiro, e o outro sentido fica dito (teste às cegas de 21/10/2026: "Java" dava só a ilha).
+    j = enc.indice(normalizar(enc.verbete(i)[0]) + " linguagem de programacao")
+    if j is not None and j != i:
+        titulo, frase = enc.verbete(j)
+        outro = re.sub(r"\s*\([^)]*\)", "", enc.verbete(i)[1]).split(". ")[0].rstrip(".")
+        return titulo, "%s (Também existe outro sentido: %s.)" % (frase, outro[:160])
     return enc.verbete(i)
 
 
