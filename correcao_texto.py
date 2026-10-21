@@ -27,6 +27,17 @@ GRAFIAS = {
     'virgula': 'vírgula', 'virgulas': 'vírgulas', 'comcerteza': 'com certeza',
     'ortografiaa': 'ortografia', 'atraz': 'atrás', 'atras': 'atrás',
     'atravez': 'através', 'atraves': 'através', 'sabado': 'sábado',
+    # Erros clássicos de ouvido: estão nas legendas, então a busca por distância não os trocaria
+    # (ou trocaria por vizinha errada, como "pobrema" → "pobreza").
+    'pobrema': 'problema', 'pobremas': 'problemas', 'poblema': 'problema', 'poblemas': 'problemas',
+    'probrema': 'problema', 'menas': 'menos', 'seje': 'seja', 'sejem': 'sejam', 'esteje': 'esteja',
+    'estejem': 'estejam', 'mendingo': 'mendigo', 'previlegio': 'privilégio', 'previlégio': 'privilégio',
+    'impecilho': 'empecilho', 'adevogado': 'advogado', 'asteristico': 'asterisco', 'asterístico': 'asterisco',
+    'beneficiente': 'beneficente', 'cardaço': 'cadarço', 'frustado': 'frustrado', 'frustada': 'frustrada',
+    'iorgute': 'iogurte', 'mortandela': 'mortadela', 'cabeleleiro': 'cabeleireiro',
+    'bicabornato': 'bicarbonato', 'largatixa': 'lagartixa', 'largato': 'lagarto', 'mussarela': 'muçarela',
+    'enchergar': 'enxergar', 'enchergo': 'enxergo', 'exitar': 'hesitar', 'concerteza,': 'com certeza,', 'ezemplo': 'exemplo',
+    'excesão': 'exceção', 'excesao': 'exceção', 'paralizar': 'paralisar', 'analizar': 'analisar',
 }
 
 # Não modificar código, citações, endereços, números ou abreviaturas.
@@ -285,3 +296,115 @@ def apresentar(resultado, detalhes=False):
                 'Não houve alterações pelas regras disponíveis.')
     titulo = 'Proposta de texto corrigido:' if resultado['alteracoes'] else 'Texto revisado — sem alterações pelas regras disponíveis:'
     return titulo + '\n\n' + resultado['corrigido'] + '\n\nNotas de revisão:\n' + '\n'.join('- ' + n for n in resultado['avisos'])
+
+
+# --- dúvida de grafia: "como se escreve X?", "tá certo X?", "qual o certo, A ou B?", "X tem acento?" ---
+
+_P = r'["“\']?([^\W\d_]+)["”\']?'
+_COMO_ESCREVE = re.compile(r"^(?:e )?como (?:e que |que )?(?:se |eu )?escreve(?:r|-se)? (?:a palavra |o nome )?" + _P + r"\s*\??$")
+_TA_CERTO = re.compile(r"^(?:(?:ta|tá|esta|está|é|e) cert[oa] (?:escrever |a palavra |falar |dizer )?" + _P +
+                       r"|(?:a palavra )?" + _P + r" (?:ta|tá|esta|está|é|e) (?:cert[oa]|escrit[oa] cert[oa]|corret[oa])"
+                       r"|(?:se )?escreve " + _P + r" mesmo)\s*\??$")
+_A_OU_B = re.compile(r"^(?:qual (?:e |é )?(?:o |a )?(?:cert[oa]|corret[oa]|forma (?:certa|correta)|jeito certo)"
+                     r"|como (?:e |é )?(?:o )?certo|(?:o )?certo (?:e|é))[:,]?\s*" + _P + r" ou " + _P + r"\s*\??$"
+                     r"|^" + _P + r" ou " + _P + r"[,]? (?:qual (?:e |é )?(?:o |a )?(?:cert[oa]|corret[oa])|o que (?:e|é) certo)\s*\??$")
+_ACENTO = re.compile(r"^(?:a palavra )?" + _P + r" (?:tem|leva|vai com|e com|é com) acento\s*\??$")
+# Pares em que as duas formas existem e o sentido escolhe.
+_PARES = {
+    frozenset(("mais", "mas")): "“Mais” é de quantidade (mais água); “mas” liga ideias opostas, como “porém”.",
+    frozenset(("mal", "mau")): "“Mal” é o contrário de “bem”; “mau” é o contrário de “bom”.",
+    frozenset(("onde", "aonde")): "“Onde” é lugar em que se está; “aonde” é lugar para onde se vai (aonde você vai?).",
+    frozenset(("sessão", "seção")): "“Sessão” é um tempo de reunião ou de cinema; “seção” é uma parte ou divisão.",
+    frozenset(("cessão", "sessão")): "“Cessão” é o ato de ceder; “sessão” é um tempo de reunião ou de cinema.",
+    frozenset(("cessão", "seção")): "“Cessão” é o ato de ceder; “seção” é uma parte ou divisão.",
+    frozenset(("concerto", "conserto")): "“Concerto” é apresentação musical; “conserto” é reparo.",
+    frozenset(("senão", "se não")): "“Senão” é “caso contrário”; “se não” é condição com negação (se não chover).",
+    frozenset(("esta", "está")): "“Esta” aponta algo (esta casa); “está” é do verbo estar (ela está aqui).",
+    frozenset(("e", "é")): "“E” liga palavras; “é” é do verbo ser.",
+    frozenset(("a", "há")): "“Há” indica tempo passado ou existência (há dois anos); “a” é artigo, preposição ou tempo futuro.",
+}
+_formas = None
+
+
+def _formas_do_lexico():
+    """{sem acento: {formas}} das listas, para saber se "esta" e "está" existem as duas."""
+    global _formas
+    if _formas is None:
+        _formas = {}
+        try:
+            lex = json.loads(gzip.decompress(LEXICO.read_bytes()))
+            for w, n in list(lex["legendas"].items()) + [(w, n) for w, n in lex["palavras"].items() if n >= 5]:
+                _formas.setdefault(_sem_acento(w), set()).add(w)
+        except (OSError, ValueError, KeyError):
+            pass
+    return _formas
+
+
+def _grafia(palavra):
+    """(forma certa, a palavra já estava certa) ou None quando as listas não dizem nada."""
+    w = palavra.lower()
+    if w in GRAFIAS:
+        return GRAFIAS[w], False
+    lex = _carregar_lexico()
+    if lex is None:
+        return None
+    conhecidas, alvos = lex
+    k = _sem_acento(w)
+    formas = set(_formas_do_lexico().get(k, set())) | ({alvos[k][0]} if k in alvos else set())
+    if w in formas:
+        return w, True
+    if formas:
+        # Só a forma acentuada existe ("paralelepipedo" → "paralelepípedo"): a de maior frequência.
+        melhor = alvos[k][0] if k in alvos else sorted(formas)[0]
+        return melhor, False
+    if k in conhecidas:
+        return w, True
+    nova = sugerir(w)
+    return (nova, False) if nova else None
+
+
+def duvida_grafia(texto):
+    """Resposta a uma dúvida de grafia, ou None se a fala não é uma."""
+    if not isinstance(texto, str) or len(texto) > 120:
+        return None
+    t = " ".join(texto.strip().lower().split()).rstrip(" ?!.") + "?"
+    t = re.sub(r"^(?:(?:crivo|mano|cara|vei|véi|velho|po|pô|ei|e ai|oi|amigo)[,!]? |me (?:diz|fala),? |"
+               r"uma duvida:? |uma dúvida:? )+", "", t)
+    t = re.sub(r"\bq\b", "que", t)
+    m = _A_OU_B.match(t)
+    if m:
+        a, b = [g for g in m.groups() if g]
+        ga, gb = _grafia(a), _grafia(b)
+        par = _PARES.get(frozenset((a, b)))
+        if par:
+            return par
+        if ga and gb and ga[1] and gb[1]:
+            if _distancia(_sem_acento(a), _sem_acento(b), 3) > 2:
+                return None  # "qual o certo, ir ou ficar?" é escolha, não grafia
+            return "As duas formas existem (“%s” e “%s”); a certa depende do sentido da frase." % (a, b)
+        certas = [g[0] for g in (ga, gb) if g and g[1]]
+        if len(certas) == 1:
+            return "O certo é “%s”." % certas[0]
+        if ga and gb and ga[0] == gb[0]:
+            return "Nenhuma das duas: o certo é “%s”." % ga[0]
+        return "Não achei essas formas nas minhas listas; não consigo dizer qual é a certa."
+    for padrao, tipo in ((_COMO_ESCREVE, "como"), (_TA_CERTO, "certo"), (_ACENTO, "acento")):
+        m = padrao.match(t)
+        if not m:
+            continue
+        w = next(g for g in m.groups() if g)
+        g = _grafia(w)
+        if g is None:
+            return "Não achei “%s” nas minhas listas; não consigo confirmar a grafia." % w
+        forma, certa = g
+        if tipo == "como":
+            return "Escreve-se “%s”." % forma if certa else "Escreve-se “%s” (e não “%s”)." % (forma, w)
+        if tipo == "certo":
+            return "Sim, “%s” está certo." % forma if certa else "Não. O certo é “%s”." % forma
+        acentuada = forma != _sem_acento(forma)
+        outras = _formas_do_lexico().get(_sem_acento(forma), set())
+        par = next((txt for chave, txt in _PARES.items() if len(chave) == 2 and chave <= outras), None)
+        if par:
+            return par
+        return ("Sim: “%s”." % forma) if acentuada else ("Não: “%s”, sem acento." % forma)
+    return None
