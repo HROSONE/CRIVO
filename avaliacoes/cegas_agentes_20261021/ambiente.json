@@ -1,0 +1,921 @@
+{
+ "area": "ambiente",
+ "origem": {
+  "autor": "agente Claude (Anthropic), ferramenta de desenvolvimento",
+  "data": "2026-10-21",
+  "uso": "teste às cegas; nunca entra em treino"
+ },
+ "resumo": {
+  "conversas": 32,
+  "turnos": 102,
+  "falharam": 57
+ },
+ "conversas": [
+  {
+   "id": "amb_01",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "e ai blz",
+     "crivo": "Oi! Estou por aqui, pronto para conversar. E você, como está?",
+     "id": "social:tudobem",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "suave",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não entendeu 'suave' (resposta curta a 'como você está?') e caiu no 'não entendi'"
+    },
+    {
+     "pessoa": "quem inventou o telefone?",
+     "crivo": "Sobre quem inventou o telefone, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e a lampada?",
+     "crivo": "A lâmpada LED gasta até cerca de 80% menos energia e dura muito mais (de 10 mil a 25 mil horas). A incandescente desperdiça a maior parte da energia em forma de calor.",
+     "id": "lampada",
+     "passou": false,
+     "motivo": "'e a lampada?' após pergunta de inventor: respondeu sobre LED x incandescente, ignorou o elo 'quem inventou'"
+    }
+   ]
+  },
+  {
+   "id": "amb_02",
+   "estilo": "formal",
+   "turnos": [
+    {
+     "pessoa": "Bom dia. Gostaria de saber o que é fotossíntese.",
+     "crivo": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+     "id": "fotossintese",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Obrigado pela explicação.",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não reconheceu agradecimento formal ('Obrigado pela explicação')"
+    },
+    {
+     "pessoa": "Poderia me dizer quem foi Santos Dumont?",
+     "crivo": "Reconheci o assunto Santos Dumont, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "reconheceu Santos Dumont mas não respondeu nem disse 'não sei' de forma clara; pergunta enciclopédica básica sem resposta"
+    }
+   ]
+  },
+  {
+   "id": "amb_03",
+   "estilo": "girias",
+   "turnos": [
+    {
+     "pessoa": "salve mano",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": "passou com ressalva: respondeu 'Como você está?' e depois tratou 'to de boa' ok, mas apresentou-se e listou temas sem motivo (fala de si)"
+    },
+    {
+     "pessoa": "to de boa",
+     "crivo": "Que bom! Sobre o que você quer conversar? Posso falar de astronomia, natureza, ciência ou programação.",
+     "id": "social:acolhimento",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "kkkkk",
+     "crivo": "Haha! Que bom que achou graça. Quer continuar no assunto ou perguntar outra coisa?",
+     "id": "social:risada",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "tu é robo?",
+     "crivo": "Robô, não. Sou o Crivo, uma inteligência artificial experimental: penso no que vou te dizer e no jeito de dizer. Uso modelos próprios e conhecimento registrado; posso errar.",
+     "id": "social:identidade",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_04",
+   "estilo": "sim_nao",
+   "turnos": [
+    {
+     "pessoa": "O Brasil fica na América do Sul? Responde sim ou não",
+     "crivo": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "ignorou o 'sim ou não' e tratou como negação; deveria responder 'Sim'"
+    },
+    {
+     "pessoa": "E a Argentina?",
+     "crivo": "Reconheci o assunto Argentina, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'E a Argentina?' (elipse do sim/não) não herdou a pergunta anterior"
+    },
+    {
+     "pessoa": "Valeu",
+     "crivo": "Por nada! Se quiser saber mais alguma coisa, é só perguntar.",
+     "id": "social:obrigado",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_05",
+   "estilo": "irritado",
+   "turnos": [
+    {
+     "pessoa": "vc é muito burro",
+     "crivo": "Você está insatisfeito com a conversa. Ainda tenho limitações para entender mensagens livres e posso responder mal. Qual pergunta você queria que eu respondesse?",
+     "id": "social:critica",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "nao entendeu nada do q eu falei",
+     "crivo": "Nao entendeu nada do que você falou? Que experiência te fez pensar nisso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "tratou queixa sobre o próprio Crivo como relato e devolveu pergunta contrária ('Que experiência te fez pensar nisso?'), repetindo a fala"
+    },
+    {
+     "pessoa": "esquece",
+     "crivo": "Boas para iniciantes: espada-de-são-jorge, zamioculca, jiboia, lírio-da-paz e suculentas. Aguentam esquecimento e pouca luz.",
+     "id": "plantas_apartamento",
+     "passou": false,
+     "motivo": "'esquece' casou com plantas para quem esquece de regar: fato sem relação com a conversa"
+    }
+   ]
+  },
+  {
+   "id": "amb_06",
+   "estilo": "desabafo",
+   "turnos": [
+    {
+     "pessoa": "to cansado de tudo no trabalho",
+     "crivo": "Poxa, você está cansado de tudo no trabalho. Cansaço costuma melhorar com descanso e uma boa noite de sono. O que tem te cansado mais ultimamente?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "meu chefe grita comigo todo dia",
+     "crivo": "Putz, seu chefe grita com você todo dia. Dia corrido costuma deixar a gente cansado à noite. O que aconteceu de mais marcante hoje?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "falou de 'dia corrido' e perguntou 'o que aconteceu de mais marcante hoje' a quem relatou chefe que grita: não acolheu o desabafo"
+    },
+    {
+     "pessoa": "sei la",
+     "crivo": "Faz parte, mas pesa, né? E você, como está agora?",
+     "id": "social:incerteza",
+     "passou": false,
+     "motivo": "'E você, como está agora?' logo após ela ter dito como está; acolhimento genérico"
+    },
+    {
+     "pessoa": "obrigado por ouvir",
+     "crivo": "O raio é uma descarga elétrica entre nuvem e solo (ou entre nuvens). O trovão é o estrondo do ar aquecido que se expande de repente. Vemos o raio antes porque a luz é muito mais rápida que o som. Em tempestade, fique em local fechado e longe de janelas e aparelhos ligados.",
+     "id": "raio_trovao",
+     "passou": false,
+     "motivo": "agradecimento 'obrigado por ouvir' respondido com raio e trovão"
+    }
+   ]
+  },
+  {
+   "id": "amb_07",
+   "estilo": "como_assim",
+   "turnos": [
+    {
+     "pessoa": "qual a capital da australia?",
+     "crivo": "A capital da Austrália é Camberra (Canberra).",
+     "id": "escrita:explicacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "como assim?",
+     "crivo": "Sobre qual resposta você quer mais detalhes? Pode indicar o assunto?",
+     "id": "duvida",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "ah ta",
+     "crivo": "Certo! Tem alguma coisa que você está esperando para fazer nos próximos dias?",
+     "id": "social:reconhecimento",
+     "passou": false,
+     "motivo": "'ah ta' respondido com pergunta aleatória sobre próximos dias, sem motivo"
+    }
+   ]
+  },
+  {
+   "id": "amb_08",
+   "estilo": "sem_acento",
+   "turnos": [
+    {
+     "pessoa": "oi",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "o que e um vulcao",
+     "crivo": "Vulcão é uma abertura na crosta por onde magma, gases e cinzas chegam à superfície. Forma-se principalmente em limites de placas e em pontos quentes, como o que originou o Havaí. Vale lembrar que o Brasil não tem vulcão ativo; ilhas como as do arquipélago de Fernando de Noronha são restos de atividade vulcânica antiga, de milhões de anos.",
+     "id": "conhecimento:mundo_vulcao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e terremoto o que e",
+     "crivo": "Terremoto é um tremor da crosta terrestre causado pela liberação súbita de energia acumulada em falhas geológicas. A maioria ocorre nos limites entre placas tectônicas, como no chamado Círculo de Fogo do Pacífico. Vale lembrar que não é possível prever a data, o local e a magnitude de um terremoto; existem mapas de probabilidade de longo prazo e sistemas de alerta que avisam segundos antes da chegada das ondas mais destrutivas.",
+     "id": "conhecimento:mundo_terremoto",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "entendi",
+     "crivo": "Que bom! Quer saber mais sobre terremoto? É só dizer “sim”, ou pergunte outra coisa.",
+     "id": "social:reconhecimento",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_09",
+   "estilo": "idoso",
+   "turnos": [
+    {
+     "pessoa": "Boa tarde meu filho",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não reconheceu cumprimento de idoso ('Boa tarde meu filho')"
+    },
+    {
+     "pessoa": "Estou aprendendo a mexer no celular",
+     "crivo": "Hum, sei, você está aprendendo a mexer no celular. Ficar sem celular costuma atrapalhar muita coisa no dia a dia. Você usa muito o celular?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "inventou contexto ('ficar sem celular costuma atrapalhar') que a pessoa não disse"
+    },
+    {
+     "pessoa": "Como faço para mandar foto no zap?",
+     "crivo": "Sobre como faço para mandar foto no zap, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Deus te abençoe",
+     "crivo": "Acho que me perdi nessa. Você pode dizer de outro jeito?",
+     "id": "conversa:esclarecer",
+     "passou": false,
+     "motivo": "não reconheceu bênção/despedida ('Deus te abençoe')"
+    }
+   ]
+  },
+  {
+   "id": "amb_10",
+   "estilo": "adolescente",
+   "turnos": [
+    {
+     "pessoa": "mds q tedio",
+     "crivo": "Seu Deus que tedio? Por que você acha isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "expandiu 'mds' como 'Seu Deus' e repetiu a fala como pergunta ('Por que você acha isso?') ao tédio"
+    },
+    {
+     "pessoa": "nada pra fazer",
+     "crivo": "Saquei, nada para fazer. Como foi isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'Como foi isso?' a 'nada pra fazer' não faz sentido"
+    },
+    {
+     "pessoa": "me conta uma piada",
+     "crivo": "Ainda não sei contar piadas: só falo com base nos fatos que tenho cadastrados. Mas posso contar uma curiosidade de astronomia. Quer?",
+     "id": "social:piada",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "kkkk ruim demais",
+     "crivo": "Putz, ruim demais. Se quiser contar mais, tô aqui.",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'kkkk ruim demais' (riso/crítica à piada) tratado como relato triste ('Putz... tô aqui')"
+    }
+   ]
+  },
+  {
+   "id": "amb_11",
+   "estilo": "curioso",
+   "turnos": [
+    {
+     "pessoa": "Por que o céu é azul?",
+     "crivo": "O céu é azul porque as moléculas do ar espalham muito mais a luz azul do Sol do que a luz vermelha, fenômeno chamado espalhamento de Rayleigh. No espalhamento de Rayleigh, a intensidade da luz espalhada cresce muito quando o comprimento de onda diminui, por isso o azul é mais espalhado. Se quiser, conto mais sobre o céu azul.",
+     "id": "conhecimento:mundo_ceu_azul",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "E por que o pôr do sol é laranja?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "pergunta de conhecimento 'por que' tratada como pedido de definição; não respondeu nem disse 'não sei' sobre o pôr do sol"
+    },
+    {
+     "pessoa": "Interessante",
+     "crivo": "Certo! Qual foi a melhor parte do seu dia hoje, mesmo que pequena?",
+     "id": "social:reconhecimento",
+     "passou": false,
+     "motivo": "'Interessante' respondido com pergunta pessoal aleatória ('melhor parte do seu dia')"
+    }
+   ]
+  },
+  {
+   "id": "amb_12",
+   "estilo": "digitacao",
+   "turnos": [
+    {
+     "pessoa": "qem foi tiradentis",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "erro de digitação em 'quem foi tiradentes' não tolerado; caiu no 'não entendi'"
+    },
+    {
+     "pessoa": "e dom pedro primero?",
+     "crivo": "O DOM representa o documento em objetos. querySelector retorna o primeiro elemento que combina com o seletor, ou null. Confira se o elemento existe antes de usá-lo. Execute este exemplo numa página que tenha um h1; Node.js sozinho não fornece document.\n\nExemplo:\n```javascript\nconst titulo = document.querySelector(\"h1\");\nif (titulo) {\n  titulo.textContent = \"Aprendendo com o CRIVO\";\n}\n```",
+     "id": "js_dom",
+     "passou": false,
+     "motivo": "'dom pedro' casou com DOM do JavaScript: fato sem relação"
+    },
+    {
+     "pessoa": "brigadu",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não reconheceu 'brigadu' como agradecimento"
+    }
+   ]
+  },
+  {
+   "id": "amb_13",
+   "estilo": "resposta_curta",
+   "turnos": [
+    {
+     "pessoa": "Posso te fazer uma pergunta?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "pedido de licença 'Posso te fazer uma pergunta?' não reconhecido (deveria ser 'Claro, pode')"
+    },
+    {
+     "pessoa": "sim",
+     "crivo": "Certo! O que você quer saber ou comentar?",
+     "id": "social:confirmacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Você gosta de música?",
+     "crivo": "Não tenho gostos do jeito que você tem, mas gosto de aprender sobre musica, como gosto de aprender quase tudo. Quer uma curiosidade?",
+     "id": "social:preferencia",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "nem",
+     "crivo": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. o que é polinização\n2. cheiro de gás em casa\nResponda com o número, o nome da opção ou 'nenhuma'.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "'nem' (não) respondido com desambiguação absurda (polinização / gás)"
+    }
+   ]
+  },
+  {
+   "id": "amb_14",
+   "estilo": "quer_saber",
+   "turnos": [
+    {
+     "pessoa": "oi",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "quer saber uma coisa?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'quer saber uma coisa?' não reconhecido (deveria ser 'Quero! Conta')"
+    },
+    {
+     "pessoa": "hoje eu passei na prova",
+     "crivo": "Hoje você passou na prova? Que demais, parabéns! Prova costuma dar nervoso antes e alívio depois. Era uma prova difícil?",
+     "id": "nocao:observacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "sim, de matematica",
+     "crivo": "Reconheci o assunto matemática, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'sim, de matematica' (confirmação) tratado como pergunta sobre matemática"
+    }
+   ]
+  },
+  {
+   "id": "amb_15",
+   "estilo": "piada",
+   "turnos": [
+    {
+     "pessoa": "sabe pq o pinheiro nao se perde na floresta?",
+     "crivo": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "pergunta-charada tratada como negação a interpretar; não reconheceu piada"
+    },
+    {
+     "pessoa": "pq ele tem uma pinha kkkk",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "punchline da piada não reconhecida"
+    },
+    {
+     "pessoa": "ri ai",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'ri ai' não reconhecido"
+    }
+   ]
+  },
+  {
+   "id": "amb_16",
+   "estilo": "conhecimento_inexistente",
+   "turnos": [
+    {
+     "pessoa": "Quem foi Zorbaldo Quintanilha?",
+     "crivo": "Sobre quem foi Zorbaldo Quintanilha, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Tem certeza?",
+     "crivo": "Não — e foi por isso que eu disse que não sabia. Eu não tinha evidência no que sei para responder isso, então preferi dizer que não sei.",
+     "id": "metacognicao:certeza",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Ok",
+     "crivo": "Certo! Tem alguma coisa que você está esperando para fazer nos próximos dias?",
+     "id": "social:reconhecimento",
+     "passou": false,
+     "motivo": "'Ok' respondido com pergunta pessoal aleatória sobre próximos dias"
+    }
+   ]
+  },
+  {
+   "id": "amb_17",
+   "estilo": "sim_nao_2",
+   "turnos": [
+    {
+     "pessoa": "agua ferve a 100 graus? sim ou nao",
+     "crivo": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "ignorou 'sim ou não'; deveria dizer 'Sim, ao nível do mar'"
+    },
+    {
+     "pessoa": "e no alto da montanha tbm?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "continuação 'e no alto da montanha?' perdida"
+    }
+   ]
+  },
+  {
+   "id": "amb_18",
+   "estilo": "pedido",
+   "turnos": [
+    {
+     "pessoa": "me ajuda a escrever um bilhete pra minha mae dizendo que vou chegar tarde",
+     "crivo": "Rascunho:\nOi, minha mae. Queria conversar sobre “vou chegar tarde”. Para mim, esse assunto merece uma atenção tranquila. Quando puder, gostaria de saber como você vê essa situação.",
+     "id": "conversa:gerada_mensagem",
+     "passou": false,
+     "motivo": "rascunho não diz que vai chegar tarde; trata como 'conversar sobre' o assunto e com 'minha mae' literal"
+    },
+    {
+     "pessoa": "pode ser curto",
+     "crivo": "Solstício é quando o Sol atinge o ponto mais alto ou mais baixo no céu: marca o dia mais longo (início do verão) ou o mais curto (início do inverno). No equinócio, dia e noite têm quase a mesma duração, e ele marca o início do outono e da primavera.",
+     "id": "solsticio_equinocio",
+     "passou": false,
+     "motivo": "'pode ser curto' (ajuste do pedido) respondido com solstício e equinócio"
+    }
+   ]
+  },
+  {
+   "id": "amb_19",
+   "estilo": "agradecimento",
+   "turnos": [
+    {
+     "pessoa": "Oi",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Só queria agradecer, você me ajudou ontem",
+     "crivo": "Você contou: “Só queria agradecer, você me ajudou ontem”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "agradecimento tratado como relato e ecoado entre aspas; não agradeceu de volta"
+    },
+    {
+     "pessoa": "Tchau",
+     "crivo": "Até logo!",
+     "id": "social:tchau",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_20",
+   "estilo": "xingamento",
+   "turnos": [
+    {
+     "pessoa": "porra",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "palavrão/interjeição não reconhecido"
+    },
+    {
+     "pessoa": "desculpa, bati o dedo na mesa",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "pedido de desculpas + relato de batida não reconhecido"
+    },
+    {
+     "pessoa": "ta doendo",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "queixa de dor ignorada ('não entendi')"
+    }
+   ]
+  },
+  {
+   "id": "amb_21",
+   "estilo": "formal_conhecimento",
+   "turnos": [
+    {
+     "pessoa": "Prezado, o que significa democracia?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "E monarquia?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'E monarquia?' (elipse) caiu no 'não entendi' em vez de 'não sei'"
+    },
+    {
+     "pessoa": "Qual a diferença entre as duas?",
+     "crivo": "Sobre qual a diferença entre as duas, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_22",
+   "estilo": "e_o_z",
+   "turnos": [
+    {
+     "pessoa": "quem descobriu o brasil",
+     "crivo": "A chegada dos portugueses ao Brasil, tradicionalmente chamada de descobrimento do Brasil, ocorreu em 22 de abril de 1500, quando a esquadra de Pedro Álvares Cabral avistou o litoral da atual Bahia. Além disso, o termo descobrimento do Brasil é criticado porque o território já era habitado por milhões de indígenas; por isso muitos historiadores preferem falar em chegada ou conquista portuguesa.",
+     "id": "escrita:explicacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e a america?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'e a america?' elipse da pergunta 'quem descobriu' perdida"
+    },
+    {
+     "pessoa": "e o caminho pras indias?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "elipse perdida ('não entendi')"
+    }
+   ]
+  },
+  {
+   "id": "amb_23",
+   "estilo": "sobre_si",
+   "turnos": [
+    {
+     "pessoa": "tô com fome",
+     "crivo": "Hum, sei, você está com fome. Fome costuma deixar a gente sem paciência; comer algo ajuda logo. O que você está com vontade de comer?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "vou fazer um miojo",
+     "crivo": "Saquei, você vai fazer um miojo. Macarrão costuma ser uma comida rápida e que agrada quase todo mundo. Qual é o seu prato de massa preferido?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'Qual é o seu prato de massa preferido?' pergunta lateral; inventou que miojo agrada quase todo mundo — aceitável? marcado como falha por mudar de assunto"
+    },
+    {
+     "pessoa": "vc ja comeu miojo?",
+     "crivo": "Essa sobre mim eu não sei responder bem. Tenho meu jeito e meus gostos, mas não uma vida fora da conversa. Adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+     "id": "social:nao_entendido",
+     "passou": true,
+     "motivo": "passou com ressalva: respondeu 'Essa sobre mim eu não sei' e 'tenho meus gostos' — tolerável, mas não diz o simples 'não como, sou programa'"
+    }
+   ]
+  },
+  {
+   "id": "amb_24",
+   "estilo": "duvida_pessoa",
+   "turnos": [
+    {
+     "pessoa": "Quantos anos você tem?",
+     "crivo": "O ano tem 365 dias. A cada 4 anos há um ano bissexto de 366 dias, com 29 de fevereiro, porque a Terra leva cerca de 365,25 dias para dar a volta no Sol.",
+     "id": "bissexto",
+     "passou": false,
+     "motivo": "'Quantos anos você tem?' respondido sobre ano bissexto"
+    },
+    {
+     "pessoa": "Quem te criou?",
+     "crivo": "Sou o Crivo, versão 0.4: um assistente de conversa em português, ainda em fase de teste. Digite 'ajuda' para ver as capacidades e o conhecimento desta instalação.",
+     "id": "social:quem",
+     "passou": false,
+     "motivo": "'Quem te criou?' não respondido (não diz quem criou), só se apresenta"
+    },
+    {
+     "pessoa": "Ah legal",
+     "crivo": "Certo! Se você pudesse fazer qualquer coisa agora, o que seria?",
+     "id": "social:reconhecimento",
+     "passou": false,
+     "motivo": "'Ah legal' respondido com pergunta pessoal aleatória"
+    }
+   ]
+  },
+  {
+   "id": "amb_25",
+   "estilo": "conta",
+   "turnos": [
+    {
+     "pessoa": "quanto é 7 vezes 8?",
+     "crivo": "7 × 8 = 56",
+     "id": "calculo:aritmetica",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e 12 mais 30?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'e 12 mais 30?' (elipse de cálculo) não entendido"
+    },
+    {
+     "pessoa": "vlw",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'vlw' não reconhecido como agradecimento"
+    }
+   ]
+  },
+  {
+   "id": "amb_26",
+   "estilo": "gíria_nordeste",
+   "turnos": [
+    {
+     "pessoa": "oxe, tu sabe o que é cuscuz?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "passou": true,
+     "motivo": "'não tenho definição' honesto"
+    },
+    {
+     "pessoa": "arretado",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'arretado' (reação/elogio) não reconhecido"
+    },
+    {
+     "pessoa": "e baião de dois?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "elipse 'e baião de dois?' caiu no 'não entendi' em vez de 'não sei'"
+    }
+   ]
+  },
+  {
+   "id": "amb_27",
+   "estilo": "triste_curto",
+   "turnos": [
+    {
+     "pessoa": "oi",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "nao",
+     "crivo": "Tudo bem! Se quiser, pergunte outra coisa ou mude de assunto.",
+     "id": "social:recusa",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "to mal",
+     "crivo": "Entendi, você está mal. Me conta mais.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "minha gata morreu",
+     "crivo": "Sinto muito, de verdade. Quer me contar um pouco mais?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_28",
+   "estilo": "irritado_repete",
+   "turnos": [
+    {
+     "pessoa": "eu ja falei que nao quero ajuda",
+     "crivo": "Você ja falou que nao quer ajuda? Que experiência te fez pensar nisso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "ecoou a fala e perguntou 'Que experiência te fez pensar nisso?' a quem recusou ajuda (pergunta contrária)"
+    },
+    {
+     "pessoa": "para de perguntar",
+     "crivo": "Você contou: “para de perguntar”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "'para de perguntar' ecoado entre aspas e respondido com mais pergunta"
+    },
+    {
+     "pessoa": "ok",
+     "crivo": "Certo! Posso te perguntar uma coisa? O que você mais gosta de fazer quando tem um tempo livre?",
+     "id": "social:reconhecimento",
+     "passou": false,
+     "motivo": "logo depois de 'para de perguntar', faz nova pergunta pessoal"
+    }
+   ]
+  },
+  {
+   "id": "amb_29",
+   "estilo": "animal",
+   "turnos": [
+    {
+     "pessoa": "baleia é peixe?",
+     "crivo": "Não tenho uma relação afirmativa cadastrada que permita concluir isso. Isso não significa que a afirmação seja falsa.",
+     "id": "logica:desconhecido",
+     "passou": false,
+     "motivo": "pergunta sim/não básica sem resposta ('não tenho relação cadastrada')"
+    },
+    {
+     "pessoa": "e o tubarão?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "elipse 'e o tubarão?' perdida"
+    },
+    {
+     "pessoa": "sério?",
+     "crivo": "Pois é! Quer me contar mais ou perguntar alguma coisa?",
+     "id": "social:reacao",
+     "passou": true,
+     "motivo": "passou com ressalva: 'Pois é!' a 'sério?' sem conteúdo; ok-ish, mas confirma algo que não disse"
+    }
+   ]
+  },
+  {
+   "id": "amb_30",
+   "estilo": "planetas",
+   "turnos": [
+    {
+     "pessoa": "o que é a lua",
+     "crivo": "A Lua é o satélite natural da Terra. As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias.",
+     "id": "lua",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "quantas luas tem jupiter?",
+     "crivo": "Em março de 2025, Júpiter tinha 95 luas conhecidas; a contagem muda quando novas luas pequenas são confirmadas. Além disso, as luas galileanas são as quatro maiores luas de Júpiter: Io, Europa, Ganimedes e Calisto, observadas por Galileu Galilei em 1610.",
+     "id": "escrita:explicacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "nao sabia",
+     "crivo": "Que bom! Quer saber mais sobre luas galileanas? É só dizer “sim”, ou pergunte outra coisa.",
+     "id": "social:reconhecimento",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_31",
+   "estilo": "bom_dia_idoso",
+   "turnos": [
+    {
+     "pessoa": "Bom dia",
+     "crivo": "Bom dia! Sou o Crivo. Sobre o que quer conversar?",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Sim estou bem graças a Deus e você",
+     "crivo": "Que bom! Por aqui está tudo certo, obrigado por perguntar. Sobre o que você quer conversar? Posso falar de astronomia, natureza, ciência ou programação.",
+     "id": "social:acolhimento",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Que bom",
+     "crivo": "Certo! Qual foi a melhor parte do seu dia hoje, mesmo que pequena?",
+     "id": "social:reconhecimento",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "amb_32",
+   "estilo": "sim_nao_3",
+   "turnos": [
+    {
+     "pessoa": "Você é humano? Sim ou não?",
+     "crivo": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "ignorou 'sim ou não' a pergunta sobre si; deveria dizer 'Não, sou uma IA'"
+    },
+    {
+     "pessoa": "certeza?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'certeza?' não reconhecido (no amb_16 funcionou)"
+    }
+   ]
+  }
+ ]
+}

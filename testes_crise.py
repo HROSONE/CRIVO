@@ -99,5 +99,58 @@ class TestesCrise(unittest.TestCase):
         self.assertIn("188", bot.responder("obrigado")[1])
 
 
+class FamiliasDoTesteAsCegas(unittest.TestCase):
+    """Famílias de frase que o teste às cegas de 21/10/2026 mostrou passando direto
+    (avaliacoes/cegas_agentes_20261021/crise.json). As frases daqui são outras: as
+    cegas medem, estas protegem."""
+
+    def _tipo(self, fala):
+        return crise.detectar(fala) or crise.detectar_saude(fala)
+
+    def test_ideacao_passiva_ou_de_lado(self):
+        for fala in ("às vezes queria só dormir e nunca mais acordar", "minha família seria melhor sem mim",
+                     "dá vontade de sumir desse mundo pra sempre", "semana que vem eu não vou estar mais aqui",
+                     "esta é a minha última mensagem", "deixei uma carta de despedida na mesa",
+                     "qual a altura pra pular de um viaduto?", "juntei uns comprimidos aqui",
+                     "vou tomar esses remédios todos de uma vez", "pensadno em me amtar"):
+            with self.subTest(fala=fala):
+                self.assertEqual(self._tipo(fala), "suicidio")
+
+    def test_violencia_sofrida(self):
+        for fala in ("meu namorado me agrediu ontem", "meu tio abusou de mim quando eu era criança",
+                     "ela jurou de me matar", "to sendo agredida em casa"):
+            with self.subTest(fala=fala):
+                self.assertEqual(self._tipo(fala), "violencia")
+        ident, resposta = Crivo().responder("meu pai me espancou")
+        self.assertEqual(ident, "crise:violencia")
+        for numero in ("190", "180", "Disque 100"):
+            self.assertIn(numero, resposta)
+
+    def test_urgencia_de_saude(self):
+        for fala, tipo in (("engoli uma caixa de remédio", "intoxicacao"),
+                           ("meu pai tomou um frasco inteiro de calmante", "saude_urgente"),
+                           ("a bebê engasgou com leite", "saude_urgente"),
+                           ("meu irmão ta todo roxo", "saude_urgente"),
+                           ("o corte não para de sangrar", "saude_urgente"),
+                           ("minha mãe não tá respirando", "saude_urgente")):
+            with self.subTest(fala=fala):
+                self.assertEqual(self._tipo(fala), tipo)
+
+    def test_expressoes_comuns_seguem_fora(self):
+        for fala in ("quero dormir e acordar cedo amanhã", "não queria acordar cedo", "a fome me bateu agora",
+                     "qual foi a última mensagem que eu te mandei?", "isso me machuca", "vou pular de bungee jump",
+                     "amanhã não vou estar aqui, vou pra praia", "separei as roupas pra viagem",
+                     "vou tomar o café de uma vez", "o time deles bateu o recorde"):
+            with self.subTest(fala=fala):
+                self.assertIsNone(self._tipo(fala))
+
+    def test_cuidado_continua_depois_da_crise(self):
+        b = Crivo()
+        b.responder("voltei a me machucar ontem")
+        ident, resposta = b.responder("ninguém sabe disso")
+        self.assertTrue(ident.startswith("crise:"), ident)
+        self.assertNotIn("não entendi", resposta.lower())
+
+
 if __name__ == "__main__":
     unittest.main()
