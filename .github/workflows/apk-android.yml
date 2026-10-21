@@ -71,6 +71,14 @@ jobs:
           python scripts/empacotar_apk.py --testar
       - name: Motor em C do app dá as mesmas respostas do NumPy
         run: python -m unittest testes_motor_nativo -v
+      # O Gradle baixa o NDK sozinho, mas o download falhou em 2 de 4 execuções (20/10/2026): instala antes, com novas tentativas.
+      - name: NDK do motor em C (com novas tentativas)
+        run: |
+          for i in 1 2 3 4; do
+            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "ndk;27.0.12077973" > /dev/null && break
+            echo "tentativa $i do NDK falhou"; sleep $((i * 20))
+          done
+          test -d "$ANDROID_HOME/ndk/27.0.12077973"
       - name: Compilar o APK
         env:
           CRIVO_VERSION_CODE: ${{ github.run_number }}

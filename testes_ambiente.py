@@ -130,6 +130,46 @@ class Juiz(unittest.TestCase):
         self.assertEqual(bot.responder("Nem começou ainda")[1], "Entendo. Fica à vontade.")
 
 
+class ConversaFreud(unittest.TestCase):
+    """Conversa real do criador no app (20/10/2026): "Quem é freud" → "Sou o CRIVO…"; "Que é Lacan" →
+    "Lacan é um nome bonito"; "O que é prossímio" → "uma estrutura celular"; "E o símio?" → "O…"."""
+
+    def test_pergunta_sobre_outro_nao_vira_fala_de_si(self):
+        self.assertIn("falou_de_si", ambiente.julgar(None, "Quem é freud", "Sou o CRIVO, uma IA curiosa.", []))
+        self.assertNotIn("falou_de_si", ambiente.julgar(None, "Quem é você?", "Sou o CRIVO, uma IA curiosa.", []))
+
+    def test_sem_saber_tem_que_dizer_que_nao_sabe(self):
+        self.assertIn("inventou_sem_fonte", ambiente.julgar(None, "Que é Lacan", "Pelo que eu sei: Lacan é um nome bonito.",
+                                                            [], nao_sabe=True))
+        self.assertEqual(ambiente.julgar(None, "Que é Lacan", "Não sei quem é Lacan.", [], nao_sabe=True), [])
+
+    def test_frase_inventada_fica_fora_quando_nao_sabe(self):
+        bot = Crivo()
+        bot.conversa_v3d = Falso("Pelo que eu sei: O prossímio é uma estrutura celular.")
+        ident, resposta = bot.responder("O que é prossímio")
+        self.assertNotIn("celular", resposta)
+
+    def test_e_o_x_continua_a_pergunta(self):
+        fio = ambiente.Fio()
+        fio.observar(Crivo(), "O que são primatas", "enciclopedia:wikipedia", "A ordem dos primatas é um grupo.")
+        self.assertEqual(ambiente.completar(fio, "E o símio?"), "O que é símio?")
+        fio.observar(Crivo(), "Quem é freud", "enciclopedia:wikipedia", "Sigmund Freud foi um neurologista.")
+        self.assertEqual(ambiente.completar(fio, "E o Lacan?"), "Quem é Lacan?")
+
+    def test_freud_pelo_sobrenome_na_enciclopedia(self):
+        import enciclopedia
+        self.assertEqual(enciclopedia.consultar("Quem é freud")[0], "Sigmund Freud")
+        self.assertEqual(enciclopedia.consultar("Que é Lacan")[0], "Jacques Lacan")
+        r = responder_web({"message": "Quem é freud"})
+        self.assertIn("Freud", r["response"])
+        self.assertIn("Wikipédia", r["response"])
+
+    def test_pergunta_que_nao_sabe_nao_vira_mensagem_de_logica(self):
+        r = responder_web({"message": "Quem é psicopata"})
+        self.assertNotIn("condições da consulta", r["response"])
+        self.assertIn("não sei", r["response"])
+
+
 class PesosDoSite(unittest.TestCase):
     def test_prompt_lido_uma_vez_da_o_mesmo_texto(self):
         modelo = conversa_v3d.numpy_do_site()

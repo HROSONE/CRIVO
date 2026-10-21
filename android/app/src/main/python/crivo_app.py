@@ -23,7 +23,10 @@ def iniciar(pasta, bibliotecas=None):
         # O motor em C (motor_nativo.py): o caminho completo se a biblioteca estiver extraída; senão, o nome, que o
         # Android acha dentro do APK. Se não carregar, o CRIVO segue no NumPy.
         motor = os.path.join(bibliotecas or "", "libcrivo_motor.so")
-        os.environ.setdefault("CRIVO_MOTOR_NATIVO", motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so")
+        # Em celular ARM o motor ainda não foi visto funcionando (o teste automático roda num emulador x86_64), e o
+        # 1.0.20 fechava ao abrir num aparelho real: lá, o 46M segue no NumPy até o motor ser conferido num ARM.
+        if os.uname().machine in ("x86_64", "i686") or os.environ.get("CRIVO_MOTOR_ARM") == "1":
+            os.environ.setdefault("CRIVO_MOTOR_NATIVO", motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so")
         if pasta not in sys.path:
             sys.path.insert(0, pasta)
         os.chdir(pasta)
