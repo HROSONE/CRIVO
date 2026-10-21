@@ -46,7 +46,15 @@ ESCOPO = ("Síntese própria em português, conferida afirmação por afirmaçã
 # Começos de nome que não dizem o assunto sozinhos ("Métodos e limites da neurociência").
 GENERICOS = {"metodos", "reconstrucao", "consolidacao", "confianca", "receptores", "interacao entre sistema nervoso",
              "desenhos experimentais", "prática", "pratica", "variabilidade individual", "qualidade metodologica",
-             "diferencas individuais", "perspectiva", "estatistica", "heuristicas", "transferencia de aprendizagem"}
+             "diferencas individuais", "perspectiva", "estatistica", "heuristicas", "transferencia de aprendizagem",
+             "interacao entre emocao"}
+
+
+def palavras_comuns(limite=20000):
+    """As `limite` palavras mais frequentes das legendas (dados/lexico_pt): palavra comum sozinha não vira apelido."""
+    caminho = RAIZ / "dados" / "lexico_pt" / "frequencia_legendas_pt_br_50k.txt"
+    with caminho.open(encoding="utf-8") as f:
+        return {_norm(linha.split()[0]) for _, linha in zip(range(limite), f) if linha.strip()}
 
 
 def _norm(t):
@@ -136,11 +144,15 @@ def integrar(intermediario, revisao=REVISAO):
         relatorio["fatos"] += len(fatos)
     # Nome composto ("Metacognição e calibração"): o termo de antes do "e", da vírgula ou dos dois-pontos
     # vira apelido, para "o que é metacognição?" achar a ficha; só se não for nome de outro conceito.
+    # Uma palavra só, se for comum ("Linguagem", "Consciência"), pegaria perguntas de outros assuntos
+    # ("Para que serve a linguagem SQL?" ia para "Linguagem, bilinguismo e contexto").
+    comuns = palavras_comuns()
     for item in itens:
         cabeca = re.split(r"\s+e\s+|,|:|\s+—\s+", item["nome"])[0].strip()
         chave = _norm(cabeca)
         if (cabeca != item["nome"] and len(cabeca) >= 4 and chave not in existentes
-                and chave.rstrip("s") not in existentes and chave not in GENERICOS):
+                and chave.rstrip("s") not in existentes and chave not in GENERICOS
+                and not (" " not in chave and chave in comuns)):
             item["aliases"].append(cabeca)
             existentes.add(chave)
     saida = {"versao": 1, "revisado_em": VERIFICADO_EM,
