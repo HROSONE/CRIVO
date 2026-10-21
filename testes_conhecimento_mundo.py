@@ -146,7 +146,8 @@ class TestesConhecimentoMundo(unittest.TestCase):
                 'perguntas': ['o que é zunto'], 'resposta': 'Zunto é um exemplo fictício.'}]), encoding='utf-8')
             b = Crivo(arq)
             self.assertIsNone(b.curriculo_mundo)
-            self.assertEqual(b.responder('O que é hipocampo?')[0], 'fora')
+            # A enciclopédia (fonte à parte do currículo) pode responder; a ficha do currículo, não.
+            self.assertFalse(b.responder('O que é hipocampo?')[0].startswith('conhecimento:'))
 
     def test_mesma_populacao_no_bot_e_na_rede(self):
         base = carregar_base(PASTA / 'conhecimento.json')
