@@ -76,25 +76,49 @@ _PEDE_SIM_OU_NAO = re.compile(r"[\s,.;:-]*(?:me )?(?:(?:responde|responda|respos
 # "E da Espanha?" depois de "Qual a capital da França?": a mesma pergunta, com o outro assunto no lugar.
 _E_LIGADO = re.compile(r"^[Ee]\s+(?:(?P<lig>o|a|os|as|do|da|dos|das|de|no|na|nos|nas|em|pelo|pela)\s+)?"
                        r"(?P<x>[^?!.,]{2,40}?)\s*\?*$")
-_LIGACOES = ({"o", "a", "os", "as"}, {"do", "da", "dos", "das", "de"}, {"no", "na", "nos", "nas", "em"}, {"pelo", "pela"})
 _INTERROGA = re.compile(r"^(?:qual|quais|quem|onde|quando|quanto|quantos|quantas|como|em que|de que|que)\b")
 _NAO_ASSUNTO = {"voce", "vc", "tu", "ai", "dai", "agora", "entao", "depois", "isso", "aquilo", "o seu", "a sua", "seu",
                 "sua", "o teu", "a tua", "ele", "ela", "eles", "elas", "mais", "o resto", "outro", "outra", "voces"}
 
 
+_ARTIGO = {"o": 0, "a": 1, "os": 2, "as": 3}
+_CONTRAI = {"de": ("do", "da", "dos", "das"), "em": ("no", "na", "nos", "nas"), "por": ("pelo", "pela", "pelos", "pelas")}
+_CLASSE = {w: c for c, formas in _CONTRAI.items() for w in formas + (c,)}
+
+
 def _mesma_pergunta(anterior, lig, x):
-    """A pergunta anterior com x no lugar do último assunto ligado do mesmo jeito (artigo, "de", "em"), ou None."""
-    classes = [c for c in _LIGACOES if lig in c] if lig else list(_LIGACOES)
-    alvos = set().union(*classes) if classes else set()
-    achados = [m for m in re.finditer(r"\b(\w+)\b", anterior) if m.group(1).lower() in alvos]
+    """A pergunta anterior com x no lugar do último assunto (depois do último artigo ou de "de/em/por"
+    contraídos), ou None. "Qual é a função da mitocôndria?" + "E o ribossomo?" → "...função do ribossomo?"."""
+    achados = [m for m in re.finditer(r"\b(\w+)\b", anterior)
+               if m.group(1).lower() in _ARTIGO or m.group(1).lower() in _CLASSE]
     if achados:
         m = achados[-1]
-        return anterior[:m.start()] + (lig or m.group(1)) + " " + x + "?"
+        velho = m.group(1).lower()
+        if not lig:
+            novo = m.group(1)
+        elif velho in _CLASSE and lig in _ARTIGO:
+            novo = _CONTRAI[_CLASSE[velho]][_ARTIGO[lig]]   # "da" + "o" → "do"
+        else:
+            novo = lig
+        return anterior[:m.start()] + novo + " " + x + "?"
     if not lig:
         m = list(re.finditer(r"\b(?:é|e|são|sao)\b", anterior))  # "Quanto é 7 vezes 8?" → "e 9 vezes 8?"
         if m:
             return anterior[:m[-1].end()] + " " + x + "?"
     return None
+
+
+def mesma_pergunta(fio, fala):
+    """ "e da Espanha?" depois de "Qual a capital da França?" → "Qual a capital da Espanha?", ou None.
+    O CRIVO tenta antes a fala como veio (o acervo já reconstrói "E o ribossomo?" depois da função da
+    mitocôndria); esta é a segunda tentativa, quando a primeira não entendeu ou não soube."""
+    anterior = getattr(fio, "fala_anterior", None) if fio is not None else None
+    ligado = _E_LIGADO.match(fala.strip()) if isinstance(fala, str) else None
+    if not (ligado and anterior and _INTERROGA.match(normalizar(anterior)) and not _PERGUNTA_O_QUE.match(normalizar(anterior))
+            and len(ligado.group("x").split()) <= 4 and normalizar(ligado.group("x")) not in _NAO_ASSUNTO
+            and normalizar(ligado.group("x")) not in normalizar(anterior)):
+        return None
+    return _mesma_pergunta(anterior.strip().rstrip("?!. "), (ligado.group("lig") or "").lower(), ligado.group("x").strip())
 
 
 def completar(fio, fala):
@@ -114,13 +138,6 @@ def completar(fio, fala):
     if m and anterior and de_fora and _PERGUNTA_O_QUE.match(normalizar(anterior)) and len(m.group("x").split()) <= 4:
         quem = normalizar(anterior).startswith("quem")
         return ("Quem é %s?" if quem else "O que é %s?") % m.group("x").strip()
-    ligado = _E_LIGADO.match(fala.strip())
-    if (ligado and anterior and _INTERROGA.match(normalizar(anterior)) and not _PERGUNTA_O_QUE.match(normalizar(anterior))
-            and len(ligado.group("x").split()) <= 4 and normalizar(ligado.group("x")) not in _NAO_ASSUNTO
-            and normalizar(ligado.group("x")) not in normalizar(anterior)):
-        nova = _mesma_pergunta(anterior.strip().rstrip("?!. "), (ligado.group("lig") or "").lower(), ligado.group("x").strip())
-        if nova:
-            return nova
     if not fio.ultima_pergunta or fio.idade_pergunta:
         return fala
     pergunta = normalizar(fio.ultima_pergunta)

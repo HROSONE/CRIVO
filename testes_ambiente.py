@@ -215,9 +215,11 @@ class AtosEElipses(unittest.TestCase):
                                          ("Quanto é 7 vezes 8?", "e 9 vezes 8?", "Quanto é 9 vezes 8?")):
             with self.subTest(fala=fala):
                 fio.fala_anterior = anterior
-                self.assertEqual(ambiente.completar(fio, fala), esperado)
+                self.assertEqual(ambiente.mesma_pergunta(fio, fala), esperado)
+        fio.fala_anterior = "Qual é a função da mitocôndria?"
+        self.assertEqual(ambiente.mesma_pergunta(fio, "E o ribossomo?"), "Qual é a função do ribossomo?")
         fio.fala_anterior = "Oi, tudo bem?"
-        self.assertEqual(ambiente.completar(fio, "e você?"), "e você?")
+        self.assertIsNone(ambiente.mesma_pergunta(fio, "e você?"))
         self.assertIn("Madri", self.conversa("Qual a capital da França?", "e da Espanha?")[1][1])
 
     def test_atos_sociais_curtos(self):
