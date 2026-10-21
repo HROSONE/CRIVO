@@ -109,11 +109,12 @@ def pode_aproximar(tracos, parcial=False):
     Com parcial=True (ligado desde 05/10/2026; docs/estado_interno_20261005.md),
     aproxima com no máximo uma pista sem apoio, desde que outra esteja coberta,
     a fala seja uma pergunta direta (não "explique X") e não traga um
-    qualificador absoluto (ABSOLUTOS). A resposta sempre avisa que não é exata."""
+    qualificador absoluto (ABSOLUTOS) nem palavra que nenhum fato do acervo usa ("memória
+    ALIENÍGENA": o assunto pedido não existe no acervo). A resposta sempre avisa que não é exata."""
     if parcial:
         # Só pergunta direta: "explique X com Y" pede aquele detalhe, e o
         # "mais próximo" seria outro detalhe (marcas verdes ≠ ultravioletas).
-        if tracos.get("absoluto") or not tracos.get("pergunta_direta"):
+        if tracos.get("absoluto") or not tracos.get("pergunta_direta") or tracos.get("falta_desconhecida"):
             return False
         return not tracos.get("faltam_duas") and not (tracos.get("falta_uma") and tracos.get("nenhuma"))
     return bool(tracos.get("todas"))
@@ -152,6 +153,7 @@ class LeituraFicha:
         # antônimos); aqui são só um traço fraco, com peso aprendido e medido.
         self.vetores = _vetores()
         self.aproximar_parcial = True
+        self._prefixos = None
         self.pesos = None
         self.limiar = self.limiar_aproximar = None
         if (caminho_modelo == CAMINHO_MODELO and transformer is None and busca is None
@@ -188,6 +190,19 @@ class LeituraFicha:
     def pistas(self, quadro):
         """Pistas de conteúdo: sem as palavras de moldura da pergunta."""
         return [(r, p) for r, p in quadro.pistas if p not in GENERICAS and r not in GENERICAS]
+
+    def desconhecida(self, raiz, palavra):
+        """Nenhum fato nem nome do acervo usa a palavra (nem uma relação a liga a outra)."""
+        if self._prefixos is None:
+            prefixos = set()
+            for item in self.c.itens.values():
+                textos = [item["nome"]] + list(item.get("aliases", ())) + [f["texto"] for f in item["fatos"]]
+                for r in self.c._raizes(" ".join(textos)):
+                    prefixos.update(r[:k] for k in range(3, len(r) + 1))
+            self._prefixos = prefixos
+        opcoes = self.c._EQUIVALENTES.get(raiz, (raiz,))
+        return (not any(o in self._prefixos for o in opcoes)
+                and raiz not in self.relacoes and palavra not in self.relacoes)
 
     def _relacao(self, raiz, palavra, raizes_fato):
         alvos = self.relacoes.get(raiz) or self.relacoes.get(palavra)
@@ -319,6 +334,7 @@ class LeituraFicha:
         tracos = dict(zip(self.nomes, x))
         tracos["absoluto"] = any(ABSOLUTOS.match(palavra) for _, palavra in quadro.pistas)
         tracos["pergunta_direta"] = pergunta_direta(quadro.texto)
+        tracos["falta_desconhecida"] = any(self.desconhecida(r, p) for r, p in self.pistas(quadro))
         return Leitura(assunto, i, round(p, 4), round(p - segundo, 4), cobertas, tipo, tracos)
 
     def decisao(self, leitura):

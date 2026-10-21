@@ -129,7 +129,7 @@ def integrar(intermediario, revisao=REVISAO):
             relatorio.setdefault("definicao_promovida", []).append(item["id"])
         fatos = [definicoes[0]] + [f for f in fatos if f is not definicoes[0]]
         fatos = [fatos[0]] + [dict(f, papel="detalhe") if f["papel"] == "definicao" else f for f in fatos[1:]][:11]
-        itens.append({"id": item["id"], "nome": item["nome"], "area": item["area"],
+        itens.append({"id": item["id"], "nome": item["nome"], "area": item["area"], "aprofundamento": True,
                       "aliases": [a for a in item.get("aliases", []) if _norm(a) not in existentes], "fatos": fatos})
         existentes.add(_norm(item["nome"]))
         relatorio["conceitos"] += 1
