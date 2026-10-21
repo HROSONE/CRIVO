@@ -21,6 +21,7 @@ from composicao_textual import normalizar
 
 IDENT_TAREFA = "ambiente:tarefa"
 IDENT_PERGUNTA = "ambiente:minha_pergunta"
+IDENT_GRAFIA = "texto:grafia"
 
 # --- casa: o fio da conversa ---------------------------------------------------------------------
 
@@ -160,13 +161,22 @@ def retomar(bot, fala):
         pergunta = fio.ultima_pergunta
         fio.exigido = pergunta.rstrip("?").strip()
         return IDENT_PERGUNTA, "Eu perguntei: %s" % (pergunta[:1].lower() + pergunta[1:])
+    # Dúvida de grafia ("como se escreve X?", "qual o certo, A ou B?"): o dicionário do corretor responde,
+    # e a forma certa tem que estar na frase dita.
+    from correcao_texto import duvida_grafia
+    grafia = duvida_grafia(fala)
+    if grafia is not None:
+        if fio is not None:
+            certa = re.search(r"“([^”]+)”", grafia)
+            fio.exigido = certa.group(1) if certa else None
+        return IDENT_GRAFIA, grafia
     return None
 
 
 def exigido(bot, ident):
     """O trecho que a frase do modelo tem que trazer neste turno, ou None."""
     fio = getattr(bot, "fio", None)
-    if fio is None or ident not in (IDENT_TAREFA, IDENT_PERGUNTA):
+    if fio is None or ident not in (IDENT_TAREFA, IDENT_PERGUNTA, IDENT_GRAFIA):
         return None
     return fio.exigido
 
