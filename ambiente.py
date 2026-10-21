@@ -70,11 +70,42 @@ _PERGUNTA_O_QUE = re.compile(r"^(?:o que|que|quem)\s+(?:e|eh|sao|foi|foram|era)\
 _E_O = re.compile(r"^[Ee]\s+(?:(?:o|a|os|as)\s+)?(?P<x>[^?!.,]{2,40}?)\s*\?*$")
 
 
+# "A Lua é um planeta? Responde sim ou não": o "não" do pedido caía no detector de negação.
+_PEDE_SIM_OU_NAO = re.compile(r"[\s,.;:-]*(?:me )?(?:(?:responde|responda|resposta|diz|diga|fala|so|só)[:,]?\s+)?"
+                              r"(?:com\s+)?sim\s+ou\s+n[aã]o\s*[?!.]*\s*$", re.I)
+# "E da Espanha?" depois de "Qual a capital da França?": a mesma pergunta, com o outro assunto no lugar.
+_E_LIGADO = re.compile(r"^[Ee]\s+(?:(?P<lig>o|a|os|as|do|da|dos|das|de|no|na|nos|nas|em|pelo|pela)\s+)?"
+                       r"(?P<x>[^?!.,]{2,40}?)\s*\?*$")
+_LIGACOES = ({"o", "a", "os", "as"}, {"do", "da", "dos", "das", "de"}, {"no", "na", "nos", "nas", "em"}, {"pelo", "pela"})
+_INTERROGA = re.compile(r"^(?:qual|quais|quem|onde|quando|quanto|quantos|quantas|como|em que|de que|que)\b")
+_NAO_ASSUNTO = {"voce", "vc", "tu", "ai", "dai", "agora", "entao", "depois", "isso", "aquilo", "o seu", "a sua", "seu",
+                "sua", "o teu", "a tua", "ele", "ela", "eles", "elas", "mais", "o resto", "outro", "outra", "voces"}
+
+
+def _mesma_pergunta(anterior, lig, x):
+    """A pergunta anterior com x no lugar do último assunto ligado do mesmo jeito (artigo, "de", "em"), ou None."""
+    classes = [c for c in _LIGACOES if lig in c] if lig else list(_LIGACOES)
+    alvos = set().union(*classes) if classes else set()
+    achados = [m for m in re.finditer(r"\b(\w+)\b", anterior) if m.group(1).lower() in alvos]
+    if achados:
+        m = achados[-1]
+        return anterior[:m.start()] + (lig or m.group(1)) + " " + x + "?"
+    if not lig:
+        m = list(re.finditer(r"\b(?:é|e|são|sao)\b", anterior))  # "Quanto é 7 vezes 8?" → "e 9 vezes 8?"
+        if m:
+            return anterior[:m[-1].end()] + " " + x + "?"
+    return None
+
+
 def completar(fio, fala):
     """A fala curta dita por inteiro, lida no fio: "O meu é Henrique" depois de "Meu nome é CRIVO. E o seu?"
     vira "Meu nome é Henrique", para a memória e o modelo entenderem. Sem fio que a complete, a mesma fala."""
     if fio is None or not isinstance(fala, str):
         return fala
+    pedido = _PEDE_SIM_OU_NAO.search(fala)
+    fio.pediu_sim_ou_nao = bool(pedido and fala[:pedido.start()].strip())
+    if fio.pediu_sim_ou_nao:
+        fala = fala[:pedido.start()].strip().rstrip("?,.;:- ") + "?"
     # "O que são primatas?" → "E o símio?": a mesma pergunta, sobre o outro assunto.
     m = _E_O.match(fala.strip())
     anterior = getattr(fio, "fala_anterior", None)
@@ -83,6 +114,13 @@ def completar(fio, fala):
     if m and anterior and de_fora and _PERGUNTA_O_QUE.match(normalizar(anterior)) and len(m.group("x").split()) <= 4:
         quem = normalizar(anterior).startswith("quem")
         return ("Quem é %s?" if quem else "O que é %s?") % m.group("x").strip()
+    ligado = _E_LIGADO.match(fala.strip())
+    if (ligado and anterior and _INTERROGA.match(normalizar(anterior)) and not _PERGUNTA_O_QUE.match(normalizar(anterior))
+            and len(ligado.group("x").split()) <= 4 and normalizar(ligado.group("x")) not in _NAO_ASSUNTO
+            and normalizar(ligado.group("x")) not in normalizar(anterior)):
+        nova = _mesma_pergunta(anterior.strip().rstrip("?!. "), (ligado.group("lig") or "").lower(), ligado.group("x").strip())
+        if nova:
+            return nova
     if not fio.ultima_pergunta or fio.idade_pergunta:
         return fala
     pergunta = normalizar(fio.ultima_pergunta)
@@ -128,8 +166,52 @@ def ato_do_turno(fio, fala):
         return "reclamar_tarefa" if _RECLAMA_RESULTADO.search(n) else "entregar_tarefa"
     if fio.ultima_pergunta and _O_QUE.match(n):
         return "explicar_minha_pergunta"
-    if pergunta and _SIM_NAO_INICIO.match(n) and not _INTERROGATIVA.search(n.split(" ", 1)[-1]):
+    if pergunta and (getattr(fio, "pediu_sim_ou_nao", False)
+                     or _SIM_NAO_INICIO.match(n) and not _INTERROGATIVA.search(n.split(" ", 1)[-1])):
         return "sim_ou_nao"
+    return None
+
+
+# Atos sociais curtos que caíam em "não entendi" ou num assunto parecido ("esquece" → plantas).
+_ATOS_CURTOS = (
+    (re.compile(r"(?:ah,? |entao,? )?(?:esquece|esqueca|deixa (?:pra la|quieto|isso pra la|isso)|deixa|nada nao|"
+                r"nao importa|deixa pra la)(?: entao| isso| ai| crivo)?"),
+     "social:deixa", "Tudo bem, deixa pra lá. Se quiser falar de outra coisa, estou aqui."),
+    (re.compile(r"(?:(?:muito|mt) )?(?:obrigad[oa]|obg|obgd|brigad[oa]|brigadu|valeu|vlw|valew|grat[oa])(?: mesmo| demais)?"
+                r"(?: (?:pela|pelo|por) (?:a |o )?(?:explicacao|resposta|informacao|info|dica|ajuda|paciencia|aula|"
+                r"conversa|papo|atencao|forca))?(?: (?:mano|cara|parceiro|amigo|amiga|crivo|viu|ta|irmao))?"),
+     "social:obrigado", "Por nada! Se quiser saber mais alguma coisa, é só perguntar."),
+    (re.compile(r"(?:(?:eu )?posso|da pra|deixa eu|queria) (?:te )?(?:fazer|perguntar) (?:uma|outra|mais uma) (?:pergunta|coisa)"
+                r"(?: (?:pra|para) (?:voce|vc|ti))?"),
+     "social:convite", "Claro, pode perguntar."),
+    (re.compile(r"(?:(?:voce|vc) )?(?:quer|queres) (?:saber|ouvir|ver|conhecer) (?:uma|um) (?:coisa|piada|segredo|"
+                r"curiosidade|historia|fato|novidade)(?: (?:legal|engracada|interessante))?"),
+     "social:oferta", "Quero! Conta."),
+)
+# Confirmação curta sem nada a confirmar: só quando o resto do CRIVO não entendeu.
+_RECONHECE = re.compile(r"(?:ok|okay|okey|blz|beleza|ta bom|ta|certo|entendi|entendido|ah ta|ahh ta|show|top|suave|"
+                        r"de boa|tranquilo|legal|ah legal|que legal|interessante|massa|aham|uhum|hum+|hm+|ata)(?: entao)?")
+
+
+def ato_curto(bot, fala):
+    """(ident, resposta) para um ato social curto dito por inteiro, ou None. Depois de uma crise, só o
+    agradecimento (o crise.py dá o tom); o resto segue o cuidado de sempre."""
+    n = normalizar(fala).strip(" .!?")
+    for padrao, ident, resposta in _ATOS_CURTOS:
+        if not padrao.fullmatch(n):
+            continue
+        if not getattr(bot, "crise", None) or ident == "social:obrigado":
+            return ident, resposta
+        if ident == "social:deixa":
+            return "crise:apoio", ("Tudo bem, não precisa falar disso agora. Estou aqui se quiser voltar a conversar, "
+                                   "e o CVV atende no 188, a qualquer hora.")
+    return None
+
+
+def reconhecimento(fala):
+    """Resposta a um "ok"/"beleza" que o resto do CRIVO não entendeu, ou None."""
+    if _RECONHECE.fullmatch(normalizar(fala).strip(" .!?")):
+        return "social:ok", "Beleza! Se quiser, é só perguntar ou me contar alguma coisa."
     return None
 
 
@@ -160,7 +242,7 @@ def retomar(bot, fala):
         pergunta = fio.ultima_pergunta
         fio.exigido = pergunta.rstrip("?").strip()
         return IDENT_PERGUNTA, "Eu perguntei: %s" % (pergunta[:1].lower() + pergunta[1:])
-    return None
+    return ato_curto(bot, fala)
 
 
 def exigido(bot, ident):
