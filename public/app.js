@@ -259,10 +259,10 @@
       } else if (extra.content_analysis) {
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.conversation_voice && extra.conversation_voice.used) {
-        // Voz da conversa: o 46M da 6b v4 (ou a v4 F), ligado por decisão do criador, sem aprovação na catraca.
-        const tamanho = String(extra.conversation_voice.model || "").startsWith("fase6b") ? "46M" : "17M · v4";
+        // Voz da conversa: o 46M v7c (ou a v4 F de reserva), ligado por decisão do criador.
+        const tamanho = /46m/i.test(String(extra.conversation_voice.model || "")) ? "46M" : "17M · v4";
         tag.textContent = extra.conversation_voice.verified
-          ? "◇ Modelo próprio " + tamanho + " em teste"
+          ? "◇ Modelo próprio " + tamanho + (tamanho === "46M" ? "" : " em teste")
           : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
         tag.textContent = "◇ Voz própria do 17M · conferida";

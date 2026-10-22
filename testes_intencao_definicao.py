@@ -8,6 +8,14 @@ from crivo import Crivo
 from web_core import responder_web
 
 
+
+def _verbete_do_mesmo_nome(pergunta, ident, resposta):
+    """A enciclopédia (300 mil verbetes desde 20/10/2026) responde pelo verbete com o nome perguntado ("Nuvem",
+    "Semente"), com a fonte: não é a ficha vizinha que estes testes barram."""
+    import enciclopedia
+    achado = enciclopedia.consultar(pergunta)
+    return ident == enciclopedia.IDENT and achado is not None and "verbete «%s»" % achado[0] in resposta
+
 class TestesIntencaoDefinicao(unittest.TestCase):
     def test_definicao_de_arvore_no_chat_real(self):
         for pergunta in (
@@ -50,7 +58,8 @@ class TestesIntencaoDefinicao(unittest.TestCase):
         ):
             with self.subTest(pergunta=pergunta):
                 obtido, resposta = Crivo().responder(pergunta)
-                self.assertIn(obtido, ("fora", "duvida"))
+                if not _verbete_do_mesmo_nome(pergunta, obtido, resposta):
+                    self.assertIn(obtido, ("fora", "duvida"))
                 self.assertNotIn("Com dias mais curtos", resposta)
                 self.assertNotIn("tronco lenhoso", resposta)
 

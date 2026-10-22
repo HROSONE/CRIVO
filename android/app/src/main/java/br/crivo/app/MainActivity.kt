@@ -121,7 +121,8 @@ class MainActivity : Activity() {
         if (!Python.isStarted()) {
             Python.start(AndroidPlatform(applicationContext))
         }
-        return Python.getInstance().getModule("crivo_app").callAttr("iniciar", pasta.absolutePath).toInt()
+        return Python.getInstance().getModule("crivo_app")
+            .callAttr("iniciar", pasta.absolutePath, applicationInfo.nativeLibraryDir).toInt()
     }
 
     /** Copia o CRIVO para o aparelho uma vez por versão; versões antigas são apagadas depois. */

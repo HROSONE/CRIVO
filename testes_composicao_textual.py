@@ -5,6 +5,7 @@ import re
 import random
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 from avaliar_escrita import CASOS, executar
@@ -75,7 +76,9 @@ class TestesComposicaoTextual(unittest.TestCase):
             self.assertIn("verde", texto)
             self.assertIn("azul", texto)
             self.assertNotIn("porque", texto.lower())
-            self.assertEqual(b.responder("O que é Andrômeda?")[0], "fora")
+            # A enciclopédia (300 mil verbetes) tem «Andrômeda»; aqui o que se testa é a base sintética sozinha.
+            with mock.patch("enciclopedia.consultar", return_value=None):
+                self.assertEqual(b.responder("O que é Andrômeda?")[0], "fora")
             self.assertFalse(b.compositor.expandidos)
 
     def test_resumo_e_topicos_transformam_so_o_que_foi_mostrado(self):

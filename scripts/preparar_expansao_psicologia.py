@@ -15,7 +15,7 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INPUTS = sorted(ROOT.glob("conhecimento_psicologia_cognitiva_neurociencia_v[0-9]*.json"))
+INPUTS = sorted((ROOT / "docs" / "rascunhos_psicologia_20261015").glob("conhecimento_psicologia_cognitiva_neurociencia_v[0-9]*.json"))
 ROLE_MAP = {
     "definicao": "definicao",
     "explicacao": "detalhe", "mecanismo": "causa", "causa": "causa",
@@ -131,7 +131,28 @@ def main():
     }
     out = Path(args.saida)
     out.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # Produz uma fila auditável por afirmação; nunca preenche fonte automaticamente.
+    review_path = out.with_name(out.stem + "_revisao_fontes.jsonl")
+    with review_path.open("w", encoding="utf-8") as review_file:
+        for item in items:
+            for index, fact in enumerate(item["fatos"], start=1):
+                row = {
+                    "id_conceito": item["id"],
+                    "conceito": item["nome"],
+                    "area": item["area"],
+                    "indice_fato": index,
+                    "afirmacao": fact["texto"],
+                    "fonte": "",
+                    "url_evidencia": "",
+                    "trecho_ou_localizador": "",
+                    "tipo_evidencia": "",
+                    "revisado_por": "",
+                    "status_revisao": "PENDENTE",
+                    "origem": fact["revisao_fonte"],
+                }
+                review_file.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(f"Arquivo intermediário: {out}")
+    print(f"Fila de revisão de fontes: {review_path}")
     print(f"Lotes: {counts['lotes']} | conceitos: {counts['conceitos_origem']} -> {len(items)}")
     print(f"Fatos: {counts['fatos_origem']} -> {output['relatorio']['fatos_consolidados']}")
     print(f"Fatos sem fonte revisada: {output['relatorio']['fatos_sem_fonte_revisada']}")

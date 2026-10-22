@@ -24,13 +24,19 @@ def tokens(texto):
         'entender', 'entenda', 'significa', 'significado'}
 
 
+def _cabeca(conceito):
+    """A primeira palavra de conteúdo do título ("Performance do compilador" → "performance")."""
+    ts = tokens(conceito) - {'typescript', 'javascript'}
+    return next((w for w in re.findall(r'[a-z0-9_$]+', normalizar(conceito)) if w in ts), None)
+
+
 class ConhecimentoProgramacao:
     def __init__(self, caminho):
         self.caminho = Path(caminho)
         raw = self.caminho.read_bytes()
         self.sha256 = hashlib.sha256(raw).hexdigest()
         self.catalogo = json.loads(raw)
-        self.indice = [(u, tokens(u['conceito']), tokens(u['definicao'] + ' ' + u['mecanismo']))
+        self.indice = [(u, tokens(u['conceito']), tokens(u['definicao'] + ' ' + u['mecanismo']), _cabeca(u['conceito']))
                        for u in self.catalogo['unidades']]
 
     def buscar(self, pergunta, limite=3):
@@ -44,7 +50,7 @@ class ConhecimentoProgramacao:
         if not q:
             return []
         encontrados = []
-        for u, titulo, corpo in self.indice:
+        for u, titulo, corpo, cabeca in self.indice:
             if linguagem and u['dominio'] != linguagem:
                 continue
             alvo = titulo - {'typescript', 'javascript'}
@@ -52,10 +58,11 @@ class ConhecimentoProgramacao:
             # "árvore binária" não pode recuperar "busca binária".
             if q - (titulo | corpo):
                 continue
-            # Pelo menos dois termos ou um termo distintivo e completo do título.
+            # Pelo menos dois termos ou um termo distintivo e completo do título. Um termo só vale se for
+            # a cabeça do título: "o que é um compilador?" não é "Performance do compilador".
             comum = q & alvo
             if not comum or (len(comum) < 2 and not (alvo <= q or
-                    any(len(t) >= 7 for t in comum))):
+                    any(len(t) >= 7 and t == cabeca for t in comum))):
                 continue
             score = 4 * len(comum) + len(q & corpo)
             encontrados.append((score, u))
