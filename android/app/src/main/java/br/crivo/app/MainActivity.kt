@@ -42,6 +42,7 @@ class MainActivity : Activity() {
         web = WebView(this)
         setContentView(raizComMargens(web))
         atualizador = Atualizador(this)
+        AtualizacaoFundo.agendar(this)
         web.addJavascriptInterface(Ponte(), "CrivoApp")
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true
