@@ -83,7 +83,13 @@ jobs:
         env:
           CRIVO_VERSION_CODE: ${{ github.run_number }}
           CRIVO_VERSION_NAME: 1.0.${{ github.run_number }}
-        run: gradle -p android assembleRelease --no-daemon --stacktrace
+        run: |
+          # O numpy vem do chaquo.com, que deu timeout em runs antigos: tenta de novo antes de desistir.
+          for i in 1 2 3; do
+            gradle -p android assembleRelease --no-daemon --stacktrace && break
+            echo "tentativa $i do build falhou"; sleep $((i * 30))
+          done
+          test -f android/app/build/outputs/apk/release/app-release.apk
       - name: Preparar o arquivo
         run: |
           cp android/app/build/outputs/apk/release/app-release.apk CRIVO.apk
