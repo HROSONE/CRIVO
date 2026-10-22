@@ -38,6 +38,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        registrarErroFatal()
         web = WebView(this)
         setContentView(raizComMargens(web))
         atualizador = Atualizador(this)
@@ -58,6 +59,12 @@ class MainActivity : Activity() {
         thread(name = "crivo-inicio") {
             val resultado = runCatching { iniciar() }
             runOnUiThread {
+                val erroAnterior = File(filesDir, ERRO_FATAL).takeIf { it.isFile }?.readText()
+                if (erroAnterior != null) {
+                    File(filesDir, ERRO_FATAL).delete()
+                    mostrarTexto("Erro que fechou o app na abertura anterior:", erroAnterior)
+                    return@runOnUiThread
+                }
                 resultado.onSuccess { porta ->
                     web.loadUrl("http://127.0.0.1:$porta/")
                     atualizador.verificar(abrindo = true)
@@ -147,15 +154,31 @@ class MainActivity : Activity() {
         return destino
     }
 
-    private fun mostrarErro(erro: Throwable) {
-        val texto = TextUtils.htmlEncode("${erro::class.java.simpleName}: ${erro.message}")
+    private fun mostrarErro(erro: Throwable) =
+        mostrarTexto("O CRIVO não conseguiu abrir", "${erro::class.java.simpleName}: ${erro.message}")
+
+    private fun mostrarTexto(titulo: String, detalhe: String) {
+        val texto = TextUtils.htmlEncode(detalhe)
         val html = """<!doctype html><html lang="pt-BR"><meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <body style="background:#0B0A1F;color:#E9E5FF;font-family:system-ui,sans-serif;padding:24px 16px">
-            <h1>O CRIVO não conseguiu abrir</h1>
+            <h1>${TextUtils.htmlEncode(titulo)}</h1>
             <p>Feche e abra o app de novo. Se continuar, mande um print desta tela.</p>
             <pre style="white-space:pre-wrap;color:#B9B2E6">$texto</pre></body></html>"""
         web.loadDataWithBaseURL(null, html, "text/html", "utf-8", null)
+    }
+
+    /** Um erro que nenhum try pega (o diálogo "o app tem um bug") fica num arquivo e aparece na próxima abertura. */
+    private fun registrarErroFatal() {
+        val padrao = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, erro ->
+            runCatching { File(filesDir, ERRO_FATAL).writeText(erro.stackTraceToString()) }
+            padrao?.uncaughtException(thread, erro)
+        }
+    }
+
+    private companion object {
+        const val ERRO_FATAL = "erro_fatal.txt"
     }
 
     override fun onResume() {
