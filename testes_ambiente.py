@@ -185,5 +185,56 @@ class PesosDoSite(unittest.TestCase):
         self.assertTrue(texto.startswith(("Sim", "Não")))
 
 
+class AtosEElipses(unittest.TestCase):
+    """Teste às cegas de 21/10/2026 (avaliacoes/cegas_agentes_20261021/ambiente.json): "obrigado por ouvir"
+    virava raio e trovão, "sim ou não" virava negação, "e a america?" virava "não entendi". As frases
+    daqui são outras."""
+
+    def conversa(self, *falas):
+        h, saida = [], []
+        for fala in falas:
+            r = responder_web({"message": fala, "history": h})
+            h.append(fala)
+            saida.append((r["id"], r["response"]))
+        return saida
+
+    def test_pedido_de_sim_ou_nao_nao_e_negacao(self):
+        fio = ambiente.Fio()
+        self.assertEqual(ambiente.completar(fio, "O Sol é uma estrela? Responde sim ou não"), "O Sol é uma estrela?")
+        self.assertTrue(fio.pediu_sim_ou_nao)
+        self.assertEqual(ambiente.ato_do_turno(fio, "O Sol é uma estrela?"), "sim_ou_nao")
+        self.assertEqual(ambiente.completar(fio, "sim ou não?"), "sim ou não?")
+        ident, _ = self.conversa("O sol é uma estrela? sim ou nao")[0]
+        self.assertNotEqual(ident, "duvida")
+
+    def test_e_o_outro_reusa_a_pergunta(self):
+        fio = ambiente.Fio()
+        for anterior, fala, esperado in (("Qual a capital da França?", "e da Espanha?", "Qual a capital da Espanha?"),
+                                         ("Quem pintou a Mona Lisa?", "e a Noite Estrelada?", "Quem pintou a Noite Estrelada?"),
+                                         ("Quem descobriu o Brasil?", "e a América?", "Quem descobriu a América?"),
+                                         ("Quanto é 7 vezes 8?", "e 9 vezes 8?", "Quanto é 9 vezes 8?")):
+            with self.subTest(fala=fala):
+                fio.fala_anterior = anterior
+                self.assertEqual(ambiente.mesma_pergunta(fio, fala), esperado)
+        fio.fala_anterior = "Qual é a função da mitocôndria?"
+        self.assertEqual(ambiente.mesma_pergunta(fio, "E o ribossomo?"), "Qual é a função do ribossomo?")
+        fio.fala_anterior = "Oi, tudo bem?"
+        self.assertIsNone(ambiente.mesma_pergunta(fio, "e você?"))
+        self.assertIn("Madri", self.conversa("Qual a capital da França?", "e da Espanha?")[1][1])
+
+    def test_atos_sociais_curtos(self):
+        for fala, ident in (("valeu pela explicação", "social:obrigado"), ("vlw mano", "social:obrigado"),
+                            ("obg demais", "social:obrigado"), ("posso te fazer uma pergunta?", "social:convite"),
+                            ("quer saber uma curiosidade?", "social:oferta"), ("deixa pra lá", "social:deixa"),
+                            ("ah tá", "social:ok")):
+            with self.subTest(fala=fala):
+                self.assertEqual(self.conversa(fala)[0][0], ident)
+
+    def test_depois_da_crise_deixa_pra_la_e_cuidado(self):
+        ident, resposta = self.conversa("quero morrer", "esquece")[1]
+        self.assertTrue(ident.startswith("crise:"), ident)
+        self.assertIn("188", resposta)
+
+
 if __name__ == "__main__":
     unittest.main()

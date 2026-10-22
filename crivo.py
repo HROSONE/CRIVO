@@ -1473,6 +1473,15 @@ class Crivo:
         # Fala curta dita por inteiro no fio da conversa ("O meu é Henrique" → "Meu nome é Henrique").
         completa = ambiente.completar(self.fio, texto)
         ident, resposta = self._responder_com_protocolo(completa)
+        nova = ambiente.mesma_pergunta(self.fio, texto) if ident in ("fora", "duvida", "social:nao_entendido") else None
+        if nova:
+            # Segunda tentativa: a pergunta anterior com o novo assunto. O turno que falhou sai do histórico.
+            if self.historico and self.historico[-1].get("pergunta") == completa:
+                self.historico.pop()
+            completa = nova
+            ident, resposta = self._responder_com_protocolo(completa)
+        if ident in ("fora", "social:nao_entendido") and isinstance(texto, str):
+            ident, resposta = ambiente.reconhecimento(texto) or (ident, resposta)
         if isinstance(texto, str) and isinstance(resposta, str):
             # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
             self.pares_conversa = (self.pares_conversa + [(texto, resposta)])[-12:]
