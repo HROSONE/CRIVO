@@ -7,7 +7,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Dados móveis ou Wi-Fi: o aviso de atualização diz quando o download vai usar dados móveis. -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- Entregar a atualização ao instalador do Android, que sempre pede a confirmação da pessoa. -->
+    <!-- Entregar a atualização ao instalador do Android (ele pode pedir a confirmação da pessoa). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- Aviso de atualização disponível em segundo plano (AtualizacaoFundo). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
@@ -30,5 +33,9 @@
         <receiver
             android:name=".InstalacaoRecebedor"
             android:exported="false" />
+        <service
+            android:name=".AtualizacaoFundo"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 </manifest>

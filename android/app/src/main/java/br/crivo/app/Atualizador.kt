@@ -46,11 +46,35 @@ class Atualizador(private val atividade: Activity) {
         const val BASE = "https://github.com/HROSONE/CRIVO/releases/download/android-latest/"
         const val ACAO_STATUS = "br.crivo.app.INSTALACAO_STATUS"
         private const val INTERVALO_MS = 6L * 60 * 60 * 1000
-        private const val PREFS = "atualizacao"
+        const val PREFS = "atualizacao"
+
+        /** Versão publicada no release, para a verificação em segundo plano; null se não der para conferir. */
+        fun publicada(): Versao? = runCatching { buscarVersao() }.getOrNull()
+
+        private fun buscarVersao(): Versao {
+            val conexao = (URL(BASE + "versao.json").openConnection() as HttpURLConnection).apply {
+                connectTimeout = 15_000
+                readTimeout = 15_000
+                instanceFollowRedirects = true
+                setRequestProperty("Accept", "application/json")
+            }
+            try {
+                if (conexao.responseCode != 200) throw IllegalStateException("versao.json: HTTP ${conexao.responseCode}")
+                val j = JSONObject(conexao.inputStream.bufferedReader().use { it.readText() })
+                val apk = j.getString("apk")
+                require(Regex("[A-Za-z0-9._-]+\\.apk").matches(apk)) { "nome de APK inválido" }
+                val sha = j.getString("sha256").lowercase()
+                require(Regex("[0-9a-f]{64}").matches(sha)) { "SHA-256 inválido" }
+                return Versao(j.getLong("versionCode"), j.optString("versionName", j.getLong("versionCode").toString()), sha,
+                    j.optLong("tamanho", 0), apk, j.optString("assinatura_sha256").takeIf { it.isNotBlank() }?.replace(":", ""))
+            } finally {
+                conexao.disconnect()
+            }
+        }
     }
 
-    private data class Versao(val codigo: Long, val nome: String, val sha256: String, val tamanho: Long,
-                              val apk: String, val assinatura: String?)
+    data class Versao(val codigo: Long, val nome: String, val sha256: String, val tamanho: Long,
+                      val apk: String, val assinatura: String?)
 
     private val prefs = atividade.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val pasta = File(atividade.cacheDir, "atualizacao")
@@ -113,7 +137,10 @@ class Atualizador(private val atividade: Activity) {
             text = "Procurar atualizações automaticamente"
             textSize = 15f
             isChecked = automatico()
-            setOnCheckedChangeListener { _, ligado -> prefs.edit().putBoolean("automatico", ligado).apply() }
+            setOnCheckedChangeListener { _, ligado ->
+                prefs.edit().putBoolean("automatico", ligado).apply()
+                AtualizacaoFundo.agendar(atividade)
+            }
         }
         val explica = TextView(atividade).apply {
             text = "Ao abrir o app e, aberto, no máximo a cada 6 horas. Sempre pergunta antes de baixar."
@@ -154,27 +181,6 @@ class Atualizador(private val atividade: Activity) {
         if (podeInstalar()) {
             aguardandoPermissao = null
             instalar(arquivo)
-        }
-    }
-
-    private fun buscarVersao(): Versao {
-        val conexao = (URL(BASE + "versao.json").openConnection() as HttpURLConnection).apply {
-            connectTimeout = 15_000
-            readTimeout = 15_000
-            instanceFollowRedirects = true
-            setRequestProperty("Accept", "application/json")
-        }
-        try {
-            if (conexao.responseCode != 200) throw IllegalStateException("versao.json: HTTP ${conexao.responseCode}")
-            val j = JSONObject(conexao.inputStream.bufferedReader().use { it.readText() })
-            val apk = j.getString("apk")
-            require(Regex("[A-Za-z0-9._-]+\\.apk").matches(apk)) { "nome de APK inválido" }
-            val sha = j.getString("sha256").lowercase()
-            require(Regex("[0-9a-f]{64}").matches(sha)) { "SHA-256 inválido" }
-            return Versao(j.getLong("versionCode"), j.optString("versionName", j.getLong("versionCode").toString()), sha,
-                j.optLong("tamanho", 0), apk, j.optString("assinatura_sha256").takeIf { it.isNotBlank() }?.replace(":", ""))
-        } finally {
-            conexao.disconnect()
         }
     }
 
@@ -317,7 +323,11 @@ class Atualizador(private val atividade: Activity) {
             val erro = runCatching {
                 val instalador = atividade.packageManager.packageInstaller
                 val parametros = PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-                    .apply { setAppPackageName(atividade.packageName) }
+                    .apply {
+                        setAppPackageName(atividade.packageName)
+                        // No Android 12+ o sistema pode instalar sem a tela extra; se exigir, abre a confirmação.
+                        if (Build.VERSION.SDK_INT >= 31) setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
+                    }
                 val id = instalador.createSession(parametros)
                 instalador.openSession(id).use { sessao ->
                     sessao.openWrite("CRIVO.apk", 0, arquivo.length()).use { saida ->
