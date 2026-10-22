@@ -1,6 +1,8 @@
 package br.crivo.app
 
 import android.app.Activity
+import android.app.ActivityManager
+import android.app.ApplicationExitInfo
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -58,12 +60,14 @@ class MainActivity : Activity() {
         }
         web.loadUrl("file:///android_asset/carregando.html")
         thread(name = "crivo-inicio") {
+            val motivo = runCatching { motivoDaUltimaSaida() }.getOrNull()
             val resultado = runCatching { iniciar() }
             runOnUiThread {
                 val erroAnterior = File(filesDir, ERRO_FATAL).takeIf { it.isFile }?.readText()
-                if (erroAnterior != null) {
+                val relatorio = listOfNotNull(erroAnterior, motivo).joinToString("\n\n")
+                if (relatorio.isNotEmpty()) {
                     File(filesDir, ERRO_FATAL).delete()
-                    mostrarTexto("Erro que fechou o app na abertura anterior:", erroAnterior)
+                    mostrarTexto("O app fechou na abertura anterior:", relatorio)
                     return@runOnUiThread
                 }
                 resultado.onSuccess { porta ->
@@ -167,6 +171,31 @@ class MainActivity : Activity() {
             <p>Feche e abra o app de novo. Se continuar, mande um print desta tela.</p>
             <pre style="white-space:pre-wrap;color:#B9B2E6">$texto</pre></body></html>"""
         web.loadDataWithBaseURL(null, html, "text/html", "utf-8", null)
+    }
+
+    /**
+     * Por que o processo anterior terminou, segundo o próprio Android (Android 11+): exceção, falha nativa, pouca
+     * memória, travamento. Mostra cada saída só uma vez. Com falha nativa, traz o início do rastro, se o sistema tiver.
+     */
+    private fun motivoDaUltimaSaida(): String? {
+        if (Build.VERSION.SDK_INT < 30) return null
+        val prefs = getSharedPreferences("diagnostico", MODE_PRIVATE)
+        val saida = getSystemService(ActivityManager::class.java)
+            .getHistoricalProcessExitReasons(packageName, 0, 1).firstOrNull() ?: return null
+        if (saida.timestamp <= prefs.getLong("saida_vista", 0L)) return null
+        prefs.edit().putLong("saida_vista", saida.timestamp).apply()
+        // Encerramento normal (fechar pelo sistema, atualização) não é queda: não mostra.
+        if (saida.reason !in setOf(ApplicationExitInfo.REASON_CRASH, ApplicationExitInfo.REASON_CRASH_NATIVE,
+                ApplicationExitInfo.REASON_LOW_MEMORY, ApplicationExitInfo.REASON_ANR)) return null
+        val rastro = saida.traceInputStream?.bufferedReader()?.use { it.readText().take(4000) }.orEmpty()
+        val nome = when (saida.reason) {
+            ApplicationExitInfo.REASON_CRASH -> "exceção Java"
+            ApplicationExitInfo.REASON_CRASH_NATIVE -> "falha nativa (C)"
+            ApplicationExitInfo.REASON_LOW_MEMORY -> "pouca memória"
+            ApplicationExitInfo.REASON_ANR -> "travou (ANR)"
+            else -> "código ${saida.reason}"
+        }
+        return "Motivo: $nome\nDescrição: ${saida.description.orEmpty()}\nMemória (PSS): ${saida.pss} KB\n\n$rastro"
     }
 
     /** Um erro que nenhum try pega (o diálogo "o app tem um bug") fica num arquivo e aparece na próxima abertura. */
