@@ -652,10 +652,9 @@ def status():
     """Estado público da voz da conversa (para a API)."""
     m = None if desligado_no_site() else numpy_do_site()
     e46 = getattr(m, "formato6", False)
-    qual_esperada = "f" if quer_a_f() else "46m"
     return {"site": {"ligada": m is not None, "modelo": getattr(m, "nome", "fase5_v4_F") if m else None,
                      "desligar": "CRIVO_DISABLE_CONVERSA_V3D=1", "voltar_para_a_f": "CRIVO_CONVERSA=f",
                      "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256,
-                     "erro_carregamento": _ERROS_CARREGAMENTO.get(qual_esperada)},
+                     "erros_carregamento": dict(_ERROS_CARREGAMENTO)},
             "pesos_sha256": PESOS_SHA256_46M if e46 else PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
             "decisao": DECISAO_46M if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}
