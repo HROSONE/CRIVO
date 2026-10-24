@@ -51,6 +51,7 @@ notebooks/exportar_fase5v4f_numpy_colab.ipynb e guardado em int8 por linha; ver 
 voz_17m); `CRIVO_DISABLE_CONVERSA_V3D=1` desliga. A linha de comando e os testes ficam desligados.
 """
 import importlib.util
+import logging
 import os
 import re
 import threading
@@ -377,11 +378,22 @@ def quer_a_f():
     return os.environ.get("CRIVO_CONVERSA", "").strip().lower() in ("f", "v4f", "fase5_v4_f", "17m")
 
 
+# O fallback de conversa precisa ser diagnosticável: antes, qualquer erro de pesos/SHA/formato
+# virava None silenciosamente e o usuário só via a resposta genérica.
+_ERROS_CARREGAMENTO = {}
+
+
 @lru_cache(maxsize=2)
 def _carregar(qual):
     try:
-        return (Conversa46mNumpy if qual == "46m" else ConversaNumpy)(prazo=PRAZO_SITE)
-    except Exception:
+        modelo = (Conversa46mNumpy if qual == "46m" else ConversaNumpy)(prazo=PRAZO_SITE)
+        _ERROS_CARREGAMENTO.pop(qual, None)
+        return modelo
+    except Exception as erro:
+        _ERROS_CARREGAMENTO[qual] = type(erro).__name__
+        logging.getLogger("crivo.conversa").exception(
+            "Não foi possível carregar o modelo de conversa (%s)", qual
+        )
         return None
 
 
@@ -640,8 +652,10 @@ def status():
     """Estado público da voz da conversa (para a API)."""
     m = None if desligado_no_site() else numpy_do_site()
     e46 = getattr(m, "formato6", False)
+    qual_esperada = "f" if quer_a_f() else "46m"
     return {"site": {"ligada": m is not None, "modelo": getattr(m, "nome", "fase5_v4_F") if m else None,
                      "desligar": "CRIVO_DISABLE_CONVERSA_V3D=1", "voltar_para_a_f": "CRIVO_CONVERSA=f",
-                     "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256},
+                     "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256,
+                     "erro_carregamento": _ERROS_CARREGAMENTO.get(qual_esperada)},
             "pesos_sha256": PESOS_SHA256_46M if e46 else PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
             "decisao": DECISAO_46M if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}
