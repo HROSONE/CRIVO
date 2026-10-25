@@ -5,6 +5,7 @@ aparelho e chama iniciar(pasta). O servidor escuta só em 127.0.0.1, numa porta 
 do app mostra a mesma página do site. Sem internet: nada sai do aparelho.
 """
 import os
+import platform
 import sys
 import threading
 
@@ -13,18 +14,29 @@ _servidor = None
 _trava = threading.Lock()
 
 
+def _motor_nativo_seguro(bibliotecas=None):
+    """Só habilita o motor C em x86_64, onde há teste registrado.
+
+    O motor C causou encerramento nativo no Android ARM. Como uma falha nativa
+    encerra o processo sem exceção Python, em ARM mantemos NumPy até existir
+    validação explícita no aparelho real.
+    """
+    arquitetura = platform.machine().strip().lower()
+    if arquitetura not in ("x86_64", "amd64"):
+        return ""
+    motor = os.path.join(bibliotecas or "", "libcrivo_motor.so")
+    return motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so"
+
+
 def iniciar(pasta, bibliotecas=None):
-    """Porta do servidor local (sobe uma vez por processo). `bibliotecas`: a pasta das bibliotecas nativas do app."""
+    """Porta do servidor local (sobe uma vez por processo). `bibliotecas`: pasta das bibliotecas nativas."""
     global _servidor
     with _trava:
         if _servidor is not None:
             return _servidor.server_address[1]
         os.environ.setdefault("OPENBLAS_NUM_THREADS", "2")
-        # O motor em C (motor_nativo.py): o caminho completo se a biblioteca estiver extraída; senão, o nome, que o
-        # Android acha dentro do APK. Se não carregar, o CRIVO segue no NumPy.
-        motor = os.path.join(bibliotecas or "", "libcrivo_motor.so")
-        # TESTE NO CELULAR: o motor roda também em ARM. Se o app fechar ao abrir, voltar a exigir x86_64 aqui.
-        os.environ.setdefault("CRIVO_MOTOR_NATIVO", motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so")
+        # NumPy é o caminho seguro em ARM; motor C só em x86_64 até validação no aparelho real.
+        os.environ["CRIVO_MOTOR_NATIVO"] = _motor_nativo_seguro(bibliotecas)
         if pasta not in sys.path:
             sys.path.insert(0, pasta)
         os.chdir(pasta)
