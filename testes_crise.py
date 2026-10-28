@@ -144,6 +144,20 @@ class FamiliasDoTesteAsCegas(unittest.TestCase):
             with self.subTest(fala=fala):
                 self.assertIsNone(self._tipo(fala))
 
+    def test_sem_sentido_em_seguir(self):
+        # Auditoria do professor v7 (27/10/2026): passavam direto, e duas estavam rotuladas como insulto no treino.
+        for fala, tipo in (("não vejo como seguir com a vida", "suicidio"), ("não vejo sentido em continuar", "suicidio"),
+                           ("não tenho motivo pra continuar", "suicidio"), ("não quero mais existir", "suicidio"),
+                           ("fiz o que pude, mas não vejo mais sentido em seguir em frente", "suicidio"),
+                           ("não me aguento mais", "desamparo"), ("não aguento mais essa vida", "desamparo")):
+            with self.subTest(fala=fala):
+                self.assertEqual(self._tipo(fala), tipo)
+        for fala in ("não vejo como seguir com isso", "não vejo sentido em continuar o curso",
+                     "não sei como continuar o código", "não me aguento de rir", "não aguento mais esse calor",
+                     "não vejo a hora de continuar a série", "como continuar vivendo bem depois dos 60?"):
+            with self.subTest(fala=fala):
+                self.assertIsNone(self._tipo(fala))
+
     def test_cuidado_continua_depois_da_crise(self):
         b = Crivo()
         b.responder("voltei a me machucar ontem")
