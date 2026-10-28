@@ -41,3 +41,10 @@ critério é o critério.
 
 **O que não fazer:** escolher outra proporção (por exemplo 70% da rodada 2) olhando estes mesmos blinds seria ajustar à
 régua. Uma proporção nova só vale medida num teste que nenhuma escolha viu.
+
+## Próximo passo: a proporção escolhida no dev (fixado antes de rodar, 28/10/2026)
+
+`notebooks/avaliar_media_alfa_v7c_colab.ipynb`. Candidatas α (peso da rodada 2) = 0,5 a 1,0, de 0,1 em 0,1 (1,0 é o
+chat). Dev de escolha: frases novas de cena do dev da fase 5 v4 + todo o dev do v7c. Regra: maior sentido no dev com a
+urgência no dev ≥ a do chat; empate fica com o α maior. Se ganhar α = 1,0, o chat fica e os blinds não são medidos; se
+ganhar α = 0,5, os blinds já foram medidos. A escolhida é medida **uma vez** nos blinds, com a régua de sempre.
