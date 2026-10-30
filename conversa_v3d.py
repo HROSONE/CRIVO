@@ -240,6 +240,14 @@ def formato6():
     return mod
 
 
+def _comum(antes, ids):
+    """Quantas posições do começo de `ids` são iguais a `antes`; a última de `ids` é sempre calculada (dá os logits)."""
+    n, lim = 0, min(len(antes), len(ids) - 1)
+    while n < lim and antes[n] == ids[n]:
+        n += 1
+    return n
+
+
 class Conversa46mNumpy(ConversaNumpy):
     """O 46M v7c em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
@@ -267,6 +275,10 @@ class Conversa46mNumpy(ConversaNumpy):
         self._trava = threading.Lock()   # o motor guarda o cache de uma resposta por vez
         # (ids do prompt, logits no fim dele, cache NumPy): as tentativas do mesmo turno leem o prompt uma vez só.
         self._prefixo = None
+        # As palavras que estão no cache do motor em C, posição por posição: a próxima mensagem só calcula a partir
+        # do primeiro ponto em que o texto muda (a atenção de cada posição só olha as anteriores, então o começo igual
+        # dá exatamente as mesmas contas).
+        self._no_motor = []
         for k in ([] if self.motor else pesos.files):
             if k == "meta" or k.endswith(".escala"):
                 continue
@@ -287,7 +299,13 @@ class Conversa46mNumpy(ConversaNumpy):
         if inicio == 0:
             self._prefixo = None   # o motor recomeça o cache: o prompt guardado deixa de valer
         if self.motor is not None:
-            return self.motor.avancar(ids, inicio)
+            if inicio == 0:   # o começo que já está no cache do motor não é calculado de novo
+                inicio = _comum(getattr(self, "_no_motor", []), ids)
+                ids = ids[inicio:]
+            antes, self._no_motor = getattr(self, "_no_motor", [])[:inicio], []   # se a conta falhar, nada vale
+            lg = self.motor.avancar(ids, inicio)
+            self._no_motor = antes + list(ids)
+            return lg
         return self._passo(ids, inicio, cache)[-1] @ self.p["embedding.weight"].T
 
     def prompt_conversa(self, ctx, historico, mensagem):
@@ -328,8 +346,15 @@ class Conversa46mNumpy(ConversaNumpy):
         reescritas por cada tentativa, e a atenção causal só lê até a posição corrente."""
         chave = tuple(ids)
         if self._prefixo is None or self._prefixo[0] != chave:
-            cache = {}
-            lg = self._logits(ids, 0, cache)
+            anterior, k = self._prefixo, 0
+            if self.motor is None and anterior is not None:
+                k = _comum(anterior[0], ids)   # NumPy: o começo igual ao do prompt anterior vem do cache dele
+            if k:
+                cache = {c: (kk[:, :k], vv[:, :k]) for c, (kk, vv) in anterior[2].items()}
+                lg = self._passo(list(ids[k:]), k, cache)[-1] @ self.p["embedding.weight"].T
+            else:
+                cache = {}
+                lg = self._logits(ids, 0, cache)
             self._prefixo = (chave, lg.copy(), dict(cache))
         return self._prefixo[1].copy(), dict(self._prefixo[2])
 
