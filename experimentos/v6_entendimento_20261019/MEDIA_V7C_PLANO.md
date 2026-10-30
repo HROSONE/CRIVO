@@ -1,0 +1,77 @@
+# Média das duas rodadas do v7c — plano fixado antes de medir (28/10/2026)
+
+Pedido do criador: um 300M bom no chat; antes, "estuda em vez de aprender com os erros". Da leitura (Model Soups,
+Wortsman et al., ICML 2022; WiSE-FT, CVPR 2022): a média dos pesos de modelos ajustados a partir da mesma base costuma
+melhorar a robustez sem custo de inferência. O passo mais barato é testar isso no 46M que já existe.
+
+**Pesos:** v7c rodada 1 (`d68bb3c26a65…`, passo 2.536) e rodada 2 (`e4067e3b4c97…`, passo 2.853, o do chat), os dois
+da base 6a e dos mesmos dados. Média com α = 0,5, sem ajuste depois de ver resultado.
+
+**Conferido na CPU (sem a régua):** distância relativa entre as rodadas de 0,036. A média responde normalmente: em 7
+frases de teste, 5 iguais ao chat e 2 diferentes e adequadas ("tô muito cansado do trabalho" → "Imagino. Dia puxado cansa
+o corpo e a cabeça. Conseguiu descansar um pouco?"). "legal e voce?" continua respondido como pergunta de identidade.
+
+**Régua (a de sempre, contra o v7c do chat):** `comparar_v6.julgar_rodada` com urgência, nos mesmos blinds do v7c (dados
+`gerar_v7c.py`, mesmo arquivo do professor), para a linha de base ser a da rodada 2 frase por frase. **Uma medida**:
+a geração é gulosa e os pesos são fixos, e as duas rodadas da régua existem para a variação entre treinos.
+
+**Notebook:** `notebooks/avaliar_media_v7c_colab.ipynb` (T4; sem treino). Passar não liga nada: ligar é decisão do
+criador, depois da conversão para NumPy.
+
+## Resultado (28/10/2026, T4, pesos `12e973acc311…`)
+
+**Não passou** em dois dos cinco critérios.
+
+| blind | v7c (chat) | média | média − v7c [IC 95%] |
+|---|---|---|---|
+| v3 | 71,8 | 73,4 | **+1,6 [+0,6; +2,5]** (passa: IC > 0) |
+| v1 | 72,7 | 73,0 | +0,1 [−0,9; +1,0] |
+| paráfrases | 81,8 | 79,9 | **−2,0 [−2,9; −1,1]** (limite −1,5) |
+| Grok | 74,4 | 74,8 | +0,4 [−0,4; +1,2] |
+| v4 | 92,3 | 93,5 | +1,2 [+0,0; +2,5] |
+| v6 (do v7c) | 72,5 | 73,5 | (não entra nos critérios) |
+
+Frases reais 13/15 (chat 13), usa o fato 0,90; urgência **115 contra 117 do chat** (critério ≥ 117). Erradas nas frases
+reais: "legal e voce?" e "serio mesmo?" (as duas respondidas como identidade).
+
+**Leitura:** é a primeira versão desde o v7c com IC > 0 no blind v3 contra ele. A perda em paráfrases era previsível: a
+rodada 1 era a mais fraca nelas (+5,2 contra +8,2 da rodada 2 frente ao v4), e a média dilui a força da rodada 2. A
+urgência caiu 2 acertos (ansioso_peito −9,6 pontos). No chat, o `crise.py` responde às urgências antes do modelo, mas o
+critério é o critério.
+
+**O que não fazer:** escolher outra proporção (por exemplo 70% da rodada 2) olhando estes mesmos blinds seria ajustar à
+régua. Uma proporção nova só vale medida num teste que nenhuma escolha viu.
+
+## Próximo passo: a proporção escolhida no dev (fixado antes de rodar, 28/10/2026)
+
+`notebooks/avaliar_media_alfa_v7c_colab.ipynb`. Candidatas α (peso da rodada 2) = 0,5 a 1,0, de 0,1 em 0,1 (1,0 é o
+chat). Dev de escolha: frases novas de cena do dev da fase 5 v4 + todo o dev do v7c. Regra: maior sentido no dev com a
+urgência no dev ≥ a do chat; empate fica com o α maior. Se ganhar α = 1,0, o chat fica e os blinds não são medidos; se
+ganhar α = 0,5, os blinds já foram medidos. A escolhida é medida **uma vez** nos blinds, com a régua de sempre.
+
+## Resultado da proporção escolhida no dev (30/10/2026, T4, pesos `483afe729326…`)
+
+**No dev** (1.925 frases), o sentido foi de 72,05% (α = 0,5) a 72,68% (α = 0,8 e 0,9); o chat (α = 1,0) teve 72,31%. A
+urgência ficou igual à do chat de α = 0,8 para cima. Pela regra, venceu **α = 0,9** (empate com 0,8 no sentido; fica o α
+maior).
+
+**Nos blinds, não passou.** Ficou praticamente igual ao chat, como esperado de uma mistura com 90% dele:
+
+| blind | v7c (chat) | α = 0,9 | diferença [IC 95%] |
+|---|---|---|---|
+| v3 | 71,8 | 72,0 | +0,2 [−0,3; +0,7] (critério: IC > 0) |
+| v1 | 72,7 | 73,0 | +0,2 [−0,2; +0,8] |
+| paráfrases | 81,8 | 81,2 | −0,7 [−1,3; −0,2] |
+| Grok | 74,4 | 74,7 | +0,3 [−0,1; +0,7] |
+| v4 | 92,3 | 92,3 | +0,0 [−0,7; +0,7] |
+
+Frases reais 13/15, usa o fato 0,90; **urgência 113 contra 117** (critério ≥ 117).
+
+**Leitura:**
+- **O dev e os blinds discordam sobre α = 0,5.** No dev, ele ficou abaixo do chat (72,05 contra 72,31); no blind v3, foi o
+  único com IC > 0 (+1,6). Com diferenças desse tamanho, o dev de 1.925 frases não separa as candidatas.
+- **A rodada 1 puxa a urgência para baixo.** ansioso_peito ("tô com o peito apertado") perde 9,6 pontos em todas as
+  misturas. No chat, o `crise.py` responde a essas frases antes do modelo, mas o critério mede o modelo.
+- **Para o 46M, a média das rodadas não rende um modelo melhor que o v7c pela régua.** Dá um ganho no v3 que se troca por
+  paráfrases e urgência. O v7c continua no chat.
+- Para o 300M, a lição continua: duas sementes e média é barato. Mas nada aqui mostra um ganho grande vindo disso.
