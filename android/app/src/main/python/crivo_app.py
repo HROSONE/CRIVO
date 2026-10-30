@@ -22,7 +22,10 @@ def _motor_nativo_seguro(bibliotecas=None):
     validação explícita no aparelho real.
     """
     arquitetura = platform.machine().strip().lower()
-    if arquitetura not in ("x86_64", "amd64"):
+    # TESTE (branch claude/teste-motor-arm, não vai para a main): o motor novo, com threads simples no lugar do
+    # OpenMP, também no celular ARM. Se ele derrubar o app, a marca do motor_nativo faz a próxima abertura voltar
+    # ao NumPy, e o app mostra o motivo da queda.
+    if arquitetura not in ("x86_64", "amd64", "aarch64", "arm64"):
         return ""
     motor = os.path.join(bibliotecas or "", "libcrivo_motor.so")
     return motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so"
@@ -35,7 +38,7 @@ def iniciar(pasta, bibliotecas=None):
         if _servidor is not None:
             return _servidor.server_address[1]
         os.environ.setdefault("OPENBLAS_NUM_THREADS", "2")
-        # NumPy é o caminho seguro em ARM; motor C só em x86_64 até validação no aparelho real.
+        # TESTE: motor C também no ARM (ver _motor_nativo_seguro).
         os.environ["CRIVO_MOTOR_NATIVO"] = _motor_nativo_seguro(bibliotecas)
         if pasta not in sys.path:
             sys.path.insert(0, pasta)
