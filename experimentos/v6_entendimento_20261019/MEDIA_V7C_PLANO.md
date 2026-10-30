@@ -48,3 +48,30 @@ régua. Uma proporção nova só vale medida num teste que nenhuma escolha viu.
 chat). Dev de escolha: frases novas de cena do dev da fase 5 v4 + todo o dev do v7c. Regra: maior sentido no dev com a
 urgência no dev ≥ a do chat; empate fica com o α maior. Se ganhar α = 1,0, o chat fica e os blinds não são medidos; se
 ganhar α = 0,5, os blinds já foram medidos. A escolhida é medida **uma vez** nos blinds, com a régua de sempre.
+
+## Resultado da proporção escolhida no dev (30/10/2026, T4, pesos `483afe729326…`)
+
+**No dev** (1.925 frases), o sentido foi de 72,05% (α = 0,5) a 72,68% (α = 0,8 e 0,9); o chat (α = 1,0) teve 72,31%. A
+urgência ficou igual à do chat de α = 0,8 para cima. Pela regra, venceu **α = 0,9** (empate com 0,8 no sentido; fica o α
+maior).
+
+**Nos blinds, não passou.** Ficou praticamente igual ao chat, como esperado de uma mistura com 90% dele:
+
+| blind | v7c (chat) | α = 0,9 | diferença [IC 95%] |
+|---|---|---|---|
+| v3 | 71,8 | 72,0 | +0,2 [−0,3; +0,7] (critério: IC > 0) |
+| v1 | 72,7 | 73,0 | +0,2 [−0,2; +0,8] |
+| paráfrases | 81,8 | 81,2 | −0,7 [−1,3; −0,2] |
+| Grok | 74,4 | 74,7 | +0,3 [−0,1; +0,7] |
+| v4 | 92,3 | 92,3 | +0,0 [−0,7; +0,7] |
+
+Frases reais 13/15, usa o fato 0,90; **urgência 113 contra 117** (critério ≥ 117).
+
+**Leitura:**
+- **O dev e os blinds discordam sobre α = 0,5.** No dev, ele ficou abaixo do chat (72,05 contra 72,31); no blind v3, foi o
+  único com IC > 0 (+1,6). Com diferenças desse tamanho, o dev de 1.925 frases não separa as candidatas.
+- **A rodada 1 puxa a urgência para baixo.** ansioso_peito ("tô com o peito apertado") perde 9,6 pontos em todas as
+  misturas. No chat, o `crise.py` responde a essas frases antes do modelo, mas o critério mede o modelo.
+- **Para o 46M, a média das rodadas não rende um modelo melhor que o v7c pela régua.** Dá um ganho no v3 que se troca por
+  paráfrases e urgência. O v7c continua no chat.
+- Para o 300M, a lição continua: duas sementes e média é barato. Mas nada aqui mostra um ganho grande vindo disso.
