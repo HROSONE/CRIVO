@@ -139,7 +139,8 @@ jobs:
             tela_*.png
             logcat.txt
       - name: Publicar no release android-latest
-        if: github.ref == 'refs/heads/main'
+        # Publicação do motor em C no ARM pedida pelo criador em 30/10/2026 ("publica pra todos").
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/claude/teste-motor-arm'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
