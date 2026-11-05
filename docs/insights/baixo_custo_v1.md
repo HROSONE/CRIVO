@@ -45,3 +45,25 @@ fatos. Então o caminho é verificar a resposta contra o fato recuperado, não c
 - Não usar as regras da régua para escolher a resposta e chamar isso de ganho.
 - Não mudar o limiar depois de ver o resultado.
 - Não tratar uma sondagem de 100 perguntas como medida final.
+
+## Sondagem 2: o "truque do Qwen" no modelo de 46 milhões (05/11/2026)
+
+Motivação: uma pesquisa do MIT (pesos do Qwen3.5-0.8B editados por outro modelo, sem treino) subiu
+o acerto em matemática de 7,9% para 48,1%. A melhora veio de remover laços de repetição: as
+respostas não terminavam.
+
+Diagnóstico do 46M sozinho (sem contexto do chat):
+- Régua de 100: 19/100; nenhuma resposta sem terminar; nenhuma repetição de 3 palavras; 6,3 palavras em média.
+- Régua de 55: 12/55; nenhuma sem terminar; nenhuma repetição; 3,2 palavras em média.
+- Mais de um terço das respostas termina devolvendo uma pergunta.
+
+O problema é o oposto do Qwen: respostas curtas e vazias, não respostas que não terminam.
+
+Teste: penalizar o token de fim nas 8 primeiras palavras (força 0, 1, 2, 3, 5), escolhida na régua de 55.
+Resultado: 12/55 em todas as forças; tamanho médio de 3,2 para 3,8 palavras. Nenhum ganho.
+
+**Lição:** a edição do Qwen tirou um obstáculo que escondia um conhecimento existente. No 46M, o
+conhecimento não está lá: ele inventa nomes ("Sr. Lebowski") e repete a pergunta de volta.
+Edição pequena de pesos não cria conhecimento. O caminho continua sendo dados e fatos.
+
+Limite: o 46M foi medido com contexto vazio. No chat ele recebe identidade e fatos, o que muda o resultado.
