@@ -503,6 +503,11 @@ def aplicar(bot, fala, ident, resposta, modelo):
         # A resposta leva "Fonte: Wikipédia": o texto tem que ser fiel ao verbete. Sem conferência, fica o verbete.
         trace.update(usada=False, conferida=False, motivo="fonte: não conferida, fica o verbete (" + ", ".join(primeira[2]) + ")")
         return ident, resposta, trace
+    if primeira is not None and os.environ.get("CRIVO_VOZ_SO_CONFERIDA", "").strip().lower() in ("1", "true", "yes", "on"):
+        # Opção em teste (desligada por padrão): frase não conferida não substitui o texto de sempre.
+        trace.update(usada=False, conferida=False, rascunho=primeira[0],
+                     motivo="não conferida, fica o texto de sempre (" + ", ".join(primeira[2]) + ")")
+        return ident, resposta, trace
     if primeira is not None:
         texto, terminou, falhas = primeira
         if not terminou:
