@@ -121,6 +121,10 @@ jobs:
           python-version: '3.11'
       - name: Exercitar também o gerador próprio ativo
         run: python -m pip install -r requirements.txt
+      - name: Preparar expansão psicológica sem ativar dados sem fontes
+        run: |
+          python scripts/preparar_expansao_psicologia.py --saida /tmp/expansao_preparada.json
+          python -c "import json; from pathlib import Path; p=json.loads(Path('/tmp/expansao_preparada.json').read_text(encoding='utf-8')); assert p['status']=='PREPARACAO_NAO_ATIVAR'; assert p['itens'] and p['relatorio']['fatos_consolidados']>0; assert p['relatorio']['fatos_sem_fonte_revisada']==p['relatorio']['fatos_consolidados']; assert all(i['id'].startswith('mundo_') and i['fatos'] for i in p['itens']); assert all(i['fatos'][0]['papel']=='definicao' for i in p['itens'] if any(f['papel']=='definicao' for f in i['fatos'])); print('Preparacao estrutural OK; fontes continuam bloqueadas para revisao.')"
       - name: Verificar função, contexto, comparação, fontes e contrato HTTP
         run: python -m unittest testes_autoconversa testes_funcoes_contextuais.TestesFuncoesContextuais.test_comparacao_preserva_antecedente_e_fontes testes_funcoes_contextuais.TestesFuncoesContextuais.test_api_reconstroi_funcao_e_troca_sujeito testes_busca_factual.TestesBuscaFactual.test_resposta_aproximada_de_outro_assunto_nao_vence testes_web.TestesWebCore testes_web.TestesWebHTTP testes_web.TestesCorpoServerless testes_geracao_ancorada testes_integracao_raciocinio_ativo testes_motor_programacao_chat testes_hipoteses_confirmadas -v
   matematica-linguagem-profunda:

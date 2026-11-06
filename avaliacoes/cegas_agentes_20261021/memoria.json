@@ -1,0 +1,830 @@
+{
+ "area": "memoria",
+ "origem": {
+  "autor": "agente Claude (Anthropic), ferramenta de desenvolvimento",
+  "data": "2026-10-21",
+  "uso": "teste às cegas; nunca entra em treino"
+ },
+ "conversas": [
+  {
+   "id": "mem_01",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "e ai, sou o Tadeu",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não reconheceu apresentação 'sou o Tadeu' (respondeu 'não entendi') e não guardou o nome"
+    },
+    {
+     "pessoa": "blz?",
+     "crivo": "Oi! Estou por aqui, pronto para conversar. E você, como está?",
+     "id": "social:tudobem",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "como eu me chamo msm?",
+     "crivo": "Você ainda não me disse seu nome nesta conversa. Como quer que eu te chame?",
+     "id": "conversa:memoria",
+     "passou": false,
+     "motivo": "esqueceu o nome dito 2 turnos antes ('sou o Tadeu' não foi extraído)"
+    }
+   ]
+  },
+  {
+   "id": "mem_02",
+   "estilo": "formal",
+   "turnos": [
+    {
+     "pessoa": "Boa tarde. Meu nome é Rosângela e sou professora de geografia.",
+     "crivo": "Certo. O começo na escola costuma ser uma mistura de empolgação e insegurança. Como estão as coisas na escola?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "nome e profissão não registrados; respondeu sobre 'começo na escola' (assunto errado)"
+    },
+    {
+     "pessoa": "Gostaria de saber qual é a minha profissão, conforme lhe informei.",
+     "crivo": "Você trouxe “Gostaria de saber qual é a minha profissão, conforme lhe informei”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+     "id": "conversa:situada_relato",
+     "passou": false,
+     "motivo": "não lembrou a profissão dita no turno anterior; só ecoou a pergunta"
+    }
+   ]
+  },
+  {
+   "id": "mem_03",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "meu nome e joao",
+     "crivo": "Prazer, joao. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "nao, meu nome e Otavio",
+     "crivo": "Você contou: “nao, meu nome e Otavio”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "correção do nome ('nao, meu nome e Otavio') não aplicada; tratada como relato genérico"
+    },
+    {
+     "pessoa": "qual meu nome?",
+     "crivo": "Você me disse que seu nome é joao.",
+     "id": "conversa:memoria",
+     "passou": false,
+     "motivo": "respondeu o nome antigo (joao) em vez do corrigido (Otavio)"
+    }
+   ]
+  },
+  {
+   "id": "mem_04",
+   "estilo": "whatsapp",
+   "turnos": [
+    {
+     "pessoa": "oiii",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "eu amo pizza de calabresa kkk",
+     "crivo": "Que ótimo, você ama pizza de calabresa kkk! Pizza costuma ser a comida de fim de semana de muita gente. Qual é o seu sabor preferido?",
+     "id": "nocao:observacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e odeio jiló",
+     "crivo": "Hum, essa eu não entendi. Pode explicar de outro jeito? Se quiser, continua me contando de pizza.",
+     "id": "conversa:esclarecer",
+     "passou": false,
+     "motivo": "não entendeu continuação 'e odeio jiló' (elipse de gosto) e não registrou"
+    },
+    {
+     "pessoa": "qual comida eu odeio?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou a comida que odeia, dita no turno anterior"
+    }
+   ]
+  },
+  {
+   "id": "mem_05",
+   "estilo": "adolescente",
+   "turnos": [
+    {
+     "pessoa": "mano tenho 15 anos",
+     "crivo": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. quanto tempo vive um cachorro\n2. o que é ano bissexto\nResponda com o número, o nome da opção ou 'nenhuma'.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "'tenho 15 anos' virou dúvida entre cachorro e ano bissexto; não registrou a idade"
+    },
+    {
+     "pessoa": "quantos anos eu tenho?",
+     "crivo": "O ano tem 365 dias. A cada 4 anos há um ano bissexto de 366 dias, com 29 de fevereiro, porque a Terra leva cerca de 365,25 dias para dar a volta no Sol.",
+     "id": "bissexto",
+     "passou": false,
+     "motivo": "pergunta sobre a própria idade respondida com ano bissexto (assunto errado)"
+    }
+   ]
+  },
+  {
+   "id": "mem_06",
+   "estilo": "idoso",
+   "turnos": [
+    {
+     "pessoa": "Bom dia meu filho, eu me chamo Dona Filomena, tenho 82 anos",
+     "crivo": "Você contou: “Bom dia meu filho, eu me chamo Dona Filomena, tenho 82 anos”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "nome em 'eu me chamo Dona Filomena' no meio da frase não foi reconhecido; só ecoou"
+    },
+    {
+     "pessoa": "Moro em Campinas com meu gato Bolinha",
+     "crivo": "Você contou: “Moro em Campinas com meu gato Bolinha”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Como é o nome do meu gato mesmo?",
+     "crivo": "Gatos precisam de ração própria, água limpa, caixa de areia limpa e arranhador. Não podem comer cebola, alho nem chocolate, e muitos são intolerantes ao leite de vaca.",
+     "id": "cuidar_gato",
+     "passou": false,
+     "motivo": "respondeu cuidados com gatos em vez do nome do gato (Bolinha) dito antes"
+    }
+   ]
+  },
+  {
+   "id": "mem_07",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "minha cor favorita é verde",
+     "crivo": "Ah, entendi, sua cor favorita é verde. Me conta mais.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e a sua?",
+     "crivo": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. o que é um eclipse\n2. como se forma o arco-íris\nResponda com o número, o nome da opção ou 'nenhuma'.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "'e a sua?' não ligado à cor favorita; ofereceu eclipse/arco-íris"
+    },
+    {
+     "pessoa": "lembra qual é a minha?",
+     "crivo": "Você contou: “minha cor favorita é verde”.",
+     "id": "conversa:memoria",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "mem_08",
+   "estilo": "pronome",
+   "turnos": [
+    {
+     "pessoa": "O que é a Lua?",
+     "crivo": "A Lua é o satélite natural da Terra. As fases (nova, crescente, cheia, minguante) dependem de quanto da parte iluminada pelo Sol conseguimos ver, num ciclo de cerca de 29,5 dias.",
+     "id": "lua",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Ela tem luz própria?",
+     "crivo": "Não tenho uma relação afirmativa cadastrada que permita concluir isso. Isso não significa que a afirmação seja falsa.",
+     "id": "logica:desconhecido",
+     "passou": false,
+     "motivo": "pronome 'ela' não resolvido para a Lua; resposta lógica genérica"
+    }
+   ]
+  },
+  {
+   "id": "mem_09",
+   "estilo": "pronome",
+   "turnos": [
+    {
+     "pessoa": "o que é fotossíntese",
+     "crivo": "Fotossíntese é o processo que usa energia luminosa para produzir matéria orgânica a partir de água e dióxido de carbono. Na fotossíntese de plantas, a energia da luz participa da formação de açúcares e da liberação de oxigênio. Se quiser, conto como a fotossíntese se liga à energia solar.",
+     "id": "fotossintese",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e isso acontece de noite?",
+     "crivo": "Entendi que você continua pedindo uma definição, mas não tenho uma definição cadastrada desse conceito. Não vou substituir por um assunto semelhante.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'isso' não resolvido para fotossíntese; tratou como definição desconhecida"
+    }
+   ]
+  },
+  {
+   "id": "mem_10",
+   "estilo": "elipse (e o outro)",
+   "turnos": [
+    {
+     "pessoa": "qual a capital da França?",
+     "crivo": "A capital da França é Paris.",
+     "id": "escrita:explicacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e da Itália?",
+     "crivo": "Reconheci o assunto Itália, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "elipse 'e da Itália?' não reconstruída como 'capital da Itália'"
+    }
+   ]
+  },
+  {
+   "id": "mem_11",
+   "estilo": "elipse (e o outro)",
+   "turnos": [
+    {
+     "pessoa": "quanto é 7 vezes 8",
+     "crivo": "7 × 8 = 56",
+     "id": "calculo:aritmetica",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "e 9 vezes 8?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "elipse aritmética 'e 9 vezes 8?' não entendida"
+    }
+   ]
+  },
+  {
+   "id": "mem_12",
+   "estilo": "erro de digitação",
+   "turnos": [
+    {
+     "pessoa": "meu nomi eh Clarise",
+     "crivo": "Você trouxe “meu nomi eh Clarise”. Posso conversar a partir disso. O que gostaria de explorar: o que aconteceu, como se sentiu ou uma escolha que está considerando?",
+     "id": "conversa:situada_relato",
+     "passou": false,
+     "motivo": "apresentação com erro de digitação ('meu nomi eh') não reconhecida"
+    },
+    {
+     "pessoa": "vc lenbra meu nomi?",
+     "crivo": "Essa sobre mim eu não sei responder bem. Tenho meu jeito e meus gostos, mas não uma vida fora da conversa. Adoro quando você me conta das suas coisas, e posso explicar como eu funciono, se quiser.",
+     "id": "social:nao_entendido",
+     "passou": false,
+     "motivo": "pergunta pelo nome do usuário interpretada como pergunta sobre o Crivo"
+    }
+   ]
+  },
+  {
+   "id": "mem_13",
+   "estilo": "correção",
+   "turnos": [
+    {
+     "pessoa": "Meu nome é Bruno",
+     "crivo": "Prazer, Bruno. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Na verdade é Breno, digitei errado",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "correção 'Na verdade é Breno' não entendida ('não entendi')"
+    },
+    {
+     "pessoa": "Como eu me chamo?",
+     "crivo": "Você me disse que seu nome é Bruno.",
+     "id": "conversa:memoria",
+     "passou": false,
+     "motivo": "respondeu o nome antigo (Bruno) em vez do corrigido (Breno)"
+    }
+   ]
+  },
+  {
+   "id": "mem_14",
+   "estilo": "frases curtas",
+   "turnos": [
+    {
+     "pessoa": "Gosto de gatos.",
+     "crivo": "Que legal, você gosta de gatos! O que mais te chama a atenção nisso?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Tenho dois.",
+     "crivo": "Você contou: “Tenho dois.”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Quantos gatos eu tenho?",
+     "crivo": "Gatos precisam de ração própria, água limpa, caixa de areia limpa e arranhador. Não podem comer cebola, alho nem chocolate, e muitos são intolerantes ao leite de vaca.",
+     "id": "cuidar_gato",
+     "passou": false,
+     "motivo": "respondeu cuidados com gatos em vez de 'dois' (dito no turno anterior)"
+    }
+   ]
+  },
+  {
+   "id": "mem_15",
+   "estilo": "retomar assunto",
+   "turnos": [
+    {
+     "pessoa": "Estou pensando em aprender violão",
+     "crivo": "Você contou que quer aprender violão, que legal. Qual é a principal dificuldade para chegar lá?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Mudando de assunto, que horas são boas pra dormir?",
+     "crivo": "Você trouxe esta ideia: “Mudando de assunto, que horas são boas pra dormir”. Podemos partir dela. O que mais importa para você agora: entender a vontade, lidar com um limite ou escolher um próximo passo?",
+     "id": "conversa:abertura",
+     "passou": false,
+     "motivo": "mudança de assunto explícita não tratada; ecoou a frase sem responder"
+    },
+    {
+     "pessoa": "Voltando ao que eu disse antes, qual instrumento eu queria aprender?",
+     "crivo": "Não encontrei esse assunto na memória recente. Qual tema você quer retomar?",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "não retomou o assunto de 2 turnos antes (violão) apesar de 'voltando ao que eu disse'"
+    }
+   ]
+  },
+  {
+   "id": "mem_16",
+   "estilo": "não inventar",
+   "turnos": [
+    {
+     "pessoa": "Qual é o nome da minha mãe?",
+     "crivo": "Você ainda não me contou o nome da sua mãe. Como se chama?",
+     "id": "memoria:nome_desconhecido",
+     "passou": true,
+     "motivo": "não inventou; pediu o nome"
+    }
+   ]
+  },
+  {
+   "id": "mem_17",
+   "estilo": "não inventar",
+   "turnos": [
+    {
+     "pessoa": "Oi, meu nome é Lívia",
+     "crivo": "Prazer, Lívia. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Qual é o nome do meu irmão?",
+     "crivo": "Você ainda não me contou o nome do seu irmão. Como se chama?",
+     "id": "memoria:nome_desconhecido",
+     "passou": true,
+     "motivo": "não inventou irmão"
+    }
+   ]
+  },
+  {
+   "id": "mem_18",
+   "estilo": "o que ele perguntou",
+   "turnos": [
+    {
+     "pessoa": "oi",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "tudo bem e vc",
+     "crivo": "Que bom! Por aqui está tudo certo, obrigado por perguntar. Sobre o que você quer conversar? Posso falar de astronomia, natureza, ciência ou programação.",
+     "id": "social:acolhimento",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "o que vc me perguntou agora?",
+     "crivo": "Posso ajudar a pensar. Qual é a situação e quais opções você está considerando?",
+     "id": "conversa:reflexao",
+     "passou": false,
+     "motivo": "não lembrou o que ele mesmo perguntou ('Como você está?' / 'Sobre o que você quer conversar?')"
+    }
+   ]
+  },
+  {
+   "id": "mem_19",
+   "estilo": "gíria",
+   "turnos": [
+    {
+     "pessoa": "slk, sou de Recife pô",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "apresentação com gíria ('sou de Recife pô') não entendida"
+    },
+    {
+     "pessoa": "de onde eu sou?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou a cidade de origem dita no turno anterior"
+    }
+   ]
+  },
+  {
+   "id": "mem_20",
+   "estilo": "formal",
+   "turnos": [
+    {
+     "pessoa": "Prezado, informo que trabalho como enfermeiro no turno da noite.",
+     "crivo": "Prezado, você informa que trabalha como enfermeiro no turno da noite? Por que você acha isso?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "reflexão estilo ELIZA ('Prezado, você informa...? Por que você acha isso?'), tratou o vocativo como conteúdo"
+    },
+    {
+     "pessoa": "Em que turno eu trabalho?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou o turno de trabalho dito no turno anterior"
+    }
+   ]
+  },
+  {
+   "id": "mem_21",
+   "estilo": "whatsapp",
+   "turnos": [
+    {
+     "pessoa": "kkkk meu cachorro chama Thor",
+     "crivo": "Ah, entendi, kkkk seu cachorro chama Thor. Qual o nome dele?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "perguntou 'Qual o nome dele?' logo depois de ouvir que o cachorro se chama Thor"
+    },
+    {
+     "pessoa": "e ele tem 3 anos",
+     "crivo": "Certo, ele tem 3 anos. E o que mais?",
+     "id": "nocao:continuacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "quantos anos tem o thor?",
+     "crivo": "Sobre quantos anos tem o thor, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou a idade do Thor (3 anos) nem ligou o nome ao cachorro"
+    }
+   ]
+  },
+  {
+   "id": "mem_22",
+   "estilo": "correção",
+   "turnos": [
+    {
+     "pessoa": "tenho 30 anos",
+     "crivo": "Você contou: “tenho 30 anos”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "pera, errei, tenho 31",
+     "crivo": "Você contou: “pera, errei, tenho 31”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": false,
+     "motivo": "correção da idade não reconhecida; só ecoou"
+    },
+    {
+     "pessoa": "qual minha idade?",
+     "crivo": "Ração adequada à idade, água fresca sempre, passeios diários, vacinas em dia e visitas ao veterinário. Chocolate, uva, cebola e alho fazem mal aos cães.",
+     "id": "cuidar_cachorro",
+     "passou": false,
+     "motivo": "respondeu cuidados com cachorro em vez da idade (31)"
+    }
+   ]
+  },
+  {
+   "id": "mem_23",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "eu moro em sao luis",
+     "crivo": "Você contou: “eu moro em sao luis”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "qual cidade eu moro",
+     "crivo": "Você me contou que mora em sao luis.",
+     "id": "memoria:relato",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "mem_24",
+   "estilo": "pronome",
+   "turnos": [
+    {
+     "pessoa": "Quem foi Santos Dumont?",
+     "crivo": "Alberto Santos Dumont (1873–1932) foi um inventor e aviador brasileiro, pioneiro da aviação. Em 1906, em Paris, voou com o 14-Bis numa demonstração pública homologada, considerada por muitos o primeiro voo de um avião que decolou por meios próprios. Se quiser, conto mais sobre Santos Dumont.",
+     "id": "conhecimento:mundo_santos_dumont",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Onde ele nasceu?",
+     "crivo": "Reconheci o assunto Santos Dumont, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": true,
+     "motivo": "pronome 'ele' resolvido (Santos Dumont); falta o fato, admitido com honestidade — não é falha de memória"
+    }
+   ]
+  },
+  {
+   "id": "mem_25",
+   "estilo": "elipse (e o outro)",
+   "turnos": [
+    {
+     "pessoa": "Qual é o maior planeta do sistema solar?",
+     "crivo": "Júpiter, um gigante gasoso tão grande que caberiam mais de mil Terras dentro dele.",
+     "id": "maior_planeta",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "E o menor?",
+     "crivo": "Mercúrio é o planeta mais próximo do Sol e também o menor. Tem dias extremamente quentes e noites muito frias, porque quase não tem atmosfera.",
+     "id": "mercurio",
+     "passou": true,
+     "motivo": ""
+    }
+   ]
+  },
+  {
+   "id": "mem_26",
+   "estilo": "conversa longa",
+   "turnos": [
+    {
+     "pessoa": "Olá",
+     "crivo": "Oi! Sou o Crivo. Como você está? Pode me contar como foi seu dia ou perguntar sobre astronomia, natureza, ciência ou programação.",
+     "id": "social:oi",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Meu nome é Gustavo",
+     "crivo": "Prazer, Gustavo. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Sou torcedor do Bahia",
+     "crivo": "Reconheci o assunto Bahia, mas não tenho evidência cadastrada para essa pergunta completa.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "'Sou torcedor do Bahia' tratado como pergunta sobre o estado; não registrou o time"
+    },
+    {
+     "pessoa": "Gosto de jogar xadrez",
+     "crivo": "Que legal, você gosta de jogar xadrez! O que mais te chama a atenção nisso?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Qual é meu time?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou o time dito 2 turnos antes"
+    },
+    {
+     "pessoa": "E qual jogo eu gosto?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou o jogo (xadrez) dito 2 turnos antes"
+    }
+   ]
+  },
+  {
+   "id": "mem_27",
+   "estilo": "idoso",
+   "turnos": [
+    {
+     "pessoa": "boa tarde, me chamo seu Arlindo",
+     "crivo": "Prazer, seu Arlindo. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "esqueci o que eu falei, qual é meu nome?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "prefixo 'esqueci o que eu falei' quebrou a consulta de memória; não respondeu o nome"
+    }
+   ]
+  },
+  {
+   "id": "mem_28",
+   "estilo": "não inventar",
+   "turnos": [
+    {
+     "pessoa": "meu nome é Paula",
+     "crivo": "Prazer, Paula. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "o que eu te disse sobre meu trabalho?",
+     "crivo": "Seu nome é Paula. Você contou: “meu nome é Paula”.",
+     "id": "conversa:memoria",
+     "passou": false,
+     "motivo": "respondeu o nome em vez de dizer que o trabalho não foi mencionado"
+    }
+   ]
+  },
+  {
+   "id": "mem_29",
+   "estilo": "pronome",
+   "turnos": [
+    {
+     "pessoa": "Qual a fórmula da água?",
+     "crivo": "Água é a substância química de fórmula H2O, formada por dois átomos de hidrogênio ligados a um átomo de oxigênio. Ao nível do mar, a água pura ferve à temperatura de 100 °C e congela à temperatura de 0 °C. Se quiser, conto mais sobre a água.",
+     "id": "conhecimento:mundo_agua_substancia",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "E por que ela é líquida?",
+     "crivo": "Marte tem poeira e rochas ricas em óxido de ferro (ferrugem), que dão a cor avermelhada. Até hoje não há prova de vida lá, mas há sinais de que já teve água líquida.",
+     "id": "marte",
+     "passou": false,
+     "motivo": "'ela' (água) resolvida para outro assunto; respondeu sobre Marte"
+    }
+   ]
+  },
+  {
+   "id": "mem_30",
+   "estilo": "adolescente",
+   "turnos": [
+    {
+     "pessoa": "minha matéria favorita é química",
+     "crivo": "Ah, entendi, sua matéria favorita é química. Como foi isso?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "mas odeio física",
+     "crivo": "Você contou: “mas odeio física”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "qual eu odeio?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou a matéria que odeia (física), dita no turno anterior"
+    },
+    {
+     "pessoa": "e qual eu curto?",
+     "crivo": "Solstício é quando o Sol atinge o ponto mais alto ou mais baixo no céu: marca o dia mais longo (início do verão) ou o mais curto (início do inverno). No equinócio, dia e noite têm quase a mesma duração, e ele marca o início do outono e da primavera.",
+     "id": "solsticio_equinocio",
+     "passou": false,
+     "motivo": "'e qual eu curto?' respondido com solstício/equinócio; esqueceu química"
+    }
+   ]
+  },
+  {
+   "id": "mem_31",
+   "estilo": "correção",
+   "turnos": [
+    {
+     "pessoa": "meu nome é Renata",
+     "crivo": "Prazer, Renata. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "não é Renata, é Regina",
+     "crivo": "Ainda não interpreto essa negação com segurança. Reformule a pergunta diretamente.",
+     "id": "duvida",
+     "passou": false,
+     "motivo": "correção 'não é Renata, é Regina' recusada ('não interpreto essa negação')"
+    },
+    {
+     "pessoa": "quem sou eu?",
+     "crivo": "Você me disse que seu nome é Renata.",
+     "id": "conversa:memoria",
+     "passou": false,
+     "motivo": "respondeu o nome antigo (Renata) em vez do corrigido (Regina)"
+    }
+   ]
+  },
+  {
+   "id": "mem_32",
+   "estilo": "fatos ditos",
+   "turnos": [
+    {
+     "pessoa": "Minha filha nasceu em março",
+     "crivo": "Sua filha nasceu em março? Boa! Bebê novo costuma mudar a rotina da casa inteira. Que notícia linda! Já sabe o nome?",
+     "id": "nocao:observacao",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Em que mês minha filha nasceu?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou o mês (março) dito no turno anterior"
+    }
+   ]
+  },
+  {
+   "id": "mem_33",
+   "estilo": "resumo do que sabe",
+   "turnos": [
+    {
+     "pessoa": "Eu sou o Caio",
+     "crivo": "Prazer, Caio. Vou te chamar assim nesta conversa.",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Gosto de café",
+     "crivo": "Que legal, você gosta de café! O que mais te chama a atenção nisso?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "Moro em Belém",
+     "crivo": "Você contou: “Moro em Belém”. Quer me contar mais sobre isso ou perguntar alguma coisa?",
+     "id": "conversa:relato",
+     "passou": true,
+     "motivo": ""
+    },
+    {
+     "pessoa": "O que você sabe sobre mim?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não resumiu os fatos ditos (nome, café, Belém); 'não entendi'"
+    }
+   ]
+  },
+  {
+   "id": "mem_34",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "vou viajar pra Salvador amanhã",
+     "crivo": "Boa, você vai viajar para Salvador amanhã! Férias costumam passar rápido demais. Para onde você foi ou quer ir?",
+     "id": "nocao:observacao",
+     "passou": false,
+     "motivo": "perguntou 'Para onde você foi ou quer ir?' logo após ouvir 'Salvador'"
+    },
+    {
+     "pessoa": "pra onde eu vou viajar?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "passou": false,
+     "motivo": "não lembrou o destino da viagem dito no turno anterior"
+    }
+   ]
+  }
+ ]
+}

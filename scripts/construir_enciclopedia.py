@@ -11,9 +11,15 @@ Fica de fora: desambiguação, listas e anexos, títulos que são só datas, ver
 de 40 a 230 caracteres no começo. Ficam os N verbetes mais longos (o tamanho do texto mede, de modo
 grosseiro, quanto o assunto importa).
 
-Uso (no Colab): python scripts/construir_enciclopedia.py parte1.parquet ... --saida pasta [--n 120000]
+Arquivo (versão 3): enciclopedia_pt.v3.gz, texto UTF-8 em linhas: um cabeçalho JSON; n linhas
+"título<TAB>começo do verbete"; e as chaves de busca ("título sem acento<TAB>índice") em ordem de bytes.
+O CRIVO lê o arquivo aberto como um bloco só e acha a chave por busca binária (enciclopedia.py): 300 mil
+verbetes cabem em uns 80 MB de memória, onde o JSON da versão 2 passava de 500 MB.
+
+Uso: python scripts/construir_enciclopedia.py parte1.parquet ... --saida pasta [--n 300000]
 """
 import argparse
+import collections
 import gzip
 import hashlib
 import heapq
@@ -22,7 +28,7 @@ import re
 import unicodedata
 from pathlib import Path
 
-VERSAO = 2
+VERSAO = 3
 MIN_LEAD, MAX_LEAD = 40, 300
 CURTA = 230   # cabe no contexto do modelo; mais longa, o CRIVO mostra o texto sem o modelo reescrever
 FORA_TITULO = re.compile(r"^(?:lista|anexo|predefinição|categoria|portal|wikipédia|ajuda|ficheiro|arquivo)\b|desambiguação"
@@ -88,7 +94,43 @@ def lead(titulo, texto):
     return saida
 
 
-def construir(artigos, n=120_000):
+PARTICULAS = {"de", "da", "do", "dos", "das", "van", "von", "der", "del", "e", "y", "la", "le", "di", "du"}
+PESSOA = re.compile(r"\(\s*[^()]*?\b\d{1,2} de [a-zç]+ de \d{3,4}|\bnascid[oa]\b|\b(?:foi|é) (?:um|uma) (?:[\w-]+ ){0,2}(?:"
+                    r"matemátic|físic|químic|filósof|psicólog|psicanalist|psiquiatra|neurologista|médic|biólog|sociólog|"
+                    r"antropólog|economista|historiador|escritor|poeta|romancista|dramaturgo|pintor|escultor|compositor|"
+                    r"músic|cantor|ator|atriz|cineasta|político|política|presidente|rei|rainha|imperador|papa|santo|santa|"
+                    r"cientista|inventor|engenheir|astrônom|jogador|futebolista|atleta|tenista|piloto|militar|general|"
+                    r"teólog|jurista|advogad|jornalista|empresári|educador|pedagog|linguista|naturalista|explorador)")
+
+OBRA = re.compile(r"\b(?:canção|álbum|single|filme|série|telenovela|episódio|livro|romance|banda|jogo|atropelamento|"
+                  r"assassinato|caso|empresa|marca|clube|navio)\b", re.I)
+
+
+def chaves_sobrenome(titulos, leads, chaves, limite=30_000):
+    """"Freud" → "Sigmund Freud": o sobrenome de uma pessoa vira chave quando o verbete dela está entre os
+    `limite` mais longos e é bem mais longo que o de qualquer outra pessoa com o mesmo sobrenome (3 vezes
+    a posição). "Weber" (Max e Michel, perto um do outro) e "Lula" (o verbete é "Luiz Inácio Lula da Silva")
+    ficam sem chave: o CRIVO diz que não sabe em vez de trazer a pessoa errada."""
+    comuns = collections.Counter(w for f in leads for w in re.findall(r"\b[a-zà-ú]+\b", f))
+    candidatos = collections.defaultdict(list)
+    for i, (t, f) in enumerate(zip(titulos, leads)):
+        partes = t.split()
+        if "(" in t or not 2 <= len(partes) <= 5 or not all(p[:1].isupper() or p in PARTICULAS for p in partes):
+            continue
+        # "Instituto Lula", "Museu Freud"; canção, filme ou acontecimento com nome de gente
+        if comuns[partes[0].lower()] >= 20 or not PESSOA.search(f) or OBRA.search(f[:120]):
+            continue
+        sobrenome = normalizar(partes[-1])
+        if len(sobrenome) >= 4:
+            candidatos[sobrenome].append(i)
+    novas = {}
+    for sobrenome, ids in candidatos.items():
+        if sobrenome not in chaves and ids[0] < limite and (len(ids) == 1 or ids[1] >= 3 * ids[0] + 1000):
+            novas[sobrenome] = ids[0]
+    return novas
+
+
+def construir(artigos, n=300_000):
     """artigos: iterável de (titulo, texto). Devolve o dicionário da enciclopédia."""
     melhores, k = [], 0
     for titulo, texto in artigos:
@@ -111,6 +153,7 @@ def construir(artigos, n=120_000):
         base = re.sub(r"\s*\(.*\)$", "", t)
         if base != t and not MIDIA.search(t):
             chaves.setdefault(normalizar(base), i)
+    chaves.update(chaves_sobrenome(titulos, leads, chaves))
     return {"versao": VERSAO, "fonte": "Wikipédia em português (wikimedia/wikipedia 20231101.pt)",
             "licenca": "CC BY-SA 3.0/4.0", "n": len(titulos), "titulos": titulos, "leads": leads, "chaves": chaves}
 
@@ -125,17 +168,26 @@ def ler_parquets(caminhos):
 def salvar(enc, saida):
     saida = Path(saida)
     saida.mkdir(parents=True, exist_ok=True)
-    bruto = json.dumps(enc, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    with gzip.GzipFile(saida / "enciclopedia_pt.json.gz", "wb", mtime=0, compresslevel=9) as f:
-        f.write(bruto)
-    return hashlib.sha256((saida / "enciclopedia_pt.json.gz").read_bytes()).hexdigest()
+    cab = {k: enc[k] for k in ("versao", "fonte", "licenca", "n")}
+    cab["chaves"] = len(enc["chaves"])
+    linhas = [json.dumps(cab, ensure_ascii=False)]
+    for t, f in zip(enc["titulos"], enc["leads"]):
+        if any(c in t + f for c in "\t\n"):
+            raise ValueError("verbete com tabulação ou quebra de linha: %r" % t)
+        linhas.append(t + "\t" + f)
+    chaves = sorted(enc["chaves"].items(), key=lambda kv: kv[0].encode("utf-8"))
+    linhas += ["%s\t%d" % kv for kv in chaves]
+    arquivo = saida / "enciclopedia_pt.v3.gz"
+    with gzip.GzipFile(arquivo, "wb", mtime=0, compresslevel=9) as f:
+        f.write("\n".join(linhas).encode("utf-8"))
+    return hashlib.sha256(arquivo.read_bytes()).hexdigest()
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("parquets", nargs="+")
     ap.add_argument("--saida", required=True)
-    ap.add_argument("--n", type=int, default=120_000)
+    ap.add_argument("--n", type=int, default=300_000)
     a = ap.parse_args()
     enc = construir(ler_parquets(a.parquets), a.n)
     sha = salvar(enc, a.saida)

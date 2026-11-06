@@ -8,6 +8,14 @@ from crivo import Crivo
 from web_core import responder_web
 
 
+
+def _verbete_do_mesmo_nome(pergunta, ident, resposta):
+    """A enciclopédia (300 mil verbetes desde 20/10/2026) responde pelo verbete com o nome perguntado ("Nuvem",
+    "Semente"), com a fonte: não é a ficha vizinha que estes testes barram."""
+    import enciclopedia
+    achado = enciclopedia.consultar(pergunta)
+    return ident == enciclopedia.IDENT and achado is not None and "verbete «%s»" % achado[0] in resposta
+
 class TestesFrutosDefinicao(unittest.TestCase):
     def test_fruto_e_frutos_sao_definidos_em_linguagem_natural(self):
         perguntas = (
@@ -56,7 +64,8 @@ class TestesFrutosDefinicao(unittest.TestCase):
         ):
             with self.subTest(pergunta=pergunta):
                 ident, resposta = Crivo().responder(pergunta)
-                self.assertIn(ident, ("fora", "duvida"))
+                if not _verbete_do_mesmo_nome(pergunta, ident, resposta):
+                    self.assertIn(ident, ("fora", "duvida"))
                 self.assertNotIn("Um fruto", resposta)
 
     def test_pergunta_de_tipos_de_dados_ja_ensinada(self):

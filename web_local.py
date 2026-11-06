@@ -5,6 +5,7 @@ Para acessar pelo celular na mesma rede: python web_local.py --host 0.0.0.0
 NÃO encaminhe a porta para a internet sem autenticação/rate limiting.
 """
 import argparse
+import os
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -63,6 +64,10 @@ def criar_servidor(host="127.0.0.1", port=8765, usar_dialogo_contextual=False,
     server.modelo_linguagem = modelo_linguagem
     server.gerador_programacao = gerador
     server.usar_geracao = usar_geracao
+    # CRIVO_VOZ_46M=0 desliga a voz (a reescrita pelo 46M): as sondas HTTP congeladas medem os executores
+    # determinísticos, e a voz mudaria o texto. Sem a variável, nada muda.
+    if os.environ.get("CRIVO_VOZ_46M") == "0":
+        server.voz_17m = False
     return server
 
 

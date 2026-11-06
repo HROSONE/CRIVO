@@ -5,8 +5,9 @@ pelo CRIVO: é o que a Wikipédia diz, e a resposta mostra a fonte. O verbete é
 (sem acento, sem maiúscula; "Mercúrio" vale "Mercúrio (planeta)", o verbete mais longo). Não há
 busca por semelhança: se o título não bate, ele não sabe.
 
-Arquivo: artefatos/enciclopedia_pt/enciclopedia_pt.json.gz (scripts/construir_enciclopedia.py,
-SHA conferido). Licença CC BY-SA: ver artefatos/enciclopedia_pt/NOTICE.
+Arquivo: artefatos/enciclopedia_pt/enciclopedia_pt.v3.gz (scripts/construir_enciclopedia.py, SHA
+conferido): 300 mil verbetes, lidos como um bloco só e achados por busca binária na lista de chaves, sem
+virar 300 mil objetos Python (cabe no celular). Licença CC BY-SA: ver artefatos/enciclopedia_pt/NOTICE.
 `CRIVO_DISABLE_ENCICLOPEDIA=1` desliga.
 """
 import gzip
@@ -18,8 +19,8 @@ from functools import lru_cache
 from pathlib import Path
 
 PASTA = Path(__file__).resolve().parent / "artefatos" / "enciclopedia_pt"
-ARQUIVO = PASTA / "enciclopedia_pt.json.gz"
-SHA256 = "a86174a6cc48a1496ff5e77a3440edc5f187ce71d54a4343392363543ebea821"   # v2: 120 mil verbetes (notebooks/enciclopedia_wikipedia_colab.ipynb)
+ARQUIVO = PASTA / "enciclopedia_pt.v3.gz"
+SHA256 = "f2803ea5efdcbbe4124bdbfb04a4e54b6afc7c6f96bb9078a2f78b5d0284dbca"   # v3: 300 mil verbetes da mesma Wikipédia (20231101.pt)
 IDENT = "enciclopedia:wikipedia"
 
 _ARTIGO = r"(?:(?:o|a|os|as|um|uma|uns|umas)\s+)?"
@@ -65,6 +66,53 @@ def assunto(fala):
     return None
 
 
+class _Enciclopedia:
+    """O arquivo aberto como um bloco de bytes, com o começo de cada linha num vetor."""
+
+    def __init__(self, bruto):
+        self.bloco = gzip.decompress(bruto)
+        try:
+            import numpy as np
+            fins = np.flatnonzero(np.frombuffer(self.bloco, dtype=np.uint8) == 10)
+            self.inicios = np.concatenate([[0], fins + 1]).astype(np.int64)
+            self.fins = np.concatenate([fins, [len(self.bloco)]]).astype(np.int64)
+        except ImportError:   # sem NumPy (o site sempre tem; alguns testes do CI não): a biblioteca padrão
+            from array import array
+            fins = array("q", (m.start() for m in re.finditer(b"\n", self.bloco)))
+            self.inicios = array("q", [0]) + array("q", (f + 1 for f in fins))
+            self.fins = fins + array("q", [len(self.bloco)])
+        cab = json.loads(self.linha(0))
+        if cab.get("versao") != 3 or len(self.inicios) != 1 + cab["n"] + cab["chaves"]:
+            raise ValueError("enciclopédia em formato desconhecido")
+        self.n, self.nchaves = cab["n"], cab["chaves"]
+
+    def linha(self, i):
+        return self.bloco[int(self.inicios[i]):int(self.fins[i])].decode("utf-8")
+
+    def _chave(self, j):
+        b = self.bloco[int(self.inicios[1 + self.n + j]):int(self.fins[1 + self.n + j])]
+        k, _, i = b.rpartition(b"\t")
+        return k, int(i)
+
+    def indice(self, chave):
+        alvo, lo, hi = chave.encode("utf-8"), 0, self.nchaves
+        while lo < hi:
+            meio = (lo + hi) // 2
+            if self._chave(meio)[0] < alvo:
+                lo = meio + 1
+            else:
+                hi = meio
+        if lo < self.nchaves:
+            k, i = self._chave(lo)
+            if k == alvo:
+                return i
+        return None
+
+    def verbete(self, i):
+        titulo, _, frase = self.linha(1 + i).partition("\t")
+        return titulo, frase
+
+
 @lru_cache(maxsize=1)
 def _dados():
     if desligada() or not ARQUIVO.is_file():
@@ -72,7 +120,7 @@ def _dados():
     bruto = ARQUIVO.read_bytes()
     if SHA256 is not None and hashlib.sha256(bruto).hexdigest() != SHA256:
         return None
-    return json.loads(gzip.decompress(bruto))
+    return _Enciclopedia(bruto)
 
 
 def consultar(fala):
@@ -84,12 +132,19 @@ def consultar(fala):
     if enc is None:
         return None
     chave = normalizar(x)
-    i = enc["chaves"].get(chave)
+    i = enc.indice(chave)
     if i is None and chave.endswith("s") and len(chave) > 4:
-        i = enc["chaves"].get(chave[:-1])   # "ornitorrincos" → "ornitorrinco"
+        i = enc.indice(chave[:-1])   # "ornitorrincos" → "ornitorrinco"
     if i is None:
         return None
-    return enc["titulos"][i], enc["leads"][i]
+    # "O que é Java?" quase sempre é a linguagem: com um verbete "X (linguagem de programação)", ele vem
+    # primeiro, e o outro sentido fica dito (teste às cegas de 21/10/2026: "Java" dava só a ilha).
+    j = enc.indice(normalizar(enc.verbete(i)[0]) + " linguagem de programacao")
+    if j is not None and j != i:
+        titulo, frase = enc.verbete(j)
+        outro = re.sub(r"\s*\([^)]*\)", "", enc.verbete(i)[1]).split(". ")[0].rstrip(".")
+        return titulo, "%s (Também existe outro sentido: %s.)" % (frase, outro[:160])
+    return enc.verbete(i)
 
 
 def fonte(titulo):
@@ -98,5 +153,5 @@ def fonte(titulo):
 
 def status():
     enc = _dados()
-    return {"ligada": enc is not None, "verbetes": enc["n"] if enc else 0, "sha256": SHA256,
+    return {"ligada": enc is not None, "verbetes": enc.n if enc else 0, "sha256": SHA256,
             "fonte": "Wikipédia em português (wikimedia/wikipedia 20231101.pt)", "licenca": "CC BY-SA"}

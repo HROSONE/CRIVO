@@ -1,0 +1,612 @@
+{
+ "area": "programacao",
+ "origem": {
+  "autor": "agente Claude (Anthropic), ferramenta de desenvolvimento",
+  "data": "2026-10-21",
+  "uso": "teste às cegas; nunca entra em treino"
+ },
+ "conversas": [
+  {
+   "id": "prog_01",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "O que é uma variável em programação?",
+     "crivo": "Uma variável associa um nome a um valor. Por exemplo, em Python, pontos = 7 permite usar pontos em outras expressões. O nome ajuda a explicar o significado do dado. As regras de declaração e alteração dependem da linguagem; em JavaScript existem let e const.",
+     "id": "prog_variavel",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Definição correta de variável com exemplo em Python e menção a let/const em JS."
+    },
+    {
+     "pessoa": "Dá um exemplo",
+     "crivo": "Não tenho um exemplo cadastrado desse assunto. Quer reformular a explicação disponível?",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Diz que não tem exemplo cadastrado; honesto, mas o próprio card anterior já tinha um exemplo (pontos = 7) e não o reaproveitou."
+    }
+   ]
+  },
+  {
+   "id": "prog_02",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "mano o que é python",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' para 'mano o que é python'; não inventa, mas falhou em reconhecer pergunta simples com gíria 'mano'."
+    }
+   ]
+  },
+  {
+   "id": "prog_03",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "pra que serve um loop",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' para 'pra que serve um loop'; não inventa, mas o acervo tem py_for/py_while e não foi acionado."
+    },
+    {
+     "pessoa": "e o while?",
+     "crivo": "while repete enquanto a condição for verdadeira. Atualize o estado para que o laço possa terminar.\n\nExemplo:\n```python\nrestantes = 3\nwhile restantes > 0:\n    print(restantes)\n    restantes -= 1\n```",
+     "id": "py_while",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Explica while corretamente com exemplo que termina."
+    }
+   ]
+  },
+  {
+   "id": "prog_04",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "Qual a diferença entre lista e tupla em Python?",
+     "crivo": "Em Python, = atribui um valor; == compara igualdade de valores; != testa desigualdade. is compara identidade de objetos, não substitui == para comparar textos ou números. O exemplo atribui uma pontuação e depois faz comparações.\n\nExemplo:\n```python\npontos = 7\nprint(pontos == 7)\nprint(pontos != 7)\n```",
+     "id": "py_comparacao",
+     "classe": "errado",
+     "passou": false,
+     "motivo": "Perguntou lista vs tupla e recebeu o card py_comparacao (=, ==, is). Respondeu outra coisa; não fala de mutabilidade."
+    }
+   ]
+  },
+  {
+   "id": "prog_05",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "O que é recursão?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para recursão (conceito básico ausente do acervo)."
+    },
+    {
+     "pessoa": "Me dá um exemplo simples",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' no pedido de exemplo; perdeu o contexto, mas não inventa."
+    }
+   ]
+  },
+  {
+   "id": "prog_06",
+   "estilo": "termo em inglês",
+   "turnos": [
+    {
+     "pessoa": "o que é uma API?",
+     "crivo": "Uma API é uma interface que define como um programa pode interagir com outro componente de software. Uma API especifica operações e regras para essa interação. Vale lembrar que uma API não é o programa em si, mas o contrato de como usá-lo; a implementação pode mudar sem afetar quem usa a API, desde que o contrato seja mantido.",
+     "id": "prog_http",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Definição correta de API como contrato/interface (id prog_http estranho, conteúdo certo)."
+    },
+    {
+     "pessoa": "e REST?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' para 'e REST?'; não inventa, mas não reconheceu a continuação de definição."
+    }
+   ]
+  },
+  {
+   "id": "prog_07",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "Como faço um for em Python?",
+     "crivo": "for percorre elementos de um iterável. range(3) produz 0, 1 e 2: o limite final fica de fora.\n\nExemplo:\n```python\nfor indice in range(3):\n    print(indice)\n```",
+     "id": "py_for",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "for com range(3) correto, inclusive o limite exclusivo."
+    }
+   ]
+  },
+  {
+   "id": "prog_08",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "o que é git?",
+     "crivo": "Git registra versões do projeto em commits. GitHub é um serviço que hospeda repositórios Git e oferece colaboração. Você pode usar Git localmente sem GitHub. git status mostra a situação dos arquivos; git log mostra o histórico.",
+     "id": "git_intro",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Git e commits corretos; já distingue Git de GitHub."
+    },
+    {
+     "pessoa": "e o github é a mesma coisa?",
+     "crivo": "Tempo é a condição da atmosfera num momento e lugar (hoje está chovendo). Clima é o padrão médio ao longo de muitos anos (a região costuma ser chuvosa no verão).",
+     "id": "clima_tempo_dif",
+     "classe": "errado",
+     "passou": false,
+     "motivo": "'e o github é a mesma coisa?' recebeu a diferença entre tempo e clima (clima_tempo_dif). Falha grave de rota: 'mesma coisa/diferença' casou com card de outra área, apesar do turno anterior responder exatamente isso."
+    }
+   ]
+  },
+  {
+   "id": "prog_09",
+   "estilo": "erro comum",
+   "turnos": [
+    {
+     "pessoa": "O que é IndentationError?",
+     "crivo": "Python usa indentação para organizar blocos. IndentationError indica estrutura inválida; misturar tabulações e espaços pode causar TabError. Use uma indentação consistente; quatro espaços por nível é a convenção usual.",
+     "id": "py_indentacao",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "IndentationError e TabError explicados corretamente."
+    }
+   ]
+  },
+  {
+   "id": "prog_10",
+   "estilo": "erro comum",
+   "turnos": [
+    {
+     "pessoa": "meu codigo deu SyntaxError o que significa",
+     "crivo": "SyntaxError indica código que não segue a sintaxe esperada. Confira a linha apontada e a anterior: aspas, parênteses e dois-pontos podem estar incompletos. Depois de corrigir a sintaxe, ainda é preciso testar a lógica.",
+     "id": "py_syntaxerror",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "SyntaxError explicado corretamente, com dicas plausíveis."
+    }
+   ]
+  },
+  {
+   "id": "prog_11",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "O que é JavaScript?",
+     "crivo": "HTML estrutura o conteúdo, CSS cuida da apresentação e JavaScript adiciona comportamento. JavaScript pode reagir a eventos e alterar a página; também existe fora do navegador, como no Node.js. Java e JavaScript são linguagens diferentes.\n\nExemplo:\n```javascript\nconsole.log(\"Olá pelo JavaScript\");\n```",
+     "id": "js_intro",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "JavaScript correto (comportamento da página, Node.js, diferente de Java)."
+    },
+    {
+     "pessoa": "E TypeScript?",
+     "crivo": "Entendi que você continua pedindo uma definição, mas não tenho uma definição cadastrada desse conceito. Não vou substituir por um assunto semelhante.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para TypeScript (curioso: o acervo autoral tem cards ts_*)."
+    },
+    {
+     "pessoa": "qual a diferença entre os dois",
+     "crivo": "Não consegui executar esse pedido com os dados atuais. Pode esclarecer a tarefa sobre JavaScript?",
+     "id": "conversa:esclarecer",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Pede esclarecimento; não inventa, mas não consegue comparar JS e TS."
+    }
+   ]
+  },
+  {
+   "id": "prog_12",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "O que é um dicionário em Python?",
+     "crivo": "Um dicionário associa chaves a valores. Use colchetes para uma chave que deve existir ou get para fornecer um valor padrão quando ela estiver ausente.\n\nExemplo:\n```python\nperfil = {\"nome\": \"Lia\", \"pontos\": 8}\nprint(perfil[\"nome\"])\nprint(perfil.get(\"cidade\", \"Não informada\"))\n```",
+     "id": "py_dicionario",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Dicionário: chaves/valores, [] e get com padrão, correto."
+    }
+   ]
+  },
+  {
+   "id": "prog_13",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "o que é um algoritmo",
+     "crivo": "Um algoritmo descreve passos para resolver um problema. Para calcular uma média: receba os números, some os valores e divida pela quantidade. Defina também o que fazer se a lista estiver vazia. Primeiro deixe a lógica clara; depois traduza os passos para uma linguagem.",
+     "id": "prog_algoritmo",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Algoritmo como sequência de passos, exemplo da média, correto."
+    }
+   ]
+  },
+  {
+   "id": "prog_14",
+   "estilo": "termo em inglês",
+   "turnos": [
+    {
+     "pessoa": "what is a bug em programação?",
+     "crivo": "Encontrei duas possibilidades próximas. Qual delas você quer?\n1. diferença entre = e == em python\n2. como depurar código\nResponda com o número, o nome da opção ou 'nenhuma'.",
+     "id": "duvida",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Pede escolha entre '= vs ==' e 'como depurar'; não define bug, mas não inventa (a opção 2 é próxima)."
+    }
+   ]
+  },
+  {
+   "id": "prog_15",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "O que é programação orientada a objetos?",
+     "crivo": "Programação orientada a objetos (POO, ou OOP segundo as suas siglas em inglês) é um paradigma de programação baseado no conceito de \"objetos\", que podem conter dados na forma de campos, também conhecidos como atributos, e códigos, na forma de procedimentos, também conhecidos como métodos.\n\nFonte: Wikipédia, verbete «Programação orientada a objetos» (CC BY-SA).",
+     "id": "enciclopedia:wikipedia",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "POO via Wikipédia, com fonte; correto."
+    },
+    {
+     "pessoa": "o que é herança?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para herança; perdeu o contexto de POO do turno anterior."
+    }
+   ]
+  },
+  {
+   "id": "prog_16",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "oq é html",
+     "crivo": "HTML descreve a estrutura e o significado do conteúdo da página. Tags como h1, p e a marcam título, parágrafo e link. Salve este exemplo como index.html e abra no navegador. É um modelo fixo de página simples.\n\nExemplo:\n```html\n<!doctype html>\n<html lang=\"pt-BR\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>Minha página</title>\n</head>\n<body>\n  <h1>Olá, mundo!</h1>\n  <p>Estou aprendendo programação.</p>\n</body>\n</html>\n```",
+     "id": "web_html",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "HTML correto com exemplo válido."
+    },
+    {
+     "pessoa": "e css?",
+     "crivo": "CSS define a apresentação do conteúdo: cores, tamanhos, espaçamento e disposição. Um seletor escolhe os elementos; as declarações definem propriedades. Coloque o exemplo num arquivo .css ligado ao HTML ou dentro de uma tag style.\n\nExemplo:\n```css\nbody {\n  font-family: sans-serif;\n  background: #161021;\n  color: #f6efff;\n}\nh1 { color: #c8a3ff; }\n```",
+     "id": "web_css",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "CSS correto com exemplo válido, continuação resolvida."
+    }
+   ]
+  },
+  {
+   "id": "prog_17",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "o que e uma funcao em programacao",
+     "crivo": "Programar é escrever instruções para um computador executar. Comece com valores, variáveis, condições, repetições e funções. Escolha um problema pequeno, descreva os passos e teste cada parte. Posso explicar esses fundamentos e mostrar exemplos cadastrados; ainda não construo projetos completos sob encomenda.",
+     "id": "prog_programar",
+     "classe": "errado",
+     "passou": false,
+     "motivo": "'o que e uma funcao em programacao' (sem acento) recebeu o card genérico prog_programar ('Programar é escrever instruções...'); não define função."
+    }
+   ]
+  },
+  {
+   "id": "prog_18",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "Qual a complexidade de busca binária?",
+     "crivo": "Sobre qual a complexidade de busca binária, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para complexidade de busca binária (O(log n))."
+    }
+   ]
+  },
+  {
+   "id": "prog_19",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "O que é um compilador?",
+     "crivo": "Performance do compilador: Tipos recursivos, intersections profundas e unions combinatórias aumentam tempo/memória de checking.\n\nextendedDiagnostics e traces ajudam localizar custo; fronteiras nomeadas e interfaces podem reduzir recomputação em casos específicos.\n\nCuidados: Tipo sofisticado pode inviabilizar editor sem melhorar contrato real; otimização depende da versão.\nVerificação: Comparar incremental e build limpo, tempo de check e memória com dados de escala.\nFontes: https://www.typescriptlang.org/tsconfig/\nConsulta ao acervo autoral; revisão editorial integral pendente.",
+     "id": "programacao:ts_type-performance",
+     "classe": "errado",
+     "passou": false,
+     "motivo": "'O que é um compilador?' recebeu card do acervo autoral sobre performance do compilador do TypeScript (tipos recursivos, extendedDiagnostics). Respondeu outra coisa, e não define compilador."
+    },
+    {
+     "pessoa": "e um interpretador?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' para 'e um interpretador?'; não inventa."
+    }
+   ]
+  },
+  {
+   "id": "prog_20",
+   "estilo": "termo em inglês",
+   "turnos": [
+    {
+     "pessoa": "o que é um commit no git",
+     "crivo": "git add prepara mudanças para o próximo commit. git commit cria um registro local. git push envia commits para um remoto configurado; commit e push não são a mesma coisa. Revise os arquivos antes de incluir a alteração.\n\nExemplo:\n```sh\ngit status\ngit diff\ngit add arquivo.py\ngit commit -m \"Explica o motivo da mudança\"\n```",
+     "id": "git_commit",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Commit como registro local, diferença de push; correto."
+    }
+   ]
+  },
+  {
+   "id": "prog_21",
+   "estilo": "erro comum",
+   "turnos": [
+    {
+     "pessoa": "o que é NameError em python",
+     "crivo": "NameError ocorre quando o nome procurado não está definido. Confira a grafia, a ordem de execução e o escopo. Um import ausente também pode ser a causa.",
+     "id": "py_nameerror",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "NameError explicado corretamente (grafia, ordem, escopo, import)."
+    }
+   ]
+  },
+  {
+   "id": "prog_22",
+   "estilo": "erro comum",
+   "turnos": [
+    {
+     "pessoa": "o que significa IndexError: list index out of range",
+     "crivo": "IndexError indica uma posição fora dos limites da sequência. Para uma lista com três itens, os índices não negativos válidos são 0, 1 e 2. Confira len(lista) e se a lista está vazia.",
+     "id": "py_indexerror",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "IndexError explicado corretamente com índices 0..2."
+    }
+   ]
+  },
+  {
+   "id": "prog_23",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "O que é SQL?",
+     "crivo": "SQL é uma linguagem para trabalhar com bancos relacionais. Tabelas organizam linhas e colunas; SELECT consulta dados, INSERT acrescenta linhas, UPDATE altera e DELETE remove. Os recursos e alguns detalhes de sintaxe variam entre bancos.",
+     "id": "sql_intro",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "SQL e comandos básicos corretos."
+    },
+    {
+     "pessoa": "como faço um SELECT?",
+     "crivo": "Vamos montar um começo. Qual resultado você quer alcançar?",
+     "id": "conversa:planejamento",
+     "classe": "fora",
+     "passou": false,
+     "motivo": "'como faço um SELECT?' caiu no modo planejamento ('Vamos montar um começo. Qual resultado você quer alcançar?'); não responde nem diz que não sabe."
+    }
+   ]
+  },
+  {
+   "id": "prog_24",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "python é bom pra começar a programar?",
+     "crivo": "Programar é escrever instruções para um computador executar. Comece com valores, variáveis, condições, repetições e funções. Escolha um problema pequeno, descreva os passos e teste cada parte. Posso explicar esses fundamentos e mostrar exemplos cadastrados; ainda não construo projetos completos sob encomenda.",
+     "id": "prog_programar",
+     "classe": "fora",
+     "passou": false,
+     "motivo": "'python é bom pra começar?' recebeu o card genérico prog_programar; não fala de Python."
+    }
+   ]
+  },
+  {
+   "id": "prog_25",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "Qual a diferença entre == e is em Python?",
+     "crivo": "Em Python, = atribui um valor; == compara igualdade de valores; != testa desigualdade. is compara identidade de objetos, não substitui == para comparar textos ou números. O exemplo atribui uma pontuação e depois faz comparações.\n\nExemplo:\n```python\npontos = 7\nprint(pontos == 7)\nprint(pontos != 7)\n```",
+     "id": "py_comparacao",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "== compara valor, is compara identidade; correto (exemplo só usa ==/!=)."
+    }
+   ]
+  },
+  {
+   "id": "prog_26",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "O que é um banco de dados?",
+     "crivo": "Um banco de dados é uma coleção organizada de informações que pode ser consultada e atualizada. Um sistema de gerenciamento de banco de dados fornece ferramentas para trabalhar com essas informações. Se quiser, conto mais sobre o banco de dados.",
+     "id": "conhecimento:banco_dados",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Banco de dados e SGBD definidos corretamente."
+    }
+   ]
+  },
+  {
+   "id": "prog_27",
+   "estilo": "termo em inglês",
+   "turnos": [
+    {
+     "pessoa": "o que é frontend e backend",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para frontend/backend."
+    }
+   ]
+  },
+  {
+   "id": "prog_28",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "o que é uma linguagem de programação compilada",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para linguagem compilada."
+    }
+   ]
+  },
+  {
+   "id": "prog_29",
+   "estilo": "sem acento",
+   "turnos": [
+    {
+     "pessoa": "como imprimir ola mundo em python",
+     "crivo": "Sobre como imprimir ola mundo em python, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, me conta.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para imprimir 'olá mundo' em Python, algo básico (print) que deveria estar no acervo."
+    }
+   ]
+  },
+  {
+   "id": "prog_30",
+   "estilo": "informal",
+   "turnos": [
+    {
+     "pessoa": "o que é um array",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para array (o acervo não cobre lista/array)."
+    },
+    {
+     "pessoa": "e em javascript como cria?",
+     "crivo": "Não tenho certeza se entendi. Você quis perguntar algo como \"como usar async e await\"? Responda sim, não ou faça outra pergunta.",
+     "id": "duvida",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Sugere 'async e await', sem relação com criar array; mas pede confirmação e não afirma nada."
+    }
+   ]
+  },
+  {
+   "id": "prog_31",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "O que é Big O?",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para Big O."
+    }
+   ]
+  },
+  {
+   "id": "prog_32",
+   "estilo": "continuação",
+   "turnos": [
+    {
+     "pessoa": "O que é Java?",
+     "crivo": "Java (em, e : Jawa) é a principal ilha da Indonésia, onde se situa a capital do país, Jacarta. Tem de área e em 2015 tinha habitantes , que constituem 56,7% da população da Indonésia.\n\nFonte: Wikipédia, verbete «Java» (CC BY-SA).",
+     "id": "enciclopedia:wikipedia",
+     "classe": "fora",
+     "passou": false,
+     "motivo": "'O que é Java?' em contexto de programação recebeu a ilha da Indonésia (Wikipédia). O fato está certo, mas a pergunta é ambígua e não houve desambiguação nem menção à linguagem."
+    },
+    {
+     "pessoa": "Java e JavaScript são a mesma coisa?",
+     "crivo": "Hum, não entendi bem. Pode dizer de outro jeito? Pode ser uma pergunta ou algo que aconteceu com você. Se quiser ver o que eu sei fazer, digite 'ajuda'.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "'não entendi' para 'Java e JavaScript são a mesma coisa?', embora js_intro já diga que são linguagens diferentes."
+    }
+   ]
+  },
+  {
+   "id": "prog_33",
+   "estilo": "iniciante",
+   "turnos": [
+    {
+     "pessoa": "o que é um booleano",
+     "crivo": "Não tenho certeza se entendi. Você quis perguntar algo como \"o que são tipos de dados\"? Responda sim, não ou faça outra pergunta.",
+     "id": "duvida",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Pede confirmação ('tipos de dados?'), uma sugestão razoável; não inventa."
+    }
+   ]
+  },
+  {
+   "id": "prog_34",
+   "estilo": "termo em inglês",
+   "turnos": [
+    {
+     "pessoa": "o que é debug",
+     "crivo": "Reproduza o erro, anote a entrada e leia a mensagem completa. Reduza o código a um exemplo pequeno, confira os valores nas etapas relevantes e teste uma hipótese por vez. Depois crie um teste que reproduza o problema. Posso explicar erros cadastrados; não executo nem corrijo automaticamente código enviado.",
+     "id": "prog_debug",
+     "classe": "certo",
+     "passou": true,
+     "motivo": "Passos de depuração corretos."
+    },
+    {
+     "pessoa": "e breakpoint?",
+     "crivo": "Entendi que você continua pedindo uma definição, mas não tenho uma definição cadastrada desse conceito. Não vou substituir por um assunto semelhante.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para breakpoint."
+    }
+   ]
+  },
+  {
+   "id": "prog_35",
+   "estilo": "técnico",
+   "turnos": [
+    {
+     "pessoa": "o que é stack overflow em programação",
+     "crivo": "Ainda não tenho uma definição cadastrada para esse conceito. Conhecer palavras parecidas não basta para responder com segurança.",
+     "id": "fora",
+     "classe": "nao_sei",
+     "passou": true,
+     "motivo": "Não sei honesto para stack overflow."
+    }
+   ]
+  }
+ ]
+}

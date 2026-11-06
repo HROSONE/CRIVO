@@ -7,6 +7,7 @@ plugins {
 android {
     namespace = "br.crivo.app"
     compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "br.crivo.app"
@@ -46,6 +47,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    // O motor do CRIVO em C (src/main/cpp): a conta do modelo com os pesos em int8 e vários núcleos.
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
     androidResources {
         // O zip do CRIVO já vem comprimido; o app o lê direto do APK.

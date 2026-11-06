@@ -157,6 +157,9 @@ _IMPESSOAIS = frozenset("existe existem ha houve havia predomina predominam rest
 
 def _comeca_com_verbo(frase):
     primeira = normalizar(frase.split(" ", 1)[0])
+    # "Teoria da mente é…": o "é" logo depois mostra que a primeira palavra é o sujeito, não um verbo em -ia.
+    if re.match(r"^\S+(?:\s+\S+){0,4}\s+(?:é|são|foi|foram|era|eram)(?!\w)", frase):
+        return False
     return bool(_VERBO_INICIAL.match(primeira)) and primeira not in _IMPESSOAIS and primeira not in (
         "nem", "em", "sem", "quem", "tambem", "porem", "alem", "bem", "ninguem", "alguem", "cem")
 
@@ -168,9 +171,10 @@ def _verbo_plural(frase):
 
 def _comeca_sem_sujeito(frase, item):
     """Definição que começa direto pelo núcleo: “Nuvem de gás…”."""
-    nome = normalizar(item["nome"])
     n = normalizar(frase)
-    return not n.startswith(nome) and not re.match(r"(?:o|a|os|as|um|uma|em)\s", n) and \
+    # "Cognição social trata de…" já tem sujeito: um apelido da ficha conta como o nome.
+    nomes = [normalizar(x) for x in [item["nome"]] + list(item.get("aliases", []))]
+    return not any(n.startswith(x) for x in nomes if x) and not re.match(r"(?:o|a|os|as|um|uma|em)\s", n) and \
         not re.search(r"(?<!\w)(?:é|foi|são|foram|era)(?!\w)", frase.lower().split(",")[0])
 
 

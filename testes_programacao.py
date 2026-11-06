@@ -210,5 +210,28 @@ class TestesProgramacao(unittest.TestCase):
                     self.assertEqual(antes, depois)
 
 
+class CartaoCertoParaOTermo(unittest.TestCase):
+    """Teste às cegas de 21/10/2026 (avaliacoes/cegas_agentes_20261021/programacao.json): "O que é Java?"
+    dava a ilha da Indonésia e "o que é um compilador?" dava "Performance do compilador" (TypeScript).
+    As frases daqui são outras."""
+
+    def test_termo_de_um_so_tem_que_ser_a_cabeca_do_titulo(self):
+        import conhecimento_programacao
+        self.assertEqual(conhecimento_programacao._cabeca("Performance do compilador"), "performance")
+        ident, _ = Crivo().responder("me explica o que é compilador")
+        self.assertNotIn("performance", ident)
+
+    def test_linguagem_de_programacao_vem_primeiro(self):
+        import enciclopedia
+        achado = enciclopedia.consultar("me explica o que é java")
+        if achado is None:
+            self.skipTest("enciclopédia indisponível")
+        titulo, frase = achado
+        self.assertEqual(titulo, "Java (linguagem de programação)")
+        self.assertIn("outro sentido", frase)
+        self.assertEqual(enciclopedia.consultar("O que é Kotlin?")[0], "Kotlin")  # o verbete já é a linguagem
+        self.assertEqual(enciclopedia.consultar("O que é ornitorrinco?")[0], "Ornitorrinco")
+
+
 if __name__ == "__main__":
     unittest.main()

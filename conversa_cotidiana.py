@@ -119,32 +119,129 @@ _MEU_NOME = re.compile(r"(?:qual (?:e )?(?:o )?meu nome|voce (?:sabe|lembra) (?:
                        r"como (?:eu )?me chamo|quem sou eu|lembra (?:do|o) meu nome)")
 
 
-def _apresentacao(texto):
-    """Nome declarado, preservando grafia; não interpreta profissão ou citação."""
-    if any(c in texto for c in ('?', '`', '"', '“', '”')):
+# Começos de correção ("não, ...", "pera, errei, ...") que não mudam o nome dito depois.
+_ABERTURA_CORRECAO = r"(?:(?:na verdade|corrigindo|nao|não|pera|peraí|perai|ops|opa|errei|desculpa|foi mal|escrevi errado)[,:!.]?\s*)*"
+_DECLARA_NOME = r"(?:(?:o )?meu nom[ei] (?:[eé]|eh)|(?:eu )?me chamo|pode me chamar de|(?:eu )?sou (?:o |a )?)"
+_NOME = r"([^\W\d_]+(?:[ '\-][^\W\d_]+){0,4})"
+
+
+def _nome_valido(nome, explicito):
+    if not 1 <= len(nome) <= 40 or not re.fullmatch(r"[^\W\d_]+(?:[ '\-][^\W\d_]+){0,4}", nome):
+        return False
+    if nome.split()[0].lower() in ('de', 'da', 'do', 'dos', 'das', 'e'):
+        return False  # "sou de Manaus" diz a origem, não o nome
+    return explicito or (all(w[:1].isupper() for w in nome.split() if w.lower() not in ('de', 'da', 'do', 'dos', 'das'))
+                         and not re.search(r"\b(?:criador|criadora|programador|programadora|professor|professora|"
+                                           r"triste|feliz|seu|sua|estudante)\b", normalizar(nome)))
+
+
+def _apresentacao(texto, nome_atual=None):
+    """Nome declarado, preservando grafia; não interpreta profissão ou citação.
+    Com nome_atual, aceita a correção ("não é Renata, é Regina", "na verdade é Breno")."""
+    if any(c in texto for c in ('`', '"', '“', '”')):
         return None
     literal = re.sub(r"^(?:(?:k{2,}|(?:ha){2,}|rs+)[, ]+)", "", texto.strip(), flags=re.I).rstrip(".! ")
-    m = re.fullmatch(r"(?:(?:na verdade|corrigindo)[,:]?\s*)?"
-                     r"(?:meu nome [eé]|me chamo|pode me chamar de)\s+(.+)", literal, re.I)
-    explicito = m is not None
-    if not m:
-        m = re.fullmatch(r"eu sou (?:o |a )?(.+)", literal, re.I)
-    if not m:
+    if "?" not in literal:
+        # "não é Renata, é Regina" / "não é Renata, meu nome é Regina".
+        m = re.fullmatch(_ABERTURA_CORRECAO + r"(?:meu nome )?n[aã]o (?:[eé]|eh) ([^,;]+)[,;]\s*(?:[eé]|eh|" + _DECLARA_NOME + r")\s*"
+                         + _NOME, literal, re.I)
+        # O nome negado é o que ficou guardado, ou o novo vem com maiúscula ("não é isso, é aquilo" não é nome).
+        if m and (nome_atual and normalizar(m.group(1)) == normalizar(nome_atual) or _nome_valido(m.group(2), False)):
+            return m.group(2)
+        m = re.fullmatch(_ABERTURA_CORRECAO + r"(?:(?:meu nome )?(?:[eé]|eh)\s+)" + _NOME, literal, re.I)
+        if m and nome_atual and re.match(_ABERTURA_CORRECAO[:-1] + r"+", literal, re.I) and _nome_valido(m.group(1), False):
+            return m.group(1)  # "na verdade é Breno", só depois de um nome dito
+        m = re.fullmatch(_ABERTURA_CORRECAO + r"(?:(?:oi|ola|olá|e ai|eai|bom dia|boa tarde|boa noite)[,!.]?\s*)?"
+                         r"(?:meu nom[ei] (?:[eé]|eh)|(?:eu )?me chamo|pode me chamar de)\s+" + _NOME, literal, re.I)
+        if m and _nome_valido(m.group(1), True):
+            return m.group(1)
+        m = re.fullmatch(_ABERTURA_CORRECAO + r"(?:eu )?sou (?:o |a )?" + _NOME, literal, re.I)
+        if m and _nome_valido(m.group(1), False):
+            return m.group(1)
+    # No meio de uma frase ("Oi, eu me chamo Dona Filomena e queria saber..."): só nome com maiúscula.
+    m = re.search(r"(?i:\bmeu nome (?:[eé]|eh)|\bme chamo)\s+([A-ZÀ-Ý][^\W\d_]+(?: (?:de |da |do |dos |das )?[A-ZÀ-Ý][^\W\d_]+){0,3})",
+                  literal)
+    if m and _nome_valido(m.group(1), True):
+        return m.group(1)
+    return None
+
+
+# Fatos que a pessoa conta de si (achados do teste às cegas de 21/10/2026: "quantos anos eu tenho?"
+# virava ano bissexto, "qual a minha idade?" virava cuidados com cachorro). Guardados sem resposta
+# própria: a fala segue o caminho de sempre, e a pergunta depois sai daqui.
+_FATOS_PESSOA = (
+    ("idade", re.compile(r"(?:^|, |\be |errei,? |verdade,? )(?:eu )?tenho (\d{1,3}) anos(?! de (?:experiencia|casad|empresa|servico|trabalho|carreira))"),
+     "{} anos"),
+    ("trabalho", re.compile(r"(?:^|, |\be )(?:eu )?trabalho (?:como|de) ([a-z]+(?: [a-z]+){0,2}?)(?:$|,| e | no | na | num | numa | em | ha | faz )"),
+     "{}"),
+    ("origem", re.compile(r"(?:^|, |\be )(?:eu )?(?:sou d[eoa]|nasci em|nasci no|nasci na|vim d[eoa]) ([a-z]+(?: [a-z]+){0,2}?)(?:$|,| e | mas | po\b| uai\b| visse\b)"),
+     "{}"),
+    ("time", re.compile(r"(?:^|, |\be )(?:eu )?(?:torco (?:pro|pra|para o|para a|pelo|pela)|sou torcedor[a]? d[oa]) ([a-z]+(?: [a-z]+){0,2}?)(?:$|,| e | desde )"),
+     "{}"),
+)
+_ORIGEM_NAO = {"boa", "menor", "maior", "humanas", "exatas", "leao", "familia", "paz", "casa", "novo", "nova",
+               "fora", "dentro", "acordo", "bem", "mal", "ferro", "verdade", "luta", "sorte", "carne", "lua"}
+_PERGUNTA_PESSOA = (
+    ("idade", re.compile(r"(?:quantos anos (?:eu )?tenho|qual (?:e )?(?:a )?minha idade|(?:voce )?(?:sabe|lembra)(?: d?a)? minha idade)"),
+     "Você me disse que tem {}.", "sua idade"),
+    ("trabalho", re.compile(r"(?:qual (?:e )?(?:o )?meu (?:trabalho|emprego|servico|oficio)|qual (?:e )?(?:a )?minha profissao|"
+                            r"(?:com o que|com que|de que|onde) (?:eu )?trabalho|o que eu faco(?: da vida)?)"),
+     "Você me disse que trabalha como {}.", "seu trabalho"),
+    ("origem", re.compile(r"(?:de onde (?:eu )?sou|onde (?:eu )?nasci|qual (?:e )?(?:a )?minha (?:terra|cidade natal))"),
+     "Você me disse que é de {}.", "de onde você é"),
+    ("time", re.compile(r"(?:(?:pra|para|por) (?:qual|que) time (?:eu )?torco|qual (?:e )?(?:o )?meu time)"),
+     "Você me disse que torce pelo {}.", "seu time"),
+)
+
+
+def _titulo(valor):
+    return " ".join(w if w in ("de", "da", "do", "dos", "das") else w.capitalize() for w in valor.split())
+
+
+def _fatos_pessoa(conversa, texto, n):
+    """Guarda os fatos ditos; responde (id, resposta, None, "") a uma pergunta sobre eles."""
+    q = n.rstrip(" ?!.")
+    for campo, padrao, frase, rotulo in _PERGUNTA_PESSOA:
+        if padrao.fullmatch(q):
+            valor = conversa.dialogo.dados.get(campo)
+            if valor:
+                return "conversa:memoria", frase.format(valor), None, ""
+            return ("conversa:memoria", "Você ainda não me contou " + rotulo + " nesta conversa.", None, "")
+    if "?" in texto:
         return None
-    nome = m.group(1)
-    if not 1 <= len(nome) <= 40 or not re.fullmatch(r"[^\W\d_]+(?:[ '\-][^\W\d_]+){0,4}", nome):
-        return None
-    if not explicito and (not all(w[:1].isupper() for w in nome.split() if w.lower() not in ('de','da','do','dos','das'))
-            or re.search(r"\b(?:criador|criadora|programador|programadora|professor|professora|triste|feliz|seu|sua|estudante)\b", normalizar(nome))):
-        return None
-    return nome
+    correcao = re.match(r"(?:(?:na verdade|corrigindo|nao|pera|perai|ops|errei|desculpa|foi mal|quer dizer)[,:!. ]*)+", n)
+    idade = re.fullmatch(r"(?:(?:na verdade|corrigindo|nao|pera|perai|ops|errei|desculpa|foi mal|quer dizer)[,:!. ]*)+"
+                         r"(?:eu )?(?:tenho )?(\d{1,3})(?: anos)?", n)
+    if idade and conversa.dialogo.dados.get("idade"):
+        conversa.dialogo._guardar("idade", idade.group(1) + " anos")
+        return "conversa:relato", "Ah, desculpa! " + idade.group(1) + " anos, então.", None, ""
+    for campo, padrao, forma in _FATOS_PESSOA:
+        m = padrao.search(n)
+        if not m:
+            continue
+        valor = m.group(1).strip()
+        if campo == "origem" and valor.split()[0] in _ORIGEM_NAO:
+            continue
+        if campo in ("origem", "time"):
+            valor = _titulo(valor)
+        antes = conversa.dialogo.dados.get(campo)
+        conversa.dialogo._guardar(campo, forma.format(valor))
+        if correcao and antes and antes != forma.format(valor):
+            return "conversa:relato", "Ah, desculpa! Anotei: " + forma.format(valor) + ".", None, ""
+    return None
 
 
 def _atos_pessoais(texto, bot, n, id_anterior):
     conversa = bot.conversacao
-    nome = _apresentacao(texto)
+    fato = _fatos_pessoa(conversa, texto, n)
+    if fato is not None:
+        return fato
+    atual = conversa.dialogo.dados.get("nome")
+    nome = _apresentacao(texto, atual)
     if nome:
         conversa.dialogo._guardar("nome", nome)
+        if atual and normalizar(atual) != normalizar(nome):
+            return "conversa:relato", "Ah, desculpa! " + nome + ", então. Vou te chamar assim.", None, ""
         return "conversa:relato", "Prazer, " + nome + ". Vou te chamar assim nesta conversa.", None, ""
     criador = re.fullmatch(r"(?:eu )?sou (?:o |a )?seu criador(?:a)?(?: eu (?:quem|que) (?:inventei|criei) voce)?|"
                           r"(?:eu )?(?:(?:que|quem) )?(?:inventei|criei|desenvolvi) voce", n)

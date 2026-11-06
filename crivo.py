@@ -288,6 +288,8 @@ class Crivo:
         self.conversa_v3d = None
         self.ultima_conversa_v3d = None
         self.pares_conversa = []
+        import ambiente
+        self.fio = ambiente.Fio()   # casa da conversa (ambiente.py): última pergunta do CRIVO, tarefa em aberto
         self.evento_nome = None
         self.rede = None
         self.limiar_rede = 0.80
@@ -1467,10 +1469,23 @@ class Crivo:
         """Protocolo de crise antes de tudo; depois, o turno comum."""
         self.ultima_conversa_v3d = None
         self.ultima_enciclopedia = None
-        ident, resposta = self._responder_com_protocolo(texto)
+        import ambiente
+        # Fala curta dita por inteiro no fio da conversa ("O meu é Henrique" → "Meu nome é Henrique").
+        completa = ambiente.completar(self.fio, texto)
+        ident, resposta = self._responder_com_protocolo(completa)
+        nova = ambiente.mesma_pergunta(self.fio, texto) if ident in ("fora", "duvida", "social:nao_entendido") else None
+        if nova:
+            # Segunda tentativa: a pergunta anterior com o novo assunto. O turno que falhou sai do histórico.
+            if self.historico and self.historico[-1].get("pergunta") == completa:
+                self.historico.pop()
+            completa = nova
+            ident, resposta = self._responder_com_protocolo(completa)
+        if ident in ("fora", "social:nao_entendido") and isinstance(texto, str):
+            ident, resposta = ambiente.reconhecimento(texto) or (ident, resposta)
         if isinstance(texto, str) and isinstance(resposta, str):
             # Conversa como a pessoa viu, para a voz da conversa (conversa_v3d.py) ler o histórico.
             self.pares_conversa = (self.pares_conversa + [(texto, resposta)])[-12:]
+            self.fio.observar(self, completa, ident, resposta)
         return ident, resposta
 
     def _responder_com_protocolo(self, texto):
@@ -1520,6 +1535,10 @@ class Crivo:
             self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False,
                                    "motivo": "correcao_por_regras" if mecanismo == "correcao_texto" else "analise_extrativa", "tentativas": 0}
             return ident, resposta
+        import ambiente
+        retomada = ambiente.retomar(self, original_conteudo)
+        if retomada is not None:
+            return self._responder_retomada(original_conteudo, *retomada)
         # Estado comum do turno: compreensão, memória e conhecimento que as
         # espécies leem; cada uma deixa ali sua proposta e o árbitro decide.
         self.estado_interno = estado_interno.construir(self, texto)
@@ -1631,6 +1650,26 @@ class Crivo:
         ident, resposta = self._revisar(original_conteudo, ident, resposta)
         return crise.ajustar(ident, resposta, self)
 
+    def _responder_retomada(self, fala, ident, resposta):
+        """Fala curta lida no fio da conversa (ambiente.py): o resultado da tarefa em aberto ou a pergunta
+        que o CRIVO fez. O texto conferido entra como fato e o modelo o diz."""
+        import crise
+        import estado_interno
+        self.ultima_geracao = {"habilitada": self.usar_geracao, "usada": False, "motivo": "ambiente", "tentativas": 0}
+        self.estado_interno = estado_interno.EstadoInterno(fala)
+        self.estado_interno.propor("ambiente", ident, "responder")
+        self.estado_interno.decidir("ambiente", "responder", "fala curta lida no fio da conversa")
+        self.ultima_resposta_mostrada = resposta
+        self.conversacao.ultima_resposta_texto = resposta
+        self.ultimo_turno = {"pergunta": fala, "id": ident}
+        self.historico.append({"pergunta": fala, "id": ident, "mecanismo": "ambiente"})
+        self.historico = self.historico[-20:]
+        self.perfil.turno += 1
+        if getattr(self, "conversa_v3d", None) is not None:
+            ident, resposta, _ = self._conversar_v3d(fala, ident, resposta)
+        ident, resposta = self._revisar(fala, ident, resposta)
+        return crise.ajustar(ident, resposta, self)
+
     def _trocar_mostrada(self, antiga, nova):
         for alvo, campo in ((self, "ultima_resposta_mostrada"), (self.conversacao, "ultima_resposta_texto")):
             if getattr(alvo, campo, None) == antiga:
@@ -1643,7 +1682,8 @@ class Crivo:
         (ident, resposta, título do verbete ou None). O texto de sempre continuaria "não tenho uma
         definição cadastrada"; a frase do verbete entra como fato para a voz da conversa dizer."""
         self.ultima_enciclopedia = None
-        if ident != "fora" or not isinstance(resposta, str):
+        # "Quem é freud" cai no motor de relações ("duvida": não interpretou a consulta); o verbete responde.
+        if ident not in ("fora", "duvida") or not isinstance(resposta, str):
             return ident, resposta, None
         import enciclopedia
         achado = enciclopedia.consultar(fala)
@@ -1658,10 +1698,17 @@ class Crivo:
     def _nao_sei_aberto(self, fala, ident, resposta):
         """Pergunta aberta sem resposta ("Quem inventou o carro?"): a pergunta foi entendida e o
         CRIVO não sabe. "Não entendi" culpava a pessoa (conversa real do criador, porta v3)."""
-        if ident != "fora" or not isinstance(resposta, str) or not resposta.startswith(self.NAO_ENTENDI):
+        if not isinstance(resposta, str):
             return ident, resposta
-        import quadro_fala
-        pergunta = quadro_fala.pergunta_aberta(fala)
+        if ident == "duvida" and resposta.startswith("Não consegui interpretar todas as condições"):
+            # "Quem é psicopata?": não é uma consulta de relações; é uma pergunta que o CRIVO não sabe.
+            import enciclopedia
+            pergunta = enciclopedia.assunto(fala)
+        elif ident != "fora" or not resposta.startswith(self.NAO_ENTENDI):
+            return ident, resposta
+        else:
+            import quadro_fala
+            pergunta = quadro_fala.pergunta_aberta(fala)
         if not pergunta:
             return ident, resposta
         nova = ("Sobre %s, eu ainda não sei responder. Prefiro te dizer isso a chutar; se você souber, "

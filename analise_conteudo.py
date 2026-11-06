@@ -35,7 +35,11 @@ def pedido(texto):
     if corte is None:
         citado = re.search(r'["“](.+)["”]\s*$', t, re.S)
         if citado:
-            return pedido(t[:citado.start()] + ': ' + citado.group(1))
+            dentro = citado.group(1)
+            # Várias citações ('corrige "excessão" e "previlégio"'): o texto é o trecho todo, sem as aspas.
+            if re.search(r'["“”]', dentro):
+                dentro = re.sub(r'["“”]', '', citado.group(0)).strip()
+            return pedido(t[:citado.start()] + ': ' + dentro)
     cab = t[:corte.start()] if corte else t
     fonte = t[corte.end():].strip() if corte else None
     if len(cab) > 200:
@@ -44,7 +48,7 @@ def pedido(texto):
     n = re.sub(r'^(?:por favor[, ]+|voce pode |pode |me )', '', n)
     if re.search(r'\brelato\b', n) and not re.search(r'\b(?:texto|conteudo|sequencia)\b', n):
         return None  # Relatos pessoais conservam a operação de conversa.
-    if re.match(r'^(?:corrija|corrigir|revise|revisar|faca a correcao|faca uma correcao|corrige)\b', n):
+    if re.match(r'^(?:corrija|corrigir|revise|revisar|revisa|faca a correcao|faca uma correcao|corrige)\b', n):
         modo = 'correcao'
     elif n in ('mostre as alteracoes', 'o que voce corrigiu', 'o que mudou', 'quais foram as correcoes'):
         modo = 'alteracoes'
@@ -76,7 +80,7 @@ def pedido(texto):
     qtd = re.search(r'\b([1-8]) (?:frases?|ideias?|pontos?)\b', n)
     explicito = bool(corte or re.search(r'\b(?:texto|conteudo|sequencia|enviado|enviei)\b', n))
     if not corte and modo == 'correcao' and not explicito and n not in (
-            'corrija', 'corrigir', 'corrige', 'corrija isso', 'revise', 'revisar', 'revise isso'):
+            'corrija', 'corrigir', 'corrige', 'corrija isso', 'revise', 'revisar', 'revise isso', 'revisa', 'revisa isso'):
         return None
     if modo in ('correcao', 'alteracoes'):
         explicito = True

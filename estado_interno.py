@@ -485,6 +485,7 @@ def _conferir(bot, estado, busca, prob, assunto, indice):
     if (decisao is None and leitura is not None and leitor.aprendida and cob >= 3
             and 2 * cob >= len(leitor.pistas(quadro)) and leitura.prob >= leitor.limiar_aproximar
             and leitura.tracos.get("pergunta_direta") and not leitura.tracos.get("absoluto")
+            and not leitura.tracos.get("falta_desconhecida")
             and not leitura.tracos.get("tipo_sem_par")):
         decisao = "aproximar"
     # A probabilidade da busca cai quando a ficha tem vários fatos parecidos;
