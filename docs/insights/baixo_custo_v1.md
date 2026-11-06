@@ -67,3 +67,25 @@ conhecimento não está lá: ele inventa nomes ("Sr. Lebowski") e repete a pergu
 Edição pequena de pesos não cria conhecimento. O caminho continua sendo dados e fatos.
 
 Limite: o 46M foi medido com contexto vazio. No chat ele recebe identidade e fatos, o que muda o resultado.
+
+## Sondagem 3: a voz não conferida substitui a resposta do motor (06/11/2026)
+
+Diagnóstico por mecanismo (régua de 100): o recuperador responde 70 perguntas e concentra 54 das 76
+falhas. Na maioria delas o recuperador devolve `fora` (não achou resposta), e mesmo assim sai uma
+resposta com conteúdo inventado ("Marie Curie (...) em 1600"). Causa: em `conversa_v3d.aplicar`, quando
+nenhuma frase da voz passa na conferência, a primeira frase vai para a pessoa mesmo assim, no lugar do
+texto do motor (decisão do criador de 14/10/2026).
+
+Comparação nas duas réguas (mesmo código, só a variável muda):
+
+| Versão | Régua 55 | Régua 100 | Total |
+|---|---|---|---|
+| atual | 40 | 24 | 64 |
+| `CRIVO_VOZ_SO_CONFERIDA=1` (frase não conferida não substitui o motor) | 39 | 32 | 71 |
+| `CRIVO_DISABLE_CONVERSA_V3D=1` (sem voz) | 35 | 36 | 71 |
+
+- "Só conferida" ganha 8 na régua de 100 e perde 1 na de 55 (entendimento −1, atual −1, conta +1).
+- "Sem voz" ganha 12 na de 100, mas perde 5 na de 55 (entendimento 8→4, conversa 4→2).
+- Limites: as duas réguas foram usadas para descobrir o problema, e as regras da régua de 100 punem
+  invenção, que é exatamente o que a opção remove. Antes de ligar no chat, falta medir nos blinds e nas
+  frases reais do criador. A decisão de 14/10 é do criador.
