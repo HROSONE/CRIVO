@@ -158,6 +158,11 @@ class Conferencia(unittest.TestCase):
 
 
 class PesosDoSite(unittest.TestCase):
+    def test_300m_e_identificado_pelo_diretorio(self):
+        self.assertEqual(conversa_v3d._nome_modelo_fase6(conversa_v3d.PASTA_300M), "v7g_300m")
+        pasta_46m = conversa_v3d.RAIZ / "artefatos" / "conversa46m_v7c_pt"
+        self.assertEqual(conversa_v3d._nome_modelo_fase6(pasta_46m), "v7c_46m")
+
     def test_identificacao_reflete_o_pacote_instalado(self):
         modelo = conversa_v3d.numpy_do_site()
         self.assertEqual(getattr(modelo, "nome", None), conversa_v3d.DECISAO_46M["modelo"],
