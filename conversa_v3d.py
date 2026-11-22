@@ -256,7 +256,7 @@ def _nome_modelo_fase6(pasta):
 class Conversa46mNumpy(ConversaNumpy):
     """Transformer da fase 6 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
-    nome = "v7c_46m"
+    nome = DECISAO_46M["modelo"]
     decisao = DECISAO_46M
     max_pares = MAX_PARES_46M
 
@@ -271,11 +271,11 @@ class Conversa46mNumpy(ConversaNumpy):
         self.decisao = {**DECISAO_46M, "modelo": self.nome}
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
-            raise RuntimeError("pesos NumPy do 46M ausentes ou diferentes dos registrados")
+            raise RuntimeError("pesos NumPy do modelo de conversa ausentes ou diferentes dos registrados")
         pesos = np.load(npz)
         meta = json.loads(str(pesos["meta"]))
         if meta.get("origem_sha256") != PESOS_SHA256_46M:
-            raise RuntimeError("npz não foi exportado do pesos.pt do v7c")
+            raise RuntimeError("npz não foi exportado dos pesos registrados para o modelo de conversa")
         self.np = np
         self.p = {}
         # No app, o motor em C (motor_nativo.py) faz a mesma conta com os pesos em int8 na memória; sem ele, NumPy.
