@@ -260,6 +260,10 @@ class Conversa46mNumpy(ConversaNumpy):
         import numpy as np
         from pontuador_frases import BPE
         pasta = Path(pasta)
+        # O nome público acompanha os pesos efetivamente carregados: o APK usa v7g 300M;
+        # instalações que ainda levam o pacote anterior continuam identificadas corretamente.
+        self.nome = "v7g_300m" if pasta.resolve() == PASTA_300M.resolve() else "v7c_46m"
+        self.decisao = {**DECISAO_46M, "modelo": self.nome}
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
             raise RuntimeError("pesos NumPy do 46M ausentes ou diferentes dos registrados")
