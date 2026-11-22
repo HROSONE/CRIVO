@@ -213,8 +213,9 @@ class PesosDoSite(unittest.TestCase):
         raiz = Path(conversa_v3d.RAIZ)
         app = (raiz / "public" / "app.js").read_text(encoding="utf-8")
         pagina = (raiz / "public" / "index.html").read_text(encoding="utf-8")
-        self.assertNotRegex(app, r"(?i)46m|17m")
-        self.assertNotRegex(pagina, r"(?i)46m|17m")
+        # Limita a busca a rótulos como palavras; comandos SVG como "h17m" não são nomes de modelos.
+        self.assertNotRegex(app, r"(?i)\\b(?:46m|17m)\\b")
+        self.assertNotRegex(pagina, r"(?i)\\b(?:46m|17m)\\b")
         self.assertIn("300M", app)
         self.assertIn("300 milhões de parâmetros", pagina)
 
