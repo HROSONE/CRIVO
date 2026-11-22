@@ -214,8 +214,8 @@ class PesosDoSite(unittest.TestCase):
         app = (raiz / "public" / "app.js").read_text(encoding="utf-8")
         pagina = (raiz / "public" / "index.html").read_text(encoding="utf-8")
         # Limita a busca a rótulos como palavras; comandos SVG como "h17m" não são nomes de modelos.
-        self.assertNotRegex(app, r"(?i)\\b(?:46m|17m)\\b")
-        self.assertNotRegex(pagina, r"(?i)\\b(?:46m|17m)\\b")
+        self.assertNotRegex(app, r"(?i)\b(?:46m|17m)\b")
+        self.assertNotRegex(pagina, r"(?i)\b(?:46m|17m)\b")
         self.assertIn("300M", app)
         self.assertIn("300 milhões de parâmetros", pagina)
 
