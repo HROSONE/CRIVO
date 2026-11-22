@@ -260,9 +260,10 @@
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.conversation_voice && extra.conversation_voice.used) {
         // Voz da conversa: o 46M v7c (ou a v4 F de reserva), ligado por decisão do criador.
-        const tamanho = /46m/i.test(String(extra.conversation_voice.model || "")) ? "46M" : "17M · v4";
+        const _m = String(extra.conversation_voice.model || "");
+        const tamanho = /300m/i.test(_m) ? "300M" : (/46m/i.test(_m) ? "46M" : "17M · v4");
         tag.textContent = extra.conversation_voice.verified
-          ? "◇ Modelo próprio " + tamanho + (tamanho === "46M" ? "" : " em teste")
+          ? "◇ Modelo próprio " + tamanho + (tamanho === "46M" || tamanho === "300M" ? "" : " em teste")
           : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
         tag.textContent = "◇ Voz própria do 17M · conferida";

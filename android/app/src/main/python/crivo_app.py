@@ -22,7 +22,7 @@ def _motor_nativo_seguro(bibliotecas=None):
     validação explícita no aparelho real.
     """
     arquitetura = platform.machine().strip().lower()
-    if arquitetura not in ("x86_64", "amd64"):
+    if arquitetura not in ("x86_64", "amd64", "aarch64", "arm64"):
         return ""
     motor = os.path.join(bibliotecas or "", "libcrivo_motor.so")
     return motor if bibliotecas and os.path.isfile(motor) else "libcrivo_motor.so"

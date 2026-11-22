@@ -91,6 +91,7 @@ if (PASTA_300M / "pesos_numpy.npz").is_file():
     PASTA_46M = PASTA_300M
     PESOS_SHA256_46M = PESOS_SHA256_300M
     NPZ_SHA256_46M = NPZ_SHA256_300M
+    PRAZO_SITE = 45.0
 FORMATO6_SHA256 = "114e2c1f1287a9939636ee13c8e0b77d22c549a2cb25711a4c5f343fc26b7e2b"
 # "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
 QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
@@ -103,7 +104,7 @@ MAX_PARES_46M = 12
 PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: as mesmas tentativas, até 2 s
 PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
 
-DECISAO_46M = {"data": "2026-10-20", "modelo": "v7c_46m", "decisao": "ligar no chat por decisão do criador",
+DECISAO_46M = {"data": "2026-10-20", "modelo": "v7g_300m" if PASTA_46M == PASTA_300M else "v7c_46m", "decisao": "ligar no chat por decisão do criador",
                "frase": "Coloca no chat as melhores a gente faz pra depois", "aprovada": True,
                "regua": "passou nos 5 critérios fixados nas duas rodadas, contra o 46M da 6b v4 nas mesmas frases: "
                         "v3 +6,3/+6,4, v1 +9,0/+7,4, paráfrases +5,2/+8,2, grok +2,5/+1,0, v4 −1,5/−0,2 pontos; "
