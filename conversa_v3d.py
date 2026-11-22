@@ -248,8 +248,13 @@ def formato6():
     return mod
 
 
+def _nome_modelo_fase6(pasta):
+    """Nome público correspondente ao pacote de pesos que será carregado."""
+    return "v7g_300m" if Path(pasta).resolve() == PASTA_300M.resolve() else "v7c_46m"
+
+
 class Conversa46mNumpy(ConversaNumpy):
-    """O 46M v7c em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
+    """Transformer da fase 6 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
     nome = "v7c_46m"
     decisao = DECISAO_46M
@@ -262,7 +267,7 @@ class Conversa46mNumpy(ConversaNumpy):
         pasta = Path(pasta)
         # O nome público acompanha os pesos efetivamente carregados: o APK usa v7g 300M;
         # instalações que ainda levam o pacote anterior continuam identificadas corretamente.
-        self.nome = "v7g_300m" if pasta.resolve() == PASTA_300M.resolve() else "v7c_46m"
+        self.nome = _nome_modelo_fase6(pasta)
         self.decisao = {**DECISAO_46M, "modelo": self.nome}
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
