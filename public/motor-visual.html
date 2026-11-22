@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05070f">
+  <meta name="description" content="Editor visual offline do CRIVO para cenas SVG e 3D animadas.">
+  <title>CRIVO · Motor Visual</title>
+  <link rel="stylesheet" href="/motor-visual.css">
+  <script src="/vendor/three.min.js" defer></script>
+  <script src="/motor-visual.js" defer></script>
+</head>
+<body>
+  <main id="palco-wrap" aria-label="Prévia da cena">
+    <div id="palco"></div>
+  </main>
+
+  <a class="voltar" href="/" aria-label="Voltar ao chat do CRIVO">← CRIVO</a>
+  <button id="btn-ui" type="button" aria-label="Abrir editor JSON" aria-controls="painel"
+          aria-expanded="false" title="Editor JSON (E)">⚙</button>
+
+  <aside id="painel" aria-hidden="true">
+    <header class="painel-cabecalho">
+      <div>
+        <p class="sobretitulo">FERRAMENTA DO CRIVO</p>
+        <h1>Motor Visual</h1>
+        <p class="subtitulo">Crie cenas 2D e 3D animadas com JSON.</p>
+      </div>
+      <button id="btn-fechar" class="btn-fechar" type="button" aria-label="Fechar editor">×</button>
+    </header>
+
+    <section class="presets" aria-label="Cenas prontas">
+      <button type="button" data-preset="orbita">3D · Planeta</button>
+      <button type="button" data-preset="buraco">3D · Buraco negro</button>
+      <button type="button" data-preset="ondas">SVG · Ondas</button>
+    </section>
+
+    <label class="editor-label" for="json-input">CONFIGURAÇÃO DA CENA</label>
+    <textarea id="json-input" spellcheck="false" autocapitalize="off"
+              autocomplete="off" aria-describedby="ajuda-editor"></textarea>
+    <p id="ajuda-editor" class="ajuda-editor">Edite o JSON ou carregue um preset. Atalho: tecla E.</p>
+    <div id="erro" role="alert" aria-live="polite"></div>
+    <button id="btn-rodar" type="button">Renderizar cena</button>
+  </aside>
+
+  <noscript>O Motor Visual precisa de JavaScript ativado no navegador.</noscript>
+</body>
+</html>
