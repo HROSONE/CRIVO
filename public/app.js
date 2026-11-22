@@ -266,7 +266,7 @@
           ? "◇ Modelo próprio " + tamanho + " · conferido"
           : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
-        tag.textContent = "◇ Voz própria do 17M · conferida";
+        tag.textContent = "◇ Módulo auxiliar de linguagem · conferido";
       } else if (extra.generation && extra.generation.usada) {
         tag.textContent = extra.generation.copia_literal
           ? "◇ Modelo próprio · fatos da fonte"
