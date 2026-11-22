@@ -64,6 +64,17 @@ def testar():
     import urllib.request
     with tempfile.TemporaryDirectory() as pasta:
         with zipfile.ZipFile(ZIP) as z:
+            nomes = set(z.namelist())
+            obrigatorios = {
+                "artefatos/conversa300m_v7g_pt/pesos_numpy.npz",
+                "artefatos/conversa300m_v7g_pt/tokenizer.json",
+                "artefatos/conversa300m_v7g_pt/formato_fase6.py",
+            }
+            ausentes = sorted(obrigatorios - nomes)
+            if ausentes:
+                sys.exit("o APK precisa levar o modelo principal v7g 300M: " + ", ".join(ausentes))
+            if any(n.startswith("artefatos/conversa46m_v7c_pt/") for n in nomes):
+                sys.exit("o APK ainda contém o pacote antigo de conversa")
             z.extractall(pasta)
         codigo = (
             "import sys, json, urllib.request\n"
@@ -71,6 +82,10 @@ def testar():
             "import crivo_app\n"
             "porta = crivo_app.iniciar(sys.argv[1])\n"
             "base = 'http://127.0.0.1:%d' % porta\n"
+            "status = json.loads(urllib.request.urlopen(base + '/api/chat', timeout=120).read())\n"
+            "modelo = (status.get('conversation_voice') or {}).get('site', {}).get('modelo')\n"
+            "assert modelo == 'v7g_300m', 'APK devia carregar v7g_300m, carregou: %r' % (modelo,)\n"
+            "print('modelo principal:', modelo)\n"
             "pagina = urllib.request.urlopen(base + '/').read().decode()\n"
             "assert 'app.js' in pagina, 'página não veio'\n"
             "for f in ('/app.js', '/styles.css', '/favicon.svg'):\n"

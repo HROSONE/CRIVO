@@ -259,14 +259,14 @@
       } else if (extra.content_analysis) {
         tag.textContent = "◇ Conteúdo enviado · análise extrativa";
       } else if (extra.conversation_voice && extra.conversation_voice.used) {
-        // Voz da conversa: o 46M v7c (ou a v4 F de reserva), ligado por decisão do criador.
+        // No APK Android, o modelo principal da conversa é o v7g de 300M.
         const _m = String(extra.conversation_voice.model || "");
-        const tamanho = /300m/i.test(_m) ? "300M" : (/46m/i.test(_m) ? "46M" : "17M · v4");
+        const tamanho = /300m|v7g/i.test(_m) ? "300M" : "de conversa";
         tag.textContent = extra.conversation_voice.verified
-          ? "◇ Modelo próprio " + tamanho + (tamanho === "46M" || tamanho === "300M" ? "" : " em teste")
+          ? "◇ Modelo próprio " + tamanho + " · conferido"
           : "◇ Modelo próprio " + tamanho + " · não conferida (pode ter erro)";
       } else if (extra.experimental_voice && extra.experimental_voice.used) {
-        tag.textContent = "◇ Voz própria do 17M · conferida";
+        tag.textContent = "◇ Módulo auxiliar de linguagem · conferido";
       } else if (extra.generation && extra.generation.usada) {
         tag.textContent = extra.generation.copia_literal
           ? "◇ Modelo próprio · fatos da fonte"
