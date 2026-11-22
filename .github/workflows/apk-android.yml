@@ -65,6 +65,13 @@ jobs:
           fi
           echo "CRIVO_KEYSTORE_SENHA=$senha" >> "$GITHUB_ENV"
           keytool -list -keystore "$(grep CRIVO_KEYSTORE= "$GITHUB_ENV" | tail -1 | cut -d= -f2)" -storepass "$senha" | grep -i "fingerprint\|impress" || true
+      - name: Baixar pesos do CRIVO 300M v7g (somente para o APK)
+        run: |
+          mkdir -p artefatos/conversa300m_v7g_pt
+          for f in pesos_numpy.npz tokenizer.json formato_fase6.py; do
+            curl -fL "https://github.com/HROSONE/CRIVO/releases/download/pesos-300m-v7g/$f" -o "artefatos/conversa300m_v7g_pt/$f"
+          done
+          rm -rf artefatos/conversa46m_v7c_pt
       - name: Empacotar e testar o CRIVO do app (extrai, sobe o servidor e conversa)
         run: |
           python -m pip install 'numpy>=1.24,<3'

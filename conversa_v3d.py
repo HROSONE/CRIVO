@@ -84,6 +84,13 @@ MAX_PARES = 6
 PASTA_46M = RAIZ / "artefatos" / "conversa46m_v7c_pt"
 PESOS_SHA256_46M = "e4067e3b4c9705fde0a2063cc7a0da958ebad196ca193a672f75a1a10cbfda0a"
 NPZ_SHA256_46M = "ab47d74ba136b38ac716e50dd7354ada568c9020be0fedd802197d9514f1aad2"
+PASTA_300M = RAIZ / "artefatos" / "conversa300m_v7g_pt"
+PESOS_SHA256_300M = "3dfb90d7d0dd953cde99db8183ec59d01ca0d83bc099205a855809d2e261d8d5"
+NPZ_SHA256_300M = "52f5cf68fc3d445c02510ad950aad65f5e49703885a687c45d9712d27a3b7cd4"
+if (PASTA_300M / "pesos_numpy.npz").is_file():
+    PASTA_46M = PASTA_300M
+    PESOS_SHA256_46M = PESOS_SHA256_300M
+    NPZ_SHA256_46M = NPZ_SHA256_300M
 FORMATO6_SHA256 = "114e2c1f1287a9939636ee13c8e0b77d22c549a2cb25711a4c5f343fc26b7e2b"
 # "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
 QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
