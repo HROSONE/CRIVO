@@ -23,7 +23,7 @@ def compilar(destino):
     if not cc:
         return None
     lib = Path(destino) / "libcrivo_motor.so"
-    r = subprocess.run([cc, "-O3", "-fopenmp", "-fPIC", "-shared", "-o", str(lib), str(FONTE), "-lm"],
+    r = subprocess.run([cc, "-O3", "-fopenmp-simd", "-fPIC", "-shared", "-o", str(lib), str(FONTE), "-lm", "-lpthread"],
                        capture_output=True, text=True)
     return lib if r.returncode == 0 else None
 
@@ -34,7 +34,7 @@ class MotorNativo(unittest.TestCase):
         cls.tmp = tempfile.mkdtemp()
         cls.lib = compilar(cls.tmp)
         if cls.lib is None:
-            raise unittest.SkipTest("sem compilador C com OpenMP")
+            raise unittest.SkipTest("sem compilador C")
         os.environ.pop("CRIVO_MOTOR_NATIVO", None)
         try:
             cls.ref = conversa_v3d.Conversa46mNumpy()
@@ -63,6 +63,40 @@ class MotorNativo(unittest.TestCase):
                                 ([], "você é um robô?"), ([], "tenho dois cachorros"), ([], "qual é o seu nome?")):
             ctx = {"quem": conversa_v3d.QUEM}
             self.assertEqual(self.ref.conversar(ctx, historico, fala, prazo=0), self.nat.conversar(ctx, historico, fala, prazo=0), fala)
+
+    def test_conversa_reaproveita_o_comeco_sem_mudar_as_respostas(self):
+        # Cada turno começa igual ao anterior (identidade, lembranças, falas): só a parte nova é calculada, no motor em C
+        # e no NumPy, e as respostas são as mesmas de calcular tudo do zero a cada turno.
+        ctx = {"quem": conversa_v3d.QUEM, "lembrancas": ["a pessoa disse: meu nome é Ana"]}
+        falas = ("oi, tudo bem?", "tô cansado do trabalho", "meu chefe me cobra demais", "você é um robô?")
+        for modelo in (self.nat, self.ref):
+            with self.subTest(motor="C" if modelo.motor else "NumPy"):
+                historico, calculadas = [], []
+                for fala in falas:
+                    zero = conversa_v3d.Conversa46mNumpy.__new__(conversa_v3d.Conversa46mNumpy)
+                    zero.__dict__.update(modelo.__dict__)
+                    zero._prefixo, zero._no_motor, zero._trava = None, [], threading.Lock()
+                    esperado = zero.conversar(ctx, historico, fala, prazo=0)
+                    if modelo.motor:   # o cache do motor voltou a ser o da conversa reaproveitada: refaz o que estava nele
+                        modelo.motor.avancar(modelo._no_motor or [modelo.esp["<fim>"]], 0)
+                    ids = modelo.prompt_conversa(ctx, historico, fala)
+                    calculadas.append(len(ids) - conversa_v3d._comum(modelo._no_motor if modelo.motor else
+                                                                     (modelo._prefixo[0] if modelo._prefixo else []), ids))
+                    self.assertEqual(modelo.conversar(ctx, historico, fala, prazo=0), esperado, fala)
+                    historico += [fala, esperado[0]]
+                # a partir do segundo turno, só uma parte do prompt é calculada
+                self.assertTrue(all(c < len(modelo.prompt_conversa(ctx, [], falas[0])) for c in calculadas[1:]), calculadas)
+
+    def test_erro_no_motor_esquece_o_cache(self):
+        class Quebrado:
+            def avancar(self, ids, inicio):
+                raise RuntimeError("falhou")
+        m = conversa_v3d.Conversa46mNumpy.__new__(conversa_v3d.Conversa46mNumpy)
+        m.__dict__.update(self.nat.__dict__)
+        m.motor, m._no_motor, m._prefixo = Quebrado(), [1, 2, 3], None
+        with self.assertRaises(RuntimeError):
+            m._logits([1, 2, 3, 4], 0, {})
+        self.assertEqual(m._no_motor, [])
 
     def test_arquivo_errado_nao_abre(self):
         falso = Path(self.tmp) / "falso.bin"

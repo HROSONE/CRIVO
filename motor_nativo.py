@@ -110,7 +110,13 @@ def carregar(npz, npz_sha256):
         if not arquivo.is_file():
             exportar(npz, arquivo)
         motor = MotorNativo(biblioteca, arquivo)
-        motor.avancar([0], 0)   # uma conta de verdade, ainda com a marca: se o motor quebra, quebra aqui
+        # Contas de verdade, ainda com a marca, pelos dois caminhos que a conversa usa (várias palavras de uma vez,
+        # como o prompt, e depois uma por uma, como a resposta): se o motor quebra, quebra aqui, e não no meio de uma
+        # conversa, onde a marca já não protegeria.
+        motor.avancar(list(range(1, 25)), 0)
+        for i in range(3):
+            motor.avancar([25 + i], 24 + i)
+        motor.avancar([0], 0)
     except Exception as erro:
         print("motor_nativo: segue no NumPy:", type(erro).__name__, erro, flush=True)
         motor = None

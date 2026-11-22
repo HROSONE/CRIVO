@@ -38,6 +38,13 @@ _SUICIDIO = re.compile(
     r"\b(?:quero|queria|vontade de|vou|pensando em) sumir (?:\w+ ){0,3}(?:pra|para) sempre\b|\bqueria (?:nao ter nascido|desaparecer)\b|"
     r"\b(?:nao vou|nem vou) (?:estar mais|mais estar) aqui\b|\b(?:essa|esta) (?:e|eh) (?:a |minha )?ultima mensagem\b|"
     r"\bminha ultima mensagem\b|"
+    # Achados da auditoria do professor v7 (27/10/2026): "não vejo como seguir com a vida" passava direto.
+    # "continuar"/"seguir" sozinhos só no fim da fala ("não vejo sentido em continuar o curso" não é crise).
+    r"\bnao (?:vejo|tem|tenho|ha|existe) (?:mais )?(?:sentido|motivo|razao|porque|por que|como) (?:em |pra |para |de )?"
+    r"(?:continuar|seguir)(?: vivendo| existindo| em frente| aqui| assim)?$|"
+    r"\bnao (?:vejo|sei) (?:mais )?como (?:continuar|seguir) (?:com a |com essa |com minha |a |minha )?vida\b|"
+    r"\b(?:continuar|seguir) (?:vivendo|existindo)\b (?:\w+ ){0,3}(?:nao vale|nao faz sentido|pra que|pra nada)|"
+    r"\bnao (?:quero|consigo|aguento) mais (?:existir|continuar existindo|seguir vivendo|continuar vivendo)\b|"
     r"\bcartas? (?:de despedida|pra minha|para minha|pros meus|para os meus|de adeus)\b|"
     r"\bme despedir de (?:todo mundo|todos|voces)\b|"
     r"\bpular (?:de|da|do) (?:um |uma |o |a )?(?:predio|ponte|viaduto|janela|sacada|terraco|andar)\b|"
@@ -68,7 +75,10 @@ _ANSIEDADE = re.compile(
     r"\b(?:crise|ataque) de (?:ansiedade|panico) agora\b")
 _DESAMPARO = re.compile(
     r"\b(?:to|tou|estou|ando|me sinto|sinto) (?:muito |tao |super |bem )?(?:deprimid[oa]|sem esperanca|"
-    r"sem vontade de nada|vazi[oa] por dentro|no fundo do poco)\b|^nao aguento mais$")
+    r"sem vontade de nada|vazi[oa] por dentro|no fundo do poco)\b|^nao aguento mais$|"
+    # Auditoria do professor v7 (27/10/2026): estas estavam rotuladas como insulto nos dados de treino.
+    r"^(?:eu )?(?:ja )?nao me aguento mais$|^nao aguento mais (?:essa vida|minha vida|viver assim|a minha vida)$|"
+    r"^nao (?:vejo|sei) (?:mais )?como (?:continuar|seguir)(?: em frente)?$")
 
 TEXTOS = {
     "suicidio": (
