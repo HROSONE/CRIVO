@@ -213,8 +213,9 @@ class PesosDoSite(unittest.TestCase):
         raiz = Path(conversa_v3d.RAIZ)
         app = (raiz / "public" / "app.js").read_text(encoding="utf-8")
         pagina = (raiz / "public" / "index.html").read_text(encoding="utf-8")
-        self.assertNotRegex(app, r"(?i)46m")
-        self.assertNotRegex(pagina, r"(?i)46m")
+        self.assertNotRegex(app, r"(?i)46m|17m")
+        self.assertNotRegex(pagina, r"(?i)46m|17m")
+        self.assertIn("300M", app)
         self.assertIn("300 milhões de parâmetros", pagina)
 
     def test_site_desliga_pela_variavel(self):
