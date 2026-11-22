@@ -97,6 +97,11 @@ class TestesWebHTTP(unittest.TestCase):
             ("/styles.css", "text/css", b".welcome"),
             ("/app.js", "javascript", b"fetch(API"),
             ("/favicon.svg", "svg", b"<svg"),
+            ("/motor-visual.html", "text/html", b"Motor Visual"),
+            ("/motor-visual.css", "text/css", b"#palco-wrap"),
+            ("/motor-visual.js", "javascript", b"new THREE.Scene"),
+            ("/vendor/three.min.js", "javascript", b"REVISION"),
+            ("/vendor/THREE-LICENSE.txt", "text/plain", b"The MIT License"),
         ]:
             with self.subTest(rota=rota):
                 status, headers, body = self.fazer_requisicao(rota)
@@ -104,6 +109,10 @@ class TestesWebHTTP(unittest.TestCase):
                 self.assertIn(tipo, headers.get("Content-Type"))
                 self.assertIn(termo, body)
                 self.assertEqual(headers.get("X-Content-Type-Options"), "nosniff")
+                if rota == "/motor-visual.html":
+                    self.assertIn("script-src 'self'", headers.get("Content-Security-Policy", ""))
+                    self.assertIn(b"/vendor/three.min.js", body)
+                    self.assertNotIn(b"unpkg.com", body)
         status, _, body = self.fazer_requisicao("/api/chat")
         self.assertEqual(status, 200)
         self.assertFalse(json.loads(body)["external_ai"])

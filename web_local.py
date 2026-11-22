@@ -19,6 +19,11 @@ ARQUIVOS = {
     "/styles.css": ("styles.css", "text/css; charset=utf-8"),
     "/app.js": ("app.js", "application/javascript; charset=utf-8"),
     "/favicon.svg": ("favicon.svg", "image/svg+xml"),
+    "/motor-visual.html": ("motor-visual.html", "text/html; charset=utf-8"),
+    "/motor-visual.css": ("motor-visual.css", "text/css; charset=utf-8"),
+    "/motor-visual.js": ("motor-visual.js", "application/javascript; charset=utf-8"),
+    "/vendor/three.min.js": ("vendor/three.min.js", "application/javascript; charset=utf-8"),
+    "/vendor/THREE-LICENSE.txt": ("vendor/THREE-LICENSE.txt", "text/plain; charset=utf-8"),
 }
 
 

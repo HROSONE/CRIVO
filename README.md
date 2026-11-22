@@ -1,5 +1,8 @@
 # Crivo v0.4 (em desenvolvimento)
 
+**Motor Visual v1:** editor integrado para montar e animar cenas em SVG e 3D, com presets, proporções para Shorts (9:16) e vídeos horizontais (16:9). Abre pelo botão de ferramentas no chat ou em `/motor-visual.html`; a renderização funciona localmente, sem CDN ou API externa. [Guia e formato das cenas](docs/motor_visual_v1.md).
+
+
 **Voz própria do 17M, ligada no site (13/10/2026):** o Transformer de 17M do CRIVO, treinado
 do zero, passou a poder dar voz ao que o quadro decide — guardar e lembrar nomes, explicar fatos com
 fonte, dizer que não sabe, acolher e cumprimentar. A fase 2 (pré-treino continuado) levou a cópia
