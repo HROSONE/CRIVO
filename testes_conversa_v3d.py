@@ -35,9 +35,13 @@ class Travas(unittest.TestCase):
 
     def test_registro_honesto(self):
         st = conversa_v3d.status()
-        # 46M v7c: aprovado na régua própria nas duas rodadas, com as perdas e a parte do professor registradas
-        self.assertTrue(st["decisao"]["aprovada"])
-        self.assertIn("duas rodadas", st["decisao"]["regua"])
+        # 46M v7c: aprovado na régua própria nas duas rodadas. 300M v7g: decisão do criador, sem aprovação.
+        if st["decisao"]["modelo"] == "v7g_300m":
+            self.assertFalse(st["decisao"]["aprovada"])
+            self.assertIn("não foram medidos", st["decisao"]["regua"])
+        else:
+            self.assertTrue(st["decisao"]["aprovada"])
+            self.assertIn("duas rodadas", st["decisao"]["regua"])
         self.assertIn("identidade", st["decisao"]["limites"])
         self.assertIn("professor", st["decisao"]["professor"])
         self.assertIn("reprovada", st["decisao_f"]["catraca"])
@@ -165,9 +169,10 @@ class PesosDoSite(unittest.TestCase):
 
     def test_identificacao_reflete_o_pacote_instalado(self):
         modelo = conversa_v3d.numpy_do_site()
-        self.assertEqual(getattr(modelo, "nome", None), conversa_v3d.DECISAO_46M["modelo"],
+        self.assertEqual(getattr(modelo, "nome", None), conversa_v3d.DECISAO_FASE6["modelo"],
                          "identificação não corresponde aos pesos carregados")
-        self.assertEqual((modelo.camadas, modelo.contexto), (24, 1024))
+        camadas = 40 if modelo.nome == "v7g_300m" else 24
+        self.assertEqual((modelo.camadas, modelo.contexto), (camadas, 1024))
 
     def test_46m_lembra_o_que_a_pessoa_contou(self):
         bot = bot_com(conversa_v3d.numpy_do_site())
@@ -189,9 +194,8 @@ class PesosDoSite(unittest.TestCase):
             # "oi" tem quadro da fase 3 (saudar) e fica com ela; risada não tem.
             r = responder_web({"message": "kkkkk"}, voz_17m=True)
         self.assertTrue(r["conversation_voice"]["used"], r["conversation_voice"])
-        # O 46M v7c passou na régua própria nas duas rodadas; a v4 F de reserva não passou.
-        self.assertEqual(r["conversation_voice"]["approved"],
-                         r["conversation_voice"]["model"] == conversa_v3d.DECISAO_46M["modelo"])
+        # Só o 46M v7c passou na régua própria; a v7g (decisão do criador) e a v4 F de reserva não.
+        self.assertEqual(r["conversation_voice"]["approved"], r["conversation_voice"]["model"] == "v7c_46m")
 
     def test_site_le_a_conversa_como_a_pessoa_viu(self):
         # O site refaz o histórico; os últimos turnos voltam com a voz, como a pessoa viu.

@@ -45,3 +45,66 @@ fatos. Então o caminho é verificar a resposta contra o fato recuperado, não c
 - Não usar as regras da régua para escolher a resposta e chamar isso de ganho.
 - Não mudar o limiar depois de ver o resultado.
 - Não tratar uma sondagem de 100 perguntas como medida final.
+
+## Sondagem 2: o "truque do Qwen" no modelo de 46 milhões (05/11/2026)
+
+Motivação: uma pesquisa do MIT (pesos do Qwen3.5-0.8B editados por outro modelo, sem treino) subiu
+o acerto em matemática de 7,9% para 48,1%. A melhora veio de remover laços de repetição: as
+respostas não terminavam.
+
+Diagnóstico do 46M sozinho (sem contexto do chat):
+- Régua de 100: 19/100; nenhuma resposta sem terminar; nenhuma repetição de 3 palavras; 6,3 palavras em média.
+- Régua de 55: 12/55; nenhuma sem terminar; nenhuma repetição; 3,2 palavras em média.
+- Mais de um terço das respostas termina devolvendo uma pergunta.
+
+O problema é o oposto do Qwen: respostas curtas e vazias, não respostas que não terminam.
+
+Teste: penalizar o token de fim nas 8 primeiras palavras (força 0, 1, 2, 3, 5), escolhida na régua de 55.
+Resultado: 12/55 em todas as forças; tamanho médio de 3,2 para 3,8 palavras. Nenhum ganho.
+
+**Lição:** a edição do Qwen tirou um obstáculo que escondia um conhecimento existente. No 46M, o
+conhecimento não está lá: ele inventa nomes ("Sr. Lebowski") e repete a pergunta de volta.
+Edição pequena de pesos não cria conhecimento. O caminho continua sendo dados e fatos.
+
+Limite: o 46M foi medido com contexto vazio. No chat ele recebe identidade e fatos, o que muda o resultado.
+
+## Sondagem 3: a voz não conferida substitui a resposta do motor (06/11/2026)
+
+Diagnóstico por mecanismo (régua de 100): o recuperador responde 70 perguntas e concentra 54 das 76
+falhas. Na maioria delas o recuperador devolve `fora` (não achou resposta), e mesmo assim sai uma
+resposta com conteúdo inventado ("Marie Curie (...) em 1600"). Causa: em `conversa_v3d.aplicar`, quando
+nenhuma frase da voz passa na conferência, a primeira frase vai para a pessoa mesmo assim, no lugar do
+texto do motor (decisão do criador de 14/10/2026).
+
+Comparação nas duas réguas (mesmo código, só a variável muda):
+
+| Versão | Régua 55 | Régua 100 | Total |
+|---|---|---|---|
+| atual | 40 | 24 | 64 |
+| `CRIVO_VOZ_SO_CONFERIDA=1` (frase não conferida não substitui o motor) | 39 | 32 | 71 |
+| `CRIVO_DISABLE_CONVERSA_V3D=1` (sem voz) | 35 | 36 | 71 |
+
+- "Só conferida" ganha 8 na régua de 100 e perde 1 na de 55 (entendimento −1, atual −1, conta +1).
+- "Sem voz" ganha 12 na de 100, mas perde 5 na de 55 (entendimento 8→4, conversa 4→2).
+- Limites: as duas réguas foram usadas para descobrir o problema, e as regras da régua de 100 punem
+  invenção, que é exatamente o que a opção remove. Antes de ligar no chat, falta medir nos blinds e nas
+  frases reais do criador. A decisão de 14/10 é do criador.
+
+## Medida 4: o 300M v7g (o cérebro do app) nas réguas próprias (23/11/2026)
+
+Mesmo código (main de 22/11, com o juiz de ambiente.py), CPU, pesos da release pesos-300m-v7g (npz 52f5cf68…).
+
+| Versão | Régua 55 | Régua 100 | Total |
+|---|---|---|---|
+| 46M v7c (site), código de hoje | 35 | 39 | 74 |
+| 300M v7g (app) | 38 | 43 | 81 |
+| 300M v7g com `CRIVO_VOZ_SO_CONFERIDA=1` | 37 | 41 | 78 |
+| 46M, código de 06/11 (sem o juiz), referência antiga | 40 | 24 | 64 |
+
+- O 300M ganha +7 do 46M no mesmo código (régua 55 +3, régua 100 +4). Ganhos maiores em saudação, lógica e filosofia;
+  perdeu em memória (0/1) na régua de 55.
+- O juiz que corta invenções (entre 06/11 e 22/11) deu mais que a troca de modelo: o 46M foi de 64 para 74.
+- Com o 300M e o juiz, "só frase conferida" deixa de ajudar (81 → 78). Não recomendo ligar.
+- Limites: a régua de 55 tem 1 caso de memória; diferenças de 2 a 4 casos podem ser ruído. Os cinco critérios
+  oficiais (blinds, frases reais) da v7g não foram encontrados no Drive; só os da v7f, de que ela é polimento.
+- Tempo por resposta aqui (CPU): 3 a 6 s no 300M.
