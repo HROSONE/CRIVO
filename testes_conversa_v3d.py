@@ -158,9 +158,15 @@ class Conferencia(unittest.TestCase):
 
 
 class PesosDoSite(unittest.TestCase):
-    def test_o_46m_e_o_do_site(self):
+    def test_300m_e_identificado_pelo_diretorio(self):
+        self.assertEqual(conversa_v3d._nome_modelo_fase6(conversa_v3d.PASTA_300M), "v7g_300m")
+        pasta_46m = conversa_v3d.RAIZ / "artefatos" / "conversa46m_v7c_pt"
+        self.assertEqual(conversa_v3d._nome_modelo_fase6(pasta_46m), "v7c_46m")
+
+    def test_identificacao_reflete_o_pacote_instalado(self):
         modelo = conversa_v3d.numpy_do_site()
-        self.assertEqual(getattr(modelo, "nome", None), "v7c_46m", "pesos do 46M ausentes ou com SHA diferente")
+        self.assertEqual(getattr(modelo, "nome", None), conversa_v3d.DECISAO_46M["modelo"],
+                         "identificação não corresponde aos pesos carregados")
         self.assertEqual((modelo.camadas, modelo.contexto), (24, 1024))
 
     def test_46m_lembra_o_que_a_pessoa_contou(self):
@@ -184,7 +190,8 @@ class PesosDoSite(unittest.TestCase):
             r = responder_web({"message": "kkkkk"}, voz_17m=True)
         self.assertTrue(r["conversation_voice"]["used"], r["conversation_voice"])
         # O 46M v7c passou na régua própria nas duas rodadas; a v4 F de reserva não passou.
-        self.assertEqual(r["conversation_voice"]["approved"], r["conversation_voice"]["model"] == "v7c_46m")
+        self.assertEqual(r["conversation_voice"]["approved"],
+                         r["conversation_voice"]["model"] == conversa_v3d.DECISAO_46M["modelo"])
 
     def test_site_le_a_conversa_como_a_pessoa_viu(self):
         # O site refaz o histórico; os últimos turnos voltam com a voz, como a pessoa viu.
@@ -200,6 +207,17 @@ class PesosDoSite(unittest.TestCase):
         from pathlib import Path
         app = (Path(conversa_v3d.RAIZ) / "public" / "app.js").read_text(encoding="utf-8")
         self.assertIn("extra.conversation_voice && extra.conversation_voice.used", app)
+
+    def test_interface_nao_exibe_rotulo_legado(self):
+        from pathlib import Path
+        raiz = Path(conversa_v3d.RAIZ)
+        app = (raiz / "public" / "app.js").read_text(encoding="utf-8")
+        pagina = (raiz / "public" / "index.html").read_text(encoding="utf-8")
+        # Limita a busca a rótulos como palavras; comandos SVG como "h17m" não são nomes de modelos.
+        self.assertNotRegex(app, r"(?i)\b(?:46m|17m)\b")
+        self.assertNotRegex(pagina, r"(?i)\b(?:46m|17m)\b")
+        self.assertIn("300M", app)
+        self.assertIn("300 milhões de parâmetros", pagina)
 
     def test_site_desliga_pela_variavel(self):
         from web_core import responder_web

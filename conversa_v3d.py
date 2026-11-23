@@ -84,6 +84,14 @@ MAX_PARES = 6
 PASTA_46M = RAIZ / "artefatos" / "conversa46m_v7c_pt"
 PESOS_SHA256_46M = "e4067e3b4c9705fde0a2063cc7a0da958ebad196ca193a672f75a1a10cbfda0a"
 NPZ_SHA256_46M = "ab47d74ba136b38ac716e50dd7354ada568c9020be0fedd802197d9514f1aad2"
+PASTA_300M = RAIZ / "artefatos" / "conversa300m_v7g_pt"
+PESOS_SHA256_300M = "3dfb90d7d0dd953cde99db8183ec59d01ca0d83bc099205a855809d2e261d8d5"
+NPZ_SHA256_300M = "52f5cf68fc3d445c02510ad950aad65f5e49703885a687c45d9712d27a3b7cd4"
+if (PASTA_300M / "pesos_numpy.npz").is_file():
+    PASTA_46M = PASTA_300M
+    PESOS_SHA256_46M = PESOS_SHA256_300M
+    NPZ_SHA256_46M = NPZ_SHA256_300M
+    PRAZO_SITE = 45.0
 FORMATO6_SHA256 = "114e2c1f1287a9939636ee13c8e0b77d22c549a2cb25711a4c5f343fc26b7e2b"
 # "Em uma frase" do IDENTIDADE.md, como no treino (gerar_fase6b.resumo_identidade); testes conferem.
 QUEM = ("O CRIVO é uma inteligência artificial curiosa e calma, que ama aprender, diz a verdade com carinho, "
@@ -96,7 +104,7 @@ MAX_PARES_46M = 12
 PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: as mesmas tentativas, até 2 s
 PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
 
-DECISAO_46M = {"data": "2026-10-20", "modelo": "v7c_46m", "decisao": "ligar no chat por decisão do criador",
+DECISAO_46M = {"data": "2026-10-20", "modelo": "v7g_300m" if PASTA_46M == PASTA_300M else "v7c_46m", "decisao": "ligar no chat por decisão do criador",
                "frase": "Coloca no chat as melhores a gente faz pra depois", "aprovada": True,
                "regua": "passou nos 5 critérios fixados nas duas rodadas, contra o 46M da 6b v4 nas mesmas frases: "
                         "v3 +6,3/+6,4, v1 +9,0/+7,4, paráfrases +5,2/+8,2, grok +2,5/+1,0, v4 −1,5/−0,2 pontos; "
@@ -240,10 +248,15 @@ def formato6():
     return mod
 
 
+def _nome_modelo_fase6(pasta):
+    """Nome público correspondente ao pacote de pesos que será carregado."""
+    return "v7g_300m" if Path(pasta).resolve() == PASTA_300M.resolve() else "v7c_46m"
+
+
 class Conversa46mNumpy(ConversaNumpy):
-    """O 46M v7c em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
+    """Transformer da fase 6 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
-    nome = "v7c_46m"
+    nome = DECISAO_46M["modelo"]
     decisao = DECISAO_46M
     max_pares = MAX_PARES_46M
 
@@ -252,13 +265,17 @@ class Conversa46mNumpy(ConversaNumpy):
         import numpy as np
         from pontuador_frases import BPE
         pasta = Path(pasta)
+        # O nome público acompanha os pesos efetivamente carregados: o APK usa v7g 300M;
+        # instalações que ainda levam o pacote anterior continuam identificadas corretamente.
+        self.nome = _nome_modelo_fase6(pasta)
+        self.decisao = {**DECISAO_46M, "modelo": self.nome}
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
-            raise RuntimeError("pesos NumPy do 46M ausentes ou diferentes dos registrados")
+            raise RuntimeError("pesos NumPy do modelo de conversa ausentes ou diferentes dos registrados")
         pesos = np.load(npz)
         meta = json.loads(str(pesos["meta"]))
         if meta.get("origem_sha256") != PESOS_SHA256_46M:
-            raise RuntimeError("npz não foi exportado do pesos.pt do v7c")
+            raise RuntimeError("npz não foi exportado dos pesos registrados para o modelo de conversa")
         self.np = np
         self.p = {}
         # No app, o motor em C (motor_nativo.py) faz a mesma conta com os pesos em int8 na memória; sem ele, NumPy.
