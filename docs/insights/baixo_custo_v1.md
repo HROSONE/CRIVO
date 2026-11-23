@@ -89,3 +89,22 @@ Comparação nas duas réguas (mesmo código, só a variável muda):
 - Limites: as duas réguas foram usadas para descobrir o problema, e as regras da régua de 100 punem
   invenção, que é exatamente o que a opção remove. Antes de ligar no chat, falta medir nos blinds e nas
   frases reais do criador. A decisão de 14/10 é do criador.
+
+## Medida 4: o 300M v7g (o cérebro do app) nas réguas próprias (23/11/2026)
+
+Mesmo código (main de 22/11, com o juiz de ambiente.py), CPU, pesos da release pesos-300m-v7g (npz 52f5cf68…).
+
+| Versão | Régua 55 | Régua 100 | Total |
+|---|---|---|---|
+| 46M v7c (site), código de hoje | 35 | 39 | 74 |
+| 300M v7g (app) | 38 | 43 | 81 |
+| 300M v7g com `CRIVO_VOZ_SO_CONFERIDA=1` | 37 | 41 | 78 |
+| 46M, código de 06/11 (sem o juiz), referência antiga | 40 | 24 | 64 |
+
+- O 300M ganha +7 do 46M no mesmo código (régua 55 +3, régua 100 +4). Ganhos maiores em saudação, lógica e filosofia;
+  perdeu em memória (0/1) na régua de 55.
+- O juiz que corta invenções (entre 06/11 e 22/11) deu mais que a troca de modelo: o 46M foi de 64 para 74.
+- Com o 300M e o juiz, "só frase conferida" deixa de ajudar (81 → 78). Não recomendo ligar.
+- Limites: a régua de 55 tem 1 caso de memória; diferenças de 2 a 4 casos podem ser ruído. Os cinco critérios
+  oficiais (blinds, frases reais) da v7g não foram encontrados no Drive; só os da v7f, de que ela é polimento.
+- Tempo por resposta aqui (CPU): 3 a 6 s no 300M.
