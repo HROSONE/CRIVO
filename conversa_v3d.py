@@ -104,7 +104,7 @@ MAX_PARES_46M = 12
 PRAZO_REFAZER = 2.0     # turno antigo refeito para o histórico: as mesmas tentativas, até 2 s
 PRAZO_PEDIDO = 15.0     # o pedido inteiro (histórico refeito + resposta), contado desde o começo
 
-DECISAO_46M = {"data": "2026-10-20", "modelo": "v7g_300m" if PASTA_46M == PASTA_300M else "v7c_46m", "decisao": "ligar no chat por decisão do criador",
+DECISAO_46M = {"data": "2026-10-20", "modelo": "v7c_46m", "decisao": "ligar no chat por decisão do criador",
                "frase": "Coloca no chat as melhores a gente faz pra depois", "aprovada": True,
                "regua": "passou nos 5 critérios fixados nas duas rodadas, contra o 46M da 6b v4 nas mesmas frases: "
                         "v3 +6,3/+6,4, v1 +9,0/+7,4, paráfrases +5,2/+8,2, grok +2,5/+1,0, v4 −1,5/−0,2 pontos; "
@@ -116,6 +116,24 @@ DECISAO_46M = {"data": "2026-10-20", "modelo": "v7g_300m" if PASTA_46M == PASTA_
                "a_mais": "lembranças da memória do aparelho, identidade do IDENTIDADE.md, contexto de 1024 tokens",
                "protecao": "crise.py (crise e emergência de saúde) responde antes; conferência por frase",
                "reserva": "CRIVO_CONVERSA=f volta para a v4 F"}
+
+# Ficha própria do 300M: a do 46M cita números que não são dele.
+DECISAO_300M = {"data": "2026-11-22", "modelo": "v7g_300m", "decisao": "ligar no APK por decisão do criador",
+                "frase": "Mas eu não quero mais treinar a 46m só a de 300m", "aprovada": False,
+                "regua": "a v7f (de que a v7g é polimento) passou nos 5 critérios contra o 46M v7c (rodada 1, 21/11): "
+                         "v3 +3,2, v1 +2,8, paráfrases +3,1, grok +0,2, v4 −1,5; frases reais 13/15; usa o fato 1,0; "
+                         "urgência 124 contra 117; a guarda da dev não passou (folga −7,95). "
+                         "v7g: guarda ainda reprovada (identidade 166/191 contra 171/191, folga −2,62); "
+                         "os 5 critérios oficiais da v7g não foram medidos",
+                "regua_local": "réguas de compreensão (55) e frequentes (100) no código de 23/11, em CPU: "
+                               "v7g 38 + 43 = 81, 46M v7c 35 + 39 = 74",
+                "limites": "não aprovada pela régua própria (guarda reprovada; v7g sem os 5 critérios); identidade abaixo do 46M na guarda; "
+                           "memória caiu nas réguas locais; 7 a 12 s por resposta em NumPy, 1,4 GB de RAM",
+                "professor": "dados da série v7 (v7c e v7f): falas da pessoa em parte escritas pelo professor "
+                             "(Qwen3-32B-AWQ, Apache 2.0); respostas das listas do projeto",
+                "protecao": "crise.py (crise e emergência de saúde) responde antes; juiz do ambiente.py corta invenção",
+                "reserva": "apagar artefatos/conversa300m_v7g_pt volta para o 46M v7c"}
+DECISAO_FASE6 = DECISAO_300M if PASTA_46M == PASTA_300M else DECISAO_46M
 
 DECISAO = {"data": "2026-10-14", "modelo": "fase5_v4_F", "decisao": "ligar no chat por decisão do criador",
            "frase": "coloque a F no chat. 100% do chat. quem fala deve ser ele em tudo", "aprovada": False,
@@ -256,8 +274,8 @@ def _nome_modelo_fase6(pasta):
 class Conversa46mNumpy(ConversaNumpy):
     """Transformer da fase 6 em NumPy: 24 camadas, contexto 1024, prompt da fase 6 e freio de repetição."""
     formato6 = True
-    nome = DECISAO_46M["modelo"]
-    decisao = DECISAO_46M
+    nome = DECISAO_FASE6["modelo"]
+    decisao = DECISAO_FASE6
     max_pares = MAX_PARES_46M
 
     def __init__(self, pasta=PASTA_46M, prazo=None):
@@ -268,7 +286,7 @@ class Conversa46mNumpy(ConversaNumpy):
         # O nome público acompanha os pesos efetivamente carregados: o APK usa v7g 300M;
         # instalações que ainda levam o pacote anterior continuam identificadas corretamente.
         self.nome = _nome_modelo_fase6(pasta)
-        self.decisao = {**DECISAO_46M, "modelo": self.nome}
+        self.decisao = DECISAO_300M if self.nome == "v7g_300m" else DECISAO_46M
         npz = pasta / "pesos_numpy.npz"
         if _sha(npz) != NPZ_SHA256_46M or _sha(pasta / "tokenizer.json") != TOKENIZER_SHA256:
             raise RuntimeError("pesos NumPy do modelo de conversa ausentes ou diferentes dos registrados")
@@ -545,7 +563,8 @@ def aplicar(bot, fala, ident, resposta, modelo):
     """(ident, resposta, trace). Sem modelo, fora da conversa ou reprovada: o texto de sempre."""
     trace = {"ligada": modelo is not None, "usada": False, "motivo": None,
              "modelo": getattr(modelo, "nome", "fase5_v4_F"),
-             "decisao": "criador; 46M v7c, aprovado na régua própria nas duas rodadas" if getattr(modelo, "formato6", False)
+             "decisao": ("criador; 300M v7g, sem aprovação da régua própria" if getattr(modelo, "nome", "") == "v7g_300m"
+                         else "criador; 46M v7c, aprovado na régua própria nas duas rodadas") if getattr(modelo, "formato6", False)
                         else "criador; v4 F reprovada",
              "aprovada": bool((getattr(modelo, "decisao", None) or {}).get("aprovada")),
              "motor": "c" if getattr(modelo, "motor", None) is not None else "numpy"}
@@ -679,4 +698,4 @@ def status():
                      "npz_sha256": NPZ_SHA256_46M if e46 else NPZ_SHA256,
                      "erros_carregamento": dict(_ERROS_CARREGAMENTO)},
             "pesos_sha256": PESOS_SHA256_46M if e46 else PESOS_SHA256, "tokenizer_sha256": TOKENIZER_SHA256,
-            "decisao": DECISAO_46M if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}
+            "decisao": (getattr(m, "decisao", None) or DECISAO_FASE6) if e46 else DECISAO, "decisao_f": DECISAO, "external_ai": False}
